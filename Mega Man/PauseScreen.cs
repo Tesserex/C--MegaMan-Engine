@@ -1,0 +1,241 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Xml.Linq;
+
+namespace Mega_Man
+{
+    public class PauseScreen : IHandleGameEvents
+    {
+        private class WeaponInfo
+        {
+            public Image iconOff, iconOn;
+            public string name;
+            public string entity;
+            public Point location;
+            public HealthMeter meter;
+        }
+
+        private int pauseSound;
+        private int changeSound;
+        private Image background;
+        private List<WeaponInfo> weapons;
+        private string selectedName;
+
+        private Point currentPos;
+
+        private WeaponComponent playerWeapons;
+
+        private Font font;
+        private Brush brush;
+
+        public event Action Unpaused;
+
+        public PauseScreen(XElement reader)
+        {
+            weapons = new List<WeaponInfo>();
+
+            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false);
+            pauseSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("PauseSound").Value), false);
+
+            background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+
+            foreach (XElement weapon in reader.Elements("Weapon"))
+                LoadWeapon(weapon);
+
+            this.font = new Font(FontFamily.GenericMonospace, 12);
+            this.brush = new SolidBrush(Color.FromArgb(240, 236, 220));
+
+            FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 7, 1);
+        }
+
+        public void Sound()
+        {
+            Engine.Instance.PlaySound(pauseSound);
+        }
+
+        private void LoadWeapon(XElement reader)
+        {
+            WeaponInfo info = new WeaponInfo();
+            info.name = reader.Attribute("name").Value;
+            info.entity = reader.Attribute("entity").Value;
+            info.iconOff = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value));
+            info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value));
+            info.location = new Point(int.Parse(reader.Attribute("x").Value), int.Parse(reader.Attribute("y").Value));
+
+            XElement meter = reader.Element("Meter");
+            if (meter != null)
+            {
+                info.meter = new HealthMeter();
+                info.meter.LoadXml(meter);
+            }
+
+            weapons.Add(info);
+        }
+
+        #region IHandleGameEvents Members
+
+        public void StartHandler()
+        {
+            Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
+            Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
+            Game.CurrentGame.AddGameHandler(this);
+
+            playerWeapons = (WeaponComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(WeaponComponent));
+            selectedName = playerWeapons.CurrentWeapon;
+
+            foreach (WeaponInfo info in weapons)
+            {
+                if (info.entity == selectedName)
+                {
+                    currentPos = info.location;
+                    break;
+                }
+            }
+
+            foreach (WeaponInfo info in weapons)
+            {
+                if (info.meter != null)
+                {
+                    info.meter.Value = playerWeapons.Ammo(info.entity);
+                    info.meter.MaxValue = playerWeapons.MaxAmmo(info.entity);
+                }
+            }
+        }
+
+        public void StopHandler()
+        {
+            Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
+            Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
+            Game.CurrentGame.RemoveGameHandler(this);
+
+            playerWeapons.SetWeapon(selectedName);
+        }
+
+        public void GameInputReceived(GameInputEventArgs e)
+        {
+            if (!e.Pressed) return;
+
+            string next = selectedName;
+            Point nextPos = currentPos;
+            int min = int.MaxValue;
+
+            if (e.Input == GameInput.Start && e.Pressed)
+            {
+                if (Unpaused != null) Unpaused();
+            }
+
+            else if (e.Input == GameInput.Down)
+            {
+                foreach (WeaponInfo info in weapons)
+                {
+                    if (info.entity == selectedName) continue;
+
+                    int ydist = info.location.Y - currentPos.Y;
+                    if (ydist == 0) continue;
+
+                    if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
+
+                    // weight x distance worse than y distance
+                    int dist = 2 * Math.Abs(info.location.X - currentPos.X) + ydist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        next = info.entity;
+                        nextPos = info.location;
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Up)
+            {
+                foreach (WeaponInfo info in weapons)
+                {
+                    if (info.entity == selectedName) continue;
+
+                    int ydist = currentPos.Y - info.location.Y;
+                    if (ydist == 0) continue;
+
+                    if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
+
+                    // weight x distance worse than y distance
+                    int dist = 2 * Math.Abs(info.location.X - currentPos.X) + ydist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        next = info.entity;
+                        nextPos = info.location;
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Right)
+            {
+                foreach (WeaponInfo info in weapons)
+                {
+                    if (info.entity == selectedName) continue;
+
+                    int xdist = info.location.X - currentPos.X;
+                    if (xdist == 0) continue;
+
+                    if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
+
+                    int dist = 2 * Math.Abs(info.location.Y - currentPos.Y) + xdist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        next = info.entity;
+                        nextPos = info.location;
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Left)
+            {
+                foreach (WeaponInfo info in weapons)
+                {
+                    if (info.entity == selectedName) continue;
+
+                    int xdist = currentPos.X - info.location.X;
+                    if (xdist == 0) continue;
+
+                    if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
+
+                    int dist = 2 * Math.Abs(info.location.Y - currentPos.Y) + xdist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        next = info.entity;
+                        nextPos = info.location;
+                    }
+                }
+            }
+
+            if (next != selectedName)
+            {
+                Engine.Instance.PlaySound(changeSound);
+                selectedName = next;
+                currentPos = nextPos;
+            }
+        }
+
+        public void GameRender(GameRenderEventArgs e)
+        {
+            using (Graphics g = Graphics.FromImage(e.Layers.Foreground))
+            {
+                g.DrawImage(background, 0, 0);
+
+                foreach (WeaponInfo info in weapons)
+                {
+                    if (info.entity == selectedName) g.DrawImage(info.iconOn, info.location);
+                    else g.DrawImage(info.iconOff, info.location);
+
+                    FontSystem.Draw(g, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
+
+                    if (info.meter != null) info.meter.Draw(g);
+                }
+            }
+        }
+
+        #endregion
+    }
+}

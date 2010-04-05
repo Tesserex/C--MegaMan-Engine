@@ -1,0 +1,27 @@
+				Sprite		Move		Collide		Death		Health		Sound		Shoot		Input
+Player			x			x						x			x			x			x			x
+Enemy			x			x			x			x			x			x			?
+Boss			x			x			x			x			x			x			x
+Item			x			x			x			x						x
+MapSquare		x						x
+Accessory		x			x			x			x						x
+Boss Door		x						x									x
+Particles		x			x						x
+Projectiles		x			x			x			x			x			x						?
+Enemy Spawn
+Pause Screen
+
+Interfaces
+	ISprite
+	IHealth
+
+Attributes
+	Sprite (Position)
+	Health
+
+Behaviors
+	Move (if blocking, hit collision stuff)
+	Collision Target
+	Play Sound
+	Shoot
+	Input
