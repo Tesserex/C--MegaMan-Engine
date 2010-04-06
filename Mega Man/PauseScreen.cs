@@ -231,19 +231,19 @@ namespace Mega_Man
             using (Graphics g = Graphics.FromImage(e.Layers.Foreground))
             {
                 g.DrawImage(background, 0, 0);
-                e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), Microsoft.Xna.Framework.Graphics.Color.White);
+                e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
                 foreach (WeaponInfo info in weapons)
                 {
                     if (info.entity == selectedName)
                     {
                         g.DrawImage(info.iconOn, info.location);
-                        e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), Microsoft.Xna.Framework.Graphics.Color.White);
+                        e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
                     }
                     else
                     {
                         g.DrawImage(info.iconOff, info.location);
-                        e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), Microsoft.Xna.Framework.Graphics.Color.White);
+                        e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
                     }
 
                     FontSystem.Draw(g, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));

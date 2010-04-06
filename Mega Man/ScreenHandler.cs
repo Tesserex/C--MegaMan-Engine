@@ -296,7 +296,7 @@ namespace Mega_Man
             OffsetX += off_x;
             OffsetY += off_y;
 
-            Screen.DrawXna(batch, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            Screen.DrawXna(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
         }
     }
 }

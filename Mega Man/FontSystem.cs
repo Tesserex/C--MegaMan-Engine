@@ -55,7 +55,7 @@ namespace Mega_Man
                     int cindex = chars.IndexOf(c);
                     if (cindex < 0) continue;
 
-                    batch.Draw(charTex, new Vector2(xpos, position.Y), new Microsoft.Xna.Framework.Rectangle(cindex * charWidth, 0, charWidth, charWidth), Microsoft.Xna.Framework.Graphics.Color.White);
+                    batch.Draw(charTex, new Vector2(xpos, position.Y), new Microsoft.Xna.Framework.Rectangle(cindex * charWidth, 0, charWidth, charWidth), Engine.Instance.OpacityColor);
 
                     xpos += charWidth + charSpace;
                 }

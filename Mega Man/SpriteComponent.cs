@@ -147,7 +147,7 @@ namespace Mega_Man
             }
             if (sprite.Layer < e.Layers.SpritesBatch.Length)
             {
-                Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer]);
+                Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer], e.OpacityColor);
             }
         }
 
@@ -163,7 +163,7 @@ namespace Mega_Man
             }
         }
 
-        private void Draw(GraphicsDevice device, SpriteBatch batch)
+        private void Draw(GraphicsDevice device, SpriteBatch batch, Microsoft.Xna.Framework.Graphics.Color color)
         {
             if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
             float off_x = Parent.Screen.OffsetX;
@@ -171,7 +171,7 @@ namespace Mega_Man
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : this.verticalFlip;
-                sprite.DrawXna(batch, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+                sprite.DrawXna(batch, color, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }
     }

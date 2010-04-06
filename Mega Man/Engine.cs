@@ -67,6 +67,7 @@ namespace Mega_Man
         public GameGraphicsLayers Layers { get; private set; }
         public float Opacity { get; set; }
         public GraphicsDevice Device { get; private set; }
+        public Microsoft.Xna.Framework.Graphics.Color OpacityColor;
 
         public GameRenderEventArgs(GameGraphicsLayers layers, GraphicsDevice device)
         {
@@ -99,6 +100,8 @@ namespace Mega_Man
         private GameGraphicsLayers graphics;
         private SoundSystem soundsystem = new SoundSystem();
         private float opacity = 1;
+        private Microsoft.Xna.Framework.Graphics.Color opacityColor = Microsoft.Xna.Framework.Graphics.Color.White;
+        public Microsoft.Xna.Framework.Graphics.Color OpacityColor { get { return opacityColor; } }
 
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
@@ -205,6 +208,7 @@ namespace Mega_Man
         private void opacityDown(Action callback)
         {
             opacity -= 0.05f;
+            opacityColor = new Microsoft.Xna.Framework.Graphics.Color(opacity, opacity, opacity);
             if (opacity <= 0)
             {
                 if (callback != null) callback();
@@ -217,6 +221,7 @@ namespace Mega_Man
         private void opacityUp()
         {
             opacity += 0.05f;
+            opacityColor = new Microsoft.Xna.Framework.Graphics.Color(opacity, opacity, opacity);
             if (opacity >= 1)
             
             {
@@ -312,6 +317,7 @@ namespace Mega_Man
 
             GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
             r.Opacity = opacity;
+            r.OpacityColor = opacityColor;
 
             this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Graphics.Color.Green);
             

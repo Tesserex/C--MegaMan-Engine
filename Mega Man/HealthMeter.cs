@@ -183,14 +183,14 @@ namespace Mega_Man
                 {
                     for (int y = (int)positionX; i < ticks; i++, y += tick.Width)
                     {
-                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(y, positionY), Microsoft.Xna.Framework.Graphics.Color.White);
+                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(y, positionY), Engine.Instance.OpacityColor);
                     }
                 }
                 else
                 {
                     for (int y = (int)this.Height - tick.Height + (int)positionY; i < ticks; i++, y -= tick.Height)
                     {
-                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX, y), Microsoft.Xna.Framework.Graphics.Color.White);
+                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX, y), Engine.Instance.OpacityColor);
                     }
                 }
             }
