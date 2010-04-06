@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -15,7 +16,11 @@ namespace Mega_Man
         public Image[] Sprites { get; private set; }
         public Image Foreground { get; private set; }
 
-        public GameGraphicsLayers(int across, int down)
+        public SpriteBatch BackgroundBatch { get; private set; }
+        public SpriteBatch[] SpritesBatch { get; private set; }
+        public SpriteBatch ForegroundBatch { get; private set; }
+
+        public GameGraphicsLayers(int across, int down, GraphicsDevice device)
         {
             Bitmap backimage = new Bitmap(across, down);
             backimage.SetResolution(Const.Resolution, Const.Resolution);
@@ -26,6 +31,11 @@ namespace Mega_Man
 
             Sprites = new Image[4];
             for (int i = 0; i < 4; i++) Sprites[i] = backimage.Clone(rect, System.Drawing.Imaging.PixelFormat.DontCare);
+
+            BackgroundBatch = new SpriteBatch(device);
+            ForegroundBatch = new SpriteBatch(device);
+            SpritesBatch = new SpriteBatch[4];
+            for (int i = 0; i < 4; i++) SpritesBatch[i] = new SpriteBatch(device);
         }
     }
 
@@ -56,10 +66,12 @@ namespace Mega_Man
     {
         public GameGraphicsLayers Layers { get; private set; }
         public float Opacity { get; set; }
+        public GraphicsDevice Device { get; private set; }
 
-        public GameRenderEventArgs(GameGraphicsLayers layers)
+        public GameRenderEventArgs(GameGraphicsLayers layers, GraphicsDevice device)
         {
             Layers = layers;
+            Device = device;
         }
     }
     public delegate void GameRenderEventHandler(GameRenderEventArgs e);
@@ -101,6 +113,15 @@ namespace Mega_Man
         public event Action GameAct;
         public event Action GameReact;
 
+        public GraphicsDevice GraphicsDevice { get; private set; }
+
+        public class DeviceEventArgs : EventArgs
+        {
+            public GraphicsDevice Device;
+        }
+
+        public event EventHandler<DeviceEventArgs> GetDevice;
+
         /// <summary>
         /// The final logic phase before rendering. Used to delete entities,
         /// so please do not enumerate through entity collections during this phase.
@@ -112,6 +133,10 @@ namespace Mega_Man
         public void Start()
         {
             timer.Start();
+            DeviceEventArgs args = new DeviceEventArgs();
+            if (GetDevice != null) GetDevice(this, args);
+            this.GraphicsDevice = args.Device;
+            //Resize(Const.PixelsAcross, Const.PixelsDown);
         }
 
         public void Stop()
@@ -209,8 +234,6 @@ namespace Mega_Man
                 inputFlags[key] = false;
             }
 
-            Resize(Const.PixelsAcross, Const.PixelsDown);
-
             Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
 
             Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
@@ -218,7 +241,6 @@ namespace Mega_Man
             diagnostic = new Stopwatch();
 
             timer = new Stopwatch();
-            timer.Start();
         }
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
@@ -228,7 +250,7 @@ namespace Mega_Man
 
         private void Resize(int across, int down)
         {
-            graphics = new GameGraphicsLayers(across, down);
+            graphics = new GameGraphicsLayers(across, down, this.GraphicsDevice);
         }
 
         private void CheckInput()
@@ -280,19 +302,31 @@ namespace Mega_Man
             if (GameCleanup != null) GameCleanup();
 
             // render phase
-            using (Graphics g = Graphics.FromImage(graphics.Background)) g.Clear(Color.Transparent);
+            using (Graphics g = Graphics.FromImage(graphics.Background)) g.Clear(System.Drawing.Color.Transparent);
 
             for (int i = 0; i < graphics.Sprites.Length; i++)
             {
-                using (Graphics g = Graphics.FromImage(graphics.Sprites[i])) g.Clear(Color.Transparent);
+                using (Graphics g = Graphics.FromImage(graphics.Sprites[i])) g.Clear(System.Drawing.Color.Transparent);
             }
-            using (Graphics g = Graphics.FromImage(graphics.Foreground)) g.Clear(Color.Transparent);
+            using (Graphics g = Graphics.FromImage(graphics.Foreground)) g.Clear(System.Drawing.Color.Transparent);
 
-            GameRenderEventArgs r = new GameRenderEventArgs(graphics);
+            GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
             r.Opacity = opacity;
+
+            this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Graphics.Color.Green);
+            
             if (GameRenderBegin != null) GameRenderBegin(r);
+
+            r.Layers.BackgroundBatch.Begin();
+            foreach (SpriteBatch batch in r.Layers.SpritesBatch) batch.Begin();
+            r.Layers.ForegroundBatch.Begin();
             if (GameRender != null) GameRender(r);
+            r.Layers.BackgroundBatch.End();
+            foreach (SpriteBatch batch in r.Layers.SpritesBatch) batch.End();
+            r.Layers.ForegroundBatch.End();
+
             if (GameRenderEnd != null) GameRenderEnd(r);
+            
             //diagnostic.Stop();
             //Console.WriteLine(diagnostic.ElapsedMilliseconds);
             //diagnostic.Reset();

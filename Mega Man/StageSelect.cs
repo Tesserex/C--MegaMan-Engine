@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -16,6 +17,7 @@ namespace Mega_Man
         private class BossInfo
         {
             public Image portrait;
+            public Texture2D texture;
             public string mapPath;
             public bool alive = false;
             public Point location;
@@ -24,6 +26,7 @@ namespace Mega_Man
         private int musicStageSelect;
         private int changeSound;
         private Image backgroundStageSelect;
+        private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;
         private int selectedIndex;
@@ -35,7 +38,10 @@ namespace Mega_Man
             bosses = new BossInfo[8];
             for (int i = 0; i < 8; i++) bosses[i] = new BossInfo();
 
-            bossFrameOn = MegaMan.Sprite.FromXml(reader.Element("BossFrame").Element("Sprite"), Game.CurrentGame.BasePath);
+            XElement spriteNode = reader.Element("BossFrame").Element("Sprite");
+            XAttribute tileattr = spriteNode.Attribute("tilesheet");
+            bossFrameOn = MegaMan.Sprite.FromXml(spriteNode, Game.CurrentGame.BasePath);
+            bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, tileattr.Value);
             bossFrameOff = new MegaMan.Sprite(bossFrameOn);
 
             bossFrameOn.Play();
@@ -69,6 +75,7 @@ namespace Mega_Man
             changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false);
 
             backgroundStageSelect = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+            backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 
             foreach (XElement boss in reader.Elements("Boss"))
                 LoadBoss(boss);
@@ -82,7 +89,11 @@ namespace Mega_Man
             if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new EntityXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
 
             XElement portraitNode = reader.Element("Portrait");
-            if (portraitNode != null) bosses[slot].portrait = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
+            if (portraitNode != null)
+            {
+                bosses[slot].portrait = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
+                bosses[slot].texture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
+            }
 
             XElement stageNode = reader.Element("Stage");
             if (stageNode == null) throw new EntityXmlException(reader, "Boss must specify a stage!");
@@ -155,18 +166,31 @@ namespace Mega_Man
             {
                 g.DrawImage(backgroundStageSelect, 0, 0);
             }
+            e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), Microsoft.Xna.Framework.Graphics.Color.White);
             using (Graphics g = Graphics.FromImage(e.Layers.Sprites[0]))
             {
-                using (SolidBrush b = new SolidBrush(Color.Black))
+                using (SolidBrush b = new SolidBrush(System.Drawing.Color.Black))
                 {
                     BossInfo boss;
                     for (int i = 0; i < 8; i++)
                     {
                         boss = bosses[i];
-                        if (selectedIndex == i) bossFrameOn.Draw(g, boss.location.X, boss.location.Y);
-                        else bossFrameOff.Draw(g, boss.location.X, boss.location.Y);
+                        if (selectedIndex == i)
+                        {
+                            bossFrameOn.Draw(g, boss.location.X, boss.location.Y);
+                            bossFrameOn.DrawXna(e.Layers.SpritesBatch[0], boss.location.X, boss.location.Y);
+                        }
+                        else
+                        {
+                            bossFrameOff.Draw(g, boss.location.X, boss.location.Y);
+                            bossFrameOff.DrawXna(e.Layers.SpritesBatch[0], boss.location.X, boss.location.Y);
+                        }
 
-                        if (boss.alive && boss.portrait != null) g.DrawImage(boss.portrait, boss.location.X + 7, boss.location.Y + 7);
+                        if (boss.alive && boss.portrait != null)
+                        {
+                            g.DrawImage(boss.portrait, boss.location.X + 7, boss.location.Y + 7);
+                            e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), Microsoft.Xna.Framework.Graphics.Color.White);
+                        }
                         else g.FillRectangle(b, boss.location.X + 7, boss.location.Y + 7, 34, 34);
                     }
                 }

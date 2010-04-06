@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -13,7 +14,9 @@ namespace Mega_Man
         private float maxvalue;
         private float tickSize;
         private Bitmap meterImage;
+        private Texture2D meterTexture;
         private Image tick;
+        private Texture2D tickTexture;
         private int sound;
         private int tickframes;
         private int stopvalue;
@@ -90,7 +93,9 @@ namespace Mega_Man
             if (imageAttr == null) throw new EntityXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
             
             if (this.tick != null) this.tick.Dispose();
+            if (this.tickTexture != null) this.tickTexture.Dispose();
             this.tick = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value));
+            this.tickTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value));
 
             bool horiz = false;
             XAttribute dirAttr = node.Attribute("orientation");
@@ -118,11 +123,11 @@ namespace Mega_Man
             if (meterImage == null) return;
             using (Graphics g = Graphics.FromImage(meterImage))
             {
-                g.Clear(Color.Black);
+                g.Clear(System.Drawing.Color.Black);
                 int i = 0;
                 int ticks = (int)Math.Round(this.value / this.tickSize);
 
-                if (this.tick != null)
+                if (this.tick != null && this.tickTexture != null)
                 {
                     if (this.horizontal)
                     {
@@ -162,6 +167,35 @@ namespace Mega_Man
             if (meterImage != null) g.DrawImage(meterImage, positionX, positionY);
         }
 
+        public void Draw(SpriteBatch batch)
+        {
+            Draw(batch, positionX, positionY);
+        }
+
+        public void Draw(SpriteBatch batch, float positionX, float positionY)
+        {
+            if (this.tickTexture != null)
+            {
+                int i = 0;
+                int ticks = (int)Math.Round(this.value / this.tickSize);
+
+                if (this.horizontal)
+                {
+                    for (int y = (int)positionX; i < ticks; i++, y += tick.Width)
+                    {
+                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(y, positionY), Microsoft.Xna.Framework.Graphics.Color.White);
+                    }
+                }
+                else
+                {
+                    for (int y = (int)this.Height - tick.Height + (int)positionY; i < ticks; i++, y -= tick.Height)
+                    {
+                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX, y), Microsoft.Xna.Framework.Graphics.Color.White);
+                    }
+                }
+            }
+        }
+
         #region IHandleGameEvents Members
 
         public void StartHandler()
@@ -196,6 +230,7 @@ namespace Mega_Man
             {
                 this.Draw(g, positionX, positionY);
             }
+            this.Draw(e.Layers.ForegroundBatch, positionX, positionY);
         }
 
         #endregion

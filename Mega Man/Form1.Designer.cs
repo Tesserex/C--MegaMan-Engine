@@ -29,12 +29,15 @@
         private void InitializeComponent()
         {
             this.screenImage = new System.Windows.Forms.PictureBox();
+            this.xnaImage = new Mega_Man.EngineGraphicsControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHitboxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,8 +47,6 @@
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.thinkLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.keyboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.screenImage)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
@@ -53,7 +54,7 @@
             // 
             // screenImage
             // 
-            this.screenImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.screenImage.Dock = System.Windows.Forms.DockStyle.Left;
             this.screenImage.Location = new System.Drawing.Point(0, 24);
             this.screenImage.Margin = new System.Windows.Forms.Padding(0);
             this.screenImage.Name = "screenImage";
@@ -61,6 +62,14 @@
             this.screenImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.screenImage.TabIndex = 0;
             this.screenImage.TabStop = false;
+            // 
+            // xnaImage
+            // 
+            this.xnaImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xnaImage.Location = new System.Drawing.Point(292, 24);
+            this.xnaImage.Name = "xnaImage";
+            this.xnaImage.Size = new System.Drawing.Size(141, 248);
+            this.xnaImage.TabIndex = 1;
             // 
             // menuStrip1
             // 
@@ -70,7 +79,7 @@
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(292, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(433, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -113,6 +122,21 @@
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.quitToolStripMenuItem.Text = "Quit";
+            // 
+            // inputToolStripMenuItem
+            // 
+            this.inputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keyboardToolStripMenuItem});
+            this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
+            this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.inputToolStripMenuItem.Text = "Input";
+            // 
+            // keyboardToolStripMenuItem
+            // 
+            this.keyboardToolStripMenuItem.Name = "keyboardToolStripMenuItem";
+            this.keyboardToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.keyboardToolStripMenuItem.Text = "Keyboard";
+            this.keyboardToolStripMenuItem.Click += new System.EventHandler(this.keyboardToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -164,7 +188,7 @@
             this.entityLabel});
             this.debugBar.Location = new System.Drawing.Point(0, 272);
             this.debugBar.Name = "debugBar";
-            this.debugBar.Size = new System.Drawing.Size(292, 22);
+            this.debugBar.Size = new System.Drawing.Size(433, 22);
             this.debugBar.TabIndex = 2;
             this.debugBar.Text = "statusStrip1";
             // 
@@ -186,26 +210,12 @@
             this.entityLabel.Size = new System.Drawing.Size(13, 17);
             this.entityLabel.Text = "0";
             // 
-            // inputToolStripMenuItem
-            // 
-            this.inputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.keyboardToolStripMenuItem});
-            this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
-            this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.inputToolStripMenuItem.Text = "Input";
-            // 
-            // keyboardToolStripMenuItem
-            // 
-            this.keyboardToolStripMenuItem.Name = "keyboardToolStripMenuItem";
-            this.keyboardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.keyboardToolStripMenuItem.Text = "Keyboard";
-            this.keyboardToolStripMenuItem.Click += new System.EventHandler(this.keyboardToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 294);
+            this.ClientSize = new System.Drawing.Size(433, 294);
+            this.Controls.Add(this.xnaImage);
             this.Controls.Add(this.screenImage);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.debugBar);
@@ -225,6 +235,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox screenImage;
+        private Mega_Man.EngineGraphicsControl xnaImage;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;

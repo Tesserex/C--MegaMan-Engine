@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -12,6 +13,7 @@ namespace Mega_Man
         private class WeaponInfo
         {
             public Image iconOff, iconOn;
+            public Texture2D textureOff, textureOn;
             public string name;
             public string entity;
             public Point location;
@@ -21,6 +23,7 @@ namespace Mega_Man
         private int pauseSound;
         private int changeSound;
         private Image background;
+        private Texture2D backgroundTexture;
         private List<WeaponInfo> weapons;
         private string selectedName;
 
@@ -41,12 +44,13 @@ namespace Mega_Man
             pauseSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("PauseSound").Value), false);
 
             background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+            backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 
             foreach (XElement weapon in reader.Elements("Weapon"))
                 LoadWeapon(weapon);
 
             this.font = new Font(FontFamily.GenericMonospace, 12);
-            this.brush = new SolidBrush(Color.FromArgb(240, 236, 220));
+            this.brush = new SolidBrush(System.Drawing.Color.FromArgb(240, 236, 220));
 
             FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 7, 1);
         }
@@ -61,8 +65,12 @@ namespace Mega_Man
             WeaponInfo info = new WeaponInfo();
             info.name = reader.Attribute("name").Value;
             info.entity = reader.Attribute("entity").Value;
+
             info.iconOff = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value));
             info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value));
+            info.textureOff = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value));
+            info.textureOn = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value));
+
             info.location = new Point(int.Parse(reader.Attribute("x").Value), int.Parse(reader.Attribute("y").Value));
 
             XElement meter = reader.Element("Meter");
@@ -223,15 +231,29 @@ namespace Mega_Man
             using (Graphics g = Graphics.FromImage(e.Layers.Foreground))
             {
                 g.DrawImage(background, 0, 0);
+                e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), Microsoft.Xna.Framework.Graphics.Color.White);
 
                 foreach (WeaponInfo info in weapons)
                 {
-                    if (info.entity == selectedName) g.DrawImage(info.iconOn, info.location);
-                    else g.DrawImage(info.iconOff, info.location);
+                    if (info.entity == selectedName)
+                    {
+                        g.DrawImage(info.iconOn, info.location);
+                        e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), Microsoft.Xna.Framework.Graphics.Color.White);
+                    }
+                    else
+                    {
+                        g.DrawImage(info.iconOff, info.location);
+                        e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), Microsoft.Xna.Framework.Graphics.Color.White);
+                    }
 
                     FontSystem.Draw(g, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
+                    FontSystem.Draw(e.Layers.ForegroundBatch, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
 
-                    if (info.meter != null) info.meter.Draw(g);
+                    if (info.meter != null)
+                    {
+                        info.meter.Draw(g);
+                        info.meter.Draw(e.Layers.ForegroundBatch);
+                    }
                 }
             }
         }

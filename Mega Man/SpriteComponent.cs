@@ -6,6 +6,7 @@ using MegaMan;
 using System.Drawing;
 
 using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Sprite>;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -144,6 +145,10 @@ namespace Mega_Man
             {
                 using (Graphics g = Graphics.FromImage(e.Layers.Sprites[sprite.Layer])) Draw(g);
             }
+            if (sprite.Layer < e.Layers.SpritesBatch.Length)
+            {
+                Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer]);
+            }
         }
 
         private void Draw(Graphics g)
@@ -155,6 +160,18 @@ namespace Mega_Man
             {
                 sprite.VerticalFlip = Parent.GravityFlip? Game.CurrentGame.GravityFlip : this.verticalFlip;
                 sprite.Draw(g, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+            }
+        }
+
+        private void Draw(GraphicsDevice device, SpriteBatch batch)
+        {
+            if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
+            float off_x = Parent.Screen.OffsetX;
+            float off_y = Parent.Screen.OffsetY;
+            if (sprite != null && Visible)
+            {
+                sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : this.verticalFlip;
+                sprite.DrawXna(batch, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }
     }

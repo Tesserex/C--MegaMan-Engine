@@ -76,9 +76,16 @@
     <Compile Include="CollisionBox.cs" />
     <Compile Include="CollisionComponent.cs" />
     <Compile Include="Dynamic.cs" />
+    <Compile Include="EngineGraphicsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EntityXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />
+    <Compile Include="GraphicsDeviceControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphicsDeviceService.cs" />
     <Compile Include="HealthComponent.cs" />
     <Compile Include="HealthMeter.cs" />
     <Compile Include="HitBox.cs" />
@@ -138,6 +145,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ScreenHandler.cs" />
+    <Compile Include="ServiceContainer.cs" />
     <Compile Include="SoundComponent.cs" />
     <Compile Include="SoundSystem.cs" />
     <Compile Include="SpriteComponent.cs" />

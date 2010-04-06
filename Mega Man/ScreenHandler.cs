@@ -267,5 +267,36 @@ namespace Mega_Man
 
             Screen.Draw(g, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
         }
+
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch) { Draw(batch, 0, 0, 0, 0); }
+
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, float adj_x, float adj_y, float off_x, float off_y)
+        {
+            int width = Screen.PixelWidth;
+            int height = Screen.PixelHeight;
+
+            OffsetX = OffsetY = 0;
+
+            float cx = PlayerPos.Position.X + adj_x;
+            float cy = PlayerPos.Position.Y + adj_y;
+
+            if (cx > Game.CurrentGame.PixelsAcross / 2)
+            {
+                OffsetX = cx - Game.CurrentGame.PixelsAcross / 2;
+                if (OffsetX > width - Game.CurrentGame.PixelsAcross) OffsetX = width - Game.CurrentGame.PixelsAcross;
+            }
+
+            if (cy > Game.CurrentGame.PixelsDown / 2)
+            {
+                OffsetY = cy - Game.CurrentGame.PixelsDown / 2;
+                if (OffsetY > height - Game.CurrentGame.PixelsDown) OffsetY = height - Game.CurrentGame.PixelsDown;
+                if (OffsetY < 0) OffsetY = 0;
+            }
+
+            OffsetX += off_x;
+            OffsetY += off_y;
+
+            Screen.DrawXna(batch, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+        }
     }
 }

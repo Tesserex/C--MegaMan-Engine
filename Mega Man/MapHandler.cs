@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
@@ -11,7 +12,7 @@ namespace Mega_Man
         private int playerDeadCount;
 
         private Action updateFunc;
-        private Action<GameGraphicsLayers> drawFunc;
+        private Action<GameGraphicsLayers, SpriteBatch> drawFunc;
 
         private string startScreen;
         private int startX, startY;
@@ -19,6 +20,7 @@ namespace Mega_Man
         private int readyBlinkTime;
         private int readyBlinks;
         private Image readyImage;
+        private Texture2D readyTexture;
 
         public int? music;
 
@@ -48,6 +50,9 @@ namespace Mega_Man
             music = Engine.Instance.LoadMusic(intropath, looppath);
 
             readyImage = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
+            readyTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
+
+            map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
         }
 
         public bool IsOnScreen(float x, float y)
@@ -67,6 +72,7 @@ namespace Mega_Man
                 {
                     g.DrawImage(readyImage, (Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24);
                 }
+                e.Layers.ForegroundBatch.Draw(readyTexture, new Microsoft.Xna.Framework.Vector2((Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24), Microsoft.Xna.Framework.Graphics.Color.White);
             }
             readyBlinkTime++;
             if (readyBlinkTime > 8)
@@ -94,12 +100,13 @@ namespace Mega_Man
             Player.SendMessage(msg);
         }
 
-        private void Draw(GameGraphicsLayers layers)
+        private void Draw(GameGraphicsLayers layers, SpriteBatch batch)
         {
             using (Graphics g = Graphics.FromImage(layers.Background))
             {
                 CurrentScreen.Draw(g);
             }
+            CurrentScreen.Draw(batch);
         }
 
         private void DeadUpdate()
@@ -156,10 +163,10 @@ namespace Mega_Man
             updateFunc = () => join.Update(PlayerPos);
             join.ScrollDone += ScrollDone;
 
-            drawFunc = (l) => {
+            drawFunc = (l, b) => {
                 using (Graphics g = Graphics.FromImage(l.Background))
                 {
-                    join.Draw(g);
+                    join.Draw(g, b);
                 }
             };
 
@@ -310,7 +317,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (drawFunc != null) drawFunc(e.Layers);
+            if (drawFunc != null) drawFunc(e.Layers, e.Layers.BackgroundBatch);
         }
 
         #endregion

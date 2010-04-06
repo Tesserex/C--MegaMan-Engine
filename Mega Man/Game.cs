@@ -46,6 +46,7 @@ namespace Mega_Man
 
         public static void Load(string path)
         {
+            Engine.Instance.Start();
             if (CurrentGame != null)
             {
                 CurrentGame.Unload();
@@ -68,6 +69,7 @@ namespace Mega_Man
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
             CurrentGame = null;
+            Engine.Instance.Stop();
         }
 
         public void Reset()

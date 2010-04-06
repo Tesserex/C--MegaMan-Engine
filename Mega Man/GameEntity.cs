@@ -163,6 +163,8 @@ namespace Mega_Man
             entity.AddComponent(statecomp);
 
             Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string,System.Drawing.Image>();
+            Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
+
             try
             {
                 foreach (XElement xmlComp in xml.Elements())
@@ -176,7 +178,11 @@ namespace Mega_Man
                             string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
                             System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path);
                             sheet.SetResolution(Const.Resolution, Const.Resolution);
-                            if (!tilesheets.ContainsKey(pallete)) tilesheets.Add(pallete, sheet);
+                            if (!tilesheets.ContainsKey(pallete))
+                            {
+                                tilesheets.Add(pallete, sheet);
+                                sheetpaths.Add(pallete, path);
+                            }
                             break;
 
                         case "Trigger":
@@ -204,13 +210,17 @@ namespace Mega_Man
 
                             if (xmlComp.Attribute("tilesheet") != null) // explicitly specified pallete for this sprite
                             {
-                                spritecomp.Add(spritePallete, spriteName, MegaMan.Sprite.FromXml(xmlComp, Game.CurrentGame.BasePath));
+                                MegaMan.Sprite spr = MegaMan.Sprite.FromXml(xmlComp, Game.CurrentGame.BasePath);
+                                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Attribute("tilesheet").Value);
+                                spr.SetTexture(Engine.Instance.GraphicsDevice, sheetpath);
+                                spritecomp.Add(spritePallete, spriteName, spr);
                             }
                             else // load sprite for all palletes
                             {
                                 foreach (KeyValuePair<string, System.Drawing.Image> pair in tilesheets)
                                 {
                                     MegaMan.Sprite sprite = MegaMan.Sprite.FromXml(xmlComp, pair.Value);
+                                    sprite.SetTexture(Engine.Instance.GraphicsDevice, sheetpaths[pair.Key]);
                                     spritecomp.Add(pair.Key, spriteName, sprite);
                                 }
                             }

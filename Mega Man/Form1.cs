@@ -19,6 +19,7 @@ namespace Mega_Man
         public Form1()
         {
             InitializeComponent();
+            xnaImage.Init();
 
             // look for config file
             try
@@ -160,9 +161,9 @@ namespace Mega_Man
             // reset the form size
             tempheight += debugBar.Height;
             this.Height = tempheight;
-            this.Width = tempwidth;
+            this.Width = tempwidth + 256;
             // redock the image
-            this.screenImage.Dock = DockStyle.Fill;
+            this.screenImage.Dock = DockStyle.Left;
         }
 
         void Instance_GameLogicTick(GameTickEventArgs e)
