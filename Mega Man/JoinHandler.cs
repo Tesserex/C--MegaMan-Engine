@@ -171,7 +171,7 @@ namespace Mega_Man
             if (ScrollDone != null) ScrollDone(this, nextScreen);
         }
 
-        public void Draw(Graphics g, Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
         {
             int width = currentScreen.Screen.PixelWidth;
             int height = currentScreen.Screen.PixelHeight;
@@ -201,9 +201,6 @@ namespace Mega_Man
                 nextOffsetY = Game.CurrentGame.PixelsDown - scrollDist;
                 nextOffsetX += offsetX;
             }
-
-            currentScreen.Draw(g, 0, 0, offsetX, offsetY);
-            nextScreen.Draw(g, this.nextScreenX, this.nextScreenY, nextOffsetX, nextOffsetY);
 
             currentScreen.Draw(batch, 0, 0, offsetX, offsetY);
             nextScreen.Draw(batch, this.nextScreenX, this.nextScreenY, nextOffsetX, nextOffsetY);

@@ -29,22 +29,6 @@ namespace Mega_Man
                 charSpace = space;
             }
 
-            public void Draw(Graphics g, string text, PointF position)
-            {
-                text = text.ToLower();
-                float xpos = position.X;
-
-                foreach (char c in text)
-                {
-                    int cindex = chars.IndexOf(c);
-                    if (cindex < 0) continue;
-
-                    g.DrawImage(charImg, xpos, position.Y, new RectangleF(cindex * charWidth, 0, charWidth, charWidth), GraphicsUnit.Pixel);
-                    
-                    xpos += charWidth + charSpace;
-                }
-            }
-
             public void Draw(SpriteBatch batch, string text, Vector2 position)
             {
                 text = text.ToLower();
@@ -89,11 +73,6 @@ namespace Mega_Man
             ImageFont font = new ImageFont(charimg, chartex, charWidth, charSpace);
 
             fonts.Add(name, font);
-        }
-
-        public static void Draw(Graphics g, string font, string text, PointF position)
-        {
-            fonts[font].Draw(g, text, position);
         }
 
         public static void Draw(SpriteBatch batch, string font, string text, PointF position)

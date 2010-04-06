@@ -228,32 +228,24 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(e.Layers.Foreground))
+            e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
+
+            foreach (WeaponInfo info in weapons)
             {
-                g.DrawImage(background, 0, 0);
-                e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
-
-                foreach (WeaponInfo info in weapons)
+                if (info.entity == selectedName)
                 {
-                    if (info.entity == selectedName)
-                    {
-                        g.DrawImage(info.iconOn, info.location);
-                        e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
-                    }
-                    else
-                    {
-                        g.DrawImage(info.iconOff, info.location);
-                        e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
-                    }
+                    e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
+                }
+                else
+                {
+                    e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
+                }
 
-                    FontSystem.Draw(g, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
-                    FontSystem.Draw(e.Layers.ForegroundBatch, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
+                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
 
-                    if (info.meter != null)
-                    {
-                        info.meter.Draw(g);
-                        info.meter.Draw(e.Layers.ForegroundBatch);
-                    }
+                if (info.meter != null)
+                {
+                    info.meter.Draw(e.Layers.ForegroundBatch);
                 }
             }
         }

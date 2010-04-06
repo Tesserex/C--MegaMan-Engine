@@ -13,7 +13,6 @@ namespace Mega_Man
 {
     public partial class Form1 : Form
     {
-        private Graphics graphics;
         private string settingsPath;
 
         public Form1()
@@ -35,8 +34,6 @@ namespace Mega_Man
 
             Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(Instance_GameLogicTick);
-            Engine.Instance.GameRenderBegin += new GameRenderEventHandler(GameRenderBegin);
-            Engine.Instance.GameRenderEnd += new GameRenderEventHandler(Instance_GameRenderEnd);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -137,21 +134,13 @@ namespace Mega_Man
 
         private void ResizeScreen(int width, int height)
         {
-            Bitmap b = new Bitmap(width, height);
-            b.SetResolution(Const.Resolution, Const.Resolution);
-
-            if (screenImage.Image != null) screenImage.Image.Dispose();
-            screenImage.Image = b;
-            if (graphics != null) graphics.Dispose();
-            graphics = Graphics.FromImage(screenImage.Image);
-
             // tell the image not to get crushed by the form
-            this.screenImage.Dock = DockStyle.None;
+            this.xnaImage.Dock = DockStyle.None;
             // tell the form to fit the image
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            this.screenImage.Width = width;
-            this.screenImage.Height = height;
+            this.xnaImage.Width = width;
+            this.xnaImage.Height = height;
             // now remember the form size
             int tempheight = this.Height;
             int tempwidth = this.Width;
@@ -161,9 +150,9 @@ namespace Mega_Man
             // reset the form size
             tempheight += debugBar.Height;
             this.Height = tempheight;
-            this.Width = tempwidth + 256;
+            this.Width = tempwidth;
             // redock the image
-            this.screenImage.Dock = DockStyle.Left;
+            this.xnaImage.Dock = DockStyle.Left;
         }
 
         void Instance_GameLogicTick(GameTickEventArgs e)
@@ -172,44 +161,6 @@ namespace Mega_Man
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
             thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             entityLabel.Text = "Entities: " + GameEntity.ActiveCount.ToString();
-        }
-
-        private void Instance_GameRenderEnd(GameRenderEventArgs e)
-        {
-            if (e.Opacity >= 1)
-            {
-                graphics.DrawImage(e.Layers.Background, 0, 0);
-                for (int i = 0; i < e.Layers.Sprites.Length; i++) graphics.DrawImage(e.Layers.Sprites[i], 0, 0);
-                graphics.DrawImage(e.Layers.Foreground, 0, 0);
-            }
-            else
-            {
-                System.Drawing.Imaging.ColorMatrix matrix = new System.Drawing.Imaging.ColorMatrix();
-                matrix.Matrix33 = e.Opacity;
-                System.Drawing.Imaging.ImageAttributes attr = new System.Drawing.Imaging.ImageAttributes();
-                attr.SetColorMatrix(matrix, System.Drawing.Imaging.ColorMatrixFlag.Default, System.Drawing.Imaging.ColorAdjustType.Bitmap);
-
-                // flatten image first
-                Bitmap flat = new Bitmap(e.Layers.Background.Width, e.Layers.Background.Height);
-                flat.SetResolution(e.Layers.Background.HorizontalResolution, e.Layers.Background.VerticalResolution);
-                using (Graphics g = Graphics.FromImage(flat))
-                {
-                    g.DrawImage(e.Layers.Background, 0, 0);
-                    for (int i = 0; i < e.Layers.Sprites.Length; i++) g.DrawImage(e.Layers.Sprites[i], 0, 0);
-                    g.DrawImage(e.Layers.Foreground, 0, 0);
-                }
-
-                Rectangle dest = new Rectangle(0, 0, flat.Width, flat.Height);
-                graphics.DrawImage(flat, dest, 0, 0, flat.Width, flat.Height, GraphicsUnit.Pixel, attr);
-                flat.Dispose();
-                attr.Dispose();
-            }
-            screenImage.Refresh();
-        }
-
-        private void GameRenderBegin(GameRenderEventArgs e)
-        {
-            graphics.Clear(Color.Black);
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)

@@ -71,10 +71,5 @@ namespace Mega_Man
                 flipBox = boundBox = RectangleF.Empty;
             }
         }
-
-        public void Draw(Graphics g, float offsetX, float offsetY)
-        {
-            Tile.Draw(g, ScreenX - offsetX, ScreenY - offsetY);
-        }
     }
 }

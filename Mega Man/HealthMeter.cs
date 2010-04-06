@@ -13,9 +13,7 @@ namespace Mega_Man
         private float value;
         private float maxvalue;
         private float tickSize;
-        private Bitmap meterImage;
         private Texture2D meterTexture;
-        private Image tick;
         private Texture2D tickTexture;
         private int sound;
         private int tickframes;
@@ -50,7 +48,6 @@ namespace Mega_Man
                 {
                     this.value = value;
                     if (this.value < 0) this.value = 0;
-                    ResetImage();
                 }
             }
         }
@@ -63,7 +60,6 @@ namespace Mega_Man
                 tickframes = 0;
                 this.value += this.tickSize;
                 Engine.Instance.PlaySound(sound);
-                ResetImage();
             }
         }
 
@@ -74,7 +70,6 @@ namespace Mega_Man
             {
                 this.maxvalue = value;
                 this.tickSize = this.maxvalue / 28;
-                ResetImage();
             }
         }
 
@@ -92,10 +87,11 @@ namespace Mega_Man
             XAttribute imageAttr = node.Attribute("image");
             if (imageAttr == null) throw new EntityXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
             
-            if (this.tick != null) this.tick.Dispose();
             if (this.tickTexture != null) this.tickTexture.Dispose();
-            this.tick = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value));
             this.tickTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value));
+
+            XAttribute backAttr = node.Attribute("background");
+            if (backAttr != null) this.meterTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value));
 
             bool horiz = false;
             XAttribute dirAttr = node.Attribute("orientation");
@@ -104,67 +100,11 @@ namespace Mega_Man
                 horiz = (dirAttr.Value == "horizontal");
             }
             this.horizontal = horiz;
-
-            if (horizontal) this.meterImage = new Bitmap(56, 8);
-            else this.meterImage = new Bitmap(8, 56);
-
-            this.meterImage.SetResolution(Const.Resolution, Const.Resolution);
-            ResetImage();
         }
 
         public void Reset()
         {
             this.value = this.maxvalue;
-            ResetImage();
-        }
-
-        private void ResetImage()
-        {
-            if (meterImage == null) return;
-            using (Graphics g = Graphics.FromImage(meterImage))
-            {
-                g.Clear(System.Drawing.Color.Black);
-                int i = 0;
-                int ticks = (int)Math.Round(this.value / this.tickSize);
-
-                if (this.tick != null && this.tickTexture != null)
-                {
-                    if (this.horizontal)
-                    {
-                        for (int y = 0; i < ticks; i++, y += tick.Width)
-                        {
-                            g.DrawImage(tick, y, 0);
-                        }
-                    }
-                    else
-                    {
-                        for (int y = (int)this.Height - tick.Height; i < ticks; i++, y -= tick.Height)
-                        {
-                            g.DrawImage(tick, 0, y);
-                        }
-                    }
-                }
-            }
-        }
-
-        public float Width
-        {
-            get { return meterImage.Width; }
-        }
-
-        public float Height
-        {
-            get { return meterImage.Height; }
-        }
-
-        public void Draw(Graphics g)
-        {
-            Draw(g, positionX, positionY);
-        }
-
-        public void Draw(Graphics g, float positionX, float positionY)
-        {
-            if (meterImage != null) g.DrawImage(meterImage, positionX, positionY);
         }
 
         public void Draw(SpriteBatch batch)
@@ -179,16 +119,17 @@ namespace Mega_Man
                 int i = 0;
                 int ticks = (int)Math.Round(this.value / this.tickSize);
 
+                if (this.meterTexture != null) batch.Draw(this.meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
                 if (this.horizontal)
                 {
-                    for (int y = (int)positionX; i < ticks; i++, y += tick.Width)
+                    for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
                     {
                         batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(y, positionY), Engine.Instance.OpacityColor);
                     }
                 }
                 else
                 {
-                    for (int y = (int)this.Height - tick.Height + (int)positionY; i < ticks; i++, y -= tick.Height)
+                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
                     {
                         batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX, y), Engine.Instance.OpacityColor);
                     }
@@ -226,10 +167,6 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(e.Layers.Sprites[1]))
-            {
-                this.Draw(g, positionX, positionY);
-            }
             this.Draw(e.Layers.ForegroundBatch, positionX, positionY);
         }
 

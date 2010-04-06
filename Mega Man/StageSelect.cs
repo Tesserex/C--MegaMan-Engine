@@ -162,37 +162,24 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(e.Layers.Background))
-            {
-                g.DrawImage(backgroundStageSelect, 0, 0);
-            }
             e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
-            using (Graphics g = Graphics.FromImage(e.Layers.Sprites[0]))
-            {
-                using (SolidBrush b = new SolidBrush(System.Drawing.Color.Black))
-                {
-                    BossInfo boss;
-                    for (int i = 0; i < 8; i++)
-                    {
-                        boss = bosses[i];
-                        if (selectedIndex == i)
-                        {
-                            bossFrameOn.Draw(g, boss.location.X, boss.location.Y);
-                            bossFrameOn.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
-                        }
-                        else
-                        {
-                            bossFrameOff.Draw(g, boss.location.X, boss.location.Y);
-                            bossFrameOff.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
-                        }
 
-                        if (boss.alive && boss.portrait != null)
-                        {
-                            g.DrawImage(boss.portrait, boss.location.X + 7, boss.location.Y + 7);
-                            e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), e.OpacityColor);
-                        }
-                        else g.FillRectangle(b, boss.location.X + 7, boss.location.Y + 7, 34, 34);
-                    }
+            BossInfo boss;
+            for (int i = 0; i < 8; i++)
+            {
+                boss = bosses[i];
+                if (selectedIndex == i)
+                {
+                    bossFrameOn.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
+                }
+                else
+                {
+                    bossFrameOff.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
+                }
+
+                if (boss.alive && boss.portrait != null)
+                {
+                    e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), e.OpacityColor);
                 }
             }
         }

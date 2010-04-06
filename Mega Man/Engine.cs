@@ -12,26 +12,12 @@ namespace Mega_Man
 {
     public class GameGraphicsLayers
     {
-        public Image Background { get; private set; }
-        public Image[] Sprites { get; private set; }
-        public Image Foreground { get; private set; }
-
         public SpriteBatch BackgroundBatch { get; private set; }
         public SpriteBatch[] SpritesBatch { get; private set; }
         public SpriteBatch ForegroundBatch { get; private set; }
 
         public GameGraphicsLayers(int across, int down, GraphicsDevice device)
         {
-            Bitmap backimage = new Bitmap(across, down);
-            backimage.SetResolution(Const.Resolution, Const.Resolution);
-            Background = backimage;
-
-            Rectangle rect = new Rectangle(0, 0, across, down);
-            Foreground = backimage.Clone(rect, System.Drawing.Imaging.PixelFormat.DontCare);
-
-            Sprites = new Image[4];
-            for (int i = 0; i < 4; i++) Sprites[i] = backimage.Clone(rect, System.Drawing.Imaging.PixelFormat.DontCare);
-
             BackgroundBatch = new SpriteBatch(device);
             ForegroundBatch = new SpriteBatch(device);
             SpritesBatch = new SpriteBatch[4];
@@ -307,14 +293,6 @@ namespace Mega_Man
             if (GameCleanup != null) GameCleanup();
 
             // render phase
-            using (Graphics g = Graphics.FromImage(graphics.Background)) g.Clear(System.Drawing.Color.Transparent);
-
-            for (int i = 0; i < graphics.Sprites.Length; i++)
-            {
-                using (Graphics g = Graphics.FromImage(graphics.Sprites[i])) g.Clear(System.Drawing.Color.Transparent);
-            }
-            using (Graphics g = Graphics.FromImage(graphics.Foreground)) g.Clear(System.Drawing.Color.Transparent);
-
             GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
             r.Opacity = opacity;
             r.OpacityColor = opacityColor;

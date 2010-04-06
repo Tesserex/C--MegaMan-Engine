@@ -141,25 +141,9 @@ namespace Mega_Man
 
         private void Instance_GameRender(GameRenderEventArgs e)
         {
-            if (sprite.Layer < e.Layers.Sprites.Length)
-            {
-                using (Graphics g = Graphics.FromImage(e.Layers.Sprites[sprite.Layer])) Draw(g);
-            }
             if (sprite.Layer < e.Layers.SpritesBatch.Length)
             {
                 Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer], e.OpacityColor);
-            }
-        }
-
-        private void Draw(Graphics g)
-        {
-            if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
-            float off_x = Parent.Screen.OffsetX;
-            float off_y = Parent.Screen.OffsetY;
-            if (sprite != null && Visible)
-            {
-                sprite.VerticalFlip = Parent.GravityFlip? Game.CurrentGame.GravityFlip : this.verticalFlip;
-                sprite.Draw(g, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }
 

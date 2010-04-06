@@ -12,7 +12,7 @@ namespace Mega_Man
         private int playerDeadCount;
 
         private Action updateFunc;
-        private Action<GameGraphicsLayers, SpriteBatch> drawFunc;
+        private Action<SpriteBatch> drawFunc;
 
         private string startScreen;
         private int startX, startY;
@@ -68,10 +68,6 @@ namespace Mega_Man
         {
             if (readyBlinkTime >= 0)
             {
-                using (Graphics g = Graphics.FromImage(e.Layers.Foreground))
-                {
-                    g.DrawImage(readyImage, (Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24);
-                }
                 e.Layers.ForegroundBatch.Draw(readyTexture, new Microsoft.Xna.Framework.Vector2((Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24), e.OpacityColor);
             }
             readyBlinkTime++;
@@ -100,12 +96,8 @@ namespace Mega_Man
             Player.SendMessage(msg);
         }
 
-        private void Draw(GameGraphicsLayers layers, SpriteBatch batch)
+        private void Draw(SpriteBatch batch)
         {
-            using (Graphics g = Graphics.FromImage(layers.Background))
-            {
-                CurrentScreen.Draw(g);
-            }
             CurrentScreen.Draw(batch);
         }
 
@@ -163,12 +155,7 @@ namespace Mega_Man
             updateFunc = () => join.Update(PlayerPos);
             join.ScrollDone += ScrollDone;
 
-            drawFunc = (l, b) => {
-                using (Graphics g = Graphics.FromImage(l.Background))
-                {
-                    join.Draw(g, b);
-                }
-            };
+            drawFunc = (b) => { join.Draw(b); };
 
             StopScreen();
         }
@@ -317,7 +304,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (drawFunc != null) drawFunc(e.Layers, e.Layers.BackgroundBatch);
+            if (drawFunc != null) drawFunc(e.Layers.BackgroundBatch);
         }
 
         #endregion

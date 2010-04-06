@@ -76,13 +76,10 @@ namespace Mega_Man
         void Instance_GameRender(GameRenderEventArgs e)
         {
             if (!Engine.Instance.DrawHitboxes) return;
-            using (Graphics g = Graphics.FromImage(e.Layers.Sprites[3]))
+            foreach (HitBox hitbox in hitboxes)
             {
-                foreach (HitBox hitbox in hitboxes)
-                {
-                    System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
-                    g.FillRectangle(brush, boundBox.X - Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, boundBox.Y - Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY, boundBox.Width, boundBox.Height);
-                }
+                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
+                // unknown how to draw it in XNA
             }
         }
 
