@@ -49,20 +49,20 @@ namespace Mega_Man
         [STAThread]
         static void Main()
         {
-            //try
-            //{
+            try
+            {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
-            //}
-            //catch (System.IO.FileNotFoundException e)
-            //{
-             //   MessageBox.Show("I'm sorry, I couldn't find a file you were looking for. Perhaps the file path is incorrect?\n\n" + e.Message + "\n\nI need to close now. Sorry I don't have any more information.", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                MessageBox.Show("I'm sorry, I couldn't find a file you were looking for. Perhaps the file path is incorrect?\n\n" + e.Message + "\n\nI need to close now. Sorry I don't have any more information.", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
