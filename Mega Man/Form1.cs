@@ -146,13 +146,13 @@ namespace Mega_Man
             int tempwidth = this.Width;
             // now un-autosize to re-enable resizing
             this.AutoSize = false;
-            this.AutoSizeMode = AutoSizeMode.GrowOnly;
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // reset the form size
             tempheight += debugBar.Height;
             this.Height = tempheight;
             this.Width = tempwidth;
             // redock the image
-            this.xnaImage.Dock = DockStyle.Left;
+            this.xnaImage.Dock = DockStyle.Fill;
         }
 
         void Instance_GameLogicTick(GameTickEventArgs e)

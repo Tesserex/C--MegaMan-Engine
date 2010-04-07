@@ -18,6 +18,8 @@ namespace Mega_Man
             Engine.Instance.GameRenderEnd += new GameRenderEventHandler(Instance_GameRenderEnd);
             Engine.Instance.GameRenderBegin += new GameRenderEventHandler(Instance_GameRenderBegin);
             rand = new Random();
+            this.Margin = new System.Windows.Forms.Padding(0);
+            this.Padding = new System.Windows.Forms.Padding(0);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
