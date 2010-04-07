@@ -10,9 +10,10 @@ namespace Mega_Man
     public class EngineGraphicsControl : WinFormsGraphicsDevice.GraphicsDeviceControl
     {
         Random rand;
-        Texture2D tex;
+        RenderTarget2D backing;
         SpriteBatch sprite;
-        public void Init()
+
+        protected override void Initialize()
         {
             Engine.Instance.GetDevice += new EventHandler<Engine.DeviceEventArgs>(Instance_GetDevice);
             Engine.Instance.GameRenderEnd += new GameRenderEventHandler(Instance_GameRenderEnd);
@@ -20,6 +21,15 @@ namespace Mega_Man
             rand = new Random();
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Padding = new System.Windows.Forms.Padding(0);
+
+            sprite = new SpriteBatch(GraphicsDevice);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 0, SurfaceFormat.Color);
+        }
+
+        public void SetSize()
+        {
+            if (GraphicsDevice == null) return;
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 0, SurfaceFormat.Color, RenderTargetUsage.DiscardContents);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -35,25 +45,24 @@ namespace Mega_Man
 
         void Instance_GameRenderBegin(GameRenderEventArgs e)
         {
-            string beginDrawError = BeginDraw();
+            BeginDraw();
+            GraphicsDevice.SetRenderTarget(0, this.backing);
             GraphicsDevice.Clear(Color.Black);
         }
 
         void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
+            GraphicsDevice.SetRenderTarget(0, null);
+            sprite.Begin();
+            GraphicsDevice.Clear(Color.Black);
+            sprite.Draw(backing.GetTexture(), new Rectangle(0, 0, this.Width, this.Height), Color.White);
+            sprite.End();
             EndDraw();
         }
 
         void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)
         {
             e.Device = this.GraphicsDevice;
-            tex = Texture2D.FromFile(GraphicsDevice, "D:\\junk\\programming\\C#\\Mega Man\\Mega Man\\bin\\Debug\\Demo Project\\images\\enemies\\mm2enemysheet.png");
-            sprite = new SpriteBatch(GraphicsDevice);
-        }
-
-        protected override void Initialize()
-        {
-            
         }
 
         protected override void Draw()

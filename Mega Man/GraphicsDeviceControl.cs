@@ -47,7 +47,7 @@ namespace WinFormsGraphicsDevice
         /// </summary>
         public GraphicsDevice GraphicsDevice
         {
-            get { return graphicsDeviceService.GraphicsDevice; }
+            get { if (graphicsDeviceService == null) return null; return graphicsDeviceService.GraphicsDevice; }
         }
 
 
