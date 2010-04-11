@@ -25,7 +25,6 @@ namespace Mega_Man
 
         private int musicStageSelect;
         private int changeSound;
-        private Image backgroundStageSelect;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;
@@ -41,7 +40,7 @@ namespace Mega_Man
             XElement spriteNode = reader.Element("BossFrame").Element("Sprite");
             XAttribute tileattr = spriteNode.Attribute("tilesheet");
             bossFrameOn = MegaMan.Sprite.FromXml(spriteNode, Game.CurrentGame.BasePath);
-            bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, tileattr.Value);
+            bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, tileattr.Value));
             bossFrameOff = new MegaMan.Sprite(bossFrameOn);
 
             bossFrameOn.Play();
@@ -73,8 +72,7 @@ namespace Mega_Man
             musicStageSelect = Engine.Instance.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Music").Value));
 
             changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false);
-
-            backgroundStageSelect = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+            
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 
             foreach (XElement boss in reader.Elements("Boss"))
