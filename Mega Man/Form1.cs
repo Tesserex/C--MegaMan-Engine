@@ -19,7 +19,6 @@ namespace Mega_Man
         {
             InitializeComponent();
 
-            // look for config file
             try
             {
                 LoadConfig();
@@ -37,7 +36,7 @@ namespace Mega_Man
 
         protected override void OnClosed(EventArgs e)
         {
-            // write settings
+            // write settings to file
             System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(settingsPath, null);
             writer.Indentation = 1;
             writer.IndentChar = '\t';
@@ -176,6 +175,8 @@ namespace Mega_Man
                 }
                 catch (EntityXmlException ex)
                 {
+                    // this builds a dialog message to tell the user where the error is in the XML file
+
                     StringBuilder message = new StringBuilder("There is a syntax error in one of your game files.\n\n");
                     if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
                     if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');

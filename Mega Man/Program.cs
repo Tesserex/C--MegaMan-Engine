@@ -57,7 +57,7 @@ namespace Mega_Man
             }
             catch (System.IO.FileNotFoundException e)
             {
-                MessageBox.Show("I'm sorry, I couldn't find a file you were looking for. Perhaps the file path is incorrect?\n\n" + e.Message + "\n\nI need to close now. Sorry I don't have any more information.", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("I'm sorry, I couldn't find a file you were looking for. Perhaps the file path is incorrect?\n\n" + e.FileName + "\n" + e.Message + "\n\nI need to close now. Sorry I don't have any more information.\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {

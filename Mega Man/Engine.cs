@@ -10,6 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
+    /// <summary>
+    /// The graphics layers are a set of XNA sprite batches, used as
+    /// surfaces so that things can be drawn in a layered order.
+    /// </summary>
     public class GameGraphicsLayers
     {
         public SpriteBatch BackgroundBatch { get; private set; }
@@ -51,7 +55,6 @@ namespace Mega_Man
     public class GameRenderEventArgs : EventArgs
     {
         public GameGraphicsLayers Layers { get; private set; }
-        public float Opacity { get; set; }
         public GraphicsDevice Device { get; private set; }
         public Microsoft.Xna.Framework.Graphics.Color OpacityColor;
 
@@ -294,7 +297,6 @@ namespace Mega_Man
 
             // render phase
             GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
-            r.Opacity = opacity;
             r.OpacityColor = opacityColor;
 
             this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Graphics.Color.Green);
