@@ -13,6 +13,7 @@ namespace Mega_Man
         private Dictionary<string, int> keys = new Dictionary<string, int>();   // used for storing file path to handles
         private List<Sound> sounds = new List<Sound>();
         private List<Music> musics = new List<Music>();
+        private List<int> playCount = new List<int>();
         private List<Channel> channels = new List<Channel>();
         private System.Windows.Forms.Timer updateTimer;
 
@@ -71,6 +72,7 @@ namespace Mega_Man
             soundSystem.createSound(path, MODE.SOFTWARE | (loop? MODE.LOOP_NORMAL : MODE.LOOP_OFF), ref sound);
             sounds.Add(sound);
             channels.Add(new Channel());
+            playCount.Add(0);
             int index = sounds.IndexOf(sound);
             keys[path] = index;
             return index;
@@ -84,7 +86,8 @@ namespace Mega_Man
         public void PlayEffect(int soundHandle)
         {
             Channel c = channels[soundHandle];
-            FMOD.RESULT result = soundSystem.playSound(CHANNELINDEX.FREE, sounds[soundHandle], false, ref c);
+            FMOD.RESULT result = soundSystem.playSound(CHANNELINDEX.REUSE, sounds[soundHandle], false, ref c);
+            playCount[soundHandle]++;
         }
 
         public void StopMusic(int soundHandle)
@@ -94,8 +97,13 @@ namespace Mega_Man
 
         public void StopEffect(int soundHandle)
         {
+            if (playCount[soundHandle] == 0) return;
             Channel c = channels[soundHandle];
-            FMOD.RESULT result = c.stop();
+            playCount[soundHandle]--;
+            if (playCount[soundHandle] == 0)
+            {
+                FMOD.RESULT result = c.stop();
+            }
         }
 
         public void SetVolume(int soundHandle, float volume)
@@ -109,8 +117,7 @@ namespace Mega_Man
             sounds[soundHandle].getMode(ref mode);
             if ((mode & MODE.LOOP_NORMAL) == MODE.LOOP_NORMAL)
             {
-                Channel c = channels[soundHandle];
-                c.stop();
+                StopEffect(soundHandle);
             }
         }
     }
