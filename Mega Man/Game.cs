@@ -63,13 +63,13 @@ namespace Mega_Man
 
         public void Unload()
         {
+            Engine.Instance.Stop();
             StopHandlers();
             GameEntity.UnloadAll();
             select = null;
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
             CurrentGame = null;
-            Engine.Instance.Stop();
         }
 
         public void Reset()
