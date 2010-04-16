@@ -357,18 +357,13 @@ namespace Mega_Man
 
         private bool BlockByIntersection(RectangleF myBox, RectangleF targetBox, bool uponly, bool downonly)
         {
-            // account for floating point inaccuracies
-            Rectangle myIntBox = new Rectangle((int)Math.Round(myBox.X), (int)Math.Round(myBox.Y), (int)Math.Round(myBox.Width), (int)Math.Round(myBox.Height));
-            Rectangle tgtIntBox = new Rectangle((int)Math.Round(targetBox.X), (int)Math.Round(targetBox.Y), (int)Math.Round(targetBox.Width), (int)Math.Round(targetBox.Height));
-
-            // now go
-            Rectangle intersection = Rectangle.Intersect(myIntBox, tgtIntBox);
+            RectangleF intersection = RectangleF.Intersect(myBox, targetBox);
             bool ret = false;
 
             if (intersection.Height > Const.PixelEpsilon)
             {
-                if (intersection.Left == myIntBox.Left && !downonly && !uponly) BlockLeft = true;
-                if (intersection.Right == myIntBox.Right && !downonly && !uponly) BlockRight = true;
+                if (intersection.Left == myBox.Left && !downonly && !uponly) BlockLeft = true;
+                if (intersection.Right == myBox.Right && !downonly && !uponly) BlockRight = true;
                 if (BlockRight)
                 {
                     blockRightMin = Math.Min(blockRightMin, intersection.Top);
@@ -381,10 +376,10 @@ namespace Mega_Man
                 }
                 ret = true;
             }
-            if (intersection.Width > 0)
+            if (intersection.Width > Const.PixelEpsilon)
             {
-                if (intersection.Top == myIntBox.Top && !downonly) BlockTop = (uponly && MovementSrc != null)? (MovementSrc.VelocityY*-1 > intersection.Height) : true;
-                if (intersection.Bottom == myIntBox.Bottom && !uponly) BlockBottom = (downonly && MovementSrc != null)? (MovementSrc.VelocityY > intersection.Height) : true;
+                if (intersection.Top == myBox.Top && !downonly) BlockTop = (uponly && MovementSrc != null) ? (MovementSrc.VelocityY * -1 > intersection.Height) : true;
+                if (intersection.Bottom == myBox.Bottom && !uponly) BlockBottom = (downonly && MovementSrc != null) ? (MovementSrc.VelocityY > intersection.Height) : true;
                 if (BlockBottom)
                 {
                     blockBottomMin = Math.Min(blockBottomMin, intersection.Left);
