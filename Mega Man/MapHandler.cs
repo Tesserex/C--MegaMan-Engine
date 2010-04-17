@@ -220,6 +220,8 @@ namespace Mega_Man
 
         public void StartHandler()
         {
+            Game.CurrentGame.AddGameHandler(this);
+
             Player = GameEntity.Get("Player");
 
             Player.Stopped += Player_Death;
@@ -245,6 +247,7 @@ namespace Mega_Man
 
         public void StopHandler()
         {
+            Game.CurrentGame.RemoveGameHandler(this);
             if (CurrentScreen != null)
             {
                 CurrentScreen.Stop();
@@ -258,8 +261,7 @@ namespace Mega_Man
         {
             Engine.Instance.GameThink -= GameTick;
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
-            Game.CurrentGame.RemoveGameHandler(this);
-
+            
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
 
             if (music != null) Engine.Instance.SetVolume((int)music, 0.7f);
@@ -269,8 +271,7 @@ namespace Mega_Man
         {
             Engine.Instance.GameThink += GameTick;
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
-            Game.CurrentGame.AddGameHandler(this);
-
+            
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
 
             if (music != null) Engine.Instance.SetVolume((int)music, 1);
