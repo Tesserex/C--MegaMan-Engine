@@ -38,9 +38,21 @@ namespace Mega_Man
             if (loop != null) loop.release();
         }
 
-        public void SetVolume(float volume)
+        public float Volume
         {
-            if (channel != null) channel.setVolume(volume);
+            get
+            {
+                float vol = 0;
+                if (channel != null)
+                {
+                    channel.getVolume(ref vol);
+                }
+                return vol;
+            }
+            set
+            {
+                if (channel != null) channel.setVolume(value);
+            }
         }
 
         public void Play()
@@ -50,7 +62,7 @@ namespace Mega_Man
             {
                 CHANNELINDEX index = (channel == null) ? CHANNELINDEX.FREE : CHANNELINDEX.REUSE;
                 system.playSound(index, intro, false, ref channel);
-                channel.setVolume(0.5f);
+                channel.setVolume(1);
                 playingintro = true;
                 channel.setCallback(callback);
             }
@@ -72,7 +84,7 @@ namespace Mega_Man
             if (Playing && playingintro && type == CHANNEL_CALLBACKTYPE.END)
             {
                 system.playSound(CHANNELINDEX.REUSE, loop, false, ref channel);
-                channel.setVolume(0.5f);
+                channel.setVolume(1);
                 playingintro = false;
             }
 

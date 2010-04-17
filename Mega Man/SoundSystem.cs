@@ -108,7 +108,7 @@ namespace Mega_Man
 
         public void SetVolume(int soundHandle, float volume)
         {
-            musics[soundHandle].SetVolume(volume);
+            musics[soundHandle].Volume = volume;
         }
 
         public void StopIfLooping(int soundHandle)
