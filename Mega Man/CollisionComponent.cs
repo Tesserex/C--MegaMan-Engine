@@ -79,9 +79,9 @@ namespace Mega_Man
         void Instance_GameRender(GameRenderEventArgs e)
         {
             if (!Engine.Instance.DrawHitboxes) return;
-            foreach (HitBox hitbox in hitboxes)
+            foreach (CollisionBox hitbox in hitboxes)
             {
-                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
+                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
                 e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
             }
@@ -152,7 +152,7 @@ namespace Mega_Man
                 if (hitbox.Environment) // check collision with environment
                 {
                     PointF offset = new PointF(0, 0);
-                    RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip && Game.CurrentGame.GravityFlip);
+                    RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);
 
                     // this bounds checking prevents needlessly checking collisions way too far away
                     // it's a very effective optimization (brings busy time from ~60% down to 45%!)
@@ -178,7 +178,7 @@ namespace Mega_Man
                         }
                 }
 
-                RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip && Game.CurrentGame.GravityFlip);
+                RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position);
 
                 // now check with entity blocks
                 foreach (GameEntity entity in GameEntity.GetAll())
@@ -192,7 +192,7 @@ namespace Mega_Man
                         // if he's blocking, check for collision and maybe push me away
                         if (targetBox.Properties.Blocking)
                         {
-                            RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position, coll.Parent.GravityFlip && Game.CurrentGame.GravityFlip);
+                            RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
                             RectangleF adjustrect = rect;
                             adjustrect.X -= Const.PixelEpsilon;
                             adjustrect.Y -= Const.PixelEpsilon;
@@ -236,8 +236,8 @@ namespace Mega_Man
             // first, as an aside, if i'm still touching a blocking entity, i need to react to that
             foreach (Collision collision in blockEntities)
             {
-                RectangleF boundBox = collision.myBox.BoxAt(PositionSrc.Position, Parent.GravityFlip && Game.CurrentGame.GravityFlip);
-                RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position, collision.targetColl.Parent.GravityFlip && Game.CurrentGame.GravityFlip);
+                RectangleF boundBox = collision.myBox.BoxAt(PositionSrc.Position);
+                RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
                 if (this.BlockByIntersection(boundBox, rect, false, false))
                 {
                     collision.targetColl.Touch(collision.myBox);
@@ -253,7 +253,7 @@ namespace Mega_Man
             // so we need to inflict the effects upon ourself
             foreach (CollisionBox hitbox in this.hitboxes)
             {
-                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
+                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
 
                 if (hitbox.Environment)
                 {
@@ -282,7 +282,7 @@ namespace Mega_Man
 
                     foreach (CollisionBox targetBox in coll.TargetBoxes(hitbox.Hits))
                     {
-                        RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position, coll.Parent.GravityFlip && Game.CurrentGame.GravityFlip);
+                        RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
                         if (boundBox.IntersectsWith(rect))
                         {
                             coll.Touch(hitbox);

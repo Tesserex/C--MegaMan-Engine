@@ -55,7 +55,7 @@ namespace Mega_Man
 
         public RectangleF BoxAt(PointF offset, bool vflip)
         {
-            if (vflip) return new System.Drawing.RectangleF(offset.X - box.X - box.Width, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            if (vflip) return new System.Drawing.RectangleF(box.X + offset.X, offset.Y - box.Y - box.Height, box.Width, box.Height);
             return new System.Drawing.RectangleF(box.X + offset.X, box.Y + offset.Y, box.Width, box.Height);
         }
     }

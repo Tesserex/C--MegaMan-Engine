@@ -185,5 +185,13 @@ namespace Mega_Man
             if (resistance.ContainsKey("ALL")) return resistance["ALL"];
             return 1;
         }
+
+        public RectangleF BoxAt(PointF offset)
+        {
+            float x = (parent.MovementSrc != null && parent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+
+            if (parent.Parent.GravityFlip && Game.CurrentGame.GravityFlip) return new System.Drawing.RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new System.Drawing.RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+        }
     }
 }
