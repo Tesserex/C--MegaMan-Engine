@@ -5,11 +5,14 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Xml;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
     public class CollisionComponent : Component
     {
+        private Texture2D rectTex;
+
         private class Collision
         {
             public CollisionBox myBox;
@@ -49,8 +52,6 @@ namespace Mega_Man
         public PositionComponent PositionSrc { get; private set; }
         public MovementComponent MovementSrc { get; private set; }
 
-        private Brush brush;
-
         public override Component Clone()
         {
             CollisionComponent copy = new CollisionComponent();
@@ -69,8 +70,10 @@ namespace Mega_Man
                 this.touchedBy.Clear();
             };
             Engine.Instance.GameReact += Update;
-            brush = new SolidBrush(Color.FromArgb(128, 255, 0, 0));
             Engine.Instance.GameRender += new GameRenderEventHandler(Instance_GameRender);
+
+            rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
+            rectTex.SetData(new Microsoft.Xna.Framework.Graphics.Color[] { new Microsoft.Xna.Framework.Graphics.Color(1, 0.6f, 0, 0.7f) });
         }
 
         void Instance_GameRender(GameRenderEventArgs e)
@@ -79,7 +82,8 @@ namespace Mega_Man
             foreach (HitBox hitbox in hitboxes)
             {
                 System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
-                // unknown how to draw it in XNA
+                boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
+                e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
             }
         }
 
