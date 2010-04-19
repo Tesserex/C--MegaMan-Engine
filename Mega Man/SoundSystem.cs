@@ -86,7 +86,8 @@ namespace Mega_Man
         public void PlayEffect(int soundHandle)
         {
             Channel c = channels[soundHandle];
-            FMOD.RESULT result = soundSystem.playSound(CHANNELINDEX.REUSE, sounds[soundHandle], false, ref c);
+            c.stop();   // restart sound
+            FMOD.RESULT result = soundSystem.playSound(CHANNELINDEX.FREE, sounds[soundHandle], false, ref c);
             playCount[soundHandle]++;
         }
 
