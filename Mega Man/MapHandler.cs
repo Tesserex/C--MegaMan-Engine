@@ -140,6 +140,12 @@ namespace Mega_Man
             CurrentScreen.Start();
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
+
+            if (nextScreen.music != null)
+            {
+                if (music != null) Engine.Instance.StopMusic(music ?? 0);
+                Engine.Instance.PlayMusic(nextScreen.music ?? 0);
+            }
         }
 
         private void Update()

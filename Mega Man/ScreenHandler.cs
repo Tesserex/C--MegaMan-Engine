@@ -18,6 +18,8 @@ namespace Mega_Man
 
         private PositionComponent PlayerPos;
 
+        public int? music;
+
         public float OffsetX { get; private set; }
         public float OffsetY { get; private set; }
 
@@ -60,6 +62,10 @@ namespace Mega_Man
             }
 
             teleportEnabled = new List<bool>(screen.Teleports.Select((info) => false));
+
+            string intropath = (screen.MusicIntroPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicIntroPath) : null;
+            string looppath = (screen.MusicLoopPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicLoopPath) : null;
+            if (intropath != null || looppath != null) music = Engine.Instance.LoadMusic(intropath, looppath);
         }
 
         public JoinHandler GetJoinHandler(MegaMan.Join join)
