@@ -11,7 +11,7 @@ namespace Mega_Man
         private FMOD.System soundSystem;
 
         private Dictionary<string, int> keys = new Dictionary<string, int>();   // used for storing file path to handles
-        private List<Sound> sounds = new List<Sound>();
+        private List<SoundEffect> sounds = new List<SoundEffect>();
         private List<Music> musics = new List<Music>();
         private List<int> playCount = new List<int>();
         private List<Channel> channels = new List<Channel>();
@@ -38,7 +38,7 @@ namespace Mega_Man
         public void Unload()
         {
             foreach (Channel channel in channels) channel.stop();
-            foreach (Sound sound in sounds) sound.release();
+            foreach (SoundEffect sound in sounds) sound.Dispose();
             foreach (Music music in musics) music.Dispose();
             sounds.Clear();
             musics.Clear();
@@ -68,12 +68,11 @@ namespace Mega_Man
         public int LoadSoundEffect(string path, bool loop)
         {
             if (keys.ContainsKey(path)) return keys[path];
-            Sound sound = null;
-            soundSystem.createSound(path, MODE.SOFTWARE | (loop? MODE.LOOP_NORMAL : MODE.LOOP_OFF), ref sound);
-            sounds.Add(sound);
-            channels.Add(new Channel());
-            playCount.Add(0);
-            int index = sounds.IndexOf(sound);
+
+            SoundEffect effect = new SoundEffect(soundSystem, path, loop);
+            sounds.Add(effect);
+
+            int index = sounds.IndexOf(effect);
             keys[path] = index;
             return index;
         }
@@ -85,10 +84,7 @@ namespace Mega_Man
 
         public void PlayEffect(int soundHandle)
         {
-            Channel c = channels[soundHandle];
-            c.stop();   // restart sound
-            FMOD.RESULT result = soundSystem.playSound(CHANNELINDEX.FREE, sounds[soundHandle], false, ref c);
-            playCount[soundHandle]++;
+            sounds[soundHandle].Play();
         }
 
         public void StopMusic(int soundHandle)
@@ -98,13 +94,7 @@ namespace Mega_Man
 
         public void StopEffect(int soundHandle)
         {
-            if (playCount[soundHandle] == 0) return;
-            Channel c = channels[soundHandle];
-            playCount[soundHandle]--;
-            if (playCount[soundHandle] == 0)
-            {
-                FMOD.RESULT result = c.stop();
-            }
+            sounds[soundHandle].Stop();
         }
 
         public void SetVolume(int soundHandle, float volume)
@@ -114,12 +104,7 @@ namespace Mega_Man
 
         public void StopIfLooping(int soundHandle)
         {
-            MODE mode = MODE.DEFAULT;
-            sounds[soundHandle].getMode(ref mode);
-            if ((mode & MODE.LOOP_NORMAL) == MODE.LOOP_NORMAL)
-            {
-                StopEffect(soundHandle);
-            }
+            sounds[soundHandle].StopIfLooping();
         }
     }
 }

@@ -167,6 +167,7 @@
     <Compile Include="ScreenHandler.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="SoundComponent.cs" />
+    <Compile Include="SoundEffect.cs" />
     <Compile Include="SoundSystem.cs" />
     <Compile Include="SpriteComponent.cs" />
     <Compile Include="StageSelect.cs" />
