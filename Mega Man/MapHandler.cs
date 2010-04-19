@@ -257,7 +257,7 @@ namespace Mega_Man
             Game.CurrentGame.RemoveGameHandler(this);
             if (CurrentScreen != null)
             {
-                CurrentScreen.Stop();
+                StopScreen();
                 CurrentScreen.Clean();
             }
 
