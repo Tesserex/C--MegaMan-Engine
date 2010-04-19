@@ -19,6 +19,8 @@ namespace Mega_Man
         private int tickframes;
         private int stopvalue;
 
+        private Point tickOffset;
+
         private bool running;
 
         private float positionX;
@@ -100,6 +102,14 @@ namespace Mega_Man
                 horiz = (dirAttr.Value == "horizontal");
             }
             this.horizontal = horiz;
+
+            int x = 0; int y = 0;
+            XAttribute offXAttr = node.Attribute("tickX");
+            if (offXAttr != null) int.TryParse(offXAttr.Value, out x);
+            XAttribute offYAttr = node.Attribute("tickY");
+            if (offYAttr != null) int.TryParse(offYAttr.Value, out y);
+
+            this.tickOffset = new Point(x, y);
         }
 
         public void Reset()
@@ -131,7 +141,7 @@ namespace Mega_Man
                 {
                     for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
                     {
-                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX, y), Engine.Instance.OpacityColor);
+                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX + tickOffset.X, y + tickOffset.Y), Engine.Instance.OpacityColor);
                     }
                 }
             }
