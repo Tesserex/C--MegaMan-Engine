@@ -100,7 +100,7 @@ namespace Mega_Man
             return action;
         }
 
-        private static Effect ParsePositionBehavior(XElement prop, Axis axis)
+        public static Effect ParsePositionBehavior(XElement prop, Axis axis)
         {
             Effect action = (e) => { };
 
