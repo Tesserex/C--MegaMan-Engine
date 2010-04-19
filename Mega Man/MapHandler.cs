@@ -86,6 +86,7 @@ namespace Mega_Man
         private void Player_Death()
         {
             if (music != null) Engine.Instance.StopMusic(music ?? 0);
+            if (CurrentScreen.music != null) Engine.Instance.StopMusic(CurrentScreen.music ?? 0);
             updateFunc = DeadUpdate;
         }
 
