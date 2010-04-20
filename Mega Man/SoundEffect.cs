@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FMOD;
+using System.Xml.Linq;
 
 namespace Mega_Man
 {
@@ -15,6 +16,8 @@ namespace Mega_Man
         private int playCount;
 
         private float baseVolume, volume;
+
+        public string Name { get; set; }
 
         public SoundEffect(FMOD.System system, string path, bool loop, float baseVol)
         {

@@ -15,7 +15,7 @@ namespace Mega_Man
         private float tickSize;
         private Texture2D meterTexture;
         private Texture2D tickTexture;
-        private int sound;
+        private SoundEffect sound;
         private int tickframes;
         private int stopvalue;
 
@@ -61,7 +61,7 @@ namespace Mega_Man
             {
                 tickframes = 0;
                 this.value += this.tickSize;
-                Engine.Instance.PlaySound(sound);
+                if (sound != null) sound.Play();
             }
         }
 
@@ -78,7 +78,6 @@ namespace Mega_Man
         public HealthMeter()
         {
             this.value = this.maxvalue;
-            sound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, "sounds\\health.wav"), false, 1);
             running = false;
         }
 
@@ -110,6 +109,9 @@ namespace Mega_Man
             if (offYAttr != null) int.TryParse(offYAttr.Value, out y);
 
             this.tickOffset = new Point(x, y);
+
+            XElement soundNode = node.Element("Sound");
+            if (soundNode != null) sound = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
         }
 
         public void Reset()

@@ -92,6 +92,8 @@ namespace Mega_Man
         private Microsoft.Xna.Framework.Graphics.Color opacityColor = Microsoft.Xna.Framework.Graphics.Color.White;
         public Microsoft.Xna.Framework.Graphics.Color OpacityColor { get { return opacityColor; } }
 
+        public SoundSystem SoundSystem { get { return soundsystem; } }
+
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
 
@@ -136,50 +138,9 @@ namespace Mega_Man
             timer.Stop();
         }
 
-        public int LoadMusic(string intro, string loop)
-        {
-            if (intro == null && loop == null) throw new ArgumentNullException("LoadMusic was passed null for both arguments.");
-            return soundsystem.LoadMusic(intro, loop, 1);
-        }
-
-        public int LoadSoundEffect(string path, bool loop, float volume)
-        {
-            return soundsystem.LoadSoundEffect(path, loop, volume);
-        }
-
         public void UnloadAudio()
         {
             soundsystem.Unload();
-        }
-
-        public void PlayMusic(int soundHandle)
-        {
-            soundsystem.PlayMusic(soundHandle);
-        }
-
-        public void PlaySound(int soundHandle)
-        {
-            soundsystem.PlayEffect(soundHandle);
-        }
-
-        public void StopMusic(int soundHandle)
-        {
-            soundsystem.StopMusic(soundHandle);
-        }
-
-        public void StopSound(int soundHandle)
-        {
-            soundsystem.StopEffect(soundHandle);
-        }
-
-        public void StopSoundIfLoop(int soundHandle)
-        {
-            soundsystem.StopIfLooping(soundHandle);
-        }
-
-        public void SetVolume(int soundHandle, float volume)
-        {
-            soundsystem.SetVolume(soundHandle, volume);
         }
 
         public void FadeTransition(Action callback) { FadeTransition(callback, null); }

@@ -20,8 +20,8 @@ namespace Mega_Man
             public HealthMeter meter;
         }
 
-        private int pauseSound;
-        private int changeSound;
+        private SoundEffect pauseSound;
+        private SoundEffect changeSound;
         private Image background;
         private Texture2D backgroundTexture;
         private List<WeaponInfo> weapons;
@@ -40,8 +40,8 @@ namespace Mega_Man
         {
             weapons = new List<WeaponInfo>();
 
-            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false, 1);
-            pauseSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("PauseSound").Value), false, 1);
+            changeSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("ChangeSound"));
+            pauseSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("PauseSound"));
 
             background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
@@ -57,7 +57,7 @@ namespace Mega_Man
 
         public void Sound()
         {
-            Engine.Instance.PlaySound(pauseSound);
+            pauseSound.Play();
         }
 
         private void LoadWeapon(XElement reader)
@@ -220,7 +220,7 @@ namespace Mega_Man
 
             if (next != selectedName)
             {
-                Engine.Instance.PlaySound(changeSound);
+                changeSound.Play();
                 selectedName = next;
                 currentPos = nextPos;
             }

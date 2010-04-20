@@ -22,7 +22,7 @@ namespace Mega_Man
         private Image readyImage;
         private Texture2D readyTexture;
 
-        public int? music;
+        public Music music;
 
         public MegaMan.Map Map { get; private set; }
         public float OffsetX { get; private set; }
@@ -47,7 +47,7 @@ namespace Mega_Man
 
             string intropath = (map.MusicIntroPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, map.MusicIntroPath) : null;
             string looppath = (map.MusicLoopPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, map.MusicLoopPath) : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.LoadMusic(intropath, looppath);
+            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
             readyImage = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
             readyTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
@@ -85,8 +85,8 @@ namespace Mega_Man
 
         private void Player_Death()
         {
-            if (music != null) Engine.Instance.StopMusic(music ?? 0);
-            if (CurrentScreen.music != null) Engine.Instance.StopMusic(CurrentScreen.music ?? 0);
+            if (music != null) music.Stop();
+            if (CurrentScreen.music != null) CurrentScreen.music.Stop();
             updateFunc = DeadUpdate;
         }
 
@@ -144,8 +144,8 @@ namespace Mega_Man
 
             if (nextScreen.music != null)
             {
-                if (music != null) Engine.Instance.StopMusic(music ?? 0);
-                Engine.Instance.PlayMusic(nextScreen.music ?? 0);
+                if (music != null) music.Stop();
+                nextScreen.music.Play();
             }
         }
 
@@ -239,7 +239,7 @@ namespace Mega_Man
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
 
-            if (music != null) Engine.Instance.PlayMusic(music ?? 0);
+            if (music != null) music.Play();
 
             updateFunc = Update;
             drawFunc = Draw;
@@ -271,7 +271,7 @@ namespace Mega_Man
             
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
 
-            if (music != null) Engine.Instance.SetVolume((int)music, 0.7f);
+            if (music != null) music.Volume = 0.7f;
         }
 
         public void Unpause()
@@ -281,7 +281,7 @@ namespace Mega_Man
             
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
 
-            if (music != null) Engine.Instance.SetVolume((int)music, 1);
+            if (music != null) music.Volume = 1;
         }
 
         public void GameInputReceived(GameInputEventArgs e)

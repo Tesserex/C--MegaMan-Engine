@@ -18,7 +18,7 @@ namespace Mega_Man
 
         private PositionComponent PlayerPos;
 
-        public int? music;
+        public Music music;
 
         public float OffsetX { get; private set; }
         public float OffsetY { get; private set; }
@@ -65,7 +65,7 @@ namespace Mega_Man
 
             string intropath = (screen.MusicIntroPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicIntroPath) : null;
             string looppath = (screen.MusicLoopPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicLoopPath) : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.LoadMusic(intropath, looppath);
+            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
         }
 
         public JoinHandler GetJoinHandler(MegaMan.Join join)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FMOD;
+using System.Xml.Linq;
 
 namespace Mega_Man
 {
@@ -10,9 +11,8 @@ namespace Mega_Man
     {
         private FMOD.System soundSystem;
 
-        private Dictionary<string, int> keys = new Dictionary<string, int>();   // used for storing file path to handles
-        private List<SoundEffect> sounds = new List<SoundEffect>();
-        private List<Music> musics = new List<Music>();
+        private Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
+        private Dictionary<string, SoundEffect> loadedSounds = new Dictionary<string, SoundEffect>();
         private List<int> playCount = new List<int>();
         private List<Channel> channels = new List<Channel>();
         private System.Windows.Forms.Timer updateTimer;
@@ -30,6 +30,36 @@ namespace Mega_Man
             updateTimer.Start();
         }
 
+        public SoundEffect EffectFromXml(XElement soundNode)
+        {
+            XAttribute pathattr = soundNode.Attribute("path");
+            if (pathattr == null) throw new EntityXmlException(soundNode, "Sounds must give a path to the file!");
+
+            string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
+            if (loadedSounds.ContainsKey(path)) return loadedSounds[path];
+
+            bool loop = false;
+            XAttribute loopAttr = soundNode.Attribute("loop");
+            if (loopAttr != null)
+            {
+                if (!bool.TryParse(loopAttr.Value, out loop)) throw new EntityXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
+            }
+
+            float vol = 1;
+            XAttribute volAttr = soundNode.Attribute("volume");
+            if (volAttr != null)
+            {
+                if (!float.TryParse(volAttr.Value, out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+            }
+
+            SoundEffect sound = new SoundEffect(this.soundSystem, path, loop, vol);
+            XAttribute nameattr = soundNode.Attribute("name");
+            if (nameattr != null) sound.Name = nameattr.Value;
+
+            loadedSounds[path] = sound;
+            return sound;
+        }
+
         void updateTimer_Tick(object sender, EventArgs e)
         {
             if (soundSystem != null) soundSystem.update();
@@ -38,13 +68,11 @@ namespace Mega_Man
         public void Unload()
         {
             foreach (Channel channel in channels) channel.stop();
-            foreach (SoundEffect sound in sounds) sound.Dispose();
-            foreach (Music music in musics) music.Dispose();
-            sounds.Clear();
-            musics.Clear();
+            foreach (SoundEffect sound in loadedSounds.Values) sound.Dispose();
+            foreach (Music music in loadedMusic.Values) music.Dispose();
+            loadedSounds.Clear();
             channels.Clear();
-            keys.Clear();
-            //updateTimer.Stop();
+            loadedMusic.Clear();
         }
 
         public void Dispose()
@@ -53,58 +81,13 @@ namespace Mega_Man
             soundSystem.release();
         }
 
-        public int LoadMusic(string intro, string loop, float volume)
+        public Music LoadMusic(string intro, string loop, float volume)
         {
-            if (keys.ContainsKey(intro + loop)) return keys[intro + loop];
+            if (loadedMusic.ContainsKey(intro + loop)) return loadedMusic[intro + loop];
 
             Music music = new Music(soundSystem, intro, loop, volume);
-            musics.Add(music);
-            
-            int index = musics.IndexOf(music);
-            keys[intro + loop] = index;
-            return index;
-        }
-
-        public int LoadSoundEffect(string path, bool loop, float volume)
-        {
-            if (keys.ContainsKey(path)) return keys[path];
-
-            SoundEffect effect = new SoundEffect(soundSystem, path, loop, volume);
-            sounds.Add(effect);
-
-            int index = sounds.IndexOf(effect);
-            keys[path] = index;
-            return index;
-        }
-
-        public void PlayMusic(int soundHandle)
-        {
-            musics[soundHandle].Play();
-        }
-
-        public void PlayEffect(int soundHandle)
-        {
-            sounds[soundHandle].Play();
-        }
-
-        public void StopMusic(int soundHandle)
-        {
-            musics[soundHandle].Stop();
-        }
-
-        public void StopEffect(int soundHandle)
-        {
-            sounds[soundHandle].Stop();
-        }
-
-        public void SetVolume(int soundHandle, float volume)
-        {
-            musics[soundHandle].Volume = volume;
-        }
-
-        public void StopIfLooping(int soundHandle)
-        {
-            sounds[soundHandle].StopIfLooping();
+            loadedMusic[intro + loop] = music;
+            return music;
         }
     }
 }

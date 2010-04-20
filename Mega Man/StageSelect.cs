@@ -23,8 +23,8 @@ namespace Mega_Man
             public Point location;
         }
 
-        private int musicStageSelect;
-        private int changeSound;
+        private Music musicStageSelect;
+        private SoundEffect changeSound;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;
@@ -69,9 +69,9 @@ namespace Mega_Man
 
             selectedIndex = 0;
 
-            musicStageSelect = Engine.Instance.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Music").Value));
+            musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Music").Value), 1);
 
-            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false, 1);
+            changeSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("ChangeSound"));
             
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 
@@ -106,7 +106,7 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
-            Engine.Instance.PlayMusic(musicStageSelect);
+            musicStageSelect.Play();
             Game.CurrentGame.AddGameHandler(this);
         }
 
@@ -115,7 +115,7 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
-            Engine.Instance.StopMusic(musicStageSelect);
+            musicStageSelect.Stop();
             Game.CurrentGame.RemoveGameHandler(this);
         }
 
@@ -150,7 +150,7 @@ namespace Mega_Man
             {
                 if (MapSelected != null) MapSelected(bosses[selectedIndex].mapPath);
             }
-            if (selectedIndex != old) Engine.Instance.PlaySound(changeSound);
+            if (selectedIndex != old && changeSound != null) changeSound.Play();
         }
 
         public void GameTick(GameTickEventArgs e)
