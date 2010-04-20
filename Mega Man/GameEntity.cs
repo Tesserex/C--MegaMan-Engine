@@ -384,11 +384,16 @@ namespace Mega_Man
             return actives;
         }
 
+        public static void StopAll()
+        {
+            foreach (GameEntity entity in actives) entity.Stop(false);
+            actives.Clear();
+        }
+
         public static void UnloadAll()
         {
             // stop all the real ones in play
-            foreach (GameEntity entity in actives) entity.Stop(false);
-            actives.Clear();
+            StopAll();
 
             // now destroy the originals
             foreach (GameEntity entity in entities.Values)

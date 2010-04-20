@@ -171,6 +171,7 @@ namespace Mega_Man
         {
             if (CurrentMap == null) return;
             StopHandlers();
+            GameEntity.StopAll();
             CurrentMap.StopHandler();
             CurrentMap.StartHandler();
         }
