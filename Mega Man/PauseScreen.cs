@@ -40,8 +40,8 @@ namespace Mega_Man
         {
             weapons = new List<WeaponInfo>();
 
-            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false);
-            pauseSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("PauseSound").Value), false);
+            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false, 1);
+            pauseSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("PauseSound").Value), false, 1);
 
             background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));

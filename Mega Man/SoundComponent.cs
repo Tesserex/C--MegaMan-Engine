@@ -24,13 +24,19 @@ namespace Mega_Man
                 {
                     if (!bool.TryParse(loopAttr.Value, out loop)) throw new EntityXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
                 }
-                AddSound(nameattr.Value, System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value), loop);
+                float vol = 1;
+                XAttribute volAttr = soundNode.Attribute("volume");
+                if (volAttr != null)
+                {
+                    if (!float.TryParse(volAttr.Value, out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+                }
+                AddSound(nameattr.Value, System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value), loop, vol);
             }
         }
 
-        public void AddSound(string name, string path, bool loop)
+        public void AddSound(string name, string path, bool loop, float volume)
         {
-            int handle = Engine.Instance.LoadSoundEffect(path, loop);
+            int handle = Engine.Instance.LoadSoundEffect(path, loop, volume);
             sounds.Add(name, handle);
         }
 

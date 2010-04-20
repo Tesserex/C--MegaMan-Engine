@@ -14,13 +14,18 @@ namespace Mega_Man
         private FMOD.System system;
         private bool playingintro = false;
 
+        private float baseVolume, volume;
+
         public bool Playing { get; private set; }
 
-        public Music(FMOD.System system, string intropath, string looppath)
+        public Music(FMOD.System system, string intropath, string looppath, float baseVol)
         {
             RESULT result;
             this.system = system;
             callback = new CHANNEL_CALLBACK(SyncCallback);
+
+            baseVolume = baseVol;
+            volume = 1;
 
             result = system.createSound(looppath, MODE.LOOP_NORMAL, ref loop);
             
@@ -42,16 +47,12 @@ namespace Mega_Man
         {
             get
             {
-                float vol = 0;
-                if (channel != null)
-                {
-                    channel.getVolume(ref vol);
-                }
-                return vol;
+                return volume;
             }
             set
             {
-                if (channel != null) channel.setVolume(value);
+                volume = baseVolume * value;
+                if (channel != null) channel.setVolume(volume);
             }
         }
 
@@ -62,7 +63,7 @@ namespace Mega_Man
             {
                 CHANNELINDEX index = (channel == null) ? CHANNELINDEX.FREE : CHANNELINDEX.REUSE;
                 system.playSound(index, intro, false, ref channel);
-                channel.setVolume(1);
+                channel.setVolume(volume);
                 playingintro = true;
                 channel.setCallback(callback);
             }
@@ -84,7 +85,7 @@ namespace Mega_Man
             if (Playing && playingintro && type == CHANNEL_CALLBACKTYPE.END)
             {
                 system.playSound(CHANNELINDEX.REUSE, loop, false, ref channel);
-                channel.setVolume(1);
+                channel.setVolume(volume);
                 playingintro = false;
             }
 

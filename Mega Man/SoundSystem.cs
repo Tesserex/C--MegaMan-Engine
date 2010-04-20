@@ -53,11 +53,11 @@ namespace Mega_Man
             soundSystem.release();
         }
 
-        public int LoadMusic(string intro, string loop)
+        public int LoadMusic(string intro, string loop, float volume)
         {
             if (keys.ContainsKey(intro + loop)) return keys[intro + loop];
 
-            Music music = new Music(soundSystem, intro, loop);
+            Music music = new Music(soundSystem, intro, loop, volume);
             musics.Add(music);
             
             int index = musics.IndexOf(music);
@@ -65,11 +65,11 @@ namespace Mega_Man
             return index;
         }
 
-        public int LoadSoundEffect(string path, bool loop)
+        public int LoadSoundEffect(string path, bool loop, float volume)
         {
             if (keys.ContainsKey(path)) return keys[path];
 
-            SoundEffect effect = new SoundEffect(soundSystem, path, loop);
+            SoundEffect effect = new SoundEffect(soundSystem, path, loop, volume);
             sounds.Add(effect);
 
             int index = sounds.IndexOf(effect);

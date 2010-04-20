@@ -139,12 +139,12 @@ namespace Mega_Man
         public int LoadMusic(string intro, string loop)
         {
             if (intro == null && loop == null) throw new ArgumentNullException("LoadMusic was passed null for both arguments.");
-            return soundsystem.LoadMusic(intro, loop);
+            return soundsystem.LoadMusic(intro, loop, 1);
         }
 
-        public int LoadSoundEffect(string path, bool loop)
+        public int LoadSoundEffect(string path, bool loop, float volume)
         {
-            return soundsystem.LoadSoundEffect(path, loop);
+            return soundsystem.LoadSoundEffect(path, loop, volume);
         }
 
         public void UnloadAudio()

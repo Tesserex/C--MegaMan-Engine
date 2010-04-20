@@ -78,7 +78,7 @@ namespace Mega_Man
         public HealthMeter()
         {
             this.value = this.maxvalue;
-            sound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, "sounds\\health.wav"), false);
+            sound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, "sounds\\health.wav"), false, 1);
             running = false;
         }
 

@@ -71,7 +71,7 @@ namespace Mega_Man
 
             musicStageSelect = Engine.Instance.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Music").Value));
 
-            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false);
+            changeSound = Engine.Instance.LoadSoundEffect(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("ChangeSound").Value), false, 1);
             
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 

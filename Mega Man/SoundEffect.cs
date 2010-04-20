@@ -14,14 +14,32 @@ namespace Mega_Man
         private FMOD.System system;
         private int playCount;
 
-        public SoundEffect(FMOD.System system, string path, bool loop)
+        private float baseVolume, volume;
+
+        public SoundEffect(FMOD.System system, string path, bool loop, float baseVol)
         {
             this.system = system;
             callback = new CHANNEL_CALLBACK(SyncCallback);
 
+            baseVolume = baseVol;
+            volume = 1;
+
             system.createSound(path, MODE.SOFTWARE | (loop ? MODE.LOOP_NORMAL : MODE.LOOP_OFF), ref sound);
             channel = new Channel();
             playCount = 0;
+        }
+
+        public float Volume
+        {
+            get
+            {
+                return volume;
+            }
+            set
+            {
+                volume = baseVolume * value;
+                if (channel != null) channel.setVolume(volume);
+            }
         }
 
         public void Play()
@@ -29,6 +47,7 @@ namespace Mega_Man
             channel.setCallback(null);
             channel.stop();   // restart sound
             system.playSound(CHANNELINDEX.FREE, sound, false, ref channel);
+            channel.setVolume(volume);
             channel.setCallback(callback);
             playCount++;
         }
