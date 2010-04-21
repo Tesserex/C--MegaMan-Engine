@@ -81,6 +81,24 @@ namespace Mega_Man
             running = false;
         }
 
+        private int filldelay = 0;
+        public void DelayedFill(int frames)
+        {
+            this.Value = 0;
+            filldelay = frames;
+            Engine.Instance.GameThink += DelayFill;
+        }
+
+        void DelayFill()
+        {
+            filldelay--;
+            if (filldelay == 0)
+            {
+                Engine.Instance.GameThink -= DelayFill;
+                this.Value = this.MaxValue;
+            }
+        }
+
         public void LoadXml(XElement node)
         {
             this.positionX = float.Parse(node.Attribute("x").Value);
@@ -129,7 +147,7 @@ namespace Mega_Man
             if (this.tickTexture != null)
             {
                 int i = 0;
-                int ticks = (int)Math.Round(this.value / this.tickSize);
+                int ticks = (int)Math.Ceiling(this.value / this.tickSize);
 
                 if (this.meterTexture != null) batch.Draw(this.meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
                 if (this.horizontal)
