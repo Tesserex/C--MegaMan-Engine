@@ -42,7 +42,15 @@ namespace Mega_Man
         {
             Engine.Instance.GameThink += Update;
             Engine.Instance.GameCleanup += new Action(Instance_GameCleanup);
-            if (meter != null) meter.StartHandler();
+            if (meter != null)
+            {
+                meter.StartHandler();
+            }
+        }
+
+        public void DelayFill(int frames)
+        {
+            if (meter != null) meter.DelayedFill(frames);
         }
 
         public override void Stop()
