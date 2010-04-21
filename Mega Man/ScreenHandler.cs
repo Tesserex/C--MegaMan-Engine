@@ -86,24 +86,8 @@ namespace Mega_Man
             for (int i = 0; i < Screen.EnemyInfo.Count; i++)
             {
                 if (this.entities[i] != null) continue; // already on screen
-                
-                MegaMan.EnemyCopyInfo info = Screen.EnemyInfo[i];
 
-                GameEntity enemy = GameEntity.Get(info.enemy);
-                if (enemy == null) continue;
-                PositionComponent pos = (PositionComponent)enemy.GetComponent(typeof(PositionComponent));
-                if (!pos.PersistOffScreen && !Game.CurrentGame.CurrentMap.IsOnScreen(info.screenX, info.screenY)) continue; // what a waste of that allocation...
-
-                pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
-                if (info.state != "Start")
-                {
-                    StateMessage msg = new StateMessage(null, info.state);
-                    enemy.SendMessage(msg);
-                }
-                enemy.Start();
-                this.entities[i] = enemy;
-                int index = i;
-                enemy.Stopped += () => this.entities[index] = null;
+                PlaceEntity(i);
             }
 
             foreach (BlocksPattern pattern in this.patterns)
@@ -168,7 +152,7 @@ namespace Mega_Man
         }
 
         // because it is a thinking event, it happens every frame
-        void Instance_GameThink()
+        private void Instance_GameThink()
         {
             // place any entities that have just appeared on screen
             for (int i = 0; i < Screen.EnemyInfo.Count; i++)
@@ -181,23 +165,45 @@ namespace Mega_Man
                 }
                 if (!spawnable[i]) continue;
 
-                spawnable[i] = false;
-                MegaMan.EnemyCopyInfo info = Screen.EnemyInfo[i];
-
-                GameEntity enemy = GameEntity.Get(info.enemy);
-                if (enemy == null) continue;
-                PositionComponent pos = (PositionComponent)enemy.GetComponent(typeof(PositionComponent));
-                pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
-                if (info.state != "Start")
-                {
-                    StateMessage msg = new StateMessage(null, info.state);
-                    enemy.SendMessage(msg);
-                }
-                enemy.Start();
-                this.entities[i] = enemy;
-                int index = i;
-                enemy.Stopped += () => this.entities[index] = null;
+                PlaceEntity(i);
             }
+        }
+
+        private void PlaceEntity(int index)
+        {
+            spawnable[index] = false;
+            MegaMan.EnemyCopyInfo info = Screen.EnemyInfo[index];
+
+            GameEntity enemy = GameEntity.Get(info.enemy);
+            if (enemy == null) return;
+            PositionComponent pos = (PositionComponent)enemy.GetComponent(typeof(PositionComponent));
+            if (!pos.PersistOffScreen && !Game.CurrentGame.CurrentMap.IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
+
+            pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
+            if (info.state != "Start")
+            {
+                StateMessage msg = new StateMessage(null, info.state);
+                enemy.SendMessage(msg);
+            }
+            enemy.Start();
+            if (info.boss)
+            {
+                HealthComponent health = (HealthComponent)enemy.GetComponent(typeof(HealthComponent));
+                health.DelayFill(120);
+                bossCount = 0;
+                Engine.Instance.GameThink += BossFightTimer;
+            }
+            this.entities[index] = enemy;
+            enemy.Stopped += () => this.entities[index] = null;
+        }
+
+        private int bossCount;
+        private void BossFightTimer()
+        {
+            bossCount++;
+            if (bossCount == 20) InputComponent.Get().Paused = true;
+            else if (bossCount == 200) InputComponent.Get().Paused = false;
+            else if (bossCount > 200) Engine.Instance.GameThink -= BossFightTimer;
         }
 
         public void Stop()
