@@ -7,16 +7,42 @@ namespace Mega_Man
 {
     public class InputComponent : Component
     {
-        public bool Left { get; private set; }
-        public bool Right { get; private set; }
-        public bool Up { get; private set; }
-        public bool Down { get; private set; }
+        private Dictionary<GameInput, bool> activeKeys = new Dictionary<GameInput, bool>();
+        private Dictionary<GameInput, bool> backupKeys = new Dictionary<GameInput, bool>();
+
+        public bool Left { get { return KeyVal(GameInput.Left); } }
+        public bool Right { get { return KeyVal(GameInput.Right); } }
+        public bool Up { get { return KeyVal(GameInput.Up); } }
+        public bool Down { get { return KeyVal(GameInput.Down); } }
         public bool Shoot { get; private set; }
-        public bool ShootHeld { get; private set; }
+        public bool ShootHeld { get { return KeyVal(GameInput.Shoot); } }
         public bool Jump { get; private set; }
-        public bool JumpHeld { get; private set; }
+        public bool JumpHeld { get { return KeyVal(GameInput.Jump); } }
         public bool StartKey { get; private set; }
         public bool Select { get; private set; }
+
+        private bool paused;
+        public bool Paused
+        {
+            get { return paused; }
+            set
+            {
+                paused = value;
+                if (value)
+                {
+                    backupKeys.Clear();
+                    foreach (KeyValuePair<GameInput, bool> pair in activeKeys) backupKeys[pair.Key] = pair.Value;
+                    activeKeys[GameInput.Left] = activeKeys[GameInput.Right] = activeKeys[GameInput.Up] = activeKeys[GameInput.Down] = false;
+                }
+                else // move backup to active
+                {
+                    activeKeys.Clear();
+                    foreach (KeyValuePair<GameInput, bool> pair in backupKeys) activeKeys[pair.Key] = pair.Value;
+                }
+            }
+        }
+
+        private bool KeyVal(GameInput key) { return activeKeys.ContainsKey(key)? activeKeys[key] : false; }
 
         private static InputComponent instance;
         public static InputComponent Get()
@@ -61,39 +87,30 @@ namespace Mega_Man
 
         private void Instance_GameInputReceived(GameInputEventArgs e)
         {
-            switch (e.Input)
+            var dict = Paused ? backupKeys : activeKeys;
+
+            dict[e.Input] = e.Pressed;
+
+            if (!Paused)
             {
-                case GameInput.Up:
-                    Up = e.Pressed;
-                    break;
+                switch (e.Input)
+                {
+                    case GameInput.Shoot:
+                        Shoot = e.Pressed;
+                        break;
 
-                case GameInput.Down:
-                    Down = e.Pressed;
-                    break;
+                    case GameInput.Jump:
+                        Jump = e.Pressed;
+                        break;
 
-                case GameInput.Left:
-                    Left = e.Pressed;
-                    break;
+                    case GameInput.Start:
+                        StartKey = e.Pressed;
+                        break;
 
-                case GameInput.Right:
-                    Right = e.Pressed;
-                    break;
-
-                case GameInput.Shoot:
-                    Shoot = ShootHeld = e.Pressed;
-                    break;
-
-                case GameInput.Jump:
-                    Jump = JumpHeld = e.Pressed;
-                    break;
-
-                case GameInput.Start:
-                    StartKey = e.Pressed;
-                    break;
-
-                case GameInput.Select:
-                    Select = e.Pressed;
-                    break;
+                    case GameInput.Select:
+                        Select = e.Pressed;
+                        break;
+                }
             }
         }
     }
