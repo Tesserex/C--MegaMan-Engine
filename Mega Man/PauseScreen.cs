@@ -118,8 +118,6 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
             Game.CurrentGame.RemoveGameHandler(this);
-
-            playerWeapons.SetWeapon(selectedName);
         }
 
         public void GameInputReceived(GameInputEventArgs e)
@@ -223,6 +221,7 @@ namespace Mega_Man
                 changeSound.Play();
                 selectedName = next;
                 currentPos = nextPos;
+                playerWeapons.SetWeapon(selectedName);
             }
         }
 
