@@ -148,6 +148,8 @@ namespace Mega_Man
             {
                 int i = 0;
                 int ticks = (int)Math.Ceiling(this.value / this.tickSize);
+                // prevent float errors
+                if (ticks > 28) ticks = 28;
 
                 if (this.meterTexture != null) batch.Draw(this.meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
                 if (this.horizontal)
