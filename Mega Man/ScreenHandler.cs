@@ -192,6 +192,7 @@ namespace Mega_Man
                 health.DelayFill(120);
                 bossCount = 0;
                 Engine.Instance.GameThink += BossFightTimer;
+                enemy.Stopped += () => { if (music != null) music.FadeOut(30); };
             }
             this.entities[index] = enemy;
             enemy.Stopped += () => this.entities[index] = null;
