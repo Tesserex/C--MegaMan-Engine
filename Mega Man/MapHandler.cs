@@ -109,7 +109,7 @@ namespace Mega_Man
             if (playerDeadCount >= Const.MapDeadFrames)
             {
                 playerDeadCount = 0;
-                Engine.Instance.FadeTransition(End);
+                Engine.Instance.FadeTransition(Game.CurrentGame.ResetMap);
             }
         }
 
@@ -260,9 +260,12 @@ namespace Mega_Man
         {
             Game.CurrentGame.RemoveGameHandler(this);
 
-            Player.Stopped -= Player_Death;
-            Player.Stop();
-            Player = null;
+            if (Player != null)
+            {
+                Player.Stopped -= Player_Death;
+                Player.Stop();
+                Player = null;
+            }
 
             if (CurrentScreen != null)
             {
