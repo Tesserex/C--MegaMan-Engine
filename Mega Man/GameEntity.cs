@@ -14,6 +14,8 @@ namespace Mega_Man
         public ScreenHandler Screen { get; set; }
         public GameEntity Parent { get; private set; }
 
+        private bool running;
+
         private int maxAlive = 50;
         private int numAlive;
         public bool GravityFlip { get; private set; }   // whether to react to gravity flipping (collision and sprite)
@@ -58,16 +60,20 @@ namespace Mega_Man
             Screen = Game.CurrentGame.CurrentMap.CurrentScreen;
             foreach (Component c in components.Values) c.Start();
             RegisterEntity(this);
+            running = true;
         }
 
         public void Stop() { Stop(true); }
 
         private void Stop(bool remove)
         {
+            if (!running) return;
+
             entities[this.Name].numAlive--;
             foreach (Component c in components.Values) c.Stop();
             if (Stopped != null) Stopped();
             if (remove) RemoveEntity(this);
+            running = false;
         }
 
         public void Die()
