@@ -85,8 +85,8 @@ namespace Mega_Man
 
         private void Player_Death()
         {
-            if (music != null) music.Stop();
-            if (CurrentScreen.music != null) CurrentScreen.music.Stop();
+            if (music != null) music.FadeOut(60);
+            if (CurrentScreen.music != null) CurrentScreen.music.FadeOut(60);
             updateFunc = DeadUpdate;
         }
 

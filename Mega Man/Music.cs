@@ -63,7 +63,7 @@ namespace Mega_Man
             {
                 CHANNELINDEX index = (channel == null) ? CHANNELINDEX.FREE : CHANNELINDEX.REUSE;
                 system.playSound(index, intro, false, ref channel);
-                channel.setVolume(volume);
+                Volume = 1;
                 playingintro = true;
                 channel.setCallback(callback);
             }
@@ -78,6 +78,20 @@ namespace Mega_Man
             Playing = false;
             channel.stop();
             channel.setPosition(0, TIMEUNIT.MS);
+        }
+
+        public void FadeOut(int frames)
+        {
+            if (!Playing) return;
+
+            float fadeamt = 1.0f / frames;
+            GameTickEventHandler fade = (e) => {
+                Volume -= fadeamt;
+            };
+            fade += (e) => {
+                if (Volume <= 0) { Stop(); Engine.Instance.GameLogicTick -= fade; }
+            };
+            Engine.Instance.GameLogicTick += fade;
         }
 
         private FMOD.RESULT SyncCallback(IntPtr c, CHANNEL_CALLBACKTYPE type, IntPtr a, IntPtr b)
