@@ -185,7 +185,11 @@ namespace Mega_Man
         public void UnPause()
         {
             CurrentMap.Unpause();
-            if (pauseScreen != null) pauseScreen.StopHandler();
+            if (pauseScreen != null)
+            {
+                pauseScreen.ApplyWeapon();
+                pauseScreen.StopHandler();
+            }
         }
 
         public void ResetMap()
