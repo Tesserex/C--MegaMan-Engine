@@ -44,6 +44,8 @@ namespace Mega_Man
 
         private Font font;
 
+        public event Action CleanOrphanedHandlers;
+
         public static void Load(string path)
         {
             Engine.Instance.Start();
@@ -124,19 +126,31 @@ namespace Mega_Man
             }
             currentPath = path;
 
-            currentHandler = select;
-            select.MapSelected += new Action<string>(select_MapSelected);
-
-            currentHandler.StartHandler();
+            StageSelect();
         }
 
         private void select_MapSelected(string path)
         {
+            select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
             CurrentMap = new MapHandler(new MegaMan.Map(path));
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
-            CurrentMap.Paused += new Action(CurrentMap_Paused);
+            CurrentMap.Paused += CurrentMap_Paused;
+            CurrentMap.End += CurrentMap_End;
+        }
+
+        void CurrentMap_End()
+        {
+            CurrentMap.StopHandler();
+
+            // this event is useful for heath meters that stuck around
+            if (CleanOrphanedHandlers != null) CleanOrphanedHandlers();
+
+            CurrentMap.Paused -= CurrentMap_Paused;
+            CurrentMap.End -= CurrentMap_End;
+            CurrentMap = null;
+            StageSelect();
         }
 
         void CurrentMap_Paused()
@@ -144,6 +158,13 @@ namespace Mega_Man
             Game.CurrentGame.Pause();
             if (pauseScreen != null) pauseScreen.Sound();
             Engine.Instance.FadeTransition(PauseScreen);
+        }
+
+        private void StageSelect()
+        {
+            currentHandler = select;
+            select.MapSelected += select_MapSelected;
+            select.StartHandler();
         }
 
         private void PauseScreen()

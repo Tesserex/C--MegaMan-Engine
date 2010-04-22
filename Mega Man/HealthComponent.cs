@@ -57,7 +57,13 @@ namespace Mega_Man
         {
             Engine.Instance.GameThink -= Update;
             Engine.Instance.GameCleanup -= new Action(Instance_GameCleanup);
-            if (meter != null) meter.Value = 0;
+            if (meter != null)
+            {
+                meter.Value = 0;
+                // by not calling stophandler on the meter, it is being orphaned
+                // so we should give it another way to be cleaned up
+                Game.CurrentGame.CleanOrphanedHandlers += () => meter.StopHandler();
+            }
         }
 
         public override void Message(IGameMessage msg)

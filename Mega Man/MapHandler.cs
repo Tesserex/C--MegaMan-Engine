@@ -37,6 +37,7 @@ namespace Mega_Man
         public PositionComponent PlayerPos;
 
         public event Action Paused;
+        public event Action End;
 
         public MapHandler(MegaMan.Map map)
         {
@@ -108,7 +109,7 @@ namespace Mega_Man
             if (playerDeadCount >= Const.MapDeadFrames)
             {
                 playerDeadCount = 0;
-                Engine.Instance.FadeTransition(new Action(Game.CurrentGame.ResetMap));
+                Engine.Instance.FadeTransition(End);
             }
         }
 
@@ -138,9 +139,7 @@ namespace Mega_Man
             CurrentScreen = nextScreen;
             Player.Screen = CurrentScreen;
             oldscreen.Clean();
-            CurrentScreen.Start();
-            CurrentScreen.JoinTriggered += OnScrollTriggered;
-            CurrentScreen.Teleport += OnTeleport;
+            StartScreen();
 
             if (nextScreen.music != null)
             {
@@ -165,6 +164,13 @@ namespace Mega_Man
             drawFunc = (b) => { join.Draw(b); };
 
             StopScreen();
+        }
+
+        private void StartScreen()
+        {
+            CurrentScreen.JoinTriggered += OnScrollTriggered;
+            CurrentScreen.Teleport += OnTeleport;
+            CurrentScreen.Start();
         }
 
         private void StopScreen()
@@ -235,9 +241,7 @@ namespace Mega_Man
             PlayerPos = (PositionComponent)Player.GetComponent(typeof(PositionComponent));
 
             CurrentScreen = new ScreenHandler(Map.Screens[this.startScreen], PlayerPos, Map.Joins);
-            CurrentScreen.Start();
-            CurrentScreen.JoinTriggered += OnScrollTriggered;
-            CurrentScreen.Teleport += OnTeleport;
+            StartScreen();
 
             if (music != null) music.Play();
 
@@ -255,11 +259,18 @@ namespace Mega_Man
         public void StopHandler()
         {
             Game.CurrentGame.RemoveGameHandler(this);
+
+            Player.Stopped -= Player_Death;
+            Player.Stop();
+            Player = null;
+
             if (CurrentScreen != null)
             {
                 StopScreen();
                 CurrentScreen.Clean();
             }
+
+            if (music != null) music.Stop();
 
             Pause();
         }
