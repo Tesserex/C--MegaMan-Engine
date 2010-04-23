@@ -114,6 +114,14 @@ namespace Mega_Man
         private Dictionary<Keys, bool> inputFlags = new Dictionary<Keys, bool>();
 
         private GameGraphicsLayers graphics;
+
+        public bool Background { get; set; }
+        public bool SpritesOne { get; set; }
+        public bool SpritesTwo { get; set; }
+        public bool SpritesThree { get; set; }
+        public bool SpritesFour { get; set; }
+        public bool Foreground { get; set; }
+
         private SoundSystem soundsystem = new SoundSystem();
 
         // Opacity stuff is used for fade transitions.
@@ -284,6 +292,8 @@ namespace Mega_Man
             Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
 
             timer = new Stopwatch();
+
+            Foreground = Background = SpritesOne = SpritesTwo = SpritesThree = SpritesFour = true;
         }
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
@@ -364,12 +374,27 @@ namespace Mega_Man
             r.Layers.BackgroundBatch.Begin();
             foreach (SpriteBatch batch in r.Layers.SpritesBatch) batch.Begin();
             r.Layers.ForegroundBatch.Begin();
+
             if (GameRender != null) GameRender(r);
-            r.Layers.BackgroundBatch.End();
-            foreach (SpriteBatch batch in r.Layers.SpritesBatch) batch.End();
-            r.Layers.ForegroundBatch.End();
+
+            // only draw the layers if they're enabled
+            if (Background) r.Layers.BackgroundBatch.End();
+            if (SpritesOne) r.Layers.SpritesBatch[0].End();
+            if (SpritesTwo) r.Layers.SpritesBatch[1].End();
+            if (SpritesThree) r.Layers.SpritesBatch[2].End();
+            if (SpritesFour) r.Layers.SpritesBatch[3].End();
+            if (Foreground) r.Layers.ForegroundBatch.End();
 
             if (GameRenderEnd != null) GameRenderEnd(r);
+
+            // now after rendering, if the layers are disabled,
+            // just dump them in a ditch somewhere
+            if (!Background) r.Layers.BackgroundBatch.End();
+            if (!SpritesOne) r.Layers.SpritesBatch[0].End();
+            if (!SpritesTwo) r.Layers.SpritesBatch[1].End();
+            if (!SpritesThree) r.Layers.SpritesBatch[2].End();
+            if (!SpritesFour) r.Layers.SpritesBatch[3].End();
+            if (!Foreground) r.Layers.ForegroundBatch.End();
             
             return false;
         }

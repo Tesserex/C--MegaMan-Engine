@@ -233,5 +233,41 @@ namespace Mega_Man
             Keyboard keyform = new Keyboard();
             keyform.Show();
         }
+
+        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.SpritesFour = !Engine.Instance.SpritesFour;
+            spries4ToolStripMenuItem.Checked = Engine.Instance.SpritesFour;
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.Background = !Engine.Instance.Background;
+            backgroundToolStripMenuItem.Checked = Engine.Instance.Background;
+        }
+
+        private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.SpritesOne = !Engine.Instance.SpritesOne;
+            sprites1ToolStripMenuItem.Checked = Engine.Instance.SpritesOne;
+        }
+
+        private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.SpritesTwo = !Engine.Instance.SpritesTwo;
+            sprites2ToolStripMenuItem.Checked = Engine.Instance.SpritesTwo;
+        }
+
+        private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.SpritesThree = !Engine.Instance.SpritesThree;
+            sprites3ToolStripMenuItem.Checked = Engine.Instance.SpritesThree;
+        }
+
+        private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.Foreground = !Engine.Instance.Foreground;
+            foregroundToolStripMenuItem.Checked = Engine.Instance.Foreground;
+        }
     }
 }
