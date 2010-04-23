@@ -9,6 +9,9 @@ using System.Xml.Linq;
 
 namespace Mega_Man
 {
+    // These args, and the event, are used to forcibly resize
+    // the window and screen when the game is loaded, since
+    // the game can specify its size in pixels.
     public class ScreenSizeChangedEventArgs : EventArgs
     {
         public int PixelsAcross { get; private set; }
