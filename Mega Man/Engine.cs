@@ -228,6 +228,27 @@ namespace Mega_Man
         }
 
         /// <summary>
+        /// Calls a function after a given number of frames.
+        /// </summary>
+        /// <param name="callback">The callback function to call.</param>
+        /// <param name="progress">A function called each frame to report the progress of the delay.</param>
+        /// <param name="delay">The number of frames to wait before calling.</param>
+        public void DelayedCall(Action callback, Action<int> progress, int delay)
+        {
+            int count = 0;
+            GameTickEventHandler handler = (e) => { count++; if (progress != null) progress(count); };
+            handler += (e) =>
+            {
+                if (delay == count)
+                {
+                    if (callback != null) callback();
+                    GameLogicTick -= handler;
+                }
+            };
+            GameLogicTick += handler;
+        }
+
+        /// <summary>
         /// Fades the screen to black, calls an optional callback function, and then fades back in.
         /// Only one transition can be in progress at a time. If it is called during a transition,
         /// it will not do anything.
