@@ -288,6 +288,7 @@ namespace Mega_Man
             if (music != null) music.Stop();
 
             Pause();
+            Engine.Instance.GameRender -= new GameRenderEventHandler(BlinkReady);
         }
 
         public void Pause()
