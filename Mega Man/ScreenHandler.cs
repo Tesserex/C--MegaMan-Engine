@@ -190,21 +190,20 @@ namespace Mega_Man
             {
                 HealthComponent health = (HealthComponent)enemy.GetComponent(typeof(HealthComponent));
                 health.DelayFill(120);
-                bossCount = 0;
-                Engine.Instance.GameThink += BossFightTimer;
-                enemy.Stopped += () => { if (music != null) music.FadeOut(30); };
+                BossFightTimer();
+                enemy.Stopped += () =>
+                {
+                    if (music != null) music.FadeOut(30);
+                };
             }
             this.entities[index] = enemy;
             enemy.Stopped += () => this.entities[index] = null;
         }
 
-        private int bossCount;
         private void BossFightTimer()
         {
-            bossCount++;
-            if (bossCount == 20) InputComponent.Get().Paused = true;
-            else if (bossCount == 200) InputComponent.Get().Paused = false;
-            else if (bossCount > 200) Engine.Instance.GameThink -= BossFightTimer;
+            Engine.Instance.DelayedCall(() => { InputComponent.Get().Paused = true; }, null, 20);
+            Engine.Instance.DelayedCall(() => { InputComponent.Get().Paused = false; }, null, 200);
         }
 
         public void Stop()

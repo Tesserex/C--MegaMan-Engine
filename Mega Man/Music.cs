@@ -85,13 +85,7 @@ namespace Mega_Man
             if (!Playing) return;
 
             float fadeamt = 1.0f / frames;
-            GameTickEventHandler fade = (e) => {
-                Volume -= fadeamt;
-            };
-            fade += (e) => {
-                if (Volume <= 0) { Stop(); Engine.Instance.GameLogicTick -= fade; }
-            };
-            Engine.Instance.GameLogicTick += fade;
+            Engine.Instance.DelayedCall(Stop, (i) => { Volume -= fadeamt; }, frames);
         }
 
         private FMOD.RESULT SyncCallback(IntPtr c, CHANNEL_CALLBACKTYPE type, IntPtr a, IntPtr b)
