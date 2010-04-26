@@ -15,7 +15,8 @@ namespace Mega_Man
             foreach (XElement soundNode in xml.Elements("Sound"))
             {
                 SoundEffect effect = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
-                sounds.Add(effect.Name, effect);
+                string name = soundNode.Attribute("name").Value;
+                sounds.Add(name, effect);
             }
         }
 
