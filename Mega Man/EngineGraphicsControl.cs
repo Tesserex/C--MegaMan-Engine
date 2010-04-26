@@ -23,13 +23,13 @@ namespace Mega_Man
             this.Padding = new System.Windows.Forms.Padding(0);
 
             sprite = new SpriteBatch(GraphicsDevice);
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 0, SurfaceFormat.Color);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Color);
         }
 
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 0, SurfaceFormat.Color, RenderTargetUsage.DiscardContents);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Color, RenderTargetUsage.DiscardContents);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
