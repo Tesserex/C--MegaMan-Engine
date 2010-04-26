@@ -34,16 +34,6 @@ namespace Mega_Man
         }
     }
 
-    public class DeflectMessage : IGameMessage
-    {
-        public GameEntity Source { get; private set; }
-
-        public DeflectMessage(GameEntity source)
-        {
-            Source = source;
-        }
-    }
-
     public class HealMessage : IGameMessage
     {
         public GameEntity Source { get; private set; }
@@ -91,22 +81,6 @@ namespace Mega_Man
         {
             Source = source;
             Boxes = new List<CollisionBox>();
-        }
-    }
-
-    public class TeleportMessage : IGameMessage
-    {
-        public GameEntity Source { get; private set; }
-        public float FinalX { get; private set; }
-        public float FinalY { get; private set; }
-        public string EndState { get; private set; }
-
-        public TeleportMessage(GameEntity source, string endstate, float x, float y)
-        {
-            Source = source;
-            EndState = endstate;
-            FinalX = x;
-            FinalY = y;
         }
     }
 }

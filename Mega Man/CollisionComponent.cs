@@ -106,14 +106,6 @@ namespace Mega_Man
                 }
                 return;
             }
-
-            DeflectMessage deflect = msg as DeflectMessage;
-            if (deflect != null)
-            {
-                this.Enabled = false;
-                this.hitboxes.Clear();
-                return;
-            }
         }
 
         public void LoadXml(XElement xml)

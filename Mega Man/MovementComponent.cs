@@ -37,15 +37,12 @@ namespace Mega_Man
             }
         }
         public bool FlipSprite { get; set; }
-        public bool Teleporting { get; set; }
 
         public bool CanMove { get; set; }
         public Direction Direction { get; private set; }
 
         private PositionComponent position;
         private CollisionComponent collision;
-
-        private Action teleportAction;
 
         public MovementComponent()
         {
@@ -81,43 +78,6 @@ namespace Mega_Man
 
         public override void Message(IGameMessage msg)
         {
-            if (msg is TeleportMessage)
-            {
-                if (this.position == null) return;
-                TeleportMessage tele = msg as TeleportMessage;
-                this.position.SetPosition(new PointF(tele.FinalX, 1));
-                this.VelocityY = 8;
-
-                teleportAction = () => TeleportDown(tele.FinalY, tele.EndState);
-                Engine.Instance.GameThink += teleportAction;
-                
-                StateMessage statemsg = new StateMessage(this.Parent, "Teleport");
-                this.Parent.SendMessage(statemsg);
-                Teleporting = true;
-                return;
-            }
-
-            DeflectMessage deflect = msg as DeflectMessage;
-            if (deflect != null)
-            {
-                double velsqr = this.vx * this.vx + this.vy * this.vy;
-                float vel_leg = (float)Math.Sqrt(velsqr / 2.0);
-                this.vy = -vel_leg;
-                this.vx = (this.vx >= 0) ? -vel_leg : vel_leg;
-                return;
-            }
-        }
-
-        private void TeleportDown(float y, string endstate)
-        {
-            if (this.position.Position.Y >= y)
-            {
-                this.position.SetPosition(new PointF(this.position.Position.X, y));
-                Engine.Instance.GameThink -= teleportAction;
-                StateMessage statemsg = new StateMessage(this.Parent, endstate);
-                this.Parent.SendMessage(statemsg);
-                Teleporting = false;
-            }
         }
 
         private void Think()

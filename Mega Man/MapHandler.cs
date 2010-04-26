@@ -94,8 +94,21 @@ namespace Mega_Man
         private void BeginPlay()
         {
             Player.Start();
-            TeleportMessage msg = new TeleportMessage(null, "TeleportEnd", this.startX, this.startY);
+            StateMessage msg = new StateMessage(null, "Teleport");
+            PlayerPos.SetPosition(new PointF(this.startX, 0));
             Player.SendMessage(msg);
+            Action teleport = () => {};
+            teleport += () =>
+            {
+                if (PlayerPos.Position.Y >= this.startY)
+                {
+                    PlayerPos.SetPosition(new PointF(this.startX, this.startY));
+                    Player.SendMessage(new StateMessage(null, "TeleportEnd"));
+                    Engine.Instance.GameThink -= teleport;
+                    updateFunc = Update;
+                }
+            };
+            Engine.Instance.GameThink += teleport;
         }
 
         private void Draw(SpriteBatch batch)
@@ -150,7 +163,6 @@ namespace Mega_Man
 
         private void Update()
         {
-            if (((MovementComponent)Player.GetComponent(typeof(MovementComponent))).Teleporting) return;
             CurrentScreen.Update();
         }
 
@@ -245,7 +257,7 @@ namespace Mega_Man
 
             if (music != null) music.Play();
 
-            updateFunc = Update;
+            // updateFunc isn't set until BeginPlay
             drawFunc = Draw;
 
             Unpause();
