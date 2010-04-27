@@ -198,10 +198,9 @@ namespace Mega_Man
         {
             if (teleporting) return;
             teleporting = true;
+            Action<string> setpos = (s) => { };
             if (info.TargetScreen == CurrentScreen.Screen.Name)
             {
-                Action<string> setpos = (s) => { };
-
                 setpos = (state) =>
                 {
                     PlayerPos.SetPosition(info.To);
@@ -210,14 +209,9 @@ namespace Mega_Man
                     teleporting = false;
                     ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = true;
                 };
-                Player.SendMessage(new StateMessage(null, "TeleportStart"));
-                ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = false;
-                ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged += setpos;
             }
             else
             {
-                Action<string> setpos = (s) => { };
-
                 setpos = (state) =>
                 {
                     ((SpriteComponent)Player.GetComponent(typeof(SpriteComponent))).Visible = false;
@@ -236,10 +230,10 @@ namespace Mega_Man
                         teleporting = false;
                     });
                 };
-                ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = false;
-                Player.SendMessage(new StateMessage(null, "TeleportStart"));
-                ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged += setpos;
             }
+            ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = false;
+            Player.SendMessage(new StateMessage(null, "TeleportBlink"));
+            ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged += setpos;
         }
 
         #region IHandleGameEvents Members
