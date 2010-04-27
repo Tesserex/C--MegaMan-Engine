@@ -145,7 +145,7 @@ namespace Mega_Man
         {
             // includes the map
             StopHandlers();
-
+            GameEntity.StopAll();
             CurrentMap.Paused -= CurrentMap_Paused;
             CurrentMap.End -= CurrentMap_End;
             CurrentMap = null;
