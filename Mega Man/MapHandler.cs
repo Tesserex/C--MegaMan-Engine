@@ -313,6 +313,7 @@ namespace Mega_Man
 
         public void GameInputReceived(GameInputEventArgs e)
         {
+            if (InputComponent.Get().Paused) return;
             if (e.Input == GameInput.Start && e.Pressed)
             {
                 // has to handle both pause and unpause, in case a pause screen isn't defined
