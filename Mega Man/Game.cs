@@ -47,8 +47,6 @@ namespace Mega_Man
 
         private Font font;
 
-        public event Action CleanOrphanedHandlers;
-
         public static void Load(string path)
         {
             Engine.Instance.Start();
@@ -145,10 +143,8 @@ namespace Mega_Man
 
         void CurrentMap_End()
         {
-            CurrentMap.StopHandler();
-
-            // this event is useful for heath meters that stuck around
-            if (CleanOrphanedHandlers != null) CleanOrphanedHandlers();
+            // includes the map
+            StopHandlers();
 
             CurrentMap.Paused -= CurrentMap_Paused;
             CurrentMap.End -= CurrentMap_End;
