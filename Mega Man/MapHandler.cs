@@ -182,6 +182,7 @@ namespace Mega_Man
         {
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
+            CurrentScreen.BossDefeated += () => { if (End != null) End(); };
             CurrentScreen.Start();
         }
 

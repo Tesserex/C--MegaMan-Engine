@@ -26,6 +26,8 @@ namespace Mega_Man
         public event Action<JoinHandler> JoinTriggered;
         public event Action<MegaMan.TeleportInfo> Teleport;
 
+        public event Action BossDefeated;
+
         public ScreenHandler(MegaMan.Screen screen, PositionComponent playerPos, IEnumerable<MegaMan.Join> mapJoins)
         {
             Screen = screen;
@@ -129,25 +131,29 @@ namespace Mega_Man
                 }
             }
 
-            // now if we aren't scrolling, hold the player at the screen borders
-            if (PlayerPos.Position.X >= Screen.PixelWidth - Const.PlayerScrollTrigger)
+            // if the player is not colliding, they'll be allowed to pass through the walls (e.g. teleporting)
+            if (((CollisionComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(CollisionComponent))).Enabled)
             {
-                PlayerPos.SetPosition(new PointF(Screen.PixelWidth - Const.PlayerScrollTrigger, PlayerPos.Position.Y));
-            }
-            else if (PlayerPos.Position.X <= Const.PlayerScrollTrigger)
-            {
-                PlayerPos.SetPosition(new PointF(Const.PlayerScrollTrigger, PlayerPos.Position.Y));
-            }
-            else if (PlayerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
-            {
-                if (Game.CurrentGame.GravityFlip) PlayerPos.SetPosition(new PointF(PlayerPos.Position.X, Screen.PixelHeight - Const.PlayerScrollTrigger));
-                // bottomless pit death!
-                else if (PlayerPos.Position.Y > Game.CurrentGame.PixelsDown + 32) PlayerPos.Parent.Die();
-            }
-            else if (PlayerPos.Position.Y < Const.PlayerScrollTrigger)
-            {
-                if (!Game.CurrentGame.GravityFlip) PlayerPos.SetPosition(new PointF(PlayerPos.Position.X, Const.PlayerScrollTrigger));
-                else if (PlayerPos.Position.Y < -32) PlayerPos.Parent.Die();
+                // now if we aren't scrolling, hold the player at the screen borders
+                if (PlayerPos.Position.X >= Screen.PixelWidth - Const.PlayerScrollTrigger)
+                {
+                    PlayerPos.SetPosition(new PointF(Screen.PixelWidth - Const.PlayerScrollTrigger, PlayerPos.Position.Y));
+                }
+                else if (PlayerPos.Position.X <= Const.PlayerScrollTrigger)
+                {
+                    PlayerPos.SetPosition(new PointF(Const.PlayerScrollTrigger, PlayerPos.Position.Y));
+                }
+                else if (PlayerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
+                {
+                    if (Game.CurrentGame.GravityFlip) PlayerPos.SetPosition(new PointF(PlayerPos.Position.X, Screen.PixelHeight - Const.PlayerScrollTrigger));
+                    // bottomless pit death!
+                    else if (PlayerPos.Position.Y > Game.CurrentGame.PixelsDown + 32) PlayerPos.Parent.Die();
+                }
+                else if (PlayerPos.Position.Y < Const.PlayerScrollTrigger)
+                {
+                    if (!Game.CurrentGame.GravityFlip) PlayerPos.SetPosition(new PointF(PlayerPos.Position.X, Const.PlayerScrollTrigger));
+                    else if (PlayerPos.Position.Y < -32) PlayerPos.Parent.Die();
+                }
             }
         }
 
@@ -191,9 +197,12 @@ namespace Mega_Man
                 HealthComponent health = (HealthComponent)enemy.GetComponent(typeof(HealthComponent));
                 health.DelayFill(120);
                 BossFightTimer();
-                enemy.Stopped += () =>
+                enemy.Death += () =>
                 {
                     if (music != null) music.FadeOut(30);
+                    InputComponent.Get().Paused = true;
+                    Engine.Instance.DelayedCall(() => { Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")); }, null, 120);
+                    Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
             }
             this.entities[index] = enemy;
