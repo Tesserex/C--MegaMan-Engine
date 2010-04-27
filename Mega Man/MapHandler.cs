@@ -88,6 +88,7 @@ namespace Mega_Man
         {
             if (music != null) music.FadeOut(60);
             if (CurrentScreen.music != null) CurrentScreen.music.FadeOut(60);
+            playerDeadCount = 0;
             updateFunc = DeadUpdate;
         }
 
@@ -121,7 +122,7 @@ namespace Mega_Man
             playerDeadCount++;
             if (playerDeadCount >= Const.MapDeadFrames)
             {
-                playerDeadCount = 0;
+                updateFunc = null;
                 Engine.Instance.FadeTransition(Game.CurrentGame.ResetMap);
             }
         }
