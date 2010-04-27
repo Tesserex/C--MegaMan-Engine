@@ -267,6 +267,9 @@ namespace Mega_Man
             readyBlinkTime = 0;
             readyBlinks = 0;
             Engine.Instance.GameRender += new GameRenderEventHandler(BlinkReady);
+
+            // make sure we can move
+            InputComponent.Get().Paused = false;
         }
 
         public void StopHandler()
