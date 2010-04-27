@@ -36,6 +36,7 @@ namespace Mega_Man
 
         private Effect OnDeath = (entity) => { };
         public event Action Stopped;
+        public event Action Death;
 
         public GameEntity()
         {
@@ -80,6 +81,7 @@ namespace Mega_Man
         {
             Stop();
             OnDeath(this);
+            if (Death != null) Death();
         }
 
         public void AddComponent(Component component)
