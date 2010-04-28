@@ -60,5 +60,21 @@ namespace Mega_Man
         {
             
         }
+
+        public static Effect LoadSoundEffect(XElement node)
+        {
+            string soundname = node.Attribute("name").Value;
+            bool playing = true;
+            XAttribute playAttr = node.Attribute("playing");
+            if (playAttr != null)
+            {
+                if (!bool.TryParse(playAttr.Value, out playing)) throw new EntityXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
+            }
+            return (entity) =>
+            {
+                SoundMessage msg = new SoundMessage(entity, soundname, playing);
+                entity.SendMessage(msg);
+            };
+        }
     }
 }

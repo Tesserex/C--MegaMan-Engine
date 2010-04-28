@@ -275,25 +275,7 @@ namespace Mega_Man
                     break;
 
                 case "Spawn":
-                    string name = node.Attribute("name").Value;
-                    string statename = "Start";
-                    if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
-                    XElement posNodeX = node.Element("X");
-                    XElement posNodeY = node.Element("Y");
-                    Effect posEff = null;
-                    if (posNodeX != null)
-                    {
-                        posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
-                    }
-                    if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
-                    effect = (entity) =>
-                    {
-                        GameEntity spawn = entity.Spawn(name);
-                        if (spawn == null) return;
-                        StateMessage msg = new StateMessage(entity, statename);
-                        spawn.SendMessage(msg);
-                        if (posEff != null) posEff(spawn);
-                    };
+                    effect = GameEntity.LoadSpawnEffect(node);
                     break;
 
                 case "Die":
@@ -318,18 +300,7 @@ namespace Mega_Man
                     break;
 
                 case "Sound":
-                    string soundname = node.Attribute("name").Value;
-                    bool playing = true;
-                    XAttribute playAttr = node.Attribute("playing");
-                    if (playAttr != null)
-                    {
-                        if (!bool.TryParse(playAttr.Value, out playing)) throw new EntityXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
-                    }
-                    effect = (entity) =>
-                    {
-                        SoundMessage msg = new SoundMessage(entity, soundname, playing);
-                        entity.SendMessage(msg);
-                    };
+                    effect = SoundComponent.LoadSoundEffect(node);
                     break;
 
                 case "Collision":

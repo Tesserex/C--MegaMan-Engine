@@ -287,31 +287,11 @@ namespace Mega_Man
                                 switch (xmlchild.Name.LocalName)
                                 {
                                     case "Sound":
-                                        string soundname = xmlchild.Attribute("name").Value;
-                                        bool playing = true;
-                                        XAttribute playAttr = xmlchild.Attribute("playing");
-                                        if (playAttr != null)
-                                        {
-                                            if (!bool.TryParse(playAttr.Value, out playing)) throw new EntityXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
-                                        }
-                                        entity.OnDeath += (e) =>
-                                        {
-                                            SoundMessage msg = new SoundMessage(e, soundname, playing);
-                                            e.SendMessage(msg);
-                                        };
+                                        entity.OnDeath += SoundComponent.LoadSoundEffect(xmlchild);
                                         break;
 
                                     case "Spawn":
-                                        string ename = xmlchild.Attribute("name").Value;
-                                        string statename = "Start";
-                                        if (xmlchild.Attribute("state") != null) statename = xmlchild.Attribute("state").Value;
-                                        entity.OnDeath += (e) =>
-                                        {
-                                            GameEntity spawn = e.Spawn(ename);
-                                            if (spawn == null) return;
-                                            StateMessage msg = new StateMessage(entity, statename);
-                                            spawn.SendMessage(msg);
-                                        };
+                                        entity.OnDeath += LoadSpawnEffect(xmlchild);
                                         break;
 
                                     case "Trigger":
@@ -346,6 +326,29 @@ namespace Mega_Man
             //foreach (System.Drawing.Image img in tilesheets.Values) img.Dispose();
 
             entities.Add(name, entity);
+        }
+
+        public static Effect LoadSpawnEffect(XElement node)
+        {
+            string name = node.Attribute("name").Value;
+            string statename = "Start";
+            if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
+            XElement posNodeX = node.Element("X");
+            XElement posNodeY = node.Element("Y");
+            Effect posEff = null;
+            if (posNodeX != null)
+            {
+                posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
+            }
+            if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
+            return (entity) =>
+            {
+                GameEntity spawn = entity.Spawn(name);
+                if (spawn == null) return;
+                StateMessage msg = new StateMessage(entity, statename);
+                spawn.SendMessage(msg);
+                if (posEff != null) posEff(spawn);
+            };
         }
 
         public static GameEntity Get(string name)
