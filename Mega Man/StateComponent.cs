@@ -278,12 +278,14 @@ namespace Mega_Man
                     string name = node.Attribute("name").Value;
                     string statename = "Start";
                     if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
-                    XElement posNode = node.Element("Position");
+                    XElement posNodeX = node.Element("X");
+                    XElement posNodeY = node.Element("Y");
                     Effect posEff = null;
-                    if (posNode != null)
+                    if (posNodeX != null)
                     {
-                        posEff = PositionComponent.ParsePositionBehavior(posNode, Axis.Both);
+                        posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
                     }
+                    if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
                     effect = (entity) =>
                     {
                         GameEntity spawn = entity.Spawn(name);
