@@ -16,6 +16,8 @@ namespace Mega_Man
     {
         private class BossInfo
         {
+            public string firstname;
+            public string lastname;
             public Image portrait;
             public Texture2D texture;
             public string mapPath;
@@ -77,6 +79,8 @@ namespace Mega_Man
 
             foreach (XElement boss in reader.Elements("Boss"))
                 LoadBoss(boss);
+
+            FontSystem.LoadFont("Boss", System.IO.Path.Combine(Game.CurrentGame.BasePath, "images\\font_boss.png"), 8, 0);
         }
 
         private void LoadBoss(XElement reader)
@@ -85,6 +89,14 @@ namespace Mega_Man
             XAttribute slotAttr = reader.Attribute("slot");
             if (slotAttr == null) throw new EntityXmlException(reader, "Boss must specify a \"slot\" attribute!");
             if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new EntityXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
+
+            XElement nameNode = reader.Element("Name");
+            if (nameNode != null)
+            {
+                string[] names = nameNode.Value.Split(' ');
+                if (names.Length > 0) bosses[slot].firstname = names[0];
+                if (names.Length > 1) bosses[slot].lastname = names[1];
+            }
 
             XElement portraitNode = reader.Element("Portrait");
             if (portraitNode != null)
@@ -178,6 +190,15 @@ namespace Mega_Man
                 if (boss.alive && boss.portrait != null)
                 {
                     e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), e.OpacityColor);
+                }
+
+                if (boss.firstname != null)
+                {
+                    FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.firstname, new PointF(boss.location.X, boss.location.Y + 48));
+                }
+                if (boss.lastname != null)
+                {
+                    FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.lastname, new PointF(boss.location.X + (44 - boss.lastname.Length * 7), boss.location.Y + 56));
                 }
             }
         }
