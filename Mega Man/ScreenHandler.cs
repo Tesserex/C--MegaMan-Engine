@@ -205,7 +205,7 @@ namespace Mega_Man
                     Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
             }
-            if (info.pallete != "Default")
+            if (info.pallete != "Default" && info.pallete != null)
             {
                 ((SpriteComponent)enemy.GetComponent(typeof(SpriteComponent))).ChangeGroup(info.pallete);
             }
