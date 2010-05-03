@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace Mega_Man
 {
+    [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}, {numAlive} Alive")]
     public class GameEntity
     {
         private Dictionary<Type, Component> components;

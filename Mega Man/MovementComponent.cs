@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace Mega_Man
 {
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
     public class MovementComponent : Component, IMovement
     {
         private float resistMultX, resistMultY, resistConstX, resistConstY;

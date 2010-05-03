@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
 {
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
     public class CollisionComponent : Component
     {
         private Texture2D rectTex;

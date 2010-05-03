@@ -28,6 +28,7 @@ namespace Mega_Man
     public delegate bool Condition(GameEntity entity);
     public delegate void Effect(GameEntity entity);
 
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, State: {CurrentState}, State Time: {stateframes}")]
     public class StateComponent : Component
     {
         public string CurrentState { get; private set; }

@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace Mega_Man
 {
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
     public class PositionComponent : Component, IPositioned
     {
         public bool PersistOffScreen { get; private set; }
