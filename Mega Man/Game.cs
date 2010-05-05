@@ -45,6 +45,8 @@ namespace Mega_Man
 
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
+        public int PlayerLives { get; private set; }
+
         private Font font;
 
         public static void Load(string path)
@@ -88,6 +90,8 @@ namespace Mega_Man
 
             Gravity = 0.25f;
             GravityFlip = false;
+
+            PlayerLives = 2;
         }
 
         private void LoadFile(string path)
@@ -139,16 +143,13 @@ namespace Mega_Man
             CurrentMap.StartHandler();
             CurrentMap.Paused += CurrentMap_Paused;
             CurrentMap.End += CurrentMap_End;
+            CurrentMap.Player.Death += () => { PlayerLives--; };
         }
 
+        // do this when a map is won - should change to get weapon screen
         void CurrentMap_End()
         {
-            // includes the map
-            StopHandlers();
-            GameEntity.StopAll();
-            CurrentMap.Paused -= CurrentMap_Paused;
-            CurrentMap.End -= CurrentMap_End;
-            CurrentMap = null;
+            EndMap();
             StageSelect();
         }
 
@@ -157,6 +158,16 @@ namespace Mega_Man
             Game.CurrentGame.Pause();
             if (pauseScreen != null) pauseScreen.Sound();
             Engine.Instance.FadeTransition(PauseScreen);
+        }
+
+        private void EndMap()
+        {
+            // includes the map
+            StopHandlers();
+            GameEntity.StopAll();
+            CurrentMap.Paused -= CurrentMap_Paused;
+            CurrentMap.End -= CurrentMap_End;
+            CurrentMap = null;
         }
 
         private void StageSelect()
@@ -197,7 +208,18 @@ namespace Mega_Man
             StopHandlers();
             GameEntity.StopAll();
             CurrentMap.StopHandler();
-            CurrentMap.StartHandler();
+
+            if (PlayerLives < 0) // game over!
+            {
+                EndMap();
+                StageSelect();
+                PlayerLives = 2;
+            }
+            else
+            {
+                CurrentMap.StartHandler();
+                CurrentMap.Player.Death += () => { PlayerLives--; };
+            }
         }
 
         public void AddGameHandler(IHandleGameEvents handler)
