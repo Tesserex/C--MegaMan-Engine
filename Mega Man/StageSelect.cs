@@ -32,6 +32,8 @@ namespace Mega_Man
         private BossInfo[] bosses;
         private int selectedIndex;
 
+        private int spacingX, spacingY;
+
         public event Action<string> MapSelected;
 
         public StageSelect(XElement reader)
@@ -50,14 +52,25 @@ namespace Mega_Man
             int portraitWidth = bossFrameOn.Width;
             int portraitHeight = bossFrameOn.Height;
 
+            spacingX = spacingY = 24;
+            XElement spaceNode = reader.Element("Spacing");
+            if (spaceNode != null)
+            {
+                XAttribute spacexAttr = spaceNode.Attribute("x");
+                if (spacexAttr == null) throw new EntityXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
+                if (!int.TryParse(spacexAttr.Value, out spacingX)) throw new EntityXmlException(spacexAttr, "Spacing attributes must be integers.");
+                XAttribute spaceyAttr = spaceNode.Attribute("y");
+                if (spaceyAttr == null) throw new EntityXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
+                if (!int.TryParse(spaceyAttr.Value, out spacingY)) throw new EntityXmlException(spaceyAttr, "Spacing attributes must be integers.");
+            }
+
             int middleX = (Game.CurrentGame.PixelsAcross - portraitWidth) / 2;
             int middleY = (Game.CurrentGame.PixelsDown - portraitHeight) / 2;
-            int padding = 24;
 
-            int lowerX = middleX - portraitWidth - padding;
-            int lowerY = middleY - portraitHeight - padding;
-            int upperX = middleX + portraitWidth + padding;
-            int upperY = middleY + portraitHeight + padding;
+            int lowerX = middleX - portraitWidth - spacingX;
+            int lowerY = middleY - portraitHeight - spacingY;
+            int upperX = middleX + portraitWidth + spacingX;
+            int upperY = middleY + portraitHeight + spacingY;
 
             bosses[0].location = new Point(lowerX, lowerY);
             bosses[1].location = new Point(middleX, lowerY);
