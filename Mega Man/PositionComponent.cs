@@ -10,7 +10,7 @@ namespace Mega_Man
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
     public class PositionComponent : Component, IPositioned
     {
-        public bool PersistOffScreen { get; private set; }
+        public bool PersistOffScreen { get; set; }
         public IMovement MovementSrc { get; private set; }
         public PointF Position { get; private set; }
         public bool IsOffScreen
