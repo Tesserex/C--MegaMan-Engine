@@ -333,7 +333,7 @@ namespace Mega_Man
                             if (axis != Axis.Y)
                             {
                                 if (input.Left) mov.VelocityX = -mag?? -1 * Math.Abs(mov.VelocityX);
-                                else if (input.Right || (!input.Up && !input.Down)) mov.VelocityX = mag?? Math.Abs(mov.VelocityX);
+                                else if (input.Right) mov.VelocityX = mag?? Math.Abs(mov.VelocityX);
                             }
                             if (axis != Axis.X)
                             {
