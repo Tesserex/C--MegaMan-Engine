@@ -352,8 +352,29 @@ namespace Mega_Man
             if (properties.Lethal && this.Parent.Name == "Player") this.Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));
         }
 
+        private RectangleF FloatCorrect(RectangleF rect)
+        {
+            int rleft = (int)Math.Round(rect.Left);
+            int rtop = (int)Math.Round(rect.Top);
+
+            if (Math.Abs(rleft - rect.Left) < Const.PixelEpsilon) rect.X = rleft;
+            if (Math.Abs(rtop - rect.Top) < Const.PixelEpsilon) rect.Y = rtop;
+
+            int rright = (int)Math.Round(rect.Right);
+            int rbottom = (int)Math.Round(rect.Bottom);
+
+            if (Math.Abs(rright - rect.Right) < Const.PixelEpsilon) rect.Width = rright - rleft;
+            if (Math.Abs(rbottom - rect.Bottom) < Const.PixelEpsilon) rect.Height = rbottom - rtop;
+
+            return rect;
+        }
+
         private bool BlockByIntersection(RectangleF myBox, RectangleF targetBox, bool uponly, bool downonly)
         {
+            // correct floating point errors
+            myBox = FloatCorrect(myBox);
+            targetBox = FloatCorrect(targetBox);
+
             RectangleF intersection = RectangleF.Intersect(myBox, targetBox);
             bool ret = false;
 
