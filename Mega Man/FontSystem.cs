@@ -18,7 +18,7 @@ namespace Mega_Man
             private Texture2D charTex;
 
             private static List<char> chars = new List<char>(new char[] {
-                                              'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+                                              'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', ',', '!', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
                                           });
 
             public ImageFont(Image img, Texture2D tex, int width, int space)
