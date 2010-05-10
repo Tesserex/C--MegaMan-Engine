@@ -36,6 +36,7 @@ namespace Mega_Man
 
         private int stateframes = 0;
         private int lifetime = 0;
+        private double framerand;
 
         private Dictionary<string, object> dirDict;
 
@@ -115,6 +116,7 @@ namespace Mega_Man
             if (!states.ContainsKey(CurrentState)) return;
 
             stateframes++;
+            framerand = Program.rand.NextDouble();
 
             string old = CurrentState;
             states[CurrentState].CheckTriggers(this, this.Parent);
@@ -213,7 +215,7 @@ namespace Mega_Man
                 Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X),
                 Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.Y - pos.Position.Y),
                 Game.CurrentGame.GravityFlip,
-                Program.rand.NextDouble()
+                ((StateComponent)entity.GetComponent(typeof(StateComponent))).framerand
                 );
             });
         }
