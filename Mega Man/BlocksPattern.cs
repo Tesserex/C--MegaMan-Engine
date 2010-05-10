@@ -27,6 +27,7 @@ namespace Mega_Man
         private int leftBoundary, rightBoundary;
         private bool running;
         private int frame;
+        private bool stopped;
 
         public BlocksPattern(MegaMan.BlockPatternInfo info)
         {
@@ -53,16 +54,20 @@ namespace Mega_Man
         public void Start()
         {
             Engine.Instance.GameThink += Update;
+            stopped = false;
         }
 
         public void Stop()
         {
-            Halt();
+            stopped = true;
             Engine.Instance.GameThink -= Update;
+            Halt();
         }
 
         private void Update()
         {
+            if (stopped) return;
+
             float px = Game.CurrentGame.CurrentMap.PlayerPos.Position.X;
             if (px >= leftBoundary && px <= rightBoundary)
             {
