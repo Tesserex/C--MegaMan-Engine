@@ -34,6 +34,9 @@ namespace Mega_Man
         private Font font;
         private Brush brush;
 
+        private Point livesPos;
+        private bool showLives;
+
         public event Action Unpaused;
 
         public PauseScreen(XElement reader)
@@ -52,7 +55,25 @@ namespace Mega_Man
             this.font = new Font(FontFamily.GenericMonospace, 12);
             this.brush = new SolidBrush(System.Drawing.Color.FromArgb(240, 236, 220));
 
-            FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 7, 1);
+            FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
+
+            XElement livesNode = reader.Element("Lives");
+            if (livesNode != null)
+            {
+                showLives = true;
+                int x=0, y=0;
+                XAttribute livesXAttr = livesNode.Attribute("x");
+                if (livesXAttr != null)
+                {
+                    if (!int.TryParse(livesXAttr.Value, out x)) throw new EntityXmlException(livesXAttr, "X position for Lives tag must be an integer.");
+                }
+                XAttribute livesYAttr = livesNode.Attribute("y");
+                if (livesYAttr != null)
+                {
+                    if (!int.TryParse(livesYAttr.Value, out y)) throw new EntityXmlException(livesYAttr, "Y position for Lives tag must be an integer.");
+                }
+                livesPos = new Point(x, y);
+            }
         }
 
         public void Sound()
@@ -250,6 +271,11 @@ namespace Mega_Man
                 {
                     info.meter.Draw(e.Layers.ForegroundBatch);
                 }
+            }
+
+            if (showLives)
+            {
+                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.PlayerLives.ToString("D2"), livesPos);
             }
         }
 
