@@ -264,7 +264,7 @@ namespace Mega_Man
             Engine.Instance.GameRender += new GameRenderEventHandler(BlinkReady);
 
             // make sure we can move
-            InputComponent.Get().Paused = false;
+            ((InputComponent)Player.GetComponent(typeof(InputComponent))).Paused = false;
         }
 
         public void StopHandler()
@@ -312,7 +312,7 @@ namespace Mega_Man
 
         public void GameInputReceived(GameInputEventArgs e)
         {
-            if (updateFunc == null || InputComponent.Get().Paused) return;
+            if (updateFunc == null || ((InputComponent)Player.GetComponent(typeof(InputComponent))).Paused) return;
             if (e.Input == GameInput.Start && e.Pressed)
             {
                 // has to handle both pause and unpause, in case a pause screen isn't defined

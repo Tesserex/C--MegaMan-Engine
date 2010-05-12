@@ -30,6 +30,10 @@ namespace Mega_Man
         protected abstract void Update();
 
         public abstract void RegisterDependencies(Component component);
+
+        public abstract void LoadXml(System.Xml.Linq.XElement xmlNode);
+
+        public abstract Effect ParseEffect(System.Xml.Linq.XElement effectNode);
     }
 
     public interface IPositioned

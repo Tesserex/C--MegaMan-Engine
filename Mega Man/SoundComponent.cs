@@ -10,7 +10,7 @@ namespace Mega_Man
     {
         private Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
 
-        public void LoadXml(XElement xml)
+        public override void LoadXml(XElement xml)
         {
             foreach (XElement soundNode in xml.Elements("Sound"))
             {
@@ -61,7 +61,7 @@ namespace Mega_Man
             
         }
 
-        public static Effect LoadSoundEffect(XElement node)
+        public override Effect ParseEffect(XElement node)
         {
             string soundname = node.Attribute("name").Value;
             bool playing = true;

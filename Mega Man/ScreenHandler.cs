@@ -200,7 +200,7 @@ namespace Mega_Man
                 enemy.Death += () =>
                 {
                     if (music != null) music.FadeOut(30);
-                    InputComponent.Get().Paused = true;
+                    ((InputComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(InputComponent))).Paused = true;
                     Engine.Instance.DelayedCall(() => { Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")); }, null, 120);
                     Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
@@ -215,8 +215,9 @@ namespace Mega_Man
 
         private void BossFightTimer()
         {
-            Engine.Instance.DelayedCall(() => { InputComponent.Get().Paused = true; }, null, 20);
-            Engine.Instance.DelayedCall(() => { InputComponent.Get().Paused = false; }, null, 200);
+            InputComponent input = (InputComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(InputComponent));
+            Engine.Instance.DelayedCall(() => { input.Paused = true; }, null, 20);
+            Engine.Instance.DelayedCall(() => { input.Paused = false; }, null, 200);
         }
 
         public void Stop()

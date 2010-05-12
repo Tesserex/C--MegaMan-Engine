@@ -172,7 +172,7 @@ namespace Mega_Man
             weapons.Add(weapon);
         }
 
-        public void LoadXml(XElement node)
+        public override void LoadXml(XElement node)
         {
             foreach (XElement weapon in node.Elements("Weapon"))
             {
@@ -201,7 +201,7 @@ namespace Mega_Man
             }
         }
 
-        public static Effect LoadEffect(XElement node)
+        public override Effect ParseEffect(XElement node)
         {
             Effect effect = (e) => { };
             if (node.Value == "Shoot")

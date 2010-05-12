@@ -89,7 +89,7 @@ namespace Mega_Man
             else if (component is MovementComponent) this.movement = component as MovementComponent;
         }
 
-        public void LoadXml(XElement xml)
+        public override void LoadXml(XElement xml)
         {
             foreach (XElement boxnode in xml.Elements("Hitbox"))
             {
@@ -203,7 +203,7 @@ namespace Mega_Man
             aboveLadderCached = true;
         }
 
-        public static Effect LoadLadderEffect(XElement node)
+        public override Effect ParseEffect(XElement node)
         {
             Effect effect = (e) => { };
 

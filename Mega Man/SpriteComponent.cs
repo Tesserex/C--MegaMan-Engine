@@ -7,12 +7,15 @@ using System.Drawing;
 
 using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Sprite>;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml.Linq;
 
 namespace Mega_Man
 {
     public class SpriteComponent : Component
     {
         private Dictionary<string, SpriteGroup> sprites;
+        private Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string, System.Drawing.Image>();
+        private Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
         private Sprite sprite = null;
         private string group = "Default";
         private string name = null;
@@ -88,6 +91,97 @@ namespace Mega_Man
         public override void Message(IGameMessage msg)
         {
             
+        }
+
+        public override void LoadXml(XElement xmlNode)
+        {
+            string spriteName = "Default";
+            string spritePallete = "Default";
+            XAttribute spriteNameAttr = xmlNode.Attribute("name");
+            if (spriteNameAttr != null) spriteName = spriteNameAttr.Value;
+            XAttribute palleteAttr = xmlNode.Attribute("pallete");
+            if (palleteAttr != null) spritePallete = palleteAttr.Value;
+
+            if (xmlNode.Attribute("tilesheet") != null) // explicitly specified pallete for this sprite
+            {
+                MegaMan.Sprite spr = MegaMan.Sprite.FromXml(xmlNode, Game.CurrentGame.BasePath);
+                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.Attribute("tilesheet").Value);
+                spr.SetTexture(Engine.Instance.GraphicsDevice, sheetpath);
+                Add(spritePallete, spriteName, spr);
+            }
+            else // load sprite for all palletes
+            {
+                foreach (KeyValuePair<string, System.Drawing.Image> pair in tilesheets)
+                {
+                    MegaMan.Sprite sprite = MegaMan.Sprite.FromXml(xmlNode, pair.Value);
+                    sprite.SetTexture(Engine.Instance.GraphicsDevice, sheetpaths[pair.Key]);
+                    Add(pair.Key, spriteName, sprite);
+                }
+            }
+        }
+
+        public override Effect ParseEffect(XElement node)
+        {
+            Effect action = new Effect((entity) => { });
+            foreach (XElement prop in node.Elements())
+            {
+                switch (prop.Name.LocalName)
+                {
+                    case "Name":
+                        string spritename = prop.Value;
+                        action += (entity) =>
+                        {
+                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            spritecomp.ChangeSprite(spritename);
+                        };
+                        break;
+
+                    case "Playing":
+                        bool play;
+                        if (!bool.TryParse(prop.Value, out play)) throw new EntityXmlException(prop, "Playing tag must be a valid bool (true or false).");
+                        action += (entity) =>
+                        {
+                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            spritecomp.Playing = play;
+                        };
+                        break;
+
+                    case "Visible":
+                        bool vis;
+                        if (!bool.TryParse(prop.Value, out vis)) throw new EntityXmlException(prop, "Visible tag must be a valid bool (true or false).");
+                        action += (entity) =>
+                        {
+                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            spritecomp.Visible = vis;
+                        };
+                        break;
+
+                    case "Group":
+                        string group = prop.Value;
+                        action += (entity) =>
+                        {
+                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            spritecomp.ChangeGroup(group);
+                        };
+                        break;
+                }
+            }
+            return action;
+        }
+
+        public void LoadTilesheet(XElement xmlComp)
+        {
+            XAttribute palAttr = xmlComp.Attribute("pallete");
+            string pallete = "Default";
+            if (palAttr != null) pallete = palAttr.Value;
+            string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
+            System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path);
+            sheet.SetResolution(Const.Resolution, Const.Resolution);
+            if (!tilesheets.ContainsKey(pallete))
+            {
+                tilesheets.Add(pallete, sheet);
+                sheetpaths.Add(pallete, path);
+            }
         }
 
         public void Add(string group, string name, MegaMan.Sprite sprite)

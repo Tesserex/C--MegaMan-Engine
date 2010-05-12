@@ -181,7 +181,14 @@ namespace Mega_Man
             if (Math.Abs(add) > Math.Abs(resistConstY)) resistConstY = add;
         }
 
-        public static Effect LoadMovementEffect(XElement child)
+        public override void LoadXml(XElement xmlNode)
+        {
+            // for now, just get the effect and then execute it on myself
+            // later, refactor so it's the other way around
+            ParseEffect(xmlNode)(Parent);
+        }
+
+        public override Effect ParseEffect(XElement child)
         {
             Effect action = new Effect((entity) => { });
             foreach (XElement prop in child.Elements())

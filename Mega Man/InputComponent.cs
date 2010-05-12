@@ -44,13 +44,6 @@ namespace Mega_Man
 
         private bool KeyVal(GameInput key) { return activeKeys.ContainsKey(key)? activeKeys[key] : false; }
 
-        private static InputComponent instance;
-        public static InputComponent Get()
-        {
-            if (instance == null) instance = new InputComponent();
-            return instance;
-        }
-
         public InputComponent()
         {
             Engine.Instance.GameInputReceived += new GameInputEventHandler(Instance_GameInputReceived);
@@ -83,6 +76,16 @@ namespace Mega_Man
         public override void RegisterDependencies(Component component)
         {
 
+        }
+
+        public override void LoadXml(System.Xml.Linq.XElement xmlNode)
+        {
+            // nothing needed
+        }
+
+        public override Effect ParseEffect(System.Xml.Linq.XElement effectNode)
+        {
+            return (entity) => { };
         }
 
         private void Instance_GameInputReceived(GameInputEventArgs e)

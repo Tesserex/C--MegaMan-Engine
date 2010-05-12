@@ -72,7 +72,7 @@ namespace Mega_Man
             Position = new PointF(Position.X + x, Position.Y + y);
         }
 
-        public void LoadXml(XElement node)
+        public override void LoadXml(XElement node)
         {
             XAttribute persistAttr = node.Attribute("persistoffscreen");
             if (persistAttr != null)
@@ -82,7 +82,7 @@ namespace Mega_Man
             }
         }
 
-        public static Effect LoadPositionAction(XElement child)
+        public override Effect ParseEffect(XElement child)
         {
             Effect action = new Effect((entity) => { });
             foreach (XElement prop in child.Elements())

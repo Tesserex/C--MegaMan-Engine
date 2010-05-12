@@ -118,6 +118,33 @@ namespace Mega_Man
             return spawn;
         }
 
+        private Component GetOrCreateComponent(string name)
+        {
+            // handle plural cases
+            if (name == "Sounds") name = "Sound";
+            if (name == "Weapons") name = "Weapon";
+
+            string typename = name + "Component";
+            Type comptype = Type.GetType("Mega_Man." + typename, false, true);
+            if (comptype == null) return null;
+            Component comp = this.GetComponent(comptype);
+            if (comp == null) // create one
+            {
+                comp = (Component)Activator.CreateInstance(comptype);
+                this.AddComponent(comp);
+            }
+            return comp;
+        }
+
+        // unfortunately, you cannot have abstract static methods.
+        // So parsing effects is an instance method, but doesn't
+        // really need to be, except for the compiler to be happy.
+        public Effect ParseComponentEffect(XElement effectNode)
+        {
+            Component comp = GetOrCreateComponent(effectNode.Name.LocalName);
+            return comp.ParseEffect(effectNode);
+        }
+
         private static Dictionary<string, GameEntity> entities = new Dictionary<string,GameEntity>();
         private static Dictionary<string, MegaMan.TileProperties> entityProperties = new Dictionary<string, MegaMan.TileProperties>();
 
@@ -172,9 +199,6 @@ namespace Mega_Man
             StateComponent statecomp = new StateComponent();
             entity.AddComponent(statecomp);
 
-            Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string,System.Drawing.Image>();
-            Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
-
             try
             {
                 foreach (XElement xmlComp in xml.Elements())
@@ -182,17 +206,17 @@ namespace Mega_Man
                     switch (xmlComp.Name.LocalName)
                     {
                         case "Tilesheet":
-                            XAttribute palAttr = xmlComp.Attribute("pallete");
-                            string pallete = "Default";
-                            if (palAttr != null) pallete = palAttr.Value;
-                            string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
-                            System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path);
-                            sheet.SetResolution(Const.Resolution, Const.Resolution);
-                            if (!tilesheets.ContainsKey(pallete))
+                            if (spritecomp == null)
                             {
-                                tilesheets.Add(pallete, sheet);
-                                sheetpaths.Add(pallete, path);
+                                spritecomp = new SpriteComponent();
+                                entity.AddComponent(spritecomp);
                             }
+                            if (poscomp == null)
+                            {
+                                poscomp = new PositionComponent();
+                                entity.AddComponent(poscomp);
+                            }
+                            spritecomp.LoadTilesheet(xmlComp);
                             break;
 
                         case "Trigger":
@@ -210,30 +234,7 @@ namespace Mega_Man
                                 poscomp = new PositionComponent();
                                 entity.AddComponent(poscomp);
                             }
-
-                            string spriteName = "Default";
-                            string spritePallete = "Default";
-                            XAttribute spriteNameAttr = xmlComp.Attribute("name");
-                            if (spriteNameAttr != null) spriteName = spriteNameAttr.Value;
-                            XAttribute palleteAttr = xmlComp.Attribute("pallete");
-                            if (palleteAttr != null) spritePallete = palleteAttr.Value;
-
-                            if (xmlComp.Attribute("tilesheet") != null) // explicitly specified pallete for this sprite
-                            {
-                                MegaMan.Sprite spr = MegaMan.Sprite.FromXml(xmlComp, Game.CurrentGame.BasePath);
-                                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Attribute("tilesheet").Value);
-                                spr.SetTexture(Engine.Instance.GraphicsDevice, sheetpath);
-                                spritecomp.Add(spritePallete, spriteName, spr);
-                            }
-                            else // load sprite for all palletes
-                            {
-                                foreach (KeyValuePair<string, System.Drawing.Image> pair in tilesheets)
-                                {
-                                    MegaMan.Sprite sprite = MegaMan.Sprite.FromXml(xmlComp, pair.Value);
-                                    sprite.SetTexture(Engine.Instance.GraphicsDevice, sheetpaths[pair.Key]);
-                                    spritecomp.Add(pair.Key, spriteName, sprite);
-                                }
-                            }
+                            spritecomp.LoadXml(xmlComp);
                             break;
 
                         case "Position":
@@ -245,53 +246,11 @@ namespace Mega_Man
                             poscomp.LoadXml(xmlComp);
                             break;
 
-                        case "State":
-                            statecomp.LoadStateXml(xmlComp);
-                            break;
-
-                        case "Input":
-                            entity.AddComponent(InputComponent.Get());
-                            break;
-
-                        case "Collision":
-                            CollisionComponent coll = new CollisionComponent();
-                            coll.LoadXml(xmlComp);
-                            entity.AddComponent(coll);
-                            break;
-
-                        case "Ladder":
-                            LadderComponent ladder = new LadderComponent();
-                            ladder.LoadXml(xmlComp);
-                            entity.AddComponent(ladder);
-                            break;
-
-                        case "Health":
-                            HealthComponent health = new HealthComponent();
-                            health.LoadXml(xmlComp);
-                            entity.AddComponent(health);
-                            break;
-
-                        case "Weapons":
-                            WeaponComponent weapons = new WeaponComponent();
-                            weapons.LoadXml(xmlComp);
-                            entity.AddComponent(weapons);
-                            break;
-
-                        case "Sounds":
-                            SoundComponent sounds = new SoundComponent();
-                            sounds.LoadXml(xmlComp);
-                            entity.AddComponent(sounds);
-                            break;
-
                         case "Death":
                             foreach (XElement xmlchild in xmlComp.Elements())
                             {
                                 switch (xmlchild.Name.LocalName)
                                 {
-                                    case "Sound":
-                                        entity.OnDeath += SoundComponent.LoadSoundEffect(xmlchild);
-                                        break;
-
                                     case "Spawn":
                                         entity.OnDeath += LoadSpawnEffect(xmlchild);
                                         break;
@@ -307,6 +266,10 @@ namespace Mega_Man
                                                 if (condition(e)) effect(e);
                                             };
                                         break;
+
+                                    default:
+                                        entity.OnDeath += entity.ParseComponentEffect(xmlchild);
+                                        break;
                                 }
                             }
                             break;
@@ -316,6 +279,10 @@ namespace Mega_Man
                             if (!bool.TryParse(xmlComp.Value, out grav)) throw new EntityXmlException(null, (xmlComp as System.Xml.IXmlLineInfo).LineNumber, entity.Name, "GravityFlip", null, "GravityFlip value must represent True or False");
                             entity.GravityFlip = grav;
                             break;
+
+                        default:
+                            entity.GetOrCreateComponent(xmlComp.Name.LocalName).LoadXml(xmlComp);
+                            break;
                     }
                 }
             }
@@ -324,8 +291,6 @@ namespace Mega_Man
                 ex.Entity = name;
                 throw;
             }
-
-            //foreach (System.Drawing.Image img in tilesheets.Values) img.Dispose();
 
             entities.Add(name, entity);
         }

@@ -109,7 +109,7 @@ namespace Mega_Man
             }
         }
 
-        public void LoadXml(XElement xml)
+        public override void LoadXml(XElement xml)
         {
             foreach (XElement boxnode in xml.Elements("Hitbox"))
             {
@@ -457,7 +457,7 @@ namespace Mega_Man
             else if (component is MovementComponent) this.MovementSrc = component as MovementComponent;
         }
 
-        public static Effect LoadCollisionEffect(XElement node)
+        public override Effect ParseEffect(XElement node)
         {
             Effect effect = (entity) => {};
             List<CollisionBox> rects = new List<CollisionBox>();

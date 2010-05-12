@@ -54,7 +54,12 @@ namespace Mega_Man
             return 0;
         }
 
-        public static Effect LoadXmlEffect(XElement node)
+        public override void LoadXml(XElement xmlNode)
+        {
+            // nothing needed
+        }
+
+        public override Effect ParseEffect(XElement node)
         {
             Effect effect = (e) => { };
 

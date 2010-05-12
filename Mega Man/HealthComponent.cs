@@ -106,7 +106,7 @@ namespace Mega_Man
             
         }
 
-        public void LoadXml(XElement xml)
+        public override void LoadXml(XElement xml)
         {
             XElement maxNode = xml.Element("Max");
             if (maxNode != null)
@@ -128,6 +128,11 @@ namespace Mega_Man
             {
                 if (!int.TryParse(flashNode.Value, out flashtime)) throw new EntityXmlException(flashNode, "Health flash time was not a valid number.");
             }
+        }
+
+        public override Effect ParseEffect(XElement effectNode)
+        {
+            return (entity) => { };
         }
     }
 }

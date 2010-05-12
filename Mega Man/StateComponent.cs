@@ -133,7 +133,7 @@ namespace Mega_Man
         {
         }
 
-        public void LoadStateXml(XElement stateNode)
+        public override void LoadXml(XElement stateNode)
         {
             string name = stateNode.Attribute("name").Value;
 
@@ -262,21 +262,23 @@ namespace Mega_Man
             return effect;
         }
 
+        // this is for when <State> appears in an effect, used for changing state
+        public override Effect ParseEffect(XElement effectNode)
+        {
+            string newstate = effectNode.Value;
+            return (entity) =>
+            {
+                StateComponent state = (StateComponent)entity.GetComponent(typeof(StateComponent));
+                if (state != null) state.CurrentState = newstate;
+            };
+        }
+
         private Effect LoadXmlEffect(XElement node)
         {
             Effect effect = (e) => { };
 
             switch (node.Name.LocalName)
             {
-                case "State":
-                    string newstate = node.Value;
-                    effect = (entity) =>
-                    {
-                        StateComponent state = (StateComponent)entity.GetComponent(typeof(StateComponent));
-                        if (state != null) state.CurrentState = newstate;
-                    };
-                    break;
-
                 case "Spawn":
                     effect = GameEntity.LoadSpawnEffect(node);
                     break;
@@ -285,89 +287,11 @@ namespace Mega_Man
                     effect = (entity) => { entity.Stop(); };
                     break;
 
-                case "Movement":
-                    Parent.AddComponent(new MovementComponent());
-                    effect = MovementComponent.LoadMovementEffect(node);
-                    break;
-
-                case "Ladder":
-                    effect = LadderComponent.LoadLadderEffect(node);
-                    break;
-
-                case "Sprite":
-                    effect = LoadSpriteEffect(node);
-                    break;
-
-                case "Position":
-                    effect = PositionComponent.LoadPositionAction(node);
-                    break;
-
-                case "Sound":
-                    effect = SoundComponent.LoadSoundEffect(node);
-                    break;
-
-                case "Collision":
-                    Parent.AddComponent(new CollisionComponent());
-                    effect = CollisionComponent.LoadCollisionEffect(node);
-                    break;
-
-                case "Timer":
-                    Parent.AddComponent(new TimerComponent());
-                    effect = TimerComponent.LoadXmlEffect(node);
-                    break;
-
-                case "Weapon":
-                    effect = WeaponComponent.LoadEffect(node);
+                default:
+                    effect = Parent.ParseComponentEffect(node);
                     break;
             }
             return effect;
-        }
-
-        private Effect LoadSpriteEffect(XElement node)
-        {
-            Effect action = new Effect((entity) => { });
-            foreach (XElement prop in node.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Name":
-                        string spritename = prop.Value;
-                        action += (entity) => {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
-                            spritecomp.ChangeSprite(spritename);
-                        };
-                        break;
-                        
-                    case "Playing":
-                        bool play;
-                        if (!bool.TryParse(prop.Value, out play)) throw new EntityXmlException(prop, "Playing tag must be a valid bool (true or false).");
-                        action += (entity) => {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
-                            spritecomp.Playing = play;
-                        };
-                        break;
-
-                    case "Visible":
-                        bool vis;
-                        if (!bool.TryParse(prop.Value, out vis)) throw new EntityXmlException(prop, "Visible tag must be a valid bool (true or false).");
-                        action += (entity) =>
-                        {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
-                            spritecomp.Visible = vis;
-                        };
-                        break;
-
-                    case "Group":
-                        string group = prop.Value;
-                        action += (entity) =>
-                        {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
-                            spritecomp.ChangeGroup(group);
-                        };
-                        break;
-                }
-            }
-            return action;
         }
 
         private class Trigger
