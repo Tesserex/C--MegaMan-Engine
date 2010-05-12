@@ -130,7 +130,7 @@ namespace Mega_Man
 
             if (FlipSprite)
             {
-                SpriteComponent sprite = (SpriteComponent)Parent.GetComponent(typeof(SpriteComponent));
+                SpriteComponent sprite = Parent.GetComponent<SpriteComponent>();
                 if (sprite != null) sprite.HorizontalFlip = (this.Direction == Direction.Left);
             }
 
@@ -200,7 +200,7 @@ namespace Mega_Man
                         if (!bool.TryParse(prop.Value, out f)) throw new EntityXmlException(prop, "Flying tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.Flying = f;
                         };
                         break;
@@ -210,7 +210,7 @@ namespace Mega_Man
                         if (!bool.TryParse(prop.Value, out flip)) throw new EntityXmlException(prop, "FlipSprite tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.FlipSprite = flip;
                         };
                         break;
@@ -255,7 +255,7 @@ namespace Mega_Man
                     case "Up":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = -1 * (mag?? Math.Abs(mov.VelocityY));
                         };
                         break;
@@ -263,7 +263,7 @@ namespace Mega_Man
                     case "Down":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = (mag?? Math.Abs(mov.VelocityY));
                         };
                         break;
@@ -271,7 +271,7 @@ namespace Mega_Man
                     case "Left":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = -mag?? -1 * Math.Abs(mov.VelocityX);
                         };
                         break;
@@ -279,7 +279,7 @@ namespace Mega_Man
                     case "Right":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = mag?? Math.Abs(mov.VelocityX);
                         };
                         break;
@@ -290,7 +290,7 @@ namespace Mega_Man
                             if (mag == null) return;
                             float fmag = mag ?? 0;
 
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov == null) return;
                             Direction dir = mov.Direction;
 
@@ -305,7 +305,7 @@ namespace Mega_Man
                             if (mag == null) return;
                             float fmag = mag ?? 0;
 
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov == null) return;
                             Direction dir = mov.Direction;
 
@@ -317,7 +317,7 @@ namespace Mega_Man
                     case "Inherit":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov == null) return;
                             if (entity.Parent != null)
                             {
@@ -333,8 +333,8 @@ namespace Mega_Man
                     case "Input":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
-                            InputComponent input = (InputComponent)entity.GetComponent(typeof(InputComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
+                            InputComponent input = entity.GetComponent<InputComponent>();
                             if (mov == null || input == null) return;
 
                             if (axis != Axis.Y)
@@ -354,12 +354,12 @@ namespace Mega_Man
                     case "Player":
                         action = (entity) =>
                         {
-                            MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
-                            PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
+                            PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (mov == null || pos == null) return;
 
                             GameEntity player = Game.CurrentGame.CurrentMap.Player;
-                            PositionComponent playerPos = (PositionComponent)player.GetComponent(typeof(PositionComponent));
+                            PositionComponent playerPos = player.GetComponent<PositionComponent>();
 
                             if (axis == Axis.X)
                             {
@@ -391,12 +391,12 @@ namespace Mega_Man
             {
                 if (axis == Axis.X) action = (entity) =>
                 {
-                    MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                    MovementComponent mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.VelocityX = 0;
                 };
                 else action = (entity) =>
                 {
-                    MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                    MovementComponent mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.VelocityY = 0;
                 };
             }

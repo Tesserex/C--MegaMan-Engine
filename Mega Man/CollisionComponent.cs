@@ -180,7 +180,7 @@ namespace Mega_Man
                 foreach (GameEntity entity in GameEntity.GetAll())
                 {
                     if (entity == this.Parent) continue;
-                    CollisionComponent coll = (CollisionComponent)entity.GetComponent(typeof(CollisionComponent));
+                    CollisionComponent coll = entity.GetComponent<CollisionComponent>();
                     if (coll == null) continue;
 
                     foreach (CollisionBox targetBox in coll.HitByBoxes(hitbox.Groups))
@@ -203,7 +203,7 @@ namespace Mega_Man
                                     float vx = 0, vy = 0;
                                     if (MovementSrc != null)
                                     {
-                                        MovementComponent mov = (MovementComponent)entity.GetComponent(typeof(MovementComponent));
+                                        MovementComponent mov = entity.GetComponent<MovementComponent>();
                                         vx = MovementSrc.VelocityX;
                                         vy = MovementSrc.VelocityY;
                                         if (mov != null)
@@ -273,7 +273,7 @@ namespace Mega_Man
                 foreach (GameEntity entity in GameEntity.GetAll())
                 {
                     if (entity == this.Parent) continue;
-                    CollisionComponent coll = (CollisionComponent)entity.GetComponent(typeof(CollisionComponent));
+                    CollisionComponent coll = entity.GetComponent<CollisionComponent>();
                     if (coll == null) continue;
 
                     foreach (CollisionBox targetBox in coll.TargetBoxes(hitbox.Hits))
@@ -470,7 +470,7 @@ namespace Mega_Man
                         if (!bool.TryParse(prop.Value, out b)) throw new EntityXmlException(prop, "Enabled value could not be parse as a boolean (true or false).");
                         effect += (entity) =>
                         {
-                            CollisionComponent col = (CollisionComponent)entity.GetComponent(typeof(CollisionComponent));
+                            CollisionComponent col = entity.GetComponent<CollisionComponent>();
                             if (col != null) col.Enabled = b;
                         };
                         break;

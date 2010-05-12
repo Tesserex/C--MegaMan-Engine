@@ -31,7 +31,7 @@ namespace Mega_Man
                 this.threshYmax += currentScreen.Screen.Tileset.TileSize;
             }
 
-            PositionComponent pos = (PositionComponent)door.GetComponent(typeof(PositionComponent));
+            PositionComponent pos = door.GetComponent<PositionComponent>();
             pos.SetPosition(new System.Drawing.PointF(this.threshXmin, this.threshYmin));
         }
 
@@ -40,7 +40,7 @@ namespace Mega_Man
             door.Start();
             door.Screen = currentScreen;
 
-            ((StateComponent)door.GetComponent(typeof(StateComponent))).StateChanged += (s) =>
+            door.GetComponent<StateComponent>().StateChanged += (s) =>
             {
                 if (s == "Open") open = true;
             };
@@ -59,7 +59,7 @@ namespace Mega_Man
             }
             else if (this.JoinInfo.direction == JoinDirection.ForwardOnly) return false;
 
-            return ((CollisionComponent)door.GetComponent(typeof(CollisionComponent))).TouchedBy("Player");
+            return (door.GetComponent<CollisionComponent>()).TouchedBy("Player");
         }
 
         public override void BeginScroll(ScreenHandler next, PointF playerPos)
@@ -92,7 +92,7 @@ namespace Mega_Man
                 else scrollDist = Game.CurrentGame.PixelsDown;
 
                 otherDoor.SendMessage(new StateMessage(null, "Closing"));
-                ((StateComponent)otherDoor.GetComponent(typeof(StateComponent))).StateChanged += (s) =>
+                (otherDoor.GetComponent<StateComponent>()).StateChanged += (s) =>
                 {
                     if (s == "Start")
                     {

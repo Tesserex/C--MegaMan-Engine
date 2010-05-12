@@ -131,7 +131,7 @@ namespace Mega_Man
                         string spritename = prop.Value;
                         action += (entity) =>
                         {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.ChangeSprite(spritename);
                         };
                         break;
@@ -141,7 +141,7 @@ namespace Mega_Man
                         if (!bool.TryParse(prop.Value, out play)) throw new EntityXmlException(prop, "Playing tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.Playing = play;
                         };
                         break;
@@ -151,7 +151,7 @@ namespace Mega_Man
                         if (!bool.TryParse(prop.Value, out vis)) throw new EntityXmlException(prop, "Visible tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.Visible = vis;
                         };
                         break;
@@ -160,7 +160,7 @@ namespace Mega_Man
                         string group = prop.Value;
                         action += (entity) =>
                         {
-                            SpriteComponent spritecomp = (SpriteComponent)entity.GetComponent(typeof(SpriteComponent));
+                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.ChangeGroup(group);
                         };
                         break;

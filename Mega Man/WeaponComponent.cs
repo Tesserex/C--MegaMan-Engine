@@ -29,7 +29,7 @@ namespace Mega_Man
             {
                 if (info.Name == weapon)
                 {
-                    if (info.SpriteGroup == "Default") return (int)((HealthComponent)Parent.GetComponent(typeof(HealthComponent))).Health;
+                    if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).Health;
                     return info.Ammo;
                 }
             }
@@ -42,7 +42,7 @@ namespace Mega_Man
             {
                 if (info.Name == weapon)
                 {
-                    if (info.SpriteGroup == "Default") return (int)((HealthComponent)Parent.GetComponent(typeof(HealthComponent))).MaxHealth;
+                    if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).MaxHealth;
                     return info.Max;
                 }
             }
@@ -128,7 +128,7 @@ namespace Mega_Man
 
         private void ApplyCurrent()
         {
-            SpriteComponent sprites = (SpriteComponent)this.Parent.GetComponent(typeof(SpriteComponent));
+            SpriteComponent sprites = this.Parent.GetComponent<SpriteComponent>();
             if (sprites != null) sprites.ChangeGroup(weapons[current].SpriteGroup);
 
             if (weapons[current].Meter != null)
@@ -208,7 +208,7 @@ namespace Mega_Man
             {
                 effect = (entity) =>
                 {
-                    WeaponComponent weapons = (WeaponComponent)entity.GetComponent(typeof(WeaponComponent));
+                    WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
                     if (weapons != null) weapons.Shoot();
                 };
             }
@@ -216,7 +216,7 @@ namespace Mega_Man
             {
                 effect = (entity) =>
                 {
-                    WeaponComponent weapons = (WeaponComponent)entity.GetComponent(typeof(WeaponComponent));
+                    WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
                     if (weapons != null) weapons.RotateForward();
                 };
             }

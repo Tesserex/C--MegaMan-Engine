@@ -96,7 +96,7 @@ namespace Mega_Man
             if (flashing > 0)
             {
                 flashing--;
-                SpriteComponent spr = (SpriteComponent)Parent.GetComponent(typeof(SpriteComponent));
+                SpriteComponent spr = Parent.GetComponent<SpriteComponent>();
                 if (spr != null) spr.Visible = (flashing % 3 != 1);
             }
         }

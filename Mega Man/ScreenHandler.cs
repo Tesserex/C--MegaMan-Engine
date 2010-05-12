@@ -132,7 +132,7 @@ namespace Mega_Man
             }
 
             // if the player is not colliding, they'll be allowed to pass through the walls (e.g. teleporting)
-            if (((CollisionComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(CollisionComponent))).Enabled)
+            if ((Game.CurrentGame.CurrentMap.Player.GetComponent<CollisionComponent>()).Enabled)
             {
                 // now if we aren't scrolling, hold the player at the screen borders
                 if (PlayerPos.Position.X >= Screen.PixelWidth - Const.PlayerScrollTrigger)
@@ -182,7 +182,7 @@ namespace Mega_Man
 
             GameEntity enemy = GameEntity.Get(info.enemy);
             if (enemy == null) return;
-            PositionComponent pos = (PositionComponent)enemy.GetComponent(typeof(PositionComponent));
+            PositionComponent pos = enemy.GetComponent<PositionComponent>();
             if (!pos.PersistOffScreen && !Game.CurrentGame.CurrentMap.IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
 
             pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
@@ -194,20 +194,20 @@ namespace Mega_Man
             enemy.Start();
             if (info.boss)
             {
-                HealthComponent health = (HealthComponent)enemy.GetComponent(typeof(HealthComponent));
+                HealthComponent health = enemy.GetComponent<HealthComponent>();
                 health.DelayFill(120);
                 BossFightTimer();
                 enemy.Death += () =>
                 {
                     if (music != null) music.FadeOut(30);
-                    ((InputComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(InputComponent))).Paused = true;
+                    (Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>()).Paused = true;
                     Engine.Instance.DelayedCall(() => { Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")); }, null, 120);
                     Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
             }
             if (info.pallete != "Default" && info.pallete != null)
             {
-                ((SpriteComponent)enemy.GetComponent(typeof(SpriteComponent))).ChangeGroup(info.pallete);
+                (enemy.GetComponent<SpriteComponent>()).ChangeGroup(info.pallete);
             }
             this.entities[index] = enemy;
             enemy.Stopped += () => this.entities[index] = null;
@@ -215,7 +215,7 @@ namespace Mega_Man
 
         private void BossFightTimer()
         {
-            InputComponent input = (InputComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(InputComponent));
+            InputComponent input = Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>();
             Engine.Instance.DelayedCall(() => { input.Paused = true; }, null, 20);
             Engine.Instance.DelayedCall(() => { input.Paused = false; }, null, 200);
         }

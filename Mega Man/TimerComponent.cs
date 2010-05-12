@@ -69,7 +69,7 @@ namespace Mega_Man
                 effect += (entity) =>
                 {
                     string name = timerName;
-                    TimerComponent timer = (TimerComponent)entity.GetComponent(typeof(TimerComponent));
+                    TimerComponent timer = entity.GetComponent<TimerComponent>();
                     if (timer != null) timer.timers[name] = 0;
                 };
             }
@@ -80,7 +80,7 @@ namespace Mega_Man
                 effect += (entity) =>
                 {
                     string name = timerName;
-                    TimerComponent timer = (TimerComponent)entity.GetComponent(typeof(TimerComponent));
+                    TimerComponent timer = entity.GetComponent<TimerComponent>();
                     if (timer != null && timer.timers.ContainsKey(name)) timer.timers[name] = 0;
                 };
             }
@@ -91,7 +91,7 @@ namespace Mega_Man
                 effect += (entity) =>
                 {
                     string name = timerName;
-                    TimerComponent timer = (TimerComponent)entity.GetComponent(typeof(TimerComponent));
+                    TimerComponent timer = entity.GetComponent<TimerComponent>();
                     if (timer != null) timer.timers.Remove(timerName);
                 };
             }

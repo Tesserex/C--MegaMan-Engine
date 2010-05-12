@@ -112,7 +112,7 @@ namespace Mega_Man
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
             Game.CurrentGame.AddGameHandler(this);
 
-            playerWeapons = (WeaponComponent)Game.CurrentGame.CurrentMap.Player.GetComponent(typeof(WeaponComponent));
+            playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
             foreach (WeaponInfo info in weapons)

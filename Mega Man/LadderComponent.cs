@@ -209,22 +209,22 @@ namespace Mega_Man
 
             if (node.Value == "Grab") effect = (entity) =>
             {
-                LadderComponent ladder = (LadderComponent)entity.GetComponent(typeof(LadderComponent));
+                LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.Grab();
             };
             else if (node.Value == "LetGo") effect = (entity) =>
             {
-                LadderComponent ladder = (LadderComponent)entity.GetComponent(typeof(LadderComponent));
+                LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.LetGo();
             };
             else if (node.Value == "StandOn") effect = (entity) =>
             {
-                LadderComponent ladder = (LadderComponent)entity.GetComponent(typeof(LadderComponent));
+                LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.StandOn();
             };
             else if (node.Value == "ClimbDown") effect = (entity) =>
             {
-                LadderComponent ladder = (LadderComponent)entity.GetComponent(typeof(LadderComponent));
+                LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.ClimbDown();
             };
 

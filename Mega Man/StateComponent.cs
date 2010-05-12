@@ -200,22 +200,22 @@ namespace Mega_Man
         {
             return new Condition((entity) =>
             {
-                PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                PositionComponent pos = entity.GetComponent<PositionComponent>();
                 return split(
                 pos,
-                (IMovement)entity.GetComponent(typeof(MovementComponent)),
-                (SpriteComponent)entity.GetComponent(typeof(SpriteComponent)),
-                (InputComponent)entity.GetComponent(typeof(InputComponent)),
-                (CollisionComponent)entity.GetComponent(typeof(CollisionComponent)),
-                (LadderComponent)entity.GetComponent(typeof(LadderComponent)),
-                (TimerComponent)entity.GetComponent(typeof(TimerComponent)),
-                (HealthComponent)entity.GetComponent(typeof(HealthComponent)),
-                ((StateComponent)entity.GetComponent(typeof(StateComponent))).stateframes,
-                ((StateComponent)entity.GetComponent(typeof(StateComponent))).lifetime,
+                entity.GetComponent<MovementComponent>(),
+                entity.GetComponent<SpriteComponent>(),
+                entity.GetComponent<InputComponent>(),
+                entity.GetComponent<CollisionComponent>(),
+                entity.GetComponent<LadderComponent>(),
+                entity.GetComponent<TimerComponent>(),
+                entity.GetComponent<HealthComponent>(),
+                (entity.GetComponent<StateComponent>()).stateframes,
+                (entity.GetComponent<StateComponent>()).lifetime,
                 Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X),
                 Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.Y - pos.Position.Y),
                 Game.CurrentGame.GravityFlip,
-                ((StateComponent)entity.GetComponent(typeof(StateComponent))).framerand
+                (entity.GetComponent<StateComponent>()).framerand
                 );
             });
         }
@@ -268,7 +268,7 @@ namespace Mega_Man
             string newstate = effectNode.Value;
             return (entity) =>
             {
-                StateComponent state = (StateComponent)entity.GetComponent(typeof(StateComponent));
+                StateComponent state = entity.GetComponent<StateComponent>();
                 if (state != null) state.CurrentState = newstate;
             };
         }

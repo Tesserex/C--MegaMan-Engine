@@ -28,7 +28,7 @@ namespace Mega_Man
         {
             get
             {
-                MovementComponent movement = (MovementComponent)GetComponent(typeof(MovementComponent));
+                MovementComponent movement = GetComponent<MovementComponent>();
                 if (movement != null) return movement.Direction;
                 return dir;
             }
@@ -49,9 +49,9 @@ namespace Mega_Man
             Parent = parent;
         }
 
-        public Component GetComponent(Type type)
+        public T GetComponent<T>() where T : Component
         {
-            if (components.ContainsKey(type)) return components[type];
+            if (components.ContainsKey(typeof(T))) return (T)components[typeof(T)];
             return null;
         }
 
@@ -126,8 +126,9 @@ namespace Mega_Man
             string typename = name + "Component";
             Type comptype = Type.GetType("Mega_Man." + typename, false, true);
             if (comptype == null) return null;
-            Component comp = this.GetComponent(comptype);
-            if (comp == null) // create one
+            Component comp;
+            if (components.ContainsKey(comptype)) comp = components[comptype];
+            else // create one
             {
                 comp = (Component)Activator.CreateInstance(comptype);
                 this.AddComponent(comp);

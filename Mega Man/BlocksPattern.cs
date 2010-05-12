@@ -40,7 +40,7 @@ namespace Mega_Man
                 BlockInfo myInfo = new BlockInfo();
                 myInfo.entity = GameEntity.Get(info.Entity);
                 // should always persist off screen
-                PositionComponent pos = (PositionComponent)myInfo.entity.GetComponent(typeof(PositionComponent));
+                PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
                 pos.PersistOffScreen = true;
                 myInfo.pos = blockinfo.pos;
                 myInfo.on = blockinfo.on;
@@ -104,7 +104,7 @@ namespace Mega_Man
             {
                 info.entity.SendMessage(new StateMessage(null, "Start"));
                 info.entity.Start();
-                PositionComponent pos = (PositionComponent)info.entity.GetComponent(typeof(PositionComponent));
+                PositionComponent pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);
                 if (info.on > 0) // not turned on yet

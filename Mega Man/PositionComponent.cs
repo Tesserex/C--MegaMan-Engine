@@ -113,10 +113,10 @@ namespace Mega_Man
                 {
                     action = (entity) =>
                     {
-                        PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
                         if (pos != null && entity.Parent != null)
                         {
-                            PositionComponent parentPos = (PositionComponent)entity.Parent.GetComponent(typeof(PositionComponent));
+                            PositionComponent parentPos = entity.Parent.GetComponent<PositionComponent>();
                             if (parentPos != null)
                             {
                                 if (axis == Axis.X) pos.SetPosition(new System.Drawing.PointF(parentPos.Position.X, pos.Position.Y));
@@ -131,12 +131,12 @@ namespace Mega_Man
                     if (!float.TryParse(base_str, out baseVal)) throw new EntityXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
                     if (axis == Axis.X) action = (entity) =>
                     {
-                        PositionComponent pos = (PositionComponent)entity.Parent.GetComponent(typeof(PositionComponent));
+                        PositionComponent pos = entity.Parent.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new System.Drawing.PointF(baseVal, pos.Position.Y));
                     };
                     else action = (entity) =>
                     {
-                        PositionComponent pos = (PositionComponent)entity.Parent.GetComponent(typeof(PositionComponent));
+                        PositionComponent pos = entity.Parent.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X, baseVal));
                     };
                 }
@@ -153,7 +153,7 @@ namespace Mega_Man
                 {
                     action += (entity) =>
                     {
-                        PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
                         if (pos != null && entity.Parent != null)
                         {
                             Direction offdir = entity.Parent.Direction;
@@ -171,8 +171,8 @@ namespace Mega_Man
                 {
                     action += (entity) =>
                     {
-                        PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
-                        InputComponent input = (InputComponent)entity.GetComponent(typeof(InputComponent));
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
+                        InputComponent input = entity.GetComponent<InputComponent>();
                         if (input != null && pos != null)
                         {
                             if (axis == Axis.Y)
@@ -203,25 +203,25 @@ namespace Mega_Man
                     {
                         case Direction.Left: action += (entity) =>
                         {
-                            PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                            PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X - offset, pos.Position.Y));
                         };
                             break;
                         case Direction.Right: action += (entity) =>
                         {
-                            PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                            PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X + offset, pos.Position.Y));
                         };
                             break;
                         case Direction.Down: action += (entity) =>
                         {
-                            PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                            PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X, pos.Position.Y + offset));
                         };
                             break;
                         case Direction.Up: action += (entity) =>
                         {
-                            PositionComponent pos = (PositionComponent)entity.GetComponent(typeof(PositionComponent));
+                            PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X, pos.Position.Y - offset));
                         };
                             break;

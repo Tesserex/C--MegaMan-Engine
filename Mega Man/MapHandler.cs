@@ -205,18 +205,18 @@ namespace Mega_Man
                 setpos = (state) =>
                 {
                     PlayerPos.SetPosition(info.To);
-                    ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged -= setpos;
+                    (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
                     teleporting = false;
-                    ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = true;
+                    (Player.GetComponent<MovementComponent>()).CanMove = true;
                 };
             }
             else
             {
                 setpos = (state) =>
                 {
-                    ((SpriteComponent)Player.GetComponent(typeof(SpriteComponent))).Visible = false;
-                    ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged -= setpos;
+                    (Player.GetComponent<SpriteComponent>()).Visible = false;
+                    (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Engine.Instance.FadeTransition(
                         () => 
                     { 
@@ -225,16 +225,16 @@ namespace Mega_Man
                         PlayerPos.SetPosition(info.To); // do it here so drawing is correct for fade-in
                     }, () =>
                     {
-                        ((SpriteComponent)Player.GetComponent(typeof(SpriteComponent))).Visible = true;
+                        (Player.GetComponent<SpriteComponent>()).Visible = true;
                         Player.SendMessage(new StateMessage(null, "TeleportEnd"));
-                        ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = true;
+                        (Player.GetComponent<MovementComponent>()).CanMove = true;
                         teleporting = false;
                     });
                 };
             }
-            ((MovementComponent)Player.GetComponent(typeof(MovementComponent))).CanMove = false;
+            (Player.GetComponent<MovementComponent>()).CanMove = false;
             Player.SendMessage(new StateMessage(null, "TeleportBlink"));
-            ((StateComponent)Player.GetComponent(typeof(StateComponent))).StateChanged += setpos;
+            (Player.GetComponent<StateComponent>()).StateChanged += setpos;
         }
 
         #region IHandleGameEvents Members
@@ -246,7 +246,7 @@ namespace Mega_Man
             Player = GameEntity.Get("Player");
 
             Player.Stopped += Player_Death;
-            PlayerPos = (PositionComponent)Player.GetComponent(typeof(PositionComponent));
+            PlayerPos = Player.GetComponent<PositionComponent>();
 
             CurrentScreen = new ScreenHandler(Map.Screens[this.startScreen], PlayerPos, Map.Joins);
             StartScreen();
@@ -264,7 +264,7 @@ namespace Mega_Man
             Engine.Instance.GameRender += new GameRenderEventHandler(BlinkReady);
 
             // make sure we can move
-            ((InputComponent)Player.GetComponent(typeof(InputComponent))).Paused = false;
+            (Player.GetComponent<InputComponent>()).Paused = false;
         }
 
         public void StopHandler()
@@ -312,7 +312,7 @@ namespace Mega_Man
 
         public void GameInputReceived(GameInputEventArgs e)
         {
-            if (updateFunc == null || ((InputComponent)Player.GetComponent(typeof(InputComponent))).Paused) return;
+            if (updateFunc == null || (Player.GetComponent<InputComponent>()).Paused) return;
             if (e.Input == GameInput.Start && e.Pressed)
             {
                 // has to handle both pause and unpause, in case a pause screen isn't defined
