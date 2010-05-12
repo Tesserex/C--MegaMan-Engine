@@ -31,6 +31,8 @@ namespace Mega_Man
         private List<CollisionBox> hitboxes = new List<CollisionBox>();
         private List<string> touchedBy = new List<string>();
 
+        public float DamageDealt { get; private set; }
+
         public bool Enabled { get; set; }
         public bool BlockTop { get; private set; }
         public bool BlockLeft { get; private set; }
@@ -130,6 +132,7 @@ namespace Mega_Man
         {
             if (Parent.Paused) return;
 
+            DamageDealt = 0;
             BlockTop = BlockRight = BlockLeft = BlockBottom = false;
             blockBottomMin = blockLeftMin = blockRightMin = blockTopMin = float.PositiveInfinity;
             blockBottomMax = blockTopMax = blockLeftMax = blockRightMax = float.NegativeInfinity;
@@ -424,6 +427,8 @@ namespace Mega_Man
             else dmgmsg = new HealMessage(Parent, damage * -1);
 
             entity.SendMessage(dmgmsg);
+            DamageDealt = damage;
+
             return false;
         }
 
