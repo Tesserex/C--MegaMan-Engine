@@ -424,12 +424,6 @@ namespace Mega_Man
             else dmgmsg = new HealMessage(Parent, damage * -1);
 
             entity.SendMessage(dmgmsg);
-
-            // special case, maybe fix later
-            if (Parent.Group == "Weapon")
-            {
-                Parent.SendMessage(dmgmsg);
-            }
             return false;
         }
 

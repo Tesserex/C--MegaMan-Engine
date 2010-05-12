@@ -12,7 +12,6 @@ namespace Mega_Man
     {
         private Dictionary<Type, Component> components;
         public string Name { get; set; }
-        public string Group { get; set; }
         public ScreenHandler Screen { get; set; }
         public GameEntity Parent { get; private set; }
 
@@ -187,12 +186,7 @@ namespace Mega_Man
             GameEntity entity = new GameEntity();
             string name = xml.Attribute("name").Value;
 
-            string group = "None";
-            XAttribute groupattr = xml.Attribute("group");
-            if (groupattr != null) group = groupattr.Value;
-
             entity.Name = name;
-            entity.Group = group;
 
             SpriteComponent spritecomp = null;
             PositionComponent poscomp = null;
@@ -331,7 +325,6 @@ namespace Mega_Man
                 entity.AddComponent(c.Clone());
             }
             entity.Name = source.Name;
-            entity.Group = source.Group;
             entity.OnDeath = source.OnDeath;
             entity.GravityFlip = source.GravityFlip;
             return entity;
