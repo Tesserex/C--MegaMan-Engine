@@ -48,6 +48,11 @@ namespace Mega_Man
             
         }
 
+        public void SetPosition(float x, float y)
+        {
+            SetPosition(new PointF(x, y));
+        }
+
         public void SetPosition(PointF pos)
         {
             Position = pos;
