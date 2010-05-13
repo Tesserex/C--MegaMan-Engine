@@ -14,7 +14,16 @@ namespace Mega_Man
         private int flashtime;
         private int flashing;
 
-        public float Health { get { return health; } }
+        public float Health
+        {
+            get { return health; }
+            set
+            {
+                health = value;
+                if (health > maxHealth) health = maxHealth;
+                if (meter != null) meter.Value = health;
+            }
+        }
         public float MaxHealth { get { return maxHealth; } }
         public bool Hit { get; private set; }
 
@@ -71,10 +80,7 @@ namespace Mega_Man
 
                 DamageMessage damage = (DamageMessage)msg;
 
-                // here is where you should check for exceptions like resistance or weakness
-
-                health -= damage.Damage;
-                if (meter != null) meter.Value = health;
+                Health -= damage.Damage;
 
                 Hit = true;
                 flashing = flashtime;
@@ -83,9 +89,7 @@ namespace Mega_Man
             {
                 HealMessage heal = (HealMessage)msg;
 
-                health += heal.Health;
-                if (health > maxHealth) health = maxHealth;
-                if (meter != null) meter.Value = health;
+                Health += heal.Health;
             }
         }
 
@@ -132,6 +136,16 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement effectNode)
         {
+            XAttribute changeAttr = effectNode.Attribute("change");
+            if (changeAttr != null)
+            {
+                float changeval;
+                if (!float.TryParse(changeAttr.Value, out changeval)) throw new EntityXmlException(changeAttr, "Health change attribute must be a number.");
+                return (entity) =>
+                {
+                    entity.GetComponent<HealthComponent>().Health += changeval;
+                };
+            }
             return (entity) => { };
         }
     }
