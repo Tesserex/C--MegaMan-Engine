@@ -9,8 +9,8 @@ using System.Xml.Linq;
 namespace Mega_Man
 {
     public delegate bool SplitCondition(
-        IPositioned pos,
-        IMovement mov,
+        PositionComponent pos,
+        MovementComponent mov,
         SpriteComponent spr,
         InputComponent inp,
         CollisionComponent col,
@@ -23,6 +23,17 @@ namespace Mega_Man
         float playerdy,
         bool gravflip,
         double random
+    );
+
+    public delegate void SplitEffect(
+        PositionComponent pos,
+        MovementComponent mov,
+        SpriteComponent spr,
+        InputComponent inp,
+        CollisionComponent col,
+        LadderComponent lad,
+        TimerComponent timer,
+        HealthComponent health
     );
 
     public delegate bool Condition(GameEntity entity);
@@ -48,8 +59,8 @@ namespace Mega_Man
         public StateComponent()
         {
             states = new Dictionary<string, State>();
-            posParam = Expression.Parameter(typeof(IPositioned), "Position");
-            moveParam = Expression.Parameter(typeof(IMovement), "Movement");
+            posParam = Expression.Parameter(typeof(PositionComponent), "Position");
+            moveParam = Expression.Parameter(typeof(MovementComponent), "Movement");
             sprParam = Expression.Parameter(typeof(SpriteComponent), "Sprite");
             inputParam = Expression.Parameter(typeof(InputComponent), "Input");
             collParam = Expression.Parameter(typeof(CollisionComponent), "Collision");
@@ -220,10 +231,29 @@ namespace Mega_Man
             });
         }
 
+        // provides a closure around a split effect
+        private Effect CloseEffect(SplitEffect split)
+        {
+            return new Effect((entity) =>
+            {
+                split(
+                entity.GetComponent<PositionComponent>(),
+                entity.GetComponent<MovementComponent>(),
+                entity.GetComponent<SpriteComponent>(),
+                entity.GetComponent<InputComponent>(),
+                entity.GetComponent<CollisionComponent>(),
+                entity.GetComponent<LadderComponent>(),
+                entity.GetComponent<TimerComponent>(),
+                entity.GetComponent<HealthComponent>()
+                );
+            });
+        }
+
         public Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = DynamicExpression.ParseLambda(
                 new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
+                typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
                 dirDict);
@@ -285,6 +315,22 @@ namespace Mega_Man
 
                 case "Die":
                     effect = (entity) => { entity.Stop(); };
+                    break;
+
+                case "Func":
+                    effect = (entity) => { };
+                    string[] statements = node.Value.Split(';');
+                    foreach (string st in statements)
+                    {
+                        if (string.IsNullOrEmpty(st.Trim())) continue;
+                        LambdaExpression lambda = DynamicExpression.ParseLambda(
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam },
+                            typeof(SplitEffect),
+                            null,
+                            st,
+                            dirDict);
+                        effect += CloseEffect((SplitEffect)lambda.Compile());
+                    }
                     break;
 
                 default:

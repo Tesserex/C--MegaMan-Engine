@@ -158,13 +158,13 @@ namespace System.Linq.Dynamic
         }
 
         public static LambdaExpression ParseLambda(Type itType, Type resultType, string expression, params object[] values) {
-            return ParseLambda(new ParameterExpression[] { Expression.Parameter(itType, "") }, resultType, expression, values);
+            return ParseLambda(new ParameterExpression[] { Expression.Parameter(itType, "") }, itType, resultType, expression, values);
         }
 
-        public static LambdaExpression ParseLambda(ParameterExpression[] parameters, Type resultType, string expression, params object[] values) {
+        public static LambdaExpression ParseLambda(ParameterExpression[] parameters, Type delegateType, Type resultType, string expression, params object[] values) {
             ExpressionParser parser = new ExpressionParser(parameters, expression, values);
             Expression expr = parser.Parse(resultType);
-            return Expression.Lambda(typeof(Mega_Man.SplitCondition), expr, parameters);
+            return Expression.Lambda(delegateType, expr, parameters);
         }
 
         public static Expression<Func<T, S>> ParseLambda<T, S>(string expression, params object[] values) {
