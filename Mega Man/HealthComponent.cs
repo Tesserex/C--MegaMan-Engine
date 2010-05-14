@@ -148,5 +148,12 @@ namespace Mega_Man
             }
             return (entity) => { };
         }
+
+        // this exists for the sake of dynamic expressions,
+        // which can't do assignment through operators
+        public void Add(float val)
+        {
+            Health += val;
+        }
     }
 }

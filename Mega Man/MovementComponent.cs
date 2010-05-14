@@ -181,6 +181,17 @@ namespace Mega_Man
             if (Math.Abs(add) > Math.Abs(resistConstY)) resistConstY = add;
         }
 
+        // these next two functions exist for the sake of xml expressions
+        public void SetX(float x)
+        {
+            VelocityX = x;
+        }
+
+        public void SetY(float y)
+        {
+            VelocityY = y;
+        }
+
         public override void LoadXml(XElement xmlNode)
         {
             // for now, just get the effect and then execute it on myself
