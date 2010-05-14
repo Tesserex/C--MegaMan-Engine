@@ -182,14 +182,14 @@ namespace Mega_Man
         }
 
         // these next two functions exist for the sake of xml expressions
-        public void SetX(float x)
+        public void SetX(double x)
         {
-            VelocityX = x;
+            VelocityX = (float)x;
         }
 
-        public void SetY(float y)
+        public void SetY(double y)
         {
-            VelocityY = y;
+            VelocityY = (float)y;
         }
 
         public override void LoadXml(XElement xmlNode)
