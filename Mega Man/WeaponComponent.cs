@@ -146,13 +146,19 @@ namespace Mega_Man
                     Parent.Spawn(weapons[current].Name);
                     if (weapons[current].Ammo > 0)
                     {
-                        weapons[current].Ammo--;
-                        if (weapons[current].Ammo < 0) weapons[current].Ammo = 0;
-
-                        if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
+                        AddAmmo(-1);
                     }
                 }
             }
+        }
+
+        public void AddAmmo(int ammo)
+        {
+            weapons[current].Ammo += ammo;
+            if (weapons[current].Ammo < 0) weapons[current].Ammo = 0;
+            if (weapons[current].Ammo > weapons[current].Max) weapons[current].Ammo = weapons[current].Max;
+
+            if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
         }
 
         public void AddWeapon(string name, int ammo, HealthMeter meter, string spritegroup)
@@ -219,6 +225,19 @@ namespace Mega_Man
                     WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
                     if (weapons != null) weapons.RotateForward();
                 };
+            }
+            else
+            {
+                XElement ammoNode = node.Element("Ammo");
+                if (ammoNode != null)
+                {
+                    int val = int.Parse(ammoNode.Attribute("val").Value);
+                    effect = (entity) =>
+                    {
+                        WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
+                        if (weapons != null) weapons.AddAmmo(val);
+                    };
+                }
             }
             return effect;
         }
