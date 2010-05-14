@@ -55,6 +55,11 @@ namespace Mega_Man
         private ParameterExpression posParam, moveParam, sprParam, inputParam, collParam, stateParam,
             ladderParam, timerParam, stParam, lifeParam, healthParam, playerXParam, playerYParam, gravParam, randParam;
 
+        public int StateTime
+        {
+            get { return stateframes; }
+        }
+
         public event Action<string> StateChanged;
 
         public StateComponent()
