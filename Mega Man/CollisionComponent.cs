@@ -426,8 +426,12 @@ namespace Mega_Man
             if (damage > 0) dmgmsg = new DamageMessage(Parent, damage);
             else dmgmsg = new HealMessage(Parent, damage * -1);
 
+            float prevhealth = damage;
+            HealthComponent comp = entity.GetComponent<HealthComponent>();
+            if (comp != null) prevhealth = comp.Health;
+
             entity.SendMessage(dmgmsg);
-            DamageDealt = damage;
+            DamageDealt = Math.Min(damage, prevhealth);
 
             return false;
         }
