@@ -171,7 +171,7 @@ namespace Mega_Man
                         break;
 
                     default:
-                        if (child.Attribute("mode") != null && child.Attribute("mode").Value == "Repeat") state.AddLogic(LoadXmlEffect(child));
+                        if (child.Attribute("mode") != null && child.Attribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(LoadXmlEffect(child));
                         else state.AddInitial(LoadXmlEffect(child));
                         break;
                 }
