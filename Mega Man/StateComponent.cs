@@ -33,7 +33,8 @@ namespace Mega_Man
         CollisionComponent col,
         LadderComponent lad,
         TimerComponent timer,
-        HealthComponent health
+        HealthComponent health,
+        StateComponent state
     );
 
     public delegate bool Condition(GameEntity entity);
@@ -51,7 +52,7 @@ namespace Mega_Man
 
         private Dictionary<string, object> dirDict;
 
-        private ParameterExpression posParam, moveParam, sprParam, inputParam, collParam,
+        private ParameterExpression posParam, moveParam, sprParam, inputParam, collParam, stateParam,
             ladderParam, timerParam, stParam, lifeParam, healthParam, playerXParam, playerYParam, gravParam, randParam;
 
         public event Action<string> StateChanged;
@@ -67,6 +68,7 @@ namespace Mega_Man
             ladderParam = Expression.Parameter(typeof(LadderComponent), "Ladder");
             timerParam = Expression.Parameter(typeof(TimerComponent), "Timer");
             healthParam = Expression.Parameter(typeof(HealthComponent), "Health");
+            stateParam = Expression.Parameter(typeof(StateComponent), "State");
             stParam = Expression.Parameter(typeof(int), "StateTime");
             lifeParam = Expression.Parameter(typeof(int), "LifeTime");
             playerXParam = Expression.Parameter(typeof(float), "PlayerDistX");
@@ -244,7 +246,8 @@ namespace Mega_Man
                 entity.GetComponent<CollisionComponent>(),
                 entity.GetComponent<LadderComponent>(),
                 entity.GetComponent<TimerComponent>(),
-                entity.GetComponent<HealthComponent>()
+                entity.GetComponent<HealthComponent>(),
+                entity.GetComponent<StateComponent>()
                 );
             });
         }
@@ -324,7 +327,7 @@ namespace Mega_Man
                     {
                         if (string.IsNullOrEmpty(st.Trim())) continue;
                         LambdaExpression lambda = DynamicExpression.ParseLambda(
-                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam },
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam },
                             typeof(SplitEffect),
                             null,
                             st,
