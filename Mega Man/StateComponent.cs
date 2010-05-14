@@ -17,6 +17,7 @@ namespace Mega_Man
         LadderComponent lad,
         TimerComponent timer,
         HealthComponent health,
+        WeaponComponent weapon,
         int statetime,
         int lifetime,
         float playerdx,
@@ -34,7 +35,8 @@ namespace Mega_Man
         LadderComponent lad,
         TimerComponent timer,
         HealthComponent health,
-        StateComponent state
+        StateComponent state,
+        WeaponComponent weapon
     );
 
     public delegate bool Condition(GameEntity entity);
@@ -52,7 +54,7 @@ namespace Mega_Man
 
         private Dictionary<string, object> dirDict;
 
-        private ParameterExpression posParam, moveParam, sprParam, inputParam, collParam, stateParam,
+        private ParameterExpression posParam, moveParam, sprParam, inputParam, collParam, stateParam, weaponParam,
             ladderParam, timerParam, stParam, lifeParam, healthParam, playerXParam, playerYParam, gravParam, randParam;
 
         public int StateTime
@@ -74,6 +76,7 @@ namespace Mega_Man
             timerParam = Expression.Parameter(typeof(TimerComponent), "Timer");
             healthParam = Expression.Parameter(typeof(HealthComponent), "Health");
             stateParam = Expression.Parameter(typeof(StateComponent), "State");
+            weaponParam = Expression.Parameter(typeof(WeaponComponent), "Weapon");
             stParam = Expression.Parameter(typeof(int), "StateTime");
             lifeParam = Expression.Parameter(typeof(int), "LifeTime");
             playerXParam = Expression.Parameter(typeof(float), "PlayerDistX");
@@ -228,6 +231,7 @@ namespace Mega_Man
                 entity.GetComponent<LadderComponent>(),
                 entity.GetComponent<TimerComponent>(),
                 entity.GetComponent<HealthComponent>(),
+                entity.GetComponent<WeaponComponent>(),
                 (entity.GetComponent<StateComponent>()).stateframes,
                 (entity.GetComponent<StateComponent>()).lifetime,
                 Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X),
@@ -252,7 +256,8 @@ namespace Mega_Man
                 entity.GetComponent<LadderComponent>(),
                 entity.GetComponent<TimerComponent>(),
                 entity.GetComponent<HealthComponent>(),
-                entity.GetComponent<StateComponent>()
+                entity.GetComponent<StateComponent>(),
+                entity.GetComponent<WeaponComponent>()
                 );
             });
         }
@@ -260,7 +265,7 @@ namespace Mega_Man
         public Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
+                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
@@ -332,7 +337,7 @@ namespace Mega_Man
                     {
                         if (string.IsNullOrEmpty(st.Trim())) continue;
                         LambdaExpression lambda = DynamicExpression.ParseLambda(
-                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam },
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam },
                             typeof(SplitEffect),
                             null,
                             st,
