@@ -68,15 +68,17 @@ namespace Mega_Man
         public override void Start()
         {
             Enabled = true;
-            Engine.Instance.GameAct += () =>
-            {
-                this.touchedBy.Clear();
-            };
+            Engine.Instance.GameAct += ClearTouch;
             Engine.Instance.GameReact += Update;
             Engine.Instance.GameRender += new GameRenderEventHandler(Instance_GameRender);
 
             rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
             rectTex.SetData(new Microsoft.Xna.Framework.Graphics.Color[] { new Microsoft.Xna.Framework.Graphics.Color(1, 0.6f, 0, 0.7f) });
+        }
+
+        private void ClearTouch()
+        {
+            this.touchedBy.Clear();
         }
 
         void Instance_GameRender(GameRenderEventArgs e)
@@ -92,6 +94,7 @@ namespace Mega_Man
 
         public override void Stop()
         {
+            Engine.Instance.GameAct -= ClearTouch;
             Engine.Instance.GameReact -= Update;
             Engine.Instance.GameRender -= new GameRenderEventHandler(Instance_GameRender);
         }
