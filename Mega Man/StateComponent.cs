@@ -143,6 +143,7 @@ namespace Mega_Man
             states[CurrentState].CheckTriggers(this, this.Parent);
             if (old != CurrentState)
             {
+                if (!states.ContainsKey(CurrentState)) throw new GameEntityException("Entity \"" + Parent.Name + "\" tried to change to state \"" + CurrentState + "\", which does not exist.");
                 states[CurrentState].Initialize(this.Parent);
                 stateframes = 0;
 

@@ -44,4 +44,12 @@ namespace Mega_Man
             return base.ToString();
         }
     }
+
+    public class GameEntityException : Exception
+    {
+        public GameEntityException(string message)
+            : base(message)
+        {
+        }
+    }
 }
