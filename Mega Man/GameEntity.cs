@@ -279,7 +279,7 @@ namespace Mega_Man
 
                         case "GravityFlip":
                             bool grav;
-                            if (!bool.TryParse(xmlComp.Value, out grav)) throw new EntityXmlException(null, (xmlComp as System.Xml.IXmlLineInfo).LineNumber, entity.Name, "GravityFlip", null, "GravityFlip value must represent True or False");
+                            if (!bool.TryParse(xmlComp.Value, out grav)) throw new EntityXmlException(xmlComp, "GravityFlip value must represent True or False");
                             entity.GravityFlip = grav;
                             break;
 
