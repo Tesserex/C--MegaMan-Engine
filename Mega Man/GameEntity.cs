@@ -289,6 +289,19 @@ namespace Mega_Man
             };
         }
 
+        private static Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
+
+        public static void SaveEffect(string name, Effect effect)
+        {
+            storedEffects.Add(name, effect);
+        }
+
+        public static Effect GetEffect(string name)
+        {
+            if (storedEffects.ContainsKey(name)) return storedEffects[name];
+            return (e) => { };
+        }
+
         public static GameEntity Get(string name)
         {
             // clone it

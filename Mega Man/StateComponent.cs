@@ -303,6 +303,13 @@ namespace Mega_Man
             {
                 effect += LoadXmlEffect(child);
             }
+
+            // check for name to save
+            XAttribute nameAttr = effectnode.Attribute("name");
+            if (nameAttr != null)
+            {
+                GameEntity.SaveEffect(nameAttr.Value, effect);
+            }
             return effect;
         }
 
@@ -323,6 +330,10 @@ namespace Mega_Man
 
             switch (node.Name.LocalName)
             {
+                case "Call":
+                    effect = GameEntity.GetEffect(node.Value);
+                    break;
+
                 case "Spawn":
                     effect = GameEntity.LoadSpawnEffect(node);
                     break;
