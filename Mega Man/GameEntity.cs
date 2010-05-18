@@ -250,6 +250,14 @@ namespace Mega_Man
                                         entity.OnDeath += LoadSpawnEffect(xmlchild);
                                         break;
 
+                                    case "Lives":
+                                        int add = int.Parse(xmlchild.Attribute("add").Value);
+                                        entity.OnDeath += (e) =>
+                                            {
+                                                Game.CurrentGame.PlayerLives += add;
+                                            };
+                                        break;
+
                                     case "Trigger":
                                         string conditionString;
                                         if (xmlchild.Attribute("condition") != null) conditionString = xmlchild.Attribute("condition").Value;

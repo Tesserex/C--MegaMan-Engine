@@ -45,7 +45,7 @@ namespace Mega_Man
 
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
-        public int PlayerLives { get; private set; }
+        public int PlayerLives { get; set; }
 
         private Font font;
 

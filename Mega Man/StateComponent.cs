@@ -331,6 +331,14 @@ namespace Mega_Man
                     effect = (entity) => { entity.Stop(); };
                     break;
 
+                case "Lives":
+                    int add = int.Parse(node.Attribute("add").Value);
+                    effect = (entity) =>
+                    {
+                        Game.CurrentGame.PlayerLives += add;
+                    };
+                    break;
+
                 case "Func":
                     effect = (entity) => { };
                     string[] statements = node.Value.Split(';');
