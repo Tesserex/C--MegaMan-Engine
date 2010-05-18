@@ -242,39 +242,7 @@ namespace Mega_Man
                             break;
 
                         case "Death":
-                            foreach (XElement xmlchild in xmlComp.Elements())
-                            {
-                                switch (xmlchild.Name.LocalName)
-                                {
-                                    case "Spawn":
-                                        entity.OnDeath += LoadSpawnEffect(xmlchild);
-                                        break;
-
-                                    case "Lives":
-                                        int add = int.Parse(xmlchild.Attribute("add").Value);
-                                        entity.OnDeath += (e) =>
-                                            {
-                                                Game.CurrentGame.PlayerLives += add;
-                                            };
-                                        break;
-
-                                    case "Trigger":
-                                        string conditionString;
-                                        if (xmlchild.Attribute("condition") != null) conditionString = xmlchild.Attribute("condition").Value;
-                                        else conditionString = xmlchild.Element("Condition").Value;
-                                        Condition condition = statecomp.ParseCondition(conditionString);
-                                        Effect effect = statecomp.LoadTriggerEffect(xmlchild.Element("Effect"));
-                                        entity.OnDeath += (e) =>
-                                            {
-                                                if (condition(e)) effect(e);
-                                            };
-                                        break;
-
-                                    default:
-                                        entity.OnDeath += entity.ParseComponentEffect(xmlchild);
-                                        break;
-                                }
-                            }
+                            entity.OnDeath += statecomp.LoadTriggerEffect(xmlComp);
                             break;
 
                         case "GravityFlip":

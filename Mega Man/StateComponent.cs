@@ -355,6 +355,18 @@ namespace Mega_Man
                     }
                     break;
 
+                case "Trigger":
+                    string conditionString;
+                    if (node.Attribute("condition") != null) conditionString = node.Attribute("condition").Value;
+                    else conditionString = node.Element("Condition").Value;
+                    Condition condition = ParseCondition(conditionString);
+                    Effect triggerEffect = LoadTriggerEffect(node.Element("Effect"));
+                    effect += (e) =>
+                    {
+                        if (condition(e)) triggerEffect(e);
+                    };
+                    break;
+
                 default:
                     effect = Parent.ParseComponentEffect(node);
                     break;
