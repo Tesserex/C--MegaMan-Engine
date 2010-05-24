@@ -10,8 +10,8 @@ namespace Mega_Man
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
     public class MovementComponent : Component, IMovement
     {
-        private float resistMultX, resistMultY, resistConstX, resistConstY;
-        private float pushConstX, pushConstY;
+        private float resistX, resistY, dragX, dragY;
+        private float pushX, pushY;
 
         private float vx, vy, pendingVx, pendingVy;
         private bool newVx, newVy;
@@ -67,8 +67,8 @@ namespace Mega_Man
             Engine.Instance.GameThink += Think;
             Engine.Instance.GameAct += Update;
 
-            resistConstX = resistConstY = pushConstX = pushConstY = 0;
-            resistMultX = resistMultY = 1;
+            pushX = pushY = 0;
+            dragX = dragY = resistX = resistY = 1;
         }
 
         public override void Stop()
@@ -85,11 +85,10 @@ namespace Mega_Man
         {
             // modify my CURRENT velocity
             // not the pending changes
-            vx = vx * resistMultX + resistConstX;
-            vy = vy * resistMultY + resistConstY;
+            if (!newVx) vx *= resistX;
+            if (!newVy) vy *= resistY;
 
-            resistConstX = resistConstY = 0;
-            resistMultX = resistMultY = 1;
+            resistX = resistY = 1;
         }
 
         protected override void Update()
@@ -99,14 +98,23 @@ namespace Mega_Man
             // set to the velocity i was thinking about
             // but only if there is something new --
             // don't want to overwrite a push effect
-            if (newVx) vx = pendingVx;
-            if (newVy) vy = pendingVy;
+            if (newVx)
+            {
+                float accelX = (pendingVx - vx) * dragX;
+                vx += accelX;
+            }
+            if (newVy)
+            {
+                float accelY = (pendingVy - vy) * dragY;
+                vy += accelY;
+            }
             newVx = newVy = false;
 
-            vx += pushConstX;
-            vy += pushConstY;
+            vx += pushX;
+            vy += pushY;
 
-            pushConstX = pushConstY = 0;
+            pushX = pushY = 0;
+            dragX = dragY = 1;
 
             if (!Flying)
             {
@@ -158,24 +166,32 @@ namespace Mega_Man
 
         public void PushX(float add)
         {
-            if (Math.Abs(add) > Math.Abs(pushConstX)) pushConstX = add;
+            if (Math.Abs(add) > Math.Abs(pushX)) pushX = add;
         }
 
         public void PushY(float add)
         {
-            if (Math.Abs(add) > Math.Abs(pushConstY)) pushConstY = add;
+            if (Math.Abs(add) > Math.Abs(pushY)) pushY = add;
         }
 
-        public void ResistX(float mult, float add)
+        public void ResistX(float mult)
         {
-            if (mult < resistMultX) resistMultX = mult;
-            if (Math.Abs(add) > Math.Abs(resistConstY)) resistConstX = add;
+            if (mult < resistX) resistX = mult;
         }
 
-        public void ResistY(float mult, float add)
+        public void ResistY(float mult)
         {
-            if (mult < resistMultY) resistMultY = mult;
-            if (Math.Abs(add) > Math.Abs(resistConstY)) resistConstY = add;
+            if (mult < resistY) resistY = mult;
+        }
+
+        public void DragX(float mult)
+        {
+            if (mult < dragX) dragX = mult;
+        }
+
+        public void DragY(float mult)
+        {
+            if (mult < dragY) dragY = mult;
         }
 
         // these next two functions exist for the sake of xml expressions

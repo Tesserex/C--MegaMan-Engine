@@ -349,10 +349,12 @@ namespace Mega_Man
         {
             if (MovementSrc != null)
             {
-                MovementSrc.PushX(properties.PushConstX);
-                MovementSrc.PushY(properties.PushConstY);
-                MovementSrc.ResistX(properties.ResistMultX, properties.ResistConstX);
-                MovementSrc.ResistY(properties.ResistMultY, properties.ResistConstY);
+                MovementSrc.PushX(properties.PushX);
+                MovementSrc.PushY(properties.PushY);
+                MovementSrc.ResistX(properties.ResistX);
+                MovementSrc.ResistY(properties.ResistY);
+                MovementSrc.DragX(properties.DragX);
+                MovementSrc.DragY(properties.DragY);
             }
             // don't just kill, it needs to be conditional on invincibility
             if (properties.Lethal && this.Parent.Name == "Player") this.Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));
