@@ -362,6 +362,8 @@ namespace Mega_Man
                 entity.Stop(false);
             }
             entities.Clear();
+
+            storedEffects.Clear();
         }
     }
 }
