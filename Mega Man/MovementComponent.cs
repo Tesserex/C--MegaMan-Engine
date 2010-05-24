@@ -11,7 +11,7 @@ namespace Mega_Man
     public class MovementComponent : Component, IMovement
     {
         private float resistMultX, resistMultY, resistConstX, resistConstY;
-        private float pushMultX, pushMultY, pushConstX, pushConstY;
+        private float pushConstX, pushConstY;
 
         private float vx, vy, pendingVx, pendingVy;
         private bool newVx, newVy;
@@ -68,7 +68,7 @@ namespace Mega_Man
             Engine.Instance.GameAct += Update;
 
             resistConstX = resistConstY = pushConstX = pushConstY = 0;
-            resistMultX = resistMultY = pushMultX = pushMultY = 1;
+            resistMultX = resistMultY = 1;
         }
 
         public override void Stop()
@@ -103,11 +103,10 @@ namespace Mega_Man
             if (newVy) vy = pendingVy;
             newVx = newVy = false;
 
-            vx = vx * pushMultX + pushConstX;
-            vy = vy * pushMultY + pushConstY;
+            vx += pushConstX;
+            vy += pushConstY;
 
             pushConstX = pushConstY = 0;
-            pushMultX = pushMultY = 1;
 
             if (!Flying)
             {
@@ -157,15 +156,13 @@ namespace Mega_Man
             else if (component is CollisionComponent) collision = component as CollisionComponent;
         }
 
-        public void PushX(float mult, float add)
+        public void PushX(float add)
         {
-            if (mult > pushMultX) pushMultX = mult;
             if (Math.Abs(add) > Math.Abs(pushConstX)) pushConstX = add;
         }
 
-        public void PushY(float mult, float add)
+        public void PushY(float add)
         {
-            if (mult > pushMultY) pushMultY = mult;
             if (Math.Abs(add) > Math.Abs(pushConstY)) pushConstY = add;
         }
 

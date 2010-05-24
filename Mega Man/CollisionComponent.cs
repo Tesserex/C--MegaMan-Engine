@@ -243,7 +243,7 @@ namespace Mega_Man
                     // for now, entities can only be normal type
                     hitTypes.Add(collision.targetBox.Properties);
                     // now cause friction on the x, a la moving platforms
-                    if (collision.targetColl.MovementSrc != null) MovementSrc.PushX(1, collision.targetColl.MovementSrc.VelocityX);
+                    if (collision.targetColl.MovementSrc != null) MovementSrc.PushX(collision.targetColl.MovementSrc.VelocityX);
                 }
             }
 
@@ -349,8 +349,8 @@ namespace Mega_Man
         {
             if (MovementSrc != null)
             {
-                MovementSrc.PushX(properties.PushMultX, properties.PushConstX);
-                MovementSrc.PushY(properties.PushMultY, properties.PushConstY);
+                MovementSrc.PushX(properties.PushConstX);
+                MovementSrc.PushY(properties.PushConstY);
                 MovementSrc.ResistX(properties.ResistMultX, properties.ResistConstX);
                 MovementSrc.ResistY(properties.ResistMultY, properties.ResistConstY);
             }
