@@ -138,7 +138,7 @@ namespace Mega_Man
         {
             select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
-            CurrentMap = new MapHandler(new MegaMan.Map(path));
+            CurrentMap = new MapHandler(new MegaMan.Map(MegaMan.FilePath.FromAbsolute(path,BasePath)));
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
             CurrentMap.Paused += CurrentMap_Paused;
