@@ -84,9 +84,11 @@ namespace Mega_Man
 
             selectedIndex = 0;
 
-            musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Music").Value), 1);
+            var musicElement = reader.Element("Music");
+            if (musicElement != null) musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, musicElement.Value), 1);
 
-            changeSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("ChangeSound"));
+            var soundElement = reader.Element("ChangeSound");
+            if (soundElement != null) changeSound = Engine.Instance.SoundSystem.EffectFromXml(soundElement);
             
             backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
 
@@ -131,7 +133,7 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
-            musicStageSelect.Play();
+            if (musicStageSelect != null) musicStageSelect.Play();
             Game.CurrentGame.AddGameHandler(this);
         }
 
@@ -140,7 +142,7 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
-            musicStageSelect.Stop();
+            if (musicStageSelect != null) musicStageSelect.Stop();
             Game.CurrentGame.RemoveGameHandler(this);
         }
 
