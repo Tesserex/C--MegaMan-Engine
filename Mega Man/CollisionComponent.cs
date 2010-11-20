@@ -313,9 +313,11 @@ namespace Mega_Man
         {
             foreach (CollisionBox box in this.hitboxes)
             {
-                if (box.Groups.Intersect(hitGroups).Count() == 0) continue;
-
-                yield return box;
+                foreach (var a in box.Groups.Intersect(hitGroups))
+                {
+                    yield return box;
+                    break;
+                }
             }
         }
 
@@ -326,9 +328,11 @@ namespace Mega_Man
         {
             foreach (CollisionBox box in this.hitboxes)
             {
-                if (box.Hits.Intersect(targetGroups).Count() == 0) continue;
-
-                yield return box;
+                foreach (var a in box.Hits.Intersect(targetGroups))
+                {
+                    yield return box;
+                    break;
+                }
             }
         }
 
