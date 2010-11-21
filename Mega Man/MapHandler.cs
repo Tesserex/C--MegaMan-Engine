@@ -43,6 +43,7 @@ namespace Mega_Man
         {
             Map = map;
             this.startScreen = Map.StartScreen;
+            if (string.IsNullOrEmpty(this.startScreen)) this.startScreen = Map.Screens.Keys.First();
             this.startX = Map.PlayerStartX;
             this.startY = Map.PlayerStartY;
 
