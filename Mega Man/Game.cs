@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Drawing;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -33,6 +34,8 @@ namespace Mega_Man
         private StageSelect select;
         private PauseScreen pauseScreen;
         private List<IHandleGameEvents> gameObjects;
+        private Dictionary<string, FilePath> stages;
+
         public MapHandler CurrentMap { get; private set; }
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -86,6 +89,7 @@ namespace Mega_Man
         private Game()
         {
             gameObjects = new List<IHandleGameEvents>();
+            stages = new Dictionary<string, FilePath>();
             font = new Font(FontFamily.GenericMonospace, 14, FontStyle.Bold);
 
             Gravity = 0.25f;
@@ -116,8 +120,21 @@ namespace Mega_Man
                 }
             }
 
-            XElement stageNode = reader.Element("StageSelect");
-            if (stageNode != null) select = new StageSelect(stageNode);
+            XElement stagesNode = reader.Element("Stages");
+            if (stagesNode != null)
+            {
+                foreach (var node in stagesNode.Elements("Stage"))
+                {
+                    var nameNode = node.Attribute("name");
+                    var pathNode = node.Attribute("path");
+                    if (nameNode == null || pathNode == null) continue;
+
+                    stages.Add(nameNode.Value, FilePath.FromRelative(pathNode.Value, this.BasePath));
+                }
+            }
+
+            XElement stageSelectNode = reader.Element("StageSelect");
+            if (stageSelectNode != null) select = new StageSelect(stageSelectNode);
 
             XElement pauseNode = reader.Element("PauseScreen");
             if (pauseNode != null) pauseScreen = new PauseScreen(pauseNode);
@@ -134,11 +151,13 @@ namespace Mega_Man
             StageSelect();
         }
 
-        private void select_MapSelected(string path)
+        private void select_MapSelected(string name)
         {
+            if (!this.stages.ContainsKey(name)) return;
+
             select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
-            CurrentMap = new MapHandler(new MegaMan.Map(MegaMan.FilePath.FromAbsolute(path,BasePath)));
+            CurrentMap = new MapHandler(new MegaMan.Map(this.stages[name]));
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
             CurrentMap.Paused += CurrentMap_Paused;

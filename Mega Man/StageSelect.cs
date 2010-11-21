@@ -20,7 +20,7 @@ namespace Mega_Man
             public string lastname;
             public Image portrait;
             public Texture2D texture;
-            public string mapPath;
+            public string stage;
             public bool alive = false;
             public Point location;
         }
@@ -102,10 +102,10 @@ namespace Mega_Man
         {
             int slot;
             XAttribute slotAttr = reader.Attribute("slot");
-            if (slotAttr == null) throw new EntityXmlException(reader, "Boss must specify a \"slot\" attribute!");
+            if (slotAttr == null) return;
             if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new EntityXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
 
-            XElement nameNode = reader.Element("Name");
+            XAttribute nameNode = reader.Attribute("name");
             if (nameNode != null)
             {
                 string[] names = nameNode.Value.Split(' ');
@@ -113,16 +113,16 @@ namespace Mega_Man
                 if (names.Length > 1) bosses[slot].lastname = names[1];
             }
 
-            XElement portraitNode = reader.Element("Portrait");
+            XAttribute portraitNode = reader.Attribute("portrait");
             if (portraitNode != null)
             {
                 bosses[slot].portrait = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
                 bosses[slot].texture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
             }
 
-            XElement stageNode = reader.Element("Stage");
-            if (stageNode == null) throw new EntityXmlException(reader, "Boss must specify a stage!");
-            bosses[slot].mapPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, stageNode.Value);
+            XAttribute stageNode = reader.Attribute("stage");
+            if (stageNode == null) return;
+            bosses[slot].stage = stageNode.Value;
             bosses[slot].alive = true;
         }
 
@@ -175,7 +175,7 @@ namespace Mega_Man
             }
             else if (e.Input == GameInput.Start)
             {
-                if (MapSelected != null) MapSelected(bosses[selectedIndex].mapPath);
+                if (MapSelected != null && bosses[selectedIndex].stage != null) MapSelected(bosses[selectedIndex].stage);
             }
             if (selectedIndex != old && changeSound != null) changeSound.Play();
         }
