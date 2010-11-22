@@ -61,7 +61,7 @@ namespace Mega_Man
             }
             catch (GameEntityException e)
             {
-                MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + e.Message);
+                MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + e.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             //catch (Exception e)
             //{
