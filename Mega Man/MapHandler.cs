@@ -47,8 +47,8 @@ namespace Mega_Man
             this.startX = Map.PlayerStartX;
             this.startY = Map.PlayerStartY;
 
-            string intropath = (map.MusicIntroPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, map.MusicIntroPath) : null;
-            string looppath = (map.MusicLoopPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, map.MusicLoopPath) : null;
+            string intropath = (map.MusicIntroPath != null) ? map.MusicIntroPath.Absolute : null;
+            string looppath = (map.MusicLoopPath != null) ? map.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
             readyImage = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
