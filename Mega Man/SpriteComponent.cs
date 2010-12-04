@@ -249,7 +249,7 @@ namespace Mega_Man
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : this.verticalFlip;
-                sprite.DrawXna(batch, color, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+                sprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
             }
         }
     }

@@ -104,11 +104,23 @@ namespace Mega_Man
 
         private bool EnvironmentContact(MapSquare square, RectangleF tileBox, RectangleF boundBox, out PointF offset)
         {
-            RectangleF inter = RectangleF.Intersect(tileBox, boundBox);
-            if (inter.Height == 0 && inter.Width == 0)
+            // can't use intersection, use epsilon
+            offset = PointF.Empty;
+            if (tileBox.Top < boundBox.Top)
             {
-                offset = new PointF(0, 0);
-                return false;
+                if (tileBox.Bottom - boundBox.Top + Const.PixelEpsilon <= 0) return false;
+            }
+            else
+            {
+                if (boundBox.Bottom - tileBox.Top + Const.PixelEpsilon <= 0) return false;
+            }
+            if (tileBox.Left < boundBox.Left)
+            {
+                if (tileBox.Right - boundBox.Left + Const.PixelEpsilon <= 0) return false;
+            }
+            else
+            {
+                if (boundBox.Right - tileBox.Left + Const.PixelEpsilon <= 0) return false;
             }
 
             bool down = (!Game.CurrentGame.GravityFlip && square.Tile.Properties.Climbable);
