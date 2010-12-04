@@ -32,7 +32,7 @@ namespace Mega_Man
         private BossInfo[] bosses;
         private int selectedIndex;
 
-        private int spacingX, spacingY;
+        private int spacingX, spacingY, offsetY;
 
         public event Action<string> MapSelected;
 
@@ -53,6 +53,8 @@ namespace Mega_Man
             int portraitHeight = bossFrameOn.Height;
 
             spacingX = spacingY = 24;
+            offsetY = 0;
+
             XElement spaceNode = reader.Element("Spacing");
             if (spaceNode != null)
             {
@@ -62,10 +64,12 @@ namespace Mega_Man
                 XAttribute spaceyAttr = spaceNode.Attribute("y");
                 if (spaceyAttr == null) throw new EntityXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
                 if (!int.TryParse(spaceyAttr.Value, out spacingY)) throw new EntityXmlException(spaceyAttr, "Spacing attributes must be integers.");
+                XAttribute offsetAttr = spaceNode.Attribute("offset");
+                if (offsetAttr != null && !int.TryParse(offsetAttr.Value, out offsetY)) throw new EntityXmlException(offsetAttr, "Spacing attributes must be integers.");
             }
 
             int middleX = (Game.CurrentGame.PixelsAcross - portraitWidth) / 2;
-            int middleY = (Game.CurrentGame.PixelsDown - portraitHeight) / 2;
+            int middleY = (Game.CurrentGame.PixelsDown - portraitHeight) / 2 + offsetY;
 
             int lowerX = middleX - portraitWidth - spacingX;
             int lowerY = middleY - portraitHeight - spacingY;
