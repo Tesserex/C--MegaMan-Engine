@@ -53,7 +53,8 @@ namespace Mega_Man
         void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
             GraphicsDevice.SetRenderTarget(0, null);
-            sprite.Begin();
+            sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
+            GraphicsDevice.SamplerStates[0].MagFilter = Engine.Instance.MagFilter;
             GraphicsDevice.Clear(Color.Black);
             sprite.Draw(backing.GetTexture(), new Rectangle(0, 0, this.Width, this.Height), Color.White);
             sprite.End();

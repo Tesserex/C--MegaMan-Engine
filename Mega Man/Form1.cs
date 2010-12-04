@@ -29,6 +29,7 @@ namespace Mega_Man
             }
 
             ResizeScreen(Const.PixelsAcross, Const.PixelsDown);
+            this.xnaImage.SetSize();
 
             Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(Instance_GameLogicTick);
@@ -128,6 +129,7 @@ namespace Mega_Man
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
             ResizeScreen(e.PixelsAcross, e.PixelsDown);
+            this.xnaImage.SetSize();
         }
 
         private void ResizeScreen(int width, int height)
@@ -151,8 +153,6 @@ namespace Mega_Man
             this.Width = tempwidth;
             // redock the image
             this.xnaImage.Dock = DockStyle.Fill;
-
-            this.xnaImage.SetSize();
         }
 
         void Instance_GameLogicTick(GameTickEventArgs e)
@@ -268,6 +268,41 @@ namespace Mega_Man
         {
             Engine.Instance.Foreground = !Engine.Instance.Foreground;
             foregroundToolStripMenuItem.Checked = Engine.Instance.Foreground;
+        }
+
+        private void xnaImage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void screen1XMenu_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame == null) ResizeScreen(Const.PixelsAcross, Const.PixelsDown);
+            else ResizeScreen(Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            screen1XMenu.Checked = true;
+            screen2XMenu.Checked = false;
+        }
+
+        private void screen2XMenu_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame == null) ResizeScreen(Const.PixelsAcross * 2, Const.PixelsDown * 2);
+            else ResizeScreen(Game.CurrentGame.PixelsAcross * 2, Game.CurrentGame.PixelsDown * 2);
+            screen2XMenu.Checked = true;
+            screen1XMenu.Checked = false;
+        }
+
+        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.MagFilter = Microsoft.Xna.Framework.Graphics.TextureFilter.GaussianQuad;
+            smoothedToolStripMenuItem.Checked = true;
+            pixellatedToolStripMenuItem.Checked = false;
+        }
+
+        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.MagFilter = Microsoft.Xna.Framework.Graphics.TextureFilter.Point;
+            smoothedToolStripMenuItem.Checked = false;
+            pixellatedToolStripMenuItem.Checked = true;
         }
     }
 }

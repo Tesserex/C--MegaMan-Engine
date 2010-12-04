@@ -135,6 +135,7 @@ namespace Mega_Man
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
 
+        public TextureFilter MagFilter { get; set; }
 
         // --- These events, and the order in which they fire, are very important.
 
@@ -315,6 +316,8 @@ namespace Mega_Man
             timer = new Stopwatch();
 
             Foreground = Background = SpritesOne = SpritesTwo = SpritesThree = SpritesFour = true;
+
+            this.MagFilter = TextureFilter.Point;
         }
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
