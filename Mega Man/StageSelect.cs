@@ -88,8 +88,15 @@ namespace Mega_Man
 
             selectedIndex = 0;
 
-            var musicElement = reader.Element("Music");
-            if (musicElement != null) musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(null, System.IO.Path.Combine(Game.CurrentGame.BasePath, musicElement.Value), 1);
+            var music = reader.Element("Music");
+            if (music != null)
+            {
+                var intro = music.Element("Intro");
+                var loop = music.Element("Loop");
+                string introPath = (intro != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, intro.Value) : null;
+                string loopPath = (loop != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, loop.Value) : null;
+                musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1);
+            }
 
             var soundElement = reader.Element("ChangeSound");
             if (soundElement != null) changeSound = Engine.Instance.SoundSystem.EffectFromXml(soundElement);
