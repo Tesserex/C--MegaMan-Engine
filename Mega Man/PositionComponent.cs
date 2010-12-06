@@ -136,12 +136,12 @@ namespace Mega_Man
                     if (!float.TryParse(base_str, out baseVal)) throw new EntityXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
                     if (axis == Axis.X) action = (entity) =>
                     {
-                        PositionComponent pos = entity.Parent.GetComponent<PositionComponent>();
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new System.Drawing.PointF(baseVal, pos.Position.Y));
                     };
                     else action = (entity) =>
                     {
-                        PositionComponent pos = entity.Parent.GetComponent<PositionComponent>();
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new System.Drawing.PointF(pos.Position.X, baseVal));
                     };
                 }
