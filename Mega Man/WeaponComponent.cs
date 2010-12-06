@@ -14,6 +14,7 @@ namespace Mega_Man
             public string Name;
             public int Ammo;
             public int Max;
+            public int Usage;
             public HealthMeter Meter;
             public string SpriteGroup;
         }
@@ -146,7 +147,7 @@ namespace Mega_Man
                     Parent.Spawn(weapons[current].Name);
                     if (weapons[current].Ammo > 0)
                     {
-                        AddAmmo(-1);
+                        AddAmmo(-1 * weapons[current].Usage);
                     }
                 }
             }
@@ -161,7 +162,7 @@ namespace Mega_Man
             if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
         }
 
-        public void AddWeapon(string name, int ammo, HealthMeter meter, string spritegroup)
+        public void AddWeapon(string name, int ammo, int usage, HealthMeter meter, string spritegroup)
         {
             foreach (WeaponInfo info in weapons)
             {
@@ -171,6 +172,7 @@ namespace Mega_Man
             weapon.Name = name;
             weapon.Ammo = ammo;
             weapon.Max = ammo;
+            weapon.Usage = usage;
             weapon.Meter = meter;
             weapon.SpriteGroup = spritegroup;
 
@@ -188,6 +190,10 @@ namespace Mega_Man
                 int ammo = -1;
                 if (ammoattr != null) ammo = int.Parse(ammoattr.Value);
 
+                XAttribute usageattr = weapon.Attribute("usage");
+                int usage = 1;
+                if (usageattr != null) usage = int.Parse(usageattr.Value);
+
                 string spritegroup = "Default";
                 XAttribute sprite = weapon.Attribute("pallete");
                 if (sprite != null) spritegroup = sprite.Value;
@@ -203,7 +209,7 @@ namespace Mega_Man
                     meter.Reset();
                 }
 
-                AddWeapon(name, ammo, meter, spritegroup);
+                AddWeapon(name, ammo, usage, meter, spritegroup);
             }
         }
 
