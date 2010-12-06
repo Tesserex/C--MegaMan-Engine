@@ -302,6 +302,11 @@ namespace Mega_Man
             return (e) => { };
         }
 
+        public static int NumAlive(string name)
+        {
+            return entities[name].numAlive;
+        }
+
         public static GameEntity Get(string name)
         {
             if (!entities.ContainsKey(name)) throw new GameEntityException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +

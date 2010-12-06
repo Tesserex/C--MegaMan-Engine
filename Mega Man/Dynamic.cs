@@ -564,6 +564,7 @@ namespace System.Linq.Dynamic
             typeof(Guid),
             typeof(Math),
             typeof(Convert),
+            typeof(Mega_Man.GameEntity),
             typeof(Mega_Man.PositionComponent),
             typeof(Mega_Man.MovementComponent),
             typeof(Mega_Man.TimerComponent),
