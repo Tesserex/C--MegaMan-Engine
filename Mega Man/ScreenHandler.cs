@@ -39,8 +39,15 @@ namespace Mega_Man
                 tiles[y] = new MapSquare[Screen.Width];
                 for (int x = 0; x < Screen.Width; x++)
                 {
-                    MegaMan.Tile tile = Screen.TileAt(x, y);
-                    tiles[y][x] = new MapSquare(Screen, tile, x, y, x * Screen.Tileset.TileSize, y * Screen.Tileset.TileSize);
+                    try
+                    {
+                        MegaMan.Tile tile = Screen.TileAt(x, y);
+                        tiles[y][x] = new MapSquare(Screen, tile, x, y, x * Screen.Tileset.TileSize, y * Screen.Tileset.TileSize);
+                    }
+                    catch
+                    {
+                        throw new GameEntityException("There's an error in map " + screen.Map.Name + ", screen file " + screen.Name + ".scn,\nthere's a bad tile number somewhere.");
+                    }
                 }
             }
 
