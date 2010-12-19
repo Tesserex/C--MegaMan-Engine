@@ -198,30 +198,27 @@ namespace Mega_Man
                             adjustrect.Width += 2 * Const.PixelEpsilon;
                             adjustrect.Height += 2 - Const.PixelEpsilon;
                             RectangleF intersection = RectangleF.Intersect(boundbox, adjustrect);
-                            if (intersection.Width != 0 || intersection.Height != 0)
+                            if ((intersection.Width != 0 || intersection.Height != 0) && MovementSrc != null && hitbox.PushAway) // because we don't want to push stationary things like tiles
                             {
                                 blockEntities.Add(new Collision(hitbox, targetBox, coll));
-                                if (MovementSrc != null && hitbox.PushAway)    // because we don't want to push stationary things like tiles
+                                float vx = 0, vy = 0;
+                                if (MovementSrc != null)
                                 {
-                                    float vx = 0, vy = 0;
-                                    if (MovementSrc != null)
+                                    MovementComponent mov = entity.GetComponent<MovementComponent>();
+                                    vx = MovementSrc.VelocityX;
+                                    vy = MovementSrc.VelocityY;
+                                    if (mov != null)
                                     {
-                                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                                        vx = MovementSrc.VelocityX;
-                                        vy = MovementSrc.VelocityY;
-                                        if (mov != null)
-                                        {
-                                            vx -= mov.VelocityX;
-                                            vy -= mov.VelocityY;
-                                        }
+                                        vx -= mov.VelocityX;
+                                        vy -= mov.VelocityY;
                                     }
+                                }
 
-                                    PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
-                                    if (offset.X != 0 || offset.Y != 0)
-                                    {
-                                        PositionSrc.Offset(offset.X, offset.Y);
-                                        boundbox.Offset(offset.X, offset.Y);
-                                    }
+                                PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
+                                if (offset.X != 0 || offset.Y != 0)
+                                {
+                                    PositionSrc.Offset(offset.X, offset.Y);
+                                    boundbox.Offset(offset.X, offset.Y);
                                 }
                             }
                         }
