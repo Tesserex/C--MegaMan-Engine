@@ -12,6 +12,7 @@ namespace Mega_Man
     {
         private CollisionComponent parent;
 
+        public string Name { get; private set; }
         public List<string> Hits { get; private set; }
         public List<string> Groups { get; private set; }
         private Dictionary<string, float> resistance;
@@ -57,6 +58,10 @@ namespace Mega_Man
 
                 resistance.Add(nameAttr.Value, mult);
             }
+
+
+            XAttribute boxnameAttr = xmlNode.Attribute("name");
+            if (boxnameAttr != null) this.Name = boxnameAttr.Value;
 
             XAttribute damageAttr = xmlNode.Attribute("damage");
             if (damageAttr != null)

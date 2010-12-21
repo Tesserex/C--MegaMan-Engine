@@ -75,12 +75,16 @@ namespace Mega_Man
     public class HitBoxMessage : IGameMessage
     {
         public GameEntity Source { get; private set; }
-        public List<CollisionBox> Boxes { get; private set; }
+        public List<CollisionBox> AddBoxes { get; private set; }
+        public HashSet<string> EnableBoxes { get; private set; }
+        public bool Clear { get; set; }
 
-        public HitBoxMessage(GameEntity source)
+        public HitBoxMessage(GameEntity source, List<CollisionBox> newboxes, HashSet<string> enable, bool clear)
         {
             Source = source;
-            Boxes = new List<CollisionBox>();
+            AddBoxes = newboxes;
+            EnableBoxes = enable;
+            Clear = clear;
         }
     }
 }

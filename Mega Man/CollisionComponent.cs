@@ -30,6 +30,7 @@ namespace Mega_Man
 
         private List<CollisionBox> hitboxes = new List<CollisionBox>();
         private List<string> touchedBy = new List<string>();
+        private HashSet<string> enabledBoxes = new HashSet<string>();
 
         public float DamageDealt { get; private set; }
 
@@ -86,6 +87,8 @@ namespace Mega_Man
             if (!Engine.Instance.DrawHitboxes) return;
             foreach (CollisionBox hitbox in hitboxes)
             {
+                if (!enabledBoxes.Contains(hitbox.Name)) continue;
+
                 System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
                 e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
@@ -104,12 +107,17 @@ namespace Mega_Man
             HitBoxMessage boxes = msg as HitBoxMessage;
             if (boxes != null)
             {
-                hitboxes.Clear();
-                foreach (CollisionBox box in boxes.Boxes)
+                if (boxes.Clear) hitboxes.Clear();
+
+                foreach (CollisionBox box in boxes.AddBoxes)
                 {
                     box.SetParent(this);
                     hitboxes.Add(box);
                 }
+
+                enabledBoxes.Clear();
+                foreach (var name in boxes.EnableBoxes) enabledBoxes.Add(name);
+
                 return;
             }
         }
@@ -147,6 +155,8 @@ namespace Mega_Man
             List<Collision> blockEntities = new List<Collision>();
             foreach (CollisionBox hitbox in this.hitboxes)
             {
+                if (!enabledBoxes.Contains(hitbox.Name)) continue;
+
                 hitbox.SetParent(this);
                 if (hitbox.Environment) // check collision with environment
                 {
@@ -249,6 +259,9 @@ namespace Mega_Man
             // so we need to inflict the effects upon ourself
             foreach (CollisionBox hitbox in this.hitboxes)
             {
+                if (!enabledBoxes.Contains(hitbox.Name)) continue;
+                hitbox.SetParent(this);
+
                 System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
 
                 if (hitbox.Environment)
@@ -310,6 +323,9 @@ namespace Mega_Man
         {
             foreach (CollisionBox box in this.hitboxes)
             {
+                if (!enabledBoxes.Contains(box.Name)) continue;
+                box.SetParent(this);
+
                 foreach (var a in box.Groups.Intersect(hitGroups))
                 {
                     yield return box;
@@ -325,6 +341,9 @@ namespace Mega_Man
         {
             foreach (CollisionBox box in this.hitboxes)
             {
+                if (!enabledBoxes.Contains(box.Name)) continue;
+
+                box.SetParent(this);
                 foreach (var a in box.Hits.Intersect(targetGroups))
                 {
                     yield return box;
@@ -470,6 +489,8 @@ namespace Mega_Man
         {
             Effect effect = (entity) => {};
             List<CollisionBox> rects = new List<CollisionBox>();
+            HashSet<string> enables = new HashSet<string>();
+            bool clear = false;
 
             foreach (XElement prop in node.Elements())
             {
@@ -488,13 +509,22 @@ namespace Mega_Man
                     case "Hitbox":
                         rects.Add(new CollisionBox(prop));
                         break;
+
+                    case "EnableBox":
+                        XAttribute nameAttrEn = prop.Attribute("name");
+                        if (nameAttrEn == null) throw new EntityXmlException(prop, "Collision EnableBox tag must have a name attribute!");
+                        enables.Add(nameAttrEn.Value);
+                        break;
+
+                    case "Clear":
+                        clear = true;
+                        break;
                 }
             }
 
-            if (rects.Count > 0) effect += (entity) =>
+            if (rects.Count > 0 || enables.Count > 0 || clear) effect += (entity) =>
             {
-                HitBoxMessage msg = new HitBoxMessage(entity);
-                msg.Boxes.AddRange(rects);
+                HitBoxMessage msg = new HitBoxMessage(entity, rects, enables, clear);
                 entity.SendMessage(msg);
             };
 
