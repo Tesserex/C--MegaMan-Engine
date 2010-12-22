@@ -208,27 +208,31 @@ namespace Mega_Man
                             adjustrect.Width += 2 * Const.PixelEpsilon;
                             adjustrect.Height += 2 - Const.PixelEpsilon;
                             RectangleF intersection = RectangleF.Intersect(boundbox, adjustrect);
-                            if ((intersection.Width != 0 || intersection.Height != 0) && MovementSrc != null && hitbox.PushAway) // because we don't want to push stationary things like tiles
+                            if ((intersection.Width != 0 || intersection.Height != 0) && MovementSrc != null)
                             {
                                 blockEntities.Add(new Collision(hitbox, targetBox, coll));
-                                float vx = 0, vy = 0;
-                                if (MovementSrc != null)
-                                {
-                                    MovementComponent mov = entity.GetComponent<MovementComponent>();
-                                    vx = MovementSrc.VelocityX;
-                                    vy = MovementSrc.VelocityY;
-                                    if (mov != null)
-                                    {
-                                        vx -= mov.VelocityX;
-                                        vy -= mov.VelocityY;
-                                    }
-                                }
 
-                                PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
-                                if (offset.X != 0 || offset.Y != 0)
+                                if (hitbox.PushAway)
                                 {
-                                    PositionSrc.Offset(offset.X, offset.Y);
-                                    boundbox.Offset(offset.X, offset.Y);
+                                    float vx = 0, vy = 0;
+                                    if (MovementSrc != null)
+                                    {
+                                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                                        vx = MovementSrc.VelocityX;
+                                        vy = MovementSrc.VelocityY;
+                                        if (mov != null)
+                                        {
+                                            vx -= mov.VelocityX;
+                                            vy -= mov.VelocityY;
+                                        }
+                                    }
+
+                                    PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
+                                    if (offset.X != 0 || offset.Y != 0)
+                                    {
+                                        PositionSrc.Offset(offset.X, offset.Y);
+                                        boundbox.Offset(offset.X, offset.Y);
+                                    }
                                 }
                             }
                         }
@@ -250,7 +254,7 @@ namespace Mega_Man
                     // for now, entities can only be normal type
                     hitTypes.Add(collision.targetBox.Properties);
                     // now cause friction on the x, a la moving platforms
-                    if (collision.targetColl.MovementSrc != null) MovementSrc.PushX(collision.targetColl.MovementSrc.VelocityX);
+                    if (collision.targetColl.MovementSrc != null && collision.myBox.PushAway) MovementSrc.PushX(collision.targetColl.MovementSrc.VelocityX);
                 }
             }
 
@@ -272,9 +276,9 @@ namespace Mega_Man
                         bool downonly = (!Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
                         bool uponly = (Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
 
-                        bool hit = (tile.BlockBox != RectangleF.Empty && hitbox.PushAway)? this.BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
+                        bool hit = (tile.BlockBox != RectangleF.Empty)? this.BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
 
-                        if (hit || boundBox.IntersectsWith(tile.BoundBox))    // the environment touched me!
+                        if (hitbox.PushAway && (hit || boundBox.IntersectsWith(tile.BoundBox)))    // the environment touched me!
                         {
                             hitTypes.Add(tile.Tile.Properties);
                         }
