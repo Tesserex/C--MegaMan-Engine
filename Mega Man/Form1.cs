@@ -219,13 +219,14 @@ namespace Mega_Man
 
         private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Game.CurrentGame == null) return;
             Game.CurrentGame.GravityFlip = !Game.CurrentGame.GravityFlip;
             gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GravityFlip;
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Game.CurrentGame.Reset();
+            if (Game.CurrentGame != null) Game.CurrentGame.Reset();
         }
 
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
