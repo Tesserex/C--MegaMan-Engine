@@ -72,8 +72,8 @@ namespace Mega_Man
 
             teleportEnabled = new List<bool>(screen.Teleports.Select((info) => false));
 
-            string intropath = (screen.MusicIntroPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicIntroPath) : null;
-            string looppath = (screen.MusicLoopPath != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, screen.MusicLoopPath) : null;
+            string intropath = (screen.MusicIntroPath != null) ? screen.MusicIntroPath.Absolute : null;
+            string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
         }
 
