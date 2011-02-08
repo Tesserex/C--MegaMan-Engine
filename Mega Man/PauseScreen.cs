@@ -252,6 +252,8 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
+            if (!Engine.Instance.Foreground) return;
+
             e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
             foreach (WeaponInfo info in weapons)

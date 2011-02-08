@@ -395,9 +395,12 @@ namespace Mega_Man
             
             if (GameRenderBegin != null) GameRenderBegin(r);
 
-            r.Layers.BackgroundBatch.Begin();
-            foreach (SpriteBatch batch in r.Layers.SpritesBatch) batch.Begin();
-            r.Layers.ForegroundBatch.Begin();
+            if (Background) r.Layers.BackgroundBatch.Begin();
+            if (SpritesOne) r.Layers.SpritesBatch[0].Begin();
+            if (SpritesTwo) r.Layers.SpritesBatch[1].Begin();
+            if (SpritesThree) r.Layers.SpritesBatch[2].Begin();
+            if (SpritesFour) r.Layers.SpritesBatch[3].Begin();
+            if (Foreground) r.Layers.ForegroundBatch.Begin();
 
             if (GameRender != null) GameRender(r);
 
@@ -410,15 +413,6 @@ namespace Mega_Man
             if (Foreground) r.Layers.ForegroundBatch.End();
 
             if (GameRenderEnd != null) GameRenderEnd(r);
-
-            // now after rendering, if the layers are disabled,
-            // just dump them in a ditch somewhere
-            if (!Background) r.Layers.BackgroundBatch.End();
-            if (!SpritesOne) r.Layers.SpritesBatch[0].End();
-            if (!SpritesTwo) r.Layers.SpritesBatch[1].End();
-            if (!SpritesThree) r.Layers.SpritesBatch[2].End();
-            if (!SpritesFour) r.Layers.SpritesBatch[3].End();
-            if (!Foreground) r.Layers.ForegroundBatch.End();
             
             return false;
         }

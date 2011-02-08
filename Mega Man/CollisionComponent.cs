@@ -91,7 +91,7 @@ namespace Mega_Man
 
                 System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
-                e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
+                if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
             }
         }
 

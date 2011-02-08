@@ -199,7 +199,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            this.Draw(e.Layers.ForegroundBatch, positionX, positionY);
+            if (Engine.Instance.Foreground) this.Draw(e.Layers.ForegroundBatch, positionX, positionY);
         }
 
         #endregion

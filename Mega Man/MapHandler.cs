@@ -70,7 +70,7 @@ namespace Mega_Man
         {
             if (readyBlinkTime >= 0)
             {
-                e.Layers.ForegroundBatch.Draw(readyTexture, new Microsoft.Xna.Framework.Vector2((Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24), e.OpacityColor);
+                if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(readyTexture, new Microsoft.Xna.Framework.Vector2((Game.CurrentGame.PixelsAcross - readyImage.Width) / 2, ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24), e.OpacityColor);
             }
             readyBlinkTime++;
             if (readyBlinkTime > 8)
@@ -342,7 +342,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (drawFunc != null) drawFunc(e.Layers.BackgroundBatch);
+            if (drawFunc != null && Engine.Instance.Background) drawFunc(e.Layers.BackgroundBatch);
         }
 
         #endregion

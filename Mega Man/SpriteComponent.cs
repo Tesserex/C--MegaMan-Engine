@@ -235,7 +235,12 @@ namespace Mega_Man
 
         private void Instance_GameRender(GameRenderEventArgs e)
         {
-            if (sprite.Layer < e.Layers.SpritesBatch.Length)
+            if (sprite.Layer < e.Layers.SpritesBatch.Length && (
+                (sprite.Layer == 0 && Engine.Instance.SpritesOne) ||
+                (sprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
+                (sprite.Layer == 2 && Engine.Instance.SpritesThree) ||
+                (sprite.Layer == 3 && Engine.Instance.SpritesFour)
+                ))
             {
                 Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer], e.OpacityColor);
             }

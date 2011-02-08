@@ -212,7 +212,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
+            if (Engine.Instance.Background) e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
             BossInfo boss;
             for (int i = 0; i < 8; i++)
@@ -220,25 +220,25 @@ namespace Mega_Man
                 boss = bosses[i];
                 if (selectedIndex == i)
                 {
-                    bossFrameOn.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
+                    if (Engine.Instance.SpritesOne) bossFrameOn.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
                 }
                 else
                 {
-                    bossFrameOff.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
+                    if (Engine.Instance.SpritesOne) bossFrameOff.DrawXna(e.Layers.SpritesBatch[0], e.OpacityColor, boss.location.X, boss.location.Y);
                 }
 
                 if (boss.alive && boss.portrait != null)
                 {
-                    e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), e.OpacityColor);
+                    if (Engine.Instance.SpritesOne) e.Layers.SpritesBatch[0].Draw(boss.texture, new Microsoft.Xna.Framework.Vector2(boss.location.X + 7, boss.location.Y + 7), e.OpacityColor);
                 }
 
                 if (boss.firstname != null)
                 {
-                    FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.firstname, new PointF(boss.location.X, boss.location.Y + 48));
+                    if (Engine.Instance.SpritesThree) FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.firstname, new PointF(boss.location.X, boss.location.Y + 48));
                 }
                 if (boss.lastname != null)
                 {
-                    FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.lastname, new PointF(boss.location.X + (44 - boss.lastname.Length * 7), boss.location.Y + 56));
+                    if (Engine.Instance.SpritesThree) FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.lastname, new PointF(boss.location.X + (44 - boss.lastname.Length * 7), boss.location.Y + 56));
                 }
             }
         }
