@@ -125,6 +125,7 @@
     <Compile Include="Messages.cs" />
     <Compile Include="MovementComponent.cs" />
     <Compile Include="Music.cs" />
+    <Compile Include="NSF.cs" />
     <Compile Include="PauseScreen.cs" />
     <Compile Include="PositionComponent.cs" />
     <Compile Include="const.cs" />

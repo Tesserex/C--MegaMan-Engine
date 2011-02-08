@@ -17,12 +17,16 @@ namespace Mega_Man
         private List<Channel> channels = new List<Channel>();
         private System.Windows.Forms.Timer updateTimer;
 
+        public NSF NsfMusic { get; private set; }
+
         public SoundSystem()
         {
             FMOD.Factory.System_Create(ref soundSystem);
             uint version = 0;
             soundSystem.getVersion(ref version);
             soundSystem.init(32, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
+
+            NsfMusic = new NSF(soundSystem);
 
             updateTimer = new System.Windows.Forms.Timer();
             updateTimer.Interval = 10;
@@ -73,6 +77,7 @@ namespace Mega_Man
             loadedSounds.Clear();
             channels.Clear();
             loadedMusic.Clear();
+            if (NsfMusic != null) NsfMusic.Dispose();
         }
 
         public void Dispose()
@@ -81,13 +86,31 @@ namespace Mega_Man
             soundSystem.release();
         }
 
-        public Music LoadMusic(string intro, string loop, float volume)
+        public Music LoadMusic(string intro, string loop, float volume, int nsfTrack)
         {
-            if (loadedMusic.ContainsKey(intro + loop)) return loadedMusic[intro + loop];
+            string key = intro + loop;
 
-            Music music = new Music(soundSystem, intro, loop, volume);
+            if (!string.IsNullOrEmpty(key) && loadedMusic.ContainsKey(intro + loop)) return loadedMusic[intro + loop];
+
+            Music music = new Music(soundSystem, intro, loop, volume, nsfTrack);
             loadedMusic[intro + loop] = music;
             return music;
+        }
+
+        public void LoadMusicNSF(string path)
+        {
+            NsfMusic.Load(path);
+        }
+
+        public void PlayTrack(int track)
+        {
+            NsfMusic.SetTrack(track);
+            NsfMusic.Play();
+        }
+
+        public void StopNSF()
+        {
+            NsfMusic.Stop();
         }
     }
 }

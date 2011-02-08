@@ -120,6 +120,9 @@ namespace Mega_Man
                 }
             }
 
+            XElement nsfNode = reader.Element("NSF");
+            if (nsfNode != null) LoadNSFInfo(nsfNode);
+
             XElement stagesNode = reader.Element("Stages");
             if (stagesNode != null)
             {
@@ -149,6 +152,16 @@ namespace Mega_Man
             currentPath = path;
 
             StageSelect();
+        }
+
+        private void LoadNSFInfo(XElement nsfNode)
+        {
+            XElement musicNode = nsfNode.Element("Music");
+            if (musicNode != null)
+            {
+                FilePath nsfPath = FilePath.FromRelative(musicNode.Value, this.BasePath);
+                Engine.Instance.SoundSystem.LoadMusicNSF(nsfPath.Absolute);
+            }
         }
 
         private void select_MapSelected(string name)

@@ -49,7 +49,7 @@ namespace Mega_Man
 
             string intropath = (map.MusicIntroPath != null) ? map.MusicIntroPath.Absolute : null;
             string looppath = (map.MusicLoopPath != null) ? map.MusicLoopPath.Absolute : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
+            if (intropath != null || looppath != null || map.MusicNsfTrack > 0) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1, map.MusicNsfTrack);
 
             readyImage = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
             readyTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
@@ -89,6 +89,7 @@ namespace Mega_Man
         {
             if (music != null) music.FadeOut(60);
             if (CurrentScreen.music != null) CurrentScreen.music.FadeOut(60);
+            
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
         }

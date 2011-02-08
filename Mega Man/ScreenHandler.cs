@@ -74,7 +74,7 @@ namespace Mega_Man
 
             string intropath = (screen.MusicIntroPath != null) ? screen.MusicIntroPath.Absolute : null;
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
+            if (intropath != null || looppath != null || screen.MusicNsfTrack > 0) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1, screen.MusicNsfTrack);
         }
 
         public JoinHandler GetJoinHandler(MegaMan.Join join)

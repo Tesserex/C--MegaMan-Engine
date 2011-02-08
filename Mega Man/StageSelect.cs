@@ -25,6 +25,7 @@ namespace Mega_Man
             public Point location;
         }
 
+        private int musicNsfTrack;
         private Music musicStageSelect;
         private SoundEffect changeSound;
         private Texture2D backgroundTexture;
@@ -95,7 +96,14 @@ namespace Mega_Man
                 var loop = music.Element("Loop");
                 string introPath = (intro != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, intro.Value) : null;
                 string loopPath = (loop != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, loop.Value) : null;
-                musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1);
+
+                XAttribute nsfTrack = music.Attribute("nsftrack");
+                if (nsfTrack != null)
+                {
+                    if (!int.TryParse(nsfTrack.Value, out musicNsfTrack) || musicNsfTrack <= 0) throw new EntityXmlException(nsfTrack, "NSF track attribute must be a positive integer.");
+                }
+
+                musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1, musicNsfTrack);
             }
 
             var soundElement = reader.Element("ChangeSound");
@@ -144,7 +152,10 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
-            if (musicStageSelect != null) musicStageSelect.Play();
+
+            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayTrack(musicNsfTrack);
+            else if (musicStageSelect != null) musicStageSelect.Play();
+
             Game.CurrentGame.AddGameHandler(this);
         }
 
@@ -153,7 +164,10 @@ namespace Mega_Man
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
             Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
-            if (musicStageSelect != null) musicStageSelect.Stop();
+
+            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.StopNSF();
+            else if (musicStageSelect != null) musicStageSelect.Stop();
+
             Game.CurrentGame.RemoveGameHandler(this);
         }
 

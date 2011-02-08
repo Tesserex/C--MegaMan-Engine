@@ -18,7 +18,9 @@ namespace Mega_Man
 
         public bool Playing { get; private set; }
 
-        public Music(FMOD.System system, string intropath, string looppath, float baseVol)
+        private int nsfTrack;
+
+        public Music(FMOD.System system, string intropath, string looppath, float baseVol, int nsfTrack)
         {
             RESULT result;
             this.system = system;
@@ -26,8 +28,9 @@ namespace Mega_Man
 
             baseVolume = baseVol;
             volume = 1;
+            this.nsfTrack = nsfTrack;
 
-            result = system.createSound(looppath, MODE.LOOP_NORMAL, ref loop);
+            if (looppath != null) result = system.createSound(looppath, MODE.LOOP_NORMAL, ref loop);
             
             if (intropath != null)
             {
@@ -53,6 +56,7 @@ namespace Mega_Man
             {
                 volume = baseVolume * value;
                 if (channel != null) channel.setVolume(volume);
+                if (this.nsfTrack > 0) Engine.Instance.SoundSystem.NsfMusic.Volume = volume;
             }
         }
 
@@ -67,25 +71,34 @@ namespace Mega_Man
                 playingintro = true;
                 channel.setCallback(callback);
             }
-            else system.playSound(CHANNELINDEX.FREE, loop, false, ref channel);
+            else if (loop != null) system.playSound(CHANNELINDEX.FREE, loop, false, ref channel);
+
+            if (nsfTrack > 0) Engine.Instance.SoundSystem.PlayTrack(nsfTrack);
 
             Playing = true;
         }
 
         public void Stop()
         {
-            if (channel == null) return;
+            if (channel != null)
+            {
+                channel.stop();
+                channel.setPosition(0, TIMEUNIT.MS);
+            }
+            if (nsfTrack > 0) Engine.Instance.SoundSystem.StopNSF();
             Playing = false;
-            channel.stop();
-            channel.setPosition(0, TIMEUNIT.MS);
         }
 
         public void FadeOut(int frames)
         {
             if (!Playing) return;
 
-            float fadeamt = 1.0f / frames;
-            Engine.Instance.DelayedCall(Stop, (i) => { Volume -= fadeamt; }, frames);
+            if (channel != null)
+            {
+                float fadeamt = 1.0f / frames;
+                Engine.Instance.DelayedCall(Stop, (i) => { Volume -= fadeamt; }, frames);
+            }
+            if (nsfTrack > 0) Engine.Instance.SoundSystem.NsfMusic.FadeOut(frames);
         }
 
         private FMOD.RESULT SyncCallback(IntPtr c, CHANNEL_CALLBACKTYPE type, IntPtr a, IntPtr b)
