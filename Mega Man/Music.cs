@@ -80,13 +80,13 @@ namespace Mega_Man
 
         public void Stop()
         {
+            Playing = false;
             if (channel != null)
             {
                 channel.stop();
                 channel.setPosition(0, TIMEUNIT.MS);
             }
             if (nsfTrack > 0) Engine.Instance.SoundSystem.StopNSF();
-            Playing = false;
         }
 
         public void FadeOut(int frames)
