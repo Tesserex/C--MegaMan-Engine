@@ -25,8 +25,7 @@ namespace Mega_Man
         public Music music;
 
         public MegaMan.Map Map { get; private set; }
-        public float OffsetX { get; private set; }
-        public float OffsetY { get; private set; }
+
         public MegaMan.Tileset Tileset { get { return Map.Tileset; } }
 
         public ScreenHandler CurrentScreen { get; private set; }
@@ -55,15 +54,6 @@ namespace Mega_Man
             readyTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
 
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
-        }
-
-        public bool IsOnScreen(float x, float y)
-        {
-            x -= CurrentScreen.OffsetX;
-            y -= CurrentScreen.OffsetY;
-            return x >= OffsetX && y >= OffsetY &&
-                x <= OffsetX + Game.CurrentGame.PixelsAcross &&
-                y <= OffsetY + Game.CurrentGame.PixelsDown;
         }
 
         void BlinkReady(GameRenderEventArgs e)

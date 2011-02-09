@@ -17,7 +17,7 @@ namespace Mega_Man
         {
             get
             {
-                return !Game.CurrentGame.CurrentMap.IsOnScreen(Position.X, Position.Y);
+                return !Game.CurrentGame.CurrentMap.CurrentScreen.IsOnScreen(Position.X, Position.Y);
             }
         }
 

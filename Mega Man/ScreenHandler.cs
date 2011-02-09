@@ -171,7 +171,7 @@ namespace Mega_Man
             for (int i = 0; i < Screen.EnemyInfo.Count; i++)
             {
                 if (this.entities[i] != null) continue; // already on screen
-                if (!Game.CurrentGame.CurrentMap.IsOnScreen(Screen.EnemyInfo[i].screenX, Screen.EnemyInfo[i].screenY))
+                if (!this.IsOnScreen(Screen.EnemyInfo[i].screenX, Screen.EnemyInfo[i].screenY))
                 {
                     spawnable[i] = true;    // it's off-screen, so it can spawn next time it's on screen
                     continue;
@@ -182,6 +182,13 @@ namespace Mega_Man
             }
         }
 
+        public bool IsOnScreen(float x, float y)
+        {
+            return x >= OffsetX && y >= OffsetY &&
+                x <= OffsetX + Game.CurrentGame.PixelsAcross &&
+                y <= OffsetY + Game.CurrentGame.PixelsDown;
+        }
+
         private void PlaceEntity(int index)
         {
             spawnable[index] = false;
@@ -190,7 +197,7 @@ namespace Mega_Man
             GameEntity enemy = GameEntity.Get(info.enemy);
             if (enemy == null) return;
             PositionComponent pos = enemy.GetComponent<PositionComponent>();
-            if (!pos.PersistOffScreen && !Game.CurrentGame.CurrentMap.IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
+            if (!pos.PersistOffScreen && !this.IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
 
             pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
             if (info.state != "Start")
