@@ -434,7 +434,7 @@ namespace Mega_Man
                         if (statecomp.CurrentState != state) break;
                     }
                 }
-                logic(entity);
+                statecomp.states[statecomp.CurrentState].logic(entity);
             }
         }
     }
