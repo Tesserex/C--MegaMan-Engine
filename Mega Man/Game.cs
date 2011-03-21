@@ -170,7 +170,16 @@ namespace Mega_Man
 
             select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
-            CurrentMap = new MapHandler(new MegaMan.Map(this.stages[name]));
+
+            try
+            {
+                CurrentMap = new MapHandler(new MegaMan.Map(this.stages[name]));
+            }
+            catch (XmlException e)
+            {
+                throw new GameEntityException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
+            }
+
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
             CurrentMap.Paused += CurrentMap_Paused;
