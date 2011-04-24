@@ -39,9 +39,14 @@
             this.screenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screen1XMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.screen2XMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenNTSCMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ntscComposite = new System.Windows.Forms.ToolStripMenuItem();
+            this.ntscSVideo = new System.Windows.Forms.ToolStripMenuItem();
+            this.ntscRGB = new System.Windows.Forms.ToolStripMenuItem();
+            this.ntscCustom = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.smoothedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixellatedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHitboxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,6 +141,7 @@
             this.screenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.screen1XMenu,
             this.screen2XMenu,
+            this.screenNTSCMenu,
             this.toolStripSeparator1,
             this.pixellatedToolStripMenuItem,
             this.smoothedToolStripMenuItem});
@@ -159,17 +165,52 @@
             this.screen2XMenu.Text = "2x";
             this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
+            // screenNTSCMenu
+            // 
+            this.screenNTSCMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ntscComposite,
+            this.ntscSVideo,
+            this.ntscRGB,
+            this.ntscCustom});
+            this.screenNTSCMenu.Name = "screenNTSCMenu";
+            this.screenNTSCMenu.Size = new System.Drawing.Size(152, 22);
+            this.screenNTSCMenu.Text = "NTSC";
+            this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
+            // 
+            // ntscComposite
+            // 
+            this.ntscComposite.Checked = true;
+            this.ntscComposite.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ntscComposite.Name = "ntscComposite";
+            this.ntscComposite.Size = new System.Drawing.Size(152, 22);
+            this.ntscComposite.Text = "Composite";
+            this.ntscComposite.Click += new System.EventHandler(this.ntscComposite_Click);
+            // 
+            // ntscSVideo
+            // 
+            this.ntscSVideo.Name = "ntscSVideo";
+            this.ntscSVideo.Size = new System.Drawing.Size(152, 22);
+            this.ntscSVideo.Text = "S-Video";
+            this.ntscSVideo.Click += new System.EventHandler(this.ntscSVideo_Click);
+            // 
+            // ntscRGB
+            // 
+            this.ntscRGB.Name = "ntscRGB";
+            this.ntscRGB.Size = new System.Drawing.Size(152, 22);
+            this.ntscRGB.Text = "RGB";
+            this.ntscRGB.Click += new System.EventHandler(this.ntscRGB_Click);
+            // 
+            // ntscCustom
+            // 
+            this.ntscCustom.Name = "ntscCustom";
+            this.ntscCustom.Size = new System.Drawing.Size(152, 22);
+            this.ntscCustom.Text = "Custom ...";
+            this.ntscCustom.Click += new System.EventHandler(this.ntscCustom_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // smoothedToolStripMenuItem
-            // 
-            this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
-            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.smoothedToolStripMenuItem.Text = "Smoothed";
-            this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 
             // pixellatedToolStripMenuItem
             // 
@@ -179,6 +220,13 @@
             this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
             this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
+            // 
+            // smoothedToolStripMenuItem
+            // 
+            this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
+            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.smoothedToolStripMenuItem.Text = "Smoothed";
+            this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -331,6 +379,7 @@
             this.xnaImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xnaImage.Location = new System.Drawing.Point(0, 24);
             this.xnaImage.Name = "xnaImage";
+            this.xnaImage.NTSC = false;
             this.xnaImage.Size = new System.Drawing.Size(294, 248);
             this.xnaImage.TabIndex = 1;
             this.xnaImage.Click += new System.EventHandler(this.xnaImage_Click);
@@ -388,6 +437,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem smoothedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pixellatedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem screenNTSCMenu;
+        private System.Windows.Forms.ToolStripMenuItem ntscComposite;
+        private System.Windows.Forms.ToolStripMenuItem ntscSVideo;
+        private System.Windows.Forms.ToolStripMenuItem ntscRGB;
+        private System.Windows.Forms.ToolStripMenuItem ntscCustom;
     }
 }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Runtime.InteropServices;
 
 namespace Mega_Man
 {
@@ -12,6 +13,27 @@ namespace Mega_Man
         Random rand;
         RenderTarget2D backing;
         SpriteBatch sprite;
+        IntPtr ntsc;
+        Texture2D ntscTexture;
+        ushort[] pixels = new ushort[256 * 224];
+        byte[] ntscOutput = new byte[602 * 448 * 2];
+        ushort[] filtered = new ushort[602 * 448];
+
+        public bool NTSC { get; set; }
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr snes_ntsc_alloc();
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void snes_ntsc_init(IntPtr ntsc, snes_ntsc_setup_t setup);
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void snes_ntsc_free(IntPtr ntsc);
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void snes_ntsc_blit(IntPtr ntsc, ushort[] input,
+            int in_row_width, int burst_phase, int in_width, int in_height,
+            [In, Out] byte[] rgb_out, int out_pitch);
 
         protected override void Initialize()
         {
@@ -23,13 +45,23 @@ namespace Mega_Man
             this.Padding = new System.Windows.Forms.Padding(0);
 
             sprite = new SpriteBatch(GraphicsDevice);
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Color);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Bgr565);
+
+            ntsc = snes_ntsc_alloc();
+            ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
+
+            ntscTexture = new Texture2D(GraphicsDevice, 602, 448, 1, TextureUsage.None, SurfaceFormat.Bgr565);
+        }
+
+        public void ntscInit(snes_ntsc_setup_t setup)
+        {
+            snes_ntsc_init(ntsc, setup);
         }
 
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Color, RenderTargetUsage.DiscardContents);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Bgr565, RenderTargetUsage.DiscardContents);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -56,7 +88,47 @@ namespace Mega_Man
             sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
             GraphicsDevice.SamplerStates[0].MagFilter = Engine.Instance.MagFilter;
             GraphicsDevice.Clear(Color.Black);
-            sprite.Draw(backing.GetTexture(), new Rectangle(0, 0, this.Width, this.Height), Color.White);
+
+            if (NTSC)
+            {
+
+                backing.GetTexture().GetData(pixels);
+
+                snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, ntscOutput, 1204);
+
+                int f_i = 0;
+                int row = 0;
+                for (int i = 0; i < 269440; i++)
+                {
+                    int joined = (ntscOutput[f_i + 1] << 8) + ntscOutput[f_i];
+                    f_i += 2;
+
+                    filtered[i] = (ushort)joined;
+
+                    ushort red = (ushort)(joined & 0xf800);
+                    ushort green = (ushort)(joined & 0x7e0);
+                    ushort blue = (ushort)(joined & 0x1f);
+                    red = (ushort)((red - (red >> 3)) & 0xf800);
+                    green = (ushort)((green - (green >> 3)) & 0x7e0);
+                    blue = (ushort)((blue - (blue >> 3)) & 0x1f);
+                    filtered[i + 602] = (ushort)(red | green | blue);
+
+                    row++;
+                    if (row > 601)
+                    {
+                        row = 0;
+                        i += 602;
+                    }
+                }
+                
+                ntscTexture.SetData(filtered);
+                
+                sprite.Draw(ntscTexture, new Rectangle(0, 0, this.Width, this.Height), Color.White);
+            }
+            else
+            {
+                sprite.Draw(backing.GetTexture(), new Rectangle(0, 0, this.Width, this.Height), Color.White);
+            }
             sprite.End();
             EndDraw();
         }
@@ -69,6 +141,53 @@ namespace Mega_Man
         protected override void Draw()
         {
             //GraphicsDevice.Clear(Color.Black);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class snes_ntsc_setup_t
+    {
+        public static snes_ntsc_setup_t snes_ntsc_composite = new snes_ntsc_setup_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
+        public static snes_ntsc_setup_t snes_ntsc_svideo = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .2, -1, -1, 0, true);
+        public static snes_ntsc_setup_t snes_ntsc_rgb = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .7, -1, -1, -1, true);
+
+        /* Basic parameters */
+        public double hue;        /* -1 = -180 degrees     +1 = +180 degrees */
+        public double saturation; /* -1 = grayscale (0.0)  +1 = oversaturated colors (2.0) */
+        public double contrast;   /* -1 = dark (0.5)       +1 = light (1.5) */
+        public double brightness; /* -1 = dark (0.5)       +1 = light (1.5) */
+        public double sharpness;  /* edge contrast enhancement/blurring */
+
+        /* Advanced parameters */
+        public double gamma;      /* -1 = dark (1.5)       +1 = light (0.5) */
+        public double resolution; /* image resolution */
+        public double artifacts;  /* artifacts caused by color changes */
+        public double fringing;   /* color artifacts caused by brightness changes */
+        public double bleed;      /* color bleed (color resolution reduction) */
+        public int merge_fields;  /* if 1, merges even and odd fields together to reduce flicker */
+
+        public float[] decoder_matrix; /* optional RGB decoder matrix, 6 elements */
+
+        uint[] bsnes_colortbl; /* undocumented; set to 0 */
+
+        public snes_ntsc_setup_t(double hue, double saturation, double contrast, double brightness,
+            double sharpness, double gamma, double resolution, double artifacts,
+            double fringing, double bleed, bool merge_fields)
+        {
+            this.hue = hue;
+            this.saturation = saturation;
+            this.contrast = contrast;
+            this.brightness = brightness;
+            this.sharpness = sharpness;
+            this.gamma = gamma;
+            this.resolution = resolution;
+            this.artifacts = artifacts;
+            this.fringing = fringing;
+            this.bleed = bleed;
+            this.merge_fields = merge_fields ? 1 : 0;
+
+            // default decoder matrix
+            decoder_matrix = null;
         }
     }
 }

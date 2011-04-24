@@ -14,6 +14,7 @@ namespace Mega_Man
     public partial class Form1 : Form
     {
         private string settingsPath;
+        private CustomNtscForm customNtscForm = new CustomNtscForm();
 
         public Form1()
         {
@@ -33,6 +34,8 @@ namespace Mega_Man
 
             Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
             Engine.Instance.GameLogicTick += new GameTickEventHandler(Instance_GameLogicTick);
+
+            customNtscForm.Apply += new Action(customNtscForm_Apply);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -282,6 +285,8 @@ namespace Mega_Man
             else ResizeScreen(Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
             screen1XMenu.Checked = true;
             screen2XMenu.Checked = false;
+            screenNTSCMenu.Checked = false;
+            xnaImage.NTSC = false;
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
@@ -290,6 +295,8 @@ namespace Mega_Man
             else ResizeScreen(Game.CurrentGame.PixelsAcross * 2, Game.CurrentGame.PixelsDown * 2);
             screen2XMenu.Checked = true;
             screen1XMenu.Checked = false;
+            screenNTSCMenu.Checked = false;
+            xnaImage.NTSC = false;
         }
 
         private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -304,6 +311,61 @@ namespace Mega_Man
             Engine.Instance.MagFilter = Microsoft.Xna.Framework.Graphics.TextureFilter.Point;
             smoothedToolStripMenuItem.Checked = false;
             pixellatedToolStripMenuItem.Checked = true;
+        }
+
+        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        {
+            ResizeScreen(602, 448);
+            screenNTSCMenu.Checked = true;
+            screen2XMenu.Checked = false;
+            screen1XMenu.Checked = false;
+            xnaImage.NTSC = true;
+        }
+
+        private void ntscComposite_Click(object sender, EventArgs e)
+        {
+            screenNTSCMenu_Click(sender, e);
+            ntscComposite.Checked = true;
+            ntscSVideo.Checked = false;
+            ntscRGB.Checked = false;
+            ntscCustom.Checked = false;
+            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
+        }
+
+        private void ntscSVideo_Click(object sender, EventArgs e)
+        {
+            screenNTSCMenu_Click(sender, e);
+            ntscSVideo.Checked = true;
+            ntscRGB.Checked = false;
+            ntscComposite.Checked = false;
+            ntscCustom.Checked = false;
+            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_svideo);
+        }
+
+        private void ntscRGB_Click(object sender, EventArgs e)
+        {
+            screenNTSCMenu_Click(sender, e);
+            ntscSVideo.Checked = false;
+            ntscRGB.Checked = true;
+            ntscComposite.Checked = false;
+            ntscCustom.Checked = false;
+            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_rgb);
+        }
+
+        private void ntscCustom_Click(object sender, EventArgs e)
+        {
+            customNtscForm.Show();
+        }
+
+        private void customNtscForm_Apply()
+        {
+            screenNTSCMenu_Click(ntscCustom, new EventArgs());
+            ntscCustom.Checked = true;
+            ntscSVideo.Checked = false;
+            ntscRGB.Checked = false;
+            ntscComposite.Checked = false;
+            xnaImage.ntscInit(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+                customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
         }
     }
 }
