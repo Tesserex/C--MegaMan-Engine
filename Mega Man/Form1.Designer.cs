@@ -120,6 +120,7 @@
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // inputToolStripMenuItem
             // 
@@ -154,14 +155,14 @@
             this.screen1XMenu.Checked = true;
             this.screen1XMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.screen1XMenu.Name = "screen1XMenu";
-            this.screen1XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen1XMenu.Size = new System.Drawing.Size(122, 22);
             this.screen1XMenu.Text = "1x";
             this.screen1XMenu.Click += new System.EventHandler(this.screen1XMenu_Click);
             // 
             // screen2XMenu
             // 
             this.screen2XMenu.Name = "screen2XMenu";
-            this.screen2XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen2XMenu.Size = new System.Drawing.Size(122, 22);
             this.screen2XMenu.Text = "2x";
             this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
@@ -173,7 +174,7 @@
             this.ntscRGB,
             this.ntscCustom});
             this.screenNTSCMenu.Name = "screenNTSCMenu";
-            this.screenNTSCMenu.Size = new System.Drawing.Size(152, 22);
+            this.screenNTSCMenu.Size = new System.Drawing.Size(122, 22);
             this.screenNTSCMenu.Text = "NTSC";
             this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
             // 
@@ -182,49 +183,49 @@
             this.ntscComposite.Checked = true;
             this.ntscComposite.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ntscComposite.Name = "ntscComposite";
-            this.ntscComposite.Size = new System.Drawing.Size(152, 22);
+            this.ntscComposite.Size = new System.Drawing.Size(125, 22);
             this.ntscComposite.Text = "Composite";
             this.ntscComposite.Click += new System.EventHandler(this.ntscComposite_Click);
             // 
             // ntscSVideo
             // 
             this.ntscSVideo.Name = "ntscSVideo";
-            this.ntscSVideo.Size = new System.Drawing.Size(152, 22);
+            this.ntscSVideo.Size = new System.Drawing.Size(125, 22);
             this.ntscSVideo.Text = "S-Video";
             this.ntscSVideo.Click += new System.EventHandler(this.ntscSVideo_Click);
             // 
             // ntscRGB
             // 
             this.ntscRGB.Name = "ntscRGB";
-            this.ntscRGB.Size = new System.Drawing.Size(152, 22);
+            this.ntscRGB.Size = new System.Drawing.Size(125, 22);
             this.ntscRGB.Text = "RGB";
             this.ntscRGB.Click += new System.EventHandler(this.ntscRGB_Click);
             // 
             // ntscCustom
             // 
             this.ntscCustom.Name = "ntscCustom";
-            this.ntscCustom.Size = new System.Drawing.Size(152, 22);
+            this.ntscCustom.Size = new System.Drawing.Size(125, 22);
             this.ntscCustom.Text = "Custom ...";
             this.ntscCustom.Click += new System.EventHandler(this.ntscCustom_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
             // 
             // pixellatedToolStripMenuItem
             // 
             this.pixellatedToolStripMenuItem.Checked = true;
             this.pixellatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
-            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
             this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
             // 
             // smoothedToolStripMenuItem
             // 
             this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
-            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.smoothedToolStripMenuItem.Text = "Smoothed";
             this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 

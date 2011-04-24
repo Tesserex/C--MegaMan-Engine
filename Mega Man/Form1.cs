@@ -367,5 +367,11 @@ namespace Mega_Man
             xnaImage.ntscInit(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
                 customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
         }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            Application.Exit();
+        }
     }
 }
