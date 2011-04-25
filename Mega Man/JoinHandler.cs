@@ -115,8 +115,8 @@ namespace Mega_Man
         public virtual void BeginScroll(ScreenHandler next, PointF playerPos)
         {
             this.nextScreen = next;
-            if (this.direction == Direction.Down) this.nextScreenY = -next.Screen.PixelHeight;
-            else if (this.direction == Direction.Right) this.nextScreenX = -next.Screen.PixelWidth;
+            if (this.direction == Direction.Down) this.nextScreenY = -currentScreen.Screen.PixelHeight;
+            else if (this.direction == Direction.Right) this.nextScreenX = -currentScreen.Screen.PixelWidth;
             else if (this.direction == Direction.Left) this.nextScreenX = next.Screen.PixelWidth;
             else if (this.direction == Direction.Up) this.nextScreenY = next.Screen.PixelHeight;
         }
