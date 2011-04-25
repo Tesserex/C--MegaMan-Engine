@@ -131,8 +131,11 @@ namespace Mega_Man
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
-            ResizeScreen(e.PixelsAcross, e.PixelsDown);
-            this.xnaImage.SetSize();
+            if (e.PixelsAcross != 256 || e.PixelsDown != 224 || !xnaImage.NTSC)
+            {
+                ResizeScreen(e.PixelsAcross, e.PixelsDown);
+                this.xnaImage.SetSize();
+            }
         }
 
         private void ResizeScreen(int width, int height)
