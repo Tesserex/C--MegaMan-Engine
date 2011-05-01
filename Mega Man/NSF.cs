@@ -139,10 +139,14 @@ namespace Mega_Man
                 ref sound);
         }
 
+        private bool trackSet = false;
         public void SetTrack(int track)
         {
             Stop();
-            if (frequency >= 0) set_song(track);
+            if (frequency >= 0)
+            {
+                set_song(track);
+            }
         }
 
         public NSF(FMOD.System system)
@@ -152,6 +156,7 @@ namespace Mega_Man
 
         public FMOD.RESULT Play()
         {
+            if (!loaded) return FMOD.RESULT.OK;
             return system.playSound(FMOD.CHANNELINDEX.FREE, sound, false, ref channel);
         }
 
@@ -195,7 +200,11 @@ namespace Mega_Man
                 }
             }
 
-            if (loaded) unload_nsf();
+            if (loaded)
+            {
+                unload_nsf();
+                loaded = false;
+            }
         }
         #endregion
 
