@@ -96,7 +96,7 @@ namespace Mega_Man
             info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imagePathOn));
 
 			StreamReader srOff = new StreamReader(imagePathOff);
-			StreamReader srOn = new StreamReader(imagePathOff);
+			StreamReader srOn = new StreamReader(imagePathOn);
             info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
             info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
 
