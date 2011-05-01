@@ -17,7 +17,7 @@ namespace Mega_Man
         private float tickSize;
         private Texture2D meterTexture;
         private Texture2D tickTexture;
-        private SoundEffect sound;
+        private WavEffect sound;
         private int tickframes;
         private int stopvalue;
 

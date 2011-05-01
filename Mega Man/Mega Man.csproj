@@ -97,6 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Mega Man Common\Mega Man Common\bin\x86\Debug\Mega Man Common.dll</HintPath>
     </Reference>
+    <Reference Include="MegaManR.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x86\Debug\MegaManR.Audio.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -158,7 +162,6 @@
     <Compile Include="Messages.cs" />
     <Compile Include="MovementComponent.cs" />
     <Compile Include="Music.cs" />
-    <Compile Include="NSF.cs" />
     <Compile Include="PauseScreen.cs" />
     <Compile Include="PositionComponent.cs" />
     <Compile Include="const.cs" />

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Mega_Man
 {
-    public class SoundEffect : IDisposable
+    public class WavEffect : IDisposable
     {
         private CHANNEL_CALLBACK callback;
         private Sound sound;
@@ -19,7 +19,7 @@ namespace Mega_Man
 
         public string Name { get; set; }
 
-        public SoundEffect(FMOD.System system, string path, bool loop, float baseVol)
+        public WavEffect(FMOD.System system, string path, bool loop, float baseVol)
         {
             this.system = system;
             callback = new CHANNEL_CALLBACK(SyncCallback);

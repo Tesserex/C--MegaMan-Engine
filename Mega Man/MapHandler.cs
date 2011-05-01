@@ -49,7 +49,7 @@ namespace Mega_Man
 
             string intropath = (map.MusicIntroPath != null) ? map.MusicIntroPath.Absolute : null;
             string looppath = (map.MusicLoopPath != null) ? map.MusicLoopPath.Absolute : null;
-            if (intropath != null || looppath != null || map.MusicNsfTrack > 0) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1, map.MusicNsfTrack);
+            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
 			String imagePath = System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png");
             readyImage = Image.FromFile(imagePath);
@@ -155,6 +155,8 @@ namespace Mega_Man
                 if (music != null) music.Stop();
                 nextScreen.music.Play();
             }
+
+            if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayNSF((uint)nextScreen.Screen.MusicNsfTrack);
         }
 
         private void Update()
@@ -248,6 +250,7 @@ namespace Mega_Man
             StartScreen();
 
             if (music != null) music.Play();
+            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayNSF((uint)Map.MusicNsfTrack);
 
             // updateFunc isn't set until BeginPlay
             drawFunc = Draw;

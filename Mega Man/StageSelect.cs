@@ -28,7 +28,7 @@ namespace Mega_Man
 
         private int musicNsfTrack;
         private Music musicStageSelect;
-        private SoundEffect changeSound;
+        private WavEffect changeSound;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;
@@ -104,7 +104,7 @@ namespace Mega_Man
                     if (!int.TryParse(nsfTrack.Value, out musicNsfTrack) || musicNsfTrack <= 0) throw new EntityXmlException(nsfTrack, "NSF track attribute must be a positive integer.");
                 }
 
-                musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1, musicNsfTrack);
+                if (introPath != null || loopPath != null) musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1);
             }
 
             var soundElement = reader.Element("ChangeSound");
@@ -156,7 +156,7 @@ namespace Mega_Man
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
 
-            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayTrack(musicNsfTrack);
+            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayNSF((uint)musicNsfTrack);
             else if (musicStageSelect != null) musicStageSelect.Play();
 
             Game.CurrentGame.AddGameHandler(this);
