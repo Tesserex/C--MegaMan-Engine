@@ -142,6 +142,8 @@ namespace WinFormsGraphicsDevice
                 return deviceResetError;
             }
 
+            if (ClientSize.Width == 0 || ClientSize.Height == 0) return null;
+
             // Many GraphicsDeviceControl instances can be sharing the same
             // GraphicsDevice. The device backbuffer will be resized to fit the
             // largest of these controls. But what if we are currently drawing
