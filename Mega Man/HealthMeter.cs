@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -102,8 +103,11 @@ namespace Mega_Man
 
         public void LoadXml(XElement node)
         {
-            this.positionX = float.Parse(node.Attribute("x").Value);
-            this.positionY = float.Parse(node.Attribute("y").Value);
+            int px, py;
+            node.Attribute("x").Value.TryParse(out px);
+            node.Attribute("y").Value.TryParse(out py);
+            this.positionX = px;
+            this.positionY = py;
             XAttribute imageAttr = node.Attribute("image");
             if (imageAttr == null) throw new EntityXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
 

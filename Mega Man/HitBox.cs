@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Xml;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -18,7 +19,7 @@ namespace Mega_Man
             XAttribute widthAttr = xmlNode.Attribute("width");
             if (widthAttr != null)
             {
-                bool s = float.TryParse(widthAttr.Value, out width);
+                bool s = widthAttr.Value.TryParse(out width);
                 if (!s) throw new EntityXmlException(widthAttr, "Hitbox width was not a valid number!");
             }
             else throw new EntityXmlException(xmlNode, "Hitbox does not specify width!");
@@ -27,7 +28,7 @@ namespace Mega_Man
             XAttribute heightAttr = xmlNode.Attribute("height");
             if (heightAttr != null)
             {
-                bool s = float.TryParse(heightAttr.Value, out height);
+                bool s = heightAttr.Value.TryParse(out height);
                 if (!s) throw new EntityXmlException(heightAttr, "Hitbox height was not a valid number!");
             }
             else throw new EntityXmlException(xmlNode, "Hitbox does not specify height!");
@@ -36,7 +37,7 @@ namespace Mega_Man
             XAttribute xAttr = xmlNode.Attribute("x");
             if (xAttr != null)
             {
-                bool s = float.TryParse(xAttr.Value, out x);
+                bool s = xAttr.Value.TryParse(out x);
                 if (!s) throw new EntityXmlException(xAttr, "Hitbox x was not valid!");
             }
             else throw new EntityXmlException(xmlNode, "Hitbox does not specify x position!");
@@ -45,7 +46,7 @@ namespace Mega_Man
             XAttribute yAttr = xmlNode.Attribute("y");
             if (yAttr != null)
             {
-                bool s = float.TryParse(yAttr.Value, out y);
+                bool s = yAttr.Value.TryParse(out y);
                 if (!s) throw new EntityXmlException(yAttr, "Hitbox y was not valid!");
             }
             else throw new EntityXmlException(xmlNode, "Hitbox does not specify y position!");

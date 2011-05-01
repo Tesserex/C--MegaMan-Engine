@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Drawing;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -54,7 +55,7 @@ namespace Mega_Man
                 if (multAttr == null) throw new EntityXmlException(resistNode, "Resist tag mult specify a multiply attribute!");
 
                 float mult;
-                if (!float.TryParse(multAttr.Value, out mult)) throw new EntityXmlException(multAttr, "Multiply value is not a valid number!");
+                if (!multAttr.Value.TryParse(out mult)) throw new EntityXmlException(multAttr, "Multiply value is not a valid number!");
 
                 resistance.Add(nameAttr.Value, mult);
             }
@@ -67,7 +68,7 @@ namespace Mega_Man
             if (damageAttr != null)
             {
                 float dmg;
-                bool s = float.TryParse(damageAttr.Value, out dmg);
+                bool s = damageAttr.Value.TryParse(out dmg);
                 if (!s) throw new EntityXmlException(damageAttr, "Hitbox damage value is not a valid number.");
                 this.ContactDamage = dmg;
             }

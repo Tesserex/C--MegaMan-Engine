@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FMOD;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -64,7 +65,7 @@ namespace Mega_Man
             XAttribute volAttr = soundNode.Attribute("volume");
             if (volAttr != null)
             {
-                if (!float.TryParse(volAttr.Value, out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+                if (!volAttr.Value.TryParse(out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
             }
 
             SoundEffect sound = new SoundEffect(this.soundSystem, path, loop, vol);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -264,7 +265,7 @@ namespace Mega_Man
             if (magAttr != null)
             {
                 float pmag;
-                if (!float.TryParse(magAttr.Value, out pmag)) throw new EntityXmlException(magAttr, "Movement magnitude must be a number.");
+                if (!magAttr.Value.TryParse(out pmag)) throw new EntityXmlException(magAttr, "Movement magnitude must be a number.");
                 mag = pmag;
             }
 

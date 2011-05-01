@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -133,7 +134,7 @@ namespace Mega_Man
                 else
                 {
                     float baseVal;
-                    if (!float.TryParse(base_str, out baseVal)) throw new EntityXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
+                    if (!base_str.TryParse(out baseVal)) throw new EntityXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
                     if (axis == Axis.X) action = (entity) =>
                     {
                         PositionComponent pos = entity.GetComponent<PositionComponent>();
@@ -151,7 +152,7 @@ namespace Mega_Man
             if (offattr != null)
             {
                 float offset;
-                if (!float.TryParse(offattr.Value, out offset)) throw new EntityXmlException(offattr, "Position offset must be a valid decimal number.");
+                if (!offattr.Value.TryParse(out offset)) throw new EntityXmlException(offattr, "Position offset must be a valid decimal number.");
                 XAttribute offdirattr = prop.Attribute("direction");
                 if (offdirattr == null) throw new EntityXmlException(prop, "X position specifies offset but no direction! Please specify a \"direction\" attribute.");
                 if (offdirattr.Value == "Inherit")

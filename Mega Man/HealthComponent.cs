@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -115,7 +116,7 @@ namespace Mega_Man
             XElement maxNode = xml.Element("Max");
             if (maxNode != null)
             {
-                if (!float.TryParse(maxNode.Value, out maxHealth)) throw new EntityXmlException(maxNode, "Health maximum was not a valid number.");
+                if (!maxNode.Value.TryParse(out maxHealth)) throw new EntityXmlException(maxNode, "Health maximum was not a valid number.");
                 health = maxHealth;
             }
 
@@ -140,7 +141,7 @@ namespace Mega_Man
             if (changeAttr != null)
             {
                 float changeval;
-                if (!float.TryParse(changeAttr.Value, out changeval)) throw new EntityXmlException(changeAttr, "Health change attribute must be a number.");
+                if (!changeAttr.Value.TryParse(out changeval)) throw new EntityXmlException(changeAttr, "Health change attribute must be a number.");
                 return (entity) =>
                 {
                     entity.GetComponent<HealthComponent>().Health += changeval;
