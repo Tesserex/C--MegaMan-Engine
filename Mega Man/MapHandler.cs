@@ -292,8 +292,6 @@ namespace Mega_Man
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
             
             Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
-
-            if (music != null) music.Volume = 0.7f;
         }
 
         public void Unpause()
@@ -302,8 +300,6 @@ namespace Mega_Man
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
             
             Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
-
-            if (music != null) music.Volume = 1;
         }
 
         public void GameInputReceived(GameInputEventArgs e)
