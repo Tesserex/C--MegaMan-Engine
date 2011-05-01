@@ -202,8 +202,7 @@ namespace Mega_Man
                 XElement meterNode = weapon.Element("Meter");
                 if (meterNode != null)
                 {
-                    meter = new HealthMeter();
-                    meter.LoadXml(meterNode);
+                    meter = HealthMeter.Create(meterNode, true);
 
                     meter.MaxValue = ammo;
                     meter.Reset();

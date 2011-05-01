@@ -105,8 +105,7 @@ namespace Mega_Man
             XElement meter = reader.Element("Meter");
             if (meter != null)
             {
-                info.meter = new HealthMeter();
-                info.meter.LoadXml(meter);
+                info.meter = HealthMeter.Create(meter, false);
             }
 
             weapons.Add(info);

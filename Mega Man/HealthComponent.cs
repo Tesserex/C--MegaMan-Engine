@@ -123,8 +123,7 @@ namespace Mega_Man
             XElement meterNode = xml.Element("Meter");
             if (meterNode != null)
             {
-                this.meter = new HealthMeter();
-                this.meter.LoadXml(meterNode);
+                this.meter = HealthMeter.Create(meterNode, true);
                 this.meter.MaxValue = this.maxHealth;
             }
 

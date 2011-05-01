@@ -30,6 +30,19 @@ namespace Mega_Man
 
         private bool horizontal;
 
+        // true if the meter is shown overlaid on gameplay, not in a pause screen
+        private bool inGamePlay;
+
+        private RectangleF bounds;
+        public RectangleF Bounds { get { return bounds; } }
+
+        private static List<HealthMeter> allMeters = new List<HealthMeter>();
+
+        public static IEnumerable<HealthMeter> AllMeters
+        {
+            get { return allMeters.AsReadOnly(); }
+        }
+
         /// <summary>
         /// Do not rely on this as the actual health. It can differ while it animates. It only reflects the value present in the bar itself.
         /// </summary>
@@ -77,7 +90,16 @@ namespace Mega_Man
             }
         }
 
-        public HealthMeter()
+        public static HealthMeter Create(XElement node, bool inGamePlay)
+        {
+            var meter = new HealthMeter();
+            meter.LoadXml(node);
+            meter.inGamePlay = inGamePlay;
+            if (inGamePlay) allMeters.Add(meter);
+            return meter;
+        }
+
+        private HealthMeter()
         {
             this.value = this.maxvalue;
             running = false;
@@ -117,7 +139,11 @@ namespace Mega_Man
 
             XAttribute backAttr = node.Attribute("background");
 			StreamReader srMeter = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
-			if (backAttr != null) this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
+            if (backAttr != null)
+            {
+                this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
+                this.bounds = new RectangleF(this.positionX, this.positionY, this.meterTexture.Width, this.meterTexture.Height);
+            }
 
             bool horiz = false;
             XAttribute dirAttr = node.Attribute("orientation");
@@ -149,7 +175,7 @@ namespace Mega_Man
             Draw(batch, positionX, positionY);
         }
 
-        public void Draw(SpriteBatch batch, float positionX, float positionY)
+        private void Draw(SpriteBatch batch, float positionX, float positionY)
         {
             if (this.tickTexture != null)
             {
@@ -206,7 +232,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (Engine.Instance.Foreground) this.Draw(e.Layers.ForegroundBatch, positionX, positionY);
+            if (inGamePlay && Engine.Instance.SpritesFour) this.Draw(e.Layers.SpritesBatch[3], positionX, positionY);
         }
 
         #endregion

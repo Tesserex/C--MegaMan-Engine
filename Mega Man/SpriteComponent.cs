@@ -233,8 +233,10 @@ namespace Mega_Man
             else if (component is IMovement) this.MovementSrc = component as IMovement;
         }
 
+        private bool evenframe = true;
         private void Instance_GameRender(GameRenderEventArgs e)
         {
+            evenframe = !evenframe;
             if (sprite.Layer < e.Layers.SpritesBatch.Length && (
                 (sprite.Layer == 0 && Engine.Instance.SpritesOne) ||
                 (sprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
@@ -242,6 +244,20 @@ namespace Mega_Man
                 (sprite.Layer == 3 && Engine.Instance.SpritesFour)
                 ))
             {
+                if (evenframe && Engine.Instance.Foreground)
+                {
+                    foreach (var meter in HealthMeter.AllMeters)
+                    {
+                        var bounds = sprite.BoundBox;
+                        bounds.Offset(-sprite.HotSpot.X, -sprite.HotSpot.Y);
+                        bounds.Offset(PositionSrc.Position);
+                        if (meter.Bounds.IntersectsWith(bounds))
+                        {
+                            Draw(e.Device, e.Layers.ForegroundBatch, e.OpacityColor);
+                            return;
+                        }
+                    }
+                }
                 Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer], e.OpacityColor);
             }
         }
