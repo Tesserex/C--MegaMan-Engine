@@ -54,7 +54,7 @@ namespace Mega_Man
 
         public static void Load(string path)
         {
-            Engine.Instance.Start();
+            Engine.Instance.Begin();
             if (CurrentGame != null)
             {
                 CurrentGame.Unload();

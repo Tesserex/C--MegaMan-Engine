@@ -38,6 +38,18 @@ namespace Mega_Man
             customNtscForm.Apply += new Action(customNtscForm_Apply);
         }
 
+        protected override void OnDeactivate(EventArgs e)
+        {
+            Engine.Instance.Stop();
+            base.OnDeactivate(e);
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            Engine.Instance.Start();
+            base.OnActivated(e);
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             // write settings to file

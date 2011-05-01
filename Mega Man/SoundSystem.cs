@@ -31,7 +31,18 @@ namespace Mega_Man
             updateTimer = new System.Windows.Forms.Timer();
             updateTimer.Interval = 10;
             updateTimer.Tick += new EventHandler(updateTimer_Tick);
+        }
+
+        public void Start()
+        {
             updateTimer.Start();
+            StartNSF();
+        }
+
+        public void Stop()
+        {
+            updateTimer.Stop();
+            StopNSF();
         }
 
         public SoundEffect EffectFromXml(XElement soundNode)
@@ -111,6 +122,11 @@ namespace Mega_Man
         public void StopNSF()
         {
             NsfMusic.Stop();
+        }
+
+        private void StartNSF()
+        {
+            NsfMusic.Play();
         }
     }
 }

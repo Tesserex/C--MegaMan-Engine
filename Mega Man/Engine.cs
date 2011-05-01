@@ -206,17 +206,32 @@ namespace Mega_Man
 
         public float ThinkTime { get; private set; }
 
-        public void Start()
+        private bool initialized = false;
+        private bool running = false;
+        public void Begin()
         {
-            timer.Start();
             DeviceEventArgs args = new DeviceEventArgs();
             if (GetDevice != null) GetDevice(this, args);
             this.GraphicsDevice = args.Device;
+            initialized = true;
+            Start();
+        }
+
+        public void Start()
+        {
+            if (initialized)
+            {
+                running = true;
+                timer.Start();
+                soundsystem.Start();
+            }
         }
 
         public void Stop()
         {
+            running = false;
             timer.Stop();
+            soundsystem.Stop();
         }
 
         /// <summary>
@@ -359,7 +374,7 @@ namespace Mega_Man
         // Also keeps track of actual framerate and busy time.
         private void Application_Idle()
         {
-            if (timer.ElapsedTicks < frameTicks) return;
+            if (timer.ElapsedTicks < frameTicks || !running) return;
             float dt = timer.ElapsedTicks * invFreq;
             timer.Reset();
             timer.Start();
