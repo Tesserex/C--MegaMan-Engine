@@ -45,12 +45,12 @@ namespace Mega_Man
             this.Padding = new System.Windows.Forms.Padding(0);
 
             sprite = new SpriteBatch(GraphicsDevice);
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Bgr565);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
 
             ntsc = snes_ntsc_alloc();
             ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
 
-            ntscTexture = new Texture2D(GraphicsDevice, 602, 448, 1, TextureUsage.None, SurfaceFormat.Bgr565);
+            ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
         }
 
         public void ntscInit(snes_ntsc_setup_t setup)
@@ -61,7 +61,7 @@ namespace Mega_Man
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, 1, SurfaceFormat.Bgr565, RenderTargetUsage.DiscardContents);
+            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -78,21 +78,20 @@ namespace Mega_Man
         void Instance_GameRenderBegin(GameRenderEventArgs e)
         {
             BeginDraw();
-            GraphicsDevice.SetRenderTarget(0, this.backing);
+            GraphicsDevice.SetRenderTarget(this.backing);
             GraphicsDevice.Clear(Color.Black);
         }
 
         void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
-            GraphicsDevice.SetRenderTarget(0, null);
-            sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.None);
-            GraphicsDevice.SamplerStates[0].MagFilter = Engine.Instance.MagFilter;
+            GraphicsDevice.SetRenderTarget(null);
+			sprite.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
             GraphicsDevice.Clear(Color.Black);
 
             if (NTSC)
             {
 
-                backing.GetTexture().GetData(pixels);
+                backing.GetData(pixels);
 
                 snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, ntscOutput, 1204);
 
@@ -127,7 +126,7 @@ namespace Mega_Man
             }
             else
             {
-                sprite.Draw(backing.GetTexture(), new Rectangle(0, 0, this.Width, this.Height), Color.White);
+                sprite.Draw(backing, new Rectangle(0, 0, this.Width, this.Height), Color.White);
             }
             sprite.End();
             EndDraw();

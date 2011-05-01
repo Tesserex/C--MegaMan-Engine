@@ -265,7 +265,7 @@ namespace Mega_Man
 
         public Condition ParseCondition(string conditionString)
         {
-            LambdaExpression lambda = DynamicExpression.ParseLambda(
+            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
                 new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
                 typeof(SplitCondition),
                 typeof(bool),
@@ -356,7 +356,7 @@ namespace Mega_Man
                     foreach (string st in statements)
                     {
                         if (string.IsNullOrEmpty(st.Trim())) continue;
-                        LambdaExpression lambda = DynamicExpression.ParseLambda(
+                        LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam },
                             typeof(SplitEffect),
                             null,

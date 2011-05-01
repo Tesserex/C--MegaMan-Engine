@@ -73,8 +73,8 @@ namespace Mega_Man
             Engine.Instance.GameReact += Update;
             Engine.Instance.GameRender += new GameRenderEventHandler(Instance_GameRender);
 
-            rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
-            rectTex.SetData(new Microsoft.Xna.Framework.Graphics.Color[] { new Microsoft.Xna.Framework.Graphics.Color(1, 0.6f, 0, 0.7f) });
+            rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            rectTex.SetData(new Microsoft.Xna.Framework.Color[] { new Microsoft.Xna.Framework.Color(1, 0.6f, 0, 0.7f) });
         }
 
         private void ClearTouch()
@@ -91,7 +91,7 @@ namespace Mega_Man
 
                 System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
-                if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Graphics.Color.White);
+                if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
             }
         }
 

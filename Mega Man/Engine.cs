@@ -64,7 +64,7 @@ namespace Mega_Man
     {
         public GameGraphicsLayers Layers { get; private set; }
         public GraphicsDevice Device { get; private set; }
-        public Microsoft.Xna.Framework.Graphics.Color OpacityColor;
+        public Microsoft.Xna.Framework.Color OpacityColor;
 
         public GameRenderEventArgs(GameGraphicsLayers layers, GraphicsDevice device)
         {
@@ -126,8 +126,8 @@ namespace Mega_Man
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
-        private Microsoft.Xna.Framework.Graphics.Color opacityColor = Microsoft.Xna.Framework.Graphics.Color.White;
-        public Microsoft.Xna.Framework.Graphics.Color OpacityColor { get { return opacityColor; } }
+        private Microsoft.Xna.Framework.Color opacityColor = Microsoft.Xna.Framework.Color.White;
+        public Microsoft.Xna.Framework.Color OpacityColor { get { return opacityColor; } }
 
         public SoundSystem SoundSystem { get { return soundsystem; } }
 
@@ -135,7 +135,7 @@ namespace Mega_Man
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
 
-        public TextureFilter MagFilter { get; set; }
+		public SamplerState FilterState { get; set; }
 
         // --- These events, and the order in which they fire, are very important.
 
@@ -278,7 +278,7 @@ namespace Mega_Man
         private void opacityDown(Action callback)
         {
             opacity -= 0.05f;
-            opacityColor = new Microsoft.Xna.Framework.Graphics.Color(opacity, opacity, opacity);
+            opacityColor = new Microsoft.Xna.Framework.Color(opacity, opacity, opacity);
             if (opacity <= 0)
             {
                 // call the callback, then switch to fading in
@@ -292,7 +292,7 @@ namespace Mega_Man
         private void opacityUp()
         {
             opacity += 0.05f;
-            opacityColor = new Microsoft.Xna.Framework.Graphics.Color(opacity, opacity, opacity);
+            opacityColor = new Microsoft.Xna.Framework.Color(opacity, opacity, opacity);
             if (opacity >= 1)   // done
             {
                 this.GameLogicTick -= fadeHandle;
@@ -317,7 +317,7 @@ namespace Mega_Man
 
             Foreground = Background = SpritesOne = SpritesTwo = SpritesThree = SpritesFour = true;
 
-            this.MagFilter = TextureFilter.Point;
+			this.FilterState = SamplerState.PointClamp;
         }
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
@@ -391,16 +391,16 @@ namespace Mega_Man
             GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
             r.OpacityColor = opacityColor;
 
-            this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Graphics.Color.Green);
+            this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
             
             if (GameRenderBegin != null) GameRenderBegin(r);
 
-            if (Background) r.Layers.BackgroundBatch.Begin();
-            if (SpritesOne) r.Layers.SpritesBatch[0].Begin();
-            if (SpritesTwo) r.Layers.SpritesBatch[1].Begin();
-            if (SpritesThree) r.Layers.SpritesBatch[2].Begin();
-            if (SpritesFour) r.Layers.SpritesBatch[3].Begin();
-            if (Foreground) r.Layers.ForegroundBatch.Begin();
+            if (Background) r.Layers.BackgroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            if (SpritesOne) r.Layers.SpritesBatch[0].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            if (SpritesTwo) r.Layers.SpritesBatch[1].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            if (SpritesThree) r.Layers.SpritesBatch[2].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            if (SpritesFour) r.Layers.SpritesBatch[3].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            if (Foreground) r.Layers.ForegroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
             if (GameRender != null) GameRender(r);
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Mega_Man
 {
@@ -108,8 +109,9 @@ namespace Mega_Man
 
             var soundElement = reader.Element("ChangeSound");
             if (soundElement != null) changeSound = Engine.Instance.SoundSystem.EffectFromXml(soundElement);
-            
-            backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+
+			StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+            backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (XElement boss in reader.Elements("Boss"))
                 LoadBoss(boss);
@@ -135,8 +137,9 @@ namespace Mega_Man
             XAttribute portraitNode = reader.Attribute("portrait");
             if (portraitNode != null)
             {
+				StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
                 bosses[slot].portrait = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
-                bosses[slot].texture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
+				bosses[slot].texture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
             XAttribute stageNode = reader.Attribute("stage");

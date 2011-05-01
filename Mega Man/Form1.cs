@@ -304,14 +304,14 @@ namespace Mega_Man
 
         private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.MagFilter = Microsoft.Xna.Framework.Graphics.TextureFilter.GaussianQuad;
+			Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
             smoothedToolStripMenuItem.Checked = true;
             pixellatedToolStripMenuItem.Checked = false;
         }
 
         private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.MagFilter = Microsoft.Xna.Framework.Graphics.TextureFilter.Point;
+			Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
             smoothedToolStripMenuItem.Checked = false;
             pixellatedToolStripMenuItem.Checked = true;
         }

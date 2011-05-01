@@ -9,22 +9,22 @@ namespace Mega_Man
 {
     public class NSF : IDisposable
     {
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int load_nsf_file(string filename, int track, int rate);
 
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int process_buffer(short[] buffer, int bufsize);
 
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void set_channel(int channel, bool enabled);
 
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void set_song(int track);
 
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int playback_rate();
 
-        [DllImport("nsf.dll")]
+		[DllImport("nsf.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void unload_nsf();
 
         private FMOD.System system;

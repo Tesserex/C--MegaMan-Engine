@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Mega_Man
 {
@@ -47,7 +48,8 @@ namespace Mega_Man
             pauseSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("PauseSound"));
 
             background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
-            backgroundTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+			StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+			backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (XElement weapon in reader.Elements("Weapon"))
                 LoadWeapon(weapon);
@@ -87,10 +89,16 @@ namespace Mega_Man
             info.name = reader.Attribute("name").Value;
             info.entity = reader.Attribute("entity").Value;
 
-            info.iconOff = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value));
-            info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value));
-            info.textureOff = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value));
-            info.textureOn = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value));
+			String imagePathOff = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value);
+			String imagePathOn = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value);
+
+            info.iconOff = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imagePathOff));
+            info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imagePathOn));
+
+			StreamReader srOff = new StreamReader(imagePathOff);
+			StreamReader srOn = new StreamReader(imagePathOff);
+            info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
+            info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
 
             info.location = new Point(int.Parse(reader.Attribute("x").Value), int.Parse(reader.Attribute("y").Value));
 

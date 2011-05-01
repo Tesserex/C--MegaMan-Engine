@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mega Man", "Mega Man\Mega Man.csproj", "{2B1E4B31-FF73-483C-9C32-8742B0951916}"
 EndProject
 Global

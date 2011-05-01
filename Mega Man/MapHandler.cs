@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Mega_Man
 {
@@ -50,8 +51,10 @@ namespace Mega_Man
             string looppath = (map.MusicLoopPath != null) ? map.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null || map.MusicNsfTrack > 0) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1, map.MusicNsfTrack);
 
-            readyImage = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
-            readyTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png"));
+			String imagePath = System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png");
+            readyImage = Image.FromFile(imagePath);
+			StreamReader sr = new StreamReader(imagePath);
+			readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
         }

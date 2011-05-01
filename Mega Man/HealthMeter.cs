@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Mega_Man
 {
@@ -105,12 +106,14 @@ namespace Mega_Man
             this.positionY = float.Parse(node.Attribute("y").Value);
             XAttribute imageAttr = node.Attribute("image");
             if (imageAttr == null) throw new EntityXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
-            
+
             if (this.tickTexture != null) this.tickTexture.Dispose();
-            this.tickTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value));
+			StreamReader srTick = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));
+			this.tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
 
             XAttribute backAttr = node.Attribute("background");
-            if (backAttr != null) this.meterTexture = Texture2D.FromFile(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value));
+			StreamReader srMeter = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
+			if (backAttr != null) this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
 
             bool horiz = false;
             XAttribute dirAttr = node.Attribute("orientation");

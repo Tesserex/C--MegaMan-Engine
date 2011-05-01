@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace Mega_Man
 {
@@ -69,7 +70,8 @@ namespace Mega_Man
         public static void LoadFont(string name, string imagepath, int charWidth, int charSpace)
         {
             Image charimg = Image.FromFile(imagepath);
-            Texture2D chartex = Texture2D.FromFile(Engine.Instance.GraphicsDevice, imagepath);
+			StreamReader sr = new StreamReader(imagepath);
+            Texture2D chartex = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             ImageFont font = new ImageFont(charimg, chartex, charWidth, charSpace);
 
             fonts.Add(name, font);
