@@ -8,15 +8,15 @@ namespace Mega_Man
 {
     public class SoundComponent : Component
     {
-        private Dictionary<string, WavEffect> sounds = new Dictionary<string, WavEffect>();
+        private Dictionary<string, ISoundEffect> sounds = new Dictionary<string, ISoundEffect>();
 
         public override void LoadXml(XElement xml)
         {
             foreach (XElement soundNode in xml.Elements("Sound"))
             {
-                WavEffect effect = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
-                string name = soundNode.Attribute("name").Value;
-                sounds.Add(name, effect);
+                ISoundEffect effect = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
+                XAttribute nameattr = soundNode.Attribute("name");
+                sounds.Add(nameattr.Value, effect);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Mega_Man
 
         public override void Stop()
         {
-            foreach (WavEffect sound in sounds.Values) sound.StopIfLooping();
+            foreach (ISoundEffect sound in sounds.Values) sound.StopIfLooping();
         }
 
         public override void Message(IGameMessage msg)

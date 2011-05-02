@@ -21,8 +21,8 @@ namespace Mega_Man
             public HealthMeter meter;
         }
 
-        private WavEffect pauseSound;
-        private WavEffect changeSound;
+        private ISoundEffect pauseSound;
+        private ISoundEffect changeSound;
         private Image background;
         private Texture2D backgroundTexture;
         private List<WeaponInfo> weapons;

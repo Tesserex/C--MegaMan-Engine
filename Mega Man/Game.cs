@@ -162,6 +162,13 @@ namespace Mega_Man
                 FilePath nsfPath = FilePath.FromRelative(musicNode.Value, this.BasePath);
                 Engine.Instance.SoundSystem.LoadMusicNSF(nsfPath.Absolute);
             }
+
+            XElement sfxNode = nsfNode.Element("SFX");
+            if (sfxNode != null)
+            {
+                FilePath sfxPath = FilePath.FromRelative(sfxNode.Value, this.BasePath);
+                Engine.Instance.SoundSystem.LoadSfxNSF(sfxPath.Absolute);
+            }
         }
 
         private void select_MapSelected(string name)

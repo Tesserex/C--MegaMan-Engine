@@ -4,10 +4,19 @@ using System.Linq;
 using System.Text;
 using FMOD;
 using System.Xml.Linq;
+using MegaManR.Audio;
 
 namespace Mega_Man
 {
-    public class WavEffect : IDisposable
+    public interface ISoundEffect : IDisposable
+    {
+        float Volume { get; set; }
+        void Play();
+        void Stop();
+        void StopIfLooping();
+    }
+
+    public class WavEffect : ISoundEffect
     {
         private CHANNEL_CALLBACK callback;
         private Sound sound;
@@ -16,8 +25,6 @@ namespace Mega_Man
         private int playCount;
 
         private float baseVolume, volume;
-
-        public string Name { get; set; }
 
         public WavEffect(FMOD.System system, string path, bool loop, float baseVol)
         {
@@ -90,6 +97,51 @@ namespace Mega_Man
                 if (playCount < 0) playCount = 0;
             }
             return RESULT.OK;
+        }
+    }
+
+    public class NsfEffect : ISoundEffect
+    {
+        private int track;
+        private SoundEffect sfx;
+
+        public NsfEffect(SoundEffect fx, int track)
+        {
+            this.track = track - 1;
+            this.sfx = fx;
+        }
+
+        public float Volume
+        {
+            get
+            {
+                return 1f;
+            }
+            set
+            {
+                
+            }
+        }
+
+        public void Play()
+        {
+            this.sfx.CurrentTrack = (uint)this.track;
+            AudioManager.Instance.PlaySoundEffect(this.sfx);
+        }
+
+        public void Stop()
+        {
+            
+        }
+
+        public void StopIfLooping()
+        {
+            
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

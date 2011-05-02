@@ -28,7 +28,7 @@ namespace Mega_Man
 
         private int musicNsfTrack;
         private Music musicStageSelect;
-        private WavEffect changeSound;
+        private ISoundEffect changeSound;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;

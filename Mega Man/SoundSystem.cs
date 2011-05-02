@@ -15,7 +15,7 @@ namespace Mega_Man
         private FMOD.System soundSystem;
 
         private Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
-        private Dictionary<string, WavEffect> loadedSounds = new Dictionary<string, WavEffect>();
+        private Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
         private List<int> playCount = new List<int>();
         private List<Channel> channels = new List<Channel>();
         private System.Windows.Forms.Timer updateTimer;
@@ -31,6 +31,7 @@ namespace Mega_Man
             soundSystem.init(32, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
 
             AudioManager.Instance.Initialize();
+            AudioManager.Instance.Stereo = true;
 
             updateTimer = new System.Windows.Forms.Timer();
             updateTimer.Interval = 10;
@@ -49,33 +50,45 @@ namespace Mega_Man
             AudioManager.Instance.PausePlayback();
         }
 
-        public WavEffect EffectFromXml(XElement soundNode)
+        public ISoundEffect EffectFromXml(XElement soundNode)
         {
             XAttribute pathattr = soundNode.Attribute("path");
-            if (pathattr == null) throw new EntityXmlException(soundNode, "Sounds must give a path to the file!");
-
-            string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
-            if (loadedSounds.ContainsKey(path)) return loadedSounds[path];
-
-            bool loop = false;
-            XAttribute loopAttr = soundNode.Attribute("loop");
-            if (loopAttr != null)
+            ISoundEffect sound;
+            if (pathattr != null)
             {
-                if (!bool.TryParse(loopAttr.Value, out loop)) throw new EntityXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
-            }
+                string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
+                if (loadedSounds.ContainsKey(path)) return loadedSounds[path];
 
-            float vol = 1;
-            XAttribute volAttr = soundNode.Attribute("volume");
-            if (volAttr != null)
+                bool loop = false;
+                XAttribute loopAttr = soundNode.Attribute("loop");
+                if (loopAttr != null)
+                {
+                    if (!bool.TryParse(loopAttr.Value, out loop)) throw new EntityXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
+                }
+
+                float vol = 1;
+                XAttribute volAttr = soundNode.Attribute("volume");
+                if (volAttr != null)
+                {
+                    if (!volAttr.Value.TryParse(out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+                }
+
+                sound = new WavEffect(this.soundSystem, path, loop, vol);
+                loadedSounds[path] = sound;
+            }
+            else
             {
-                if (!volAttr.Value.TryParse(out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+                XAttribute trackAttr = soundNode.Attribute("track");
+                if (trackAttr == null) throw new EntityXmlException(soundNode, "Sound tag must include either a path attribute or a track attribute.");
+
+                int track;
+                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new EntityXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
+
+                string key = "track" + track.ToString();
+                if (loadedSounds.ContainsKey(key)) return loadedSounds[key];
+                sound = new NsfEffect(this.sfx, track);
+                loadedSounds[key] = sound;
             }
-
-            WavEffect sound = new WavEffect(this.soundSystem, path, loop, vol);
-            XAttribute nameattr = soundNode.Attribute("name");
-            if (nameattr != null) sound.Name = nameattr.Value;
-
-            loadedSounds[path] = sound;
             return sound;
         }
 
@@ -87,7 +100,7 @@ namespace Mega_Man
         public void Unload()
         {
             foreach (Channel channel in channels) channel.stop();
-            foreach (WavEffect sound in loadedSounds.Values) sound.Dispose();
+            foreach (ISoundEffect sound in loadedSounds.Values) sound.Dispose();
             foreach (Music music in loadedMusic.Values) music.Dispose();
             loadedSounds.Clear();
             channels.Clear();
@@ -117,11 +130,13 @@ namespace Mega_Man
         public void LoadMusicNSF(string path)
         {
             bgm = new BackgroundMusic(AudioContainer.LoadContainer(path));
+            AudioManager.Instance.LoadBackgroundMusic(bgm);
         }
 
         public void LoadSfxNSF(string path)
         {
             sfx = new SoundEffect(AudioContainer.LoadContainer(path), SFXPlayType.Fired);
+            AudioManager.Instance.LoadSoundEffect(sfx);
         }
 
         public void PlayNSF(uint track)
