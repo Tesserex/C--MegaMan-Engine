@@ -191,7 +191,7 @@ namespace Mega_Man
                 {
                     Game.Load(dialog.FileName);
                 }
-                catch (EntityXmlException ex)
+                catch (GameXmlException ex)
                 {
                     // this builds a dialog message to tell the user where the error is in the XML file
 

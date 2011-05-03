@@ -138,7 +138,7 @@ namespace Mega_Man
 
                     case "Playing":
                         bool play;
-                        if (!bool.TryParse(prop.Value, out play)) throw new EntityXmlException(prop, "Playing tag must be a valid bool (true or false).");
+                        if (!bool.TryParse(prop.Value, out play)) throw new GameXmlException(prop, "Playing tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
@@ -148,7 +148,7 @@ namespace Mega_Man
 
                     case "Visible":
                         bool vis;
-                        if (!bool.TryParse(prop.Value, out vis)) throw new EntityXmlException(prop, "Visible tag must be a valid bool (true or false).");
+                        if (!bool.TryParse(prop.Value, out vis)) throw new GameXmlException(prop, "Visible tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();

@@ -131,7 +131,7 @@ namespace Mega_Man
             this.positionX = px;
             this.positionY = py;
             XAttribute imageAttr = node.Attribute("image");
-            if (imageAttr == null) throw new EntityXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
+            if (imageAttr == null) throw new GameXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
 
             if (this.tickTexture != null) this.tickTexture.Dispose();
 			StreamReader srTick = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));

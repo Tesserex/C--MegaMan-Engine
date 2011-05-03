@@ -174,7 +174,7 @@ namespace Mega_Man
                 {
                     LoadEntity(entity);
                 }
-                catch (EntityXmlException ex)
+                catch (GameXmlException ex)
                 {
                     ex.File = xmlPath;
                     throw;
@@ -247,7 +247,7 @@ namespace Mega_Man
 
                         case "GravityFlip":
                             bool grav;
-                            if (!bool.TryParse(xmlComp.Value, out grav)) throw new EntityXmlException(xmlComp, "GravityFlip value must represent True or False");
+                            if (!bool.TryParse(xmlComp.Value, out grav)) throw new GameXmlException(xmlComp, "GravityFlip value must represent True or False");
                             entity.GravityFlip = grav;
                             break;
 
@@ -257,7 +257,7 @@ namespace Mega_Man
                     }
                 }
             }
-            catch (EntityXmlException ex)
+            catch (GameXmlException ex)
             {
                 ex.Entity = name;
                 throw;

@@ -20,36 +20,36 @@ namespace Mega_Man
             if (widthAttr != null)
             {
                 bool s = widthAttr.Value.TryParse(out width);
-                if (!s) throw new EntityXmlException(widthAttr, "Hitbox width was not a valid number!");
+                if (!s) throw new GameXmlException(widthAttr, "Hitbox width was not a valid number!");
             }
-            else throw new EntityXmlException(xmlNode, "Hitbox does not specify width!");
+            else throw new GameXmlException(xmlNode, "Hitbox does not specify width!");
 
             float height;
             XAttribute heightAttr = xmlNode.Attribute("height");
             if (heightAttr != null)
             {
                 bool s = heightAttr.Value.TryParse(out height);
-                if (!s) throw new EntityXmlException(heightAttr, "Hitbox height was not a valid number!");
+                if (!s) throw new GameXmlException(heightAttr, "Hitbox height was not a valid number!");
             }
-            else throw new EntityXmlException(xmlNode, "Hitbox does not specify height!");
+            else throw new GameXmlException(xmlNode, "Hitbox does not specify height!");
 
             float x;
             XAttribute xAttr = xmlNode.Attribute("x");
             if (xAttr != null)
             {
                 bool s = xAttr.Value.TryParse(out x);
-                if (!s) throw new EntityXmlException(xAttr, "Hitbox x was not valid!");
+                if (!s) throw new GameXmlException(xAttr, "Hitbox x was not valid!");
             }
-            else throw new EntityXmlException(xmlNode, "Hitbox does not specify x position!");
+            else throw new GameXmlException(xmlNode, "Hitbox does not specify x position!");
 
             float y;
             XAttribute yAttr = xmlNode.Attribute("y");
             if (yAttr != null)
             {
                 bool s = yAttr.Value.TryParse(out y);
-                if (!s) throw new EntityXmlException(yAttr, "Hitbox y was not valid!");
+                if (!s) throw new GameXmlException(yAttr, "Hitbox y was not valid!");
             }
-            else throw new EntityXmlException(xmlNode, "Hitbox does not specify y position!");
+            else throw new GameXmlException(xmlNode, "Hitbox does not specify y position!");
 
             box = new RectangleF(x, y, width, height);
         }

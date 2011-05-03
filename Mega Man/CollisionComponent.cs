@@ -134,7 +134,7 @@ namespace Mega_Man
             if (blockNode != null)
             {
                 bool b;
-                if (!bool.TryParse(blockNode.Value, out b)) throw new EntityXmlException(blockNode, "Enabled tag must contain a bool (true or false).");
+                if (!bool.TryParse(blockNode.Value, out b)) throw new GameXmlException(blockNode, "Enabled tag must contain a bool (true or false).");
                 this.Enabled = b;
             }
         }
@@ -505,7 +505,7 @@ namespace Mega_Man
                 {
                     case "Enabled":
                         bool b;
-                        if (!bool.TryParse(prop.Value, out b)) throw new EntityXmlException(prop, "Enabled value could not be parse as a boolean (true or false).");
+                        if (!bool.TryParse(prop.Value, out b)) throw new GameXmlException(prop, "Enabled value could not be parse as a boolean (true or false).");
                         effect += (entity) =>
                         {
                             CollisionComponent col = entity.GetComponent<CollisionComponent>();
@@ -519,7 +519,7 @@ namespace Mega_Man
 
                     case "EnableBox":
                         XAttribute nameAttrEn = prop.Attribute("name");
-                        if (nameAttrEn == null) throw new EntityXmlException(prop, "Collision EnableBox tag must have a name attribute!");
+                        if (nameAttrEn == null) throw new GameXmlException(prop, "Collision EnableBox tag must have a name attribute!");
                         enables.Add(nameAttrEn.Value);
                         break;
 

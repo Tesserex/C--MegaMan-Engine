@@ -61,13 +61,13 @@ namespace Mega_Man
             if (spaceNode != null)
             {
                 XAttribute spacexAttr = spaceNode.Attribute("x");
-                if (spacexAttr == null) throw new EntityXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
-                if (!int.TryParse(spacexAttr.Value, out spacingX)) throw new EntityXmlException(spacexAttr, "Spacing attributes must be integers.");
+                if (spacexAttr == null) throw new GameXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
+                if (!int.TryParse(spacexAttr.Value, out spacingX)) throw new GameXmlException(spacexAttr, "Spacing attributes must be integers.");
                 XAttribute spaceyAttr = spaceNode.Attribute("y");
-                if (spaceyAttr == null) throw new EntityXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
-                if (!int.TryParse(spaceyAttr.Value, out spacingY)) throw new EntityXmlException(spaceyAttr, "Spacing attributes must be integers.");
+                if (spaceyAttr == null) throw new GameXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
+                if (!int.TryParse(spaceyAttr.Value, out spacingY)) throw new GameXmlException(spaceyAttr, "Spacing attributes must be integers.");
                 XAttribute offsetAttr = spaceNode.Attribute("offset");
-                if (offsetAttr != null && !int.TryParse(offsetAttr.Value, out offsetY)) throw new EntityXmlException(offsetAttr, "Spacing attributes must be integers.");
+                if (offsetAttr != null && !int.TryParse(offsetAttr.Value, out offsetY)) throw new GameXmlException(offsetAttr, "Spacing attributes must be integers.");
             }
 
             int middleX = (Game.CurrentGame.PixelsAcross - portraitWidth) / 2;
@@ -101,7 +101,7 @@ namespace Mega_Man
                 XAttribute nsfTrack = music.Attribute("nsftrack");
                 if (nsfTrack != null)
                 {
-                    if (!int.TryParse(nsfTrack.Value, out musicNsfTrack) || musicNsfTrack <= 0) throw new EntityXmlException(nsfTrack, "NSF track attribute must be a positive integer.");
+                    if (!int.TryParse(nsfTrack.Value, out musicNsfTrack) || musicNsfTrack <= 0) throw new GameXmlException(nsfTrack, "NSF track attribute must be a positive integer.");
                 }
 
                 if (introPath != null || loopPath != null) musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1);
@@ -124,7 +124,7 @@ namespace Mega_Man
             int slot;
             XAttribute slotAttr = reader.Attribute("slot");
             if (slotAttr == null) return;
-            if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new EntityXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
+            if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new GameXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
 
             XAttribute nameNode = reader.Attribute("name");
             if (nameNode != null)

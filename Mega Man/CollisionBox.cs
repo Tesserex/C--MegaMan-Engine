@@ -48,14 +48,9 @@ namespace Mega_Man
 
             foreach (XElement resistNode in xmlNode.Elements("Resist"))
             {
-                XAttribute nameAttr = resistNode.Attribute("name");
-                if (nameAttr == null) throw new EntityXmlException(resistNode, "Resist tag must specify an entity name as a name attribute!");
+                XAttribute nameAttr = resistNode.RequireAttribute("name");
 
-                XAttribute multAttr = resistNode.Attribute("multiply");
-                if (multAttr == null) throw new EntityXmlException(resistNode, "Resist tag mult specify a multiply attribute!");
-
-                float mult;
-                if (!multAttr.Value.TryParse(out mult)) throw new EntityXmlException(multAttr, "Multiply value is not a valid number!");
+                float mult = resistNode.GetFloat("multiply");
 
                 resistance.Add(nameAttr.Value, mult);
             }
@@ -69,7 +64,7 @@ namespace Mega_Man
             {
                 float dmg;
                 bool s = damageAttr.Value.TryParse(out dmg);
-                if (!s) throw new EntityXmlException(damageAttr, "Hitbox damage value is not a valid number.");
+                if (!s) throw new GameXmlException(damageAttr, "Hitbox damage value is not a valid number.");
                 this.ContactDamage = dmg;
             }
 
@@ -77,7 +72,7 @@ namespace Mega_Man
             XAttribute envAttr = xmlNode.Attribute("environment");
             if (envAttr != null)
             {
-                if (!bool.TryParse(envAttr.Value, out env)) throw new EntityXmlException(envAttr, "Hitbox environment attribute is not a valid boolean (true or false).");
+                if (!bool.TryParse(envAttr.Value, out env)) throw new GameXmlException(envAttr, "Hitbox environment attribute is not a valid boolean (true or false).");
             }
             Environment = env;
 
@@ -85,7 +80,7 @@ namespace Mega_Man
             XAttribute pushAttr = xmlNode.Attribute("pushaway");
             if (pushAttr != null)
             {
-                if (!bool.TryParse(pushAttr.Value, out push)) throw new EntityXmlException(envAttr, "Hitbox pushaway attribute is not a valid boolean (true or false).");
+                if (!bool.TryParse(pushAttr.Value, out push)) throw new GameXmlException(envAttr, "Hitbox pushaway attribute is not a valid boolean (true or false).");
             }
             PushAway = push;
 

@@ -63,14 +63,14 @@ namespace Mega_Man
                 XAttribute loopAttr = soundNode.Attribute("loop");
                 if (loopAttr != null)
                 {
-                    if (!bool.TryParse(loopAttr.Value, out loop)) throw new EntityXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
+                    if (!bool.TryParse(loopAttr.Value, out loop)) throw new GameXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
                 }
 
                 float vol = 1;
                 XAttribute volAttr = soundNode.Attribute("volume");
                 if (volAttr != null)
                 {
-                    if (!volAttr.Value.TryParse(out vol)) throw new EntityXmlException(volAttr, "Volume attribute must be a valid decimal.");
+                    if (!volAttr.Value.TryParse(out vol)) throw new GameXmlException(volAttr, "Volume attribute must be a valid decimal.");
                 }
 
                 sound = new WavEffect(this.soundSystem, path, loop, vol);
@@ -79,10 +79,10 @@ namespace Mega_Man
             else
             {
                 XAttribute trackAttr = soundNode.Attribute("track");
-                if (trackAttr == null) throw new EntityXmlException(soundNode, "Sound tag must include either a path attribute or a track attribute.");
+                if (trackAttr == null) throw new GameXmlException(soundNode, "Sound tag must include either a path attribute or a track attribute.");
 
                 int track;
-                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new EntityXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
+                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
 
                 string key = "track" + track.ToString();
                 if (loadedSounds.ContainsKey(key)) return loadedSounds[key];

@@ -116,7 +116,7 @@ namespace Mega_Man
             XElement maxNode = xml.Element("Max");
             if (maxNode != null)
             {
-                if (!maxNode.Value.TryParse(out maxHealth)) throw new EntityXmlException(maxNode, "Health maximum was not a valid number.");
+                if (!maxNode.Value.TryParse(out maxHealth)) throw new GameXmlException(maxNode, "Health maximum was not a valid number.");
                 health = maxHealth;
             }
 
@@ -130,7 +130,7 @@ namespace Mega_Man
             XElement flashNode = xml.Element("Flash");
             if (flashNode != null)
             {
-                if (!int.TryParse(flashNode.Value, out flashtime)) throw new EntityXmlException(flashNode, "Health flash time was not a valid number.");
+                if (!int.TryParse(flashNode.Value, out flashtime)) throw new GameXmlException(flashNode, "Health flash time was not a valid number.");
             }
         }
 
@@ -140,7 +140,7 @@ namespace Mega_Man
             if (changeAttr != null)
             {
                 float changeval;
-                if (!changeAttr.Value.TryParse(out changeval)) throw new EntityXmlException(changeAttr, "Health change attribute must be a number.");
+                if (!changeAttr.Value.TryParse(out changeval)) throw new GameXmlException(changeAttr, "Health change attribute must be a number.");
                 return (entity) =>
                 {
                     entity.GetComponent<HealthComponent>().Health += changeval;

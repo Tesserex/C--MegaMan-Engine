@@ -109,8 +109,8 @@ namespace Mega_Man
             if (sizeNode != null)
             {
                 int across, down;
-                if (!int.TryParse(sizeNode.Attribute("x").Value, out across)) throw new EntityXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "x", "Specified width was not a valid integer.");
-                if (!int.TryParse(sizeNode.Attribute("y").Value, out down)) throw new EntityXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "y", "Specified height was not a valid integer.");
+                if (!int.TryParse(sizeNode.Attribute("x").Value, out across)) throw new GameXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "x", "Specified width was not a valid integer.");
+                if (!int.TryParse(sizeNode.Attribute("y").Value, out down)) throw new GameXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "y", "Specified height was not a valid integer.");
                 PixelsDown = down;
                 PixelsAcross = across;
                 if (ScreenSizeChanged != null)

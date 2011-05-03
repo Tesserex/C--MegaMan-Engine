@@ -134,7 +134,7 @@ namespace Mega_Man
                 else
                 {
                     float baseVal;
-                    if (!base_str.TryParse(out baseVal)) throw new EntityXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
+                    if (!base_str.TryParse(out baseVal)) throw new GameXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
                     if (axis == Axis.X) action = (entity) =>
                     {
                         PositionComponent pos = entity.GetComponent<PositionComponent>();
@@ -152,9 +152,9 @@ namespace Mega_Man
             if (offattr != null)
             {
                 float offset;
-                if (!offattr.Value.TryParse(out offset)) throw new EntityXmlException(offattr, "Position offset must be a valid decimal number.");
+                if (!offattr.Value.TryParse(out offset)) throw new GameXmlException(offattr, "Position offset must be a valid decimal number.");
                 XAttribute offdirattr = prop.Attribute("direction");
-                if (offdirattr == null) throw new EntityXmlException(prop, "X position specifies offset but no direction! Please specify a \"direction\" attribute.");
+                if (offdirattr == null) throw new GameXmlException(prop, "X position specifies offset but no direction! Please specify a \"direction\" attribute.");
                 if (offdirattr.Value == "Inherit")
                 {
                     action += (entity) =>
@@ -203,7 +203,7 @@ namespace Mega_Man
                     }
                     catch
                     {
-                        throw new EntityXmlException(offdirattr, "Position offset direction was not valid!");
+                        throw new GameXmlException(offdirattr, "Position offset direction was not valid!");
                     }
                     switch (offdir)
                     {

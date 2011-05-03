@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Mega_Man
 {
-    public class EntityXmlException : Exception
+    public class GameXmlException : Exception
     {
         public string File { get; set; }
         public int Line { get; set; }
@@ -16,7 +16,7 @@ namespace Mega_Man
         public string Tag { get; set; }
         public string Attribute { get; set; }
 
-        public EntityXmlException(XElement element, string message)
+        public GameXmlException(XElement element, string message)
             : base(message)
         {
             Line = (element as IXmlLineInfo).LineNumber;
@@ -24,13 +24,13 @@ namespace Mega_Man
             Tag = element.Name.LocalName;
         }
 
-        public EntityXmlException(XAttribute attribute, string message)
+        public GameXmlException(XAttribute attribute, string message)
             : this(attribute.Parent, message)
         {
             this.Attribute = attribute.Name.LocalName;
         }
 
-        public EntityXmlException(string file, int line, string entity, string tag, string attribute, string message) : base(message)
+        public GameXmlException(string file, int line, string entity, string tag, string attribute, string message) : base(message)
         {
             File = file;
             Line = line;

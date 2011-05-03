@@ -67,12 +67,12 @@ namespace Mega_Man
                 XAttribute livesXAttr = livesNode.Attribute("x");
                 if (livesXAttr != null)
                 {
-                    if (!int.TryParse(livesXAttr.Value, out x)) throw new EntityXmlException(livesXAttr, "X position for Lives tag must be an integer.");
+                    if (!int.TryParse(livesXAttr.Value, out x)) throw new GameXmlException(livesXAttr, "X position for Lives tag must be an integer.");
                 }
                 XAttribute livesYAttr = livesNode.Attribute("y");
                 if (livesYAttr != null)
                 {
-                    if (!int.TryParse(livesYAttr.Value, out y)) throw new EntityXmlException(livesYAttr, "Y position for Lives tag must be an integer.");
+                    if (!int.TryParse(livesYAttr.Value, out y)) throw new GameXmlException(livesYAttr, "Y position for Lives tag must be an integer.");
                 }
                 livesPos = new Point(x, y);
             }

@@ -68,7 +68,7 @@ namespace Mega_Man
             XAttribute playAttr = node.Attribute("playing");
             if (playAttr != null)
             {
-                if (!bool.TryParse(playAttr.Value, out playing)) throw new EntityXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
+                if (!bool.TryParse(playAttr.Value, out playing)) throw new GameXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
             }
             return (entity) =>
             {

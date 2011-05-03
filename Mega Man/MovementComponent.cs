@@ -222,7 +222,7 @@ namespace Mega_Man
                 {
                     case "Flying":
                         bool f;
-                        if (!bool.TryParse(prop.Value, out f)) throw new EntityXmlException(prop, "Flying tag must be a valid bool (true or false).");
+                        if (!bool.TryParse(prop.Value, out f)) throw new GameXmlException(prop, "Flying tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
@@ -232,7 +232,7 @@ namespace Mega_Man
 
                     case "FlipSprite":
                         bool flip;
-                        if (!bool.TryParse(prop.Value, out flip)) throw new EntityXmlException(prop, "FlipSprite tag must be a valid bool (true or false).");
+                        if (!bool.TryParse(prop.Value, out flip)) throw new GameXmlException(prop, "FlipSprite tag must be a valid bool (true or false).");
                         action += (entity) =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
@@ -265,7 +265,7 @@ namespace Mega_Man
             if (magAttr != null)
             {
                 float pmag;
-                if (!magAttr.Value.TryParse(out pmag)) throw new EntityXmlException(magAttr, "Movement magnitude must be a number.");
+                if (!magAttr.Value.TryParse(out pmag)) throw new GameXmlException(magAttr, "Movement magnitude must be a number.");
                 mag = pmag;
             }
 

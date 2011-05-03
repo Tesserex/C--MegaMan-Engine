@@ -292,7 +292,7 @@ namespace Mega_Man
             }
             catch (Exception e)
             {
-                throw new EntityXmlException(triggerNode, "There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
+                throw new GameXmlException(triggerNode, "There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
             }
         }
 
