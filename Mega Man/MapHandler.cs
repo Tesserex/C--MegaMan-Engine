@@ -150,13 +150,15 @@ namespace Mega_Man
             oldscreen.Clean();
             StartScreen();
 
-            if (nextScreen.music != null)
+            if (nextScreen.music != null || nextScreen.Screen.MusicNsfTrack != 0)
             {
                 if (music != null) music.Stop();
-                nextScreen.music.Play();
+                if (this.Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopNSF();
+                
             }
 
             if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayNSF((uint)nextScreen.Screen.MusicNsfTrack);
+            else if (nextScreen.music != null) nextScreen.music.Play();
         }
 
         private void Update()
