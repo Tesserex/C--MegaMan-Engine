@@ -130,11 +130,9 @@ namespace Mega_Man
                 box.SetParent(this);
                 hitboxes.Add(box);
             }
-            XElement blockNode = xml.Element("Enabled");
-            if (blockNode != null)
+            bool b;
+            if (xml.TryBool("Enabled", out b))
             {
-                bool b;
-                if (!bool.TryParse(blockNode.Value, out b)) throw new GameXmlException(blockNode, "Enabled tag must contain a bool (true or false).");
                 this.Enabled = b;
             }
         }
@@ -504,8 +502,7 @@ namespace Mega_Man
                 switch (prop.Name.LocalName)
                 {
                     case "Enabled":
-                        bool b;
-                        if (!bool.TryParse(prop.Value, out b)) throw new GameXmlException(prop, "Enabled value could not be parse as a boolean (true or false).");
+                        bool b = prop.GetBool();
                         effect += (entity) =>
                         {
                             CollisionComponent col = entity.GetComponent<CollisionComponent>();
@@ -518,8 +515,7 @@ namespace Mega_Man
                         break;
 
                     case "EnableBox":
-                        XAttribute nameAttrEn = prop.Attribute("name");
-                        if (nameAttrEn == null) throw new GameXmlException(prop, "Collision EnableBox tag must have a name attribute!");
+                        XAttribute nameAttrEn = prop.RequireAttribute("name");
                         enables.Add(nameAttrEn.Value);
                         break;
 

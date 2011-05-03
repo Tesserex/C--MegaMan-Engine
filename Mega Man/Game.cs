@@ -108,9 +108,8 @@ namespace Mega_Man
             XElement sizeNode = reader.Element("Size");
             if (sizeNode != null)
             {
-                int across, down;
-                if (!int.TryParse(sizeNode.Attribute("x").Value, out across)) throw new GameXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "x", "Specified width was not a valid integer.");
-                if (!int.TryParse(sizeNode.Attribute("y").Value, out down)) throw new GameXmlException(path, (sizeNode as IXmlLineInfo).LineNumber, null, "Size", "y", "Specified height was not a valid integer.");
+                int across = sizeNode.GetInteger("x");
+                int down = sizeNode.GetInteger("y");
                 PixelsDown = down;
                 PixelsAcross = across;
                 if (ScreenSizeChanged != null)

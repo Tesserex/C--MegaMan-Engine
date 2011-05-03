@@ -136,11 +136,9 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement effectNode)
         {
-            XAttribute changeAttr = effectNode.Attribute("change");
-            if (changeAttr != null)
+            float changeval;
+            if (effectNode.TryFloat("change", out changeval))
             {
-                float changeval;
-                if (!changeAttr.Value.TryParse(out changeval)) throw new GameXmlException(changeAttr, "Health change attribute must be a number.");
                 return (entity) =>
                 {
                     entity.GetComponent<HealthComponent>().Health += changeval;

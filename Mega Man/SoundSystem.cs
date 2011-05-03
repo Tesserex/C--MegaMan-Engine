@@ -59,19 +59,11 @@ namespace Mega_Man
                 string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
                 if (loadedSounds.ContainsKey(path)) return loadedSounds[path];
 
-                bool loop = false;
-                XAttribute loopAttr = soundNode.Attribute("loop");
-                if (loopAttr != null)
-                {
-                    if (!bool.TryParse(loopAttr.Value, out loop)) throw new GameXmlException(loopAttr, "Sound loop attribute must be a boolean (true or false).");
-                }
+                bool loop;
+                soundNode.TryBool("loop", out loop);
 
-                float vol = 1;
-                XAttribute volAttr = soundNode.Attribute("volume");
-                if (volAttr != null)
-                {
-                    if (!volAttr.Value.TryParse(out vol)) throw new GameXmlException(volAttr, "Volume attribute must be a valid decimal.");
-                }
+                float vol;
+                if (!soundNode.TryFloat("volume", out vol)) vol = 1;
 
                 sound = new WavEffect(this.soundSystem, path, loop, vol);
                 loadedSounds[path] = sound;

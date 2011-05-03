@@ -125,22 +125,18 @@ namespace Mega_Man
 
         public void LoadXml(XElement node)
         {
-            int px, py;
-            node.Attribute("x").Value.TryParse(out px);
-            node.Attribute("y").Value.TryParse(out py);
-            this.positionX = px;
-            this.positionY = py;
-            XAttribute imageAttr = node.Attribute("image");
-            if (imageAttr == null) throw new GameXmlException(node, "HealthMeters must have an image attribute to specify the tick image.");
-
+            this.positionX = node.GetFloat("x");
+            this.positionY = node.GetFloat("y");
+            XAttribute imageAttr = node.RequireAttribute("image");
+            
             if (this.tickTexture != null) this.tickTexture.Dispose();
 			StreamReader srTick = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));
 			this.tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
 
             XAttribute backAttr = node.Attribute("background");
-			StreamReader srMeter = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
-            if (backAttr != null)
+			if (backAttr != null)
             {
+                StreamReader srMeter = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
                 this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
                 this.bounds = new RectangleF(this.positionX, this.positionY, this.meterTexture.Width, this.meterTexture.Height);
             }
@@ -154,10 +150,8 @@ namespace Mega_Man
             this.horizontal = horiz;
 
             int x = 0; int y = 0;
-            XAttribute offXAttr = node.Attribute("tickX");
-            if (offXAttr != null) int.TryParse(offXAttr.Value, out x);
-            XAttribute offYAttr = node.Attribute("tickY");
-            if (offYAttr != null) int.TryParse(offYAttr.Value, out y);
+            node.TryInteger("tickX", out x);
+            node.TryInteger("tickY", out y);
 
             this.tickOffset = new Point(x, y);
 

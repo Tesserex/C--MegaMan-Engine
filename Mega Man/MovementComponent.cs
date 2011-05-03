@@ -221,8 +221,7 @@ namespace Mega_Man
                 switch (prop.Name.LocalName)
                 {
                     case "Flying":
-                        bool f;
-                        if (!bool.TryParse(prop.Value, out f)) throw new GameXmlException(prop, "Flying tag must be a valid bool (true or false).");
+                        bool f = prop.GetBool();
                         action += (entity) =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
@@ -231,8 +230,7 @@ namespace Mega_Man
                         break;
 
                     case "FlipSprite":
-                        bool flip;
-                        if (!bool.TryParse(prop.Value, out flip)) throw new GameXmlException(prop, "FlipSprite tag must be a valid bool (true or false).");
+                        bool flip = prop.GetBool();
                         action += (entity) =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();

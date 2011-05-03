@@ -63,18 +63,7 @@ namespace Mega_Man
             if (livesNode != null)
             {
                 showLives = true;
-                int x=0, y=0;
-                XAttribute livesXAttr = livesNode.Attribute("x");
-                if (livesXAttr != null)
-                {
-                    if (!int.TryParse(livesXAttr.Value, out x)) throw new GameXmlException(livesXAttr, "X position for Lives tag must be an integer.");
-                }
-                XAttribute livesYAttr = livesNode.Attribute("y");
-                if (livesYAttr != null)
-                {
-                    if (!int.TryParse(livesYAttr.Value, out y)) throw new GameXmlException(livesYAttr, "Y position for Lives tag must be an integer.");
-                }
-                livesPos = new Point(x, y);
+                livesPos = new Point(livesNode.GetInteger("x"), livesNode.GetInteger("y"));
             }
         }
 
@@ -86,8 +75,8 @@ namespace Mega_Man
         private void LoadWeapon(XElement reader)
         {
             WeaponInfo info = new WeaponInfo();
-            info.name = reader.Attribute("name").Value;
-            info.entity = reader.Attribute("entity").Value;
+            info.name = reader.RequireAttribute("name").Value;
+            info.entity = reader.RequireAttribute("entity").Value;
 
 			String imagePathOff = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value);
 			String imagePathOn = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value);
@@ -100,7 +89,7 @@ namespace Mega_Man
             info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
             info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
 
-            info.location = new Point(int.Parse(reader.Attribute("x").Value), int.Parse(reader.Attribute("y").Value));
+            info.location = new Point(reader.GetInteger("x"), reader.GetInteger("y"));
 
             XElement meter = reader.Element("Meter");
             if (meter != null)

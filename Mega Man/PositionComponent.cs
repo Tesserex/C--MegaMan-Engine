@@ -148,13 +148,10 @@ namespace Mega_Man
                 }
             }
 
-            XAttribute offattr = prop.Attribute("offset");
-            if (offattr != null)
+            float offset;
+            if (prop.TryFloat("offset", out offset))
             {
-                float offset;
-                if (!offattr.Value.TryParse(out offset)) throw new GameXmlException(offattr, "Position offset must be a valid decimal number.");
-                XAttribute offdirattr = prop.Attribute("direction");
-                if (offdirattr == null) throw new GameXmlException(prop, "X position specifies offset but no direction! Please specify a \"direction\" attribute.");
+                XAttribute offdirattr = prop.RequireAttribute("direction");
                 if (offdirattr.Value == "Inherit")
                 {
                     action += (entity) =>

@@ -29,6 +29,17 @@ namespace Mega_Man
             return true;
         }
 
+        public static bool GetBool(this XElement node)
+        {
+            bool result;
+            if (!bool.TryParse(node.Value, out result))
+            {
+                string msg = string.Format("{0} node's value must be a boolean (\"true\" or \"false\").", node.Name);
+                throw new GameXmlException(node, msg);
+            }
+            return result;
+        }
+
         public static bool GetBool(this XElement node, string name)
         {
             return RequireBool(node, node.RequireAttribute(name));

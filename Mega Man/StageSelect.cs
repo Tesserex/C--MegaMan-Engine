@@ -60,14 +60,9 @@ namespace Mega_Man
             XElement spaceNode = reader.Element("Spacing");
             if (spaceNode != null)
             {
-                XAttribute spacexAttr = spaceNode.Attribute("x");
-                if (spacexAttr == null) throw new GameXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
-                if (!int.TryParse(spacexAttr.Value, out spacingX)) throw new GameXmlException(spacexAttr, "Spacing attributes must be integers.");
-                XAttribute spaceyAttr = spaceNode.Attribute("y");
-                if (spaceyAttr == null) throw new GameXmlException(spaceNode, "StageSelect spacing must have an x and y attribute");
-                if (!int.TryParse(spaceyAttr.Value, out spacingY)) throw new GameXmlException(spaceyAttr, "Spacing attributes must be integers.");
-                XAttribute offsetAttr = spaceNode.Attribute("offset");
-                if (offsetAttr != null && !int.TryParse(offsetAttr.Value, out offsetY)) throw new GameXmlException(offsetAttr, "Spacing attributes must be integers.");
+                spacingX = spaceNode.GetInteger("x");
+                spacingY = spaceNode.GetInteger("y");
+                spaceNode.TryInteger("offset", out offsetY);
             }
 
             int middleX = (Game.CurrentGame.PixelsAcross - portraitWidth) / 2;

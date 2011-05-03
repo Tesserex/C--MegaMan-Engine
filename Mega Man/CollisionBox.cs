@@ -55,34 +55,28 @@ namespace Mega_Man
                 resistance.Add(nameAttr.Value, mult);
             }
 
-
             XAttribute boxnameAttr = xmlNode.Attribute("name");
             if (boxnameAttr != null) this.Name = boxnameAttr.Value;
 
-            XAttribute damageAttr = xmlNode.Attribute("damage");
-            if (damageAttr != null)
+            float dmg;
+            if (xmlNode.TryFloat("damage", out dmg))
             {
-                float dmg;
-                bool s = damageAttr.Value.TryParse(out dmg);
-                if (!s) throw new GameXmlException(damageAttr, "Hitbox damage value is not a valid number.");
                 this.ContactDamage = dmg;
             }
 
-            bool env = true;
-            XAttribute envAttr = xmlNode.Attribute("environment");
-            if (envAttr != null)
+            Environment = true;
+            bool env;
+            if (xmlNode.TryBool("environment", out env))
             {
-                if (!bool.TryParse(envAttr.Value, out env)) throw new GameXmlException(envAttr, "Hitbox environment attribute is not a valid boolean (true or false).");
+                Environment = env;
             }
-            Environment = env;
 
-            bool push = true;
-            XAttribute pushAttr = xmlNode.Attribute("pushaway");
-            if (pushAttr != null)
+            PushAway = true;
+            bool push;
+            if (xmlNode.TryBool("pushaway", out push))
             {
-                if (!bool.TryParse(pushAttr.Value, out push)) throw new GameXmlException(envAttr, "Hitbox pushaway attribute is not a valid boolean (true or false).");
+                PushAway = push;
             }
-            PushAway = push;
 
             XAttribute propAttr = xmlNode.Attribute("properties");
             if (propAttr != null) this.Properties = GameEntity.GetProperties(propAttr.Value);

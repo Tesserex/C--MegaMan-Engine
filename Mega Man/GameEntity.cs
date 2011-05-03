@@ -246,9 +246,7 @@ namespace Mega_Man
                             break;
 
                         case "GravityFlip":
-                            bool grav;
-                            if (!bool.TryParse(xmlComp.Value, out grav)) throw new GameXmlException(xmlComp, "GravityFlip value must represent True or False");
-                            entity.GravityFlip = grav;
+                            entity.GravityFlip = xmlComp.GetBool();
                             break;
 
                         default:

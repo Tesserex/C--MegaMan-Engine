@@ -64,12 +64,8 @@ namespace Mega_Man
         public override Effect ParseEffect(XElement node)
         {
             string soundname = node.Attribute("name").Value;
-            bool playing = true;
-            XAttribute playAttr = node.Attribute("playing");
-            if (playAttr != null)
-            {
-                if (!bool.TryParse(playAttr.Value, out playing)) throw new GameXmlException(playAttr, "Playing attribute must be a boolean (true or false).");
-            }
+            bool playing;
+            if (!node.TryBool("playing", out playing)) playing = true;
             return (entity) =>
             {
                 SoundMessage msg = new SoundMessage(entity, soundname, playing);
