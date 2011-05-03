@@ -11,25 +11,13 @@ namespace Mega_Man
     {
         public static XAttribute RequireAttribute(this XElement node, string name)
         {
-            XAttribute attr;
-            if (!node.TryAttribute(name, out attr))
+            XAttribute attr = node.Attribute(name);
+            if (attr == null)
             {
                 string msg = string.Format("{0} node requires the attribute \"{1}\"", node.Name, name);
                 throw new GameXmlException(node, msg);
             }
             return attr;
-        }
-
-        public static bool TryAttribute(this XElement node, string name, out XAttribute attribute)
-        {
-            XAttribute attr = node.Attribute(name);
-            if (node == null)
-            {
-                attribute = null;
-                return false;
-            }
-            attribute = attr;
-            return true;
         }
 
         public static bool TryBool(this XElement node, string name, out bool result)
