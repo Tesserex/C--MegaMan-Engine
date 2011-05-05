@@ -249,6 +249,7 @@ namespace Mega_Man
                 if (this.BlockByIntersection(boundBox, rect, false, false))
                 {
                     collision.targetColl.Touch(collision.myBox);
+                    this.Touch(collision.targetBox);
                     // for now, entities can only be normal type
                     hitTypes.Add(collision.targetBox.Properties);
                     // now cause friction on the x, a la moving platforms
