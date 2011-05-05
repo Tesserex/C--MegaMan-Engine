@@ -142,6 +142,7 @@ namespace Mega_Man
         public Effect ParseComponentEffect(XElement effectNode)
         {
             Component comp = GetOrCreateComponent(effectNode.Name.LocalName);
+            if (comp == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
             return comp.ParseEffect(effectNode);
         }
 
