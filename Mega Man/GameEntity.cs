@@ -114,6 +114,8 @@ namespace Mega_Man
                 spawn.Parent = this;
                 spawn.Start();
             }
+            spawn.Screen.AddSpawnedEntity(spawn);
+
             return spawn;
         }
 

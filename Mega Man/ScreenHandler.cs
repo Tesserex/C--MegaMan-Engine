@@ -12,6 +12,7 @@ namespace Mega_Man
         public MegaMan.Screen Screen { get; private set; }
         private List<BlocksPattern> patterns;
         private GameEntity[] entities;
+        private List<GameEntity> spawnedEntities;
         private bool[] spawnable;
         private List<JoinHandler> joins;
         private List<bool> teleportEnabled;
@@ -32,6 +33,7 @@ namespace Mega_Man
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
+            spawnedEntities = new List<GameEntity>();
 
             tiles = new MapSquare[Screen.Height][];
             for (int y = 0; y < Screen.Height; y++)
@@ -164,6 +166,11 @@ namespace Mega_Man
             }
         }
 
+        public void AddSpawnedEntity(GameEntity entity)
+        {
+            this.spawnedEntities.Add(entity);
+        }
+
         // because it is a thinking event, it happens every frame
         private void Instance_GameThink()
         {
@@ -241,6 +248,12 @@ namespace Mega_Man
                 if (this.entities[i] != null) this.entities[i].Stop();
                 this.entities[i] = null;
             }
+
+            foreach (GameEntity entity in this.spawnedEntities)
+            {
+                entity.Stop();
+            }
+            this.spawnedEntities.Clear();
 
             foreach (BlocksPattern pattern in this.patterns)
             {
