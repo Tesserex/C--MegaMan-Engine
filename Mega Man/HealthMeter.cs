@@ -24,6 +24,7 @@ namespace Mega_Man
         private Point tickOffset;
 
         private bool running;
+        private bool animating;
 
         private float positionX;
         private float positionY;
@@ -58,8 +59,12 @@ namespace Mega_Man
                 {
                     tickframes = 0;
                     stopvalue = (int)value;
-                    Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
-                    Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
+                    if (!animating)
+                    {
+                        Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
+                        animating = true;
+                        if (sound != null) sound.Play();
+                    }
                 }
                 else
                 {
@@ -76,7 +81,6 @@ namespace Mega_Man
             {
                 tickframes = 0;
                 this.value += this.tickSize;
-                if (sound != null) sound.Play();
             }
         }
 
@@ -221,7 +225,11 @@ namespace Mega_Man
         public void GameTick(GameTickEventArgs e)
         {
             UpTick();
-            if (this.value >= stopvalue || this.value >= maxvalue) Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
+            if (this.value >= stopvalue || this.value >= maxvalue)
+            {
+                Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
+                animating = false;
+            }
         }
 
         public void GameRender(GameRenderEventArgs e)
