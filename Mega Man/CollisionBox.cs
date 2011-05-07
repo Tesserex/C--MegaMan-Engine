@@ -92,7 +92,7 @@ namespace Mega_Man
             RectangleF tileBox = tile.BlockBox;
             if (this.box.Right + position.X < tileBox.Left) return false;
             if (this.box.Left + position.X > tileBox.Right) return false;
-            System.Drawing.RectangleF boundBox = this.BoxAt(position, parent.Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
+            System.Drawing.RectangleF boundBox = this.BoxAt(position);
 
             return EnvironmentContact(tile, tileBox, boundBox, out offset);
         }
@@ -198,6 +198,14 @@ namespace Mega_Man
             float x = (parent.MovementSrc != null && parent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
             if (parent.Parent.GravityFlip && Game.CurrentGame.GravityFlip) return new System.Drawing.RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new System.Drawing.RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+        }
+
+        public override RectangleF BoxAt(PointF offset, bool vflip)
+        {
+            float x = (parent.MovementSrc != null && parent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+
+            if (vflip) return new System.Drawing.RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
             return new System.Drawing.RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
         }
     }
