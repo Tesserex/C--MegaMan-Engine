@@ -80,8 +80,9 @@ namespace Mega_Man
 
         private void Player_Death()
         {
-            if (music != null) music.FadeOut(60);
-            if (CurrentScreen.music != null) CurrentScreen.music.FadeOut(60);
+            if (music != null) music.Stop();
+            Engine.Instance.SoundSystem.StopMusicNSF();
+            if (CurrentScreen.music != null) CurrentScreen.music.Stop();
             
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
@@ -286,6 +287,7 @@ namespace Mega_Man
             }
 
             if (music != null) music.Stop();
+            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNSF();
 
             Pause();
             Engine.Instance.GameRender -= new GameRenderEventHandler(BlinkReady);
