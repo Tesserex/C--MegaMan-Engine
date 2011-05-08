@@ -33,7 +33,7 @@ namespace Mega_Man
 
         public override void Stop()
         {
-            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopNSF(sound);
+            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopSfxNSF(sound);
         }
 
         public override void Message(IGameMessage msg)
@@ -42,7 +42,7 @@ namespace Mega_Man
             if (sound != null)
             {
                 if (sound.Playing) Engine.Instance.SoundSystem.PlaySfx(sound.SoundName);
-                else Engine.Instance.SoundSystem.StopNSF(sound.SoundName);
+                else Engine.Instance.SoundSystem.StopSfxNSF(sound.SoundName);
             }
         }
 

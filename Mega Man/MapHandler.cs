@@ -153,7 +153,7 @@ namespace Mega_Man
             if (nextScreen.music != null || nextScreen.Screen.MusicNsfTrack != 0)
             {
                 if (music != null) music.Stop();
-                if (this.Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopNSF();
+                if (this.Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNSF();
                 
             }
 

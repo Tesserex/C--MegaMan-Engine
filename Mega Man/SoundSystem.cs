@@ -41,13 +41,13 @@ namespace Mega_Man
         public void Start()
         {
             updateTimer.Start();
-            if (AudioManager.Instance.Paused) AudioManager.Instance.ResumePlayback();
+            if (AudioManager.Instance.Paused) AudioManager.Instance.ResumeBGMPlayback();
         }
 
         public void Stop()
         {
             updateTimer.Stop();
-            AudioManager.Instance.PausePlayback();
+            AudioManager.Instance.PauseBGMPlayback();
         }
 
         public void LoadEffectsFromXml(XElement node)
@@ -108,7 +108,7 @@ namespace Mega_Man
             loadedSounds.Clear();
             channels.Clear();
             loadedMusic.Clear();
-            AudioManager.Instance.StopPlayback();
+            AudioManager.Instance.StopBGMPlayback();
             if (bgm != null) bgm.Release();
             if (sfx != null) sfx.Release();
         }
@@ -138,7 +138,7 @@ namespace Mega_Man
 
         public void LoadSfxNSF(string path)
         {
-            sfx = new SoundEffect(AudioContainer.LoadContainer(path), SFXPlayType.Fired);
+            sfx = new SoundEffect(AudioContainer.LoadContainer(path), 1);
             AudioManager.Instance.LoadSoundEffect(sfx);
         }
 
@@ -157,12 +157,12 @@ namespace Mega_Man
             else throw new GameEntityException("Tried to play sound effect called " + name + ", but none was defined!");
         }
 
-        public void StopNSF()
+        public void StopMusicNSF()
         {
-            AudioManager.Instance.StopPlayback();
+            AudioManager.Instance.StopBGMPlayback();
         }
 
-        public void StopNSF(string name)
+        public void StopSfxNSF(string name)
         {
             if (loadedSounds.ContainsKey(name))
             {

@@ -163,7 +163,7 @@ namespace Mega_Man
             Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
 
-            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.StopNSF();
+            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.StopMusicNSF();
             else if (musicStageSelect != null) musicStageSelect.Stop();
 
             Game.CurrentGame.RemoveGameHandler(this);
