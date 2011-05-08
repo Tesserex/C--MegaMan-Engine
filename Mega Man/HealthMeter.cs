@@ -44,6 +44,9 @@ namespace Mega_Man
             get { return allMeters.AsReadOnly(); }
         }
 
+        // this is just needed so we can pause the game when filling
+        public bool IsPlayer { get; set; }
+
         /// <summary>
         /// Do not rely on this as the actual health. It can differ while it animates. It only reflects the value present in the bar itself.
         /// </summary>
@@ -77,6 +80,7 @@ namespace Mega_Man
         void UpTick()
         {
             tickframes++;
+            if (tickframes > 1 && IsPlayer) Game.CurrentGame.Pause();
             if (tickframes >= 3)
             {
                 tickframes = 0;
@@ -229,6 +233,7 @@ namespace Mega_Man
             {
                 Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
                 animating = false;
+                if (IsPlayer) Game.CurrentGame.Unpause();
             }
         }
 

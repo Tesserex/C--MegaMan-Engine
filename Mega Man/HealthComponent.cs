@@ -22,7 +22,10 @@ namespace Mega_Man
             {
                 health = value;
                 if (health > maxHealth) health = maxHealth;
-                if (meter != null) meter.Value = health;
+                if (meter != null)
+                {
+                    meter.Value = health;
+                }
             }
         }
         public float MaxHealth { get { return maxHealth; } }
@@ -125,6 +128,7 @@ namespace Mega_Man
             {
                 this.meter = HealthMeter.Create(meterNode, true);
                 this.meter.MaxValue = this.maxHealth;
+                this.meter.IsPlayer = (this.Parent.Name == "Player");
             }
 
             XElement flashNode = xml.Element("Flash");
