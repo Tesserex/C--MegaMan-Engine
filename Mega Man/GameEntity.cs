@@ -113,8 +113,8 @@ namespace Mega_Man
             {
                 spawn.Parent = this;
                 spawn.Start();
+                spawn.Screen.AddSpawnedEntity(spawn);
             }
-            spawn.Screen.AddSpawnedEntity(spawn);
 
             return spawn;
         }
@@ -178,9 +178,12 @@ namespace Mega_Man
         public static void LoadEntity(XElement xml)
         {
             GameEntity entity = new GameEntity();
-            string name = xml.Attribute("name").Value;
+            string name = xml.RequireAttribute("name").Value;
 
             entity.Name = name;
+
+            int limit;
+            if (xml.TryInteger("limit", out limit)) entity.maxAlive = limit;
 
             SpriteComponent spritecomp = null;
             PositionComponent poscomp = null;
