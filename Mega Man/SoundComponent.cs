@@ -8,15 +8,14 @@ namespace Mega_Man
 {
     public class SoundComponent : Component
     {
-        private Dictionary<string, ISoundEffect> sounds = new Dictionary<string, ISoundEffect>();
+        private List<string> sounds = new List<string>();
 
         public override void LoadXml(XElement xml)
         {
             foreach (XElement soundNode in xml.Elements("Sound"))
             {
-                ISoundEffect effect = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
-                XAttribute nameattr = soundNode.Attribute("name");
-                sounds.Add(nameattr.Value, effect);
+                string name = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
+                sounds.Add(name);
             }
         }
 
@@ -34,7 +33,7 @@ namespace Mega_Man
 
         public override void Stop()
         {
-            foreach (ISoundEffect sound in sounds.Values) sound.StopIfLooping();
+            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopNSF(sound);
         }
 
         public override void Message(IGameMessage msg)
@@ -42,12 +41,8 @@ namespace Mega_Man
             SoundMessage sound = msg as SoundMessage;
             if (sound != null)
             {
-                if (sounds.ContainsKey(sound.SoundName))
-                {
-                    if (sound.Playing) sounds[sound.SoundName].Play();
-                    else sounds[sound.SoundName].Stop();
-                }
-                return;
+                if (sound.Playing) Engine.Instance.SoundSystem.PlaySfx(sound.SoundName);
+                else Engine.Instance.SoundSystem.StopNSF(sound.SoundName);
             }
         }
 

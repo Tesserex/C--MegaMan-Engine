@@ -143,14 +143,51 @@ namespace Mega_Man
 
             if (pauseScreen != null) pauseScreen.Unpaused += new Action(pauseScreen_Unpaused);
 
+            // keep Entities tag for compatibility
             foreach (XElement entityNode in reader.Elements("Entities"))
             {
                 string enemyfile = System.IO.Path.Combine(BasePath, entityNode.Value);
-                GameEntity.LoadEntities(enemyfile);
+                IncludeXmlFile(enemyfile);
             }
+            // "Include" is the more proper way now
+            foreach (XElement includeNode in reader.Elements("Include"))
+            {
+                string includefile = System.IO.Path.Combine(BasePath, includeNode.Value);
+                IncludeXmlFile(includefile);
+            }
+
             currentPath = path;
 
             StageSelect();
+        }
+
+        private void IncludeXmlFile(string path)
+        {
+            try
+            {
+                XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
+                foreach (XElement element in document.Elements())
+                {
+                    switch (element.Name.LocalName)
+                    {
+                        case "Entities":
+                            GameEntity.LoadEntities(element);
+                            break;
+
+                        case "Sounds":
+                            Engine.Instance.SoundSystem.LoadEffectsFromXml(element);
+                            break;
+
+                        default:
+                            throw new GameXmlException(element, string.Format("Unrecognized XML type: \"{0}\"", element.Name.LocalName));
+                    }
+                }
+            }
+            catch (GameXmlException ex)
+            {
+                ex.File = path;
+                throw;
+            }
         }
 
         private void LoadNSFInfo(XElement nsfNode)

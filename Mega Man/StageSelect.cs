@@ -28,7 +28,7 @@ namespace Mega_Man
 
         private int musicNsfTrack;
         private Music musicStageSelect;
-        private ISoundEffect changeSound;
+        private string changeSound;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
         private BossInfo[] bosses;
@@ -151,7 +151,7 @@ namespace Mega_Man
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
 
-            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayNSF((uint)musicNsfTrack);
+            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)musicNsfTrack);
             else if (musicStageSelect != null) musicStageSelect.Play();
 
             Game.CurrentGame.AddGameHandler(this);
@@ -200,7 +200,7 @@ namespace Mega_Man
             {
                 if (MapSelected != null && bosses[selectedIndex].stage != null) MapSelected(bosses[selectedIndex].stage);
             }
-            if (selectedIndex != old && changeSound != null) changeSound.Play();
+            if (selectedIndex != old && changeSound != null) Engine.Instance.SoundSystem.PlaySfx(changeSound);
         }
 
         public void GameTick(GameTickEventArgs e)

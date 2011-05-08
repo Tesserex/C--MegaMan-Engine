@@ -156,10 +156,8 @@ namespace Mega_Man
             entityProperties["Default"] = MegaMan.TileProperties.Default;
         }
 
-        public static void LoadEntities(string xmlPath)
+        public static void LoadEntities(XElement doc)
         {
-            XElement doc = XElement.Load(xmlPath, LoadOptions.SetLineInfo);
-
             // properties
             XElement propHead = doc.Element("Properties");
             if (propHead != null)
@@ -173,15 +171,7 @@ namespace Mega_Man
 
             foreach (XElement entity in doc.Elements("Entity"))
             {
-                try
-                {
-                    LoadEntity(entity);
-                }
-                catch (GameXmlException ex)
-                {
-                    ex.File = xmlPath;
-                    throw;
-                }
+                LoadEntity(entity);
             }
         }
 

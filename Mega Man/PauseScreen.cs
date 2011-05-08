@@ -21,8 +21,8 @@ namespace Mega_Man
             public HealthMeter meter;
         }
 
-        private ISoundEffect pauseSound;
-        private ISoundEffect changeSound;
+        private string pauseSound;
+        private string changeSound;
         private Image background;
         private Texture2D backgroundTexture;
         private List<WeaponInfo> weapons;
@@ -69,7 +69,7 @@ namespace Mega_Man
 
         public void Sound()
         {
-            pauseSound.Play();
+            Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
         private void LoadWeapon(XElement reader)
@@ -240,7 +240,7 @@ namespace Mega_Man
 
             if (next != selectedName)
             {
-                changeSound.Play();
+                Engine.Instance.SoundSystem.PlaySfx(changeSound);
                 selectedName = next;
                 currentPos = nextPos;
             }

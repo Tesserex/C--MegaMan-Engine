@@ -157,7 +157,7 @@ namespace Mega_Man
                 
             }
 
-            if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayNSF((uint)nextScreen.Screen.MusicNsfTrack);
+            if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)nextScreen.Screen.MusicNsfTrack);
             else if (nextScreen.music != null) nextScreen.music.Play();
         }
 
@@ -252,7 +252,7 @@ namespace Mega_Man
             StartScreen();
 
             if (music != null) music.Play();
-            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayNSF((uint)Map.MusicNsfTrack);
+            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Map.MusicNsfTrack);
 
             // updateFunc isn't set until BeginPlay
             drawFunc = Draw;

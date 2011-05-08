@@ -17,7 +17,7 @@ namespace Mega_Man
         private float tickSize;
         private Texture2D meterTexture;
         private Texture2D tickTexture;
-        private ISoundEffect sound;
+        private string sound;
         private int tickframes;
         private int stopvalue;
 
@@ -63,7 +63,7 @@ namespace Mega_Man
                     {
                         Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
                         animating = true;
-                        if (sound != null) sound.Play();
+                        if (sound != null) Engine.Instance.SoundSystem.PlaySfx(sound);
                     }
                 }
                 else

@@ -50,14 +50,24 @@ namespace Mega_Man
             AudioManager.Instance.PausePlayback();
         }
 
-        public ISoundEffect EffectFromXml(XElement soundNode)
+        public void LoadEffectsFromXml(XElement node)
         {
+            foreach (XElement soundNode in node.Elements("Sound"))
+            {
+                EffectFromXml(soundNode);
+            }
+        }
+
+        public string EffectFromXml(XElement soundNode)
+        {
+            string name = soundNode.RequireAttribute("name").Value;
+            if (loadedSounds.ContainsKey(name)) return name;
+
             XAttribute pathattr = soundNode.Attribute("path");
             ISoundEffect sound;
             if (pathattr != null)
             {
                 string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
-                if (loadedSounds.ContainsKey(path)) return loadedSounds[path];
 
                 bool loop;
                 soundNode.TryBool("loop", out loop);
@@ -66,22 +76,23 @@ namespace Mega_Man
                 if (!soundNode.TryFloat("volume", out vol)) vol = 1;
 
                 sound = new WavEffect(this.soundSystem, path, loop, vol);
-                loadedSounds[path] = sound;
             }
             else
             {
                 XAttribute trackAttr = soundNode.Attribute("track");
-                if (trackAttr == null) throw new GameXmlException(soundNode, "Sound tag must include either a path attribute or a track attribute.");
+                if (trackAttr == null)
+                {
+                    // we trust that the sound they're talking about will be loaded eventually.
+                    return name;
+                }
 
                 int track;
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
 
-                string key = "track" + track.ToString();
-                if (loadedSounds.ContainsKey(key)) return loadedSounds[key];
                 sound = new NsfEffect(this.sfx, track);
-                loadedSounds[key] = sound;
             }
-            return sound;
+            loadedSounds[name] = sound;
+            return name;
         }
 
         void updateTimer_Tick(object sender, EventArgs e)
@@ -131,15 +142,32 @@ namespace Mega_Man
             AudioManager.Instance.LoadSoundEffect(sfx);
         }
 
-        public void PlayNSF(uint track)
+        public void PlayMusicNSF(uint track)
         {
             bgm.CurrentTrack = track-1;
             AudioManager.Instance.PlayBackgroundMusic(bgm);
         }
 
+        public void PlaySfx(string name)
+        {
+            if (loadedSounds.ContainsKey(name))
+            {
+                loadedSounds[name].Play();
+            }
+            else throw new GameEntityException("Tried to play sound effect called " + name + ", but none was defined!");
+        }
+
         public void StopNSF()
         {
             AudioManager.Instance.StopPlayback();
+        }
+
+        public void StopNSF(string name)
+        {
+            if (loadedSounds.ContainsKey(name))
+            {
+                loadedSounds[name].Stop();
+            }
         }
     }
 }
