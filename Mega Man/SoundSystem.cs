@@ -22,6 +22,7 @@ namespace Mega_Man
 
         private BackgroundMusic bgm;
         private SoundEffect sfx;
+        public static byte CurrentSfxPriority { get; set; }
 
         public SoundSystem()
         {
@@ -36,6 +37,14 @@ namespace Mega_Man
             updateTimer = new System.Windows.Forms.Timer();
             updateTimer.Interval = 10;
             updateTimer.Tick += new EventHandler(updateTimer_Tick);
+
+            AudioManager.Instance.SFXPlaybackStopped += new Action(Instance_SFXPlaybackStopped);
+            CurrentSfxPriority = 255;
+        }
+
+        void Instance_SFXPlaybackStopped()
+        {
+            CurrentSfxPriority = 255;
         }
 
         public void Start()
@@ -89,7 +98,9 @@ namespace Mega_Man
                 int track;
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
 
-                sound = new NsfEffect(this.sfx, track);
+                int priority;
+                if (!soundNode.TryInteger("priority", out priority)) priority = 100;
+                sound = new NsfEffect(this.sfx, track, (byte)priority);
             }
             loadedSounds[name] = sound;
             return name;
