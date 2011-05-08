@@ -237,7 +237,7 @@ namespace Mega_Man
         private void BossFightTimer()
         {
             InputComponent input = Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>();
-            Engine.Instance.DelayedCall(() => { input.Paused = true; }, null, 20);
+            input.Paused = true;
             Engine.Instance.DelayedCall(() => { input.Paused = false; }, null, 200);
         }
 
