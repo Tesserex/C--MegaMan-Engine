@@ -90,7 +90,7 @@ namespace Mega_Man
 
         private void BeginPlay()
         {
-            Player.Start();
+            Player.GetComponent<SpriteComponent>().Visible = true;
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(this.startX, 0));
             Player.SendMessage(msg);
@@ -264,6 +264,9 @@ namespace Mega_Man
             readyBlinkTime = 0;
             readyBlinks = 0;
             Engine.Instance.GameRender += new GameRenderEventHandler(BlinkReady);
+
+            Player.GetComponent<SpriteComponent>().Visible = false;
+            Player.Start();
 
             // make sure we can move
             (Player.GetComponent<InputComponent>()).Paused = false;
