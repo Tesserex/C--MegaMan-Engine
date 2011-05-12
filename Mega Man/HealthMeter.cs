@@ -265,6 +265,7 @@ namespace Mega_Man
                 Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
                 animating = false;
                 if (IsPlayer) Game.CurrentGame.Unpause();
+                if (sound != null) Engine.Instance.SoundSystem.StopSfx(sound);
             }
         }
 

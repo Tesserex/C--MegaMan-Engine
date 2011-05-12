@@ -105,12 +105,14 @@ namespace Mega_Man
         private int track;
         private SoundEffect sfx;
         private byte priority;
+        private bool loop;
 
-        public NsfEffect(SoundEffect fx, int track, byte priority)
+        public NsfEffect(SoundEffect fx, int track, byte priority, bool loop)
         {
             this.track = track - 1;
             this.sfx = fx;
             this.priority = priority;
+            this.loop = loop;
         }
 
         public float Volume
@@ -129,6 +131,18 @@ namespace Mega_Man
         {
             if (this.priority > SoundSystem.CurrentSfxPriority) return;
 
+            if (loop) AudioManager.Instance.SFXPlaybackStopped += PlayOnce;
+            PlayOnce();
+        }
+
+        private void PlayOnce()
+        {
+            if (this.priority > SoundSystem.CurrentSfxPriority)
+            {
+                if (loop) AudioManager.Instance.SFXPlaybackStopped -= PlayOnce;
+                return;
+            }
+
             SoundSystem.CurrentSfxPriority = this.priority;
             this.sfx.CurrentTrack = (uint)this.track;
             this.sfx.Priority = this.priority;
@@ -137,13 +151,11 @@ namespace Mega_Man
 
         public void Stop()
         {
-            
+            if (this.sfx.CurrentTrack == this.track) AudioManager.Instance.StopSFXPlayback();
+            if (loop) AudioManager.Instance.SFXPlaybackStopped -= PlayOnce;
         }
 
-        public void StopIfLooping()
-        {
-            
-        }
+        public void StopIfLooping() { if (loop) Stop(); }
 
         public void Dispose()
         {

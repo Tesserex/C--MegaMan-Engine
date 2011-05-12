@@ -78,7 +78,7 @@ namespace Mega_Man
             }
             else if (info.Type == AudioType.NSF)
             {
-                sound = new NsfEffect(this.sfx, info.NsfTrack, info.Priority);
+                sound = new NsfEffect(this.sfx, info.NsfTrack, info.Priority, info.Loop);
             }
             else return info.Name;
 
@@ -117,9 +117,12 @@ namespace Mega_Man
                 int track;
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
 
+                bool loop;
+                soundNode.TryBool("loop", out loop);
+
                 int priority;
                 if (!soundNode.TryInteger("priority", out priority)) priority = 100;
-                sound = new NsfEffect(this.sfx, track, (byte)priority);
+                sound = new NsfEffect(this.sfx, track, (byte)priority, loop);
             }
             loadedSounds[name] = sound;
             return name;
@@ -192,11 +195,12 @@ namespace Mega_Man
             AudioManager.Instance.StopBGMPlayback();
         }
 
-        public void StopSfxNSF(string name)
+        public void StopSfx(string name)
         {
             if (loadedSounds.ContainsKey(name))
             {
                 loadedSounds[name].Stop();
+                CurrentSfxPriority = 255;
             }
         }
     }
