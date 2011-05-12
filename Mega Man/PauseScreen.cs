@@ -11,7 +11,7 @@ namespace Mega_Man
 {
     public class PauseScreen : IHandleGameEvents
     {
-        private class WeaponInfo
+        private class PauseWeapon
         {
             public Image iconOff, iconOn;
             public Texture2D textureOff, textureOn;
@@ -25,7 +25,7 @@ namespace Mega_Man
         private string changeSound;
         private Image background;
         private Texture2D backgroundTexture;
-        private List<WeaponInfo> weapons;
+        private List<PauseWeapon> weapons;
         private string selectedName;
 
         private Point currentPos;
@@ -40,30 +40,29 @@ namespace Mega_Man
 
         public event Action Unpaused;
 
-        public PauseScreen(XElement reader)
+        public PauseScreen(MegaMan.PauseScreen pauseInfo)
         {
-            weapons = new List<WeaponInfo>();
+            weapons = new List<PauseWeapon>();
 
-            changeSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("ChangeSound"));
-            pauseSound = Engine.Instance.SoundSystem.EffectFromXml(reader.Element("PauseSound"));
+            if (pauseInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.ChangeSound);
+            if (pauseInfo.PauseSound != null) pauseSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.PauseSound);
 
-            background = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
-			StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+            background = Image.FromFile(pauseInfo.Background.Absolute);
+			StreamReader sr = new StreamReader(pauseInfo.Background.Absolute);
 			backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
-            foreach (XElement weapon in reader.Elements("Weapon"))
-                LoadWeapon(weapon);
+            foreach (var weaponInfo in pauseInfo.Weapons)
+                LoadWeapon(weaponInfo);
 
             this.font = new Font(FontFamily.GenericMonospace, 12);
             this.brush = new SolidBrush(System.Drawing.Color.FromArgb(240, 236, 220));
 
             FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
 
-            XElement livesNode = reader.Element("Lives");
-            if (livesNode != null)
+            if (pauseInfo.LivesPosition != Point.Empty)
             {
                 showLives = true;
-                livesPos = new Point(livesNode.GetInteger("x"), livesNode.GetInteger("y"));
+                livesPos = pauseInfo.LivesPosition;
             }
         }
 
@@ -72,29 +71,28 @@ namespace Mega_Man
             Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
-        private void LoadWeapon(XElement reader)
+        private void LoadWeapon(MegaMan.WeaponInfo weapon)
         {
-            WeaponInfo info = new WeaponInfo();
-            info.name = reader.RequireAttribute("name").Value;
-            info.entity = reader.RequireAttribute("entity").Value;
+            PauseWeapon info = new PauseWeapon();
+            info.name = weapon.Name;
+            info.entity = weapon.Entity;
 
-			String imagePathOff = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("off").Value);
-			String imagePathOn = System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Attribute("on").Value);
+            string imagePathOff = weapon.IconOff.Absolute;
+            string imagePathOn = weapon.IconOn.Absolute;
 
-            info.iconOff = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imagePathOff));
-            info.iconOn = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, imagePathOn));
+            info.iconOff = Image.FromFile(imagePathOff);
+            info.iconOn = Image.FromFile(imagePathOn);
 
 			StreamReader srOff = new StreamReader(imagePathOff);
 			StreamReader srOn = new StreamReader(imagePathOn);
             info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
             info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
 
-            info.location = new Point(reader.GetInteger("x"), reader.GetInteger("y"));
+            info.location = weapon.Location;
 
-            XElement meter = reader.Element("Meter");
-            if (meter != null)
+            if (weapon.Meter != null)
             {
-                info.meter = HealthMeter.Create(meter, false);
+                info.meter = HealthMeter.Create(weapon.Meter, false);
             }
 
             weapons.Add(info);
@@ -111,7 +109,7 @@ namespace Mega_Man
             playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
-            foreach (WeaponInfo info in weapons)
+            foreach (PauseWeapon info in weapons)
             {
                 if (info.entity == selectedName)
                 {
@@ -120,7 +118,7 @@ namespace Mega_Man
                 }
             }
 
-            foreach (WeaponInfo info in weapons)
+            foreach (PauseWeapon info in weapons)
             {
                 if (info.meter != null)
                 {
@@ -157,7 +155,7 @@ namespace Mega_Man
 
             else if (e.Input == GameInput.Down)
             {
-                foreach (WeaponInfo info in weapons)
+                foreach (PauseWeapon info in weapons)
                 {
                     if (info.entity == selectedName) continue;
 
@@ -178,7 +176,7 @@ namespace Mega_Man
             }
             else if (e.Input == GameInput.Up)
             {
-                foreach (WeaponInfo info in weapons)
+                foreach (PauseWeapon info in weapons)
                 {
                     if (info.entity == selectedName) continue;
 
@@ -199,7 +197,7 @@ namespace Mega_Man
             }
             else if (e.Input == GameInput.Right)
             {
-                foreach (WeaponInfo info in weapons)
+                foreach (PauseWeapon info in weapons)
                 {
                     if (info.entity == selectedName) continue;
 
@@ -219,7 +217,7 @@ namespace Mega_Man
             }
             else if (e.Input == GameInput.Left)
             {
-                foreach (WeaponInfo info in weapons)
+                foreach (PauseWeapon info in weapons)
                 {
                     if (info.entity == selectedName) continue;
 
@@ -252,7 +250,7 @@ namespace Mega_Man
 
             e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
-            foreach (WeaponInfo info in weapons)
+            foreach (PauseWeapon info in weapons)
             {
                 if (info.entity == selectedName)
                 {

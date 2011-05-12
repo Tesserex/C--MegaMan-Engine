@@ -98,6 +98,15 @@ namespace Mega_Man
             }
         }
 
+        public static HealthMeter Create(MeterInfo info, bool inGamePlay)
+        {
+            var meter = new HealthMeter();
+            meter.LoadInfo(info);
+            meter.inGamePlay = inGamePlay;
+            if (inGamePlay) allMeters.Add(meter);
+            return meter;
+        }
+
         public static HealthMeter Create(XElement node, bool inGamePlay)
         {
             var meter = new HealthMeter();
@@ -131,7 +140,29 @@ namespace Mega_Man
             }
         }
 
-        public void LoadXml(XElement node)
+        private void LoadInfo(MeterInfo info)
+        {
+            this.positionX = info.Position.X;
+            this.positionY = info.Position.Y;
+
+            if (this.tickTexture != null) this.tickTexture.Dispose();
+            StreamReader srTick = new StreamReader(info.TickImage.Absolute);
+            this.tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
+
+            if (info.Background != null)
+            {
+                StreamReader srMeter = new StreamReader(info.Background.Absolute);
+                this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
+                this.bounds = new RectangleF(this.positionX, this.positionY, this.meterTexture.Width, this.meterTexture.Height);
+            }
+
+            this.horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
+            this.tickOffset = info.TickOffset;
+
+            if (info.Sound != null) this.sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
+        }
+
+        private void LoadXml(XElement node)
         {
             this.positionX = node.GetFloat("x");
             this.positionY = node.GetFloat("y");

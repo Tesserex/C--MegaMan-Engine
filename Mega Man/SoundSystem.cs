@@ -67,6 +67,25 @@ namespace Mega_Man
             }
         }
 
+        public string EffectFromInfo(SoundInfo info)
+        {
+            if (loadedSounds.ContainsKey(info.Name)) return info.Name;
+
+            ISoundEffect sound;
+            if (info.Type == AudioType.Wav)
+            {
+                sound = new WavEffect(this.soundSystem, info.Path.Absolute, info.Loop, info.Volume);
+            }
+            else if (info.Type == AudioType.NSF)
+            {
+                sound = new NsfEffect(this.sfx, info.NsfTrack, info.Priority);
+            }
+            else return info.Name;
+
+            loadedSounds[info.Name] = sound;
+            return info.Name;
+        }
+
         public string EffectFromXml(XElement soundNode)
         {
             string name = soundNode.RequireAttribute("name").Value;

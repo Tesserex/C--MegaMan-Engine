@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -15,7 +16,7 @@ namespace Mega_Man
     /// </summary>
     public class StageSelect : IHandleGameEvents
     {
-        private class BossInfo
+        private class BossSlot
         {
             public string firstname;
             public string lastname;
@@ -26,27 +27,25 @@ namespace Mega_Man
             public Point location;
         }
 
-        private int musicNsfTrack;
+        private MegaMan.StageSelect stageSelectInfo;
         private Music musicStageSelect;
         private string changeSound;
         private Texture2D backgroundTexture;
         private MegaMan.Sprite bossFrameOn, bossFrameOff;
-        private BossInfo[] bosses;
+        private BossSlot[] bosses;
         private int selectedIndex;
-
-        private int spacingX, spacingY, offsetY;
 
         public event Action<string> MapSelected;
 
-        public StageSelect(XElement reader)
+        public StageSelect(MegaMan.StageSelect stageSelectInfo)
         {
-            bosses = new BossInfo[8];
-            for (int i = 0; i < 8; i++) bosses[i] = new BossInfo();
+            this.stageSelectInfo = stageSelectInfo;
 
-            XElement spriteNode = reader.Element("BossFrame").Element("Sprite");
-            XAttribute tileattr = spriteNode.Attribute("tilesheet");
-            bossFrameOn = MegaMan.Sprite.FromXml(spriteNode, Game.CurrentGame.BasePath);
-            bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, System.IO.Path.Combine(Game.CurrentGame.BasePath, tileattr.Value));
+            bosses = new BossSlot[8];
+            for (int i = 0; i < 8; i++) bosses[i] = new BossSlot();
+
+            bossFrameOn = new Sprite(stageSelectInfo.BossFrame);
+            bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, stageSelectInfo.BossFrame.SheetPath.Absolute);
             bossFrameOff = new MegaMan.Sprite(bossFrameOn);
 
             bossFrameOn.Play();
@@ -54,24 +53,13 @@ namespace Mega_Man
             int portraitWidth = bossFrameOn.Width;
             int portraitHeight = bossFrameOn.Height;
 
-            spacingX = spacingY = 24;
-            offsetY = 0;
-
-            XElement spaceNode = reader.Element("Spacing");
-            if (spaceNode != null)
-            {
-                spacingX = spaceNode.GetInteger("x");
-                spacingY = spaceNode.GetInteger("y");
-                spaceNode.TryInteger("offset", out offsetY);
-            }
-
             int middleX = (Game.CurrentGame.PixelsAcross - portraitWidth) / 2;
-            int middleY = (Game.CurrentGame.PixelsDown - portraitHeight) / 2 + offsetY;
+            int middleY = (Game.CurrentGame.PixelsDown - portraitHeight) / 2 + stageSelectInfo.BossOffset;
 
-            int lowerX = middleX - portraitWidth - spacingX;
-            int lowerY = middleY - portraitHeight - spacingY;
-            int upperX = middleX + portraitWidth + spacingX;
-            int upperY = middleY + portraitHeight + spacingY;
+            int lowerX = middleX - portraitWidth - stageSelectInfo.BossSpacingHorizontal;
+            int lowerY = middleY - portraitHeight - stageSelectInfo.BossSpacingVertical;
+            int upperX = middleX + portraitWidth + stageSelectInfo.BossSpacingHorizontal;
+            int upperY = middleY + portraitHeight + stageSelectInfo.BossSpacingVertical;
 
             bosses[0].location = new Point(lowerX, lowerY);
             bosses[1].location = new Point(middleX, lowerY);
@@ -85,61 +73,46 @@ namespace Mega_Man
 
             selectedIndex = 0;
 
-            var music = reader.Element("Music");
-            if (music != null)
+            if (stageSelectInfo.Music != null)
             {
-                var intro = music.Element("Intro");
-                var loop = music.Element("Loop");
-                string introPath = (intro != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, intro.Value) : null;
-                string loopPath = (loop != null) ? System.IO.Path.Combine(Game.CurrentGame.BasePath, loop.Value) : null;
-
-                XAttribute nsfTrack = music.Attribute("nsftrack");
-                if (nsfTrack != null)
+                if (stageSelectInfo.Music.Type == AudioType.Wav)
                 {
-                    if (!int.TryParse(nsfTrack.Value, out musicNsfTrack) || musicNsfTrack <= 0) throw new GameXmlException(nsfTrack, "NSF track attribute must be a positive integer.");
+                    musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(stageSelectInfo.Music.IntroPath.Absolute, stageSelectInfo.Music.LoopPath.Absolute, 1);
                 }
-
-                if (introPath != null || loopPath != null) musicStageSelect = Engine.Instance.SoundSystem.LoadMusic(introPath, loopPath, 1);
             }
 
-            var soundElement = reader.Element("ChangeSound");
-            if (soundElement != null) changeSound = Engine.Instance.SoundSystem.EffectFromXml(soundElement);
+            if (stageSelectInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(stageSelectInfo.ChangeSound);
 
-			StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, reader.Element("Background").Value));
+			StreamReader sr = new StreamReader(stageSelectInfo.Background.Absolute);
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
-            foreach (XElement boss in reader.Elements("Boss"))
+            foreach (BossInfo boss in stageSelectInfo.Bosses)
+            {
                 LoadBoss(boss);
+            }
 
             FontSystem.LoadFont("Boss", System.IO.Path.Combine(Game.CurrentGame.BasePath, "images\\font_boss.png"), 8, 0);
         }
 
-        private void LoadBoss(XElement reader)
+        private void LoadBoss(BossInfo boss)
         {
-            int slot;
-            XAttribute slotAttr = reader.Attribute("slot");
-            if (slotAttr == null) return;
-            if (!int.TryParse(slotAttr.Value, out slot) || slot < 0) throw new GameXmlException(slotAttr, "Slot attribute must be a non-negative integer.");
+            int slot = boss.Slot;
 
-            XAttribute nameNode = reader.Attribute("name");
-            if (nameNode != null)
+            if (boss.Name != null)
             {
-                string[] names = nameNode.Value.Split(' ');
+                string[] names = boss.Name.Split(' ');
                 if (names.Length > 0) bosses[slot].firstname = names[0];
                 if (names.Length > 1) bosses[slot].lastname = names[1];
             }
 
-            XAttribute portraitNode = reader.Attribute("portrait");
-            if (portraitNode != null)
+            if (boss.PortraitPath != null)
             {
-				StreamReader sr = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
-                bosses[slot].portrait = Image.FromFile(System.IO.Path.Combine(Game.CurrentGame.BasePath, portraitNode.Value));
+				StreamReader sr = new StreamReader(boss.PortraitPath.Absolute);
+                bosses[slot].portrait = Image.FromFile(boss.PortraitPath.Absolute);
 				bosses[slot].texture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
-            XAttribute stageNode = reader.Attribute("stage");
-            if (stageNode == null) return;
-            bosses[slot].stage = stageNode.Value;
+            bosses[slot].stage = boss.Stage;
             bosses[slot].alive = true;
         }
 
@@ -151,7 +124,7 @@ namespace Mega_Man
             Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
 
-            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)musicNsfTrack);
+            if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.PlayMusicNSF((uint)stageSelectInfo.Music.NsfTrack);
             else if (musicStageSelect != null) musicStageSelect.Play();
 
             Game.CurrentGame.AddGameHandler(this);
@@ -163,7 +136,7 @@ namespace Mega_Man
             Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
             Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
 
-            if (musicNsfTrack > 0) Engine.Instance.SoundSystem.StopMusicNSF();
+            if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.StopMusicNSF();
             else if (musicStageSelect != null) musicStageSelect.Stop();
 
             Game.CurrentGame.RemoveGameHandler(this);
@@ -212,7 +185,7 @@ namespace Mega_Man
         {
             if (Engine.Instance.Background) e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
-            BossInfo boss;
+            BossSlot boss;
             for (int i = 0; i < 8; i++)
             {
                 boss = bosses[i];

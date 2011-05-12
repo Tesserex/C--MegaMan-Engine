@@ -29,6 +29,8 @@ namespace Mega_Man
     {
         public static Game CurrentGame { get; private set; }
 
+        private Project project;
+
         private string currentPath;
         private IHandleGameEvents currentHandler;
         private StageSelect select;
@@ -102,57 +104,37 @@ namespace Mega_Man
         {
             if (!File.Exists(path)) throw new FileNotFoundException("The project file does not exist: " + path);
 
-            BasePath = System.IO.Path.GetDirectoryName(path);
-            XElement reader = XElement.Load(path);
+            project = new Project();
+            project.Load(path);
 
-            XElement sizeNode = reader.Element("Size");
-            if (sizeNode != null)
+            BasePath = project.BaseDir;
+
+            PixelsDown = project.ScreenHeight;
+            PixelsAcross = project.ScreenWidth;
+
+            if (ScreenSizeChanged != null)
             {
-                int across = sizeNode.GetInteger("x");
-                int down = sizeNode.GetInteger("y");
-                PixelsDown = down;
-                PixelsAcross = across;
-                if (ScreenSizeChanged != null)
-                {
-                    ScreenSizeChangedEventArgs args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
-                    ScreenSizeChanged(this, args);
-                }
+                ScreenSizeChangedEventArgs args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
+                ScreenSizeChanged(this, args);
             }
 
-            XElement nsfNode = reader.Element("NSF");
-            if (nsfNode != null) LoadNSFInfo(nsfNode);
+            if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
+            if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
 
-            XElement stagesNode = reader.Element("Stages");
-            if (stagesNode != null)
+            foreach (var stage in project.Stages)
             {
-                foreach (var node in stagesNode.Elements("Stage"))
-                {
-                    var nameNode = node.Attribute("name");
-                    var pathNode = node.Attribute("path");
-                    if (nameNode == null || pathNode == null) continue;
-
-                    stages.Add(nameNode.Value, FilePath.FromRelative(pathNode.Value, this.BasePath));
-                }
+                stages.Add(stage.Name, stage.StagePath);
             }
 
-            XElement stageSelectNode = reader.Element("StageSelect");
-            if (stageSelectNode != null) select = new StageSelect(stageSelectNode);
+            if (project.StageSelect != null) select = new StageSelect(project.StageSelect);
 
-            XElement pauseNode = reader.Element("PauseScreen");
-            if (pauseNode != null) pauseScreen = new PauseScreen(pauseNode);
+            if (project.PauseScreen != null) pauseScreen = new PauseScreen(project.PauseScreen);
 
             if (pauseScreen != null) pauseScreen.Unpaused += new Action(pauseScreen_Unpaused);
 
-            // keep Entities tag for compatibility
-            foreach (XElement entityNode in reader.Elements("Entities"))
+            foreach (string includePath in project.Includes)
             {
-                string enemyfile = System.IO.Path.Combine(BasePath, entityNode.Value);
-                IncludeXmlFile(enemyfile);
-            }
-            // "Include" is the more proper way now
-            foreach (XElement includeNode in reader.Elements("Include"))
-            {
-                string includefile = System.IO.Path.Combine(BasePath, includeNode.Value);
+                string includefile = System.IO.Path.Combine(BasePath, includePath);
                 IncludeXmlFile(includefile);
             }
 
@@ -187,23 +169,6 @@ namespace Mega_Man
             {
                 ex.File = path;
                 throw;
-            }
-        }
-
-        private void LoadNSFInfo(XElement nsfNode)
-        {
-            XElement musicNode = nsfNode.Element("Music");
-            if (musicNode != null)
-            {
-                FilePath nsfPath = FilePath.FromRelative(musicNode.Value, this.BasePath);
-                Engine.Instance.SoundSystem.LoadMusicNSF(nsfPath.Absolute);
-            }
-
-            XElement sfxNode = nsfNode.Element("SFX");
-            if (sfxNode != null)
-            {
-                FilePath sfxPath = FilePath.FromRelative(sfxNode.Value, this.BasePath);
-                Engine.Instance.SoundSystem.LoadSfxNSF(sfxPath.Absolute);
             }
         }
 
