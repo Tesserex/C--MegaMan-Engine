@@ -203,5 +203,13 @@ namespace Mega_Man
                 CurrentSfxPriority = 255;
             }
         }
+
+        public void StopSfxIfLooping(string name)
+        {
+            if (loadedSounds.ContainsKey(name))
+            {
+                loadedSounds[name].StopIfLooping();
+            }
+        }
     }
 }

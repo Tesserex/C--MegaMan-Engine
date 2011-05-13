@@ -9,7 +9,7 @@ namespace Mega_Man
 {
     public class SoundComponent : Component
     {
-        private List<string> sounds = new List<string>();
+        private HashSet<string> sounds = new HashSet<string>();
 
         public override void LoadXml(XElement xml)
         {
@@ -34,7 +34,7 @@ namespace Mega_Man
 
         public override void Stop()
         {
-            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopSfx(sound);
+            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopSfxIfLooping(sound);
         }
 
         public override void Message(IGameMessage msg)
@@ -42,6 +42,7 @@ namespace Mega_Man
             SoundMessage sound = msg as SoundMessage;
             if (sound != null)
             {
+                sounds.Add(sound.SoundName);
                 if (sound.Playing) Engine.Instance.SoundSystem.PlaySfx(sound.SoundName);
                 else Engine.Instance.SoundSystem.StopSfx(sound.SoundName);
             }
