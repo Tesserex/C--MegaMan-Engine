@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Xml.Linq;
 using System.Xml;
 using Microsoft.Xna.Framework.Graphics;
+using MegaMan;
 
 namespace Mega_Man
 {

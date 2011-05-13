@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Diagnostics;
+using MegaMan;
 
 namespace Mega_Man
 {
