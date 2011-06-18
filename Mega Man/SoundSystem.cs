@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FMOD;
 using System.Xml.Linq;
 using MegaMan;
 using MegaManR.Audio;
-using MegaManR.Extensions;
 
 namespace Mega_Man
 {
     public class SoundSystem : IDisposable
     {
-        private FMOD.System soundSystem;
+        private readonly FMOD.System soundSystem;
 
-        private Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
-        private Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
-        private List<int> playCount = new List<int>();
-        private List<Channel> channels = new List<Channel>();
-        private System.Windows.Forms.Timer updateTimer;
+        private readonly Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
+        private readonly Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
+        private readonly List<Channel> channels = new List<Channel>();
+        private readonly System.Windows.Forms.Timer updateTimer;
 
         private BackgroundMusic bgm;
         private SoundEffect sfx;
@@ -26,23 +22,22 @@ namespace Mega_Man
 
         public SoundSystem()
         {
-            FMOD.Factory.System_Create(ref soundSystem);
+            Factory.System_Create(ref soundSystem);
             uint version = 0;
             soundSystem.getVersion(ref version);
-            soundSystem.init(32, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
+            soundSystem.init(32, INITFLAGS.NORMAL, (IntPtr)null);
 
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
 
-            updateTimer = new System.Windows.Forms.Timer();
-            updateTimer.Interval = 10;
-            updateTimer.Tick += new EventHandler(updateTimer_Tick);
+            updateTimer = new System.Windows.Forms.Timer {Interval = 10};
+            updateTimer.Tick += updateTimer_Tick;
 
-            AudioManager.Instance.SFXPlaybackStopped += new Action(Instance_SFXPlaybackStopped);
+            AudioManager.Instance.SFXPlaybackStopped += InstanceSfxPlaybackStopped;
             CurrentSfxPriority = 255;
         }
 
-        void Instance_SFXPlaybackStopped()
+        static void InstanceSfxPlaybackStopped()
         {
             CurrentSfxPriority = 255;
         }
@@ -74,11 +69,11 @@ namespace Mega_Man
             ISoundEffect sound;
             if (info.Type == AudioType.Wav)
             {
-                sound = new WavEffect(this.soundSystem, info.Path.Absolute, info.Loop, info.Volume);
+                sound = new WavEffect(soundSystem, info.Path.Absolute, info.Loop, info.Volume);
             }
             else if (info.Type == AudioType.NSF)
             {
-                sound = new NsfEffect(this.sfx, info.NsfTrack, info.Priority, info.Loop);
+                sound = new NsfEffect(sfx, info.NsfTrack, info.Priority, info.Loop);
             }
             else return info.Name;
 
@@ -103,7 +98,7 @@ namespace Mega_Man
                 float vol;
                 if (!soundNode.TryFloat("volume", out vol)) vol = 1;
 
-                sound = new WavEffect(this.soundSystem, path, loop, vol);
+                sound = new WavEffect(soundSystem, path, loop, vol);
             }
             else
             {
@@ -122,7 +117,7 @@ namespace Mega_Man
 
                 int priority;
                 if (!soundNode.TryInteger("priority", out priority)) priority = 100;
-                sound = new NsfEffect(this.sfx, track, (byte)priority, loop);
+                sound = new NsfEffect(sfx, track, (byte)priority, loop);
             }
             loadedSounds[name] = sound;
             return name;
@@ -190,7 +185,7 @@ namespace Mega_Man
             else throw new GameEntityException("Tried to play sound effect called " + name + ", but none was defined!");
         }
 
-        public void StopMusicNSF()
+        public void StopMusicNsf()
         {
             AudioManager.Instance.StopBGMPlayback();
         }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan;
 
@@ -22,8 +19,7 @@ namespace Mega_Man
 
         public override Component Clone()
         {
-            SoundComponent copy = new SoundComponent();
-            copy.sounds = this.sounds;
+            SoundComponent copy = new SoundComponent {sounds = this.sounds};
             return copy;
         }
 
@@ -60,10 +56,10 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement node)
         {
-            string soundname = node.Attribute("name").Value;
+            string soundname = node.RequireAttribute("name").Value;
             bool playing;
             if (!node.TryBool("playing", out playing)) playing = true;
-            return (entity) =>
+            return entity =>
             {
                 SoundMessage msg = new SoundMessage(entity, soundname, playing);
                 entity.SendMessage(msg);

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Mega_Man
@@ -20,7 +16,7 @@ namespace Mega_Man
         public SpriteBatch[] SpritesBatch { get; private set; }
         public SpriteBatch ForegroundBatch { get; private set; }
 
-        public GameGraphicsLayers(int across, int down, GraphicsDevice device)
+        public GameGraphicsLayers(GraphicsDevice device)
         {
             BackgroundBatch = new SpriteBatch(device);
             ForegroundBatch = new SpriteBatch(device);
@@ -84,34 +80,27 @@ namespace Mega_Man
     public class Engine
     {
         // Yes, it's a singleton
-        private static Engine instance = null;
+        private static Engine instance;
         public static Engine Instance
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Engine();
-                }
-                return instance;
-            }
+            get { return instance ?? (instance = new Engine()); }
         }
 
         // this timer is used to control framerate. Because the Idle event is used,
         // the inherent limit on speed is about 70 fps. The events just wont fire
         // more often than that.
-        private Stopwatch timer;
+        private readonly Stopwatch timer;
 
         // how many cpu ticks should there be between frames?
-        private long frameTicks = (long)(Stopwatch.Frequency / Const.FPS);
+        private readonly long frameTicks = (long)(Stopwatch.Frequency / Const.FPS);
 
         // this is just used as a pre-calculated number so the division isn't done every frame.
         // Premature optimization at its finest.
-        private float invFreq = 1 / (float)Stopwatch.Frequency;
+        private readonly float invFreq = 1 / (float)Stopwatch.Frequency;
 
         // this holds the key pressed state of all input keys, so that when they change,
         // they can be translated into a GameInput event.
-        private Dictionary<Keys, bool> inputFlags = new Dictionary<Keys, bool>();
+        private readonly Dictionary<Keys, bool> inputFlags = new Dictionary<Keys, bool>();
 
         private GameGraphicsLayers graphics;
 
@@ -122,7 +111,7 @@ namespace Mega_Man
         public bool SpritesFour { get; set; }
         public bool Foreground { get; set; }
 
-        private SoundSystem soundsystem = new SoundSystem();
+        private readonly SoundSystem soundsystem = new SoundSystem();
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
@@ -135,7 +124,7 @@ namespace Mega_Man
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
 
-		public SamplerState FilterState { get; set; }
+        public SamplerState FilterState { get; set; }
 
         // --- These events, and the order in which they fire, are very important.
 
@@ -206,13 +195,13 @@ namespace Mega_Man
 
         public float ThinkTime { get; private set; }
 
-        private bool initialized = false;
-        private bool running = false;
+        private bool initialized;
+        private bool running;
         public void Begin()
         {
             DeviceEventArgs args = new DeviceEventArgs();
             if (GetDevice != null) GetDevice(this, args);
-            this.GraphicsDevice = args.Device;
+            GraphicsDevice = args.Device;
             initialized = true;
             Start();
         }
@@ -252,8 +241,8 @@ namespace Mega_Man
         public void DelayedCall(Action callback, Action<int> progress, int delay)
         {
             int count = 0;
-            GameTickEventHandler handler = (e) => { count++; if (progress != null) progress(count); };
-            handler += (e) =>
+            GameTickEventHandler handler = e => { count++; if (progress != null) progress(count); };
+            handler += e =>
             {
                 if (delay == count)
                 {
@@ -265,14 +254,6 @@ namespace Mega_Man
         }
 
         /// <summary>
-        /// Fades the screen to black, calls an optional callback function, and then fades back in.
-        /// Only one transition can be in progress at a time. If it is called during a transition,
-        /// it will not do anything.
-        /// </summary>
-        /// <param name="callback">The function to call when the screen is black. Can be null.</param>
-        public void FadeTransition(Action callback) { FadeTransition(callback, null); }
-
-        /// <summary>
         /// Fades the screen to black, calls an optional callback function, and then fades back in,
         /// and calls another callback function when done.
         /// Only one transition can be in progress at a time. If it is called during a transition,
@@ -280,10 +261,10 @@ namespace Mega_Man
         /// </summary>
         /// <param name="callback">The function to call when the screen is black. Can be null.</param>
         /// <param name="finished">The function to call when the transition is finished. Can be null.</param>
-        public void FadeTransition(Action callback, Action finished)
+        public void FadeTransition(Action callback, Action finished = null)
         {
             if (fadeHandle != null) return; // can't do more than one at a time
-            fadeHandle = new GameTickEventHandler((e) => opacityDown(callback));
+            fadeHandle = new GameTickEventHandler(e => opacityDown(callback));
             GameLogicTick += fadeHandle;
             fadeFinished = finished;
         }
@@ -298,9 +279,9 @@ namespace Mega_Man
             {
                 // call the callback, then switch to fading in
                 if (callback != null) callback();
-                this.GameLogicTick -= fadeHandle;
-                fadeHandle = new GameTickEventHandler((e) => opacityUp());
-                this.GameLogicTick += fadeHandle;
+                GameLogicTick -= fadeHandle;
+                fadeHandle = new GameTickEventHandler(e => opacityUp());
+                GameLogicTick += fadeHandle;
             }
         }
 
@@ -310,7 +291,7 @@ namespace Mega_Man
             opacityColor = new Microsoft.Xna.Framework.Color(opacity, opacity, opacity);
             if (opacity >= 1)   // done
             {
-                this.GameLogicTick -= fadeHandle;
+                GameLogicTick -= fadeHandle;
                 fadeHandle = null;
                 if (fadeFinished != null) fadeFinished();
                 fadeFinished = null;
@@ -324,7 +305,7 @@ namespace Mega_Man
                 inputFlags[key] = false;
             }
 
-            Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
+            Game.ScreenSizeChanged += Game_ScreenSizeChanged;
 
             Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
 
@@ -332,20 +313,15 @@ namespace Mega_Man
 
             Foreground = Background = SpritesOne = SpritesTwo = SpritesThree = SpritesFour = true;
 
-			this.FilterState = SamplerState.PointClamp;
-        }
-
-        void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
-        {
-            Resize(e.PixelsAcross, e.PixelsDown);
+            FilterState = SamplerState.PointClamp;
         }
 
         // resizing the form requires us to resize the drawing layers to match.
         // This isn't for when the user resizes the form manually, it's when a game is loaded
         // and tells everyone how big it is in pixels.
-        private void Resize(int across, int down)
+        void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
-            graphics = new GameGraphicsLayers(across, down, this.GraphicsDevice);
+            graphics = new GameGraphicsLayers(GraphicsDevice);
         }
 
         // This is run at the start of every step. It reads key states and checks for any changes.
@@ -362,7 +338,7 @@ namespace Mega_Man
                         if (GameInputReceived != null) GameInputReceived(new GameInputEventArgs(KeyToInput(key), true));
                     }
                 }
-                else if (inputFlags.ContainsKey(key) && inputFlags[key] == true)
+                else if (inputFlags.ContainsKey(key) && inputFlags[key])
                 {
                     inputFlags[key] = false;
                     if (GameInputReceived != null) GameInputReceived(new GameInputEventArgs(KeyToInput(key), false));
@@ -403,10 +379,9 @@ namespace Mega_Man
             if (GameCleanup != null) GameCleanup();
 
             // render phase
-            GameRenderEventArgs r = new GameRenderEventArgs(graphics, this.GraphicsDevice);
-            r.OpacityColor = opacityColor;
+            GameRenderEventArgs r = new GameRenderEventArgs(graphics, GraphicsDevice) {OpacityColor = opacityColor};
 
-            this.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
             
             if (GameRenderBegin != null) GameRenderBegin(r);
 
@@ -435,7 +410,7 @@ namespace Mega_Man
         // Looking at this now, it seems like an unnecessary extra level of abstraction
         // from the keyboard keys. But maybe not. This translates the Keys enum value
         // stored in the GameInputKeys class to a GameInput enum value.
-        private GameInput KeyToInput(Keys key)
+        private static GameInput KeyToInput(Keys key)
         {
             // does not work with switch statement - "A constant value is expected"
             if (key == GameInputKeys.Down) return GameInput.Down;

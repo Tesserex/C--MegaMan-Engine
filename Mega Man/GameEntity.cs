@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using System.Diagnostics;
 using MegaMan;
@@ -11,8 +9,8 @@ namespace Mega_Man
     [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}, {numAlive} Alive")]
     public class GameEntity
     {
-        private Dictionary<Type, Component> components;
-        public string Name { get; set; }
+        private readonly Dictionary<Type, Component> components;
+        public string Name { get; private set; }
         public ScreenHandler Screen { get; set; }
         public GameEntity Parent { get; private set; }
 
@@ -24,30 +22,23 @@ namespace Mega_Man
         public bool Paused { get; set; }
 
         // I know this defeats good component based design but its just so much easier
-        private Direction dir;
         public Direction Direction
         {
             get
             {
                 MovementComponent movement = GetComponent<MovementComponent>();
                 if (movement != null) return movement.Direction;
-                return dir;
+                return Direction.Right;
             }
-            set { dir = value; }
         }
 
-        private Effect OnDeath = (entity) => { };
+        private Effect OnDeath = entity => { };
         public event Action Stopped;
         public event Action Death;
 
-        public GameEntity()
+        private GameEntity()
         {
             components = new Dictionary<Type, Component>();
-        }
-
-        public GameEntity(GameEntity parent) : this()
-        {
-            Parent = parent;
         }
 
         public T GetComponent<T>() where T : Component
@@ -58,8 +49,8 @@ namespace Mega_Man
 
         public void Start()
         {
-            if (entities[this.Name].numAlive >= entities[this.Name].maxAlive) return;
-            entities[this.Name].numAlive++;
+            if (entities[Name].numAlive >= entities[Name].maxAlive) return;
+            entities[Name].numAlive++;
             Screen = Game.CurrentGame.CurrentMap.CurrentScreen;
             foreach (Component c in components.Values) c.Start();
             RegisterEntity(this);
@@ -72,7 +63,7 @@ namespace Mega_Man
         {
             if (!running) return;
 
-            entities[this.Name].numAlive--;
+            entities[Name].numAlive--;
             foreach (Component c in components.Values) c.Stop();
             if (Stopped != null) Stopped();
             if (remove) RemoveEntity(this);
@@ -86,22 +77,22 @@ namespace Mega_Man
             if (Death != null) Death();
         }
 
-        public void AddComponent(Component component)
+        private void AddComponent(Component component)
         {
             if (components.ContainsKey(component.GetType())) return;
 
             component.Parent = this;
-            foreach (Component c in this.components.Values)
+            foreach (Component c in components.Values)
             {
                 c.RegisterDependencies(component);
                 component.RegisterDependencies(c);
             }
-            this.components.Add(component.GetType(), component);
+            components.Add(component.GetType(), component);
         }
 
         public void SendMessage(IGameMessage message)
         {
-            foreach (Component c in this.components.Values)
+            foreach (Component c in components.Values)
             {
                 c.Message(message);
             }
@@ -134,7 +125,7 @@ namespace Mega_Man
             else // create one
             {
                 comp = (Component)Activator.CreateInstance(comptype);
-                this.AddComponent(comp);
+                AddComponent(comp);
             }
             return comp;
         }
@@ -149,12 +140,12 @@ namespace Mega_Man
             return comp.ParseEffect(effectNode);
         }
 
-        private static Dictionary<string, GameEntity> entities = new Dictionary<string,GameEntity>();
-        private static Dictionary<string, MegaMan.TileProperties> entityProperties = new Dictionary<string, MegaMan.TileProperties>();
+        private static readonly Dictionary<string, GameEntity> entities = new Dictionary<string,GameEntity>();
+        private static readonly Dictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
 
         static GameEntity()
         {
-            entityProperties["Default"] = MegaMan.TileProperties.Default;
+            entityProperties["Default"] = TileProperties.Default;
         }
 
         public static void LoadEntities(XElement doc)
@@ -165,7 +156,7 @@ namespace Mega_Man
             {
                 foreach (XElement propNode in propHead.Elements("Properties"))
                 {
-                    MegaMan.TileProperties p = new MegaMan.TileProperties(propNode);
+                    TileProperties p = new TileProperties(propNode);
                     entityProperties[p.Name] = p;
                 }
             }
@@ -176,7 +167,7 @@ namespace Mega_Man
             }
         }
 
-        public static void LoadEntity(XElement xml)
+        private static void LoadEntity(XElement xml)
         {
             GameEntity entity = new GameEntity();
             string name = xml.RequireAttribute("name").Value;
@@ -263,7 +254,9 @@ namespace Mega_Man
 
         public static Effect LoadSpawnEffect(XElement node)
         {
-            string name = node.Attribute("name").Value;
+            if (node == null) throw new ArgumentNullException("node");
+
+            string name = node.RequireAttribute("name").Value;
             string statename = "Start";
             if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
             XElement posNodeX = node.Element("X");
@@ -274,7 +267,7 @@ namespace Mega_Man
                 posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
             }
             if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
-            return (entity) =>
+            return entity =>
             {
                 GameEntity spawn = entity.Spawn(name);
                 if (spawn == null) return;
@@ -284,7 +277,7 @@ namespace Mega_Man
             };
         }
 
-        private static Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
+        private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
 
         public static void SaveEffect(string name, Effect effect)
         {
@@ -294,7 +287,7 @@ namespace Mega_Man
         public static Effect GetEffect(string name)
         {
             if (storedEffects.ContainsKey(name)) return storedEffects[name];
-            return (e) => { };
+            return e => { };
         }
 
         public static int NumAlive(string name)
@@ -323,22 +316,22 @@ namespace Mega_Man
             return entity;
         }
 
-        public static MegaMan.TileProperties GetProperties(string name)
+        public static TileProperties GetProperties(string name)
         {
             if (entityProperties.ContainsKey(name)) return entityProperties[name];
-            return MegaMan.TileProperties.Default;
+            return TileProperties.Default;
         }
 
-        private static List<GameEntity> actives = new List<GameEntity>();
+        private static readonly List<GameEntity> actives = new List<GameEntity>();
 
         public static int ActiveCount { get { return actives.Count; } }
 
-        public static void RegisterEntity(GameEntity entity)
+        private static void RegisterEntity(GameEntity entity)
         {
             actives.Add(entity);
         }
 
-        public static void RemoveEntity(GameEntity entity)
+        private static void RemoveEntity(GameEntity entity)
         {
             actives.Remove(entity);
         }

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Xml;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan;
@@ -23,16 +18,17 @@ namespace Mega_Man
             public Image portrait;
             public Texture2D texture;
             public string stage;
-            public bool alive = false;
+            public bool alive;
             public Point location;
         }
 
-        private MegaMan.StageSelect stageSelectInfo;
-        private Music musicStageSelect;
-        private string changeSound;
-        private Texture2D backgroundTexture;
-        private MegaMan.Sprite bossFrameOn, bossFrameOff;
-        private BossSlot[] bosses;
+        private readonly MegaMan.StageSelect stageSelectInfo;
+        private readonly Music musicStageSelect;
+        private readonly string changeSound;
+        private readonly Texture2D backgroundTexture;
+        private readonly Sprite bossFrameOn;
+        private readonly Sprite bossFrameOff;
+        private readonly BossSlot[] bosses;
         private int selectedIndex;
 
         public event Action<string> MapSelected;
@@ -46,7 +42,7 @@ namespace Mega_Man
 
             bossFrameOn = new Sprite(stageSelectInfo.BossFrame);
             bossFrameOn.SetTexture(Engine.Instance.GraphicsDevice, stageSelectInfo.BossFrame.SheetPath.Absolute);
-            bossFrameOff = new MegaMan.Sprite(bossFrameOn);
+            bossFrameOff = new Sprite(bossFrameOn);
 
             bossFrameOn.Play();
 
@@ -83,7 +79,7 @@ namespace Mega_Man
 
             if (stageSelectInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(stageSelectInfo.ChangeSound);
 
-			StreamReader sr = new StreamReader(stageSelectInfo.Background.Absolute);
+            StreamReader sr = new StreamReader(stageSelectInfo.Background.Absolute);
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (BossInfo boss in stageSelectInfo.Bosses)
@@ -91,7 +87,7 @@ namespace Mega_Man
                 LoadBoss(boss);
             }
 
-            FontSystem.LoadFont("Boss", System.IO.Path.Combine(Game.CurrentGame.BasePath, "images\\font_boss.png"), 8, 0);
+            FontSystem.LoadFont("Boss", Path.Combine(Game.CurrentGame.BasePath, "images\\font_boss.png"), 8, 0);
         }
 
         private void LoadBoss(BossInfo boss)
@@ -107,9 +103,9 @@ namespace Mega_Man
 
             if (boss.PortraitPath != null)
             {
-				StreamReader sr = new StreamReader(boss.PortraitPath.Absolute);
+                StreamReader sr = new StreamReader(boss.PortraitPath.Absolute);
                 bosses[slot].portrait = Image.FromFile(boss.PortraitPath.Absolute);
-				bosses[slot].texture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
+                bosses[slot].texture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
             bosses[slot].stage = boss.Stage;
@@ -120,9 +116,9 @@ namespace Mega_Man
 
         public void StartHandler()
         {
-            Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
-            Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
-            Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameInputReceived += GameInputReceived;
+            Engine.Instance.GameLogicTick += GameTick;
+            Engine.Instance.GameRender += GameRender;
 
             if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.PlayMusicNSF((uint)stageSelectInfo.Music.NsfTrack);
             else if (musicStageSelect != null) musicStageSelect.Play();
@@ -132,11 +128,11 @@ namespace Mega_Man
 
         public void StopHandler()
         {
-            Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
-            Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
-            Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameInputReceived -= GameInputReceived;
+            Engine.Instance.GameLogicTick -= GameTick;
+            Engine.Instance.GameRender -= GameRender;
 
-            if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.StopMusicNSF();
+            if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.StopMusicNsf();
             else if (musicStageSelect != null) musicStageSelect.Stop();
 
             Game.CurrentGame.RemoveGameHandler(this);
@@ -176,7 +172,7 @@ namespace Mega_Man
             if (selectedIndex != old && changeSound != null) Engine.Instance.SoundSystem.PlaySfx(changeSound);
         }
 
-        public void GameTick(GameTickEventArgs e)
+        private void GameTick(GameTickEventArgs e)
         {
             bossFrameOn.Update();
         }

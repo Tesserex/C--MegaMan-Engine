@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
-using System.Drawing;
 using System.Xml.Linq;
 using MegaMan;
 
@@ -35,8 +32,8 @@ namespace Mega_Man
         private IHandleGameEvents currentHandler;
         private StageSelect select;
         private PauseScreen pauseScreen;
-        private List<IHandleGameEvents> gameObjects;
-        private Dictionary<string, FilePath> stages;
+        private readonly List<IHandleGameEvents> gameObjects;
+        private readonly Dictionary<string, FilePath> stages;
 
         public MapHandler CurrentMap { get; private set; }
         public int PixelsAcross { get; private set; }
@@ -51,8 +48,6 @@ namespace Mega_Man
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
         public int PlayerLives { get; set; }
-
-        private Font font;
 
         public static void Load(string path)
         {
@@ -92,7 +87,6 @@ namespace Mega_Man
         {
             gameObjects = new List<IHandleGameEvents>();
             stages = new Dictionary<string, FilePath>();
-            font = new Font(FontFamily.GenericMonospace, 14, FontStyle.Bold);
 
             Gravity = 0.25f;
             GravityFlip = false;
@@ -130,11 +124,11 @@ namespace Mega_Man
 
             if (project.PauseScreen != null) pauseScreen = new PauseScreen(project.PauseScreen);
 
-            if (pauseScreen != null) pauseScreen.Unpaused += new Action(pauseScreen_Unpaused);
+            if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
 
             foreach (string includePath in project.Includes)
             {
-                string includefile = System.IO.Path.Combine(BasePath, includePath);
+                string includefile = Path.Combine(BasePath, includePath);
                 IncludeXmlFile(includefile);
             }
 
@@ -143,7 +137,7 @@ namespace Mega_Man
             StageSelect();
         }
 
-        private void IncludeXmlFile(string path)
+        private static void IncludeXmlFile(string path)
         {
             try
             {
@@ -174,14 +168,14 @@ namespace Mega_Man
 
         private void select_MapSelected(string name)
         {
-            if (!this.stages.ContainsKey(name)) return;
+            if (!stages.ContainsKey(name)) return;
 
             select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
 
             try
             {
-                CurrentMap = new MapHandler(new MegaMan.Map(this.stages[name]));
+                CurrentMap = new MapHandler(new Map(stages[name]));
             }
             catch (XmlException e)
             {
@@ -204,7 +198,7 @@ namespace Mega_Man
 
         void CurrentMap_Paused()
         {
-            Game.CurrentGame.Pause();
+            CurrentGame.Pause();
             if (pauseScreen != null) pauseScreen.Sound();
             Engine.Instance.FadeTransition(PauseScreen);
         }
@@ -238,10 +232,10 @@ namespace Mega_Man
         void pauseScreen_Unpaused()
         {
             if (pauseScreen != null) pauseScreen.Sound();
-            Engine.Instance.FadeTransition(UnPause, Game.CurrentGame.Unpause);
+            Engine.Instance.FadeTransition(UnPause, CurrentGame.Unpause);
         }
 
-        public void UnPause()
+        private void UnPause()
         {
             CurrentMap.Unpause();
             if (pauseScreen != null)

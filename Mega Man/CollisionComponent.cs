@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
-using System.Xml;
 using Microsoft.Xna.Framework.Graphics;
 using MegaMan;
 
@@ -17,9 +15,9 @@ namespace Mega_Man
 
         private class Collision
         {
-            public CollisionBox myBox;
-            public CollisionComponent targetColl;
-            public CollisionBox targetBox;
+            public readonly CollisionBox myBox;
+            public readonly CollisionComponent targetColl;
+            public readonly CollisionBox targetBox;
 
             public Collision(CollisionBox mybox, CollisionBox target, CollisionComponent tgtComp)
             {
@@ -30,8 +28,8 @@ namespace Mega_Man
         }
 
         private List<CollisionBox> hitboxes = new List<CollisionBox>();
-        private List<string> touchedBy = new List<string>();
-        private HashSet<string> enabledBoxes = new HashSet<string>();
+        private readonly List<string> touchedBy = new List<string>();
+        private readonly HashSet<string> enabledBoxes = new HashSet<string>();
 
         public float DamageDealt { get; private set; }
 
@@ -59,10 +57,12 @@ namespace Mega_Man
 
         public override Component Clone()
         {
-            CollisionComponent copy = new CollisionComponent();
-            copy.Enabled = this.Enabled;
-            copy.hitboxes = new List<CollisionBox>();
-            foreach (CollisionBox box in this.hitboxes) copy.hitboxes.Add(box);
+            CollisionComponent copy = new CollisionComponent
+            {
+                Enabled = Enabled,
+                hitboxes = new List<CollisionBox>()
+            };
+            foreach (CollisionBox box in hitboxes) copy.hitboxes.Add(box);
 
             return copy;
         }
@@ -72,15 +72,15 @@ namespace Mega_Man
             Enabled = true;
             Engine.Instance.GameAct += ClearTouch;
             Engine.Instance.GameReact += Update;
-            Engine.Instance.GameRender += new GameRenderEventHandler(Instance_GameRender);
+            Engine.Instance.GameRender += Instance_GameRender;
 
             rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            rectTex.SetData(new Microsoft.Xna.Framework.Color[] { new Microsoft.Xna.Framework.Color(1, 0.6f, 0, 0.7f) });
+            rectTex.SetData(new[] { new Microsoft.Xna.Framework.Color(1, 0.6f, 0, 0.7f) });
         }
 
         private void ClearTouch()
         {
-            this.touchedBy.Clear();
+            touchedBy.Clear();
         }
 
         void Instance_GameRender(GameRenderEventArgs e)
@@ -90,7 +90,7 @@ namespace Mega_Man
             {
                 if (!enabledBoxes.Contains(hitbox.Name)) continue;
 
-                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
+                RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
                 if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
             }
@@ -100,7 +100,7 @@ namespace Mega_Man
         {
             Engine.Instance.GameAct -= ClearTouch;
             Engine.Instance.GameReact -= Update;
-            Engine.Instance.GameRender -= new GameRenderEventHandler(Instance_GameRender);
+            Engine.Instance.GameRender -= Instance_GameRender;
         }
 
         public override void Message(IGameMessage msg)
@@ -134,7 +134,7 @@ namespace Mega_Man
             bool b;
             if (xml.TryBool("Enabled", out b))
             {
-                this.Enabled = b;
+                Enabled = b;
             }
         }
 
@@ -146,13 +146,13 @@ namespace Mega_Man
             BlockTop = BlockRight = BlockLeft = BlockBottom = false;
             blockBottomMin = blockLeftMin = blockRightMin = blockTopMin = float.PositiveInfinity;
             blockBottomMax = blockTopMax = blockLeftMax = blockRightMax = float.NegativeInfinity;
-            if (this.PositionSrc == null) return;
+            if (PositionSrc == null) return;
             if (!Enabled) return;
 
             // first run through, resolve intersections only
             List<MapSquare> hitSquares = new List<MapSquare>();
             List<Collision> blockEntities = new List<Collision>();
-            foreach (CollisionBox hitbox in this.hitboxes)
+            foreach (CollisionBox hitbox in hitboxes)
             {
                 if (!enabledBoxes.Contains(hitbox.Name)) continue;
 
@@ -191,7 +191,7 @@ namespace Mega_Man
                 // now check with entity blocks
                 foreach (GameEntity entity in GameEntity.GetAll())
                 {
-                    if (entity == this.Parent) continue;
+                    if (entity == Parent) continue;
                     CollisionComponent coll = entity.GetComponent<CollisionComponent>();
                     if (coll == null) continue;
 
@@ -213,17 +213,14 @@ namespace Mega_Man
 
                                 if (hitbox.PushAway)
                                 {
-                                    float vx = 0, vy = 0;
-                                    if (MovementSrc != null)
+                                    float vx, vy;
+                                    MovementComponent mov = entity.GetComponent<MovementComponent>();
+                                    vx = MovementSrc.VelocityX;
+                                    vy = MovementSrc.VelocityY;
+                                    if (mov != null)
                                     {
-                                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                                        vx = MovementSrc.VelocityX;
-                                        vy = MovementSrc.VelocityY;
-                                        if (mov != null)
-                                        {
-                                            vx -= mov.VelocityX;
-                                            vy -= mov.VelocityY;
-                                        }
+                                        vx -= mov.VelocityX;
+                                        vy -= mov.VelocityY;
                                     }
 
                                     PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
@@ -240,17 +237,17 @@ namespace Mega_Man
             }
 
             // this stores the types of tile we're touching
-            HashSet<MegaMan.TileProperties> hitTypes = new HashSet<MegaMan.TileProperties>();
+            HashSet<TileProperties> hitTypes = new HashSet<TileProperties>();
 
             // first, as an aside, if i'm still touching a blocking entity, i need to react to that
             foreach (Collision collision in blockEntities)
             {
                 RectangleF boundBox = collision.myBox.BoxAt(PositionSrc.Position);
                 RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
-                if (this.BlockByIntersection(boundBox, rect, false, false))
+                if (BlockByIntersection(boundBox, rect, false, false))
                 {
                     collision.targetColl.Touch(collision.myBox);
-                    this.Touch(collision.targetBox);
+                    Touch(collision.targetBox);
                     // for now, entities can only be normal type
                     hitTypes.Add(collision.targetBox.Properties);
                     // now cause friction on the x, a la moving platforms
@@ -264,12 +261,12 @@ namespace Mega_Man
             // now determine who i'm still touching, the resulting effects
             // notice - there's really no one to speak on behalf of the environment,
             // so we need to inflict the effects upon ourself
-            foreach (CollisionBox hitbox in this.hitboxes)
+            foreach (CollisionBox hitbox in hitboxes)
             {
                 if (!enabledBoxes.Contains(hitbox.Name)) continue;
                 hitbox.SetParent(this);
 
-                System.Drawing.RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
+                RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
 
                 if (hitbox.Environment)
                 {
@@ -279,7 +276,7 @@ namespace Mega_Man
                         bool downonly = (!Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
                         bool uponly = (Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
 
-                        bool hit = (tile.BlockBox != RectangleF.Empty)? this.BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
+                        bool hit = (tile.BlockBox != RectangleF.Empty)? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
 
                         if (hitbox.PushAway && (hit || boundBox.IntersectsWith(tile.BoundBox)))    // the environment touched me!
                         {
@@ -292,7 +289,7 @@ namespace Mega_Man
                 // inflict our effects on the target entity, not the other way around
                 foreach (GameEntity entity in GameEntity.GetAll())
                 {
-                    if (entity == this.Parent) continue;
+                    if (entity == Parent) continue;
                     CollisionComponent coll = entity.GetComponent<CollisionComponent>();
                     if (coll == null) continue;
 
@@ -302,8 +299,8 @@ namespace Mega_Man
                         if (boundBox.IntersectsWith(rect))
                         {
                             coll.Touch(hitbox);
-                            this.Touch(targetBox);
-                            this.CollideWith(entity, hitbox, targetBox);
+                            Touch(targetBox);
+                            CollideWith(entity, hitbox, targetBox);
                         }
                     }
                 }
@@ -317,7 +314,7 @@ namespace Mega_Man
             }
 
             // react to tile effects
-            foreach (MegaMan.TileProperties tileprops in hitTypes)
+            foreach (TileProperties tileprops in hitTypes)
             {
                 ReactToTileEffect(tileprops);
             }
@@ -326,37 +323,31 @@ namespace Mega_Man
         /// <summary>
         /// Get the hitboxes that the calling box can target
         /// </summary>
-        public IEnumerable<CollisionBox> TargetBoxes(IEnumerable<string> hitGroups)
+        private IEnumerable<CollisionBox> TargetBoxes(IEnumerable<string> hitGroups)
         {
-            foreach (CollisionBox box in this.hitboxes)
+            foreach (CollisionBox box in hitboxes)
             {
-                if (!enabledBoxes.Contains(box.Name)) continue;
                 box.SetParent(this);
-
-                foreach (var a in box.Groups.Intersect(hitGroups))
-                {
-                    yield return box;
-                    break;
-                }
             }
+
+            return hitboxes
+                .Where(box => enabledBoxes.Contains(box.Name))
+                .Where(box => box.Groups.Intersect(hitGroups).Any());
         }
 
         /// <summary>
         /// Get the hitboxes that the calling box would be targeted by - use for blocking
         /// </summary>
-        public IEnumerable<CollisionBox> HitByBoxes(IEnumerable<string> targetGroups)
+        private IEnumerable<CollisionBox> HitByBoxes(IEnumerable<string> targetGroups)
         {
-            foreach (CollisionBox box in this.hitboxes)
+            foreach (CollisionBox box in hitboxes)
             {
-                if (!enabledBoxes.Contains(box.Name)) continue;
-
                 box.SetParent(this);
-                foreach (var a in box.Hits.Intersect(targetGroups))
-                {
-                    yield return box;
-                    break;
-                }
             }
+
+            return hitboxes
+                .Where(box => enabledBoxes.Contains(box.Name))
+                .Where(box => box.Hits.Intersect(targetGroups).Any());
         }
 
         public bool TouchedBy(string group)
@@ -366,13 +357,13 @@ namespace Mega_Man
 
         private void Touch(CollisionBox box)
         {
-            foreach (string group in box.Groups)
+            foreach (var group in box.Groups)
             {
-                this.touchedBy.Add(group);
+                touchedBy.Add(group);
             }
         }
 
-        private void ReactToTileEffect(MegaMan.TileProperties properties)
+        private void ReactToTileEffect(TileProperties properties)
         {
             if (MovementSrc != null)
             {
@@ -384,10 +375,10 @@ namespace Mega_Man
                 MovementSrc.DragY(properties.DragY);
             }
             // don't just kill, it needs to be conditional on invincibility
-            if (properties.Lethal && this.Parent.Name == "Player") this.Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+            if (properties.Lethal && Parent.Name == "Player") Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));
         }
 
-        private RectangleF FloatCorrect(RectangleF rect)
+        private static RectangleF FloatCorrect(RectangleF rect)
         {
             int rleft = (int)Math.Round(rect.Left);
             int rtop = (int)Math.Round(rect.Top);
@@ -448,9 +439,9 @@ namespace Mega_Man
             return ret;
         }
 
-        private bool CollideWith(GameEntity entity, CollisionBox myBox, CollisionBox targetBox)
+        private void CollideWith(GameEntity entity, CollisionBox myBox, CollisionBox targetBox)
         {
-            float mult = targetBox.DamageMultiplier(this.Parent.Name);
+            float mult = targetBox.DamageMultiplier(Parent.Name);
 
             float damage = myBox.ContactDamage * mult;
 
@@ -464,37 +455,33 @@ namespace Mega_Man
 
             entity.SendMessage(dmgmsg);
             DamageDealt = Math.Min(damage, prevhealth);
-
-            return false;
         }
 
         public static bool VerticalApproach(RectangleF intersection, RectangleF boundBox, float vx, float vy)
         {
             if ((vx == 0 && intersection.Width > 0) || intersection.Height == 0) return true;
-            else if ((vy == 0 && intersection.Height > 0) || intersection.Width == 0) return false;
-            else if ((intersection.Bottom == boundBox.Bottom && vy < 0) ||
+            if ((vy == 0 && intersection.Height > 0) || intersection.Width == 0) return false;
+            if ((intersection.Bottom == boundBox.Bottom && vy < 0) ||
                 (intersection.Top == boundBox.Top && vy > 0))
                 return false;
-            else if ((intersection.Left == boundBox.Left && vx > 0) ||
+            if ((intersection.Left == boundBox.Left && vx > 0) ||
                 (intersection.Right == boundBox.Right && vx < 0))
                 return true;
-            else
-            {
-                float velocitySlope = Math.Abs(vy) / Math.Abs(vx);
-                float collisionSlope = intersection.Height / intersection.Width;
-                return (velocitySlope >= collisionSlope);
-            }
+            
+            float velocitySlope = Math.Abs(vy) / Math.Abs(vx);
+            float collisionSlope = intersection.Height / intersection.Width;
+            return (velocitySlope >= collisionSlope);
         }
 
         public override void RegisterDependencies(Component component)
         {
-            if (component is PositionComponent) this.PositionSrc = component as PositionComponent;
-            else if (component is MovementComponent) this.MovementSrc = component as MovementComponent;
+            if (component is PositionComponent) PositionSrc = component as PositionComponent;
+            else if (component is MovementComponent) MovementSrc = component as MovementComponent;
         }
 
         public override Effect ParseEffect(XElement node)
         {
-            Effect effect = (entity) => {};
+            Effect effect = entity => {};
             List<CollisionBox> rects = new List<CollisionBox>();
             HashSet<string> enables = new HashSet<string>();
             bool clear = false;
@@ -505,7 +492,7 @@ namespace Mega_Man
                 {
                     case "Enabled":
                         bool b = prop.GetBool();
-                        effect += (entity) =>
+                        effect += entity =>
                         {
                             CollisionComponent col = entity.GetComponent<CollisionComponent>();
                             if (col != null) col.Enabled = b;
@@ -527,7 +514,7 @@ namespace Mega_Man
                 }
             }
 
-            if (rects.Count > 0 || enables.Count > 0 || clear) effect += (entity) =>
+            if (rects.Count > 0 || enables.Count > 0 || clear) effect += entity =>
             {
                 HitBoxMessage msg = new HitBoxMessage(entity, rects, enables, clear);
                 entity.SendMessage(msg);

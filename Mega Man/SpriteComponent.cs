@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan;
-using System.Drawing;
-
 using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Sprite>;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
@@ -13,15 +9,12 @@ namespace Mega_Man
 {
     public class SpriteComponent : Component
     {
-        private Dictionary<string, SpriteGroup> sprites;
-        private Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string, System.Drawing.Image>();
-        private Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
-        private Sprite sprite = null;
-        private string group = "Default";
-        private string name = null;
-
-        public string Name { get { return this.name; } }
-        public string Group { get { return this.group; } }
+        private readonly Dictionary<string, SpriteGroup> sprites;
+        private readonly Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string, System.Drawing.Image>();
+        private readonly Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
+        private Sprite currentSprite;
+        private string currentPalette = "Default";
+        private string currentSpriteName;
 
         private bool verticalFlip;
 
@@ -32,29 +25,36 @@ namespace Mega_Man
             set
             {
                 playing = value;
-                if (sprite != null)
+                if (currentSprite != null)
                 {
-                    if (playing) sprite.Resume();
-                    else sprite.Pause();
+                    if (playing) currentSprite.Resume();
+                    else currentSprite.Pause();
                 }
             }
         }
 
+        public string Name
+        {
+            get { return currentSpriteName; }
+        }
+
+        public string Palette
+        {
+            get { return currentPalette; }
+        }
+
         public bool Visible { get; set; }
 
-        public IPositioned PositionSrc { get; private set; }
-        public IMovement MovementSrc { get; private set; }
+        private IPositioned PositionSrc { get; set; }
 
         public bool HorizontalFlip
         {
-            get { return sprite.HorizontalFlip; }
-            set { sprite.HorizontalFlip = value; }
+            set { currentSprite.HorizontalFlip = value; }
         }
 
         public SpriteComponent()
         {
-            sprites = new Dictionary<string, SpriteGroup>();
-            sprites.Add("Default", new SpriteGroup());
+            sprites = new Dictionary<string, SpriteGroup> {{"Default", new SpriteGroup()}};
 
             Playing = true;
             Visible = true;
@@ -64,14 +64,14 @@ namespace Mega_Man
         {
             SpriteComponent copy = new SpriteComponent();
 
-            foreach (KeyValuePair<string, SpriteGroup> pair in this.sprites)
+            foreach (KeyValuePair<string, SpriteGroup> pair in sprites)
             {
                 foreach (KeyValuePair<string, Sprite> spr in pair.Value)
                 {
                     copy.Add(pair.Key, spr.Key, new Sprite(spr.Value));
                 }
             }
-            copy.verticalFlip = this.verticalFlip;
+            copy.verticalFlip = verticalFlip;
 
             return copy;
         }
@@ -79,13 +79,13 @@ namespace Mega_Man
         public override void  Start()
         {
             Engine.Instance.GameThink += Update;
-            Engine.Instance.GameRender += new GameRenderEventHandler(Instance_GameRender);
+            Engine.Instance.GameRender += Instance_GameRender;
         }
 
         public override void Stop()
         {
             Engine.Instance.GameThink -= Update;
-            Engine.Instance.GameRender -= new GameRenderEventHandler(Instance_GameRender);
+            Engine.Instance.GameRender -= Instance_GameRender;
         }
 
         public override void Message(IGameMessage msg)
@@ -104,8 +104,8 @@ namespace Mega_Man
 
             if (xmlNode.Attribute("tilesheet") != null) // explicitly specified pallete for this sprite
             {
-                MegaMan.Sprite spr = MegaMan.Sprite.FromXml(xmlNode, Game.CurrentGame.BasePath);
-                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.Attribute("tilesheet").Value);
+                Sprite spr = Sprite.FromXml(xmlNode, Game.CurrentGame.BasePath);
+                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
                 spr.SetTexture(Engine.Instance.GraphicsDevice, sheetpath);
                 Add(spritePallete, spriteName, spr);
             }
@@ -113,7 +113,7 @@ namespace Mega_Man
             {
                 foreach (KeyValuePair<string, System.Drawing.Image> pair in tilesheets)
                 {
-                    MegaMan.Sprite sprite = MegaMan.Sprite.FromXml(xmlNode, pair.Value);
+                    Sprite sprite = Sprite.FromXml(xmlNode, pair.Value);
                     sprite.SetTexture(Engine.Instance.GraphicsDevice, sheetpaths[pair.Key]);
                     Add(pair.Key, spriteName, sprite);
                 }
@@ -122,14 +122,14 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement node)
         {
-            Effect action = new Effect((entity) => { });
+            Effect action = entity => { };
             foreach (XElement prop in node.Elements())
             {
                 switch (prop.Name.LocalName)
                 {
                     case "Name":
                         string spritename = prop.Value;
-                        action += (entity) =>
+                        action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.ChangeSprite(spritename);
@@ -138,7 +138,7 @@ namespace Mega_Man
 
                     case "Playing":
                         bool play = prop.GetBool();
-                        action += (entity) =>
+                        action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.Playing = play;
@@ -147,7 +147,7 @@ namespace Mega_Man
 
                     case "Visible":
                         bool vis = prop.GetBool();
-                        action += (entity) =>
+                        action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.Visible = vis;
@@ -156,7 +156,7 @@ namespace Mega_Man
 
                     case "Group":
                         string group = prop.Value;
-                        action += (entity) =>
+                        action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.ChangeGroup(group);
@@ -173,7 +173,7 @@ namespace Mega_Man
             string pallete = "Default";
             if (palAttr != null) pallete = palAttr.Value;
             string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
-            System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(path);
+            System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(path);
             sheet.SetResolution(Const.Resolution, Const.Resolution);
             if (!tilesheets.ContainsKey(pallete))
             {
@@ -182,17 +182,17 @@ namespace Mega_Man
             }
         }
 
-        public void Add(string group, string name, MegaMan.Sprite sprite)
+        private void Add(string palette, string name, Sprite sprite)
         {
-            if (!sprites.ContainsKey(group)) sprites.Add(group, new SpriteGroup());
+            if (!sprites.ContainsKey(palette)) sprites.Add(palette, new SpriteGroup());
 
-            sprites[group].Add(name, sprite);
-            if (sprites.Count == 1) this.group = group;
-            if (this.sprite == null)
+            sprites[palette].Add(name, sprite);
+            if (sprites.Count == 1) currentPalette = palette;
+            if (currentSprite == null)
             {
-                this.name = name;
-                this.sprite = sprite;
-                this.sprite.Play();
+                currentSpriteName = name;
+                currentSprite = sprite;
+                currentSprite.Play();
             }
         }
 
@@ -200,75 +200,74 @@ namespace Mega_Man
         {
             if (!sprites.ContainsKey(group) || sprites[group] == null) return;
 
-            int frame = sprite.CurrentFrame;
-            int time = sprite.FrameTime;
+            int frame = currentSprite.CurrentFrame;
+            int time = currentSprite.FrameTime;
 
-            this.group = group;
+            currentPalette = group;
 
-            ChangeSprite(this.name);
-            sprite.CurrentFrame = frame;
-            sprite.FrameTime = time;
+            ChangeSprite(currentSpriteName);
+            currentSprite.CurrentFrame = frame;
+            currentSprite.FrameTime = time;
         }
 
-        public void ChangeSprite(string key)
+        private void ChangeSprite(string key)
         {
-            if (!sprites[this.group].ContainsKey(key) || sprites[this.group][key] == null) throw new KeyNotFoundException("A sprite with key \""+key+"\" was not found in the collection.");
-            if (sprite != null) sprite.Stop();
+            if (!sprites[currentPalette].ContainsKey(key) || sprites[currentPalette][key] == null) throw new KeyNotFoundException("A sprite with key \""+key+"\" was not found in the collection.");
+            if (currentSprite != null) currentSprite.Stop();
 
-            sprite = this.sprites[this.group][key];
-            this.name = key;
-            if (this.Playing) sprite.Play();
+            currentSprite = sprites[currentPalette][key];
+            currentSpriteName = key;
+            if (Playing) currentSprite.Play();
         }
 
         protected override void Update()
         {
-            sprite.Update();
+            currentSprite.Update();
         }
 
         public override void RegisterDependencies(Component component)
         {
-            if (component is IPositioned) this.PositionSrc = component as IPositioned;
-            else if (component is IMovement) this.MovementSrc = component as IMovement;
+            if (component is IPositioned) PositionSrc = component as IPositioned;
         }
 
         private bool evenframe = true;
         private void Instance_GameRender(GameRenderEventArgs e)
         {
             evenframe = !evenframe;
-            if (sprite.Layer < e.Layers.SpritesBatch.Length && (
-                (sprite.Layer == 0 && Engine.Instance.SpritesOne) ||
-                (sprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
-                (sprite.Layer == 2 && Engine.Instance.SpritesThree) ||
-                (sprite.Layer == 3 && Engine.Instance.SpritesFour)
+            if (currentSprite.Layer < e.Layers.SpritesBatch.Length && (
+                (currentSprite.Layer == 0 && Engine.Instance.SpritesOne) ||
+                (currentSprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
+                (currentSprite.Layer == 2 && Engine.Instance.SpritesThree) ||
+                (currentSprite.Layer == 3 && Engine.Instance.SpritesFour)
                 ))
             {
                 if (evenframe && Engine.Instance.Foreground)
                 {
                     foreach (var meter in HealthMeter.AllMeters)
                     {
-                        var bounds = sprite.BoundBox;
-                        bounds.Offset(-sprite.HotSpot.X, -sprite.HotSpot.Y);
+                        var bounds = currentSprite.BoundBox;
+                        bounds.Offset(-currentSprite.HotSpot.X, -currentSprite.HotSpot.Y);
                         bounds.Offset(PositionSrc.Position);
                         if (meter.Bounds.IntersectsWith(bounds))
                         {
-                            Draw(e.Device, e.Layers.ForegroundBatch, e.OpacityColor);
+                            Draw(e.Layers.ForegroundBatch, e.OpacityColor);
                             return;
                         }
                     }
                 }
-                Draw(e.Device, e.Layers.SpritesBatch[sprite.Layer], e.OpacityColor);
+                Draw(e.Layers.SpritesBatch[currentSprite.Layer], e.OpacityColor);
             }
         }
 
-        private void Draw(GraphicsDevice device, SpriteBatch batch, Microsoft.Xna.Framework.Color color)
+        private void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color)
         {
             if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
             float off_x = Parent.Screen.OffsetX;
             float off_y = Parent.Screen.OffsetY;
-            if (sprite != null && Visible)
+            if (currentSprite != null && Visible)
             {
-                sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : this.verticalFlip;
-                sprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
+                currentSprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
+                currentSprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
             }
         }
     }

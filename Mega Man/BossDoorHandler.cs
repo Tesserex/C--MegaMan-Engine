@@ -1,46 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 using MegaMan;
 
 namespace Mega_Man
 {
     public class BossDoorHandler : JoinHandler
     {
-        private GameEntity door;
+        private readonly GameEntity door;
         private GameEntity otherDoor;
-        private bool open = false;
+        private bool open;
         private int triggerSize;
 
-        public BossDoorHandler(GameEntity door, MegaMan.Join join, ScreenHandler currentScreen) : base(join, currentScreen)
+        public BossDoorHandler(GameEntity door, Join join, ScreenHandler currentScreen) : base(join, currentScreen)
         {
             this.door = door;
 
-            if (this.direction == Direction.Down) this.threshYmin -= currentScreen.Screen.Tileset.TileSize;
-            else if (this.direction == Direction.Left)
+            if (direction == Direction.Down) threshYmin -= currentScreen.Screen.Tileset.TileSize;
+            else if (direction == Direction.Left)
             {
-                this.threshXmin = 0;
-                this.threshXmax += currentScreen.Screen.Tileset.TileSize;
+                threshXmin = 0;
+                threshXmax += currentScreen.Screen.Tileset.TileSize;
             }
-            else if (this.direction == Direction.Right) this.threshXmin -= currentScreen.Screen.Tileset.TileSize;
-            else if (this.direction == Direction.Up)
+            else if (direction == Direction.Right) threshXmin -= currentScreen.Screen.Tileset.TileSize;
+            else if (direction == Direction.Up)
             {
-                this.threshYmin = 0;
-                this.threshYmax += currentScreen.Screen.Tileset.TileSize;
+                threshYmin = 0;
+                threshYmax += currentScreen.Screen.Tileset.TileSize;
             }
 
             PositionComponent pos = door.GetComponent<PositionComponent>();
-            pos.SetPosition(new System.Drawing.PointF(this.threshXmin, this.threshYmin));
+            pos.SetPosition(new PointF(threshXmin, threshYmin));
         }
 
-        public override void Start(ScreenHandler currentScreen)
+        public override void Start(ScreenHandler screen)
         {
             door.Start();
-            door.Screen = currentScreen;
+            door.Screen = screen;
 
-            door.GetComponent<StateComponent>().StateChanged += (s) =>
+            door.GetComponent<StateComponent>().StateChanged += s =>
             {
                 if (s == "Open") open = true;
             };
@@ -53,11 +49,11 @@ namespace Mega_Man
 
         public override bool Trigger(PointF position)
         {
-            if (this.direction == Direction.Right || this.direction == Direction.Down)
+            if (direction == Direction.Right || direction == Direction.Down)
             {
-                if (this.JoinInfo.direction == JoinDirection.BackwardOnly) return false;
+                if (JoinInfo.direction == JoinDirection.BackwardOnly) return false;
             }
-            else if (this.JoinInfo.direction == JoinDirection.ForwardOnly) return false;
+            else if (JoinInfo.direction == JoinDirection.ForwardOnly) return false;
 
             return (door.GetComponent<CollisionComponent>()).TouchedBy("Player");
         }
@@ -65,14 +61,14 @@ namespace Mega_Man
         public override void BeginScroll(ScreenHandler next, PointF playerPos)
         {
             door.SendMessage(new StateMessage(null, "Opening"));
-            if (this.direction == Direction.Down) triggerSize = (int)(this.currentScreen.Screen.PixelHeight - playerPos.Y);
-            else if (this.direction == Direction.Left) triggerSize = (int)playerPos.X;
-            else if (this.direction == Direction.Right) triggerSize = (int)(this.currentScreen.Screen.PixelWidth - playerPos.X);
+            if (direction == Direction.Down) triggerSize = (int)(currentScreen.Screen.PixelHeight - playerPos.Y);
+            else if (direction == Direction.Left) triggerSize = (int)playerPos.X;
+            else if (direction == Direction.Right) triggerSize = (int)(currentScreen.Screen.PixelWidth - playerPos.X);
             else triggerSize = (int)playerPos.Y;
 
             base.BeginScroll(next, playerPos);
 
-            JoinHandler otherSide = next.GetJoinHandler(this.JoinInfo);
+            JoinHandler otherSide = next.GetJoinHandler(JoinInfo);
             if (otherSide != null && otherSide.JoinInfo.bossDoor) // damn well better be true!
             {
                 otherDoor = ((BossDoorHandler)otherSide).door;
@@ -88,11 +84,11 @@ namespace Mega_Man
             if (JoinInfo.type == MegaMan.JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
                 JoinInfo.type == MegaMan.JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
             {
-                if (JoinInfo.type == MegaMan.JoinType.Vertical) scrollDist = Game.CurrentGame.PixelsAcross;
-                else scrollDist = Game.CurrentGame.PixelsDown;
+                scrollDist = JoinInfo.type == MegaMan.JoinType.Vertical ?
+                    Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
 
                 otherDoor.SendMessage(new StateMessage(null, "Closing"));
-                (otherDoor.GetComponent<StateComponent>()).StateChanged += (s) =>
+                (otherDoor.GetComponent<StateComponent>()).StateChanged += s =>
                 {
                     if (s == "Start")
                     {
@@ -101,7 +97,6 @@ namespace Mega_Man
                     }
                 };
                 open = false;
-                return;
             }
             else
             {

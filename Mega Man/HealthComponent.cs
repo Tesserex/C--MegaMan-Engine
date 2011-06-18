@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using MegaMan;
 
@@ -18,7 +15,7 @@ namespace Mega_Man
         public float Health
         {
             get { return health; }
-            set
+            private set
             {
                 health = value;
                 if (health > maxHealth) health = maxHealth;
@@ -38,14 +35,16 @@ namespace Mega_Man
 
         public override Component Clone()
         {
-            HealthComponent copy = new HealthComponent();
-            copy.maxHealth = this.maxHealth;
-            copy.health = this.health;
-            copy.flashtime = this.flashtime;
+            HealthComponent copy = new HealthComponent
+            {
+                maxHealth = this.maxHealth,
+                health = this.health,
+                flashtime = this.flashtime,
+                meter = this.meter
+            };
 
             // if it has a meter, it's intended to only have one instance on the screen
             // so a shallow copy should suffice
-            copy.meter = this.meter;
             if (copy.meter != null) copy.meter.Reset();
 
             return copy;
@@ -54,7 +53,7 @@ namespace Mega_Man
         public override void Start()
         {
             Engine.Instance.GameThink += Update;
-            Engine.Instance.GameCleanup += new Action(Instance_GameCleanup);
+            Engine.Instance.GameCleanup += Instance_GameCleanup;
             if (meter != null)
             {
                 meter.StartHandler();
@@ -69,7 +68,7 @@ namespace Mega_Man
         public override void Stop()
         {
             Engine.Instance.GameThink -= Update;
-            Engine.Instance.GameCleanup -= new Action(Instance_GameCleanup);
+            Engine.Instance.GameCleanup -= Instance_GameCleanup;
             if (meter != null)
             {
                 meter.Value = 0;
@@ -80,7 +79,7 @@ namespace Mega_Man
         {
             if (msg is DamageMessage && flashing == 0)
             {
-                if (Engine.Instance.Invincible && this.Parent == Game.CurrentGame.CurrentMap.Player) return;
+                if (Engine.Instance.Invincible && Parent == Game.CurrentGame.CurrentMap.Player) return;
 
                 DamageMessage damage = (DamageMessage)msg;
 
@@ -126,9 +125,9 @@ namespace Mega_Man
             XElement meterNode = xml.Element("Meter");
             if (meterNode != null)
             {
-                this.meter = HealthMeter.Create(meterNode, true);
-                this.meter.MaxValue = this.maxHealth;
-                this.meter.IsPlayer = (this.Parent.Name == "Player");
+                meter = HealthMeter.Create(meterNode, true);
+                meter.MaxValue = maxHealth;
+                meter.IsPlayer = (Parent.Name == "Player");
             }
 
             XElement flashNode = xml.Element("Flash");
@@ -143,12 +142,12 @@ namespace Mega_Man
             float changeval;
             if (effectNode.TryFloat("change", out changeval))
             {
-                return (entity) =>
+                return entity =>
                 {
                     entity.GetComponent<HealthComponent>().Health += changeval;
                 };
             }
-            return (entity) => { };
+            return entity => { };
         }
 
         // this exists for the sake of dynamic expressions,

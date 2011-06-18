@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Runtime.InteropServices;
@@ -10,47 +7,51 @@ namespace Mega_Man
 {
     public class EngineGraphicsControl : WinFormsGraphicsDevice.GraphicsDeviceControl
     {
-        Random rand;
         RenderTarget2D backing;
         SpriteBatch sprite;
         IntPtr ntsc;
         Texture2D ntscTexture;
-        ushort[] pixels = new ushort[256 * 224];
-        byte[] ntscOutput = new byte[602 * 448 * 2];
-        ushort[] filtered = new ushort[602 * 448];
+        readonly ushort[] pixels = new ushort[256 * 224];
+        readonly byte[] ntscOutput = new byte[602 * 448 * 2];
+        readonly ushort[] filtered = new ushort[602 * 448];
 
         public bool NTSC { get; set; }
 
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr snes_ntsc_alloc();
+        private static extern IntPtr snes_ntsc_alloc();
 
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void snes_ntsc_init(IntPtr ntsc, snes_ntsc_setup_t setup);
+        private static extern void snes_ntsc_init(IntPtr ntsc, snes_ntsc_setup_t setup);
 
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void snes_ntsc_free(IntPtr ntsc);
+        private static extern void snes_ntsc_free(IntPtr ntsc);
 
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void snes_ntsc_blit(IntPtr ntsc, ushort[] input,
+        private static extern void snes_ntsc_blit(IntPtr ntsc, ushort[] input,
             int in_row_width, int burst_phase, int in_width, int in_height,
             [In, Out] byte[] rgb_out, int out_pitch);
 
         protected override void Initialize()
         {
-            Engine.Instance.GetDevice += new EventHandler<Engine.DeviceEventArgs>(Instance_GetDevice);
-            Engine.Instance.GameRenderEnd += new GameRenderEventHandler(Instance_GameRenderEnd);
-            Engine.Instance.GameRenderBegin += new GameRenderEventHandler(Instance_GameRenderBegin);
-            rand = new Random();
-            this.Margin = new System.Windows.Forms.Padding(0);
-            this.Padding = new System.Windows.Forms.Padding(0);
+            Engine.Instance.GetDevice += Instance_GetDevice;
+            Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
+            Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
+            Margin = new System.Windows.Forms.Padding(0);
+            Padding = new System.Windows.Forms.Padding(0);
 
             sprite = new SpriteBatch(GraphicsDevice);
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
+            backing = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
 
             ntsc = snes_ntsc_alloc();
             ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
 
             ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (ntsc != IntPtr.Zero) snes_ntsc_free(ntsc);
+            base.Dispose(disposing);
         }
 
         public void ntscInit(snes_ntsc_setup_t setup)
@@ -61,7 +62,7 @@ namespace Mega_Man
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            backing = new RenderTarget2D(GraphicsDevice, this.Width, this.Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+            backing = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -78,14 +79,14 @@ namespace Mega_Man
         void Instance_GameRenderBegin(GameRenderEventArgs e)
         {
             BeginDraw();
-            GraphicsDevice.SetRenderTarget(this.backing);
+            GraphicsDevice.SetRenderTarget(backing);
             GraphicsDevice.Clear(Color.Black);
         }
 
         void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
             GraphicsDevice.SetRenderTarget(null);
-			sprite.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
+            sprite.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
             GraphicsDevice.Clear(Color.Black);
 
             if (NTSC)
@@ -122,11 +123,11 @@ namespace Mega_Man
                 
                 ntscTexture.SetData(filtered);
                 
-                sprite.Draw(ntscTexture, new Rectangle(0, 0, this.Width, this.Height), Color.White);
+                sprite.Draw(ntscTexture, new Rectangle(0, 0, Width, Height), Color.White);
             }
             else
             {
-                sprite.Draw(backing, new Rectangle(0, 0, this.Width, this.Height), Color.White);
+                sprite.Draw(backing, new Rectangle(0, 0, Width, Height), Color.White);
             }
             sprite.End();
             EndDraw();
@@ -134,7 +135,7 @@ namespace Mega_Man
 
         void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)
         {
-            e.Device = this.GraphicsDevice;
+            e.Device = GraphicsDevice;
         }
 
         protected override void Draw()
@@ -146,9 +147,9 @@ namespace Mega_Man
     [StructLayout(LayoutKind.Sequential)]
     public class snes_ntsc_setup_t
     {
-        public static snes_ntsc_setup_t snes_ntsc_composite = new snes_ntsc_setup_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
-        public static snes_ntsc_setup_t snes_ntsc_svideo = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .2, -1, -1, 0, true);
-        public static snes_ntsc_setup_t snes_ntsc_rgb = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .7, -1, -1, -1, true);
+        public static readonly snes_ntsc_setup_t snes_ntsc_composite = new snes_ntsc_setup_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
+        public static readonly snes_ntsc_setup_t snes_ntsc_svideo = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .2, -1, -1, 0, true);
+        public static readonly snes_ntsc_setup_t snes_ntsc_rgb = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .7, -1, -1, -1, true);
 
         /* Basic parameters */
         public double hue;        /* -1 = -180 degrees     +1 = +180 degrees */

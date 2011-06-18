@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FMOD;
-using System.Xml.Linq;
 using MegaManR.Audio;
 
 namespace Mega_Man
@@ -18,13 +14,14 @@ namespace Mega_Man
 
     public class WavEffect : ISoundEffect
     {
-        private CHANNEL_CALLBACK callback;
-        private Sound sound;
-        private Channel channel = null;
-        private FMOD.System system;
+        private readonly CHANNEL_CALLBACK callback;
+        private readonly Sound sound;
+        private Channel channel;
+        private readonly FMOD.System system;
         private int playCount;
 
-        private float baseVolume, volume;
+        private readonly float baseVolume;
+        private float volume;
 
         public WavEffect(FMOD.System system, string path, bool loop, float baseVol)
         {
@@ -102,19 +99,19 @@ namespace Mega_Man
 
     public class NsfEffect : ISoundEffect
     {
-        private int track;
-        private SoundEffect sfx;
-        private byte priority;
-        private bool loop;
+        private readonly int track;
+        private readonly SoundEffect sfx;
+        private readonly byte priority;
+        private readonly bool loop;
         private bool playing;
 
         public NsfEffect(SoundEffect fx, int track, byte priority, bool loop)
         {
             this.track = track - 1;
-            this.sfx = fx;
+            sfx = fx;
             this.priority = priority;
             this.loop = loop;
-            this.playing = false;
+            playing = false;
         }
 
         public float Volume
@@ -131,7 +128,7 @@ namespace Mega_Man
 
         public void Play()
         {
-            if (this.priority > SoundSystem.CurrentSfxPriority) return;
+            if (priority > SoundSystem.CurrentSfxPriority) return;
 
             if (loop && !playing) AudioManager.Instance.SFXPlaybackStopped += PlayOnce;
             playing = true;
@@ -140,21 +137,21 @@ namespace Mega_Man
 
         private void PlayOnce()
         {
-            if (this.priority > SoundSystem.CurrentSfxPriority)
+            if (priority > SoundSystem.CurrentSfxPriority)
             {
                 Stop();
                 return;
             }
 
-            SoundSystem.CurrentSfxPriority = this.priority;
-            this.sfx.CurrentTrack = (uint)this.track;
-            this.sfx.Priority = this.priority;
-            AudioManager.Instance.PlaySoundEffect(this.sfx);
+            SoundSystem.CurrentSfxPriority = priority;
+            sfx.CurrentTrack = (uint)track;
+            sfx.Priority = priority;
+            AudioManager.Instance.PlaySoundEffect(sfx);
         }
 
         public void Stop()
         {
-            if (this.sfx.CurrentTrack == this.track) AudioManager.Instance.StopSFXPlayback();
+            if (sfx.CurrentTrack == track) AudioManager.Instance.StopSFXPlayback();
             if (loop) AudioManager.Instance.SFXPlaybackStopped -= PlayOnce;
             playing = false;
         }

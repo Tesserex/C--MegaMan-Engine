@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using MegaMan;
 
 namespace Mega_Man
 {
@@ -22,23 +16,23 @@ namespace Mega_Man
             public int off;
         }
 
-        private int length;
-        private List<BlockInfo> blocks;
-        private int leftBoundary, rightBoundary;
+        private readonly int length;
+        private readonly List<BlockInfo> blocks;
+        private readonly int leftBoundary;
+        private readonly int rightBoundary;
         private bool running;
         private int frame;
         private bool stopped;
 
         public BlocksPattern(MegaMan.BlockPatternInfo info)
         {
-            this.length = info.Length;
-            this.leftBoundary = info.LeftBoundary;
-            this.rightBoundary = info.RightBoundary;
+            length = info.Length;
+            leftBoundary = info.LeftBoundary;
+            rightBoundary = info.RightBoundary;
             blocks = new List<BlockInfo>();
             foreach (MegaMan.BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
             {
-                BlockInfo myInfo = new BlockInfo();
-                myInfo.entity = GameEntity.Get(info.Entity);
+                BlockInfo myInfo = new BlockInfo {entity = GameEntity.Get(info.Entity)};
                 // should always persist off screen
                 PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
                 pos.PersistOffScreen = true;
@@ -107,12 +101,7 @@ namespace Mega_Man
                 PositionComponent pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);
-                if (info.on > 0) // not turned on yet
-                {
-                    info.entity.SendMessage(new StateMessage(null, "Hide"));
-                }
-                else
-                    info.entity.SendMessage(new StateMessage(null, "Show"));
+                info.entity.SendMessage(new StateMessage(null, info.on > 0 ? "Hide" : "Show"));
             }
         }
     }
