@@ -48,8 +48,8 @@ namespace Mega_Man
             if (pauseInfo.PauseSound != null) pauseSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.PauseSound);
 
             background = Image.FromFile(pauseInfo.Background.Absolute);
-			StreamReader sr = new StreamReader(pauseInfo.Background.Absolute);
-			backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
+            StreamReader sr = new StreamReader(pauseInfo.Background.Absolute);
+            backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (var weaponInfo in pauseInfo.Weapons)
                 LoadWeapon(weaponInfo);
@@ -68,7 +68,7 @@ namespace Mega_Man
 
         public void Sound()
         {
-            Engine.Instance.SoundSystem.PlaySfx(pauseSound);
+            if (pauseSound != null) Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
         private void LoadWeapon(MegaMan.WeaponInfo weapon)
@@ -83,8 +83,8 @@ namespace Mega_Man
             info.iconOff = Image.FromFile(imagePathOff);
             info.iconOn = Image.FromFile(imagePathOn);
 
-			StreamReader srOff = new StreamReader(imagePathOff);
-			StreamReader srOn = new StreamReader(imagePathOn);
+            StreamReader srOff = new StreamReader(imagePathOff);
+            StreamReader srOn = new StreamReader(imagePathOn);
             info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
             info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
 
@@ -238,7 +238,7 @@ namespace Mega_Man
 
             if (next != selectedName)
             {
-                Engine.Instance.SoundSystem.PlaySfx(changeSound);
+                if (changeSound != null) Engine.Instance.SoundSystem.PlaySfx(changeSound);
                 selectedName = next;
                 currentPos = nextPos;
             }
