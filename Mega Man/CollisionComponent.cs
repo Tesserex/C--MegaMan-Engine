@@ -108,8 +108,6 @@ namespace Mega_Man
             HitBoxMessage boxes = msg as HitBoxMessage;
             if (boxes != null)
             {
-                if (boxes.Clear) hitboxes.Clear();
-
                 foreach (CollisionBox box in boxes.AddBoxes)
                 {
                     box.SetParent(this);
