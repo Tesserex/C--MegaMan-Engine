@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 
@@ -13,7 +10,6 @@ namespace Mega_Man
     {
         private class PauseWeapon
         {
-            public Image iconOff, iconOn;
             public Texture2D textureOff, textureOn;
             public string name;
             public string entity;
@@ -21,22 +17,18 @@ namespace Mega_Man
             public HealthMeter meter;
         }
 
-        private string pauseSound;
-        private string changeSound;
-        private Image background;
-        private Texture2D backgroundTexture;
-        private List<PauseWeapon> weapons;
+        private readonly string pauseSound;
+        private readonly string changeSound;
+        private readonly Texture2D backgroundTexture;
+        private readonly List<PauseWeapon> weapons;
         private string selectedName;
 
         private Point currentPos;
 
         private WeaponComponent playerWeapons;
 
-        private Font font;
-        private Brush brush;
-
-        private Point livesPos;
-        private bool showLives;
+        private readonly Point livesPos;
+        private readonly bool showLives;
 
         public event Action Unpaused;
 
@@ -47,17 +39,14 @@ namespace Mega_Man
             if (pauseInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.ChangeSound);
             if (pauseInfo.PauseSound != null) pauseSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.PauseSound);
 
-            background = Image.FromFile(pauseInfo.Background.Absolute);
+            Image.FromFile(pauseInfo.Background.Absolute);
             StreamReader sr = new StreamReader(pauseInfo.Background.Absolute);
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (var weaponInfo in pauseInfo.Weapons)
                 LoadWeapon(weaponInfo);
 
-            this.font = new Font(FontFamily.GenericMonospace, 12);
-            this.brush = new SolidBrush(System.Drawing.Color.FromArgb(240, 236, 220));
-
-            FontSystem.LoadFont("Big", System.IO.Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
+            FontSystem.LoadFont("Big", Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
 
             if (pauseInfo.LivesPosition != Point.Empty)
             {
@@ -73,15 +62,13 @@ namespace Mega_Man
 
         private void LoadWeapon(MegaMan.WeaponInfo weapon)
         {
-            PauseWeapon info = new PauseWeapon();
-            info.name = weapon.Name;
-            info.entity = weapon.Entity;
+            PauseWeapon info = new PauseWeapon {name = weapon.Name, entity = weapon.Entity};
 
             string imagePathOff = weapon.IconOff.Absolute;
             string imagePathOn = weapon.IconOn.Absolute;
 
-            info.iconOff = Image.FromFile(imagePathOff);
-            info.iconOn = Image.FromFile(imagePathOn);
+            Image.FromFile(imagePathOff);
+            Image.FromFile(imagePathOn);
 
             StreamReader srOff = new StreamReader(imagePathOff);
             StreamReader srOn = new StreamReader(imagePathOn);
@@ -102,8 +89,8 @@ namespace Mega_Man
 
         public void StartHandler()
         {
-            Engine.Instance.GameInputReceived += new GameInputEventHandler(GameInputReceived);
-            Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameInputReceived += GameInputReceived;
+            Engine.Instance.GameRender += GameRender;
             Game.CurrentGame.AddGameHandler(this);
 
             playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
@@ -135,8 +122,8 @@ namespace Mega_Man
 
         public void StopHandler()
         {
-            Engine.Instance.GameInputReceived -= new GameInputEventHandler(GameInputReceived);
-            Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameInputReceived -= GameInputReceived;
+            Engine.Instance.GameRender -= GameRender;
             Game.CurrentGame.RemoveGameHandler(this);
         }
 
@@ -252,14 +239,9 @@ namespace Mega_Man
 
             foreach (PauseWeapon info in weapons)
             {
-                if (info.entity == selectedName)
-                {
-                    e.Layers.ForegroundBatch.Draw(info.textureOn, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
-                }
-                else
-                {
-                    e.Layers.ForegroundBatch.Draw(info.textureOff, new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y), e.OpacityColor);
-                }
+                e.Layers.ForegroundBatch.Draw(info.entity == selectedName ? info.textureOn : info.textureOff,
+                                              new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y),
+                                              e.OpacityColor);
 
                 FontSystem.Draw(e.Layers.ForegroundBatch, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
 

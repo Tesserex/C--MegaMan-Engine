@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using MegaMan;
 
 namespace Mega_Man
 {
@@ -70,9 +69,7 @@ namespace Mega_Man
 
         public override Component Clone()
         {
-            WeaponComponent copy = new WeaponComponent();
-            copy.weapons = this.weapons;
-            copy.current = 0;
+            WeaponComponent copy = new WeaponComponent {weapons = weapons, current = 0};
             return copy;
         }
 
@@ -129,7 +126,7 @@ namespace Mega_Man
 
         private void ApplyCurrent()
         {
-            SpriteComponent sprites = this.Parent.GetComponent<SpriteComponent>();
+            SpriteComponent sprites = Parent.GetComponent<SpriteComponent>();
             if (sprites != null) sprites.ChangeGroup(weapons[current].SpriteGroup);
 
             if (weapons[current].Meter != null)
@@ -164,19 +161,21 @@ namespace Mega_Man
 
         public void AddWeapon(string name, int ammo, int usage, HealthMeter meter, string spritegroup)
         {
-            foreach (WeaponInfo info in weapons)
+            if (weapons.Any(info => info.Name == name))
             {
-                if (info.Name == name) return;
+                return;
             }
-            WeaponInfo weapon = new WeaponInfo();
-            weapon.Name = name;
-            weapon.Ammo = ammo;
-            weapon.Max = ammo;
-            weapon.Usage = usage;
-            weapon.Meter = meter;
-            weapon.SpriteGroup = spritegroup;
+            WeaponInfo weapon = new WeaponInfo
+            {
+                Name = name,
+                Ammo = ammo,
+                Max = ammo,
+                Usage = usage,
+                Meter = meter,
+                SpriteGroup = spritegroup,
+                Index = weapons.Count
+            };
 
-            weapon.Index = weapons.Count;
             weapons.Add(weapon);
         }
 
@@ -184,15 +183,13 @@ namespace Mega_Man
         {
             foreach (XElement weapon in node.Elements("Weapon"))
             {
-                string name = weapon.Attribute("name").Value;
+                string name = weapon.RequireAttribute("name").Value;
 
-                XAttribute ammoattr = weapon.Attribute("ammo");
-                int ammo = -1;
-                if (ammoattr != null) ammo = int.Parse(ammoattr.Value);
+                int ammo;
+                if (!weapon.TryInteger("ammo", out ammo)) ammo = -1;
 
-                XAttribute usageattr = weapon.Attribute("usage");
-                int usage = 1;
-                if (usageattr != null) usage = int.Parse(usageattr.Value);
+                int usage;
+                if (!weapon.TryInteger("usage", out usage)) usage = 1;
 
                 string spritegroup = "Default";
                 XAttribute sprite = weapon.Attribute("pallete");
@@ -214,21 +211,21 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement node)
         {
-            Effect effect = (e) => { };
+            Effect effect = e => { };
             if (node.Value == "Shoot")
             {
-                effect = (entity) =>
+                effect = entity =>
                 {
-                    WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
-                    if (weapons != null) weapons.Shoot();
+                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                    if (weaponComponent != null) weaponComponent.Shoot();
                 };
             }
             else if (node.Value == "RotateForward")
             {
-                effect = (entity) =>
+                effect = entity =>
                 {
-                    WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
-                    if (weapons != null) weapons.RotateForward();
+                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                    if (weaponComponent != null) weaponComponent.RotateForward();
                 };
             }
             else
@@ -236,11 +233,11 @@ namespace Mega_Man
                 XElement ammoNode = node.Element("Ammo");
                 if (ammoNode != null)
                 {
-                    int val = int.Parse(ammoNode.Attribute("val").Value);
-                    effect = (entity) =>
+                    int val = int.Parse(ammoNode.RequireAttribute("val").Value);
+                    effect = entity =>
                     {
-                        WeaponComponent weapons = entity.GetComponent<WeaponComponent>();
-                        if (weapons != null) weapons.AddAmmo(val);
+                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        if (weaponComponent != null) weaponComponent.AddAmmo(val);
                     };
                 }
             }

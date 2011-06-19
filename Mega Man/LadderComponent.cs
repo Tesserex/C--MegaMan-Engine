@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Linq;
 
@@ -10,12 +7,11 @@ namespace Mega_Man
     public class LadderComponent : Component
     {
         private PositionComponent position;
-        private MovementComponent movement;
 
         private List<HitBox> hitboxes = new List<HitBox>();
 
-        private bool inReach = false;
-        private bool inReachCached = false;
+        private bool inReach;
+        private bool inReachCached;
         private MapSquare inReachTile, aboveTile;
         private RectangleF reachRect;
 
@@ -28,8 +24,8 @@ namespace Mega_Man
             }
         }
 
-        private bool atTop = false;
-        private bool atTopCached = false;
+        private bool atTop;
+        private bool atTopCached;
 
         public bool AtTop
         {
@@ -40,8 +36,8 @@ namespace Mega_Man
             }
         }
 
-        private bool aboveLadder = false;
-        private bool aboveLadderCached = false;
+        private bool aboveLadder;
+        private bool aboveLadderCached;
 
         public bool AboveLadder
         {
@@ -54,8 +50,7 @@ namespace Mega_Man
 
         public override Component Clone()
         {
-            LadderComponent copy = new LadderComponent();
-            copy.hitboxes = this.hitboxes;
+            LadderComponent copy = new LadderComponent {hitboxes = this.hitboxes};
             return copy;
         }
 
@@ -85,8 +80,7 @@ namespace Mega_Man
 
         public override void RegisterDependencies(Component component)
         {
-            if (component is PositionComponent) this.position = component as PositionComponent;
-            else if (component is MovementComponent) this.movement = component as MovementComponent;
+            if (component is PositionComponent) position = component as PositionComponent;
         }
 
         public override void LoadXml(XElement xml)
@@ -97,7 +91,7 @@ namespace Mega_Man
             }
         }
 
-        public void Grab()
+        private void Grab()
         {
             if (InReach)
             {
@@ -105,7 +99,7 @@ namespace Mega_Man
             }
         }
 
-        public void StandOn()
+        private void StandOn()
         {
             if (position != null && aboveTile != null)
             {
@@ -113,7 +107,7 @@ namespace Mega_Man
             }
         }
 
-        public void ClimbDown()
+        private void ClimbDown()
         {
             if (position != null && aboveTile != null)
             {
@@ -121,7 +115,7 @@ namespace Mega_Man
             }
         }
 
-        public void LetGo()
+        private void LetGo()
         {
             inReach = false;
         }
@@ -131,7 +125,7 @@ namespace Mega_Man
             inReach = false;
             if (position == null) return;
 
-            foreach (HitBox hitbox in this.hitboxes)
+            foreach (HitBox hitbox in hitboxes)
             {
                 foreach (MapSquare tile in Game.CurrentGame.CurrentMap.CurrentScreen.Tiles)
                 {
@@ -205,24 +199,24 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement node)
         {
-            Effect effect = (e) => { };
+            Effect effect = e => { };
 
-            if (node.Value == "Grab") effect = (entity) =>
+            if (node.Value == "Grab") effect = entity =>
             {
                 LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.Grab();
             };
-            else if (node.Value == "LetGo") effect = (entity) =>
+            else if (node.Value == "LetGo") effect = entity =>
             {
                 LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.LetGo();
             };
-            else if (node.Value == "StandOn") effect = (entity) =>
+            else if (node.Value == "StandOn") effect = entity =>
             {
                 LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.StandOn();
             };
-            else if (node.Value == "ClimbDown") effect = (entity) =>
+            else if (node.Value == "ClimbDown") effect = entity =>
             {
                 LadderComponent ladder = entity.GetComponent<LadderComponent>();
                 if (ladder != null) ladder.ClimbDown();

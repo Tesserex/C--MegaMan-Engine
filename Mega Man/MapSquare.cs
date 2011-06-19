@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Mega_Man
 {
     public class MapSquare
     {
-        public MegaMan.Tile Tile { get; protected set; }
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
-        public float ScreenX { get; protected set; }
-        public float ScreenY { get; protected set; }
+        public MegaMan.Tile Tile { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public float ScreenX { get; private set; }
+        public float ScreenY { get; private set; }
 
-        protected RectangleF basisBox;
-        protected RectangleF boundBox;
-        protected RectangleF flipBox;
+        private readonly RectangleF basisBox;
+        private readonly RectangleF boundBox;
+        private readonly RectangleF flipBox;
 
         public RectangleF BoundBox { get { return basisBox; } }
         public RectangleF BlockBox
@@ -43,13 +39,13 @@ namespace Mega_Man
             basisBox.Offset(ScreenX, ScreenY);
             basisBox.Offset(-Tile.Sprite.HotSpot.X, -Tile.Sprite.HotSpot.Y);
 
-            if (this.Tile.Properties.Blocking)
+            if (Tile.Properties.Blocking)
             {
                 boundBox = flipBox = basisBox;
             }
-            else if (this.Tile.Properties.Climbable)
+            else if (Tile.Properties.Climbable)
             {
-                MegaMan.Tile below = screen.TileAt(this.X, this.Y + 1);
+                MegaMan.Tile below = screen.TileAt(X, Y + 1);
                 if (below != null && !below.Properties.Climbable)
                 {
                     flipBox = basisBox;
@@ -58,7 +54,7 @@ namespace Mega_Man
                 }
                 else flipBox = RectangleF.Empty;
 
-                MegaMan.Tile above = screen.TileAt(this.X, this.Y - 1);
+                MegaMan.Tile above = screen.TileAt(X, Y - 1);
                 if (above != null && !above.Properties.Climbable)
                 {
                     boundBox = basisBox;

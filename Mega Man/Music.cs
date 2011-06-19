@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FMOD;
 
 namespace Mega_Man
 {
     public class Music : IDisposable
     {
-        private CHANNEL_CALLBACK callback;
-        private Sound intro = null, loop = null;
-        private Channel channel = null;
-        private FMOD.System system;
-        private bool playingintro = false;
+        private readonly CHANNEL_CALLBACK callback;
+        private readonly Sound intro;
+        private readonly Sound loop;
+        private Channel channel;
+        private readonly FMOD.System system;
+        private bool playingintro;
 
-        private float baseVolume, volume;
+        private readonly float baseVolume;
+        private float volume;
 
         public bool Playing { get; private set; }
 
         public Music(FMOD.System system, string intropath, string looppath, float baseVol)
         {
-            RESULT result;
             this.system = system;
             callback = new CHANNEL_CALLBACK(SyncCallback);
 
             baseVolume = baseVol;
             volume = 1;
 
-            if (looppath != null) result = system.createSound(looppath, MODE.LOOP_NORMAL, ref loop);
+            if (looppath != null) system.createSound(looppath, MODE.LOOP_NORMAL, ref loop);
             
             if (intropath != null)
             {
-                result = system.createSound(intropath, MODE.DEFAULT, ref intro);
+                system.createSound(intropath, MODE.DEFAULT, ref intro);
             }
 
             Playing = false;
@@ -89,11 +87,11 @@ namespace Mega_Man
             if (channel != null)
             {
                 float fadeamt = 1.0f / frames;
-                Engine.Instance.DelayedCall(Stop, (i) => { Volume -= fadeamt; }, frames);
+                Engine.Instance.DelayedCall(Stop, i => { Volume -= fadeamt; }, frames);
             }
         }
 
-        private FMOD.RESULT SyncCallback(IntPtr c, CHANNEL_CALLBACKTYPE type, IntPtr a, IntPtr b)
+        private RESULT SyncCallback(IntPtr c, CHANNEL_CALLBACKTYPE type, IntPtr a, IntPtr b)
         {
             if (Playing && playingintro && type == CHANNEL_CALLBACKTYPE.END)
             {

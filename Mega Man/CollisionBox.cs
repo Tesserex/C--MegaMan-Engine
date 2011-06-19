@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 using System.Drawing;
 using MegaMan;
@@ -11,12 +8,12 @@ namespace Mega_Man
 {
     public class CollisionBox : HitBox
     {
-        private CollisionComponent parent;
+        private CollisionComponent parentComponent;
 
         public string Name { get; private set; }
         public List<string> Hits { get; private set; }
         public List<string> Groups { get; private set; }
-        private Dictionary<string, float> resistance;
+        private readonly Dictionary<string, float> resistance;
         public float ContactDamage { get; private set; }
 
         /// <summary>
@@ -26,7 +23,7 @@ namespace Mega_Man
 
         public bool PushAway { get; private set; }
 
-        public MegaMan.TileProperties Properties { get; private set; }
+        public TileProperties Properties { get; private set; }
 
         public CollisionBox(XElement xmlNode)
             : base(xmlNode)
@@ -34,7 +31,7 @@ namespace Mega_Man
             Hits = new List<string>();
             Groups = new List<string>();
             resistance = new Dictionary<string, float>();
-            Properties = MegaMan.TileProperties.Default;
+            Properties = TileProperties.Default;
 
             foreach (XElement groupnode in xmlNode.Elements("Hits"))
             {
@@ -56,12 +53,12 @@ namespace Mega_Man
             }
 
             XAttribute boxnameAttr = xmlNode.Attribute("name");
-            if (boxnameAttr != null) this.Name = boxnameAttr.Value;
+            if (boxnameAttr != null) Name = boxnameAttr.Value;
 
             float dmg;
             if (xmlNode.TryFloat("damage", out dmg))
             {
-                this.ContactDamage = dmg;
+                ContactDamage = dmg;
             }
 
             Environment = true;
@@ -79,10 +76,10 @@ namespace Mega_Man
             }
 
             XAttribute propAttr = xmlNode.Attribute("properties");
-            if (propAttr != null) this.Properties = GameEntity.GetProperties(propAttr.Value);
+            if (propAttr != null) Properties = GameEntity.GetProperties(propAttr.Value);
         }
 
-        public void SetParent(CollisionComponent parent) { this.parent = parent; }
+        public void SetParent(CollisionComponent parent) { parentComponent = parent; }
 
         public bool EnvironmentCollisions(PointF position, MapSquare tile, ref PointF offset)
         {
@@ -90,9 +87,9 @@ namespace Mega_Man
             offset.Y = 0;
             // some optimizations
             RectangleF tileBox = tile.BlockBox;
-            if (this.box.Right + position.X < tileBox.Left) return false;
-            if (this.box.Left + position.X > tileBox.Right) return false;
-            System.Drawing.RectangleF boundBox = this.BoxAt(position);
+            if (box.Right + position.X < tileBox.Left) return false;
+            if (box.Left + position.X > tileBox.Right) return false;
+            RectangleF boundBox = BoxAt(position);
 
             return EnvironmentContact(tile, tileBox, boundBox, out offset);
         }
@@ -121,7 +118,7 @@ namespace Mega_Man
             bool down = (!Game.CurrentGame.GravityFlip && square.Tile.Properties.Climbable);
             bool up = (Game.CurrentGame.GravityFlip && square.Tile.Properties.Climbable);
 
-            if (parent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parent.MovementSrc.VelocityX, parent.MovementSrc.VelocityY, up, down);
+            if (parentComponent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
             else offset = CheckTileOffset(tileBox, boundBox, 0, 0, up, down);
             return true;
         }
@@ -195,18 +192,18 @@ namespace Mega_Man
 
         public RectangleF BoxAt(PointF offset)
         {
-            float x = (parent.MovementSrc != null && parent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+            float x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
-            if (parent.Parent.GravityFlip && Game.CurrentGame.GravityFlip) return new System.Drawing.RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
-            return new System.Drawing.RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+            if (parentComponent.Parent.GravityFlip && Game.CurrentGame.GravityFlip) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
         }
 
         public override RectangleF BoxAt(PointF offset, bool vflip)
         {
-            float x = (parent.MovementSrc != null && parent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+            float x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
-            if (vflip) return new System.Drawing.RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
-            return new System.Drawing.RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+            if (vflip) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
         }
     }
 }

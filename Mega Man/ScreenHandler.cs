@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Drawing;
 
 namespace Mega_Man
 {
     public class ScreenHandler
     {
-        private MapSquare[][] tiles;
+        private readonly MapSquare[][] tiles;
         public MegaMan.Screen Screen { get; private set; }
-        private List<BlocksPattern> patterns;
+        private readonly List<BlocksPattern> patterns;
         private GameEntity[] entities;
-        private List<GameEntity> spawnedEntities;
+        private readonly List<GameEntity> spawnedEntities;
         private bool[] spawnable;
-        private List<JoinHandler> joins;
-        private List<bool> teleportEnabled;
+        private readonly List<JoinHandler> joins;
+        private readonly List<bool> teleportEnabled;
 
-        private PositionComponent PlayerPos;
+        private readonly PositionComponent PlayerPos;
 
-        public Music music;
+        public Music Music { get; private set; }
 
         public float OffsetX { get; private set; }
         public float OffsetY { get; private set; }
@@ -72,36 +71,32 @@ namespace Mega_Man
                 }
             }
 
-            teleportEnabled = new List<bool>(screen.Teleports.Select((info) => false));
+            teleportEnabled = new List<bool>(screen.Teleports.Select(info => false));
 
             string intropath = (screen.MusicIntroPath != null) ? screen.MusicIntroPath.Absolute : null;
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
+            if (intropath != null || looppath != null) Music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
         }
 
         public JoinHandler GetJoinHandler(MegaMan.Join join)
         {
-            foreach (JoinHandler myjoin in this.joins)
-            {
-                if (myjoin.JoinInfo.Equals(join)) return myjoin;
-            }
-            return null;
+            return joins.FirstOrDefault(myjoin => myjoin.JoinInfo.Equals(join));
         }
 
         public void Start()
         {
-            this.entities = new GameEntity[Screen.EnemyInfo.Count];
-            this.spawnable = new bool[Screen.EnemyInfo.Count];
+            entities = new GameEntity[Screen.EnemyInfo.Count];
+            spawnable = new bool[Screen.EnemyInfo.Count];
 
             // place persistent entities
             for (int i = 0; i < Screen.EnemyInfo.Count; i++)
             {
-                if (this.entities[i] != null) continue; // already on screen
+                if (entities[i] != null) continue; // already on screen
 
                 PlaceEntity(i);
             }
 
-            foreach (BlocksPattern pattern in this.patterns)
+            foreach (BlocksPattern pattern in patterns)
             {
                 pattern.Start();
             }
@@ -112,7 +107,7 @@ namespace Mega_Man
         // these frames only happen if we are not paused / scrolling
         public void Update()
         {
-            foreach (JoinHandler join in this.joins)
+            foreach (JoinHandler join in joins)
             {
                 if (join.Trigger(PlayerPos.Position))
                 {
@@ -168,7 +163,7 @@ namespace Mega_Man
 
         public void AddSpawnedEntity(GameEntity entity)
         {
-            this.spawnedEntities.Add(entity);
+            spawnedEntities.Add(entity);
         }
 
         // because it is a thinking event, it happens every frame
@@ -177,8 +172,8 @@ namespace Mega_Man
             // place any entities that have just appeared on screen
             for (int i = 0; i < Screen.EnemyInfo.Count; i++)
             {
-                if (this.entities[i] != null) continue; // already on screen
-                if (!this.IsOnScreen(Screen.EnemyInfo[i].screenX, Screen.EnemyInfo[i].screenY))
+                if (entities[i] != null) continue; // already on screen
+                if (!IsOnScreen(Screen.EnemyInfo[i].screenX, Screen.EnemyInfo[i].screenY))
                 {
                     spawnable[i] = true;    // it's off-screen, so it can spawn next time it's on screen
                     continue;
@@ -204,9 +199,9 @@ namespace Mega_Man
             GameEntity enemy = GameEntity.Get(info.enemy);
             if (enemy == null) return;
             PositionComponent pos = enemy.GetComponent<PositionComponent>();
-            if (!pos.PersistOffScreen && !this.IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
+            if (!pos.PersistOffScreen && !IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
 
-            pos.SetPosition(new System.Drawing.PointF(info.screenX, info.screenY));
+            pos.SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")
             {
                 StateMessage msg = new StateMessage(null, info.state);
@@ -220,9 +215,9 @@ namespace Mega_Man
                 BossFightTimer();
                 enemy.Death += () =>
                 {
-                    if (music != null) music.FadeOut(30);
+                    if (Music != null) Music.FadeOut(30);
                     (Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>()).Paused = true;
-                    Engine.Instance.DelayedCall(() => { Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")); }, null, 120);
+                    Engine.Instance.DelayedCall(() => Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")), null, 120);
                     Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
             }
@@ -230,8 +225,8 @@ namespace Mega_Man
             {
                 (enemy.GetComponent<SpriteComponent>()).ChangeGroup(info.pallete);
             }
-            this.entities[index] = enemy;
-            enemy.Stopped += () => this.entities[index] = null;
+            entities[index] = enemy;
+            enemy.Stopped += () => entities[index] = null;
         }
 
         private void BossFightTimer()
@@ -243,19 +238,19 @@ namespace Mega_Man
 
         public void Stop()
         {
-            for (int i = 0; i < this.entities.Length; i++ )
+            for (int i = 0; i < entities.Length; i++ )
             {
-                if (this.entities[i] != null) this.entities[i].Stop();
-                this.entities[i] = null;
+                if (entities[i] != null) entities[i].Stop();
+                entities[i] = null;
             }
 
-            foreach (GameEntity entity in this.spawnedEntities)
+            foreach (GameEntity entity in spawnedEntities)
             {
                 entity.Stop();
             }
-            this.spawnedEntities.Clear();
+            spawnedEntities.Clear();
 
-            foreach (BlocksPattern pattern in this.patterns)
+            foreach (BlocksPattern pattern in patterns)
             {
                 pattern.Stop();
             }
@@ -265,7 +260,7 @@ namespace Mega_Man
 
         public void Clean()
         {
-            foreach (JoinHandler join in this.joins)
+            foreach (JoinHandler join in joins)
             {
                 join.Stop();
             }
@@ -280,50 +275,13 @@ namespace Mega_Man
 
         public IEnumerable<MapSquare> Tiles
         {
-            get
+            get 
             {
-                foreach (MapSquare[] row in tiles)
-                    foreach (MapSquare sq in row)
-                    {
-                        yield return sq;
-                    }
+                return tiles.SelectMany(row => row);
             }
         }
 
-        public void Draw(Graphics g) { Draw(g, 0, 0, 0, 0); }
-
-        public void Draw(Graphics g, float adj_x, float adj_y, float off_x, float off_y)
-        {
-            int width = Screen.PixelWidth;
-            int height = Screen.PixelHeight;
-
-            OffsetX = OffsetY = 0;
-
-            float cx = PlayerPos.Position.X + adj_x;
-            float cy = PlayerPos.Position.Y + adj_y;
-
-            if (cx > Game.CurrentGame.PixelsAcross / 2)
-            {
-                OffsetX = cx - Game.CurrentGame.PixelsAcross / 2;
-                if (OffsetX > width - Game.CurrentGame.PixelsAcross) OffsetX = width - Game.CurrentGame.PixelsAcross;
-            }
-
-            if (cy > Game.CurrentGame.PixelsDown / 2)
-            {
-                OffsetY = cy - Game.CurrentGame.PixelsDown / 2;
-                if (OffsetY > height - Game.CurrentGame.PixelsDown) OffsetY = height - Game.CurrentGame.PixelsDown;
-                if (OffsetY < 0) OffsetY = 0;
-            }
-
-            OffsetX += off_x;
-            OffsetY += off_y;
-
-            Screen.Draw(g, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
-        }
-
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch) { Draw(batch, 0, 0, 0, 0); }
-
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, float adj_x, float adj_y, float off_x, float off_y)
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, float adj_x = 0, float adj_y = 0, float off_x = 0, float off_y = 0)
         {
             int width = Screen.PixelWidth;
             int height = Screen.PixelHeight;

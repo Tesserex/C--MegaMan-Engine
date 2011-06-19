@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using MegaMan;
@@ -16,7 +13,6 @@ namespace Mega_Man
 
         private float vx, vy, pendingVx, pendingVy;
         private bool newVx, newVy;
-        public int ID;
         public bool Flying { get; set; }
         public float VelocityX
         {
@@ -25,8 +21,8 @@ namespace Mega_Man
             {
                 pendingVx = value;
                 newVx = true;
-                if (pendingVx < 0) this.Direction = Direction.Left;
-                else if (pendingVx > 0) this.Direction = Direction.Right;
+                if (pendingVx < 0) Direction = Direction.Left;
+                else if (pendingVx > 0) Direction = Direction.Right;
             }
         }
         public float VelocityY
@@ -50,15 +46,13 @@ namespace Mega_Man
         {
             Direction = Direction.Right;
             Random rand = new Random();
-            ID = rand.Next();
+            rand.Next();
             CanMove = true;
         }
 
         public override Component Clone()
         {
-            MovementComponent newone = new MovementComponent();
-            newone.Flying = this.Flying;
-            newone.CanMove = this.CanMove;
+            MovementComponent newone = new MovementComponent {Flying = this.Flying, CanMove = this.CanMove};
 
             return newone;
         }
@@ -119,10 +113,10 @@ namespace Mega_Man
 
             if (!Flying)
             {
-                int ts = this.Parent.Screen.Screen.Tileset.TileSize;
-                int tx = (int)(this.position.Position.X / ts);
-                int ty = (int)(this.position.Position.Y / ts);
-                MegaMan.Tile tile = this.Parent.Screen.Screen.TileAt(tx, ty);
+                int ts = Parent.Screen.Screen.Tileset.TileSize;
+                int tx = (int)(position.Position.X / ts);
+                int ty = (int)(position.Position.Y / ts);
+                Tile tile = Parent.Screen.Screen.TileAt(tx, ty);
                 float gmult = (tile != null)? tile.Properties.GravityMult : 1;
                 if (Game.CurrentGame.GravityFlip)
                 {
@@ -139,7 +133,7 @@ namespace Mega_Man
             if (FlipSprite)
             {
                 SpriteComponent sprite = Parent.GetComponent<SpriteComponent>();
-                if (sprite != null) sprite.HorizontalFlip = (this.Direction == Direction.Left);
+                if (sprite != null) sprite.HorizontalFlip = (Direction == Direction.Left);
             }
 
             if (position != null)
@@ -215,14 +209,14 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement child)
         {
-            Effect action = new Effect((entity) => { });
+            Effect action = entity => { };
             foreach (XElement prop in child.Elements())
             {
                 switch (prop.Name.LocalName)
                 {
                     case "Flying":
                         bool f = prop.GetBool();
-                        action += (entity) =>
+                        action += entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.Flying = f;
@@ -231,7 +225,7 @@ namespace Mega_Man
 
                     case "FlipSprite":
                         bool flip = prop.GetBool();
-                        action += (entity) =>
+                        action += entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.FlipSprite = flip;
@@ -271,12 +265,11 @@ namespace Mega_Man
             {
                 XAttribute dirattr = prop.Attribute("direction");
                 string direction;
-                if (dirattr == null) direction = "Same";
-                else direction = dirattr.Value;
+                direction = dirattr == null ? "Same" : dirattr.Value;
                 switch (direction)
                 {
                     case "Up":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = -1 * (mag?? Math.Abs(mov.VelocityY));
@@ -284,7 +277,7 @@ namespace Mega_Man
                         break;
 
                     case "Down":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = (mag?? Math.Abs(mov.VelocityY));
@@ -292,7 +285,7 @@ namespace Mega_Man
                         break;
 
                     case "Left":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = -mag?? -1 * Math.Abs(mov.VelocityX);
@@ -300,7 +293,7 @@ namespace Mega_Man
                         break;
 
                     case "Right":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = mag?? Math.Abs(mov.VelocityX);
@@ -308,7 +301,7 @@ namespace Mega_Man
                         break;
 
                     case "Same":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             if (mag == null) return;
                             float fmag = mag ?? 0;
@@ -323,7 +316,7 @@ namespace Mega_Man
                         break;
 
                     case "Reverse":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             if (mag == null) return;
                             float fmag = mag ?? 0;
@@ -338,7 +331,7 @@ namespace Mega_Man
                         break;
 
                     case "Inherit":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov == null) return;
@@ -354,7 +347,7 @@ namespace Mega_Man
                         break;
 
                     case "Input":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             InputComponent input = entity.GetComponent<InputComponent>();
@@ -375,7 +368,7 @@ namespace Mega_Man
                         break;
 
                     case "Player":
-                        action = (entity) =>
+                        action = entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             PositionComponent pos = entity.GetComponent<PositionComponent>();
@@ -407,17 +400,17 @@ namespace Mega_Man
                         };
                         break;
 
-                    default: action = new Effect((entity) => { }); break;
+                    default: action = new Effect(entity => { }); break;
                 }
             }
             else
             {
-                if (axis == Axis.X) action = (entity) =>
+                if (axis == Axis.X) action = entity =>
                 {
                     MovementComponent mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.VelocityX = 0;
                 };
-                else action = (entity) =>
+                else action = entity =>
                 {
                     MovementComponent mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.VelocityY = 0;

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace Mega_Man
@@ -61,42 +59,36 @@ namespace Mega_Man
 
         public override Effect ParseEffect(XElement node)
         {
-            Effect effect = (e) => { };
+            Effect effect = e => { };
 
-            foreach (XElement createNode in node.Elements("Start"))
-            {
-                string timerName = createNode.Value;
-                effect += (entity) =>
+            effect = node.Elements("Start")
+                .Select(createNode => createNode.Value)
+                .Aggregate(effect, (current, timerName) => current + (entity =>
                 {
                     string name = timerName;
                     TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null) timer.timers[name] = 0;
-                };
-            }
+                    if (timer != null)
+                        timer.timers[name] = 0;
+                }));
 
-            foreach (XElement resetNode in node.Elements("Reset"))
-            {
-                string timerName = resetNode.Value;
-                effect += (entity) =>
+            effect = node.Elements("Reset")
+                .Select(resetNode => resetNode.Value)
+                .Aggregate(effect, (current, timerName) => current + (entity =>
                 {
                     string name = timerName;
                     TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null && timer.timers.ContainsKey(name)) timer.timers[name] = 0;
-                };
-            }
+                    if (timer != null && timer.timers.ContainsKey(name))
+                        timer.timers[name] = 0;
+                }));
 
-            foreach (XElement deleteNode in node.Elements("Delete"))
-            {
-                string timerName = deleteNode.Value;
-                effect += (entity) =>
+            return node.Elements("Delete")
+                .Select(deleteNode => deleteNode.Value)
+                .Aggregate(effect, (current, timerName) => current + (entity =>
                 {
-                    string name = timerName;
                     TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null) timer.timers.Remove(timerName);
-                };
-            }
-
-            return effect;
+                    if (timer != null)
+                        timer.timers.Remove(timerName);
+                }));
         }
     }
 }

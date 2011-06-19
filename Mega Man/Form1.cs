@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.Xml.Linq;
 
 namespace Mega_Man
@@ -14,7 +8,7 @@ namespace Mega_Man
     public partial class Form1 : Form
     {
         private string settingsPath;
-        private CustomNtscForm customNtscForm = new CustomNtscForm();
+        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
 
         public Form1()
         {
@@ -30,12 +24,12 @@ namespace Mega_Man
             }
 
             ResizeScreen(Const.PixelsAcross, Const.PixelsDown);
-            this.xnaImage.SetSize();
+            xnaImage.SetSize();
 
-            Game.ScreenSizeChanged += new EventHandler<ScreenSizeChangedEventArgs>(Game_ScreenSizeChanged);
-            Engine.Instance.GameLogicTick += new GameTickEventHandler(Instance_GameLogicTick);
+            Game.ScreenSizeChanged += Game_ScreenSizeChanged;
+            Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
-            customNtscForm.Apply += new Action(customNtscForm_Apply);
+            customNtscForm.Apply += customNtscForm_Apply;
         }
 
         protected override void OnDeactivate(EventArgs e)
@@ -53,10 +47,12 @@ namespace Mega_Man
         protected override void OnClosed(EventArgs e)
         {
             // write settings to file
-            System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(settingsPath, null);
-            writer.Indentation = 1;
-            writer.IndentChar = '\t';
-            writer.Formatting = System.Xml.Formatting.Indented;
+            System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(settingsPath, null)
+            {
+                Indentation = 1,
+                IndentChar = '\t',
+                Formatting = System.Xml.Formatting.Indented
+            };
 
             writer.WriteStartElement("Settings");
 
@@ -108,34 +104,37 @@ namespace Mega_Man
             {
                 XElement settings = XElement.Load(settingsPath);
                 XElement keys = settings.Element("Keys");
-                foreach (XElement node in keys.Elements())
+                if (keys != null)
                 {
-                    switch (node.Name.LocalName)
+                    foreach (XElement node in keys.Elements())
                     {
-                        case "Up":
-                            GameInputKeys.Up = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Down":
-                            GameInputKeys.Down = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Left":
-                            GameInputKeys.Left = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Right":
-                            GameInputKeys.Right = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Jump":
-                            GameInputKeys.Jump = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Shoot":
-                            GameInputKeys.Shoot = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Start":
-                            GameInputKeys.Start = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
-                        case "Select":
-                            GameInputKeys.Select = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                            break;
+                        switch (node.Name.LocalName)
+                        {
+                            case "Up":
+                                GameInputKeys.Up = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Down":
+                                GameInputKeys.Down = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Left":
+                                GameInputKeys.Left = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Right":
+                                GameInputKeys.Right = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Jump":
+                                GameInputKeys.Jump = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Shoot":
+                                GameInputKeys.Shoot = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Start":
+                                GameInputKeys.Start = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                            case "Select":
+                                GameInputKeys.Select = (Keys)Enum.Parse(typeof(Keys), node.Value);
+                                break;
+                        }
                     }
                 }
             }
@@ -146,31 +145,31 @@ namespace Mega_Man
             if (e.PixelsAcross != 256 || e.PixelsDown != 224 || !xnaImage.NTSC)
             {
                 ResizeScreen(e.PixelsAcross, e.PixelsDown);
-                this.xnaImage.SetSize();
+                xnaImage.SetSize();
             }
         }
 
         private void ResizeScreen(int width, int height)
         {
             // tell the image not to get crushed by the form
-            this.xnaImage.Dock = DockStyle.None;
+            xnaImage.Dock = DockStyle.None;
             // tell the form to fit the image
-            this.AutoSize = true;
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            this.xnaImage.Width = width;
-            this.xnaImage.Height = height;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            xnaImage.Width = width;
+            xnaImage.Height = height;
             // now remember the form size
-            int tempheight = this.Height;
-            int tempwidth = this.Width;
+            int tempheight = Height;
+            int tempwidth = Width;
             // now un-autosize to re-enable resizing
-            this.AutoSize = false;
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            AutoSize = false;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // reset the form size
             tempheight += debugBar.Height;
-            this.Height = tempheight;
-            this.Width = tempwidth;
+            Height = tempheight;
+            Width = tempwidth;
             // redock the image
-            this.xnaImage.Dock = DockStyle.Fill;
+            xnaImage.Dock = DockStyle.Fill;
         }
 
         void Instance_GameLogicTick(GameTickEventArgs e)
@@ -178,7 +177,7 @@ namespace Mega_Man
             float fps = 1 / e.TimeElapsed;
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
             thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
-            entityLabel.Text = "Entities: " + GameEntity.ActiveCount.ToString();
+            entityLabel.Text = "Entities: " + GameEntity.ActiveCount;
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -219,7 +218,7 @@ namespace Mega_Man
         private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             debugBar.Visible = !debugBar.Visible;
-            this.Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
+            Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
             debugBarToolStripMenuItem.Checked = debugBar.Visible;
         }
 
@@ -316,14 +315,14 @@ namespace Mega_Man
 
         private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
+            Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
             smoothedToolStripMenuItem.Checked = true;
             pixellatedToolStripMenuItem.Checked = false;
         }
 
         private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
+            Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
             smoothedToolStripMenuItem.Checked = false;
             pixellatedToolStripMenuItem.Checked = true;
         }

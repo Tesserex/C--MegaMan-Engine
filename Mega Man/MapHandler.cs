@@ -86,7 +86,7 @@ namespace Mega_Man
         {
             if (music != null) music.Stop();
             Engine.Instance.SoundSystem.StopMusicNsf();
-            if (CurrentScreen.music != null) CurrentScreen.music.Stop();
+            if (CurrentScreen.Music != null) CurrentScreen.Music.Stop();
             
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
@@ -155,7 +155,7 @@ namespace Mega_Man
             oldscreen.Clean();
             StartScreen();
 
-            if (nextScreen.music != null || nextScreen.Screen.MusicNsfTrack != 0)
+            if (nextScreen.Music != null || nextScreen.Screen.MusicNsfTrack != 0)
             {
                 if (music != null) music.Stop();
                 if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
@@ -163,7 +163,7 @@ namespace Mega_Man
             }
 
             if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)nextScreen.Screen.MusicNsfTrack);
-            else if (nextScreen.music != null) nextScreen.music.Play();
+            else if (nextScreen.Music != null) nextScreen.Music.Play();
         }
 
         private void Update()

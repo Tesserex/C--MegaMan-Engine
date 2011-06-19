@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,7 +35,7 @@ namespace Mega_Man
         private RectangleF bounds;
         public RectangleF Bounds { get { return bounds; } }
 
-        private static List<HealthMeter> allMeters = new List<HealthMeter>();
+        private static readonly List<HealthMeter> allMeters = new List<HealthMeter>();
 
         public static IEnumerable<HealthMeter> AllMeters
         {
@@ -54,7 +52,7 @@ namespace Mega_Man
         {
             get
             {
-                return this.value;
+                return value;
             }
             set
             {
@@ -64,7 +62,7 @@ namespace Mega_Man
                     stopvalue = (int)value;
                     if (!animating)
                     {
-                        Engine.Instance.GameLogicTick += new GameTickEventHandler(GameTick);
+                        Engine.Instance.GameLogicTick += GameTick;
                         animating = true;
                         if (sound != null) Engine.Instance.SoundSystem.PlaySfx(sound);
                     }
@@ -84,17 +82,17 @@ namespace Mega_Man
             if (tickframes >= 3)
             {
                 tickframes = 0;
-                this.value += this.tickSize;
+                value += tickSize;
             }
         }
 
         public float MaxValue
         {
-            get { return this.maxvalue; }
+            get { return maxvalue; }
             set
             {
-                this.maxvalue = value;
-                this.tickSize = this.maxvalue / 28;
+                maxvalue = value;
+                tickSize = maxvalue / 28;
             }
         }
 
@@ -118,14 +116,14 @@ namespace Mega_Man
 
         private HealthMeter()
         {
-            this.value = this.maxvalue;
+            value = maxvalue;
             running = false;
         }
 
-        private int filldelay = 0;
+        private int filldelay;
         public void DelayedFill(int frames)
         {
-            this.Value = 0;
+            Value = 0;
             filldelay = frames;
             Engine.Instance.GameThink += DelayFill;
         }
@@ -136,48 +134,48 @@ namespace Mega_Man
             if (filldelay == 0)
             {
                 Engine.Instance.GameThink -= DelayFill;
-                this.Value = this.MaxValue;
+                Value = MaxValue;
             }
         }
 
         private void LoadInfo(MeterInfo info)
         {
-            this.positionX = info.Position.X;
-            this.positionY = info.Position.Y;
+            positionX = info.Position.X;
+            positionY = info.Position.Y;
 
-            if (this.tickTexture != null) this.tickTexture.Dispose();
+            if (tickTexture != null) tickTexture.Dispose();
             StreamReader srTick = new StreamReader(info.TickImage.Absolute);
-            this.tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
+            tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
 
             if (info.Background != null)
             {
                 StreamReader srMeter = new StreamReader(info.Background.Absolute);
-                this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
-                this.bounds = new RectangleF(this.positionX, this.positionY, this.meterTexture.Width, this.meterTexture.Height);
+                meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
+                bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
             }
 
-            this.horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
-            this.tickOffset = info.TickOffset;
+            horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
+            tickOffset = info.TickOffset;
 
-            if (info.Sound != null) this.sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
+            if (info.Sound != null) sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
         }
 
         private void LoadXml(XElement node)
         {
-            this.positionX = node.GetFloat("x");
-            this.positionY = node.GetFloat("y");
+            positionX = node.GetFloat("x");
+            positionY = node.GetFloat("y");
             XAttribute imageAttr = node.RequireAttribute("image");
             
-            if (this.tickTexture != null) this.tickTexture.Dispose();
-			StreamReader srTick = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));
-			this.tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
+            if (tickTexture != null) tickTexture.Dispose();
+            StreamReader srTick = new StreamReader(Path.Combine(Game.CurrentGame.BasePath, Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));
+            tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
 
             XAttribute backAttr = node.Attribute("background");
-			if (backAttr != null)
+            if (backAttr != null)
             {
-                StreamReader srMeter = new StreamReader(System.IO.Path.Combine(Game.CurrentGame.BasePath, System.IO.Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
-                this.meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
-                this.bounds = new RectangleF(this.positionX, this.positionY, this.meterTexture.Width, this.meterTexture.Height);
+                StreamReader srMeter = new StreamReader(Path.Combine(Game.CurrentGame.BasePath, Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
+                meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
+                bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
             }
 
             bool horiz = false;
@@ -186,13 +184,13 @@ namespace Mega_Man
             {
                 horiz = (dirAttr.Value == "horizontal");
             }
-            this.horizontal = horiz;
+            horizontal = horiz;
 
-            int x = 0; int y = 0;
+            int x; int y;
             node.TryInteger("tickX", out x);
             node.TryInteger("tickY", out y);
 
-            this.tickOffset = new Point(x, y);
+            tickOffset = new Point(x, y);
 
             XElement soundNode = node.Element("Sound");
             if (soundNode != null) sound = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
@@ -200,7 +198,7 @@ namespace Mega_Man
 
         public void Reset()
         {
-            this.value = this.maxvalue;
+            value = maxvalue;
         }
 
         public void Draw(SpriteBatch batch)
@@ -210,15 +208,15 @@ namespace Mega_Man
 
         private void Draw(SpriteBatch batch, float positionX, float positionY)
         {
-            if (this.tickTexture != null)
+            if (tickTexture != null)
             {
                 int i = 0;
-                int ticks = (int)Math.Ceiling(this.value / this.tickSize);
+                int ticks = (int)Math.Ceiling(value / tickSize);
                 // prevent float errors
                 if (ticks > 28) ticks = 28;
 
-                if (this.meterTexture != null) batch.Draw(this.meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
-                if (this.horizontal)
+                if (meterTexture != null) batch.Draw(meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
+                if (horizontal)
                 {
                     for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
                     {
@@ -239,30 +237,30 @@ namespace Mega_Man
 
         public void StartHandler()
         {
-            Engine.Instance.GameRender += new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameRender += GameRender;
             Game.CurrentGame.AddGameHandler(this);
             running = true;
         }
 
         public void StopHandler()
         {
-            Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
-            Engine.Instance.GameRender -= new GameRenderEventHandler(GameRender);
+            Engine.Instance.GameLogicTick -= GameTick;
+            Engine.Instance.GameRender -= GameRender;
             Game.CurrentGame.RemoveGameHandler(this);
             running = false;
         }
 
         public void GameInputReceived(GameInputEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void GameTick(GameTickEventArgs e)
+        private void GameTick(GameTickEventArgs e)
         {
             UpTick();
-            if (this.value >= stopvalue || this.value >= maxvalue)
+            if (value >= stopvalue || value >= maxvalue)
             {
-                Engine.Instance.GameLogicTick -= new GameTickEventHandler(GameTick);
+                Engine.Instance.GameLogicTick -= GameTick;
                 animating = false;
                 if (IsPlayer) Game.CurrentGame.Unpause();
                 if (sound != null) Engine.Instance.SoundSystem.StopSfx(sound);
@@ -271,7 +269,7 @@ namespace Mega_Man
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (inGamePlay && Engine.Instance.SpritesFour) this.Draw(e.Layers.SpritesBatch[3], positionX, positionY);
+            if (inGamePlay && Engine.Instance.SpritesFour) Draw(e.Layers.SpritesBatch[3], positionX, positionY);
         }
 
         #endregion

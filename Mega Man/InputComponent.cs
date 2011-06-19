@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Mega_Man
 {
     public class InputComponent : Component
     {
-        private Dictionary<GameInput, bool> activeKeys = new Dictionary<GameInput, bool>();
-        private Dictionary<GameInput, bool> backupKeys = new Dictionary<GameInput, bool>();
+        private readonly Dictionary<GameInput, bool> activeKeys = new Dictionary<GameInput, bool>();
+        private readonly Dictionary<GameInput, bool> backupKeys = new Dictionary<GameInput, bool>();
 
         public bool Left { get { return KeyVal(GameInput.Left); } }
         public bool Right { get { return KeyVal(GameInput.Right); } }
@@ -46,7 +43,7 @@ namespace Mega_Man
 
         public InputComponent()
         {
-            Engine.Instance.GameInputReceived += new GameInputEventHandler(Instance_GameInputReceived);
+            Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
         public override Component Clone()
@@ -85,7 +82,7 @@ namespace Mega_Man
 
         public override Effect ParseEffect(System.Xml.Linq.XElement effectNode)
         {
-            return (entity) => { };
+            return entity => { };
         }
 
         private void Instance_GameInputReceived(GameInputEventArgs e)

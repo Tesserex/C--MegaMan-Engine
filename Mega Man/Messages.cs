@@ -1,25 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Mega_Man
 {
     public interface IGameMessage
     {
         GameEntity Source { get; }
-    }
-
-    public class CollideMessage : IGameMessage
-    {
-        public GameEntity Source { get; private set; }
-        public GameEntity Target { get; private set; }
-
-        public CollideMessage(GameEntity source, GameEntity target)
-        {
-            Source = source;
-            Target = target;
-        }
     }
 
     public class DamageMessage : IGameMessage
