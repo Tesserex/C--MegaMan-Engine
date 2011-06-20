@@ -41,11 +41,6 @@ namespace Mega_Man
 
         private bool KeyVal(GameInput key) { return activeKeys.ContainsKey(key)? activeKeys[key] : false; }
 
-        public InputComponent()
-        {
-            Engine.Instance.GameInputReceived += Instance_GameInputReceived;
-        }
-
         public override Component Clone()
         {
             return this;
@@ -54,11 +49,13 @@ namespace Mega_Man
         public override void Start()
         {
             Engine.Instance.GameThink += Update;
+            Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
         public override void Stop()
         {
             Engine.Instance.GameThink -= Update;
+            Engine.Instance.GameInputReceived -= Instance_GameInputReceived;
         }
 
         public override void Message(IGameMessage msg) { }

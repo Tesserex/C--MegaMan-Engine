@@ -139,7 +139,7 @@ namespace Mega_Man
         protected override void Update()
         {
             if (Parent.Paused) return;
-
+            
             DamageDealt = 0;
             BlockTop = BlockRight = BlockLeft = BlockBottom = false;
             blockBottomMin = blockLeftMin = blockRightMin = blockTopMin = float.PositiveInfinity;

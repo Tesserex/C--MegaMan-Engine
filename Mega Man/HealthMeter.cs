@@ -42,6 +42,11 @@ namespace Mega_Man
             get { return allMeters.AsReadOnly(); }
         }
 
+        public static void Unload()
+        {
+            allMeters.Clear();
+        }
+
         // this is just needed so we can pause the game when filling
         public bool IsPlayer { get; set; }
 

@@ -74,6 +74,7 @@ namespace Mega_Man
             select = null;
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
+            HealthMeter.Unload();
             CurrentGame = null;
         }
 
