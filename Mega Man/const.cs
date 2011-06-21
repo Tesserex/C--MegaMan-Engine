@@ -8,7 +8,7 @@ namespace Mega_Man
         /// <summary>
         /// Defines the enforced framerate for the game.
         /// </summary>
-        public const float FPS = 60.0f;
+        public const int FPS = 60;
 
         /// <summary>
         /// Images are stupid, and require resolution even for pixel to pixel conversion.

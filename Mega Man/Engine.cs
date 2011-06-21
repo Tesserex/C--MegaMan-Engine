@@ -86,13 +86,24 @@ namespace Mega_Man
             get { return instance ?? (instance = new Engine()); }
         }
 
+        private int fps;
+        public int FPS
+        {
+            get { return fps; }
+            set 
+            {
+                fps = value;
+                frameTicks = (long) (Stopwatch.Frequency/(float)fps);
+            }
+        }
+
         // this timer is used to control framerate. Because the Idle event is used,
         // the inherent limit on speed is about 70 fps. The events just wont fire
         // more often than that.
         private readonly Stopwatch timer;
 
         // how many cpu ticks should there be between frames?
-        private readonly long frameTicks = (long)(Stopwatch.Frequency / Const.FPS);
+        private long frameTicks;
 
         // this is just used as a pre-calculated number so the division isn't done every frame.
         // Premature optimization at its finest.
@@ -300,6 +311,8 @@ namespace Mega_Man
 
         private Engine()
         {
+            FPS = Const.FPS;
+
             foreach (Keys key in GameInputKeys.Instance)
             {
                 inputFlags[key] = false;

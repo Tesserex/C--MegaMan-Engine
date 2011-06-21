@@ -178,6 +178,7 @@ namespace Mega_Man
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
             thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             entityLabel.Text = "Entities: " + GameEntity.ActiveCount;
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -386,6 +387,16 @@ namespace Mega_Man
         {
             if (Game.CurrentGame != null) Game.CurrentGame.Unload();
             Application.Exit();
+        }
+
+        private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.FPS += 10;
+        }
+
+        private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
         }
     }
 }
