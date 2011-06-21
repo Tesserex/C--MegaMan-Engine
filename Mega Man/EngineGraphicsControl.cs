@@ -29,7 +29,9 @@ namespace Mega_Man
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void snes_ntsc_blit(IntPtr ntsc, ushort[] input,
             int in_row_width, int burst_phase, int in_width, int in_height,
-            [In, Out] byte[] rgb_out, int out_pitch);
+            [In, Out] ushort[] rgb_out, int out_pitch);
+
+        private static ushort[] ntscPixelsDimmed;
 
         protected override void Initialize()
         {
@@ -46,6 +48,18 @@ namespace Mega_Man
             ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
 
             ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
+
+            ntscPixelsDimmed = new ushort[ushort.MaxValue+1];
+            for (int i = 0; i <= ushort.MaxValue; i++)
+            {
+                int red = (i & 0xf800);
+                int green = (i & 0x7e0);
+                int blue = (i & 0x1f);
+                red = ((red - (red >> 3)) & 0xf800);
+                green = ((green - (green >> 3)) & 0x7e0);
+                blue = ((blue - (blue >> 3)) & 0x1f);
+                ntscPixelsDimmed[i] = (ushort)(red | green | blue);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -94,33 +108,8 @@ namespace Mega_Man
 
                 backing.GetData(pixels);
 
-                snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, ntscOutput, 1204);
+                snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, filtered, 1204);
 
-                int f_i = 0;
-                int row = 0;
-                for (int i = 0; i < 269440; i++)
-                {
-                    int joined = (ntscOutput[f_i + 1] << 8) + ntscOutput[f_i];
-                    f_i += 2;
-
-                    filtered[i] = (ushort)joined;
-
-                    ushort red = (ushort)(joined & 0xf800);
-                    ushort green = (ushort)(joined & 0x7e0);
-                    ushort blue = (ushort)(joined & 0x1f);
-                    red = (ushort)((red - (red >> 3)) & 0xf800);
-                    green = (ushort)((green - (green >> 3)) & 0x7e0);
-                    blue = (ushort)((blue - (blue >> 3)) & 0x1f);
-                    filtered[i + 602] = (ushort)(red | green | blue);
-
-                    row++;
-                    if (row > 601)
-                    {
-                        row = 0;
-                        i += 602;
-                    }
-                }
-                
                 ntscTexture.SetData(filtered);
                 
                 sprite.Draw(ntscTexture, new Rectangle(0, 0, Width, Height), Color.White);
