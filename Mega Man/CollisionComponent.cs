@@ -4,9 +4,9 @@ using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
     public class CollisionComponent : Component

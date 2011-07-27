@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public partial class CustomNtscForm : Form
     {

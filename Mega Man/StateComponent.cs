@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public delegate bool SplitCondition(
         PositionComponent pos,

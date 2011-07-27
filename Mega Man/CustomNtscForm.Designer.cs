@@ -1,4 +1,4 @@
-﻿namespace Mega_Man
+﻿namespace MegaMan.Engine
 {
     partial class CustomNtscForm
     {

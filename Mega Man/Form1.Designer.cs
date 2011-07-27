@@ -1,4 +1,4 @@
-﻿namespace Mega_Man
+﻿namespace MegaMan.Engine
 {
     partial class Form1
     {
@@ -66,7 +66,7 @@
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.framerateUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.framerateDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xnaImage = new Mega_Man.EngineGraphicsControl();
+            this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
             this.SuspendLayout();
@@ -436,7 +436,7 @@
 
         #endregion
 
-        private Mega_Man.EngineGraphicsControl xnaImage;
+        private MegaMan.Engine.EngineGraphicsControl xnaImage;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;

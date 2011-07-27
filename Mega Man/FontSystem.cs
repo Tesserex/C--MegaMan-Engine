@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public static class FontSystem
     {

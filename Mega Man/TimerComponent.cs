@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class TimerComponent : Component
     {

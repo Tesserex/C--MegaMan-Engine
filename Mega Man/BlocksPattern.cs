@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     /// <summary>
     /// Controls a sequence of disappearing blocks on the screen
@@ -24,13 +25,13 @@ namespace Mega_Man
         private int frame;
         private bool stopped;
 
-        public BlocksPattern(MegaMan.BlockPatternInfo info)
+        public BlocksPattern(BlockPatternInfo info)
         {
             length = info.Length;
             leftBoundary = info.LeftBoundary;
             rightBoundary = info.RightBoundary;
             blocks = new List<BlockInfo>();
-            foreach (MegaMan.BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
+            foreach (BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
             {
                 BlockInfo myInfo = new BlockInfo {entity = GameEntity.Get(info.Entity)};
                 // should always persist off screen

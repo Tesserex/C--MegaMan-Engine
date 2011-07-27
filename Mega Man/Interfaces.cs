@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public interface IHandleGameEvents
     {

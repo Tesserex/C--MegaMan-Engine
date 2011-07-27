@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class PauseScreen : IHandleGameEvents
     {
@@ -32,7 +33,7 @@ namespace Mega_Man
 
         public event Action Unpaused;
 
-        public PauseScreen(MegaMan.PauseScreen pauseInfo)
+        public PauseScreen(MegaMan.Common.PauseScreen pauseInfo)
         {
             weapons = new List<PauseWeapon>();
 
@@ -60,7 +61,7 @@ namespace Mega_Man
             if (pauseSound != null) Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
-        private void LoadWeapon(MegaMan.WeaponInfo weapon)
+        private void LoadWeapon(WeaponInfo weapon)
         {
             PauseWeapon info = new PauseWeapon {name = weapon.Name, entity = weapon.Entity};
 

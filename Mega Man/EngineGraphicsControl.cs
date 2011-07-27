@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Runtime.InteropServices;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class EngineGraphicsControl : WinFormsGraphicsDevice.GraphicsDeviceControl
     {

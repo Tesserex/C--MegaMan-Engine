@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     /// <summary>
     /// The graphics layers are a set of XNA sprite batches, used as

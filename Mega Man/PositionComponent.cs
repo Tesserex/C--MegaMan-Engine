@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
     public class PositionComponent : Component, IPositioned

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Linq;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class LadderComponent : Component
     {
@@ -151,7 +152,7 @@ namespace Mega_Man
             atTop = false;
             if (!InReach) return;
 
-            MegaMan.Tile above;
+            Tile above;
             if (Parent.GravityFlip && Game.CurrentGame.GravityFlip)
             {
                 above = Game.CurrentGame.CurrentMap.CurrentScreen.Screen.TileAt(inReachTile.X, inReachTile.Y + 1);

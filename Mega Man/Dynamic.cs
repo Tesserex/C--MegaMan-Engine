@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
-using MegaMan;
+using MegaMan.Common;
 
 namespace System.Linq.Dynamic
 {
@@ -565,15 +565,15 @@ namespace System.Linq.Dynamic
             typeof(Guid),
             typeof(Math),
             typeof(Convert),
-            typeof(Mega_Man.GameEntity),
-            typeof(Mega_Man.PositionComponent),
-            typeof(Mega_Man.MovementComponent),
-            typeof(Mega_Man.TimerComponent),
-            typeof(Mega_Man.CollisionComponent),
-            typeof(Mega_Man.SpriteComponent),
-            typeof(Mega_Man.LadderComponent),
-            typeof(Mega_Man.HealthComponent),
-            typeof(Mega_Man.WeaponComponent)
+            typeof(MegaMan.Engine.GameEntity),
+            typeof(MegaMan.Engine.PositionComponent),
+            typeof(MegaMan.Engine.MovementComponent),
+            typeof(MegaMan.Engine.TimerComponent),
+            typeof(MegaMan.Engine.CollisionComponent),
+            typeof(MegaMan.Engine.SpriteComponent),
+            typeof(MegaMan.Engine.LadderComponent),
+            typeof(MegaMan.Engine.HealthComponent),
+            typeof(MegaMan.Engine.WeaponComponent)
         };
 
         static readonly Expression trueLiteral = Expression.Constant(true);

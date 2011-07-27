@@ -2,9 +2,9 @@
 using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     /// <summary>
     /// It's a stage select screen, just like it says.
@@ -22,7 +22,7 @@ namespace Mega_Man
             public Point location;
         }
 
-        private readonly MegaMan.StageSelect stageSelectInfo;
+        private readonly MegaMan.Common.StageSelect stageSelectInfo;
         private readonly Music musicStageSelect;
         private readonly string changeSound;
         private readonly Texture2D backgroundTexture;
@@ -33,7 +33,7 @@ namespace Mega_Man
 
         public event Action<string> MapSelected;
 
-        public StageSelect(MegaMan.StageSelect stageSelectInfo)
+        public StageSelect(MegaMan.Common.StageSelect stageSelectInfo)
         {
             this.stageSelectInfo = stageSelectInfo;
 

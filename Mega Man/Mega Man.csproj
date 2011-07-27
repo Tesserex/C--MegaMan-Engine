@@ -8,7 +8,7 @@
     <ProjectGuid>{2B1E4B31-FF73-483C-9C32-8742B0951916}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mega_Man</RootNamespace>
+    <RootNamespace>MegaMan.Engine</RootNamespace>
     <AssemblyName>Mega Man</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

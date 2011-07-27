@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class HealthMeter : IHandleGameEvents
     {

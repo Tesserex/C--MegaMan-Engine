@@ -2,7 +2,7 @@
 using FMOD;
 using MegaManR.Audio;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public interface ISoundEffect : IDisposable
     {

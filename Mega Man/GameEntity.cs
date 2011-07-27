@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Diagnostics;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}, {numAlive} Alive")]
     public class GameEntity
@@ -118,7 +118,7 @@ namespace Mega_Man
             if (name == "Weapons") name = "Weapon";
 
             string typename = name + "Component";
-            Type comptype = Type.GetType("Mega_Man." + typename, false, true);
+            Type comptype = Type.GetType("MegaMan.Engine." + typename, false, true);
             if (comptype == null) return null;
             Component comp;
             if (components.ContainsKey(comptype)) comp = components[comptype];

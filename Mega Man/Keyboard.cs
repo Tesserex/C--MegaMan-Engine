@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public partial class Keyboard : Form
     {

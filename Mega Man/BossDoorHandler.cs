@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class BossDoorHandler : JoinHandler
     {
@@ -81,10 +81,10 @@ namespace Mega_Man
             if (!open) return;
 
             scrollDist += Const.ScrollSpeed;
-            if (JoinInfo.type == MegaMan.JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
-                JoinInfo.type == MegaMan.JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
+            if (JoinInfo.type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
+                JoinInfo.type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
             {
-                scrollDist = JoinInfo.type == MegaMan.JoinType.Vertical ?
+                scrollDist = JoinInfo.type == JoinType.Vertical ?
                     Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
 
                 otherDoor.SendMessage(new StateMessage(null, "Closing"));

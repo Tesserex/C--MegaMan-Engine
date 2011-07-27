@@ -3,7 +3,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public partial class Form1 : Form
     {

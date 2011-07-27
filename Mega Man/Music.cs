@@ -1,7 +1,7 @@
 ﻿using System;
 using FMOD;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class Music : IDisposable
     {

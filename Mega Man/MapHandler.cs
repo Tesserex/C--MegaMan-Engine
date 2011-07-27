@@ -3,8 +3,9 @@ using System.Linq;
 using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class MapHandler : IHandleGameEvents
     {
@@ -23,7 +24,7 @@ namespace Mega_Man
 
         private readonly Music music;
 
-        public MegaMan.Map Map { get; private set; }
+        public Map Map { get; private set; }
 
         public ScreenHandler CurrentScreen { get; private set; }
 
@@ -34,7 +35,7 @@ namespace Mega_Man
         public event Action Paused;
         public event Action End;
 
-        public MapHandler(MegaMan.Map map)
+        public MapHandler(Map map)
         {
             Map = map;
             startScreen = Map.StartScreen;
@@ -199,7 +200,7 @@ namespace Mega_Man
         }
 
         private bool teleporting = false;
-        private void OnTeleport(MegaMan.TeleportInfo info)
+        private void OnTeleport(TeleportInfo info)
         {
             if (teleporting) return;
             teleporting = true;
@@ -337,7 +338,7 @@ namespace Mega_Man
         {
             if (updateFunc != null) updateFunc();
 
-            foreach (MegaMan.Tile t in Map.Tileset)
+            foreach (Tile t in Map.Tileset)
             {
                 t.Sprite.Update();
             }

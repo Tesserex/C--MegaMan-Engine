@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class HealthComponent : Component
     {

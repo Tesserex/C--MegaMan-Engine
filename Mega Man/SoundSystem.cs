@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using FMOD;
 using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 using MegaManR.Audio;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class SoundSystem : IDisposable
     {

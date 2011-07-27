@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public interface IGameMessage
     {

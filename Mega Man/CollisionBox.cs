@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Drawing;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class CollisionBox : HitBox
     {

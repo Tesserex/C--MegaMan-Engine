@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using System.Xml;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class GameXmlException : Exception
     {

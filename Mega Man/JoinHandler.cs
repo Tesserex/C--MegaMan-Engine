@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class JoinHandler
     {
@@ -45,12 +45,12 @@ namespace Mega_Man
             this.currentScreen = currentScreen;
 
             size = join.Size * currentScreen.Screen.Tileset.TileSize;
-            ticks = ((JoinInfo.type == MegaMan.JoinType.Vertical) ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown) / Const.ScrollSpeed;
+            ticks = ((JoinInfo.type == JoinType.Vertical) ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown) / Const.ScrollSpeed;
 
             if (join.screenOne == currentScreen.Screen.Name)
             {
                 NextScreenName = join.screenTwo;
-                if (join.type == MegaMan.JoinType.Horizontal)   // bottom edge
+                if (join.type == JoinType.Horizontal)   // bottom edge
                 {
                     direction = Direction.Down;
                     threshXmin = join.offsetOne * currentScreen.Screen.Tileset.TileSize;
@@ -72,7 +72,7 @@ namespace Mega_Man
             else
             {
                 NextScreenName = join.screenOne;
-                if (join.type == MegaMan.JoinType.Horizontal)   // top edge
+                if (join.type == JoinType.Horizontal)   // top edge
                 {
                     direction = Direction.Up;
                     threshXmin = join.offsetTwo * currentScreen.Screen.Tileset.TileSize;
@@ -152,8 +152,8 @@ namespace Mega_Man
         public virtual void Update(PositionComponent playerPos)
         {
             scrollDist += Const.ScrollSpeed;
-            if (JoinInfo.type == MegaMan.JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
-                JoinInfo.type == MegaMan.JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
+            if (JoinInfo.type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
+                JoinInfo.type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
             {
                 FinalizePlayerPos(playerPos);
                 Finish();

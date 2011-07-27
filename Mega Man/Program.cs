@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     [StructLayout(LayoutKind.Sequential)]
     struct MSG

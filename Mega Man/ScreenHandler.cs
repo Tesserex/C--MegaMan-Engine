@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class ScreenHandler
     {
         private readonly MapSquare[][] tiles;
-        public MegaMan.Screen Screen { get; private set; }
+        public Screen Screen { get; private set; }
         private readonly List<BlocksPattern> patterns;
         private GameEntity[] entities;
         private readonly List<GameEntity> spawnedEntities;
@@ -24,11 +25,11 @@ namespace Mega_Man
         public float OffsetY { get; private set; }
 
         public event Action<JoinHandler> JoinTriggered;
-        public event Action<MegaMan.TeleportInfo> Teleport;
+        public event Action<TeleportInfo> Teleport;
 
         public event Action BossDefeated;
 
-        public ScreenHandler(MegaMan.Screen screen, PositionComponent playerPos, IEnumerable<MegaMan.Join> mapJoins)
+        public ScreenHandler(Screen screen, PositionComponent playerPos, IEnumerable<Join> mapJoins)
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
@@ -42,7 +43,7 @@ namespace Mega_Man
                 {
                     try
                     {
-                        MegaMan.Tile tile = Screen.TileAt(x, y);
+                        Tile tile = Screen.TileAt(x, y);
                         tiles[y][x] = new MapSquare(Screen, tile, x, y, x * Screen.Tileset.TileSize, y * Screen.Tileset.TileSize);
                     }
                     catch
@@ -52,7 +53,7 @@ namespace Mega_Man
                 }
             }
 
-            foreach (MegaMan.BlockPatternInfo info in Screen.BlockPatternInfo)
+            foreach (BlockPatternInfo info in Screen.BlockPatternInfo)
             {
                 BlocksPattern pattern = new BlocksPattern(info);
                 patterns.Add(pattern);
@@ -61,7 +62,7 @@ namespace Mega_Man
             PlayerPos = playerPos;
 
             joins = new List<JoinHandler>();
-            foreach (MegaMan.Join join in mapJoins)
+            foreach (Join join in mapJoins)
             {
                 if (join.screenOne == Screen.Name || join.screenTwo == Screen.Name)
                 {
@@ -78,7 +79,7 @@ namespace Mega_Man
             if (intropath != null || looppath != null) Music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
         }
 
-        public JoinHandler GetJoinHandler(MegaMan.Join join)
+        public JoinHandler GetJoinHandler(Join join)
         {
             return joins.FirstOrDefault(myjoin => myjoin.JoinInfo.Equals(join));
         }
@@ -119,7 +120,7 @@ namespace Mega_Man
             // check for teleports
             for (int i = 0; i < Screen.Teleports.Count; i++)
             {
-                MegaMan.TeleportInfo teleport = Screen.Teleports[i];
+                TeleportInfo teleport = Screen.Teleports[i];
 
                 if (teleportEnabled[i])
                 {
@@ -194,7 +195,7 @@ namespace Mega_Man
         private void PlaceEntity(int index)
         {
             spawnable[index] = false;
-            MegaMan.EnemyCopyInfo info = Screen.EnemyInfo[index];
+            EnemyCopyInfo info = Screen.EnemyInfo[index];
 
             GameEntity enemy = GameEntity.Get(info.enemy);
             if (enemy == null) return;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class SoundComponent : Component
     {

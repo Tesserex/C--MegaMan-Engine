@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using MegaMan;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     // These args, and the event, are used to forcibly resize
     // the window and screen when the game is loaded, since

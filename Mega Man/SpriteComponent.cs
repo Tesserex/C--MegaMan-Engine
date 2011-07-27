@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using MegaMan;
-using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Sprite>;
+using MegaMan.Common;
+using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Common.Sprite>;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class SpriteComponent : Component
     {

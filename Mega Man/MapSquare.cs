@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
+using MegaMan.Common;
 
-namespace Mega_Man
+namespace MegaMan.Engine
 {
     public class MapSquare
     {
-        public MegaMan.Tile Tile { get; private set; }
+        public Tile Tile { get; private set; }
         public int X { get; private set; }
         public int Y { get; private set; }
         public float ScreenX { get; private set; }
@@ -27,7 +28,7 @@ namespace Mega_Man
             }
         }
 
-        public MapSquare(MegaMan.Screen screen, MegaMan.Tile tile, int x, int y, float screenX, float screenY)
+        public MapSquare(Screen screen, Tile tile, int x, int y, float screenX, float screenY)
         {
             Tile = tile;
             X = x;
@@ -45,7 +46,7 @@ namespace Mega_Man
             }
             else if (Tile.Properties.Climbable)
             {
-                MegaMan.Tile below = screen.TileAt(X, Y + 1);
+                Tile below = screen.TileAt(X, Y + 1);
                 if (below != null && !below.Properties.Climbable)
                 {
                     flipBox = basisBox;
@@ -54,7 +55,7 @@ namespace Mega_Man
                 }
                 else flipBox = RectangleF.Empty;
 
-                MegaMan.Tile above = screen.TileAt(X, Y - 1);
+                Tile above = screen.TileAt(X, Y - 1);
                 if (above != null && !above.Properties.Climbable)
                 {
                     boundBox = basisBox;
