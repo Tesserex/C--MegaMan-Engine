@@ -208,6 +208,8 @@ namespace MegaMan.Engine
 
                     Game.CurrentGame.Unload();
                 }
+
+                this.OnActivated(new EventArgs());
             }
         }
 
