@@ -214,8 +214,9 @@ namespace MegaMan.Engine
 
         public static Effect GetEffect(string name)
         {
-            if (storedEffects.ContainsKey(name)) return storedEffects[name];
-            return e => { };
+            return e => {
+                if (storedEffects.ContainsKey(name)) storedEffects[name](e);
+            };
         }
 
         // provides a closure around a split condition
