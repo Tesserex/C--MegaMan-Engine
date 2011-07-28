@@ -111,7 +111,7 @@ namespace MegaMan.Engine
             return spawn;
         }
 
-        private Component GetOrCreateComponent(string name)
+        public Component GetOrCreateComponent(string name)
         {
             // handle plural cases
             if (name == "Sounds") name = "Sound";
@@ -130,14 +130,12 @@ namespace MegaMan.Engine
             return comp;
         }
 
-        // unfortunately, you cannot have abstract static methods.
-        // So parsing effects is an instance method, but doesn't
-        // really need to be, except for the compiler to be happy.
-        public Effect ParseComponentEffect(XElement effectNode)
+        public static Effect ParseComponentEffect(XElement effectNode)
         {
-            Component comp = GetOrCreateComponent(effectNode.Name.LocalName);
-            if (comp == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
-            return comp.ParseEffect(effectNode);
+            Type componentType = Type.GetType("MegaMan.Engine." + effectNode.Name.LocalName + "Component");
+            if (componentType == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
+            var method = componentType.GetMethod("ParseEffect");
+            return (Effect)method.Invoke(null, new[] {effectNode});
         }
 
         private static readonly Dictionary<string, GameEntity> entities = new Dictionary<string,GameEntity>();
@@ -230,7 +228,7 @@ namespace MegaMan.Engine
                             break;
 
                         case "Death":
-                            entity.OnDeath += statecomp.LoadTriggerEffect(xmlComp);
+                            entity.OnDeath += EffectParser.LoadTriggerEffect(xmlComp);
                             break;
 
                         case "GravityFlip":
@@ -250,44 +248,6 @@ namespace MegaMan.Engine
             }
 
             entities.Add(name, entity);
-        }
-
-        public static Effect LoadSpawnEffect(XElement node)
-        {
-            if (node == null) throw new ArgumentNullException("node");
-
-            string name = node.RequireAttribute("name").Value;
-            string statename = "Start";
-            if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
-            XElement posNodeX = node.Element("X");
-            XElement posNodeY = node.Element("Y");
-            Effect posEff = null;
-            if (posNodeX != null)
-            {
-                posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
-            }
-            if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
-            return entity =>
-            {
-                GameEntity spawn = entity.Spawn(name);
-                if (spawn == null) return;
-                StateMessage msg = new StateMessage(entity, statename);
-                spawn.SendMessage(msg);
-                if (posEff != null) posEff(spawn);
-            };
-        }
-
-        private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
-
-        public static void SaveEffect(string name, Effect effect)
-        {
-            storedEffects.Add(name, effect);
-        }
-
-        public static Effect GetEffect(string name)
-        {
-            if (storedEffects.ContainsKey(name)) return storedEffects[name];
-            return e => { };
         }
 
         public static int NumAlive(string name)
@@ -359,7 +319,7 @@ namespace MegaMan.Engine
             }
             entities.Clear();
 
-            storedEffects.Clear();
+            EffectParser.Unload();
         }
     }
 }

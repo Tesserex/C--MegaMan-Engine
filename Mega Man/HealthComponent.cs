@@ -136,7 +136,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public override Effect ParseEffect(XElement effectNode)
+        public static Effect ParseEffect(XElement effectNode)
         {
             float changeval;
             if (effectNode.TryFloat("change", out changeval))

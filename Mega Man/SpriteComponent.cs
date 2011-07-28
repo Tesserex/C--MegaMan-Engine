@@ -120,7 +120,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public override Effect ParseEffect(XElement node)
+        public static Effect ParseEffect(XElement node)
         {
             Effect action = entity => { };
             foreach (XElement prop in node.Elements())

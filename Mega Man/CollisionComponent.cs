@@ -477,7 +477,7 @@ namespace MegaMan.Engine
             else if (component is MovementComponent) MovementSrc = component as MovementComponent;
         }
 
-        public override Effect ParseEffect(XElement node)
+        public static Effect ParseEffect(XElement node)
         {
             Effect effect = entity => {};
             List<CollisionBox> rects = new List<CollisionBox>();

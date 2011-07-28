@@ -77,7 +77,7 @@ namespace MegaMan.Engine
             // nothing needed
         }
 
-        public override Effect ParseEffect(System.Xml.Linq.XElement effectNode)
+        public static Effect ParseEffect(System.Xml.Linq.XElement effectNode)
         {
             return entity => { };
         }

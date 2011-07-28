@@ -151,6 +151,10 @@ namespace MegaMan.Engine
                             GameEntity.LoadEntities(element);
                             break;
 
+                        case "Functions":
+                            EffectParser.LoadEffects(element);
+                            break;
+
                         case "Sounds":
                             Engine.Instance.SoundSystem.LoadEffectsFromXml(element);
                             break;

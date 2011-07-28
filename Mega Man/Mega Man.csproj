@@ -133,6 +133,7 @@
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dynamic.cs" />
+    <Compile Include="EffectParser.cs" />
     <Compile Include="EngineGraphicsControl.cs">
       <SubType>Component</SubType>
     </Compile>

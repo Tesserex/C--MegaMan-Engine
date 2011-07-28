@@ -207,7 +207,7 @@ namespace MegaMan.Engine
             ParseEffect(xmlNode)(Parent);
         }
 
-        public override Effect ParseEffect(XElement child)
+        public static Effect ParseEffect(XElement child)
         {
             Effect action = entity => { };
             foreach (XElement prop in child.Elements())

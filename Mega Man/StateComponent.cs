@@ -7,77 +7,19 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public delegate bool SplitCondition(
-        PositionComponent pos,
-        MovementComponent mov,
-        SpriteComponent spr,
-        InputComponent inp,
-        CollisionComponent col,
-        LadderComponent lad,
-        TimerComponent timer,
-        HealthComponent health,
-        WeaponComponent weapon,
-        int statetime,
-        int lifetime,
-        float playerdx,
-        float playerdy,
-        bool gravflip,
-        double random
-    );
-
-    public delegate void SplitEffect(
-        PositionComponent pos,
-        MovementComponent mov,
-        SpriteComponent spr,
-        InputComponent inp,
-        CollisionComponent col,
-        LadderComponent lad,
-        TimerComponent timer,
-        HealthComponent health,
-        StateComponent state,
-        WeaponComponent weapon
-    );
-
-    public delegate bool Condition(GameEntity entity);
-    public delegate void Effect(GameEntity entity);
-
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, State: {currentState}, State Time: {stateframes}")]
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, State: {currentState}, State Time: {StateFrames}")]
     public class StateComponent : Component
     {
         private string currentState;
         private Dictionary<string, State> states;
 
-        private int stateframes;
-        private int lifetime;
-        private double framerand;
-
-        private readonly Dictionary<string, object> dirDict;
-
-        private readonly ParameterExpression posParam;
-
-        private readonly ParameterExpression moveParam;
-
-        private readonly ParameterExpression sprParam;
-        private readonly ParameterExpression inputParam;
-        private readonly ParameterExpression collParam;
-
-        private readonly ParameterExpression stateParam;
-
-        private readonly ParameterExpression weaponParam;
-
-        private readonly ParameterExpression ladderParam;
-        private readonly ParameterExpression timerParam;
-        private readonly ParameterExpression stParam;
-        private readonly ParameterExpression lifeParam;
-        private readonly ParameterExpression healthParam;
-        private readonly ParameterExpression playerXParam;
-        private readonly ParameterExpression playerYParam;
-        private readonly ParameterExpression gravParam;
-        private readonly ParameterExpression randParam;
+        public int StateFrames { get; private set; }
+        public int Lifetime { get; private set; }
+        public double FrameRand { get; private set; }
 
         public int StateTime
         {
-            get { return stateframes; }
+            get { return StateFrames; }
         }
 
         public event Action<string> StateChanged;
@@ -85,30 +27,6 @@ namespace MegaMan.Engine
         public StateComponent()
         {
             states = new Dictionary<string, State>();
-            posParam = Expression.Parameter(typeof(PositionComponent), "Position");
-            moveParam = Expression.Parameter(typeof(MovementComponent), "Movement");
-            sprParam = Expression.Parameter(typeof(SpriteComponent), "Sprite");
-            inputParam = Expression.Parameter(typeof(InputComponent), "Input");
-            collParam = Expression.Parameter(typeof(CollisionComponent), "Collision");
-            ladderParam = Expression.Parameter(typeof(LadderComponent), "Ladder");
-            timerParam = Expression.Parameter(typeof(TimerComponent), "Timer");
-            healthParam = Expression.Parameter(typeof(HealthComponent), "Health");
-            stateParam = Expression.Parameter(typeof(StateComponent), "State");
-            weaponParam = Expression.Parameter(typeof(WeaponComponent), "Weapon");
-            stParam = Expression.Parameter(typeof(int), "StateTime");
-            lifeParam = Expression.Parameter(typeof(int), "LifeTime");
-            playerXParam = Expression.Parameter(typeof(float), "PlayerDistX");
-            playerYParam = Expression.Parameter(typeof(float), "PlayerDistY");
-            gravParam = Expression.Parameter(typeof(bool), "GravityFlip");
-            randParam = Expression.Parameter(typeof(double), "Random");
-
-            dirDict = new Dictionary<string, object>
-            {
-                {"Up", Direction.Up},
-                {"Down", Direction.Down},
-                {"Left", Direction.Left},
-                {"Right", Direction.Right}
-            };
 
             currentState = "Start";
         }
@@ -142,7 +60,7 @@ namespace MegaMan.Engine
                 {
                     currentState = statemsg.StateName;
                     states[currentState].Initialize(Parent);
-                    stateframes = 0;
+                    StateFrames = 0;
                 }
             }
         }
@@ -151,12 +69,12 @@ namespace MegaMan.Engine
         {
             if (Parent.Paused) return;
 
-            lifetime++;
+            Lifetime++;
 
             if (!states.ContainsKey(currentState)) return;
 
-            stateframes++;
-            framerand = Program.rand.NextDouble();
+            StateFrames++;
+            FrameRand = Program.rand.NextDouble();
 
             string old = currentState;
             states[currentState].CheckTriggers(this, Parent);
@@ -164,7 +82,7 @@ namespace MegaMan.Engine
             {
                 if (!states.ContainsKey(currentState)) throw new GameEntityException("Entity \"" + Parent.Name + "\" tried to change to state \"" + currentState + "\", which does not exist.");
                 states[currentState].Initialize(Parent);
-                stateframes = 0;
+                StateFrames = 0;
 
                 if (StateChanged != null) StateChanged(currentState);
             }
@@ -198,8 +116,12 @@ namespace MegaMan.Engine
                         break;
 
                     default:
-                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(LoadXmlEffect(child));
-                        else state.AddInitial(LoadXmlEffect(child));
+                        // make sure the entity has the component we're dealing with
+                        // if it's not a component name it will just return null safely
+                        Parent.GetOrCreateComponent(child.Name.LocalName);
+
+                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(EffectParser.LoadXmlEffect(child));
+                        else state.AddInitial(EffectParser.LoadXmlEffect(child));
                         break;
                 }
             }
@@ -234,63 +156,6 @@ namespace MegaMan.Engine
             }
         }
 
-        // provides a closure around a split condition
-        private Condition CloseCondition(SplitCondition split)
-        {
-            return entity =>
-            {
-                PositionComponent pos = entity.GetComponent<PositionComponent>();
-                return split(
-                    pos,
-                    entity.GetComponent<MovementComponent>(),
-                    entity.GetComponent<SpriteComponent>(),
-                    entity.GetComponent<InputComponent>(),
-                    entity.GetComponent<CollisionComponent>(),
-                    entity.GetComponent<LadderComponent>(),
-                    entity.GetComponent<TimerComponent>(),
-                    entity.GetComponent<HealthComponent>(),
-                    entity.GetComponent<WeaponComponent>(),
-                    (entity.GetComponent<StateComponent>()).stateframes,
-                    (entity.GetComponent<StateComponent>()).lifetime,
-                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X),
-                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.Y - pos.Position.Y),
-                    Game.CurrentGame.GravityFlip,
-                    (entity.GetComponent<StateComponent>()).framerand
-                    );
-            };
-        }
-
-        // provides a closure around a split effect
-        private Effect CloseEffect(SplitEffect split)
-        {
-            return entity => split(
-                entity.GetComponent<PositionComponent>(),
-                entity.GetComponent<MovementComponent>(),
-                entity.GetComponent<SpriteComponent>(),
-                entity.GetComponent<InputComponent>(),
-                entity.GetComponent<CollisionComponent>(),
-                entity.GetComponent<LadderComponent>(),
-                entity.GetComponent<TimerComponent>(),
-                entity.GetComponent<HealthComponent>(),
-                entity.GetComponent<StateComponent>(),
-                entity.GetComponent<WeaponComponent>()
-            );
-        }
-
-        private Condition ParseCondition(string conditionString)
-        {
-            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
-                typeof(SplitCondition),
-                typeof(bool),
-                conditionString,
-                dirDict);
-            SplitCondition trigger = (SplitCondition)lambda.Compile();
-            Condition condition = CloseCondition(trigger);
-
-            return condition;
-        }
-
         private void AddStateTrigger(State state, XElement triggerNode)
         {
             try
@@ -299,9 +164,9 @@ namespace MegaMan.Engine
                 if (triggerNode.Attribute("condition") != null) conditionString = triggerNode.RequireAttribute("condition").Value;
                 else conditionString = triggerNode.Element("Condition").Value;
 
-                Condition condition = ParseCondition(conditionString);
+                Condition condition = EffectParser.ParseCondition(conditionString);
 
-                Effect effect = LoadTriggerEffect(triggerNode.Element("Effect"));
+                Effect effect = EffectParser.LoadTriggerEffect(triggerNode.Element("Effect"));
                 state.AddTrigger(condition, effect);
             }
             catch (Exception e)
@@ -310,22 +175,8 @@ namespace MegaMan.Engine
             }
         }
 
-        public Effect LoadTriggerEffect(XElement effectnode)
-        {
-            Effect effect = entity => { };
-            effect = effectnode.Elements().Aggregate(effect, (current, child) => current + LoadXmlEffect(child));
-
-            // check for name to save
-            XAttribute nameAttr = effectnode.Attribute("name");
-            if (nameAttr != null)
-            {
-                GameEntity.SaveEffect(nameAttr.Value, effect);
-            }
-            return effect;
-        }
-
         // this is for when <State> appears in an effect, used for changing state
-        public override Effect ParseEffect(XElement effectNode)
+        public static Effect ParseEffect(XElement effectNode)
         {
             string newstate = effectNode.Value;
             return entity =>
@@ -333,66 +184,6 @@ namespace MegaMan.Engine
                 StateComponent state = entity.GetComponent<StateComponent>();
                 if (state != null) state.currentState = newstate;
             };
-        }
-
-        private Effect LoadXmlEffect(XElement node)
-        {
-            Effect effect = e => { };
-
-            switch (node.Name.LocalName)
-            {
-                case "Call":
-                    effect = GameEntity.GetEffect(node.Value);
-                    break;
-
-                case "Spawn":
-                    effect = GameEntity.LoadSpawnEffect(node);
-                    break;
-
-                case "Die":
-                    effect = entity => { entity.Stop(); };
-                    break;
-
-                case "Lives":
-                    int add = int.Parse(node.RequireAttribute("add").Value);
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.PlayerLives += add;
-                    };
-                    break;
-
-                case "Func":
-                    effect = entity => { };
-                    string[] statements = node.Value.Split(';');
-                    foreach (string st in statements.Where(st => !string.IsNullOrEmpty(st.Trim())))
-                    {
-                        LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam },
-                            typeof(SplitEffect),
-                            null,
-                            st,
-                            dirDict);
-                        effect += CloseEffect((SplitEffect)lambda.Compile());
-                    }
-                    break;
-
-                case "Trigger":
-                    string conditionString;
-                    if (node.Attribute("condition") != null) conditionString = node.RequireAttribute("condition").Value;
-                    else conditionString = node.Element("Condition").Value;
-                    Condition condition = ParseCondition(conditionString);
-                    Effect triggerEffect = LoadTriggerEffect(node.Element("Effect"));
-                    effect += e =>
-                    {
-                        if (condition(e)) triggerEffect(e);
-                    };
-                    break;
-
-                default:
-                    effect = Parent.ParseComponentEffect(node);
-                    break;
-            }
-            return effect;
         }
 
         private class Trigger

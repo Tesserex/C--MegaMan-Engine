@@ -54,7 +54,7 @@ namespace MegaMan.Engine
             
         }
 
-        public override Effect ParseEffect(XElement node)
+        public static Effect ParseEffect(XElement node)
         {
             string soundname = node.RequireAttribute("name").Value;
             bool playing;

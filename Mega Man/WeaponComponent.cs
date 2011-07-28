@@ -209,7 +209,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public override Effect ParseEffect(XElement node)
+        public static Effect ParseEffect(XElement node)
         {
             Effect effect = e => { };
             if (node.Value == "Shoot")
