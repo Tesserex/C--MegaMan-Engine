@@ -170,6 +170,8 @@ namespace MegaMan.Engine
             GameEntity entity = new GameEntity();
             string name = xml.RequireAttribute("name").Value;
 
+            if (entities.ContainsKey(name)) throw new GameXmlException(xml, "You have defined two entities both named \"" + name + "\".");
+
             entity.Name = name;
 
             int limit;
