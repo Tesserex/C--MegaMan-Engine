@@ -42,6 +42,8 @@ namespace MegaMan.Engine
         private PositionComponent position;
         private CollisionComponent collision;
 
+        private Tile overTile;
+
         public MovementComponent()
         {
             Direction = Direction.Right;
@@ -113,11 +115,7 @@ namespace MegaMan.Engine
 
             if (!Flying)
             {
-                int ts = Parent.Screen.Screen.Tileset.TileSize;
-                int tx = (int)(position.Position.X / ts);
-                int ty = (int)(position.Position.Y / ts);
-                Tile tile = Parent.Screen.Screen.TileAt(tx, ty);
-                float gmult = (tile != null)? tile.Properties.GravityMult : 1;
+                float gmult = (overTile != null)? overTile.Properties.GravityMult : 1;
                 if (Game.CurrentGame.GravityFlip)
                 {
                     vy -= Game.CurrentGame.Gravity * gmult;
@@ -150,6 +148,26 @@ namespace MegaMan.Engine
                     if ((!collision.BlockTop && vy < 0) || (!collision.BlockBottom && vy > 0)) pos.Y += vy;
                 }
                 position.SetPosition(pos);
+            }
+
+            if (Parent.Name == "Player")
+            {
+                int ts = Parent.Screen.Screen.Tileset.TileSize;
+                int tx = (int)(position.Position.X / ts);
+                int ty = (int)(position.Position.Y / ts);
+                Tile nextOverTile = Parent.Screen.Screen.TileAt(tx, ty);
+
+                if (overTile != null && nextOverTile != null && nextOverTile.Properties.Name != overTile.Properties.Name)
+                {
+                    if (overTile.Properties.OnLeave != null) EffectParser.GetEffect(overTile.Properties.OnLeave)(Parent);
+                    if (nextOverTile.Properties.OnEnter != null) EffectParser.GetEffect(nextOverTile.Properties.OnEnter)(Parent);
+                }
+
+                overTile = nextOverTile;
+                if (overTile != null && overTile.Properties.OnOver != null)
+                {
+                    EffectParser.GetEffect(overTile.Properties.OnOver)(Parent);
+                }
             }
         }
 
