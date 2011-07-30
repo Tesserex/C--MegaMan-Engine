@@ -145,6 +145,11 @@ namespace MegaMan.Engine
                     };
                     break;
 
+                case "GravityFlip":
+                    bool flip = node.GetBool();
+                    effect = entity => { Game.CurrentGame.GravityFlip = flip; };
+                    break;
+
                 case "Func":
                     effect = entity => { };
                     string[] statements = node.Value.Split(';');
@@ -158,6 +163,19 @@ namespace MegaMan.Engine
                             dirDict);
                         effect += CloseEffect((SplitEffect)lambda.Compile());
                     }
+                    break;
+
+                case "Trigger":
+                    string conditionString;
+                    if (node.Attribute("condition") != null) conditionString = node.RequireAttribute("condition").Value;
+                    else conditionString = node.Element("Condition").Value;
+
+                    Condition condition = ParseCondition(conditionString);
+                    Effect triggerEffect = LoadTriggerEffect(node.Element("Effect"));
+                    effect += (e) =>
+                    {
+                        if (condition(e)) triggerEffect(e);
+                    };
                     break;
 
                 default:
