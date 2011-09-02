@@ -19,8 +19,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            SoundComponent copy = new SoundComponent {sounds = this.sounds};
-            return copy;
+            return this;
         }
 
         public override void Start()
