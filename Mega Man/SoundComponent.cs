@@ -61,6 +61,7 @@ namespace MegaMan.Engine
             if (!node.TryBool("playing", out playing)) playing = true;
             return entity =>
             {
+                entity.GetOrCreateComponent("Sound");
                 SoundMessage msg = new SoundMessage(entity, soundname, playing);
                 entity.SendMessage(msg);
             };

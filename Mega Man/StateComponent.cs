@@ -112,7 +112,7 @@ namespace MegaMan.Engine
                 switch (child.Name.LocalName)
                 {
                     case "Trigger":
-                        AddStateTrigger(state, child);
+                        state.AddTrigger(ParseTrigger(child));
                         break;
 
                     default:
@@ -127,9 +127,11 @@ namespace MegaMan.Engine
             }
         }
 
-        public void LoadStateTrigger(XElement trigger)
+        public void LoadStateTrigger(XElement triggerNode)
         {
-            XElement statesNode = trigger.Element("States");
+            XElement statesNode = triggerNode.Element("States");
+
+            var trigger = ParseTrigger(triggerNode);
 
             if (statesNode != null)
             {
@@ -144,19 +146,19 @@ namespace MegaMan.Engine
                         State state = new State {Name = stateName};
                         states.Add(stateName, state);
                     }
-                    AddStateTrigger(states[stateName], trigger);
+                    states[stateName].AddTrigger(trigger);
                 }
             }
             else
             {
                 foreach (State state in states.Values)
                 {
-                    AddStateTrigger(state, trigger);
+                    state.AddTrigger(trigger);
                 }
             }
         }
 
-        private void AddStateTrigger(State state, XElement triggerNode)
+        private Trigger ParseTrigger(XElement triggerNode)
         {
             try
             {
@@ -167,7 +169,8 @@ namespace MegaMan.Engine
                 Condition condition = EffectParser.ParseCondition(conditionString);
 
                 Effect effect = EffectParser.LoadTriggerEffect(triggerNode.Element("Effect"));
-                state.AddTrigger(condition, effect);
+
+                return new Trigger { Condition = condition, Effect = effect };
             }
             catch (Exception e)
             {
@@ -215,9 +218,8 @@ namespace MegaMan.Engine
                 logic += func;
             }
 
-            public void AddTrigger(Condition cond, Effect effect)
+            public void AddTrigger(Trigger trigger)
             {
-                Trigger trigger = new Trigger {Condition = cond, Effect = effect};
                 triggers.Add(trigger);
             }
 
