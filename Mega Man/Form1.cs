@@ -406,5 +406,21 @@ namespace MegaMan.Engine
 
 #endregion
 
+        private void emptyHealthMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            {
+                Game.CurrentGame.CurrentMap.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+            }
+        }
+
+        private void fillHealthMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            {
+                Game.CurrentGame.CurrentMap.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
+            }
+        }
+
     }
 }

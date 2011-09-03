@@ -49,7 +49,9 @@
             this.smoothedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.showHitboxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugCheatMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.invincibilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gravityFlipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,13 +61,15 @@
             this.sprites3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spries4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.foregroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.framerateUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.framerateDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBar = new System.Windows.Forms.StatusStrip();
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.thinkLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.framerateUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.framerateDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.emptyHealthMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fillHealthMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
@@ -93,7 +97,7 @@
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // loadToolStripMenuItem
             // 
@@ -131,7 +135,7 @@
             this.keyboardToolStripMenuItem});
             this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
             this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.inputToolStripMenuItem.Text = "Input";
+            this.inputToolStripMenuItem.Text = "&Input";
             // 
             // keyboardToolStripMenuItem
             // 
@@ -151,7 +155,7 @@
             this.smoothedToolStripMenuItem});
             this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
             this.screenToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.screenToolStripMenuItem.Text = "Screen";
+            this.screenToolStripMenuItem.Text = "&Screen";
             // 
             // screen1XMenu
             // 
@@ -236,36 +240,52 @@
             // 
             this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.debugBarToolStripMenuItem,
+            this.toolStripSeparator2,
             this.showHitboxesToolStripMenuItem,
-            this.invincibilityToolStripMenuItem,
-            this.gravityFlipToolStripMenuItem,
+            this.debugCheatMenu,
             this.layersToolStripMenuItem,
             this.framerateUpToolStripMenuItem,
             this.framerateDownToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.debugToolStripMenuItem.Text = "Debug";
+            this.debugToolStripMenuItem.Text = "&Debug";
             // 
             // debugBarToolStripMenuItem
             // 
             this.debugBarToolStripMenuItem.Name = "debugBarToolStripMenuItem";
             this.debugBarToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.debugBarToolStripMenuItem.Text = "Debug Bar";
+            this.debugBarToolStripMenuItem.Text = "Show &Debug Bar";
             this.debugBarToolStripMenuItem.Click += new System.EventHandler(this.debugBarToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(230, 6);
             // 
             // showHitboxesToolStripMenuItem
             // 
             this.showHitboxesToolStripMenuItem.Name = "showHitboxesToolStripMenuItem";
             this.showHitboxesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.showHitboxesToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.showHitboxesToolStripMenuItem.Text = "Show Hitboxes";
+            this.showHitboxesToolStripMenuItem.Text = "Show &Hitboxes";
             this.showHitboxesToolStripMenuItem.Click += new System.EventHandler(this.showHitboxesToolStripMenuItem_Click);
+            // 
+            // debugCheatMenu
+            // 
+            this.debugCheatMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.invincibilityToolStripMenuItem,
+            this.gravityFlipToolStripMenuItem,
+            this.emptyHealthMenuItem,
+            this.fillHealthMenuItem});
+            this.debugCheatMenu.Name = "debugCheatMenu";
+            this.debugCheatMenu.Size = new System.Drawing.Size(233, 22);
+            this.debugCheatMenu.Text = "&Cheat";
             // 
             // invincibilityToolStripMenuItem
             // 
             this.invincibilityToolStripMenuItem.Name = "invincibilityToolStripMenuItem";
             this.invincibilityToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.invincibilityToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.invincibilityToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.invincibilityToolStripMenuItem.Text = "Invincibility";
             this.invincibilityToolStripMenuItem.Click += new System.EventHandler(this.invincibilityToolStripMenuItem_Click);
             // 
@@ -273,7 +293,7 @@
             // 
             this.gravityFlipToolStripMenuItem.Name = "gravityFlipToolStripMenuItem";
             this.gravityFlipToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.gravityFlipToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.gravityFlipToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.gravityFlipToolStripMenuItem.Text = "Gravity Flip";
             this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
             // 
@@ -288,7 +308,7 @@
             this.foregroundToolStripMenuItem});
             this.layersToolStripMenuItem.Name = "layersToolStripMenuItem";
             this.layersToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.layersToolStripMenuItem.Text = "Layers";
+            this.layersToolStripMenuItem.Text = "&Layers";
             // 
             // backgroundToolStripMenuItem
             // 
@@ -350,6 +370,23 @@
             this.foregroundToolStripMenuItem.Text = "Foreground";
             this.foregroundToolStripMenuItem.Click += new System.EventHandler(this.foregroundToolStripMenuItem_Click);
             // 
+            // framerateUpToolStripMenuItem
+            // 
+            this.framerateUpToolStripMenuItem.Name = "framerateUpToolStripMenuItem";
+            this.framerateUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.framerateUpToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.framerateUpToolStripMenuItem.Text = "Framerate Up";
+            this.framerateUpToolStripMenuItem.Click += new System.EventHandler(this.framerateUpToolStripMenuItem_Click);
+            // 
+            // framerateDownToolStripMenuItem
+            // 
+            this.framerateDownToolStripMenuItem.Name = "framerateDownToolStripMenuItem";
+            this.framerateDownToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.F)));
+            this.framerateDownToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.framerateDownToolStripMenuItem.Text = "Framerate Down";
+            this.framerateDownToolStripMenuItem.Click += new System.EventHandler(this.framerateDownToolStripMenuItem_Click);
+            // 
             // debugBar
             // 
             this.debugBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -387,22 +424,22 @@
             this.fpsCapLabel.Size = new System.Drawing.Size(13, 17);
             this.fpsCapLabel.Text = "0";
             // 
-            // framerateUpToolStripMenuItem
+            // emptyHealthMenuItem
             // 
-            this.framerateUpToolStripMenuItem.Name = "framerateUpToolStripMenuItem";
-            this.framerateUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.framerateUpToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.framerateUpToolStripMenuItem.Text = "Framerate Up";
-            this.framerateUpToolStripMenuItem.Click += new System.EventHandler(this.framerateUpToolStripMenuItem_Click);
+            this.emptyHealthMenuItem.Name = "emptyHealthMenuItem";
+            this.emptyHealthMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.emptyHealthMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.emptyHealthMenuItem.Text = "Empty Health (Kill)";
+            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
             // 
-            // framerateDownToolStripMenuItem
+            // fillHealthMenuItem
             // 
-            this.framerateDownToolStripMenuItem.Name = "framerateDownToolStripMenuItem";
-            this.framerateDownToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.F)));
-            this.framerateDownToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.framerateDownToolStripMenuItem.Text = "Framerate Down";
-            this.framerateDownToolStripMenuItem.Click += new System.EventHandler(this.framerateDownToolStripMenuItem_Click);
+            this.fillHealthMenuItem.Name = "fillHealthMenuItem";
+            this.fillHealthMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.Q)));
+            this.fillHealthMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.fillHealthMenuItem.Text = "Fill Health";
+            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
             // 
             // xnaImage
             // 
@@ -474,6 +511,10 @@
         private System.Windows.Forms.ToolStripStatusLabel fpsCapLabel;
         private System.Windows.Forms.ToolStripMenuItem framerateUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem framerateDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem debugCheatMenu;
+        private System.Windows.Forms.ToolStripMenuItem emptyHealthMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fillHealthMenuItem;
     }
 }
 
