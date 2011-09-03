@@ -14,6 +14,12 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
+#if !DEBUG
+            debugBar.Hide();
+            debugBar.Height = 0;
+            menuStrip1.Items.Remove(debugToolStripMenuItem);
+#endif
+
             try
             {
                 LoadConfig();
@@ -218,32 +224,6 @@ namespace MegaMan.Engine
             if (Game.CurrentGame != null) Game.CurrentGame.Unload();
         }
 
-        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            debugBar.Visible = !debugBar.Visible;
-            Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
-            debugBarToolStripMenuItem.Checked = debugBar.Visible;
-        }
-
-        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.Instance.DrawHitboxes = !Engine.Instance.DrawHitboxes;
-            showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes;
-        }
-
-        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.Instance.Invincible = !Engine.Instance.Invincible;
-            invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible;
-        }
-
-        private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame == null) return;
-            Game.CurrentGame.GravityFlip = !Game.CurrentGame.GravityFlip;
-            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GravityFlip;
-        }
-
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame != null) Game.CurrentGame.Reset();
@@ -289,11 +269,6 @@ namespace MegaMan.Engine
         {
             Engine.Instance.Foreground = !Engine.Instance.Foreground;
             foregroundToolStripMenuItem.Checked = Engine.Instance.Foreground;
-        }
-
-        private void xnaImage_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void screen1XMenu_Click(object sender, EventArgs e)
@@ -391,6 +366,34 @@ namespace MegaMan.Engine
             Application.Exit();
         }
 
+#region Debug Menu
+
+        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            debugBar.Visible = !debugBar.Visible;
+            Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
+            debugBarToolStripMenuItem.Checked = debugBar.Visible;
+        }
+
+        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.DrawHitboxes = !Engine.Instance.DrawHitboxes;
+            showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes;
+        }
+
+        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.Invincible = !Engine.Instance.Invincible;
+            invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible;
+        }
+
+        private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame == null) return;
+            Game.CurrentGame.GravityFlip = !Game.CurrentGame.GravityFlip;
+            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GravityFlip;
+        }
+
         private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.FPS += 10;
@@ -400,5 +403,8 @@ namespace MegaMan.Engine
         {
             if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
         }
+
+#endregion
+
     }
 }
