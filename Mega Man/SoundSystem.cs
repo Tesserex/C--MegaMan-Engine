@@ -20,6 +20,53 @@ namespace MegaMan.Engine
         private SoundEffect sfx;
         public static byte CurrentSfxPriority { get; set; }
 
+        private bool musicEnabled = true;
+        public bool MusicEnabled
+        {
+            get { return musicEnabled; }
+            set 
+            {
+                musicEnabled = value;
+                if (value) AudioManager.Instance.ResumeBGMPlayback();
+                else AudioManager.Instance.PauseBGMPlayback();
+            }
+        }
+
+        private bool sfxEnabled = true;
+        public bool SfxEnabled
+        {
+            get { return sfxEnabled; }
+            set
+            {
+                sfxEnabled = value;
+                if (!value) AudioManager.Instance.StopSFXPlayback();
+            }
+        }
+
+        public bool SquareOne
+        {
+            get { return AudioManager.Instance.Muted[0]; }
+            set { AudioManager.Instance.MuteChannel(0, !value); }
+        }
+
+        public bool SquareTwo
+        {
+            get { return AudioManager.Instance.Muted[1]; }
+            set { AudioManager.Instance.MuteChannel(1, !value); }
+        }
+
+        public bool Triangle
+        {
+            get { return AudioManager.Instance.Muted[2]; }
+            set { AudioManager.Instance.MuteChannel(2, !value); }
+        }
+
+        public bool Noise
+        {
+            get { return AudioManager.Instance.Muted[3]; }
+            set { AudioManager.Instance.MuteChannel(3, !value); }
+        }
+
         public SoundSystem()
         {
             Factory.System_Create(ref soundSystem);
@@ -174,10 +221,13 @@ namespace MegaMan.Engine
         {
             bgm.CurrentTrack = track-1;
             AudioManager.Instance.PlayBackgroundMusic(bgm);
+            if (!MusicEnabled) AudioManager.Instance.PauseBGMPlayback();
         }
 
         public void PlaySfx(string name)
         {
+            if (!SfxEnabled) return;
+
             if (loadedSounds.ContainsKey(name))
             {
                 loadedSounds[name].Play();

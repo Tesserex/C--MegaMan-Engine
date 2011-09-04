@@ -404,8 +404,6 @@ namespace MegaMan.Engine
             if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
         }
 
-#endregion
-
         private void emptyHealthMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
@@ -421,6 +419,68 @@ namespace MegaMan.Engine
                 Game.CurrentGame.CurrentMap.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
             }
         }
+
+        private void emptyWeaponMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            {
+                var weaponComponent = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
+                if (weaponComponent != null)
+                {
+                    weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
+                }
+            }
+        }
+
+        private void fillWeaponMenuIem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            {
+                var weaponComponent = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
+                if (weaponComponent != null)
+                {
+                    weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));
+                }
+            }
+        }
+
+        private void musicMenuItem_Click(object sender, EventArgs e)
+        {
+            musicMenuItem.Checked = !musicMenuItem.Checked;
+            Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+        }
+
+        private void sfxMenuItem_Click(object sender, EventArgs e)
+        {
+            sfxMenuItem.Checked = !sfxMenuItem.Checked;
+            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked;
+        }
+
+        private void sq1MenuItem_Click(object sender, EventArgs e)
+        {
+            sq1MenuItem.Checked = !sq1MenuItem.Checked;
+            Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked;
+        }
+
+        private void sq2MenuItem_Click(object sender, EventArgs e)
+        {
+            sq2MenuItem.Checked = !sq2MenuItem.Checked;
+            Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked;
+        }
+
+        private void triMenuItem_Click(object sender, EventArgs e)
+        {
+            triMenuItem.Checked = !triMenuItem.Checked;
+            Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked;
+        }
+
+        private void noiseMenuItem_Click(object sender, EventArgs e)
+        {
+            noiseMenuItem.Checked = !noiseMenuItem.Checked;
+            Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked;
+        }
+
+#endregion
 
     }
 }
