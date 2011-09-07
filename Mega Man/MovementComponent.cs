@@ -12,7 +12,6 @@ namespace MegaMan.Engine
         private float pushX, pushY;
 
         private float vx, vy, pendingVx, pendingVy;
-        private bool newVx, newVy;
         public bool Flying { get; set; }
         public float VelocityX
         {
@@ -20,7 +19,7 @@ namespace MegaMan.Engine
             set
             {
                 pendingVx = value;
-                newVx = true;
+
                 if (pendingVx < 0) Direction = Direction.Left;
                 else if (pendingVx > 0) Direction = Direction.Right;
             }
@@ -31,7 +30,6 @@ namespace MegaMan.Engine
             set
             {
                 pendingVy = value;
-                newVy = true;
             }
         }
         public bool FlipSprite { get; set; }
@@ -69,7 +67,6 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
-            Engine.Instance.GameThink += Think;
             Engine.Instance.GameAct += Update;
 
             pushX = pushY = 0;
@@ -83,7 +80,6 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            Engine.Instance.GameThink -= Think;
             Engine.Instance.GameAct -= Update;
         }
 
@@ -91,40 +87,15 @@ namespace MegaMan.Engine
         {
         }
 
-        private void Think()
-        {
-            // modify my CURRENT velocity
-            // not the pending changes
-            if (!newVx) vx *= resistX;
-            if (!newVy) vy *= resistY;
-
-            resistX = resistY = 1;
-        }
-
         protected override void Update()
         {
             if (!CanMove || Parent.Paused) return;
 
-            // set to the velocity i was thinking about
-            // but only if there is something new --
-            // don't want to overwrite a push effect
-            if (newVx)
-            {
-                float accelX = (pendingVx - vx) * dragX;
-                vx += accelX;
-            }
-            if (newVy)
-            {
-                float accelY = (pendingVy - vy) * dragY;
-                vy += accelY;
-            }
-            newVx = newVy = false;
+            float accelX = (pendingVx - vx) * dragX;
+            vx += accelX;
 
-            vx += pushX;
-            vy += pushY;
-
-            pushX = pushY = 0;
-            dragX = dragY = 1;
+            float accelY = (pendingVy - vy) * dragY;
+            vy += accelY;
 
             if (!Flying)
             {
@@ -149,16 +120,19 @@ namespace MegaMan.Engine
 
             if (position != null)
             {
+                float deltaX = vx + pushX;
+                float deltaY = vy + pushY;
+
                 PointF pos = position.Position;
                 if (collision == null)
                 {
-                    pos.X += vx;
-                    pos.Y += vy;
+                    pos.X += deltaX;
+                    pos.Y += deltaY;
                 }
                 else
                 {
-                    if ((!collision.BlockLeft && vx < 0) || (!collision.BlockRight && vx > 0)) pos.X += vx;
-                    if ((!collision.BlockTop && vy < 0) || (!collision.BlockBottom && vy > 0)) pos.Y += vy;
+                    if ((!collision.BlockLeft && deltaX < 0) || (!collision.BlockRight && deltaX > 0)) pos.X += deltaX;
+                    if ((!collision.BlockTop && deltaY < 0) || (!collision.BlockBottom && deltaY > 0)) pos.Y += deltaY;
                 }
                 position.SetPosition(pos);
             }
@@ -182,7 +156,16 @@ namespace MegaMan.Engine
                 }
             }
 
+            vx *= resistX;
+            vy *= resistY;
+            resistX = resistY = 1;
+
+            pendingVx = vx;
+            pendingVy = vy;
+
             overTile = nextOverTile;
+            pushX = pushY = 0;
+            dragX = dragY = 1;
         }
 
         public override void RegisterDependencies(Component component)
@@ -193,12 +176,28 @@ namespace MegaMan.Engine
 
         public void PushX(float add)
         {
-            if (Math.Abs(add) > Math.Abs(pushX)) pushX = add;
+            if (Math.Sign(add) == Math.Sign(pushX))
+            {
+                // take highest magnitude
+                pushX = Math.Max(Math.Abs(pushX), Math.Abs(add)) * Math.Sign(pushX);
+            }
+            else
+            {
+                pushX += add;
+            }
         }
 
         public void PushY(float add)
         {
-            if (Math.Abs(add) > Math.Abs(pushY)) pushY = add;
+            if (Math.Sign(add) == Math.Sign(pushY))
+            {
+                // take highest magnitude
+                pushY = Math.Max(Math.Abs(pushY), Math.Abs(add)) * Math.Sign(pushY);
+            }
+            else
+            {
+                pushY += add;
+            }
         }
 
         public void ResistX(float mult)
