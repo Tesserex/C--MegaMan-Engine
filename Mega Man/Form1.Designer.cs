@@ -47,6 +47,17 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.pixellatedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smoothedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.musicMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sfxMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.sq1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sq2MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.triMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noiseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -67,14 +78,6 @@
             this.foregroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.framerateUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.framerateDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.musicMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sfxMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.sq1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sq2MenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.triMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.noiseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBar = new System.Windows.Forms.StatusStrip();
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.thinkLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -91,6 +94,7 @@
             this.fileToolStripMenuItem,
             this.inputToolStripMenuItem,
             this.screenToolStripMenuItem,
+            this.audioToolStripMenuItem,
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -113,29 +117,31 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.loadToolStripMenuItem.Text = "Open Game";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F2)));
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // closeGameToolStripMenuItem
             // 
             this.closeGameToolStripMenuItem.Name = "closeGameToolStripMenuItem";
-            this.closeGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.closeGameToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.closeGameToolStripMenuItem.Text = "Close Game";
             this.closeGameToolStripMenuItem.Click += new System.EventHandler(this.closeGameToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -150,7 +156,7 @@
             // keyboardToolStripMenuItem
             // 
             this.keyboardToolStripMenuItem.Name = "keyboardToolStripMenuItem";
-            this.keyboardToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.keyboardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.keyboardToolStripMenuItem.Text = "Keyboard";
             this.keyboardToolStripMenuItem.Click += new System.EventHandler(this.keyboardToolStripMenuItem_Click);
             // 
@@ -162,7 +168,10 @@
             this.screenNTSCMenu,
             this.toolStripSeparator1,
             this.pixellatedToolStripMenuItem,
-            this.smoothedToolStripMenuItem});
+            this.smoothedToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.hideMenuItem,
+            this.screenshotMenuItem});
             this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
             this.screenToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.screenToolStripMenuItem.Text = "&Screen";
@@ -172,14 +181,14 @@
             this.screen1XMenu.Checked = true;
             this.screen1XMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.screen1XMenu.Name = "screen1XMenu";
-            this.screen1XMenu.Size = new System.Drawing.Size(129, 22);
+            this.screen1XMenu.Size = new System.Drawing.Size(152, 22);
             this.screen1XMenu.Text = "1x";
             this.screen1XMenu.Click += new System.EventHandler(this.screen1XMenu_Click);
             // 
             // screen2XMenu
             // 
             this.screen2XMenu.Name = "screen2XMenu";
-            this.screen2XMenu.Size = new System.Drawing.Size(129, 22);
+            this.screen2XMenu.Size = new System.Drawing.Size(152, 22);
             this.screen2XMenu.Text = "2x";
             this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
@@ -191,7 +200,7 @@
             this.ntscRGB,
             this.ntscCustom});
             this.screenNTSCMenu.Name = "screenNTSCMenu";
-            this.screenNTSCMenu.Size = new System.Drawing.Size(129, 22);
+            this.screenNTSCMenu.Size = new System.Drawing.Size(152, 22);
             this.screenNTSCMenu.Text = "NTSC";
             this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
             // 
@@ -228,23 +237,124 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(126, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // pixellatedToolStripMenuItem
             // 
             this.pixellatedToolStripMenuItem.Checked = true;
             this.pixellatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
-            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
             this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
             // 
             // smoothedToolStripMenuItem
             // 
             this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
-            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.smoothedToolStripMenuItem.Text = "Smoothed";
             this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            // 
+            // hideMenuItem
+            // 
+            this.hideMenuItem.Name = "hideMenuItem";
+            this.hideMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.hideMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideMenuItem.Text = "Hide Menu";
+            this.hideMenuItem.Click += new System.EventHandler(this.hideMenuItem_Click);
+            // 
+            // screenshotMenuItem
+            // 
+            this.screenshotMenuItem.Name = "screenshotMenuItem";
+            this.screenshotMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
+            this.screenshotMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.screenshotMenuItem.Text = "Capture";
+            this.screenshotMenuItem.Click += new System.EventHandler(this.screenshotMenuItem_Click);
+            // 
+            // audioToolStripMenuItem
+            // 
+            this.audioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.musicMenuItem,
+            this.sfxMenuItem,
+            this.toolStripSeparator3,
+            this.sq1MenuItem,
+            this.sq2MenuItem,
+            this.triMenuItem,
+            this.noiseMenuItem});
+            this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.audioToolStripMenuItem.Text = "&Audio";
+            // 
+            // musicMenuItem
+            // 
+            this.musicMenuItem.Checked = true;
+            this.musicMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.musicMenuItem.Name = "musicMenuItem";
+            this.musicMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.musicMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.musicMenuItem.Text = "Toggle Music";
+            this.musicMenuItem.Click += new System.EventHandler(this.musicMenuItem_Click);
+            // 
+            // sfxMenuItem
+            // 
+            this.sfxMenuItem.Checked = true;
+            this.sfxMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sfxMenuItem.Name = "sfxMenuItem";
+            this.sfxMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.M)));
+            this.sfxMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.sfxMenuItem.Text = "Toggle Sound Effects";
+            this.sfxMenuItem.Click += new System.EventHandler(this.sfxMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(260, 6);
+            // 
+            // sq1MenuItem
+            // 
+            this.sq1MenuItem.Checked = true;
+            this.sq1MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sq1MenuItem.Name = "sq1MenuItem";
+            this.sq1MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
+            this.sq1MenuItem.Size = new System.Drawing.Size(263, 22);
+            this.sq1MenuItem.Text = "Toggle Square 1";
+            this.sq1MenuItem.Click += new System.EventHandler(this.sq1MenuItem_Click);
+            // 
+            // sq2MenuItem
+            // 
+            this.sq2MenuItem.Checked = true;
+            this.sq2MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sq2MenuItem.Name = "sq2MenuItem";
+            this.sq2MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
+            this.sq2MenuItem.Size = new System.Drawing.Size(263, 22);
+            this.sq2MenuItem.Text = "Toggle Square 2";
+            this.sq2MenuItem.Click += new System.EventHandler(this.sq2MenuItem_Click);
+            // 
+            // triMenuItem
+            // 
+            this.triMenuItem.Checked = true;
+            this.triMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triMenuItem.Name = "triMenuItem";
+            this.triMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
+            this.triMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.triMenuItem.Text = "Toggle Triangle";
+            this.triMenuItem.Click += new System.EventHandler(this.triMenuItem_Click);
+            // 
+            // noiseMenuItem
+            // 
+            this.noiseMenuItem.Checked = true;
+            this.noiseMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.noiseMenuItem.Name = "noiseMenuItem";
+            this.noiseMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
+            this.noiseMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.noiseMenuItem.Text = "Toggle Noise";
+            this.noiseMenuItem.Click += new System.EventHandler(this.noiseMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -255,8 +365,7 @@
             this.debugCheatMenu,
             this.layersToolStripMenuItem,
             this.framerateUpToolStripMenuItem,
-            this.framerateDownToolStripMenuItem,
-            this.audioToolStripMenuItem});
+            this.framerateDownToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "&Debug";
@@ -434,86 +543,6 @@
             this.framerateDownToolStripMenuItem.Text = "Framerate Down";
             this.framerateDownToolStripMenuItem.Click += new System.EventHandler(this.framerateDownToolStripMenuItem_Click);
             // 
-            // audioToolStripMenuItem
-            // 
-            this.audioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.musicMenuItem,
-            this.sfxMenuItem,
-            this.toolStripSeparator3,
-            this.sq1MenuItem,
-            this.sq2MenuItem,
-            this.triMenuItem,
-            this.noiseMenuItem});
-            this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-            this.audioToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.audioToolStripMenuItem.Text = "&Audio";
-            // 
-            // musicMenuItem
-            // 
-            this.musicMenuItem.Checked = true;
-            this.musicMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.musicMenuItem.Name = "musicMenuItem";
-            this.musicMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.musicMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.musicMenuItem.Text = "Toggle Music";
-            this.musicMenuItem.Click += new System.EventHandler(this.musicMenuItem_Click);
-            // 
-            // sfxMenuItem
-            // 
-            this.sfxMenuItem.Checked = true;
-            this.sfxMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.sfxMenuItem.Name = "sfxMenuItem";
-            this.sfxMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.M)));
-            this.sfxMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.sfxMenuItem.Text = "Toggle Sound Effects";
-            this.sfxMenuItem.Click += new System.EventHandler(this.sfxMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(260, 6);
-            // 
-            // sq1MenuItem
-            // 
-            this.sq1MenuItem.Checked = true;
-            this.sq1MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.sq1MenuItem.Name = "sq1MenuItem";
-            this.sq1MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
-            this.sq1MenuItem.Size = new System.Drawing.Size(263, 22);
-            this.sq1MenuItem.Text = "Toggle Square 1";
-            this.sq1MenuItem.Click += new System.EventHandler(this.sq1MenuItem_Click);
-            // 
-            // sq2MenuItem
-            // 
-            this.sq2MenuItem.Checked = true;
-            this.sq2MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.sq2MenuItem.Name = "sq2MenuItem";
-            this.sq2MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
-            this.sq2MenuItem.Size = new System.Drawing.Size(263, 22);
-            this.sq2MenuItem.Text = "Toggle Square 2";
-            this.sq2MenuItem.Click += new System.EventHandler(this.sq2MenuItem_Click);
-            // 
-            // triMenuItem
-            // 
-            this.triMenuItem.Checked = true;
-            this.triMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triMenuItem.Name = "triMenuItem";
-            this.triMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
-            this.triMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.triMenuItem.Text = "Toggle Triangle";
-            this.triMenuItem.Click += new System.EventHandler(this.triMenuItem_Click);
-            // 
-            // noiseMenuItem
-            // 
-            this.noiseMenuItem.Checked = true;
-            this.noiseMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.noiseMenuItem.Name = "noiseMenuItem";
-            this.noiseMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
-            this.noiseMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.noiseMenuItem.Text = "Toggle Noise";
-            this.noiseMenuItem.Click += new System.EventHandler(this.noiseMenuItem_Click);
-            // 
             // debugBar
             // 
             this.debugBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -635,6 +664,9 @@
         private System.Windows.Forms.ToolStripMenuItem sq2MenuItem;
         private System.Windows.Forms.ToolStripMenuItem triMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noiseMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem screenshotMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
     }
 }
 

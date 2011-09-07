@@ -2,6 +2,8 @@
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Drawing;
+using System.IO;
 
 namespace MegaMan.Engine
 {
@@ -444,6 +446,8 @@ namespace MegaMan.Engine
             }
         }
 
+#endregion
+
         private void musicMenuItem_Click(object sender, EventArgs e)
         {
             musicMenuItem.Checked = !musicMenuItem.Checked;
@@ -480,7 +484,39 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked;
         }
 
-#endregion
+        private void screenshotMenuItem_Click(object sender, EventArgs e)
+        {
+            var capDir = Path.Combine(Application.StartupPath, "screenshots");
+            if (!Directory.Exists(capDir)) System.IO.Directory.CreateDirectory(capDir);
+
+            string capPath;
+            int capNum = 1;
+
+            do
+            {
+                capPath = Path.Combine(capDir, String.Format("{0}.png", capNum));
+                capNum++;
+            } while (File.Exists(capPath));
+
+            using (var stream = File.OpenWrite(capPath))
+            {
+                xnaImage.SaveCap(stream);
+            }
+        }
+
+        private void hideMenuItem_Click(object sender, EventArgs e)
+        {
+            if (menuStrip1.Visible)
+            {
+                Height -= menuStrip1.Height;
+                menuStrip1.Visible = false;
+            }
+            else
+            {
+                menuStrip1.Visible = true;
+                Height += menuStrip1.Height;
+            }
+        }
 
     }
 }

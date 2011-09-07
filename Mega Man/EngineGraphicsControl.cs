@@ -79,6 +79,11 @@ namespace MegaMan.Engine
             backing = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
+        public void SaveCap(System.IO.Stream stream)
+        {
+            backing.SaveAsPng(stream, backing.Width, backing.Height);
+        }
+
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
             if (!DesignMode)
