@@ -28,8 +28,6 @@ namespace MegaMan.Engine
 
         public ScreenHandler CurrentScreen { get; private set; }
 
-        public GameEntity Player { get; private set; }
-
         public PositionComponent PlayerPos;
 
         public event Action Paused;

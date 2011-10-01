@@ -78,7 +78,7 @@ namespace MegaMan.Engine
         {
             if (msg is DamageMessage && flashing == 0)
             {
-                if (Engine.Instance.Invincible && Parent == Game.CurrentGame.CurrentMap.Player) return;
+                if (Engine.Instance.Invincible && Parent == Game.CurrentGame.Player.Entity) return;
 
                 DamageMessage damage = (DamageMessage)msg;
 

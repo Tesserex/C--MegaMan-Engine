@@ -15,7 +15,7 @@ namespace MegaMan.Engine
         private readonly Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
         private readonly List<Channel> channels = new List<Channel>();
         private readonly System.Windows.Forms.Timer updateTimer;
-
+        
         private BackgroundMusic bgm;
         private SoundEffect sfx;
         public static byte CurrentSfxPriority { get; set; }

@@ -291,11 +291,6 @@ namespace MegaMan.Engine
             foregroundToolStripMenuItem.Checked = Engine.Instance.Foreground;
         }
 
-        private void xnaImage_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame == null) ResizeScreen(Const.PixelsAcross, Const.PixelsDown);

@@ -47,7 +47,7 @@ namespace MegaMan.Engine
 
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
-        public int PlayerLives { get; set; }
+        public Player Player { get; set; }
 
         public static void Load(string path)
         {
@@ -88,11 +88,12 @@ namespace MegaMan.Engine
         {
             gameObjects = new List<IHandleGameEvents>();
             stages = new Dictionary<string, FilePath>();
+            Player = new Player();
 
             Gravity = 0.25f;
             GravityFlip = false;
 
-            PlayerLives = 2;
+            Player.PlayerLives = 2;
         }
 
         private void LoadFile(string path)

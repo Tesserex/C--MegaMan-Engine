@@ -412,7 +412,6 @@
             this.xnaImage.NTSC = false;
             this.xnaImage.Size = new System.Drawing.Size(294, 248);
             this.xnaImage.TabIndex = 1;
-            this.xnaImage.Click += new System.EventHandler(this.xnaImage_Click);
             // 
             // Form1
             // 

@@ -97,9 +97,7 @@ namespace MegaMan.Engine
             }
         }
 
-        // this timer is used to control framerate. Because the Idle event is used,
-        // the inherent limit on speed is about 70 fps. The events just wont fire
-        // more often than that.
+        // this timer is used to control framerate.
         private readonly Stopwatch timer;
 
         // how many cpu ticks should there be between frames?
