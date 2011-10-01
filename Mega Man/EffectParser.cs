@@ -178,6 +178,14 @@ namespace MegaMan.Engine
                     };
                     break;
 
+                case "Pause":
+                    effect = entity => { entity.Paused = true; };
+                    break;
+
+                case "Unpause":
+                    effect = entity => { entity.Paused = false; };
+                    break;
+
                 default:
                     effect = GameEntity.ParseComponentEffect(node);
                     break;
