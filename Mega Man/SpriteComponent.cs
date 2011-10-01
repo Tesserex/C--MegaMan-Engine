@@ -222,7 +222,7 @@ namespace MegaMan.Engine
 
         protected override void Update()
         {
-            currentSprite.Update();
+            if (!Parent.Paused) currentSprite.Update();
         }
 
         public override void RegisterDependencies(Component component)
