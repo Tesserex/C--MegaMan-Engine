@@ -11,6 +11,7 @@ namespace MegaMan.Engine
         {
             public int Index;
             public string Name;
+            public string Entity;
             public int Ammo;
             public int Max;
             public int Usage;
@@ -141,7 +142,7 @@ namespace MegaMan.Engine
             {
                 if (weapons[current].Ammo != 0)
                 {
-                    Parent.Spawn(weapons[current].Name);
+                    Parent.Spawn(weapons[current].Entity);
                     if (weapons[current].Ammo > 0)
                     {
                         AddAmmo(-1 * weapons[current].Usage);
@@ -159,7 +160,7 @@ namespace MegaMan.Engine
             if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
         }
 
-        public void AddWeapon(string name, int ammo, int usage, HealthMeter meter, string spritegroup)
+        public void AddWeapon(string name, string entity, int ammo, int usage, HealthMeter meter, string spritegroup)
         {
             if (weapons.Any(info => info.Name == name))
             {
@@ -168,6 +169,7 @@ namespace MegaMan.Engine
             WeaponInfo weapon = new WeaponInfo
             {
                 Name = name,
+                Entity = entity,
                 Ammo = ammo,
                 Max = ammo,
                 Usage = usage,
@@ -184,6 +186,8 @@ namespace MegaMan.Engine
             foreach (XElement weapon in node.Elements("Weapon"))
             {
                 string name = weapon.RequireAttribute("name").Value;
+
+                string entity = weapon.RequireAttribute("entity").Value;
 
                 int ammo;
                 if (!weapon.TryInteger("ammo", out ammo)) ammo = -1;
@@ -205,7 +209,7 @@ namespace MegaMan.Engine
                     meter.Reset();
                 }
 
-                AddWeapon(name, ammo, usage, meter, spritegroup);
+                AddWeapon(name, entity, ammo, usage, meter, spritegroup);
             }
         }
 

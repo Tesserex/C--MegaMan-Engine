@@ -13,7 +13,7 @@ namespace MegaMan.Engine
         {
             public Texture2D textureOff, textureOn;
             public string name;
-            public string entity;
+            public string weapon;
             public Point location;
             public HealthMeter meter;
         }
@@ -61,9 +61,9 @@ namespace MegaMan.Engine
             if (pauseSound != null) Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
-        private void LoadWeapon(WeaponInfo weapon)
+        private void LoadWeapon(PauseWeaponInfo weapon)
         {
-            PauseWeapon info = new PauseWeapon {name = weapon.Name, entity = weapon.Entity};
+            PauseWeapon info = new PauseWeapon {name = weapon.Name, weapon = weapon.Weapon};
 
             string imagePathOff = weapon.IconOff.Absolute;
             string imagePathOn = weapon.IconOn.Absolute;
@@ -99,7 +99,7 @@ namespace MegaMan.Engine
 
             foreach (PauseWeapon info in weapons)
             {
-                if (info.entity == selectedName)
+                if (info.weapon == selectedName)
                 {
                     currentPos = info.location;
                     break;
@@ -110,8 +110,8 @@ namespace MegaMan.Engine
             {
                 if (info.meter != null)
                 {
-                    info.meter.Value = playerWeapons.Ammo(info.entity);
-                    info.meter.MaxValue = playerWeapons.MaxAmmo(info.entity);
+                    info.meter.Value = playerWeapons.Ammo(info.weapon);
+                    info.meter.MaxValue = playerWeapons.MaxAmmo(info.weapon);
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace MegaMan.Engine
             {
                 foreach (PauseWeapon info in weapons)
                 {
-                    if (info.entity == selectedName) continue;
+                    if (info.weapon == selectedName) continue;
 
                     int ydist = info.location.Y - currentPos.Y;
                     if (ydist == 0) continue;
@@ -157,7 +157,7 @@ namespace MegaMan.Engine
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.entity;
+                        next = info.weapon;
                         nextPos = info.location;
                     }
                 }
@@ -166,7 +166,7 @@ namespace MegaMan.Engine
             {
                 foreach (PauseWeapon info in weapons)
                 {
-                    if (info.entity == selectedName) continue;
+                    if (info.weapon == selectedName) continue;
 
                     int ydist = currentPos.Y - info.location.Y;
                     if (ydist == 0) continue;
@@ -178,7 +178,7 @@ namespace MegaMan.Engine
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.entity;
+                        next = info.weapon;
                         nextPos = info.location;
                     }
                 }
@@ -187,7 +187,7 @@ namespace MegaMan.Engine
             {
                 foreach (PauseWeapon info in weapons)
                 {
-                    if (info.entity == selectedName) continue;
+                    if (info.weapon == selectedName) continue;
 
                     int xdist = info.location.X - currentPos.X;
                     if (xdist == 0) continue;
@@ -198,7 +198,7 @@ namespace MegaMan.Engine
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.entity;
+                        next = info.weapon;
                         nextPos = info.location;
                     }
                 }
@@ -207,7 +207,7 @@ namespace MegaMan.Engine
             {
                 foreach (PauseWeapon info in weapons)
                 {
-                    if (info.entity == selectedName) continue;
+                    if (info.weapon == selectedName) continue;
 
                     int xdist = currentPos.X - info.location.X;
                     if (xdist == 0) continue;
@@ -218,7 +218,7 @@ namespace MegaMan.Engine
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.entity;
+                        next = info.weapon;
                         nextPos = info.location;
                     }
                 }
@@ -240,7 +240,7 @@ namespace MegaMan.Engine
 
             foreach (PauseWeapon info in weapons)
             {
-                e.Layers.ForegroundBatch.Draw(info.entity == selectedName ? info.textureOn : info.textureOff,
+                e.Layers.ForegroundBatch.Draw(info.weapon == selectedName ? info.textureOn : info.textureOff,
                                               new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y),
                                               e.OpacityColor);
 
