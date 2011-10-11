@@ -45,7 +45,7 @@ namespace MegaMan.Engine
 
         public bool Visible { get; set; }
 
-        private IPositioned PositionSrc { get; set; }
+        private PositionComponent PositionSrc { get; set; }
 
         public bool HorizontalFlip
         {
@@ -227,7 +227,7 @@ namespace MegaMan.Engine
 
         public override void RegisterDependencies(Component component)
         {
-            if (component is IPositioned) PositionSrc = component as IPositioned;
+            if (component is PositionComponent) PositionSrc = component as PositionComponent;
         }
 
         private bool evenframe = true;

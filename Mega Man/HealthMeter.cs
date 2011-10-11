@@ -255,11 +255,6 @@ namespace MegaMan.Engine
             running = false;
         }
 
-        public void GameInputReceived(GameInputEventArgs e)
-        {
-            
-        }
-
         private void GameTick(GameTickEventArgs e)
         {
             UpTick();

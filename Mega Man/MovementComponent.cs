@@ -6,7 +6,7 @@ using MegaMan.Common;
 namespace MegaMan.Engine
 {
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
-    public class MovementComponent : Component, IMovement
+    public class MovementComponent : Component
     {
         private float resistX, resistY, dragX, dragY;
         private float pushX, pushY;

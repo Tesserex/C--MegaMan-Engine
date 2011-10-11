@@ -6,7 +6,7 @@ using MegaMan.Common;
 namespace MegaMan.Engine
 {
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
-    public class PositionComponent : Component, IPositioned
+    public class PositionComponent : Component
     {
         public bool PersistOffScreen { get; set; }
         public PointF Position { get; private set; }
