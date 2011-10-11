@@ -75,6 +75,7 @@ namespace MegaMan.Engine
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
             HealthMeter.Unload();
+            Scene.Unload();
             CurrentGame = null;
         }
 
@@ -135,7 +136,21 @@ namespace MegaMan.Engine
 
             currentPath = path;
 
-            StageSelect();
+            if (project.TitleScene != null)
+            {
+                var scene = Scene.Get(project.TitleScene);
+                scene.Finished += () =>
+                {
+                    scene.StopHandler();
+                    StageSelect();
+                };
+                currentHandler = scene;
+                currentHandler.StartHandler();
+            }
+            else
+            {
+                StageSelect();
+            }
         }
 
         private static void IncludeXmlFile(string path)
@@ -157,6 +172,10 @@ namespace MegaMan.Engine
 
                         case "Sounds":
                             Engine.Instance.SoundSystem.LoadEffectsFromXml(element);
+                            break;
+
+                        case "Scene":
+                            Scene.LoadScene(element);
                             break;
 
                         default:
