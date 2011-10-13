@@ -70,7 +70,7 @@ namespace MegaMan.Engine
             Engine.Instance.GameCleanup -= Instance_GameCleanup;
             if (meter != null)
             {
-                meter.Value = 0;
+                meter.StopHandler();
             }
         }
 

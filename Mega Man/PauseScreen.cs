@@ -92,7 +92,6 @@ namespace MegaMan.Engine
         {
             Engine.Instance.GameInputReceived += GameInputReceived;
             Engine.Instance.GameRender += GameRender;
-            Game.CurrentGame.AddGameHandler(this);
 
             playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
@@ -125,7 +124,6 @@ namespace MegaMan.Engine
         {
             Engine.Instance.GameInputReceived -= GameInputReceived;
             Engine.Instance.GameRender -= GameRender;
-            Game.CurrentGame.RemoveGameHandler(this);
         }
 
         public void GameInputReceived(GameInputEventArgs e)

@@ -32,7 +32,6 @@ namespace MegaMan.Engine
         private IHandleGameEvents currentHandler;
         private StageSelect select;
         private PauseScreen pauseScreen;
-        private readonly List<IHandleGameEvents> gameObjects;
         private readonly Dictionary<string, FilePath> stages;
 
         public MapHandler CurrentMap { get; private set; }
@@ -62,8 +61,7 @@ namespace MegaMan.Engine
 
         private void StopHandlers()
         {
-            List<IHandleGameEvents> temp = new List<IHandleGameEvents>(gameObjects);
-            foreach (IHandleGameEvents handler in temp) handler.StopHandler();
+            currentHandler.StopHandler();
         }
 
         public void Unload()
@@ -87,7 +85,6 @@ namespace MegaMan.Engine
 
         private Game()
         {
-            gameObjects = new List<IHandleGameEvents>();
             stages = new Dictionary<string, FilePath>();
 
             Gravity = 0.25f;
@@ -125,8 +122,6 @@ namespace MegaMan.Engine
             if (project.StageSelect != null) select = new StageSelect(project.StageSelect);
 
             if (project.PauseScreen != null) pauseScreen = new PauseScreen(project.PauseScreen);
-
-            if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
 
             foreach (string includePath in project.Includes)
             {
@@ -199,7 +194,7 @@ namespace MegaMan.Engine
 
             try
             {
-                CurrentMap = new MapHandler(new Map(stages[name]));
+                CurrentMap = new MapHandler(new Map(stages[name]), pauseScreen);
             }
             catch (XmlException e)
             {
@@ -208,7 +203,6 @@ namespace MegaMan.Engine
 
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
-            CurrentMap.Paused += CurrentMap_Paused;
             CurrentMap.End += CurrentMap_End;
             CurrentMap.Player.Death += () => { PlayerLives--; };
         }
@@ -220,19 +214,11 @@ namespace MegaMan.Engine
             StageSelect();
         }
 
-        void CurrentMap_Paused()
-        {
-            CurrentGame.Pause();
-            if (pauseScreen != null) pauseScreen.Sound();
-            Engine.Instance.FadeTransition(PauseScreen);
-        }
-
         private void EndMap()
         {
             // includes the map
             StopHandlers();
             GameEntity.StopAll();
-            CurrentMap.Paused -= CurrentMap_Paused;
             CurrentMap.End -= CurrentMap_End;
             CurrentMap = null;
         }
@@ -242,31 +228,6 @@ namespace MegaMan.Engine
             currentHandler = select;
             select.MapSelected += select_MapSelected;
             select.StartHandler();
-        }
-
-        private void PauseScreen()
-        {
-            if (pauseScreen != null)
-            {
-                CurrentMap.Pause();
-                pauseScreen.StartHandler();
-            }
-        }
-
-        void pauseScreen_Unpaused()
-        {
-            if (pauseScreen != null) pauseScreen.Sound();
-            Engine.Instance.FadeTransition(UnPause, CurrentGame.Unpause);
-        }
-
-        private void UnPause()
-        {
-            CurrentMap.Unpause();
-            if (pauseScreen != null)
-            {
-                pauseScreen.ApplyWeapon();
-                pauseScreen.StopHandler();
-            }
         }
 
         public void ResetMap()
@@ -287,16 +248,6 @@ namespace MegaMan.Engine
                 CurrentMap.StartHandler();
                 CurrentMap.Player.Death += () => { PlayerLives--; };
             }
-        }
-
-        public void AddGameHandler(IHandleGameEvents handler)
-        {
-            gameObjects.Add(handler);
-        }
-
-        public void RemoveGameHandler(IHandleGameEvents handler)
-        {
-            gameObjects.Remove(handler);
         }
 
         public void Pause()

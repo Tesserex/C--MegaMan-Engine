@@ -122,8 +122,6 @@ namespace MegaMan.Engine
 
             if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.PlayMusicNSF((uint)stageSelectInfo.Music.NsfTrack);
             else if (musicStageSelect != null) musicStageSelect.Play();
-
-            Game.CurrentGame.AddGameHandler(this);
         }
 
         public void StopHandler()
@@ -134,8 +132,6 @@ namespace MegaMan.Engine
 
             if (stageSelectInfo.Music.Type == AudioType.NSF) Engine.Instance.SoundSystem.StopMusicNsf();
             else if (musicStageSelect != null) musicStageSelect.Stop();
-
-            Game.CurrentGame.RemoveGameHandler(this);
         }
 
         public void GameInputReceived(GameInputEventArgs e)

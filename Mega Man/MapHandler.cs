@@ -24,6 +24,8 @@ namespace MegaMan.Engine
 
         private readonly Music music;
 
+        private PauseScreen pauseScreen;
+
         public Map Map { get; private set; }
 
         public ScreenHandler CurrentScreen { get; private set; }
@@ -35,9 +37,10 @@ namespace MegaMan.Engine
         public event Action Paused;
         public event Action End;
 
-        public MapHandler(Map map)
+        public MapHandler(Map map, PauseScreen pauseScreen)
         {
             Map = map;
+            this.pauseScreen = pauseScreen;
             startScreen = Map.StartScreen;
             if (string.IsNullOrEmpty(startScreen)) startScreen = Map.Screens.Keys.First();
             startX = Map.PlayerStartX;
@@ -53,6 +56,8 @@ namespace MegaMan.Engine
             readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
+
+            if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
         }
 
         void BlinkReady(GameRenderEventArgs e)
@@ -246,8 +251,6 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
-            Game.CurrentGame.AddGameHandler(this);
-
             Player = GameEntity.Get("Player");
 
             Player.Stopped += Player_Death;
@@ -279,8 +282,6 @@ namespace MegaMan.Engine
 
         public void StopHandler()
         {
-            Game.CurrentGame.RemoveGameHandler(this);
-
             if (Player != null)
             {
                 Player.Stopped -= Player_Death;
@@ -297,11 +298,13 @@ namespace MegaMan.Engine
             if (music != null) music.Stop();
             if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
 
+            if (pauseScreen != null) pauseScreen.StopHandler();
+
             Pause();
             Engine.Instance.GameRender -= BlinkReady;
         }
 
-        public void Pause()
+        private void Pause()
         {
             Engine.Instance.GameThink -= GameTick;
             Engine.Instance.GameRender -= GameRender;
@@ -309,7 +312,7 @@ namespace MegaMan.Engine
             Engine.Instance.GameInputReceived -= GameInputReceived;
         }
 
-        public void Unpause()
+        private void Unpause()
         {
             Engine.Instance.GameThink += GameTick;
             Engine.Instance.GameRender += GameRender;
@@ -317,20 +320,55 @@ namespace MegaMan.Engine
             Engine.Instance.GameInputReceived += GameInputReceived;
         }
 
-        public void GameInputReceived(GameInputEventArgs e)
+        private void GameInputReceived(GameInputEventArgs e)
         {
             if (updateFunc == null || (Player.GetComponent<InputComponent>()).Paused) return;
             if (e.Input == GameInput.Start && e.Pressed)
             {
                 // has to handle both pause and unpause, in case a pause screen isn't defined
-                if (Game.CurrentGame.Paused)
+                if (pauseScreen == null)
                 {
-                    Engine.Instance.FadeTransition(null, () => Game.CurrentGame.Unpause());
+                    if (Game.CurrentGame.Paused)
+                    {
+                        Game.CurrentGame.Unpause();
+                    }
+                    else
+                    {
+                        Game.CurrentGame.Pause();
+                    }
                 }
                 else
                 {
-                    if (Paused != null) Paused();
+                    // clearly we are unpaused, otherwise we would not be receiving this input
+                    Game.CurrentGame.Pause();
+                    pauseScreen.Sound();
+                    Engine.Instance.FadeTransition(OpenPauseScreen);
                 }
+            }
+        }
+
+        private void OpenPauseScreen()
+        {
+            Pause();
+            if (pauseScreen != null)
+            {
+                pauseScreen.StartHandler();
+            }
+        }
+
+        private void pauseScreen_Unpaused()
+        {
+            pauseScreen.Sound();
+            Engine.Instance.FadeTransition(ClosePauseScreen, Game.CurrentGame.Unpause);
+        }
+
+        private void ClosePauseScreen()
+        {
+            Unpause();
+            if (pauseScreen != null)
+            {
+                pauseScreen.ApplyWeapon();
+                pauseScreen.StopHandler();
             }
         }
 

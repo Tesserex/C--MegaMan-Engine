@@ -76,7 +76,7 @@ namespace MegaMan.Engine
             return copy;
         }
 
-        public override void  Start()
+        public override void Start()
         {
             Engine.Instance.GameThink += Update;
             Engine.Instance.GameRender += Instance_GameRender;

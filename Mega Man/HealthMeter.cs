@@ -8,7 +8,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public class HealthMeter : IHandleGameEvents
+    public class HealthMeter
     {
         private float value;
         private float maxvalue;
@@ -238,12 +238,9 @@ namespace MegaMan.Engine
             }
         }
 
-        #region IHandleGameEvents Members
-
         public void StartHandler()
         {
             Engine.Instance.GameRender += GameRender;
-            Game.CurrentGame.AddGameHandler(this);
             running = true;
         }
 
@@ -251,7 +248,6 @@ namespace MegaMan.Engine
         {
             Engine.Instance.GameLogicTick -= GameTick;
             Engine.Instance.GameRender -= GameRender;
-            Game.CurrentGame.RemoveGameHandler(this);
             running = false;
         }
 
@@ -271,7 +267,5 @@ namespace MegaMan.Engine
         {
             if (inGamePlay && Engine.Instance.SpritesFour) Draw(e.Layers.SpritesBatch[3], positionX, positionY);
         }
-
-        #endregion
     }
 }
