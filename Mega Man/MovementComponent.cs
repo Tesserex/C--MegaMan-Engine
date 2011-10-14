@@ -406,7 +406,7 @@ namespace MegaMan.Engine
                             PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (mov == null || pos == null) return;
 
-                            GameEntity player = Game.CurrentGame.CurrentMap.Player;
+                            GameEntity player = Game.CurrentGame.Player.Entity;
                             PositionComponent playerPos = player.GetComponent<PositionComponent>();
 
                             if (axis == Axis.X)

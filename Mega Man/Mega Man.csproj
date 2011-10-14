@@ -91,12 +91,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FMOD">
-      <HintPath>bin\Debug\FMOD.dll</HintPath>
+      <HintPath>lib\FMOD.dll</HintPath>
     </Reference>
     <Reference Include="Mega Man Common">
-      <HintPath>..\..\CME-Common-Library\Mega Man Common\bin\x86\Debug\Mega Man Common.dll</HintPath>
+      <HintPath>..\..\CME-Common-Library\Mega Man Common\bin\Debug\Mega Man Common.dll</HintPath>
     </Reference>
-    <Reference Include="MegaManR.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MegaManR.Audio">
+      <HintPath>lib\MegaManR.Audio.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />

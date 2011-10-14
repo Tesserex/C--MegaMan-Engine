@@ -94,7 +94,7 @@ namespace MegaMan.Engine
             Engine.Instance.GameRender += GameRender;
             Game.CurrentGame.AddGameHandler(this);
 
-            playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
+            playerWeapons = Game.CurrentGame.Player.Entity.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
             foreach (PauseWeapon info in weapons)
@@ -254,7 +254,7 @@ namespace MegaMan.Engine
 
             if (showLives)
             {
-                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.PlayerLives.ToString("D2"), livesPos);
+                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.Player.PlayerLives.ToString("D2"), livesPos);
             }
         }
 

@@ -88,12 +88,9 @@ namespace MegaMan.Engine
         {
             gameObjects = new List<IHandleGameEvents>();
             stages = new Dictionary<string, FilePath>();
-            Player = new Player();
 
             Gravity = 0.25f;
             GravityFlip = false;
-
-            Player.PlayerLives = 2;
         }
 
         private void LoadFile(string path)
@@ -135,6 +132,8 @@ namespace MegaMan.Engine
             }
 
             currentPath = path;
+
+            Player = new Player();
 
             StageSelect();
         }
@@ -192,7 +191,7 @@ namespace MegaMan.Engine
             CurrentMap.StartHandler();
             CurrentMap.Paused += CurrentMap_Paused;
             CurrentMap.End += CurrentMap_End;
-            CurrentMap.Player.Death += () => { PlayerLives--; };
+            Game.CurrentGame.Player.Entity.Death += () => { Game.CurrentGame.Player.PlayerLives--; };
         }
 
         // do this when a map is won - should change to get weapon screen
@@ -258,16 +257,16 @@ namespace MegaMan.Engine
             GameEntity.StopAll();
             CurrentMap.StopHandler();
 
-            if (PlayerLives < 0) // game over!
+            if (Player.PlayerLives < 0) // game over!
             {
                 EndMap();
                 StageSelect();
-                PlayerLives = 2;
+                Player.PlayerLives = 2;
             }
             else
             {
+                Player.ResetEntity();
                 CurrentMap.StartHandler();
-                CurrentMap.Player.Death += () => { PlayerLives--; };
             }
         }
 

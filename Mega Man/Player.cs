@@ -12,7 +12,15 @@ namespace MegaMan.Engine
 
         public Player()
         {
+            Entity = GameEntity.Get("Player");
+            PlayerLives = 2;
+        }
 
+        public void ResetEntity()
+        {
+            Entity = GameEntity.Get("Player");
+
+            Entity.Death += () => { PlayerLives--; };
         }
     }
 }

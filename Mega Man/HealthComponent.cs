@@ -155,5 +155,10 @@ namespace MegaMan.Engine
         {
             Health += val;
         }
+
+        public void Reset()
+        {
+            Health = MaxHealth;
+        }
     }
 }
