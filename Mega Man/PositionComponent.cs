@@ -14,7 +14,7 @@ namespace MegaMan.Engine
         {
             get
             {
-                return !Game.CurrentGame.CurrentMap.CurrentScreen.IsOnScreen(Position.X, Position.Y);
+                return !Parent.Screen.IsOnScreen(Position.X, Position.Y);
             }
         }
 

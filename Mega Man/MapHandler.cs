@@ -34,7 +34,6 @@ namespace MegaMan.Engine
 
         public PositionComponent PlayerPos;
 
-        public event Action Paused;
         public event Action End;
 
         public MapHandler(Map map, PauseScreen pauseScreen)

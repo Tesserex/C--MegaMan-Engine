@@ -10,6 +10,17 @@ namespace MegaMan.Engine
         void GameRender(GameRenderEventArgs e);
     }
 
+    public interface IScreenInformation
+    {
+        int TileSize { get; }
+        float OffsetX { get; }
+        float OffsetY { get; }
+        MapSquare SquareAt(int x, int y);
+        MegaMan.Common.Tile TileAt(int tx, int ty);
+        void AddSpawnedEntity(GameEntity entity);
+        bool IsOnScreen(float x, float y);
+    }
+
     public abstract class Component
     {
         public GameEntity Parent { get; set; }

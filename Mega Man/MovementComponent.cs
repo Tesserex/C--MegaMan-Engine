@@ -72,10 +72,10 @@ namespace MegaMan.Engine
             pushX = pushY = 0;
             dragX = dragY = resistX = resistY = 1;
 
-            int ts = Parent.Screen.Screen.Tileset.TileSize;
+            int ts = Parent.Screen.TileSize;
             int tx = (int)(position.Position.X / ts);
             int ty = (int)(position.Position.Y / ts);
-            overTile = Parent.Screen.Screen.TileAt(tx, ty);
+            overTile = Parent.Screen.TileAt(tx, ty);
         }
 
         public override void Stop()
@@ -137,10 +137,10 @@ namespace MegaMan.Engine
                 position.SetPosition(pos);
             }
 
-            int ts = Parent.Screen.Screen.Tileset.TileSize;
+            int ts = Parent.Screen.TileSize;
             int tx = (int)(position.Position.X / ts);
             int ty = (int)(position.Position.Y / ts);
-            Tile nextOverTile = Parent.Screen.Screen.TileAt(tx, ty);
+            Tile nextOverTile = Parent.Screen.TileAt(tx, ty);
 
             if (Parent.Name == "Player")
             {

@@ -11,7 +11,7 @@ namespace MegaMan.Engine
     {
         private readonly Dictionary<Type, Component> components;
         public string Name { get; private set; }
-        public ScreenHandler Screen { get; set; }
+        public IScreenInformation Screen { get; set; }
         public GameEntity Parent { get; private set; }
 
         private bool running;
@@ -51,7 +51,10 @@ namespace MegaMan.Engine
         {
             if (entities[Name].numAlive >= entities[Name].maxAlive) return;
             entities[Name].numAlive++;
-            Screen = Game.CurrentGame.CurrentMap.CurrentScreen;
+            if (Game.CurrentGame.CurrentMap != null)
+            {
+                Screen = Game.CurrentGame.CurrentMap.CurrentScreen;
+            }
             foreach (Component c in components.Values) c.Start();
             RegisterEntity(this);
             running = true;

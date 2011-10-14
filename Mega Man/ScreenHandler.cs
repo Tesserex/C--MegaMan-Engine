@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public class ScreenHandler
+    public class ScreenHandler : IScreenInformation
     {
         private readonly MapSquare[][] tiles;
         public Screen Screen { get; private set; }
@@ -23,6 +23,8 @@ namespace MegaMan.Engine
 
         public float OffsetX { get; private set; }
         public float OffsetY { get; private set; }
+
+        public int TileSize { get { return Screen.Tileset.TileSize; } }
 
         public event Action<JoinHandler> JoinTriggered;
         public event Action<TeleportInfo> Teleport;
@@ -309,6 +311,11 @@ namespace MegaMan.Engine
             OffsetY += off_y;
 
             Screen.DrawXna(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+        }
+
+        public Tile TileAt(int tx, int ty)
+        {
+            return Screen.TileAt(tx, ty);
         }
     }
 }

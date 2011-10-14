@@ -251,6 +251,13 @@ namespace MegaMan.Engine
             return entity =>
             {
                 PositionComponent pos = entity.GetComponent<PositionComponent>();
+                float pdx = 0;
+                float pdy = 0;
+                if (Game.CurrentGame.CurrentMap != null)
+                {
+                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X);
+                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.Y - pos.Position.Y);
+                }
                 return split(
                     pos,
                     entity.GetComponent<MovementComponent>(),
@@ -263,8 +270,8 @@ namespace MegaMan.Engine
                     entity.GetComponent<WeaponComponent>(),
                     (entity.GetComponent<StateComponent>()).StateFrames,
                     (entity.GetComponent<StateComponent>()).Lifetime,
-                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.X - pos.Position.X),
-                    Math.Abs(Game.CurrentGame.CurrentMap.PlayerPos.Position.Y - pos.Position.Y),
+                    pdx,
+                    pdy,
                     Game.CurrentGame.GravityFlip,
                     (entity.GetComponent<StateComponent>()).FrameRand
                     );

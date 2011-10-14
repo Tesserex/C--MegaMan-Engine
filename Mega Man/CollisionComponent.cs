@@ -160,7 +160,7 @@ namespace MegaMan.Engine
 
                     // this bounds checking prevents needlessly checking collisions way too far away
                     // it's a very effective optimization (brings busy time from ~60% down to 45%!)
-                    int size = Parent.Screen.Screen.Tileset.TileSize;
+                    int size = Parent.Screen.TileSize;
                     int minx = (int)(hitRect.Left / size) - 1;
                     int miny = (int)(hitRect.Top / size) - 1;
                     int maxx = (int)(hitRect.Right / size) + 1;
