@@ -10,7 +10,7 @@ namespace MegaMan.Engine
 {
     public class Scene : IHandleGameEvents, IScreenInformation
     {
-        private Dictionary<string, SceneObject> objects;
+        private Dictionary<string, ISceneObject> objects;
         private List<GameEntity> entities;
         private SceneInfo info;
         private int frame = 0;
@@ -19,7 +19,7 @@ namespace MegaMan.Engine
 
         private Scene(SceneInfo info)
         {
-            objects = new Dictionary<string, SceneObject>();
+            objects = new Dictionary<string, ISceneObject>();
             entities = new List<GameEntity>();
             this.info = info;
         }
@@ -134,8 +134,8 @@ namespace MegaMan.Engine
                         PlayMusicCommand((KeyFramePlayCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Add:
-                        AddCommand((KeyFrameAddCommandInfo)cmd);
+                    case KeyFrameCommands.Sprite:
+                        SpriteCommand((KeyFrameSpriteCommandInfo)cmd);
                         break;
 
                     case KeyFrameCommands.Remove:
@@ -144,6 +144,10 @@ namespace MegaMan.Engine
 
                     case KeyFrameCommands.Entity:
                         EntityCommand((KeyFrameEntityCommandInfo)cmd);
+                        break;
+
+                    case KeyFrameCommands.Text:
+                        TextCommand((KeyFrameTextCommandInfo)cmd);
                         break;
                 }
             }
@@ -154,11 +158,20 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
         }
 
-        private void AddCommand(KeyFrameAddCommandInfo command)
+        private void SpriteCommand(KeyFrameSpriteCommandInfo command)
         {
-            var obj = new SceneObject(info.Sprites[command.Sprite], new Point(command.X, command.Y));
+            var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
             obj.Start();
-            objects.Add(command.Name, obj);
+            var name = command.Name ?? Guid.NewGuid().ToString();
+            objects.Add(name, obj);
+        }
+
+        private void TextCommand(KeyFrameTextCommandInfo command)
+        {
+            var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
+            obj.Start();
+            var name = command.Name ?? Guid.NewGuid().ToString();
+            objects.Add(name, obj);
         }
 
         private void RemoveCommand(KeyFrameRemoveCommandInfo command)
@@ -169,7 +182,7 @@ namespace MegaMan.Engine
 
         private void EntityCommand(KeyFrameEntityCommandInfo command)
         {
-            var entity = GameEntity.Get(command.Name);
+            var entity = GameEntity.Get(command.Entity);
             entity.Screen = this;
             entity.GetComponent<PositionComponent>().SetPosition(command.X, command.Y);
             if (!string.IsNullOrEmpty(command.State))
@@ -180,12 +193,19 @@ namespace MegaMan.Engine
             entity.Start();
         }
 
-        private class SceneObject
+        private interface ISceneObject
+        {
+            void Start();
+            void Stop();
+            void Draw(GameGraphicsLayers layers, Color opacity);
+        }
+
+        private class SceneSprite : ISceneObject
         {
             private Sprite sprite;
             private Point location;
 
-            public SceneObject(Sprite sprite, Point location)
+            public SceneSprite(Sprite sprite, Point location)
             {
                 this.sprite = sprite;
                 this.sprite.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
@@ -211,6 +231,59 @@ namespace MegaMan.Engine
             public void Draw(GameGraphicsLayers layers, Color opacity)
             {
                 sprite.DrawXna(layers.SpritesBatch[sprite.Layer], opacity, location.X, location.Y);
+            }
+        }
+
+        private class SceneText : ISceneObject
+        {
+            private string content;
+            private string displayed = "";
+            private int speed;
+            private int frame;
+            private Vector2 position;
+
+            public SceneText(string content, int? speed, int x, int y)
+            {
+                this.content = content;
+                this.speed = speed ?? 0;
+                this.position = new Vector2(x, y);
+            }
+
+            public void Start()
+            {
+                if (speed == 0)
+                {
+                    displayed = content;
+                }
+                else
+                {
+                    Engine.Instance.GameLogicTick += Update;
+                    frame = 0;
+                }
+            }
+
+            public void Stop()
+            {
+                if (speed != 0)
+                {
+                    Engine.Instance.GameLogicTick -= Update;
+                }
+            }
+
+            private void Update(GameTickEventArgs e)
+            {
+                frame++;
+                if (frame >= speed && displayed.Length < content.Length)
+                {
+                    // add a character to the displayed text
+                    displayed += content.Substring(displayed.Length, 1);
+                    frame = 0;
+                }
+            }
+
+            public void Draw(GameGraphicsLayers layers, Color opacity)
+            {
+                FontSystem.Draw(layers.ForegroundBatch, "Big", displayed, position);
             }
         }
 

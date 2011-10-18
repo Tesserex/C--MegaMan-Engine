@@ -35,6 +35,12 @@ namespace MegaMan.Engine
 
                 foreach (char c in text)
                 {
+                    if (c == ' ')
+                    {
+                        xpos += charWidth + charSpace;
+                        continue;
+                    }
+
                     int cindex = chars.IndexOf(c);
                     if (cindex < 0) continue;
 
@@ -78,6 +84,21 @@ namespace MegaMan.Engine
         public static void Draw(SpriteBatch batch, string font, string text, PointF position)
         {
             fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
+        }
+
+        public static void Draw(SpriteBatch batch, string font, string text, System.Drawing.Point position)
+        {
+            fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
+        }
+
+        public static void Draw(SpriteBatch batch, string font, string text, Microsoft.Xna.Framework.Point position)
+        {
+            fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
+        }
+
+        public static void Draw(SpriteBatch batch, string font, string text, Vector2 position)
+        {
+            fonts[font].Draw(batch, text, position);
         }
 
         public static void Unload()
