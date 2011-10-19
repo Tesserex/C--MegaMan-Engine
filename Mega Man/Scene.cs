@@ -5,6 +5,7 @@ using System.Text;
 using MegaMan.Common;
 using Microsoft.Xna.Framework;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -149,6 +150,14 @@ namespace MegaMan.Engine
                     case KeyFrameCommands.Text:
                         TextCommand((KeyFrameTextCommandInfo)cmd);
                         break;
+
+                    case KeyFrameCommands.Fill:
+                        FillCommand((KeyFrameFillCommandInfo)cmd);
+                        break;
+
+                    case KeyFrameCommands.FillMove:
+                        FillMoveCommand((KeyFrameFillMoveCommandInfo)cmd);
+                        break;
                 }
             }
         }
@@ -191,6 +200,22 @@ namespace MegaMan.Engine
             }
             entities.Add(entity);
             entity.Start();
+        }
+
+        private void FillCommand(KeyFrameFillCommandInfo command)
+        {
+            Color color = new Color(command.Red, command.Green, command.Blue);
+
+            var obj = new SceneFill(color, command.X, command.Y, command.Width, command.Height, command.Layer);
+            obj.Start();
+            var name = command.Name ?? Guid.NewGuid().ToString();
+            objects.Add(name, obj);
+        }
+
+        private void FillMoveCommand(KeyFrameFillMoveCommandInfo command)
+        {
+            SceneFill obj = objects[command.Name] as SceneFill;
+            obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
         }
 
         private interface ISceneObject
@@ -284,6 +309,69 @@ namespace MegaMan.Engine
             public void Draw(GameGraphicsLayers layers, Color opacity)
             {
                 FontSystem.Draw(layers.ForegroundBatch, "Big", displayed, position);
+            }
+        }
+
+        private class SceneFill : ISceneObject
+        {
+            private Texture2D texture;
+            private float x, y, width, height;
+            private float vx, vy, vw, vh, duration;
+            private int stopX, stopY, stopWidth, stopHeight, moveFrame;
+            private int layer;
+
+            public SceneFill(Color color, int x, int y, int width, int height, int layer)
+            {
+                this.texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
+                this.texture.SetData(new Color[] { color });
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.layer = layer;
+            }
+
+            public void Start() { }
+
+            public void Stop() { }
+
+            public void Draw(GameGraphicsLayers layers, Color opacity)
+            {
+                layers.SpritesBatch[layer].Draw(texture, new Rectangle((int)x, (int)y, (int)width, (int)height), opacity);
+            }
+
+            public void Move(int nx, int ny, int nwidth, int nheight, int duration)
+            {
+                this.stopX = nx;
+                this.stopY = ny;
+                this.stopWidth = nwidth;
+                this.stopHeight = nheight;
+                this.duration = duration;
+                vx = (nx - x) / duration;
+                vy = (ny - y) / duration;
+                vw = (nwidth - width) / duration;
+                vh = (nheight - height) / duration;
+                moveFrame = 0;
+
+                Engine.Instance.GameLogicTick += Update;
+            }
+
+            private void Update(GameTickEventArgs e)
+            {
+                x += vx;
+                y += vy;
+                width += vw;
+                height += vh;
+                moveFrame++;
+
+                if (moveFrame >= duration)
+                {
+                    x = stopX;
+                    y = stopY;
+                    width = stopWidth;
+                    height = stopHeight;
+                    Engine.Instance.GameLogicTick -= Update;
+                }
             }
         }
 
