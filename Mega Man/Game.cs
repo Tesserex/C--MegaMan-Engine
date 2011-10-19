@@ -185,13 +185,37 @@ namespace MegaMan.Engine
             }
         }
 
-        private void select_MapSelected(string name)
+        private void select_MapSelected(string name, string sceneName)
         {
             if (!stages.ContainsKey(name)) return;
 
             select.MapSelected -= select_MapSelected;
             currentHandler.StopHandler();
 
+            if (sceneName != null)
+            {
+                Engine.Instance.FadeTransition(() =>
+                {
+                    var scene = Scene.Get(sceneName);
+                    scene.Finished += () =>
+                    {
+                        Engine.Instance.FadeTransition(() =>
+                        {
+                            scene.StopHandler();
+                            StartMap(name);
+                        });
+                    };
+                    scene.StartHandler();
+                });
+            }
+            else
+            {
+                StartMap(name);
+            }
+        }
+
+        private void StartMap(string name)
+        {
             try
             {
                 CurrentMap = new MapHandler(new Map(stages[name]), pauseScreen);

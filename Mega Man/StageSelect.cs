@@ -20,6 +20,7 @@ namespace MegaMan.Engine
             public string stage;
             public bool alive;
             public Point location;
+            public string scene;
         }
 
         private readonly MegaMan.Common.StageSelect stageSelectInfo;
@@ -31,7 +32,7 @@ namespace MegaMan.Engine
         private readonly BossSlot[] bosses;
         private int selectedIndex;
 
-        public event Action<string> MapSelected;
+        public event Action<string, string> MapSelected;
 
         public StageSelect(MegaMan.Common.StageSelect stageSelectInfo)
         {
@@ -110,6 +111,7 @@ namespace MegaMan.Engine
 
             bosses[slot].stage = boss.Stage;
             bosses[slot].alive = true;
+            bosses[slot].scene = boss.Scene;
         }
 
         #region IHandleGameEvents Members
@@ -163,7 +165,10 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Start)
             {
-                if (MapSelected != null && bosses[selectedIndex].stage != null) MapSelected(bosses[selectedIndex].stage);
+                if (MapSelected != null && bosses[selectedIndex].stage != null)
+                {
+                    MapSelected(bosses[selectedIndex].stage, bosses[selectedIndex].scene);
+                }
             }
             if (selectedIndex != old && changeSound != null) Engine.Instance.SoundSystem.PlaySfx(changeSound);
         }
