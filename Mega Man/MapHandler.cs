@@ -26,6 +26,9 @@ namespace MegaMan.Engine
 
         private PauseScreen pauseScreen;
 
+        private JoinHandler currentJoin;
+        private ScreenHandler nextScreen;
+
         public Map Map { get; private set; }
 
         public ScreenHandler CurrentScreen { get; private set; }
@@ -178,14 +181,23 @@ namespace MegaMan.Engine
 
         private void OnScrollTriggered(JoinHandler join)
         {
+            currentJoin = join;
+
             Player.Paused = true;
-            join.BeginScroll(new ScreenHandler(Map.Screens[join.NextScreenName], PlayerPos, Map.Joins), PlayerPos.Position);
+            nextScreen = new ScreenHandler(Map.Screens[join.NextScreenName], PlayerPos, Map.Joins);
+            join.BeginScroll(nextScreen, PlayerPos.Position);
             updateFunc = () => join.Update(PlayerPos);
             join.ScrollDone += ScrollDone;
 
-            drawFunc = (b) => { join.Draw(b); };
+            drawFunc = DrawJoin;
 
             StopScreen();
+        }
+
+        private void DrawJoin(SpriteBatch batch)
+        {
+            CurrentScreen.Draw(batch, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
+            nextScreen.Draw(batch, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
         }
 
         private void StartScreen()

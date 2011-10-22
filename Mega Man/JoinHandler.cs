@@ -13,9 +13,15 @@ namespace MegaMan.Engine
         private readonly int size;
         protected readonly Direction direction;
 
-        private int nextScreenX, nextScreenY;
+        public int NextScreenX { get; private set; }
+        public int NextScreenY { get; private set; }
+
         protected float scrollDist;
-        private float offsetX, offsetY;
+
+        public float OffsetX { get; private set; }
+        public float OffsetY { get; private set; }
+        public float NextOffsetX { get; private set; }
+        public float NextOffsetY { get; private set; }
 
         protected readonly ScreenHandler currentScreen;
         protected ScreenHandler nextScreen;
@@ -57,7 +63,7 @@ namespace MegaMan.Engine
                     threshYmin = currentScreen.Screen.PixelHeight - Const.PlayerScrollTrigger;
                     threshXmax = threshXmin + size;
                     threshYmax = currentScreen.Screen.PixelHeight + 100;
-                    nextScreenX = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenX = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
                 }
                 else // right edge
                 {
@@ -66,7 +72,7 @@ namespace MegaMan.Engine
                     threshYmin = join.offsetOne * currentScreen.Screen.Tileset.TileSize;
                     threshXmax = currentScreen.Screen.PixelWidth + 100;
                     threshYmax = threshYmin + size;
-                    nextScreenY = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenY = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
                 }
             }
             else
@@ -79,7 +85,7 @@ namespace MegaMan.Engine
                     threshYmin = -100;
                     threshXmax = threshXmin + size;
                     threshYmax = Const.PlayerScrollTrigger;
-                    nextScreenX = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenX = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
                 }
                 else // left edge
                 {
@@ -88,7 +94,7 @@ namespace MegaMan.Engine
                     threshYmin = join.offsetTwo * currentScreen.Screen.Tileset.TileSize;
                     threshXmax = Const.PlayerScrollTrigger;
                     threshYmax = threshYmin + size;
-                    nextScreenY = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenY = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
                 }
             }
         }
@@ -117,10 +123,10 @@ namespace MegaMan.Engine
         {
             tickdist = (TriggerSize() + OffsetDist()) / ticks;
             nextScreen = next;
-            if (direction == Direction.Down) nextScreenY = -currentScreen.Screen.PixelHeight;
-            else if (direction == Direction.Right) nextScreenX = -currentScreen.Screen.PixelWidth;
-            else if (direction == Direction.Left) nextScreenX = next.Screen.PixelWidth;
-            else if (direction == Direction.Up) nextScreenY = next.Screen.PixelHeight;
+            if (direction == Direction.Down) NextScreenY = -currentScreen.Screen.PixelHeight;
+            else if (direction == Direction.Right) NextScreenX = -currentScreen.Screen.PixelWidth;
+            else if (direction == Direction.Left) NextScreenX = next.Screen.PixelWidth;
+            else if (direction == Direction.Up) NextScreenY = next.Screen.PixelHeight;
         }
 
         protected virtual int TriggerSize()
@@ -143,10 +149,10 @@ namespace MegaMan.Engine
 
         protected void FinalizePlayerPos(PositionComponent playerPos)
         {
-            if (direction == Direction.Right) { playerPos.SetPosition(new PointF(OffsetDist(), playerPos.Position.Y + nextScreenY)); }
-            else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextScreen.Screen.PixelWidth - OffsetDist(), playerPos.Position.Y + nextScreenY)); }
-            else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + nextScreenX, OffsetDist())); }
-            else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + nextScreenX, nextScreen.Screen.PixelHeight - OffsetDist())); }
+            if (direction == Direction.Right) { playerPos.SetPosition(new PointF(OffsetDist(), playerPos.Position.Y + NextScreenY)); }
+            else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextScreen.Screen.PixelWidth - OffsetDist(), playerPos.Position.Y + NextScreenY)); }
+            else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, OffsetDist())); }
+            else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextScreen.Screen.PixelHeight - OffsetDist())); }
         }
 
         public virtual void Update(PositionComponent playerPos)
@@ -162,6 +168,8 @@ namespace MegaMan.Engine
             {
                 MovePlayer(playerPos);
             }
+
+            Calculate();
         }
 
         protected void Finish()
@@ -169,36 +177,37 @@ namespace MegaMan.Engine
             if (ScrollDone != null) ScrollDone(this, nextScreen);
         }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
+        private void Calculate()
         {
-            float nextOffsetX = 0, nextOffsetY = 0;
+            NextOffsetX = 0;
+            NextOffsetY = 0;
+
             if (direction == Direction.Right)
             {
-                offsetX = scrollDist;
-                nextOffsetX = scrollDist - Game.CurrentGame.PixelsAcross;
-                nextOffsetY += offsetY;
+                OffsetX = scrollDist;
+                NextOffsetX = scrollDist - Game.CurrentGame.PixelsAcross;
+                NextOffsetY += OffsetY;
             }
             else if (direction == Direction.Left)
             {
-                offsetX = -scrollDist;
-                nextOffsetX = Game.CurrentGame.PixelsAcross - scrollDist;
-                nextOffsetY += offsetY;
+                OffsetX = -scrollDist;
+                NextOffsetX = Game.CurrentGame.PixelsAcross - scrollDist;
+                NextOffsetY += OffsetY;
             }
             else if (direction == Direction.Down)
             {
-                offsetY = scrollDist;
-                nextOffsetY = scrollDist - Game.CurrentGame.PixelsDown;
-                nextOffsetX += offsetX;
+                OffsetY = scrollDist;
+                NextOffsetY = scrollDist - Game.CurrentGame.PixelsDown;
+                NextOffsetX += OffsetX;
             }
             else if (direction == Direction.Up)
             {
-                offsetY = -scrollDist;
-                nextOffsetY = Game.CurrentGame.PixelsDown - scrollDist;
-                nextOffsetX += offsetX;
+                OffsetY = -scrollDist;
+                NextOffsetY = Game.CurrentGame.PixelsDown - scrollDist;
+                NextOffsetX += OffsetX;
             }
 
-            currentScreen.Draw(batch, 0, 0, offsetX, offsetY);
-            nextScreen.Draw(batch, nextScreenX, nextScreenY, nextOffsetX, nextOffsetY);
+            
         }
     }
 }

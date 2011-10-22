@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Scene.cs" />
     <Compile Include="ScreenHandler.cs" />
+    <Compile Include="ScreenTransition.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="SoundComponent.cs" />
     <Compile Include="SoundEffect.cs" />
