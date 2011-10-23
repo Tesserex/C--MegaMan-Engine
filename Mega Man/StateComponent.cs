@@ -27,8 +27,6 @@ namespace MegaMan.Engine
         public StateComponent()
         {
             states = new Dictionary<string, State>();
-
-            currentState = "Start";
         }
 
         public override Component Clone()
@@ -42,6 +40,7 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
+            currentState = "Start";
             Engine.Instance.GameThink += Update;
             if (states.ContainsKey(currentState)) states[currentState].Initialize(Parent);
         }

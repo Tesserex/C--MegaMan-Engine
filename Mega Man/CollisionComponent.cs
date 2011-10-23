@@ -101,6 +101,9 @@ namespace MegaMan.Engine
             Engine.Instance.GameAct -= ClearTouch;
             Engine.Instance.GameReact -= Update;
             Engine.Instance.GameRender -= Instance_GameRender;
+            Enabled = false;
+            touchedBy.Clear();
+            enabledBoxes.Clear();
         }
 
         public override void Message(IGameMessage msg)

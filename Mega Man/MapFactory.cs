@@ -49,22 +49,24 @@ namespace MegaMan.Engine
                 joins[screenTwo].Add(join, handlerTwo);
             }
 
+            var player = GameEntity.Get("Player");
+
             var screens = new Dictionary<string, ScreenHandler>();
             foreach (var screen in map.Screens.Values)
             {
-                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
+                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList(), player);
             }
 
-            return new MapHandler(map, pauseScreen, screens);
+            return new MapHandler(map, pauseScreen, screens, player);
         }
 
-        private static ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins)
+        private static ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins, GameEntity player)
         {
             var patterns = new List<BlocksPattern>(screen.BlockPatternInfo.Count);
 
             foreach (BlockPatternInfo info in screen.BlockPatternInfo)
             {
-                BlocksPattern pattern = new BlocksPattern(info);
+                BlocksPattern pattern = new BlocksPattern(info, player.GetComponent<PositionComponent>());
                 patterns.Add(pattern);
             }
 

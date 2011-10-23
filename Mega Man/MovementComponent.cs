@@ -52,9 +52,6 @@ namespace MegaMan.Engine
 
         public MovementComponent()
         {
-            Direction = Direction.Right;
-            Random rand = new Random();
-            rand.Next();
             CanMove = true;
         }
 
@@ -67,6 +64,8 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
+            Direction = Direction.Right;
+
             Engine.Instance.GameAct += Update;
 
             pushX = pushY = 0;

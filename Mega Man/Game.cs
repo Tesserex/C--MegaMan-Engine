@@ -228,7 +228,12 @@ namespace MegaMan.Engine
             currentHandler = CurrentMap;
             CurrentMap.StartHandler();
             CurrentMap.End += CurrentMap_End;
-            CurrentMap.Player.Death += () => { PlayerLives--; };
+            CurrentMap.Player.Death += PlayerDied;
+        }
+
+        private void PlayerDied()
+        {
+            PlayerLives--;
         }
 
         // do this when a map is won - should change to get weapon screen
@@ -270,7 +275,6 @@ namespace MegaMan.Engine
             else
             {
                 CurrentMap.StartHandler();
-                CurrentMap.Player.Death += () => { PlayerLives--; };
             }
         }
 

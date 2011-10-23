@@ -42,7 +42,7 @@ namespace MegaMan.Engine
 
         public event Action End;
 
-        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens)
+        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens, GameEntity player)
         {
             Map = map;
             this.pauseScreen = pauseScreen;
@@ -65,6 +65,9 @@ namespace MegaMan.Engine
             if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
 
             this.screens = screens;
+
+            Player = player;
+            PlayerPos = Player.GetComponent<PositionComponent>();
         }
 
         void BlinkReady(GameRenderEventArgs e)
@@ -107,6 +110,7 @@ namespace MegaMan.Engine
 
         private void BeginPlay()
         {
+            Player.Start();
             Player.GetComponent<SpriteComponent>().Visible = true;
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));
@@ -267,9 +271,6 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
-            Player = GameEntity.Get("Player");
-
-            PlayerPos = Player.GetComponent<PositionComponent>();
             Player.Stopped += Player_Death;
 
             if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
@@ -290,7 +291,6 @@ namespace MegaMan.Engine
             Engine.Instance.GameRender += BlinkReady;
 
             Player.GetComponent<SpriteComponent>().Visible = false;
-            Player.Start();
 
             // make sure we can move
             (Player.GetComponent<InputComponent>()).Paused = false;
@@ -302,7 +302,6 @@ namespace MegaMan.Engine
             {
                 Player.Stopped -= Player_Death;
                 Player.Stop();
-                Player = null;
             }
 
             if (CurrentScreen != null)

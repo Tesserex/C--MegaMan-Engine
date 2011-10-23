@@ -20,7 +20,7 @@ namespace MegaMan.Engine
 
         public PositionComponent()
         {
-            Position = new PointF(48, 128);
+            
         }
 
         public override Component Clone()

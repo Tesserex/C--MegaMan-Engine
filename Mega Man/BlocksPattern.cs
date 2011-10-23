@@ -24,8 +24,9 @@ namespace MegaMan.Engine
         private bool running;
         private int frame;
         private bool stopped;
+        private PositionComponent playerPos;
 
-        public BlocksPattern(BlockPatternInfo info)
+        public BlocksPattern(BlockPatternInfo info, PositionComponent playerPos)
         {
             length = info.Length;
             leftBoundary = info.LeftBoundary;
@@ -44,6 +45,7 @@ namespace MegaMan.Engine
             }
             running = false;
             frame = 0;
+            this.playerPos = playerPos;
         }
 
         public void Start()
@@ -63,7 +65,7 @@ namespace MegaMan.Engine
         {
             if (stopped) return;
 
-            float px = Game.CurrentGame.CurrentMap.PlayerPos.Position.X;
+            float px = playerPos.Position.X;
             if (px >= leftBoundary && px <= rightBoundary)
             {
                 if (!running) Run();

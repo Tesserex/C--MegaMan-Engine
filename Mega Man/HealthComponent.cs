@@ -53,6 +53,7 @@ namespace MegaMan.Engine
         {
             Engine.Instance.GameThink += Update;
             Engine.Instance.GameCleanup += Instance_GameCleanup;
+            Health = MaxHealth;
             if (meter != null)
             {
                 meter.StartHandler();
@@ -72,6 +73,8 @@ namespace MegaMan.Engine
             {
                 meter.StopHandler();
             }
+            Hit = false;
+            flashing = 0;
         }
 
         public override void Message(IGameMessage msg)
