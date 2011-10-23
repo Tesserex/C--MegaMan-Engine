@@ -5,26 +5,29 @@ namespace MegaMan.Engine
 {
     public class BossDoorHandler : JoinHandler
     {
-        private readonly GameEntity door;
+        public GameEntity Door { get; private set; }
         private GameEntity otherDoor;
         private bool open;
         private int triggerSize;
 
-        public BossDoorHandler(GameEntity door, Join join, ScreenHandler currentScreen) : base(join, currentScreen)
+        public BossDoorHandler(GameEntity door, GameEntity otherDoor, Join join, int tileSize, int height, int width, string name)
+            : base(join, tileSize, height, width, name)
         {
-            this.door = door;
+            this.otherDoor = otherDoor;
 
-            if (direction == Direction.Down) threshYmin -= currentScreen.Screen.Tileset.TileSize;
+            this.Door = door;
+
+            if (direction == Direction.Down) threshYmin -= tileSize;
             else if (direction == Direction.Left)
             {
                 threshXmin = 0;
-                threshXmax += currentScreen.Screen.Tileset.TileSize;
+                threshXmax += tileSize;
             }
-            else if (direction == Direction.Right) threshXmin -= currentScreen.Screen.Tileset.TileSize;
+            else if (direction == Direction.Right) threshXmin -= tileSize;
             else if (direction == Direction.Up)
             {
                 threshYmin = 0;
-                threshYmax += currentScreen.Screen.Tileset.TileSize;
+                threshYmax += tileSize;
             }
 
             PositionComponent pos = door.GetComponent<PositionComponent>();
@@ -33,10 +36,12 @@ namespace MegaMan.Engine
 
         public override void Start(ScreenHandler screen)
         {
-            door.Start();
-            door.Screen = screen;
+            base.Start(screen);
 
-            door.GetComponent<StateComponent>().StateChanged += s =>
+            Door.Start();
+            Door.Screen = screen;
+
+            Door.GetComponent<StateComponent>().StateChanged += s =>
             {
                 if (s == "Open") open = true;
             };
@@ -44,7 +49,7 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            door.Die();
+            Door.Die();
         }
 
         public override bool Trigger(PointF position)
@@ -55,23 +60,21 @@ namespace MegaMan.Engine
             }
             else if (JoinInfo.direction == JoinDirection.ForwardOnly) return false;
 
-            return (door.GetComponent<CollisionComponent>()).TouchedBy("Player");
+            return (Door.GetComponent<CollisionComponent>()).TouchedBy("Player");
         }
 
         public override void BeginScroll(ScreenHandler next, PointF playerPos)
         {
-            door.SendMessage(new StateMessage(null, "Opening"));
-            if (direction == Direction.Down) triggerSize = (int)(currentScreen.Screen.PixelHeight - playerPos.Y);
+            Door.SendMessage(new StateMessage(null, "Opening"));
+            if (direction == Direction.Down) triggerSize = (int)(height - playerPos.Y);
             else if (direction == Direction.Left) triggerSize = (int)playerPos.X;
-            else if (direction == Direction.Right) triggerSize = (int)(currentScreen.Screen.PixelWidth - playerPos.X);
+            else if (direction == Direction.Right) triggerSize = (int)(width - playerPos.X);
             else triggerSize = (int)playerPos.Y;
 
             base.BeginScroll(next, playerPos);
 
-            JoinHandler otherSide = next.GetJoinHandler(JoinInfo);
-            if (otherSide != null && otherSide.JoinInfo.bossDoor) // damn well better be true!
+            if (otherDoor != null)
             {
-                otherDoor = ((BossDoorHandler)otherSide).door;
                 otherDoor.SendMessage(new StateMessage(null, "Open"));
             }
         }

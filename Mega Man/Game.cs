@@ -218,7 +218,7 @@ namespace MegaMan.Engine
         {
             try
             {
-                CurrentMap = new MapHandler(new Map(stages[name]), pauseScreen);
+                CurrentMap = MapFactory.CreateMap(new Map(stages[name]), pauseScreen);
             }
             catch (XmlException e)
             {

@@ -155,6 +155,7 @@
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
     <Compile Include="LadderComponent.cs" />
+    <Compile Include="MapFactory.cs" />
     <Compile Include="MapHandler.cs" />
     <Compile Include="MapSquare.cs" />
     <Compile Include="Game.cs" />
@@ -207,7 +208,6 @@
     </Compile>
     <Compile Include="Scene.cs" />
     <Compile Include="ScreenHandler.cs" />
-    <Compile Include="ScreenTransition.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="SoundComponent.cs" />
     <Compile Include="SoundEffect.cs" />

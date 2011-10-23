@@ -4,6 +4,7 @@ using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan.Common;
+using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
@@ -24,6 +25,8 @@ namespace MegaMan.Engine
 
         private readonly Music music;
 
+        private Dictionary<string, ScreenHandler> screens;
+
         private PauseScreen pauseScreen;
 
         private JoinHandler currentJoin;
@@ -39,7 +42,7 @@ namespace MegaMan.Engine
 
         public event Action End;
 
-        public MapHandler(Map map, PauseScreen pauseScreen)
+        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens)
         {
             Map = map;
             this.pauseScreen = pauseScreen;
@@ -60,6 +63,8 @@ namespace MegaMan.Engine
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
 
             if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
+
+            this.screens = screens;
         }
 
         void BlinkReady(GameRenderEventArgs e)
@@ -122,7 +127,7 @@ namespace MegaMan.Engine
 
         private void Draw(SpriteBatch batch)
         {
-            CurrentScreen.Draw(batch);
+            CurrentScreen.Draw(batch, PlayerPos.Position);
         }
 
         private void DeadUpdate()
@@ -137,7 +142,7 @@ namespace MegaMan.Engine
 
         // swaps nextscreen for currentscreen and makes necessary adjustments to player
         // does not necessary represent the "end" of a scroll operation (boss doors still have to close)
-        private void ScrollDone(JoinHandler join, ScreenHandler nextScreen)
+        private void ScrollDone(JoinHandler join)
         {
             Player.Paused = false;
             join.ScrollDone -= ScrollDone;
@@ -176,7 +181,7 @@ namespace MegaMan.Engine
 
         private void Update()
         {
-            CurrentScreen.Update();
+            CurrentScreen.Update(PlayerPos);
         }
 
         private void OnScrollTriggered(JoinHandler join)
@@ -184,7 +189,7 @@ namespace MegaMan.Engine
             currentJoin = join;
 
             Player.Paused = true;
-            nextScreen = new ScreenHandler(Map.Screens[join.NextScreenName], PlayerPos, Map.Joins);
+            nextScreen = screens[join.NextScreenName];
             join.BeginScroll(nextScreen, PlayerPos.Position);
             updateFunc = () => join.Update(PlayerPos);
             join.ScrollDone += ScrollDone;
@@ -196,8 +201,8 @@ namespace MegaMan.Engine
 
         private void DrawJoin(SpriteBatch batch)
         {
-            CurrentScreen.Draw(batch, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
-            nextScreen.Draw(batch, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
+            CurrentScreen.Draw(batch, PlayerPos.Position, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
+            nextScreen.Draw(batch, PlayerPos.Position, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
         }
 
         private void StartScreen()
@@ -242,7 +247,7 @@ namespace MegaMan.Engine
                         () => 
                     { 
                         StopScreen();
-                        ChangeScreen(new ScreenHandler(Map.Screens[info.TargetScreen], PlayerPos, Map.Joins));
+                        ChangeScreen(screens[info.TargetScreen]);
                         PlayerPos.SetPosition(info.To); // do it here so drawing is correct for fade-in
                     }, () =>
                     {
@@ -264,11 +269,11 @@ namespace MegaMan.Engine
         {
             Player = GameEntity.Get("Player");
 
-            Player.Stopped += Player_Death;
             PlayerPos = Player.GetComponent<PositionComponent>();
+            Player.Stopped += Player_Death;
 
             if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
-            CurrentScreen = new ScreenHandler(Map.Screens[startScreen], PlayerPos, Map.Joins);
+            CurrentScreen = screens[startScreen];
             StartScreen();
 
             if (music != null) music.Play();

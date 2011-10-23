@@ -13,8 +13,10 @@ namespace MegaMan.Engine
         private readonly int size;
         protected readonly Direction direction;
 
-        public int NextScreenX { get; private set; }
-        public int NextScreenY { get; private set; }
+        protected int width, height, nextWidth, nextHeight, tileSize;
+
+        private readonly float ticks;
+        private float tickdist;
 
         protected float scrollDist;
 
@@ -22,57 +24,43 @@ namespace MegaMan.Engine
         public float OffsetY { get; private set; }
         public float NextOffsetX { get; private set; }
         public float NextOffsetY { get; private set; }
-
-        protected readonly ScreenHandler currentScreen;
-        protected ScreenHandler nextScreen;
-        private readonly float ticks;
-        private float tickdist;
-
+        public int NextScreenX { get; private set; }
+        public int NextScreenY { get; private set; }
         public string NextScreenName { get; private set; }
 
-        public event Action<JoinHandler, ScreenHandler> ScrollDone;
+        public event Action<JoinHandler> ScrollDone;
 
-        public static JoinHandler Create(Join join, ScreenHandler currentScreen)
-        {
-            if (join.bossDoor)
-            {
-                GameEntity door = GameEntity.Get(join.bossEntityName);
-                if (door != null)
-                {
-                    return new BossDoorHandler(door, join, currentScreen);
-                }
-            }
-            return new JoinHandler(join, currentScreen);
-        }
-        
-        protected JoinHandler(Join join, ScreenHandler currentScreen)
+        public JoinHandler(Join join, int tileSize, int height, int width, string name)
         {
             JoinInfo = join;
-            this.currentScreen = currentScreen;
 
-            size = join.Size * currentScreen.Screen.Tileset.TileSize;
+            this.height = height;
+            this.width = width;
+            this.tileSize = tileSize;
+
+            size = join.Size * tileSize;
             ticks = ((JoinInfo.type == JoinType.Vertical) ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown) / Const.ScrollSpeed;
 
-            if (join.screenOne == currentScreen.Screen.Name)
+            if (join.screenOne == name)
             {
                 NextScreenName = join.screenTwo;
                 if (join.type == JoinType.Horizontal)   // bottom edge
                 {
                     direction = Direction.Down;
-                    threshXmin = join.offsetOne * currentScreen.Screen.Tileset.TileSize;
-                    threshYmin = currentScreen.Screen.PixelHeight - Const.PlayerScrollTrigger;
+                    threshXmin = join.offsetOne * tileSize;
+                    threshYmin = height - Const.PlayerScrollTrigger;
                     threshXmax = threshXmin + size;
-                    threshYmax = currentScreen.Screen.PixelHeight + 100;
-                    NextScreenX = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
+                    threshYmax = height + 100;
+                    NextScreenX = (join.offsetTwo - join.offsetOne) * tileSize;
                 }
                 else // right edge
                 {
                     direction = Direction.Right;
-                    threshXmin = currentScreen.Screen.PixelWidth - Const.PlayerScrollTrigger;
-                    threshYmin = join.offsetOne * currentScreen.Screen.Tileset.TileSize;
-                    threshXmax = currentScreen.Screen.PixelWidth + 100;
+                    threshXmin = width - Const.PlayerScrollTrigger;
+                    threshYmin = join.offsetOne * tileSize;
+                    threshXmax = width + 100;
                     threshYmax = threshYmin + size;
-                    NextScreenY = (join.offsetTwo - join.offsetOne) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenY = (join.offsetTwo - join.offsetOne) * tileSize;
                 }
             }
             else
@@ -81,20 +69,20 @@ namespace MegaMan.Engine
                 if (join.type == JoinType.Horizontal)   // top edge
                 {
                     direction = Direction.Up;
-                    threshXmin = join.offsetTwo * currentScreen.Screen.Tileset.TileSize;
+                    threshXmin = join.offsetTwo * tileSize;
                     threshYmin = -100;
                     threshXmax = threshXmin + size;
                     threshYmax = Const.PlayerScrollTrigger;
-                    NextScreenX = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenX = (join.offsetOne - join.offsetTwo) * tileSize;
                 }
                 else // left edge
                 {
                     direction = Direction.Left;
                     threshXmin = -100;
-                    threshYmin = join.offsetTwo * currentScreen.Screen.Tileset.TileSize;
+                    threshYmin = join.offsetTwo * tileSize;
                     threshXmax = Const.PlayerScrollTrigger;
                     threshYmax = threshYmin + size;
-                    NextScreenY = (join.offsetOne - join.offsetTwo) * currentScreen.Screen.Tileset.TileSize;
+                    NextScreenY = (join.offsetOne - join.offsetTwo) * tileSize;
                 }
             }
         }
@@ -121,12 +109,17 @@ namespace MegaMan.Engine
 
         public virtual void BeginScroll(ScreenHandler next, PointF playerPos)
         {
+            scrollDist = 0;
+
             tickdist = (TriggerSize() + OffsetDist()) / ticks;
-            nextScreen = next;
-            if (direction == Direction.Down) NextScreenY = -currentScreen.Screen.PixelHeight;
-            else if (direction == Direction.Right) NextScreenX = -currentScreen.Screen.PixelWidth;
-            else if (direction == Direction.Left) NextScreenX = next.Screen.PixelWidth;
-            else if (direction == Direction.Up) NextScreenY = next.Screen.PixelHeight;
+
+            this.nextHeight = next.Screen.PixelHeight;
+            this.nextWidth = next.Screen.PixelWidth;
+
+            if (direction == Direction.Down) NextScreenY = -height;
+            else if (direction == Direction.Right) NextScreenX = -width;
+            else if (direction == Direction.Left) NextScreenX = nextWidth;
+            else if (direction == Direction.Up) NextScreenY = nextHeight;
         }
 
         protected virtual int TriggerSize()
@@ -150,9 +143,9 @@ namespace MegaMan.Engine
         protected void FinalizePlayerPos(PositionComponent playerPos)
         {
             if (direction == Direction.Right) { playerPos.SetPosition(new PointF(OffsetDist(), playerPos.Position.Y + NextScreenY)); }
-            else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextScreen.Screen.PixelWidth - OffsetDist(), playerPos.Position.Y + NextScreenY)); }
+            else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextWidth - OffsetDist(), playerPos.Position.Y + NextScreenY)); }
             else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, OffsetDist())); }
-            else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextScreen.Screen.PixelHeight - OffsetDist())); }
+            else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextHeight - OffsetDist())); }
         }
 
         public virtual void Update(PositionComponent playerPos)
@@ -174,7 +167,7 @@ namespace MegaMan.Engine
 
         protected void Finish()
         {
-            if (ScrollDone != null) ScrollDone(this, nextScreen);
+            if (ScrollDone != null) ScrollDone(this);
         }
 
         private void Calculate()
@@ -206,8 +199,6 @@ namespace MegaMan.Engine
                 NextOffsetY = Game.CurrentGame.PixelsDown - scrollDist;
                 NextOffsetX += OffsetX;
             }
-
-            
         }
     }
 }
