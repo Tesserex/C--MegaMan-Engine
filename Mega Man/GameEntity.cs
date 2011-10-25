@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using System.Diagnostics;
 using MegaMan.Common;
@@ -10,6 +11,7 @@ namespace MegaMan.Engine
     public class GameEntity
     {
         private readonly Dictionary<Type, Component> components;
+        public IGameplayContainer Container { get; private set; }
         public string Name { get; private set; }
         public IScreenInformation Screen { get; set; }
         public GameEntity Parent { get; private set; }
@@ -36,9 +38,10 @@ namespace MegaMan.Engine
         public event Action Stopped;
         public event Action Death;
 
-        private GameEntity()
+        private GameEntity(IGameplayContainer container = null)
         {
             components = new Dictionary<Type, Component>();
+            this.Container = container;
         }
 
         public T GetComponent<T>() where T : Component
@@ -47,13 +50,13 @@ namespace MegaMan.Engine
             return null;
         }
 
-        public void Start()
+        public void Start(IScreenInformation screen = null)
         {
             if (entities[Name].numAlive >= entities[Name].maxAlive) return;
             entities[Name].numAlive++;
-            if (Game.CurrentGame.CurrentMap != null)
+            if (screen != null)
             {
-                Screen = Game.CurrentGame.CurrentMap.CurrentScreen;
+                Screen = screen;
             }
             foreach (Component c in components.Values) c.Start();
             RegisterEntity(this);
@@ -103,12 +106,12 @@ namespace MegaMan.Engine
 
         public GameEntity Spawn(string entityName)
         {
-            GameEntity spawn = Get(entityName);
+            GameEntity spawn = Get(entityName, Container);
             if (spawn != null)
             {
                 spawn.Parent = this;
-                spawn.Start();
-                spawn.Screen.AddSpawnedEntity(spawn);
+                spawn.Start(Screen);
+                Screen.AddSpawnedEntity(spawn);
             }
 
             return spawn;
@@ -260,13 +263,13 @@ namespace MegaMan.Engine
             return entities[name].numAlive;
         }
 
-        public static GameEntity Get(string name)
+        public static GameEntity Get(string name, IGameplayContainer container)
         {
             if (!entities.ContainsKey(name)) throw new GameEntityException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +
                 "You need to make sure it's defined in one of the included XML files.");
 
             // clone it
-            GameEntity entity = new GameEntity();
+            GameEntity entity = new GameEntity(container);
             GameEntity source = entities[name];
 
             if (source.numAlive >= source.maxAlive) return null;

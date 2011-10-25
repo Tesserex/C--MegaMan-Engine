@@ -25,8 +25,10 @@ namespace MegaMan.Engine
         private int frame;
         private bool stopped;
         private PositionComponent playerPos;
+        private IScreenInformation screen;
+        private IGameplayContainer container;
 
-        public BlocksPattern(BlockPatternInfo info, PositionComponent playerPos)
+        public BlocksPattern(BlockPatternInfo info, IGameplayContainer container)
         {
             length = info.Length;
             leftBoundary = info.LeftBoundary;
@@ -34,7 +36,7 @@ namespace MegaMan.Engine
             blocks = new List<BlockInfo>();
             foreach (BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
             {
-                BlockInfo myInfo = new BlockInfo {entity = GameEntity.Get(info.Entity)};
+                BlockInfo myInfo = new BlockInfo {entity = GameEntity.Get(info.Entity, container)};
                 // should always persist off screen
                 PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
                 pos.PersistOffScreen = true;
@@ -45,19 +47,21 @@ namespace MegaMan.Engine
             }
             running = false;
             frame = 0;
-            this.playerPos = playerPos;
+            this.playerPos = container.Player.GetComponent<PositionComponent>();
+            this.container = container;
         }
 
-        public void Start()
+        public void Start(IScreenInformation screen)
         {
-            Engine.Instance.GameThink += Update;
+            this.screen = screen;
+            container.GameThink += Update;
             stopped = false;
         }
 
         public void Stop()
         {
             stopped = true;
-            Engine.Instance.GameThink -= Update;
+            container.GameThink -= Update;
             Halt();
         }
 
@@ -100,7 +104,7 @@ namespace MegaMan.Engine
             foreach (BlockInfo info in blocks)
             {
                 info.entity.SendMessage(new StateMessage(null, "Start"));
-                info.entity.Start();
+                info.entity.Start(screen);
                 PositionComponent pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);

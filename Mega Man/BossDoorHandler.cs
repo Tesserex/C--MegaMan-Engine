@@ -38,8 +38,7 @@ namespace MegaMan.Engine
         {
             base.Start(screen);
 
-            Door.Start();
-            Door.Screen = screen;
+            Door.Start(screen);
 
             Door.GetComponent<StateComponent>().StateChanged += s =>
             {

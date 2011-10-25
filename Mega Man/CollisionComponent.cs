@@ -70,8 +70,8 @@ namespace MegaMan.Engine
         public override void Start()
         {
             Enabled = true;
-            Engine.Instance.GameAct += ClearTouch;
-            Engine.Instance.GameReact += Update;
+            Parent.Container.GameAct += ClearTouch;
+            Parent.Container.GameReact += Update;
             Engine.Instance.GameRender += Instance_GameRender;
 
             rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -91,15 +91,15 @@ namespace MegaMan.Engine
                 if (!enabledBoxes.Contains(hitbox.Name)) continue;
 
                 RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
-                boundBox.Offset(-Game.CurrentGame.CurrentMap.CurrentScreen.OffsetX, -Game.CurrentGame.CurrentMap.CurrentScreen.OffsetY);
+                boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
                 if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
             }
         }
 
         public override void Stop()
         {
-            Engine.Instance.GameAct -= ClearTouch;
-            Engine.Instance.GameReact -= Update;
+            Parent.Container.GameAct -= ClearTouch;
+            Parent.Container.GameReact -= Update;
             Engine.Instance.GameRender -= Instance_GameRender;
             Enabled = false;
             touchedBy.Clear();

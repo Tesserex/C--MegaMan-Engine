@@ -66,7 +66,7 @@ namespace MegaMan.Engine
         {
             Direction = Direction.Right;
 
-            Engine.Instance.GameAct += Update;
+            Parent.Container.GameAct += Update;
 
             pushX = pushY = 0;
             dragX = dragY = resistX = resistY = 1;
@@ -79,7 +79,7 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            Engine.Instance.GameAct -= Update;
+            Parent.Container.GameAct -= Update;
         }
 
         public override void Message(IGameMessage msg)
@@ -404,7 +404,7 @@ namespace MegaMan.Engine
                             PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (mov == null || pos == null) return;
 
-                            GameEntity player = Game.CurrentGame.CurrentMap.Player;
+                            GameEntity player = entity.Container.Player;
                             PositionComponent playerPos = player.GetComponent<PositionComponent>();
 
                             if (axis == Axis.X)

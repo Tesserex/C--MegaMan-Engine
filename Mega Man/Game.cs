@@ -31,7 +31,6 @@ namespace MegaMan.Engine
         private string currentPath;
         private IHandleGameEvents currentHandler;
         private StageSelect select;
-        private PauseScreen pauseScreen;
         private readonly Dictionary<string, FilePath> stages;
 
         public MapHandler CurrentMap { get; private set; }
@@ -121,8 +120,6 @@ namespace MegaMan.Engine
 
             if (project.StageSelect != null) select = new StageSelect(project.StageSelect);
 
-            if (project.PauseScreen != null) pauseScreen = new PauseScreen(project.PauseScreen);
-
             foreach (string includePath in project.Includes)
             {
                 string includefile = Path.Combine(BasePath, includePath);
@@ -134,7 +131,7 @@ namespace MegaMan.Engine
             if (project.TitleScene != null)
             {
                 var scene = Scene.Get(project.TitleScene);
-                scene.Finished += () =>
+                scene.End += () =>
                 {
                     scene.StopHandler();
                     StageSelect();
@@ -197,7 +194,7 @@ namespace MegaMan.Engine
                 Engine.Instance.FadeTransition(() =>
                 {
                     var scene = Scene.Get(sceneName);
-                    scene.Finished += () =>
+                    scene.End += () =>
                     {
                         Engine.Instance.FadeTransition(() =>
                         {
@@ -216,9 +213,11 @@ namespace MegaMan.Engine
 
         private void StartMap(string name)
         {
+            var factory = new MapFactory();
+
             try
             {
-                CurrentMap = MapFactory.CreateMap(new Map(stages[name]), pauseScreen);
+                CurrentMap = factory.CreateMap(new Map(stages[name]), project.PauseScreen);
             }
             catch (XmlException e)
             {

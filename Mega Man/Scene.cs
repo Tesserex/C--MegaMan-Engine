@@ -9,14 +9,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
-    public class Scene : IHandleGameEvents, IScreenInformation
+    public class Scene : IHandleGameEvents, IScreenInformation, IGameplayContainer
     {
         private Dictionary<string, ISceneObject> objects;
         private List<GameEntity> entities;
         private SceneInfo info;
         private int frame = 0;
 
-        public event Action Finished;
+        public event Action GameThink;
+        public event Action GameAct;
+        public event Action GameReact;
+        public event Action GameCleanup;
+        public event Action End;
 
         private Scene(SceneInfo info)
         {
@@ -48,6 +52,11 @@ namespace MegaMan.Engine
             }
         }
 
+        public GameEntity Player
+        {
+            get { return null; }
+        }
+
         public int TileSize
         {
             get
@@ -74,6 +83,11 @@ namespace MegaMan.Engine
         public Tile TileAt(int tx, int ty)
         {
             return null;
+        }
+
+        public IEnumerable<MapSquare> Tiles
+        {
+            get { return null; }
         }
 
         public void AddSpawnedEntity(GameEntity entity)
@@ -117,11 +131,19 @@ namespace MegaMan.Engine
                 }
             }
 
+            if (!Game.CurrentGame.Paused)
+            {
+                if (GameThink != null) GameThink();
+                if (GameAct != null) GameAct();
+                if (GameReact != null) GameReact();
+            }
+            if (GameCleanup != null) GameCleanup();
+
             frame++;
 
-            if (frame >= info.Duration && Finished != null)
+            if (frame >= info.Duration && End != null)
             {
-                Finished();
+                End();
             }
         }
 
@@ -191,15 +213,14 @@ namespace MegaMan.Engine
 
         private void EntityCommand(KeyFrameEntityCommandInfo command)
         {
-            var entity = GameEntity.Get(command.Entity);
-            entity.Screen = this;
+            var entity = GameEntity.Get(command.Entity, this);
             entity.GetComponent<PositionComponent>().SetPosition(command.X, command.Y);
             if (!string.IsNullOrEmpty(command.State))
             {
                 entity.SendMessage(new StateMessage(null, command.State));
             }
             entities.Add(entity);
-            entity.Start();
+            entity.Start(this);
         }
 
         private void FillCommand(KeyFrameFillCommandInfo command)

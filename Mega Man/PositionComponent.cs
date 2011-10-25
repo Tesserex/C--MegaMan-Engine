@@ -31,12 +31,12 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
-            Engine.Instance.GameCleanup += Update;
+            Parent.Container.GameCleanup += Update;
         }
 
         public override void Stop()
         {
-            Engine.Instance.GameCleanup -= Update;
+            Parent.Container.GameCleanup -= Update;
         }
 
         public override void Message(IGameMessage msg)

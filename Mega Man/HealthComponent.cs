@@ -51,8 +51,8 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
-            Engine.Instance.GameThink += Update;
-            Engine.Instance.GameCleanup += Instance_GameCleanup;
+            Parent.Container.GameThink += Update;
+            Parent.Container.GameCleanup += Instance_GameCleanup;
             Health = MaxHealth;
             if (meter != null)
             {
@@ -67,8 +67,8 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            Engine.Instance.GameThink -= Update;
-            Engine.Instance.GameCleanup -= Instance_GameCleanup;
+            Parent.Container.GameThink -= Update;
+            Parent.Container.GameCleanup -= Instance_GameCleanup;
             if (meter != null)
             {
                 meter.StopHandler();
@@ -81,7 +81,7 @@ namespace MegaMan.Engine
         {
             if (msg is DamageMessage && flashing == 0)
             {
-                if (Engine.Instance.Invincible && Parent == Game.CurrentGame.CurrentMap.Player) return;
+                if (Engine.Instance.Invincible && Parent.Name == "Player") return;
 
                 DamageMessage damage = (DamageMessage)msg;
 
@@ -127,7 +127,7 @@ namespace MegaMan.Engine
             XElement meterNode = xml.Element("Meter");
             if (meterNode != null)
             {
-                meter = HealthMeter.Create(meterNode, true);
+                meter = HealthMeter.Create(meterNode, true, Parent.Container);
                 meter.MaxValue = maxHealth;
                 meter.IsPlayer = (Parent.Name == "Player");
             }

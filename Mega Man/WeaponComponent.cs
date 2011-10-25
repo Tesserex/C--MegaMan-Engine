@@ -203,7 +203,7 @@ namespace MegaMan.Engine
                 XElement meterNode = weapon.Element("Meter");
                 if (meterNode != null)
                 {
-                    meter = HealthMeter.Create(meterNode, true);
+                    meter = HealthMeter.Create(meterNode, true, Parent.Container);
 
                     meter.MaxValue = ammo;
                     meter.Reset();

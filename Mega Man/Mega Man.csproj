@@ -135,6 +135,7 @@
     <Compile Include="EngineGraphicsControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GamePlay.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />

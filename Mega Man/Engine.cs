@@ -165,34 +165,6 @@ namespace MegaMan.Engine
         // and display them on the screen.
         public event GameRenderEventHandler GameRenderEnd;
 
-
-        // -- These events only fire when the game is in play, and not paused (yes, that means the pause screen).
-
-        /// <summary>
-        /// This is the first phase of game logic, but comes after the GameLogicTick event.
-        /// During this phase, entities should "think" - decide what they want to do this frame.
-        /// </summary>
-        public event Action GameThink;
-
-        /// <summary>
-        /// During this phase, which comes between GameThink and GameReact, entities should carry out
-        /// the actions decided during the thinking phase. Mainly used for movement.
-        /// </summary>
-        public event Action GameAct;
-
-        /// <summary>
-        /// This is the last logic phase, in which entities should react to the actions of other
-        /// entities on the screen. Primarily used for collision detection and response.
-        /// </summary>
-        public event Action GameReact;
-
-        /// <summary>
-        /// The final phase before rendering. Used to delete entities,
-        /// so please do not enumerate through entity collections during this phase. If you must,
-        /// then make a copy first.
-        /// </summary>
-        public event Action GameCleanup;
-
         public GraphicsDevice GraphicsDevice { get; private set; }
 
         // This event is used to query the graphics control and grab
@@ -381,15 +353,6 @@ namespace MegaMan.Engine
             GameTickEventArgs e = new GameTickEventArgs(dt);
 
             if (GameLogicTick != null) GameLogicTick(e);    // this one is for more basic operations
-            
-            // these ones are for entities, so they only fire if the game is in play.
-            if (Game.CurrentGame == null || Game.CurrentGame.CurrentMap == null || !Game.CurrentGame.Paused)
-            {
-                if (GameThink != null) GameThink();
-                if (GameAct != null) GameAct();
-                if (GameReact != null) GameReact();
-            }
-            if (GameCleanup != null) GameCleanup();
 
             // render phase
             GameRenderEventArgs r = new GameRenderEventArgs(graphics, GraphicsDevice) {OpacityColor = opacityColor};

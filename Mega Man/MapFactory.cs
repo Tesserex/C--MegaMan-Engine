@@ -6,10 +6,25 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public static class MapFactory
+    public class MapFactory
     {
-        public static MapHandler CreateMap(Map map, PauseScreen pauseScreen)
+        public GamePlay GamePlay { get; private set; }
+
+        public MapHandler CreateMap(Map map, Common.PauseScreen pauseScreenInfo)
         {
+            GamePlay = new GamePlay();
+
+            var Player = GameEntity.Get("Player", GamePlay);
+
+            // TODO: Remove this circular dependency
+            GamePlay.Player = Player;
+
+            PauseScreen pauseScreen = null;
+            if (pauseScreenInfo != null)
+            {
+                pauseScreen = new PauseScreen(pauseScreenInfo, Player.GetComponent<WeaponComponent>(), GamePlay);
+            }
+
             var joins = new Dictionary<Screen, Dictionary<Join, JoinHandler>>();
             var bossDoors = new Dictionary<Screen, Dictionary<Join, GameEntity>>();
 
@@ -23,7 +38,7 @@ namespace MegaMan.Engine
                     GameEntity door = null;
                     if (join.bossDoor)
                     {
-                        door = GameEntity.Get(join.bossEntityName);
+                        door = GameEntity.Get(join.bossEntityName, GamePlay);
                     }
                     bossDoors[screen][join] = door;
                 }
@@ -49,24 +64,22 @@ namespace MegaMan.Engine
                 joins[screenTwo].Add(join, handlerTwo);
             }
 
-            var player = GameEntity.Get("Player");
-
             var screens = new Dictionary<string, ScreenHandler>();
             foreach (var screen in map.Screens.Values)
             {
-                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList(), player);
+                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
             }
 
-            return new MapHandler(map, pauseScreen, screens, player);
+            return new MapHandler(map, pauseScreen, screens, GamePlay);
         }
 
-        private static ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins, GameEntity player)
+        private ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins)
         {
             var patterns = new List<BlocksPattern>(screen.BlockPatternInfo.Count);
 
             foreach (BlockPatternInfo info in screen.BlockPatternInfo)
             {
-                BlocksPattern pattern = new BlocksPattern(info, player.GetComponent<PositionComponent>());
+                BlocksPattern pattern = new BlocksPattern(info, GamePlay);
                 patterns.Add(pattern);
             }
 
@@ -93,10 +106,10 @@ namespace MegaMan.Engine
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
-            return new ScreenHandler(screen, tiles, joins, patterns, music);
+            return new ScreenHandler(screen, tiles, joins, patterns, music, GamePlay);
         }
         
-        private static JoinHandler CreateJoin(Join join, Screen screen, GameEntity door, GameEntity otherDoor)
+        private JoinHandler CreateJoin(Join join, Screen screen, GameEntity door, GameEntity otherDoor)
         {
             if (join.bossDoor)
             {

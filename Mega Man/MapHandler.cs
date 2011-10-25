@@ -32,17 +32,18 @@ namespace MegaMan.Engine
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
+        private GamePlay gamePlay;
+
         public Map Map { get; private set; }
 
         public ScreenHandler CurrentScreen { get; private set; }
 
-        public GameEntity Player { get; private set; }
-
+        public GameEntity Player { get { return gamePlay.Player; } }
         public PositionComponent PlayerPos;
 
         public event Action End;
 
-        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens, GameEntity player)
+        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens, GamePlay gamePlay)
         {
             Map = map;
             this.pauseScreen = pauseScreen;
@@ -66,8 +67,8 @@ namespace MegaMan.Engine
 
             this.screens = screens;
 
-            Player = player;
-            PlayerPos = Player.GetComponent<PositionComponent>();
+            this.gamePlay = gamePlay;
+            PlayerPos = gamePlay.Player.GetComponent<PositionComponent>();
         }
 
         void BlinkReady(GameRenderEventArgs e)
@@ -110,7 +111,7 @@ namespace MegaMan.Engine
 
         private void BeginPlay()
         {
-            Player.Start();
+            Player.Start(CurrentScreen);
             Player.GetComponent<SpriteComponent>().Visible = true;
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));
@@ -122,11 +123,11 @@ namespace MegaMan.Engine
                 {
                     PlayerPos.SetPosition(new PointF(startX, startY));
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
-                    Engine.Instance.GameThink -= teleport;
+                    gamePlay.GameThink -= teleport;
                     updateFunc = Update;
                 }
             };
-            Engine.Instance.GameThink += teleport;
+            gamePlay.GameThink += teleport;
         }
 
         private void Draw(SpriteBatch batch)
@@ -185,7 +186,7 @@ namespace MegaMan.Engine
 
         private void Update()
         {
-            CurrentScreen.Update(PlayerPos);
+            CurrentScreen.Update();
         }
 
         private void OnScrollTriggered(JoinHandler join)
@@ -213,7 +214,7 @@ namespace MegaMan.Engine
         {
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
-            CurrentScreen.BossDefeated += () => { if (End != null) End(); };
+            CurrentScreen.BossDefeated += () => { gamePlay.EndPlay(); if (End != null) End(); };
             CurrentScreen.Start();
         }
 
@@ -321,7 +322,9 @@ namespace MegaMan.Engine
 
         private void Pause()
         {
-            Engine.Instance.GameThink -= GameTick;
+            gamePlay.StopHandler();
+
+            Engine.Instance.GameLogicTick -= GameTick;
             Engine.Instance.GameRender -= GameRender;
             
             Engine.Instance.GameInputReceived -= GameInputReceived;
@@ -329,10 +332,12 @@ namespace MegaMan.Engine
 
         private void Unpause()
         {
-            Engine.Instance.GameThink += GameTick;
+            Engine.Instance.GameLogicTick += GameTick;
             Engine.Instance.GameRender += GameRender;
             
             Engine.Instance.GameInputReceived += GameInputReceived;
+
+            gamePlay.StartHandler();
         }
 
         private void GameInputReceived(GameInputEventArgs e)
@@ -387,7 +392,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void GameTick()
+        private void GameTick(GameTickEventArgs e)
         {
             if (updateFunc != null) updateFunc();
 

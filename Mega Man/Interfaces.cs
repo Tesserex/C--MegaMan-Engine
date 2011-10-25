@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Collections.Generic;
+using System;
 
 namespace MegaMan.Engine
 {
@@ -6,8 +8,6 @@ namespace MegaMan.Engine
     {
         void StartHandler();
         void StopHandler();
-
-        void GameRender(GameRenderEventArgs e);
     }
 
     public interface IScreenInformation
@@ -16,9 +16,25 @@ namespace MegaMan.Engine
         float OffsetX { get; }
         float OffsetY { get; }
         MapSquare SquareAt(int x, int y);
+        IEnumerable<MapSquare> Tiles { get; }
         MegaMan.Common.Tile TileAt(int tx, int ty);
         void AddSpawnedEntity(GameEntity entity);
         bool IsOnScreen(float x, float y);
+    }
+
+    public interface IGameplayContainer : IHandleGameEvents
+    {
+        GameEntity Player { get; }
+
+        event Action GameThink;
+
+        event Action GameAct;
+
+        event Action GameReact;
+
+        event Action GameCleanup;
+
+        event Action End;
     }
 
     public abstract class Component

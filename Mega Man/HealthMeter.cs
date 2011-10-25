@@ -19,6 +19,8 @@ namespace MegaMan.Engine
         private int tickframes;
         private int stopvalue;
 
+        private IGameplayContainer container;
+
         private Point tickOffset;
 
         private bool running;
@@ -101,26 +103,27 @@ namespace MegaMan.Engine
             }
         }
 
-        public static HealthMeter Create(MeterInfo info, bool inGamePlay)
+        public static HealthMeter Create(MeterInfo info, bool inGamePlay, IGameplayContainer container)
         {
-            var meter = new HealthMeter();
+            var meter = new HealthMeter(container);
             meter.LoadInfo(info);
             meter.inGamePlay = inGamePlay;
             if (inGamePlay) allMeters.Add(meter);
             return meter;
         }
 
-        public static HealthMeter Create(XElement node, bool inGamePlay)
+        public static HealthMeter Create(XElement node, bool inGamePlay, IGameplayContainer container)
         {
-            var meter = new HealthMeter();
+            var meter = new HealthMeter(container);
             meter.LoadXml(node);
             meter.inGamePlay = inGamePlay;
             if (inGamePlay) allMeters.Add(meter);
             return meter;
         }
 
-        private HealthMeter()
+        private HealthMeter(IGameplayContainer container)
         {
+            this.container = container;
             value = maxvalue;
             running = false;
         }
@@ -130,7 +133,7 @@ namespace MegaMan.Engine
         {
             Value = 0;
             filldelay = frames;
-            Engine.Instance.GameThink += DelayFill;
+            container.GameThink += DelayFill;
         }
 
         void DelayFill()
@@ -138,7 +141,7 @@ namespace MegaMan.Engine
             filldelay--;
             if (filldelay == 0)
             {
-                Engine.Instance.GameThink -= DelayFill;
+                container.GameThink -= DelayFill;
                 Value = MaxValue;
             }
         }

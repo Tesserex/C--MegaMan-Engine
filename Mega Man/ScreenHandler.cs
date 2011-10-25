@@ -16,6 +16,9 @@ namespace MegaMan.Engine
         private bool[] spawnable;
         private readonly List<JoinHandler> joins;
         private readonly List<bool> teleportEnabled;
+        private readonly IGameplayContainer container;
+        private readonly GameEntity player;
+        private readonly PositionComponent playerPos;
 
         private float centerX, centerY;
 
@@ -31,7 +34,7 @@ namespace MegaMan.Engine
 
         public event Action BossDefeated;
 
-        public ScreenHandler(Screen screen, MapSquare[][] tiles, IEnumerable<JoinHandler> joins, IEnumerable<BlocksPattern> blockPatterns, Music music)
+        public ScreenHandler(Screen screen, MapSquare[][] tiles, IEnumerable<JoinHandler> joins, IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container)
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
@@ -46,6 +49,10 @@ namespace MegaMan.Engine
             teleportEnabled = new List<bool>(screen.Teleports.Select(info => false));
 
             Music = music;
+
+            this.container = container;
+            this.player = container.Player;
+            playerPos = player.GetComponent<PositionComponent>();
         }
 
         public void Start()
@@ -63,14 +70,14 @@ namespace MegaMan.Engine
 
             foreach (BlocksPattern pattern in patterns)
             {
-                pattern.Start();
+                pattern.Start(this);
             }
 
-            Engine.Instance.GameThink += Instance_GameThink;
+            container.GameThink += Instance_GameThink;
         }
 
         // these frames only happen if we are not paused / scrolling
-        public void Update(PositionComponent playerPos)
+        public void Update()
         {
             foreach (JoinHandler join in joins)
             {
@@ -101,7 +108,7 @@ namespace MegaMan.Engine
             }
 
             // if the player is not colliding, they'll be allowed to pass through the walls (e.g. teleporting)
-            if ((Game.CurrentGame.CurrentMap.Player.GetComponent<CollisionComponent>()).Enabled)
+            if ((player.GetComponent<CollisionComponent>()).Enabled)
             {
                 // now if we aren't scrolling, hold the player at the screen borders
                 if (playerPos.Position.X >= Screen.PixelWidth - Const.PlayerScrollTrigger)
@@ -161,7 +168,7 @@ namespace MegaMan.Engine
             spawnable[index] = false;
             EnemyCopyInfo info = Screen.EnemyInfo[index];
 
-            GameEntity enemy = GameEntity.Get(info.enemy);
+            GameEntity enemy = GameEntity.Get(info.enemy, container);
             if (enemy == null) return;
             PositionComponent pos = enemy.GetComponent<PositionComponent>();
             if (!pos.PersistOffScreen && !IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
@@ -172,7 +179,7 @@ namespace MegaMan.Engine
                 StateMessage msg = new StateMessage(null, info.state);
                 enemy.SendMessage(msg);
             }
-            enemy.Start();
+            enemy.Start(this);
             if (info.boss)
             {
                 HealthComponent health = enemy.GetComponent<HealthComponent>();
@@ -181,8 +188,8 @@ namespace MegaMan.Engine
                 enemy.Death += () =>
                 {
                     if (Music != null) Music.FadeOut(30);
-                    (Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>()).Paused = true;
-                    Engine.Instance.DelayedCall(() => Game.CurrentGame.CurrentMap.Player.SendMessage(new StateMessage(null, "TeleportStart")), null, 120);
+                    (player.GetComponent<InputComponent>()).Paused = true;
+                    Engine.Instance.DelayedCall(() => player.SendMessage(new StateMessage(null, "TeleportStart")), null, 120);
                     Engine.Instance.DelayedCall(() => { if (BossDefeated != null) BossDefeated(); }, null, 240);
                 };
             }
@@ -196,7 +203,7 @@ namespace MegaMan.Engine
 
         private void BossFightTimer()
         {
-            InputComponent input = Game.CurrentGame.CurrentMap.Player.GetComponent<InputComponent>();
+            InputComponent input = player.GetComponent<InputComponent>();
             input.Paused = true;
             Engine.Instance.DelayedCall(() => { input.Paused = false; }, null, 200);
         }
@@ -220,7 +227,7 @@ namespace MegaMan.Engine
                 pattern.Stop();
             }
 
-            Engine.Instance.GameThink -= Instance_GameThink;
+            container.GameThink -= Instance_GameThink;
         }
 
         public void Clean()

@@ -33,9 +33,11 @@ namespace MegaMan.Engine
 
         public event Action Unpaused;
 
-        public PauseScreen(MegaMan.Common.PauseScreen pauseInfo)
+        public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, WeaponComponent playerWeapons, IGameplayContainer container)
         {
             weapons = new List<PauseWeapon>();
+
+            this.playerWeapons = playerWeapons;
 
             if (pauseInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.ChangeSound);
             if (pauseInfo.PauseSound != null) pauseSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.PauseSound);
@@ -45,7 +47,7 @@ namespace MegaMan.Engine
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (var weaponInfo in pauseInfo.Weapons)
-                LoadWeapon(weaponInfo);
+                LoadWeapon(weaponInfo, container);
 
             FontSystem.LoadFont("Big", Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
 
@@ -61,7 +63,7 @@ namespace MegaMan.Engine
             if (pauseSound != null) Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
-        private void LoadWeapon(PauseWeaponInfo weapon)
+        private void LoadWeapon(PauseWeaponInfo weapon, IGameplayContainer container)
         {
             PauseWeapon info = new PauseWeapon {name = weapon.Name, weapon = weapon.Weapon};
 
@@ -80,7 +82,7 @@ namespace MegaMan.Engine
 
             if (weapon.Meter != null)
             {
-                info.meter = HealthMeter.Create(weapon.Meter, false);
+                info.meter = HealthMeter.Create(weapon.Meter, false, container);
             }
 
             weapons.Add(info);
@@ -93,7 +95,6 @@ namespace MegaMan.Engine
             Engine.Instance.GameInputReceived += GameInputReceived;
             Engine.Instance.GameRender += GameRender;
 
-            playerWeapons = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
             foreach (PauseWeapon info in weapons)
