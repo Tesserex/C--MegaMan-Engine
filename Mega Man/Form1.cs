@@ -408,41 +408,33 @@ namespace MegaMan.Engine
 
         private void emptyHealthMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            if (Game.CurrentGame != null)
             {
-                Game.CurrentGame.CurrentMap.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+                Game.CurrentGame.DebugEmptyHealth();
             }
         }
 
         private void fillHealthMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            if (Game.CurrentGame != null)
             {
-                Game.CurrentGame.CurrentMap.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
+                Game.CurrentGame.DebugFillHealth();
             }
         }
 
         private void emptyWeaponMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            if (Game.CurrentGame != null)
             {
-                var weaponComponent = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
-                if (weaponComponent != null)
-                {
-                    weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
-                }
+                Game.CurrentGame.DebugEmptyWeapon();
             }
         }
 
         private void fillWeaponMenuIem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null && Game.CurrentGame.CurrentMap != null)
+            if (Game.CurrentGame != null)
             {
-                var weaponComponent = Game.CurrentGame.CurrentMap.Player.GetComponent<WeaponComponent>();
-                if (weaponComponent != null)
-                {
-                    weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));
-                }
+                Game.CurrentGame.DebugFillWeapon();
             }
         }
 

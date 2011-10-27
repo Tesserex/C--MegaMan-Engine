@@ -22,6 +22,18 @@ namespace MegaMan.Engine
         }
     }
 
+    public enum HandlerType
+    {
+        Scene,
+        Map,
+    }
+
+    public class HandlerTransfer
+    {
+        public HandlerType Type { get; set; }
+        public string Name { get; set; }
+    }
+
     public class Game
     {
         public static Game CurrentGame { get; private set; }
@@ -33,7 +45,6 @@ namespace MegaMan.Engine
         private StageSelect select;
         private readonly Dictionary<string, FilePath> stages;
 
-        public MapHandler CurrentMap { get; private set; }
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
         public float Gravity { get; private set; }
@@ -58,15 +69,10 @@ namespace MegaMan.Engine
             CurrentGame.LoadFile(path);
         }
 
-        private void StopHandlers()
-        {
-            currentHandler.StopHandler();
-        }
-
         public void Unload()
         {
             Engine.Instance.Stop();
-            StopHandlers();
+            currentHandler.StopHandler();
             GameEntity.UnloadAll();
             select = null;
             Engine.Instance.UnloadAudio();
@@ -182,52 +188,53 @@ namespace MegaMan.Engine
             }
         }
 
-        private void select_MapSelected(string name, string sceneName)
+        private void select_MapSelected()
         {
-            if (!stages.ContainsKey(name)) return;
+            HandlerTransfer nextHandler = select.NextHandler;
 
-            select.MapSelected -= select_MapSelected;
+            select.End -= select_MapSelected;
             currentHandler.StopHandler();
 
-            if (sceneName != null)
+            switch (nextHandler.Type)
             {
-                Engine.Instance.FadeTransition(() =>
-                {
-                    var scene = Scene.Get(sceneName);
-                    scene.End += () =>
-                    {
-                        Engine.Instance.FadeTransition(() =>
-                        {
-                            scene.StopHandler();
-                            StartMap(name);
-                        });
-                    };
-                    scene.StartHandler();
-                });
+                case HandlerType.Scene:
+                    StartScene(nextHandler.Name);
+                    break;
+
+                case HandlerType.Map:
+                    StartMap(nextHandler.Name);
+                    break;
             }
-            else
+        }
+
+        private void StartScene(string name)
+        {
+            Engine.Instance.FadeTransition(() =>
             {
-                StartMap(name);
-            }
+                var scene = Scene.Get(name);
+                scene.StartHandler();
+                currentHandler = scene;
+            });
         }
 
         private void StartMap(string name)
         {
+            if (!stages.ContainsKey(name)) return;
+
             var factory = new MapFactory();
 
             try
             {
-                CurrentMap = factory.CreateMap(new Map(stages[name]), project.PauseScreen);
+                var map = factory.CreateMap(new Map(stages[name]), project.PauseScreen);
+                map.Player.Death += PlayerDied;
+                currentHandler = map;
+                currentHandler.StartHandler();
+                currentHandler.End += CurrentMap_End;
             }
             catch (XmlException e)
             {
                 throw new GameEntityException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
             }
-
-            currentHandler = CurrentMap;
-            CurrentMap.StartHandler();
-            CurrentMap.End += CurrentMap_End;
-            CurrentMap.Player.Death += PlayerDied;
         }
 
         private void PlayerDied()
@@ -244,36 +251,32 @@ namespace MegaMan.Engine
 
         private void EndMap()
         {
-            // includes the map
-            StopHandlers();
+            currentHandler.StopHandler();
             GameEntity.StopAll();
-            CurrentMap.End -= CurrentMap_End;
-            CurrentMap = null;
+            currentHandler.End -= CurrentMap_End;
         }
 
         private void StageSelect()
         {
             currentHandler = select;
-            select.MapSelected += select_MapSelected;
+            select.End += select_MapSelected;
             select.StartHandler();
         }
 
         public void ResetMap()
         {
-            if (CurrentMap == null) return;
-            StopHandlers();
+            if (currentHandler == null) return;
+            currentHandler.StopHandler();
             GameEntity.StopAll();
-            CurrentMap.StopHandler();
 
             if (PlayerLives < 0) // game over!
             {
-                EndMap();
-                StageSelect();
+                CurrentMap_End();
                 PlayerLives = 2;
             }
             else
             {
-                CurrentMap.StartHandler();
+                currentHandler.StartHandler();
             }
         }
 
@@ -286,5 +289,53 @@ namespace MegaMan.Engine
         {
             Paused = false;
         }
+
+        #region Debug Menu
+
+        public void DebugEmptyHealth()
+        {
+            var map = currentHandler as MapHandler;
+            if (map != null)
+            {
+                map.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+            }
+        }
+
+        public void DebugFillHealth()
+        {
+            var map = currentHandler as MapHandler;
+            if (map != null)
+            {
+                map.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
+            }
+        }
+
+        public void DebugEmptyWeapon()
+        {
+            var map = currentHandler as MapHandler;
+            if (map != null)
+            {
+                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
+                if (weaponComponent != null)
+                {
+                    weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
+                }
+            }
+        }
+
+        public void DebugFillWeapon()
+        {
+            var map = currentHandler as MapHandler;
+            if (map != null)
+            {
+                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
+                if (weaponComponent != null)
+                {
+                    weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));
+                }
+            }
+        }
+
+        #endregion
     }
 }

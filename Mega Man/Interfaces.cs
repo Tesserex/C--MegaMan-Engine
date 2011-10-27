@@ -8,6 +8,8 @@ namespace MegaMan.Engine
     {
         void StartHandler();
         void StopHandler();
+
+        event Action End;
     }
 
     public interface IScreenInformation
@@ -33,8 +35,6 @@ namespace MegaMan.Engine
         event Action GameReact;
 
         event Action GameCleanup;
-
-        event Action End;
     }
 
     public abstract class Component

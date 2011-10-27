@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
-    public class Scene : IHandleGameEvents, IScreenInformation, IGameplayContainer
+    public class Scene : IScreenInformation, IGameplayContainer
     {
         private Dictionary<string, ISceneObject> objects;
         private List<GameEntity> entities;
@@ -329,7 +329,7 @@ namespace MegaMan.Engine
 
             public void Draw(GameGraphicsLayers layers, Color opacity)
             {
-                FontSystem.Draw(layers.ForegroundBatch, "Big", displayed, position);
+                FontSystem.Draw(layers.ForegroundBatch, "Boss", displayed, position);
             }
         }
 

@@ -63,7 +63,7 @@ namespace MegaMan.Engine
 
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
 
-            if (pauseScreen != null) pauseScreen.Unpaused += pauseScreen_Unpaused;
+            if (pauseScreen != null) pauseScreen.End += pauseScreen_Unpaused;
 
             this.screens = screens;
 

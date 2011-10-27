@@ -3,6 +3,7 @@ using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan.Common;
+using System.Xml;
 
 namespace MegaMan.Engine
 {
@@ -32,7 +33,9 @@ namespace MegaMan.Engine
         private readonly BossSlot[] bosses;
         private int selectedIndex;
 
-        public event Action<string, string> MapSelected;
+        public HandlerTransfer NextHandler { get; private set; }
+
+        public event Action End;
 
         public StageSelect(MegaMan.Common.StageSelect stageSelectInfo)
         {
@@ -165,10 +168,8 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Start)
             {
-                if (MapSelected != null && bosses[selectedIndex].stage != null)
-                {
-                    MapSelected(bosses[selectedIndex].stage, bosses[selectedIndex].scene);
-                }
+                SelectStage();
+                return;
             }
             if (selectedIndex != old && changeSound != null) Engine.Instance.SoundSystem.PlaySfx(changeSound);
         }
@@ -178,7 +179,7 @@ namespace MegaMan.Engine
             bossFrameOn.Update();
         }
 
-        public void GameRender(GameRenderEventArgs e)
+        private void GameRender(GameRenderEventArgs e)
         {
             if (Engine.Instance.Background) e.Layers.BackgroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
@@ -208,6 +209,26 @@ namespace MegaMan.Engine
                 {
                     if (Engine.Instance.SpritesThree) FontSystem.Draw(e.Layers.SpritesBatch[2], "Boss", boss.lastname, new PointF(boss.location.X + (44 - boss.lastname.Length * 7), boss.location.Y + 56));
                 }
+            }
+        }
+
+        private void SelectStage()
+        {
+            if (End != null && bosses[selectedIndex].stage != null)
+            {
+                NextHandler = new HandlerTransfer();
+                if (bosses[selectedIndex].scene != null)
+                {
+                    NextHandler.Type = HandlerType.Scene;
+                    NextHandler.Name = bosses[selectedIndex].scene;
+                }
+                else
+                {
+                    NextHandler.Type = HandlerType.Map;
+                    NextHandler.Name = bosses[selectedIndex].stage;
+                }
+
+                End();
             }
         }
 
