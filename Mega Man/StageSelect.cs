@@ -87,8 +87,6 @@ namespace MegaMan.Engine
             {
                 LoadBoss(boss);
             }
-
-            FontSystem.LoadFont("Boss", Path.Combine(Game.CurrentGame.BasePath, "images\\font_boss.png"), 8, 0);
         }
 
         private void LoadBoss(BossInfo boss)

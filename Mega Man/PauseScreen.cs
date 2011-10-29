@@ -49,8 +49,6 @@ namespace MegaMan.Engine
             foreach (var weaponInfo in pauseInfo.Weapons)
                 LoadWeapon(weaponInfo, container);
 
-            FontSystem.LoadFont("Big", Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
-
             if (pauseInfo.LivesPosition != Point.Empty)
             {
                 showLives = true;
