@@ -120,6 +120,8 @@ namespace MegaMan.Engine
             else if (direction == Direction.Right) NextScreenX = -width;
             else if (direction == Direction.Left) NextScreenX = nextWidth;
             else if (direction == Direction.Up) NextScreenY = nextHeight;
+
+            Calculate();
         }
 
         protected virtual int TriggerSize()
