@@ -18,10 +18,9 @@ namespace MegaMan.Engine
             public string lastname;
             public Image portrait;
             public Texture2D texture;
-            public string stage;
             public bool alive;
             public Point location;
-            public string scene;
+            public HandlerTransfer nextHandler;
         }
 
         private readonly MegaMan.Common.StageSelect stageSelectInfo;
@@ -33,9 +32,7 @@ namespace MegaMan.Engine
         private readonly BossSlot[] bosses;
         private int selectedIndex;
 
-        public HandlerTransfer NextHandler { get; private set; }
-
-        public event Action End;
+        public event Action<HandlerTransfer> End;
 
         public StageSelect(MegaMan.Common.StageSelect stageSelectInfo)
         {
@@ -112,9 +109,8 @@ namespace MegaMan.Engine
                 bosses[slot].texture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
-            bosses[slot].stage = boss.Stage;
             bosses[slot].alive = true;
-            bosses[slot].scene = boss.Scene;
+            bosses[slot].nextHandler = boss.NextHandler;
         }
 
         #region IHandleGameEvents Members
@@ -214,21 +210,9 @@ namespace MegaMan.Engine
 
         private void SelectStage()
         {
-            if (End != null && bosses[selectedIndex].stage != null)
+            if (End != null && bosses[selectedIndex].nextHandler != null)
             {
-                NextHandler = new HandlerTransfer();
-                if (bosses[selectedIndex].scene != null)
-                {
-                    NextHandler.Type = HandlerType.Scene;
-                    NextHandler.Name = bosses[selectedIndex].scene;
-                }
-                else
-                {
-                    NextHandler.Type = HandlerType.Map;
-                    NextHandler.Name = bosses[selectedIndex].stage;
-                }
-
-                End();
+                End(bosses[selectedIndex].nextHandler);
             }
         }
 

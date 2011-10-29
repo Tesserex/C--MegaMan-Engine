@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Collections.Generic;
 using System;
+using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
@@ -9,7 +10,7 @@ namespace MegaMan.Engine
         void StartHandler();
         void StopHandler();
 
-        event Action End;
+        event Action<HandlerTransfer> End;
     }
 
     public interface IScreenInformation

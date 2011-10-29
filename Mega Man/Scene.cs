@@ -20,7 +20,8 @@ namespace MegaMan.Engine
         public event Action GameAct;
         public event Action GameReact;
         public event Action GameCleanup;
-        public event Action End;
+
+        public event Action<HandlerTransfer> End;
 
         private Scene(SceneInfo info)
         {
@@ -34,12 +35,14 @@ namespace MegaMan.Engine
             frame = 0;
             Engine.Instance.GameLogicTick += Tick;
             Engine.Instance.GameRender += GameRender;
+            Engine.Instance.GameInputReceived += GameInputReceived;
         }
 
         public void StopHandler()
         {
             Engine.Instance.GameLogicTick -= Tick;
             Engine.Instance.GameRender -= GameRender;
+            Engine.Instance.GameInputReceived -= GameInputReceived;
             foreach (var entity in entities)
             {
                 entity.Stop();
@@ -102,7 +105,10 @@ namespace MegaMan.Engine
 
         public void GameInputReceived(GameInputEventArgs e)
         {
-            
+            if (info.CanSkip && e.Pressed && e.Input == GameInput.Start && End != null)
+            {
+                End(info.NextHandler);
+            }
         }
 
         public void GameRender(GameRenderEventArgs e)
@@ -143,7 +149,7 @@ namespace MegaMan.Engine
 
             if (frame >= info.Duration && End != null)
             {
-                End();
+                End(info.NextHandler);
             }
         }
 

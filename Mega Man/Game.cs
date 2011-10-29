@@ -22,18 +22,6 @@ namespace MegaMan.Engine
         }
     }
 
-    public enum HandlerType
-    {
-        Scene,
-        Map,
-    }
-
-    public class HandlerTransfer
-    {
-        public HandlerType Type { get; set; }
-        public string Name { get; set; }
-    }
-
     public class Game
     {
         public static Game CurrentGame { get; private set; }
@@ -136,13 +124,8 @@ namespace MegaMan.Engine
 
             if (project.TitleScene != null)
             {
-                var scene = Scene.Get(project.TitleScene);
-                scene.End += () =>
-                {
-                    scene.StopHandler();
-                    StageSelect();
-                };
-                currentHandler = scene;
+                currentHandler = Scene.Get(project.TitleScene);
+                currentHandler.End += EndHandler;
                 currentHandler.StartHandler();
             }
             else
@@ -188,22 +171,27 @@ namespace MegaMan.Engine
             }
         }
 
-        private void select_MapSelected()
+        private void EndHandler(HandlerTransfer nextHandler)
         {
-            HandlerTransfer nextHandler = select.NextHandler;
-
-            select.End -= select_MapSelected;
+            currentHandler.End -= EndHandler;
             currentHandler.StopHandler();
 
-            switch (nextHandler.Type)
+            if (nextHandler != null)
             {
-                case HandlerType.Scene:
-                    StartScene(nextHandler.Name);
-                    break;
+                switch (nextHandler.Type)
+                {
+                    case HandlerType.Scene:
+                        StartScene(nextHandler.Name);
+                        break;
 
-                case HandlerType.Map:
-                    StartMap(nextHandler.Name);
-                    break;
+                    case HandlerType.Stage:
+                        StartMap(nextHandler.Name);
+                        break;
+
+                    case HandlerType.StageSelect:
+                        StageSelect();
+                        break;
+                }
             }
         }
 
@@ -212,6 +200,7 @@ namespace MegaMan.Engine
             Engine.Instance.FadeTransition(() =>
             {
                 var scene = Scene.Get(name);
+                scene.End += EndHandler;
                 scene.StartHandler();
                 currentHandler = scene;
             });
@@ -229,7 +218,7 @@ namespace MegaMan.Engine
                 map.Player.Death += PlayerDied;
                 currentHandler = map;
                 currentHandler.StartHandler();
-                currentHandler.End += CurrentMap_End;
+                currentHandler.End += EndHandler;
             }
             catch (XmlException e)
             {
@@ -237,30 +226,16 @@ namespace MegaMan.Engine
             }
         }
 
-        private void PlayerDied()
-        {
-            PlayerLives--;
-        }
-
-        // do this when a map is won - should change to get weapon screen
-        void CurrentMap_End()
-        {
-            EndMap();
-            StageSelect();
-        }
-
-        private void EndMap()
-        {
-            currentHandler.StopHandler();
-            GameEntity.StopAll();
-            currentHandler.End -= CurrentMap_End;
-        }
-
         private void StageSelect()
         {
             currentHandler = select;
-            select.End += select_MapSelected;
+            select.End += EndHandler;
             select.StartHandler();
+        }
+
+        private void PlayerDied()
+        {
+            PlayerLives--;
         }
 
         public void ResetMap()
@@ -271,7 +246,10 @@ namespace MegaMan.Engine
 
             if (PlayerLives < 0) // game over!
             {
-                CurrentMap_End();
+                var next = new HandlerTransfer();
+                next.Type = HandlerType.StageSelect;
+                EndHandler(next);
+
                 PlayerLives = 2;
             }
             else

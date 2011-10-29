@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
@@ -36,7 +37,7 @@ namespace MegaMan.Engine
         /// </summary>
         public event Action GameCleanup;
 
-        public event Action End;
+        public event Action<HandlerTransfer> End;
 
         public void StartHandler()
         {
@@ -50,7 +51,7 @@ namespace MegaMan.Engine
 
         public void EndPlay()
         {
-            if (End != null) End();
+            if (End != null) End(null);
         }
 
         private void GameTick(GameTickEventArgs e)

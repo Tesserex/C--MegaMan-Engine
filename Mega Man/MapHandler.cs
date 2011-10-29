@@ -41,7 +41,7 @@ namespace MegaMan.Engine
         public GameEntity Player { get { return gamePlay.Player; } }
         public PositionComponent PlayerPos;
 
-        public event Action End;
+        public event Action<HandlerTransfer> End;
 
         public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens, GamePlay gamePlay)
         {
@@ -214,8 +214,22 @@ namespace MegaMan.Engine
         {
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
-            CurrentScreen.BossDefeated += () => { gamePlay.EndPlay(); if (End != null) End(); };
+            CurrentScreen.BossDefeated += BossDefeated;
             CurrentScreen.Start();
+        }
+
+        private void BossDefeated()
+        {
+            gamePlay.EndPlay();
+            if (End != null)
+            {
+                // TODO: implement real nextHandler for stages
+                var next = new HandlerTransfer();
+                next.Type = HandlerType.StageSelect;
+                next.Name = "Main";
+
+                End(next);
+            }
         }
 
         private void StopScreen()
@@ -376,7 +390,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void pauseScreen_Unpaused()
+        private void pauseScreen_Unpaused(HandlerTransfer nextHandler)
         {
             pauseScreen.Sound();
             Engine.Instance.FadeTransition(ClosePauseScreen, Game.CurrentGame.Unpause);

@@ -31,7 +31,7 @@ namespace MegaMan.Engine
         private readonly Point livesPos;
         private readonly bool showLives;
 
-        public event Action End;
+        public event Action<HandlerTransfer> End;
 
         public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, WeaponComponent playerWeapons, IGameplayContainer container)
         {
@@ -137,7 +137,7 @@ namespace MegaMan.Engine
 
             if (e.Input == GameInput.Start && e.Pressed)
             {
-                if (End != null) End();
+                if (End != null) End(null);
             }
             else if (e.Input == GameInput.Down)
             {
