@@ -36,10 +36,15 @@ namespace MegaMan.Engine
 
         public Map Map { get; private set; }
 
+        public HandlerTransfer WinHandler { get; set; }
+
+        public HandlerTransfer LoseHandler { get; set; }
+
         public ScreenHandler CurrentScreen { get; private set; }
 
         public GameEntity Player { get { return gamePlay.Player; } }
         public PositionComponent PlayerPos;
+        public int PlayerLives { get; set; }
 
         public event Action<HandlerTransfer> End;
 
@@ -69,6 +74,7 @@ namespace MegaMan.Engine
 
             this.gamePlay = gamePlay;
             PlayerPos = gamePlay.Player.GetComponent<PositionComponent>();
+            PlayerLives = 2;
         }
 
         void BlinkReady(GameRenderEventArgs e)
@@ -107,6 +113,7 @@ namespace MegaMan.Engine
             
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
+            PlayerLives--;
         }
 
         private void BeginPlay()
@@ -141,7 +148,24 @@ namespace MegaMan.Engine
             if (playerDeadCount >= Const.MapDeadFrames)
             {
                 updateFunc = null;
-                Engine.Instance.FadeTransition(Game.CurrentGame.ResetMap);
+                Engine.Instance.FadeTransition(Reset);
+            }
+        }
+
+        private void Reset()
+        {
+            StopHandler();
+            GameEntity.StopAll();
+
+            if (PlayerLives < 0) // game over!
+            {
+                if (End != null) End(LoseHandler);
+
+                PlayerLives = 2;
+            }
+            else
+            {
+                StartHandler();
             }
         }
 
@@ -221,14 +245,9 @@ namespace MegaMan.Engine
         private void BossDefeated()
         {
             gamePlay.EndPlay();
-            if (End != null)
+            if (End != null && WinHandler != null)
             {
-                // TODO: implement real nextHandler for stages
-                var next = new HandlerTransfer();
-                next.Type = HandlerType.StageSelect;
-                next.Name = "Main";
-
-                End(next);
+                End(WinHandler);
             }
         }
 
@@ -286,7 +305,7 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
-            Player.Stopped += Player_Death;
+            Player.Death += Player_Death;
 
             if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
             CurrentScreen = screens[startScreen];
@@ -315,7 +334,7 @@ namespace MegaMan.Engine
         {
             if (Player != null)
             {
-                Player.Stopped -= Player_Death;
+                Player.Death -= Player_Death;
                 Player.Stop();
             }
 

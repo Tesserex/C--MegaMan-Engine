@@ -250,7 +250,8 @@ namespace MegaMan.Engine
 
             if (showLives)
             {
-                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.PlayerLives.ToString("D2"), livesPos);
+                // TODO: Reimplement using Matt's new Player class
+                //FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.PlayerLives.ToString("D2"), livesPos);
             }
         }
 

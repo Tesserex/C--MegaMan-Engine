@@ -10,8 +10,10 @@ namespace MegaMan.Engine
     {
         public GamePlay GamePlay { get; private set; }
 
-        public MapHandler CreateMap(Map map, Common.PauseScreen pauseScreenInfo)
+        public MapHandler CreateMap(StageInfo info, Common.PauseScreen pauseScreenInfo)
         {
+            Map map = new Map(info.StagePath);
+
             GamePlay = new GamePlay();
 
             var Player = GameEntity.Get("Player", GamePlay);
@@ -70,7 +72,11 @@ namespace MegaMan.Engine
                 screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
             }
 
-            return new MapHandler(map, pauseScreen, screens, GamePlay);
+            var handler = new MapHandler(map, pauseScreen, screens, GamePlay);
+            handler.WinHandler = info.WinHandler;
+            handler.LoseHandler = info.LoseHandler;
+
+            return handler;
         }
 
         private ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins)

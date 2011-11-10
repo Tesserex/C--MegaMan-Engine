@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -30,8 +31,6 @@ namespace MegaMan.Engine
 
         private string currentPath;
         private IHandleGameEvents currentHandler;
-        private StageSelect select;
-        private readonly Dictionary<string, FilePath> stages;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -43,8 +42,6 @@ namespace MegaMan.Engine
         public string BasePath { get; private set; }
 
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
-
-        public int PlayerLives { get; set; }
 
         public static void Load(string path)
         {
@@ -65,7 +62,6 @@ namespace MegaMan.Engine
             Engine.Instance.Stop();
             currentHandler.StopHandler();
             GameEntity.UnloadAll();
-            select = null;
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
             HealthMeter.Unload();
@@ -81,12 +77,8 @@ namespace MegaMan.Engine
 
         private Game()
         {
-            stages = new Dictionary<string, FilePath>();
-
             Gravity = 0.25f;
             GravityFlip = false;
-
-            PlayerLives = 2;
         }
 
         private void LoadFile(string path)
@@ -110,13 +102,6 @@ namespace MegaMan.Engine
             if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
             if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
 
-            foreach (var stage in project.Stages)
-            {
-                stages.Add(stage.Name, stage.StagePath);
-            }
-
-            if (project.StageSelect != null) select = new StageSelect(project.StageSelect);
-
             foreach (string includePath in project.Includes)
             {
                 string includefile = Path.Combine(BasePath, includePath);
@@ -125,15 +110,13 @@ namespace MegaMan.Engine
 
             currentPath = path;
 
-            if (project.TitleScene != null)
+            if (project.StartHandler != null)
             {
-                currentHandler = Scene.Get(project.TitleScene);
-                currentHandler.End += EndHandler;
-                currentHandler.StartHandler();
+                StartHandler(project.StartHandler);
             }
             else
             {
-                StageSelect();
+                throw new GameEntityException("The game file loaded correctly, but it failed to specify a starting point!");
             }
         }
 
@@ -179,20 +162,25 @@ namespace MegaMan.Engine
             currentHandler.End -= EndHandler;
             currentHandler.StopHandler();
 
-            if (nextHandler != null)
+            StartHandler(nextHandler);
+        }
+
+        private void StartHandler(HandlerTransfer handler)
+        {
+            if (handler != null)
             {
-                switch (nextHandler.Type)
+                switch (handler.Type)
                 {
                     case HandlerType.Scene:
-                        StartScene(nextHandler.Name);
+                        StartScene(handler.Name);
                         break;
 
                     case HandlerType.Stage:
-                        StartMap(nextHandler.Name);
+                        StartMap(handler.Name);
                         break;
 
                     case HandlerType.StageSelect:
-                        StageSelect();
+                        StageSelect(handler.Name);
                         break;
                 }
             }
@@ -211,14 +199,17 @@ namespace MegaMan.Engine
 
         private void StartMap(string name)
         {
-            if (!stages.ContainsKey(name)) return;
+            var stage = project.Stages.FirstOrDefault(s => s.Name == name);
+            if (stage == null)
+            {
+                throw new GameEntityException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
+            }
 
             var factory = new MapFactory();
 
             try
             {
-                var map = factory.CreateMap(new Map(stages[name]), project.PauseScreen);
-                map.Player.Death += PlayerDied;
+                var map = factory.CreateMap(stage, project.PauseScreen);
                 currentHandler = map;
                 currentHandler.StartHandler();
                 currentHandler.End += EndHandler;
@@ -229,36 +220,18 @@ namespace MegaMan.Engine
             }
         }
 
-        private void StageSelect()
+        private void StageSelect(string name)
         {
+            var selectInfo = project.StageSelects.FirstOrDefault(s => s.Name == name);
+            if (selectInfo == null)
+            {
+                throw new GameEntityException(String.Format("I couldn't find a stage select called {0}. Sorry.", name));
+            }
+
+            var select = new StageSelect(selectInfo);
             currentHandler = select;
             select.End += EndHandler;
             select.StartHandler();
-        }
-
-        private void PlayerDied()
-        {
-            PlayerLives--;
-        }
-
-        public void ResetMap()
-        {
-            if (currentHandler == null) return;
-            currentHandler.StopHandler();
-            GameEntity.StopAll();
-
-            if (PlayerLives < 0) // game over!
-            {
-                var next = new HandlerTransfer();
-                next.Type = HandlerType.StageSelect;
-                EndHandler(next);
-
-                PlayerLives = 2;
-            }
-            else
-            {
-                currentHandler.StartHandler();
-            }
         }
 
         public void Pause()

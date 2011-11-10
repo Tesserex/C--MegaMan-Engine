@@ -141,7 +141,7 @@ namespace MegaMan.Engine
                     int add = int.Parse(node.RequireAttribute("add").Value);
                     effect = entity =>
                     {
-                        Game.CurrentGame.PlayerLives += add;
+                        // TODO: reimplement using Matt's new Player class
                     };
                     break;
 
