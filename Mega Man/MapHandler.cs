@@ -305,6 +305,7 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
+            PlayerPos.SetPosition(new PointF(startX, -100));
             Player.Death += Player_Death;
 
             if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
