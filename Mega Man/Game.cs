@@ -188,13 +188,10 @@ namespace MegaMan.Engine
 
         private void StartScene(string name)
         {
-            Engine.Instance.FadeTransition(() =>
-            {
-                var scene = Scene.Get(name);
-                scene.End += EndHandler;
-                scene.StartHandler();
-                currentHandler = scene;
-            });
+            var scene = Scene.Get(name);
+            scene.End += EndHandler;
+            scene.StartHandler();
+            currentHandler = scene;
         }
 
         private void StartMap(string name)
