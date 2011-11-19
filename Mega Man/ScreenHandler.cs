@@ -121,14 +121,18 @@ namespace MegaMan.Engine
                 }
                 else if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
                 {
-                    if (Game.CurrentGame.GravityFlip) playerPos.SetPosition(new PointF(playerPos.Position.X, Screen.PixelHeight - Const.PlayerScrollTrigger));
-                    // bottomless pit death!
-                    else if (playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32) playerPos.Parent.Die();
+                    if (!Game.CurrentGame.GravityFlip && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
+                    {
+                        // bottomless pit death!
+                        playerPos.Parent.Die();
+                    }
                 }
                 else if (playerPos.Position.Y < Const.PlayerScrollTrigger)
                 {
-                    if (!Game.CurrentGame.GravityFlip) playerPos.SetPosition(new PointF(playerPos.Position.X, Const.PlayerScrollTrigger));
-                    else if (playerPos.Position.Y < -32) playerPos.Parent.Die();
+                    if (Game.CurrentGame.GravityFlip && playerPos.Position.Y < -32)
+                    {
+                        playerPos.Parent.Die();
+                    }
                 }
             }
         }
@@ -173,13 +177,15 @@ namespace MegaMan.Engine
             PositionComponent pos = enemy.GetComponent<PositionComponent>();
             if (!pos.PersistOffScreen && !IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
 
+            enemy.Start(this);
+
             pos.SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")
             {
                 StateMessage msg = new StateMessage(null, info.state);
                 enemy.SendMessage(msg);
             }
-            enemy.Start(this);
+            
             if (info.boss)
             {
                 HealthComponent health = enemy.GetComponent<HealthComponent>();
