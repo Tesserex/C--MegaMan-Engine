@@ -66,6 +66,8 @@ namespace MegaMan.Engine
 
         protected override void Update()
         {
+            if (Parent.Paused) return;
+
             Lifetime++;
 
             if (!states.ContainsKey(currentState)) return;
