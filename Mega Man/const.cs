@@ -51,6 +51,7 @@ namespace MegaMan.Engine
 
     public enum Direction
     {
+        Unknown,
         Down,
         Up,
         Left,

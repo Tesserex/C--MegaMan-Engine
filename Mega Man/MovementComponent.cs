@@ -64,7 +64,10 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
-            Direction = Direction.Right;
+            if (Direction == Direction.Unknown)
+            {
+                Direction = Direction.Right;
+            }
 
             Parent.Container.GameAct += Update;
 
