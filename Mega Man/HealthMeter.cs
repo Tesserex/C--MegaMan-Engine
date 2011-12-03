@@ -46,6 +46,11 @@ namespace MegaMan.Engine
 
         public static void Unload()
         {
+            foreach (var meter in allMeters)
+            {
+                meter.StopHandler();
+            }
+
             allMeters.Clear();
         }
 
