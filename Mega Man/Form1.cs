@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Drawing;
 using System.IO;
+using System.Xml;
 
 namespace MegaMan.Engine
 {
@@ -203,7 +204,7 @@ namespace MegaMan.Engine
                 {
                     // this builds a dialog message to tell the user where the error is in the XML file
 
-                    StringBuilder message = new StringBuilder("There is a syntax error in one of your game files.\n\n");
+                    StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
                     if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
                     if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
                     if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
@@ -214,6 +215,21 @@ namespace MegaMan.Engine
 
                     MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+                    Game.CurrentGame.Unload();
+                }
+                catch (System.IO.FileNotFoundException ex)
+                {
+                    MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.FileName, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Game.CurrentGame.Unload();
+                }
+                catch (GameEntityException ex)
+                {
+                    MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Game.CurrentGame.Unload();
+                }
+                catch (XmlException ex)
+                {
+                    MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Game.CurrentGame.Unload();
                 }
 

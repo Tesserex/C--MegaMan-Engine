@@ -53,18 +53,10 @@ namespace MegaMan.Engine
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (Exception e)
             {
-                MessageBox.Show("I'm sorry, I couldn't find a file you were looking for. Perhaps the file path is incorrect?\n\n" + e.FileName + "\n" + e.Message + "\n\nI need to close now. Sorry I don't have any more information.\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (GameEntityException e)
-            {
-                MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + e.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
         }
     }
 }
