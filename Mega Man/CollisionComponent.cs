@@ -28,8 +28,9 @@ namespace MegaMan.Engine
         }
 
         private List<CollisionBox> hitboxes = new List<CollisionBox>();
-        private readonly List<string> touchedBy = new List<string>();
-        private readonly HashSet<string> enabledBoxes = new HashSet<string>();
+        private readonly HashSet<string> touchedBy = new HashSet<string>();
+        private readonly HashSet<int> enabledBoxes = new HashSet<int>();
+        private readonly Dictionary<string, int> boxIDsByName = new Dictionary<string, int>();
 
         public float DamageDealt { get; private set; }
 
@@ -62,7 +63,7 @@ namespace MegaMan.Engine
                 Enabled = Enabled,
                 hitboxes = new List<CollisionBox>()
             };
-            foreach (CollisionBox box in hitboxes) copy.hitboxes.Add(box);
+            foreach (CollisionBox box in hitboxes) copy.AddBox(box);
 
             return copy;
         }
@@ -88,7 +89,7 @@ namespace MegaMan.Engine
             if (!Engine.Instance.DrawHitboxes) return;
             foreach (CollisionBox hitbox in hitboxes)
             {
-                if (!enabledBoxes.Contains(hitbox.Name)) continue;
+                if (!enabledBoxes.Contains(hitbox.ID)) continue;
 
                 RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
@@ -114,11 +115,11 @@ namespace MegaMan.Engine
                 foreach (CollisionBox box in boxes.AddBoxes)
                 {
                     box.SetParent(this);
-                    hitboxes.Add(box);
+                    AddBox(box);
                 }
 
                 enabledBoxes.Clear();
-                foreach (var name in boxes.EnableBoxes) enabledBoxes.Add(name);
+                foreach (var name in boxes.EnableBoxes) enabledBoxes.Add(boxIDsByName[name]);
 
                 return;
             }
@@ -130,13 +131,19 @@ namespace MegaMan.Engine
             {
                 CollisionBox box = new CollisionBox(boxnode);
                 box.SetParent(this);
-                hitboxes.Add(box);
+                AddBox(box);
             }
             bool b;
             if (xml.TryBool("Enabled", out b))
             {
                 Enabled = b;
             }
+        }
+
+        private void AddBox(CollisionBox box)
+        {
+            hitboxes.Add(box);
+            if (box.Name != null) boxIDsByName.Add(box.Name, box.ID);
         }
 
         protected override void Update()
@@ -153,85 +160,20 @@ namespace MegaMan.Engine
             List<Collision> blockEntities = new List<Collision>();
             foreach (CollisionBox hitbox in hitboxes)
             {
-                if (!enabledBoxes.Contains(hitbox.Name)) continue;
+                if (!enabledBoxes.Contains(hitbox.ID)) continue;
 
                 hitbox.SetParent(this);
                 if (hitbox.Environment) // check collision with environment
                 {
-                    PointF offset = new PointF(0, 0);
-                    RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);
-
-                    // this bounds checking prevents needlessly checking collisions way too far away
-                    // it's a very effective optimization (brings busy time from ~60% down to 45%!)
-                    int size = Parent.Screen.TileSize;
-                    int minx = (int)(hitRect.Left / size) - 1;
-                    int miny = (int)(hitRect.Top / size) - 1;
-                    int maxx = (int)(hitRect.Right / size) + 1;
-                    int maxy = (int)(hitRect.Bottom / size) + 1;
-                    for (int y = miny; y <= maxy; y++)
-                        for (int x = minx; x <= maxx; x++)
-                        {
-                            MapSquare tile = Parent.Screen.SquareAt(x, y);
-                            if (tile == null) continue;
-                            if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
-                            {
-                                hitSquares.Add(tile);
-                                if (hitbox.PushAway) PositionSrc.Offset(offset.X, offset.Y);
-                            }
-                            else if (hitRect.IntersectsWith(tile.BoundBox))
-                            {
-                                hitSquares.Add(tile);
-                            }
-                        }
+                    CheckEnvironment(hitSquares, hitbox);
                 }
 
                 RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position);
 
                 // now check with entity blocks
-                foreach (GameEntity entity in GameEntity.GetAll())
+                if (MovementSrc != null)
                 {
-                    if (entity == Parent) continue;
-                    CollisionComponent coll = entity.GetComponent<CollisionComponent>();
-                    if (coll == null) continue;
-
-                    foreach (CollisionBox targetBox in coll.HitByBoxes(hitbox.Groups))
-                    {
-                        // if he's blocking, check for collision and maybe push me away
-                        if (targetBox.Properties.Blocking)
-                        {
-                            RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
-                            RectangleF adjustrect = rect;
-                            adjustrect.X -= Const.PixelEpsilon;
-                            adjustrect.Y -= Const.PixelEpsilon;
-                            adjustrect.Width += 2 * Const.PixelEpsilon;
-                            adjustrect.Height += 2 - Const.PixelEpsilon;
-                            RectangleF intersection = RectangleF.Intersect(boundbox, adjustrect);
-                            if ((intersection.Width != 0 || intersection.Height != 0) && MovementSrc != null)
-                            {
-                                blockEntities.Add(new Collision(hitbox, targetBox, coll));
-
-                                if (hitbox.PushAway)
-                                {
-                                    float vx, vy;
-                                    MovementComponent mov = entity.GetComponent<MovementComponent>();
-                                    vx = MovementSrc.VelocityX;
-                                    vy = MovementSrc.VelocityY;
-                                    if (mov != null)
-                                    {
-                                        vx -= mov.VelocityX;
-                                        vy -= mov.VelocityY;
-                                    }
-
-                                    PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
-                                    if (offset.X != 0 || offset.Y != 0)
-                                    {
-                                        PositionSrc.Offset(offset.X, offset.Y);
-                                        boundbox.Offset(offset.X, offset.Y);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    boundbox = CheckEntityCollisions(blockEntities, hitbox, boundbox);
                 }
             }
 
@@ -262,48 +204,10 @@ namespace MegaMan.Engine
             // so we need to inflict the effects upon ourself
             foreach (CollisionBox hitbox in hitboxes)
             {
-                if (!enabledBoxes.Contains(hitbox.Name)) continue;
-                hitbox.SetParent(this);
-
-                RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
-
-                if (hitbox.Environment)
-                {
-                    foreach (MapSquare tile in hitSquares)
-                    {
-                        RectangleF tileBox = tile.BlockBox;
-                        bool downonly = (!Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
-                        bool uponly = (Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
-
-                        bool hit = (tile.BlockBox != RectangleF.Empty)? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
-
-                        if (hitbox.PushAway && (hit || boundBox.IntersectsWith(tile.BoundBox)))    // the environment touched me!
-                        {
-                            hitTypes.Add(tile.Tile.Properties);
-                        }
-                    }
-                }
-
-                // but for entities, we can go ahead and be active aggressors -
-                // inflict our effects on the target entity, not the other way around
-                foreach (GameEntity entity in GameEntity.GetAll())
-                {
-                    if (entity == Parent) continue;
-                    CollisionComponent coll = entity.GetComponent<CollisionComponent>();
-                    if (coll == null) continue;
-
-                    foreach (CollisionBox targetBox in coll.TargetBoxes(hitbox.Hits))
-                    {
-                        RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
-                        if (boundBox.IntersectsWith(rect))
-                        {
-                            coll.Touch(hitbox);
-                            Touch(targetBox);
-                            CollideWith(entity, hitbox, targetBox);
-                        }
-                    }
-                }
+                if (!enabledBoxes.Contains(hitbox.ID)) continue;
+                ReactForHitbox(hitSquares, hitTypes, hitbox);
             }
+
             if (MovementSrc != null)
             {
                 if (BlockTop && MovementSrc.VelocityY < 0) MovementSrc.VelocityY = 0;
@@ -319,34 +223,173 @@ namespace MegaMan.Engine
             }
         }
 
+        private void ReactForHitbox(List<MapSquare> hitSquares, HashSet<TileProperties> hitTypes, CollisionBox hitbox)
+        {
+            hitbox.SetParent(this);
+
+            RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
+
+            if (hitbox.Environment)
+            {
+                foreach (MapSquare tile in hitSquares)
+                {
+                    RectangleF tileBox = tile.BlockBox;
+                    bool downonly = (!Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
+                    bool uponly = (Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
+
+                    bool hit = (tile.BlockBox != RectangleF.Empty) ? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
+
+                    if (hitbox.PushAway && (hit || boundBox.IntersectsWith(tile.BoundBox)))    // the environment touched me!
+                    {
+                        hitTypes.Add(tile.Tile.Properties);
+                    }
+                }
+            }
+
+            // but for entities, we can go ahead and be active aggressors -
+            // inflict our effects on the target entity, not the other way around
+            foreach (GameEntity entity in GameEntity.GetAll())
+            {
+                if (entity == Parent) continue;
+                CollisionComponent coll = entity.GetComponent<CollisionComponent>();
+                if (coll == null) continue;
+
+                foreach (CollisionBox targetBox in coll.TargetBoxes(hitbox))
+                {
+                    boundBox = CheckTargetBox(hitbox, boundBox, entity, coll, targetBox);
+                }
+            }
+        }
+
+        private RectangleF CheckTargetBox(CollisionBox hitbox, RectangleF boundBox, GameEntity entity, CollisionComponent coll, CollisionBox targetBox)
+        {
+            RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
+            if (boundBox.IntersectsWith(rect))
+            {
+                coll.Touch(hitbox);
+                Touch(targetBox);
+                CollideWith(entity, hitbox, targetBox);
+            }
+            return boundBox;
+        }
+
+        private void CheckEnvironment(List<MapSquare> hitSquares, CollisionBox hitbox)
+        {
+            PointF offset = new PointF(0, 0);
+            RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);
+
+            // this bounds checking prevents needlessly checking collisions way too far away
+            // it's a very effective optimization (brings busy time from ~60% down to 45%!)
+            int size = Parent.Screen.TileSize;
+            int minx = (int)(hitRect.Left / size) - 1;
+            int miny = (int)(hitRect.Top / size) - 1;
+            int maxx = (int)(hitRect.Right / size) + 1;
+            int maxy = (int)(hitRect.Bottom / size) + 1;
+            for (int y = miny; y <= maxy; y++)
+                for (int x = minx; x <= maxx; x++)
+                {
+                    MapSquare tile = Parent.Screen.SquareAt(x, y);
+                    if (tile == null) continue;
+                    if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
+                    {
+                        hitSquares.Add(tile);
+                        if (hitbox.PushAway) PositionSrc.Offset(offset.X, offset.Y);
+                    }
+                    else if (hitRect.IntersectsWith(tile.BoundBox))
+                    {
+                        hitSquares.Add(tile);
+                    }
+                }
+        }
+
+        private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)
+        {
+            foreach (GameEntity entity in GameEntity.GetAll())
+            {
+                if (entity == Parent) continue;
+                CollisionComponent coll = entity.GetComponent<CollisionComponent>();
+                if (coll == null) continue;
+
+                foreach (CollisionBox targetBox in coll.HitByBoxes(hitbox).Where(box => box.Properties.Blocking))
+                {
+                    // if he's blocking, check for collision and maybe push me away
+
+                    RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
+                    RectangleF adjustrect = rect;
+                    adjustrect.X -= Const.PixelEpsilon;
+                    adjustrect.Y -= Const.PixelEpsilon;
+                    adjustrect.Width += 2 * Const.PixelEpsilon;
+                    adjustrect.Height += 2 - Const.PixelEpsilon;
+                    RectangleF intersection = RectangleF.Intersect(boundbox, adjustrect);
+                    if (intersection.Width != 0 || intersection.Height != 0)
+                    {
+                        blockEntities.Add(new Collision(hitbox, targetBox, coll));
+
+                        if (hitbox.PushAway)
+                        {
+                            float vx, vy;
+                            MovementComponent mov = entity.GetComponent<MovementComponent>();
+                            vx = MovementSrc.VelocityX;
+                            vy = MovementSrc.VelocityY;
+                            if (mov != null)
+                            {
+                                vx -= mov.VelocityX;
+                                vy -= mov.VelocityY;
+                            }
+
+                            PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
+                            if (offset.X != 0 || offset.Y != 0)
+                            {
+                                PositionSrc.Offset(offset.X, offset.Y);
+                                boundbox.Offset(offset.X, offset.Y);
+                            }
+                        }
+                    }
+                }
+            }
+            return boundbox;
+        }
+
+        // trade in memory to get speed
+        private readonly Dictionary<int, List<CollisionBox>> cacheTargetBoxes = new Dictionary<int, List<CollisionBox>>();
+        private readonly Dictionary<int, List<CollisionBox>> cacheHitsBoxes = new Dictionary<int, List<CollisionBox>>();
+
         /// <summary>
         /// Get the hitboxes that the calling box can target
         /// </summary>
-        private IEnumerable<CollisionBox> TargetBoxes(IEnumerable<string> hitGroups)
+        private IEnumerable<CollisionBox> TargetBoxes(CollisionBox hitbox)
         {
-            foreach (CollisionBox box in hitboxes)
+            if (!cacheTargetBoxes.ContainsKey(hitbox.ID))
+            {
+                cacheTargetBoxes[hitbox.ID] = new List<CollisionBox>(hitboxes
+                    .Where(box => box.Groups.Intersect(hitbox.Hits).Any()));
+            }
+
+            foreach (CollisionBox box in cacheTargetBoxes[hitbox.ID])
             {
                 box.SetParent(this);
             }
 
-            return hitboxes
-                .Where(box => enabledBoxes.Contains(box.Name))
-                .Where(box => box.Groups.Intersect(hitGroups).Any());
+            return cacheTargetBoxes[hitbox.ID].Where(box => enabledBoxes.Contains(box.ID));
         }
 
         /// <summary>
         /// Get the hitboxes that the calling box would be targeted by - use for blocking
         /// </summary>
-        private IEnumerable<CollisionBox> HitByBoxes(IEnumerable<string> targetGroups)
+        private IEnumerable<CollisionBox> HitByBoxes(CollisionBox hitbox)
         {
-            foreach (CollisionBox box in hitboxes)
+            if (!cacheHitsBoxes.ContainsKey(hitbox.ID))
+            {
+                cacheHitsBoxes[hitbox.ID] = new List<CollisionBox>(hitboxes
+                    .Where(box => box.Hits.Intersect(hitbox.Groups).Any()));
+            }
+
+            foreach (CollisionBox box in cacheHitsBoxes[hitbox.ID])
             {
                 box.SetParent(this);
             }
 
-            return hitboxes
-                .Where(box => enabledBoxes.Contains(box.Name))
-                .Where(box => box.Hits.Intersect(targetGroups).Any());
+            return cacheHitsBoxes[hitbox.ID].Where(box => enabledBoxes.Contains(box.ID));
         }
 
         public bool TouchedBy(string group)

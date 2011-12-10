@@ -10,6 +10,7 @@ namespace MegaMan.Engine
     {
         private CollisionComponent parentComponent;
 
+        public int ID { get; private set; }
         public string Name { get; private set; }
         public List<string> Hits { get; private set; }
         public List<string> Groups { get; private set; }
@@ -25,9 +26,14 @@ namespace MegaMan.Engine
 
         public TileProperties Properties { get; private set; }
 
+        private static int nextID = 0;
+
         public CollisionBox(XElement xmlNode)
             : base(xmlNode)
         {
+            ID = nextID;
+            nextID++;
+
             Hits = new List<string>();
             Groups = new List<string>();
             resistance = new Dictionary<string, float>();
