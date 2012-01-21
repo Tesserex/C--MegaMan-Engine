@@ -9,19 +9,10 @@ namespace MegaMan.Engine
 {
     public class PauseScreen : IHandleGameEvents
     {
-        private class PauseWeapon
-        {
-            public Texture2D textureOff, textureOn;
-            public string name;
-            public string weapon;
-            public Point location;
-            public HealthMeter meter;
-        }
-
         private readonly string pauseSound;
         private readonly string changeSound;
         private readonly Texture2D backgroundTexture;
-        private readonly List<PauseWeapon> weapons;
+        private readonly List<IMenuSelectable> selectables;
         private string selectedName;
         private IGameplayContainer container;
 
@@ -37,7 +28,7 @@ namespace MegaMan.Engine
         public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, IGameplayContainer container)
         {
             this.container = container;
-            weapons = new List<PauseWeapon>();
+            selectables = new List<IMenuSelectable>();
 
             this.playerWeapons = container.Player.GetComponent<WeaponComponent>();
 
@@ -49,7 +40,9 @@ namespace MegaMan.Engine
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             foreach (var weaponInfo in pauseInfo.Weapons)
-                LoadWeapon(weaponInfo, container);
+            {
+                selectables.Add(new MenuWeapon(weaponInfo, container));
+            }
 
             if (pauseInfo.LivesPosition != Point.Empty)
             {
@@ -63,31 +56,6 @@ namespace MegaMan.Engine
             if (pauseSound != null) Engine.Instance.SoundSystem.PlaySfx(pauseSound);
         }
 
-        private void LoadWeapon(PauseWeaponInfo weapon, IGameplayContainer container)
-        {
-            PauseWeapon info = new PauseWeapon {name = weapon.Name, weapon = weapon.Weapon};
-
-            string imagePathOff = weapon.IconOff.Absolute;
-            string imagePathOn = weapon.IconOn.Absolute;
-
-            Image.FromFile(imagePathOff);
-            Image.FromFile(imagePathOn);
-
-            StreamReader srOff = new StreamReader(imagePathOff);
-            StreamReader srOn = new StreamReader(imagePathOn);
-            info.textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
-            info.textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
-
-            info.location = weapon.Location;
-
-            if (weapon.Meter != null)
-            {
-                info.meter = HealthMeter.Create(weapon.Meter, false, container);
-            }
-
-            weapons.Add(info);
-        }
-
         #region IHandleGameEvents Members
 
         public void StartHandler()
@@ -95,25 +63,20 @@ namespace MegaMan.Engine
             Engine.Instance.GameInputReceived += GameInputReceived;
             Engine.Instance.GameRender += GameRender;
 
-            playerWeapons = container.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
-            foreach (PauseWeapon info in weapons)
+            foreach (var info in selectables)
             {
-                if (info.weapon == selectedName)
+                if (info.Name == selectedName)
                 {
-                    currentPos = info.location;
+                    currentPos = info.Location;
                     break;
                 }
             }
 
-            foreach (PauseWeapon info in weapons)
+            foreach (var item in selectables)
             {
-                if (info.meter != null)
-                {
-                    info.meter.Value = playerWeapons.Ammo(info.weapon);
-                    info.meter.MaxValue = playerWeapons.MaxAmmo(info.weapon);
-                }
+                item.Init();
             }
         }
 
@@ -142,83 +105,83 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Down)
             {
-                foreach (PauseWeapon info in weapons)
+                foreach (var info in selectables)
                 {
-                    if (info.weapon == selectedName) continue;
+                    if (info.Name == selectedName) continue;
 
-                    int ydist = info.location.Y - currentPos.Y;
+                    int ydist = info.Location.Y - currentPos.Y;
                     if (ydist == 0) continue;
 
                     if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
 
                     // weight x distance worse than y distance
-                    int dist = 2 * Math.Abs(info.location.X - currentPos.X) + ydist;
+                    int dist = 2 * Math.Abs(info.Location.X - currentPos.X) + ydist;
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.weapon;
-                        nextPos = info.location;
+                        next = info.Name;
+                        nextPos = info.Location;
                     }
                 }
             }
             else if (e.Input == GameInput.Up)
             {
-                foreach (PauseWeapon info in weapons)
+                foreach (var info in selectables)
                 {
-                    if (info.weapon == selectedName) continue;
+                    if (info.Name == selectedName) continue;
 
-                    int ydist = currentPos.Y - info.location.Y;
+                    int ydist = currentPos.Y - info.Location.Y;
                     if (ydist == 0) continue;
 
                     if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
 
                     // weight x distance worse than y distance
-                    int dist = 2 * Math.Abs(info.location.X - currentPos.X) + ydist;
+                    int dist = 2 * Math.Abs(info.Location.X - currentPos.X) + ydist;
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.weapon;
-                        nextPos = info.location;
+                        next = info.Name;
+                        nextPos = info.Location;
                     }
                 }
             }
             else if (e.Input == GameInput.Right)
             {
-                foreach (PauseWeapon info in weapons)
+                foreach (var info in selectables)
                 {
-                    if (info.weapon == selectedName) continue;
+                    if (info.Name == selectedName) continue;
 
-                    int xdist = info.location.X - currentPos.X;
+                    int xdist = info.Location.X - currentPos.X;
                     if (xdist == 0) continue;
 
                     if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
 
-                    int dist = 2 * Math.Abs(info.location.Y - currentPos.Y) + xdist;
+                    int dist = 2 * Math.Abs(info.Location.Y - currentPos.Y) + xdist;
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.weapon;
-                        nextPos = info.location;
+                        next = info.Name;
+                        nextPos = info.Location;
                     }
                 }
             }
             else if (e.Input == GameInput.Left)
             {
-                foreach (PauseWeapon info in weapons)
+                foreach (var info in selectables)
                 {
-                    if (info.weapon == selectedName) continue;
+                    if (info.Name == selectedName) continue;
 
-                    int xdist = currentPos.X - info.location.X;
+                    int xdist = currentPos.X - info.Location.X;
                     if (xdist == 0) continue;
 
                     if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
 
-                    int dist = 2 * Math.Abs(info.location.Y - currentPos.Y) + xdist;
+                    int dist = 2 * Math.Abs(info.Location.Y - currentPos.Y) + xdist;
                     if (dist < min)
                     {
                         min = dist;
-                        next = info.weapon;
-                        nextPos = info.location;
+                        next = info.Name;
+                        nextPos = info.Location;
                     }
                 }
             }
@@ -237,18 +200,9 @@ namespace MegaMan.Engine
 
             e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
-            foreach (PauseWeapon info in weapons)
+            foreach (var info in selectables)
             {
-                e.Layers.ForegroundBatch.Draw(info.weapon == selectedName ? info.textureOn : info.textureOff,
-                                              new Microsoft.Xna.Framework.Vector2(info.location.X, info.location.Y),
-                                              e.OpacityColor);
-
-                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", info.name, new PointF(info.location.X + 20, info.location.Y));
-
-                if (info.meter != null)
-                {
-                    info.meter.Draw(e.Layers.ForegroundBatch);
-                }
+                info.Draw(e.Layers.ForegroundBatch, e.OpacityColor, info.Name == selectedName);
             }
 
             if (showLives)
