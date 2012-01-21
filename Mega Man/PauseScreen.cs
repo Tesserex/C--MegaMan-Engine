@@ -12,7 +12,7 @@ namespace MegaMan.Engine
         private readonly string pauseSound;
         private readonly string changeSound;
         private readonly Texture2D backgroundTexture;
-        private readonly List<IMenuSelectable> selectables;
+        private readonly Dictionary<string, IMenuSelectable> selectables;
         private string selectedName;
         private IGameplayContainer container;
 
@@ -28,7 +28,7 @@ namespace MegaMan.Engine
         public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, IGameplayContainer container)
         {
             this.container = container;
-            selectables = new List<IMenuSelectable>();
+            selectables = new Dictionary<string, IMenuSelectable>();
 
             this.playerWeapons = container.Player.GetComponent<WeaponComponent>();
 
@@ -41,7 +41,14 @@ namespace MegaMan.Engine
 
             foreach (var weaponInfo in pauseInfo.Weapons)
             {
-                selectables.Add(new MenuWeapon(weaponInfo, container));
+                var item = new MenuWeapon(weaponInfo, container);
+                selectables.Add(item.Name, item);
+            }
+
+            foreach (var inventory in pauseInfo.Inventory)
+            {
+                var item = new MenuInventory(inventory, container);
+                selectables.Add(item.Name, item);
             }
 
             if (pauseInfo.LivesPosition != Point.Empty)
@@ -65,7 +72,7 @@ namespace MegaMan.Engine
 
             selectedName = playerWeapons.CurrentWeapon;
 
-            foreach (var info in selectables)
+            foreach (var info in selectables.Values)
             {
                 if (info.Name == selectedName)
                 {
@@ -74,15 +81,10 @@ namespace MegaMan.Engine
                 }
             }
 
-            foreach (var item in selectables)
+            foreach (var item in selectables.Values)
             {
                 item.Init();
             }
-        }
-
-        public void ApplyWeapon()
-        {
-            playerWeapons.SetWeapon(selectedName);
         }
 
         public void StopHandler()
@@ -99,13 +101,14 @@ namespace MegaMan.Engine
             Point nextPos = currentPos;
             int min = int.MaxValue;
 
-            if (e.Input == GameInput.Start && e.Pressed)
+            if (e.Input == GameInput.Start)
             {
-                if (End != null) End(null);
+                bool close = selectables[selectedName].Select();
+                if (close && End != null) End(null);
             }
             else if (e.Input == GameInput.Down)
             {
-                foreach (var info in selectables)
+                foreach (var info in selectables.Values)
                 {
                     if (info.Name == selectedName) continue;
 
@@ -126,7 +129,7 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Up)
             {
-                foreach (var info in selectables)
+                foreach (var info in selectables.Values)
                 {
                     if (info.Name == selectedName) continue;
 
@@ -147,7 +150,7 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Right)
             {
-                foreach (var info in selectables)
+                foreach (var info in selectables.Values)
                 {
                     if (info.Name == selectedName) continue;
 
@@ -167,7 +170,7 @@ namespace MegaMan.Engine
             }
             else if (e.Input == GameInput.Left)
             {
-                foreach (var info in selectables)
+                foreach (var info in selectables.Values)
                 {
                     if (info.Name == selectedName) continue;
 
@@ -200,7 +203,7 @@ namespace MegaMan.Engine
 
             e.Layers.ForegroundBatch.Draw(backgroundTexture, new Microsoft.Xna.Framework.Vector2(0, 0), e.OpacityColor);
 
-            foreach (var info in selectables)
+            foreach (var info in selectables.Values)
             {
                 info.Draw(e.Layers.ForegroundBatch, e.OpacityColor, info.Name == selectedName);
             }

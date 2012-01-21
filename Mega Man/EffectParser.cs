@@ -142,15 +142,12 @@ namespace MegaMan.Engine
                     int quantity;
                     bool hasQuantity = GameXml.TryInteger(node, "quantity", out quantity);
 
-
-                    var items = Enum.GetNames(typeof(InventoryItems));
-
                     if (!hasQuantity)
                         quantity = 1;
 
                     effect = entity =>
                     {
-                        Game.CurrentGame.Player.CollectItem(InventoryItems.EnergyTank);
+                        Game.CurrentGame.Player.CollectItem(itemName, quantity);
                     };
                     break;
 

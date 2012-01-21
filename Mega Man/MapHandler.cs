@@ -414,9 +414,8 @@ namespace MegaMan.Engine
         private void ClosePauseScreen()
         {
             Unpause();
-            if (pauseScreen != null)
+            if (pauseScreen != null) 
             {
-                pauseScreen.ApplyWeapon();
                 pauseScreen.StopHandler();
             }
         }

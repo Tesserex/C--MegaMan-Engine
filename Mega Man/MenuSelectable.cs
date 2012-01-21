@@ -14,7 +14,8 @@ namespace MegaMan.Engine
         string Name { get; }
         Point Location { get; }
         void Init();
-        void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, bool selected);
+        void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, bool highlight);
+        bool Select();
     }
 
     public class MenuWeapon : IMenuSelectable
@@ -39,9 +40,6 @@ namespace MegaMan.Engine
 
             string imagePathOff = info.IconOff.Absolute;
             string imagePathOn = info.IconOn.Absolute;
-
-            Image.FromFile(imagePathOff);
-            Image.FromFile(imagePathOn);
 
             StreamReader srOff = new StreamReader(imagePathOff);
             StreamReader srOn = new StreamReader(imagePathOn);
@@ -86,6 +84,70 @@ namespace MegaMan.Engine
             {
                 meter.Draw(batch);
             }
+        }
+
+        public bool Select()
+        {
+            if (container.Player != null)
+            {
+                var playerWeapons = container.Player.GetComponent<WeaponComponent>();
+                playerWeapons.SetWeapon(weapon);
+            }
+            return true;
+        }
+    }
+
+    public class MenuInventory : IMenuSelectable
+    {
+        private IGameplayContainer container;
+
+        private Texture2D textureOff, textureOn;
+        private Point iconLocation, numberLocation;
+        private string useFunc;
+
+        public string Name { get; private set; }
+        public Point Location { get { return iconLocation; } }
+
+        public MenuInventory(InventoryInfo info, IGameplayContainer container)
+        {
+            this.container = container;
+
+            Name = info.Name;
+            useFunc = info.UseFunction;
+
+            string imagePathOff = info.IconOff.Absolute;
+            string imagePathOn = info.IconOn.Absolute;
+
+            StreamReader srOff = new StreamReader(imagePathOff);
+            StreamReader srOn = new StreamReader(imagePathOn);
+            textureOff = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOff.BaseStream);
+            textureOn = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srOn.BaseStream);
+
+            iconLocation = info.IconLocation;
+            numberLocation = info.NumberLocation;
+        }
+
+        public void Init()
+        {
+        }
+
+        public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, bool highlight)
+        {
+            batch.Draw(highlight ? textureOn : textureOff,
+                new Microsoft.Xna.Framework.Vector2(Location.X, Location.Y),
+                color);
+
+            var quantity = Game.CurrentGame.Player.ItemQuantity(Name);
+            FontSystem.Draw(batch, "Big", quantity.ToString("D2"), numberLocation);
+        }
+
+        public bool Select()
+        {
+            if (container.Player != null && Game.CurrentGame.Player.UseItem(Name))
+            {
+                EffectParser.GetEffect(useFunc)(container.Player);
+            }
+            return false;
         }
     }
 }
