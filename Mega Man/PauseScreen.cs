@@ -23,6 +23,7 @@ namespace MegaMan.Engine
         private readonly Texture2D backgroundTexture;
         private readonly List<PauseWeapon> weapons;
         private string selectedName;
+        private IGameplayContainer container;
 
         private Point currentPos;
 
@@ -33,11 +34,12 @@ namespace MegaMan.Engine
 
         public event Action<HandlerTransfer> End;
 
-        public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, WeaponComponent playerWeapons, IGameplayContainer container)
+        public PauseScreen(MegaMan.Common.PauseScreen pauseInfo, IGameplayContainer container)
         {
+            this.container = container;
             weapons = new List<PauseWeapon>();
 
-            this.playerWeapons = playerWeapons;
+            this.playerWeapons = container.Player.GetComponent<WeaponComponent>();
 
             if (pauseInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.ChangeSound);
             if (pauseInfo.PauseSound != null) pauseSound = Engine.Instance.SoundSystem.EffectFromInfo(pauseInfo.PauseSound);
@@ -93,7 +95,7 @@ namespace MegaMan.Engine
             Engine.Instance.GameInputReceived += GameInputReceived;
             Engine.Instance.GameRender += GameRender;
 
-            playerWeapons = Game.CurrentGame.Player.Entity.GetComponent<WeaponComponent>();
+            playerWeapons = container.Player.GetComponent<WeaponComponent>();
             selectedName = playerWeapons.CurrentWeapon;
 
             foreach (PauseWeapon info in weapons)
@@ -251,7 +253,7 @@ namespace MegaMan.Engine
 
             if (showLives)
             {
-                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.Player.PlayerLives.ToString("D2"), livesPos);
+                FontSystem.Draw(e.Layers.ForegroundBatch, "Big", Game.CurrentGame.Player.Lives.ToString("D2"), livesPos);
             }
         }
 

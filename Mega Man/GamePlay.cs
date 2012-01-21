@@ -8,7 +8,7 @@ namespace MegaMan.Engine
 {
     public class GamePlay : IGameplayContainer
     {
-        public Player Player { get; set; }
+        public GameEntity Player { get; set; }
 
         // -- These events only fire when the game is in play, and not paused (yes, that means the pause screen).
 

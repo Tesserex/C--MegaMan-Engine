@@ -16,7 +16,7 @@ namespace MegaMan.Engine
 
             GamePlay = new GamePlay();
 
-            var Player = new Player(GamePlay);
+            var Player = GameEntity.Get("Player", GamePlay);
 
             // TODO: Remove this circular dependency
             GamePlay.Player = Player;
@@ -24,7 +24,7 @@ namespace MegaMan.Engine
             PauseScreen pauseScreen = null;
             if (pauseScreenInfo != null)
             {
-                pauseScreen = new PauseScreen(pauseScreenInfo, Player.Entity.GetComponent<WeaponComponent>(), GamePlay);
+                pauseScreen = new PauseScreen(pauseScreenInfo, GamePlay);
             }
 
             var joins = new Dictionary<Screen, Dictionary<Join, JoinHandler>>();

@@ -47,7 +47,7 @@ namespace MegaMan.Engine
             }
             running = false;
             frame = 0;
-            this.playerPos = container.Player.Entity.GetComponent<PositionComponent>();
+            this.playerPos = container.Player.GetComponent<PositionComponent>();
             this.container = container;
         }
 

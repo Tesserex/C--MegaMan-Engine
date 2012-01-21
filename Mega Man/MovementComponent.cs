@@ -74,10 +74,13 @@ namespace MegaMan.Engine
             pushX = pushY = 0;
             dragX = dragY = resistX = resistY = 1;
 
-            int ts = Parent.Screen.TileSize;
-            int tx = (int)(position.Position.X / ts);
-            int ty = (int)(position.Position.Y / ts);
-            overTile = Parent.Screen.TileAt(tx, ty);
+            if (Parent.Screen != null)
+            {
+                int ts = Parent.Screen.TileSize;
+                int tx = (int)(position.Position.X / ts);
+                int ty = (int)(position.Position.Y / ts);
+                overTile = Parent.Screen.TileAt(tx, ty);
+            }
         }
 
         public override void Stop()
@@ -407,7 +410,7 @@ namespace MegaMan.Engine
                             PositionComponent pos = entity.GetComponent<PositionComponent>();
                             if (mov == null || pos == null) return;
 
-                            GameEntity player = entity.Container.Player.Entity;
+                            GameEntity player = entity.Container.Player;
                             PositionComponent playerPos = player.GetComponent<PositionComponent>();
 
                             if (axis == Axis.X)

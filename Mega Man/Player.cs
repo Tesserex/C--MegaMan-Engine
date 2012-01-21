@@ -12,23 +12,11 @@ namespace MegaMan.Engine
 
     public class Player
     {
-        private GamePlay gameplay;
+        public int Lives { get; set; }
 
-        public GameEntity Entity { get; set; }
-        public int PlayerLives { get; set; }
-
-        public Player(GamePlay game)
+        public Player()
         {
-            this.gameplay = game;
-            Entity = GameEntity.Get("Player", game);
-            PlayerLives = 2;
-        }
-
-        public void ResetEntity()
-        {
-            Entity = GameEntity.Get("Player", gameplay);
-
-            Entity.Death += () => { PlayerLives--; };
+            Lives = 2;
         }
 
         internal void CollectItem(InventoryItems inventoryItems)

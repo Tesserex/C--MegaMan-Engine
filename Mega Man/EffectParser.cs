@@ -150,7 +150,7 @@ namespace MegaMan.Engine
 
                     effect = entity =>
                     {
-                        entity.Container.Player.CollectItem(InventoryItems.EnergyTank);
+                        Game.CurrentGame.Player.CollectItem(InventoryItems.EnergyTank);
                     };
                     break;
 
@@ -158,7 +158,7 @@ namespace MegaMan.Engine
                     int add = int.Parse(node.RequireAttribute("add").Value);
                     effect = entity =>
                     {
-                        Game.CurrentGame.Player.PlayerLives += add;
+                        Game.CurrentGame.Player.Lives += add;
                     };
                     break;
 
@@ -271,7 +271,7 @@ namespace MegaMan.Engine
                 
                 float pdx = 0;
                 float pdy = 0;
-                GameEntity player = entity.Container.Player.Entity;
+                GameEntity player = entity.Container.Player;
                 var playerPos = entity.GetComponent<PositionComponent>();
                 if (playerPos != null)
                 {

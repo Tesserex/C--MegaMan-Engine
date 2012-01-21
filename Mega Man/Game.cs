@@ -41,6 +41,8 @@ namespace MegaMan.Engine
 
         public string BasePath { get; private set; }
 
+        public Player Player { get; private set; }
+
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
         public static void Load(string path)
@@ -118,6 +120,8 @@ namespace MegaMan.Engine
             {
                 throw new GameEntityException("The game file loaded correctly, but it failed to specify a starting point!");
             }
+
+            Player = new Player();
         }
 
         private static void IncludeXmlFile(string path)
@@ -248,7 +252,7 @@ namespace MegaMan.Engine
             var map = currentHandler as MapHandler;
             if (map != null)
             {
-                map.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+                map.GamePlay.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
             }
         }
 
@@ -257,7 +261,7 @@ namespace MegaMan.Engine
             var map = currentHandler as MapHandler;
             if (map != null)
             {
-                map.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
+                map.GamePlay.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
             }
         }
 
@@ -266,7 +270,7 @@ namespace MegaMan.Engine
             var map = currentHandler as MapHandler;
             if (map != null)
             {
-                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
+                var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();
                 if (weaponComponent != null)
                 {
                     weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
@@ -279,7 +283,7 @@ namespace MegaMan.Engine
             var map = currentHandler as MapHandler;
             if (map != null)
             {
-                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
+                var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();
                 if (weaponComponent != null)
                 {
                     weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));
