@@ -136,6 +136,23 @@ namespace MegaMan.Engine
                 case "Die":
                     effect = entity => { entity.Stop(); };
                     break;
+                
+                case "Collect":
+                    string itemName = node.RequireAttribute("item").Value;
+                    int quantity;
+                    bool hasQuantity = GameXml.TryInteger(node, "quantity", out quantity);
+
+
+                    var items = Enum.GetNames(typeof(InventoryItems));
+
+                    if (!hasQuantity)
+                        quantity = 1;
+
+                    effect = entity =>
+                    {
+                        Game.CurrentGame.Player.CollectItem(InventoryItems.EnergyTank);
+                    };
+                    break;
 
                 case "Lives":
                     int add = int.Parse(node.RequireAttribute("add").Value);

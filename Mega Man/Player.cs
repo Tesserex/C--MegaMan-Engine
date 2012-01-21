@@ -5,6 +5,11 @@ using System.Text;
 
 namespace MegaMan.Engine
 {
+    public enum InventoryItems
+    {
+        EnergyTank
+    }
+
     public class Player
     {
         public GameEntity Entity { get; set; }
@@ -21,6 +26,11 @@ namespace MegaMan.Engine
             Entity = GameEntity.Get("Player");
 
             Entity.Death += () => { PlayerLives--; };
+        }
+
+        internal void CollectItem(InventoryItems inventoryItems)
+        {
+            throw new NotImplementedException();
         }
     }
 }
