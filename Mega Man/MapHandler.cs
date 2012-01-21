@@ -42,7 +42,8 @@ namespace MegaMan.Engine
 
         public ScreenHandler CurrentScreen { get; private set; }
 
-        public GameEntity Player { get { return gamePlay.Player; } }
+        public Player Player { get { return gamePlay.Player; } }
+
         public PositionComponent PlayerPos;
         public int PlayerLives { get; set; }
 
@@ -73,7 +74,7 @@ namespace MegaMan.Engine
             this.screens = screens;
 
             this.gamePlay = gamePlay;
-            PlayerPos = gamePlay.Player.GetComponent<PositionComponent>();
+            PlayerPos = Player.Entity.GetComponent<PositionComponent>();
             PlayerLives = 2;
         }
 
@@ -118,18 +119,19 @@ namespace MegaMan.Engine
 
         private void BeginPlay()
         {
-            Player.Start(CurrentScreen);
-            Player.GetComponent<SpriteComponent>().Visible = true;
+            Player.Entity.Start(CurrentScreen);
+            Player.Entity.GetComponent<SpriteComponent>().Visible = true;
+
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));
-            Player.SendMessage(msg);
+            Game.CurrentGame.Player.Entity.SendMessage(msg);
             Action teleport = () => {};
             teleport += () =>
             {
                 if (PlayerPos.Position.Y >= startY)
                 {
                     PlayerPos.SetPosition(new PointF(startX, startY));
-                    Player.SendMessage(new StateMessage(null, "TeleportEnd"));
+                    Player.Entity.SendMessage(new StateMessage(null, "TeleportEnd"));
                     gamePlay.GameThink -= teleport;
                     updateFunc = Update;
                 }
@@ -173,7 +175,7 @@ namespace MegaMan.Engine
         // does not necessary represent the "end" of a scroll operation (boss doors still have to close)
         private void ScrollDone(JoinHandler join)
         {
-            Player.Paused = false;
+            Game.CurrentGame.Player.Entity.Paused = false;
             join.ScrollDone -= ScrollDone;
             ChangeScreen(nextScreen);
 
@@ -193,7 +195,7 @@ namespace MegaMan.Engine
         {
             ScreenHandler oldscreen = CurrentScreen;
             CurrentScreen = nextScreen;
-            Player.Screen = CurrentScreen;
+            Game.CurrentGame.Player.Entity.Screen = CurrentScreen;
             oldscreen.Clean();
             StartScreen();
 
@@ -217,9 +219,10 @@ namespace MegaMan.Engine
         {
             currentJoin = join;
 
-            Player.Paused = true;
+            Player.Entity.Paused = true;
             nextScreen = screens[join.NextScreenName];
             join.BeginScroll(nextScreen, PlayerPos.Position);
+
             updateFunc = () => join.Update(PlayerPos);
             join.ScrollDone += ScrollDone;
 
@@ -269,18 +272,18 @@ namespace MegaMan.Engine
                 setpos = (state) =>
                 {
                     PlayerPos.SetPosition(info.To);
-                    (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
-                    Player.SendMessage(new StateMessage(null, "TeleportEnd"));
+                    (Game.CurrentGame.Player.Entity.GetComponent<StateComponent>()).StateChanged -= setpos;
+                    Game.CurrentGame.Player.Entity.SendMessage(new StateMessage(null, "TeleportEnd"));
                     teleporting = false;
-                    (Player.GetComponent<MovementComponent>()).CanMove = true;
+                    (Game.CurrentGame.Player.Entity.GetComponent<MovementComponent>()).CanMove = true;
                 };
             }
             else
             {
                 setpos = state =>
                 {
-                    (Player.GetComponent<SpriteComponent>()).Visible = false;
-                    (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
+                    (Game.CurrentGame.Player.Entity.GetComponent<SpriteComponent>()).Visible = false;
+                    (Game.CurrentGame.Player.Entity.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Engine.Instance.FadeTransition(
                         () => 
                     { 
@@ -289,24 +292,27 @@ namespace MegaMan.Engine
                         PlayerPos.SetPosition(info.To); // do it here so drawing is correct for fade-in
                     }, () =>
                     {
-                        (Player.GetComponent<SpriteComponent>()).Visible = true;
-                        Player.SendMessage(new StateMessage(null, "TeleportEnd"));
-                        (Player.GetComponent<MovementComponent>()).CanMove = true;
+                        (Game.CurrentGame.Player.Entity.GetComponent<SpriteComponent>()).Visible = true;
+                        Game.CurrentGame.Player.Entity.SendMessage(new StateMessage(null, "TeleportEnd"));
+                        (Game.CurrentGame.Player.Entity.GetComponent<MovementComponent>()).CanMove = true;
                         teleporting = false;
                     });
                 };
             }
-            (Player.GetComponent<MovementComponent>()).CanMove = false;
-            Player.SendMessage(new StateMessage(null, "TeleportBlink"));
-            (Player.GetComponent<StateComponent>()).StateChanged += setpos;
+            (Game.CurrentGame.Player.Entity.GetComponent<MovementComponent>()).CanMove = false;
+            Game.CurrentGame.Player.Entity.SendMessage(new StateMessage(null, "TeleportBlink"));
+            (Game.CurrentGame.Player.Entity.GetComponent<StateComponent>()).StateChanged += setpos;
         }
 
         #region IHandleGameEvents Members
 
         public void StartHandler()
         {
-            PlayerPos.SetPosition(new PointF(startX, -100));
-            Player.Death += Player_Death;
+            Player.ResetEntity();
+
+            Player.Entity.Stopped += Player_Death;
+            PlayerPos = Player.Entity.GetComponent<PositionComponent>();
+
 
             if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
             CurrentScreen = screens[startScreen];
@@ -325,19 +331,17 @@ namespace MegaMan.Engine
             readyBlinks = 0;
             Engine.Instance.GameRender += BlinkReady;
 
-            Player.GetComponent<SpriteComponent>().Visible = false;
+            Player.Entity.GetComponent<SpriteComponent>().Visible = false;
+
+            Player.Entity.Start();
 
             // make sure we can move
-            (Player.GetComponent<InputComponent>()).Paused = false;
+            (Game.CurrentGame.Player.Entity.GetComponent<InputComponent>()).Paused = false;
         }
 
         public void StopHandler()
         {
-            if (Player != null)
-            {
-                Player.Death -= Player_Death;
-                Player.Stop();
-            }
+            Player.Entity.Stopped -= Player_Death;
 
             if (CurrentScreen != null)
             {
@@ -376,7 +380,7 @@ namespace MegaMan.Engine
 
         private void GameInputReceived(GameInputEventArgs e)
         {
-            if (updateFunc == null || (Player.GetComponent<InputComponent>()).Paused) return;
+            if (updateFunc == null || (Game.CurrentGame.Player.Entity.GetComponent<InputComponent>()).Paused) return;
             if (e.Input == GameInput.Start && e.Pressed)
             {
                 // has to handle both pause and unpause, in case a pause screen isn't defined

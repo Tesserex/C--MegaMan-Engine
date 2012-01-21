@@ -27,7 +27,7 @@ namespace MegaMan.Engine
 
     public interface IGameplayContainer : IHandleGameEvents
     {
-        GameEntity Player { get; }
+        Player Player { get; }
 
         event Action GameThink;
 

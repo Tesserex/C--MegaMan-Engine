@@ -136,12 +136,29 @@ namespace MegaMan.Engine
                 case "Die":
                     effect = entity => { entity.Stop(); };
                     break;
+                
+                case "Collect":
+                    string itemName = node.RequireAttribute("item").Value;
+                    int quantity;
+                    bool hasQuantity = GameXml.TryInteger(node, "quantity", out quantity);
+
+
+                    var items = Enum.GetNames(typeof(InventoryItems));
+
+                    if (!hasQuantity)
+                        quantity = 1;
+
+                    effect = entity =>
+                    {
+                        entity.Container.Player.CollectItem(InventoryItems.EnergyTank);
+                    };
+                    break;
 
                 case "Lives":
                     int add = int.Parse(node.RequireAttribute("add").Value);
                     effect = entity =>
                     {
-                        // TODO: reimplement using Matt's new Player class
+                        Game.CurrentGame.Player.PlayerLives += add;
                     };
                     break;
 
@@ -254,7 +271,7 @@ namespace MegaMan.Engine
                 
                 float pdx = 0;
                 float pdy = 0;
-                GameEntity player = entity.Container.Player;
+                GameEntity player = entity.Container.Player.Entity;
                 var playerPos = entity.GetComponent<PositionComponent>();
                 if (playerPos != null)
                 {

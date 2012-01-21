@@ -164,6 +164,7 @@
     <Compile Include="MovementComponent.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="PauseScreen.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="PositionComponent.cs" />
     <Compile Include="const.cs" />
     <Compile Include="Form1.cs">

@@ -81,7 +81,7 @@ namespace MegaMan.Engine
         {
             if (msg is DamageMessage && flashing == 0)
             {
-                if (Engine.Instance.Invincible && Parent.Name == "Player") return;
+                if (Engine.Instance.Invincible && Parent == Game.CurrentGame.Player.Entity) return;
 
                 DamageMessage damage = (DamageMessage)msg;
 
@@ -157,6 +157,11 @@ namespace MegaMan.Engine
         public void Add(float val)
         {
             Health += val;
+        }
+
+        public void Reset()
+        {
+            Health = MaxHealth;
         }
     }
 }

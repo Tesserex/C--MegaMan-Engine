@@ -55,7 +55,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public GameEntity Player
+        public Player Player
         {
             get { return null; }
         }

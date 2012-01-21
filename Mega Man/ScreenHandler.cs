@@ -51,7 +51,7 @@ namespace MegaMan.Engine
             Music = music;
 
             this.container = container;
-            this.player = container.Player;
+            this.player = container.Player.Entity;
             playerPos = player.GetComponent<PositionComponent>();
         }
 
