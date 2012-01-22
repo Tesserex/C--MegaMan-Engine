@@ -244,7 +244,13 @@ namespace MegaMan.Engine
         /// <param name="finished">The function to call when the transition is finished. Can be null.</param>
         public void FadeTransition(Action callback, Action finished = null)
         {
-            if (fadeHandle != null) return; // can't do more than one at a time
+            if (fadeHandle != null)
+            {
+                if (callback != null) callback();
+                if (finished != null) finished();
+                return; // can't do more than one at a time
+            }
+
             fadeHandle = new GameTickEventHandler(e => opacityDown(callback));
             GameLogicTick += fadeHandle;
             fadeFinished = finished;

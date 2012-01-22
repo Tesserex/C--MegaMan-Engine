@@ -164,9 +164,12 @@ namespace MegaMan.Engine
         private void EndHandler(HandlerTransfer nextHandler)
         {
             currentHandler.End -= EndHandler;
-            currentHandler.StopHandler();
 
-            StartHandler(nextHandler);
+            Engine.Instance.FadeTransition(() =>
+            {
+                currentHandler.StopHandler();
+                StartHandler(nextHandler);
+            });
         }
 
         private void StartHandler(HandlerTransfer handler)
