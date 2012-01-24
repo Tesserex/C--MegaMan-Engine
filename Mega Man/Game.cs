@@ -68,6 +68,7 @@ namespace MegaMan.Engine
             FontSystem.Unload();
             HealthMeter.Unload();
             Scene.Unload();
+            Menu.Unload();
             CurrentGame = null;
         }
 
@@ -149,6 +150,10 @@ namespace MegaMan.Engine
                             Scene.LoadScene(element);
                             break;
 
+                        case "Menu":
+                            Menu.Load(element);
+                            break;
+
                         default:
                             throw new GameXmlException(element, string.Format("Unrecognized XML type: \"{0}\"", element.Name.LocalName));
                     }
@@ -165,11 +170,19 @@ namespace MegaMan.Engine
         {
             currentHandler.End -= EndHandler;
 
-            Engine.Instance.FadeTransition(() =>
+            if (nextHandler.Fade)
+            {
+                Engine.Instance.FadeTransition(() =>
+                {
+                    currentHandler.StopHandler();
+                    StartHandler(nextHandler);
+                });
+            }
+            else
             {
                 currentHandler.StopHandler();
                 StartHandler(nextHandler);
-            });
+            }
         }
 
         private void StartHandler(HandlerTransfer handler)
@@ -189,8 +202,20 @@ namespace MegaMan.Engine
                     case HandlerType.StageSelect:
                         StageSelect(handler.Name);
                         break;
+
+                    case HandlerType.Menu:
+                        StartMenu(handler.Name);
+                        break;
                 }
             }
+        }
+
+        private void StartMenu(string name)
+        {
+            var menu = Menu.Get(name);
+            menu.End += EndHandler;
+            menu.StartHandler();
+            currentHandler = menu;
         }
 
         private void StartScene(string name)

@@ -160,6 +160,7 @@
     <Compile Include="MapHandler.cs" />
     <Compile Include="MapSquare.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="MenuSelectable.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MovementComponent.cs" />

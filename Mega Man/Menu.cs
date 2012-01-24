@@ -9,12 +9,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
-    public class Scene : IScreenInformation, IGameplayContainer
+    public class Menu : IScreenInformation, IGameplayContainer
     {
         private Dictionary<string, ISceneObject> objects;
         private List<GameEntity> entities;
-        private SceneInfo info;
-        private int frame = 0;
+        private MenuInfo info;
+        private MenuStateInfo state;
+        private List<MenuOptionCommandInfo> options;
+        private int selectedId;
+        private Point currentPos;
 
         public event Action GameThink;
         public event Action GameAct;
@@ -23,19 +26,31 @@ namespace MegaMan.Engine
 
         public event Action<HandlerTransfer> End;
 
-        private Scene(SceneInfo info)
+        private Menu(MenuInfo info)
         {
             objects = new Dictionary<string, ISceneObject>();
             entities = new List<GameEntity>();
             this.info = info;
         }
 
+        private void ResetState()
+        {
+            this.options = this.state.Commands.OfType<MenuOptionCommandInfo>().ToList();
+
+            var option = this.options[0];
+            this.selectedId = 0;
+            this.currentPos = new Point(option.X, option.Y);
+        }
+
         public void StartHandler()
         {
-            frame = 0;
             Engine.Instance.GameLogicTick += Tick;
             Engine.Instance.GameRender += GameRender;
             Engine.Instance.GameInputReceived += GameInputReceived;
+
+            this.state = this.info.States[0];
+            ResetState();
+            SetupState();
         }
 
         public void StopHandler()
@@ -105,9 +120,113 @@ namespace MegaMan.Engine
 
         public void GameInputReceived(GameInputEventArgs e)
         {
-            if (info.CanSkip && e.Pressed && e.Input == GameInput.Start && End != null)
+            if (!e.Pressed) return;
+
+            int id = selectedId;
+            Point nextPos = currentPos;
+            int min = int.MaxValue;
+
+            if (e.Input == GameInput.Start)
             {
-                End(info.NextHandler);
+                var next = this.options[selectedId].NextHandler;
+                if (next != null && End != null)
+                {
+                    End(next);
+                    return;
+                }
+            }
+            else if (e.Input == GameInput.Down)
+            {
+                for (var i = 0; i < options.Count; i++)
+                {
+                    if (i == selectedId) continue;
+
+                    var info = options[i];
+
+                    int ydist = info.Y - currentPos.Y;
+                    if (ydist == 0) continue;
+
+                    if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
+
+                    // weight x distance worse than y distance
+                    int dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        id = i;
+                        nextPos = new Point(info.X, info.Y);
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Up)
+            {
+                for (var i = 0; i < options.Count; i++)
+                {
+                    if (i == selectedId) continue;
+
+                    var info = options[i];
+                    int ydist = currentPos.Y - info.Y;
+                    if (ydist == 0) continue;
+
+                    if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
+
+                    // weight x distance worse than y distance
+                    int dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        id = i;
+                        nextPos = new Point(info.X, info.Y);
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Right)
+            {
+                for (var i = 0; i < options.Count; i++)
+                {
+                    if (i == selectedId) continue;
+
+                    var info = options[i];
+                    int xdist = info.X - currentPos.X;
+                    if (xdist == 0) continue;
+
+                    if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
+
+                    int dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        id = i;
+                        nextPos = new Point(info.X, info.Y);
+                    }
+                }
+            }
+            else if (e.Input == GameInput.Left)
+            {
+                for (var i = 0; i < options.Count; i++)
+                {
+                    if (i == selectedId) continue;
+
+                    var info = options[i];
+                    int xdist = currentPos.X - info.X;
+                    if (xdist == 0) continue;
+
+                    if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
+
+                    int dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
+                    if (dist < min)
+                    {
+                        min = dist;
+                        id = i;
+                        nextPos = new Point(info.X, info.Y);
+                    }
+                }
+            }
+
+            if (id != selectedId)
+            {
+                selectedId = id;
+                currentPos = nextPos;
             }
         }
 
@@ -121,22 +240,6 @@ namespace MegaMan.Engine
 
         private void Tick(GameTickEventArgs e)
         {
-            foreach (var keyframe in info.KeyFrames)
-            {
-                if (keyframe.Frame == frame)
-                {
-                    if (keyframe.Fade)
-                    {
-                        KeyFrameInfo frameInfo = keyframe; // for closure
-                        Engine.Instance.FadeTransition(() => TriggerKeyFrame(frameInfo));
-                    }
-                    else
-                    {
-                        TriggerKeyFrame(keyframe);
-                    }
-                }
-            }
-
             if (!Game.CurrentGame.Paused)
             {
                 if (GameThink != null) GameThink();
@@ -144,18 +247,11 @@ namespace MegaMan.Engine
                 if (GameReact != null) GameReact();
             }
             if (GameCleanup != null) GameCleanup();
-
-            frame++;
-
-            if (frame >= info.Duration && End != null)
-            {
-                End(info.NextHandler);
-            }
         }
 
-        private void TriggerKeyFrame(KeyFrameInfo info)
+        private void SetupState()
         {
-            foreach (var cmd in info.Commands)
+            foreach (var cmd in this.state.Commands)
             {
                 switch (cmd.Type)
                 {
@@ -245,179 +341,22 @@ namespace MegaMan.Engine
             obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
         }
 
-        private static Dictionary<string, Scene> scenes = new Dictionary<string,Scene>();
+        private static Dictionary<string, Menu> menus = new Dictionary<string, Menu>();
 
-        public static void LoadScene(XElement node)
+        public static void Load(XElement node)
         {
-            var info = SceneInfo.FromXml(node, Game.CurrentGame.BasePath);
-            scenes.Add(info.Name, new Scene(info));
+            var info = MenuInfo.FromXml(node, Game.CurrentGame.BasePath);
+            menus.Add(info.Name, new Menu(info));
         }
 
-        public static Scene Get(string name)
+        public static Menu Get(string name)
         {
-            return scenes[name];
+            return menus[name];
         }
 
         public static void Unload()
         {
-            scenes.Clear();
-        }
-    }
-
-    public interface ISceneObject
-    {
-        void Start();
-        void Stop();
-        void Draw(GameGraphicsLayers layers, Color opacity);
-    }
-
-    public class SceneSprite : ISceneObject
-    {
-        private Sprite sprite;
-        private Point location;
-
-        public SceneSprite(Sprite sprite, Point location)
-        {
-            this.sprite = sprite;
-            this.sprite.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
-            this.location = location;
-            this.sprite.Play();
-        }
-
-        public void Start()
-        {
-            Engine.Instance.GameLogicTick += Update;
-        }
-
-        public void Stop()
-        {
-            Engine.Instance.GameLogicTick -= Update;
-        }
-
-        private void Update(GameTickEventArgs e)
-        {
-            sprite.Update();
-        }
-
-        public void Draw(GameGraphicsLayers layers, Color opacity)
-        {
-            sprite.DrawXna(layers.SpritesBatch[sprite.Layer], opacity, location.X, location.Y);
-        }
-    }
-
-    public class SceneText : ISceneObject
-    {
-        private string content;
-        private string displayed = "";
-        private int speed;
-        private int frame;
-        private Vector2 position;
-
-        public SceneText(string content, int? speed, int x, int y)
-        {
-            this.content = content;
-            this.speed = speed ?? 0;
-            this.position = new Vector2(x, y);
-        }
-
-        public void Start()
-        {
-            if (speed == 0)
-            {
-                displayed = content;
-            }
-            else
-            {
-                Engine.Instance.GameLogicTick += Update;
-                frame = 0;
-            }
-        }
-
-        public void Stop()
-        {
-            if (speed != 0)
-            {
-                Engine.Instance.GameLogicTick -= Update;
-            }
-        }
-
-        private void Update(GameTickEventArgs e)
-        {
-            frame++;
-            if (frame >= speed && displayed.Length < content.Length)
-            {
-                // add a character to the displayed text
-                displayed += content.Substring(displayed.Length, 1);
-                frame = 0;
-            }
-        }
-
-        public void Draw(GameGraphicsLayers layers, Color opacity)
-        {
-            FontSystem.Draw(layers.ForegroundBatch, "Boss", displayed, position);
-        }
-    }
-
-    public class SceneFill : ISceneObject
-    {
-        private Texture2D texture;
-        private float x, y, width, height;
-        private float vx, vy, vw, vh, duration;
-        private int stopX, stopY, stopWidth, stopHeight, moveFrame;
-        private int layer;
-
-        public SceneFill(Color color, int x, int y, int width, int height, int layer)
-        {
-            this.texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
-            this.texture.SetData(new Color[] { color });
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.layer = layer;
-        }
-
-        public void Start() { }
-
-        public void Stop() { }
-
-        public void Draw(GameGraphicsLayers layers, Color opacity)
-        {
-            layers.SpritesBatch[layer].Draw(texture, new Rectangle((int)x, (int)y, (int)width, (int)height), opacity);
-        }
-
-        public void Move(int nx, int ny, int nwidth, int nheight, int duration)
-        {
-            this.stopX = nx;
-            this.stopY = ny;
-            this.stopWidth = nwidth;
-            this.stopHeight = nheight;
-            this.duration = duration;
-            vx = (nx - x) / duration;
-            vy = (ny - y) / duration;
-            vw = (nwidth - width) / duration;
-            vh = (nheight - height) / duration;
-            moveFrame = 0;
-
-            Engine.Instance.GameLogicTick += Update;
-        }
-
-        private void Update(GameTickEventArgs e)
-        {
-            x += vx;
-            y += vy;
-            width += vw;
-            height += vh;
-            moveFrame++;
-
-            if (moveFrame >= duration)
-            {
-                x = stopX;
-                y = stopY;
-                width = stopWidth;
-                height = stopHeight;
-                Engine.Instance.GameLogicTick -= Update;
-            }
+            menus.Clear();
         }
     }
 }
