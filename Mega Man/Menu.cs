@@ -68,6 +68,7 @@ namespace MegaMan.Engine
             {
                 obj.Stop();
             }
+            objects.Clear();
         }
 
         public GameEntity Player
@@ -296,7 +297,7 @@ namespace MegaMan.Engine
             var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
             obj.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
-            objects.Add(name, obj);
+            if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
         private void TextCommand(KeyFrameTextCommandInfo command)
@@ -304,7 +305,7 @@ namespace MegaMan.Engine
             var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
             obj.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
-            objects.Add(name, obj);
+            if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
         private void RemoveCommand(KeyFrameRemoveCommandInfo command)
