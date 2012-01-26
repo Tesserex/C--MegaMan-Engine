@@ -13,6 +13,7 @@ namespace MegaMan.Engine
     {
         string Name { get; }
         Point Location { get; }
+        bool Selectable { get; }
         void Init();
         void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, bool highlight);
         bool Select();
@@ -30,6 +31,7 @@ namespace MegaMan.Engine
 
         public string Name { get { return weapon; } }
         public Point Location { get { return location; } }
+        public bool Selectable { get { return true; } }
 
         public MenuWeapon(PauseWeaponInfo info, IGameplayContainer container)
         {
@@ -107,6 +109,7 @@ namespace MegaMan.Engine
 
         public string Name { get; private set; }
         public Point Location { get { return iconLocation; } }
+        public bool Selectable { get; private set; }
 
         public MenuInventory(InventoryInfo info, IGameplayContainer container)
         {
@@ -125,6 +128,7 @@ namespace MegaMan.Engine
 
             iconLocation = info.IconLocation;
             numberLocation = info.NumberLocation;
+            Selectable = info.Selectable;
         }
 
         public void Init()
