@@ -110,7 +110,7 @@ namespace MegaMan.Engine
             {
                 foreach (var info in selectables.Values)
                 {
-                    if (info.Name == selectedName || info.Selectable) continue;
+                    if (info.Name == selectedName || !info.Selectable) continue;
 
                     int ydist = info.Location.Y - currentPos.Y;
                     if (ydist == 0) continue;
@@ -131,7 +131,7 @@ namespace MegaMan.Engine
             {
                 foreach (var info in selectables.Values)
                 {
-                    if (info.Name == selectedName || info.Selectable) continue;
+                    if (info.Name == selectedName || !info.Selectable) continue;
 
                     int ydist = currentPos.Y - info.Location.Y;
                     if (ydist == 0) continue;
@@ -152,7 +152,7 @@ namespace MegaMan.Engine
             {
                 foreach (var info in selectables.Values)
                 {
-                    if (info.Name == selectedName || info.Selectable) continue;
+                    if (info.Name == selectedName || !info.Selectable) continue;
 
                     int xdist = info.Location.X - currentPos.X;
                     if (xdist == 0) continue;
@@ -172,7 +172,7 @@ namespace MegaMan.Engine
             {
                 foreach (var info in selectables.Values)
                 {
-                    if (info.Name == selectedName || info.Selectable) continue;
+                    if (info.Name == selectedName || !info.Selectable) continue;
 
                     int xdist = currentPos.X - info.Location.X;
                     if (xdist == 0) continue;

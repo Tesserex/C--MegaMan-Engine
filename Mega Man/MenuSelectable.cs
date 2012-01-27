@@ -147,7 +147,7 @@ namespace MegaMan.Engine
 
         public bool Select()
         {
-            if (container.Player != null && Game.CurrentGame.Player.UseItem(Name))
+            if (Selectable && useFunc != null && container.Player != null && Game.CurrentGame.Player.UseItem(Name))
             {
                 EffectParser.GetEffect(useFunc)(container.Player);
             }
