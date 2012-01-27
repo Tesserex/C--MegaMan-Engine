@@ -21,6 +21,7 @@ namespace MegaMan.Engine
             public bool alive;
             public Point location;
             public HandlerTransfer nextHandler;
+            public string selectSound;
         }
 
         private readonly MegaMan.Common.StageSelect stageSelectInfo;
@@ -79,6 +80,7 @@ namespace MegaMan.Engine
             }
 
             if (stageSelectInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(stageSelectInfo.ChangeSound);
+            if (stageSelectInfo.ChangeSound != null) changeSound = Engine.Instance.SoundSystem.EffectFromInfo(stageSelectInfo.ChangeSound);
 
             StreamReader sr = new StreamReader(stageSelectInfo.Background.Absolute);
             backgroundTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
@@ -109,6 +111,11 @@ namespace MegaMan.Engine
 
             bosses[slot].alive = true;
             bosses[slot].nextHandler = boss.NextHandler;
+
+            if (boss.Sound != null)
+            {
+                bosses[slot].selectSound = Engine.Instance.SoundSystem.EffectFromInfo(boss.Sound);
+            }
         }
 
         #region IHandleGameEvents Members
@@ -210,6 +217,10 @@ namespace MegaMan.Engine
         {
             if (End != null && bosses[selectedIndex].nextHandler != null)
             {
+                if (bosses[selectedIndex].selectSound != null)
+                {
+                    Engine.Instance.SoundSystem.PlaySfx(bosses[selectedIndex].selectSound);
+                }
                 End(bosses[selectedIndex].nextHandler);
             }
         }

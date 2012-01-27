@@ -160,43 +160,43 @@ namespace MegaMan.Engine
             {
                 switch (cmd.Type)
                 {
-                    case KeyFrameCommands.PlayMusic:
-                        PlayMusicCommand((KeyFramePlayCommandInfo)cmd);
+                    case SceneCommands.PlayMusic:
+                        PlayMusicCommand((ScenePlayCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Sprite:
-                        SpriteCommand((KeyFrameSpriteCommandInfo)cmd);
+                    case SceneCommands.Sprite:
+                        SpriteCommand((SceneSpriteCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Remove:
-                        RemoveCommand((KeyFrameRemoveCommandInfo)cmd);
+                    case SceneCommands.Remove:
+                        RemoveCommand((SceneRemoveCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Entity:
-                        EntityCommand((KeyFrameEntityCommandInfo)cmd);
+                    case SceneCommands.Entity:
+                        EntityCommand((SceneEntityCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Text:
-                        TextCommand((KeyFrameTextCommandInfo)cmd);
+                    case SceneCommands.Text:
+                        TextCommand((SceneTextCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Fill:
-                        FillCommand((KeyFrameFillCommandInfo)cmd);
+                    case SceneCommands.Fill:
+                        FillCommand((SceneFillCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.FillMove:
-                        FillMoveCommand((KeyFrameFillMoveCommandInfo)cmd);
+                    case SceneCommands.FillMove:
+                        FillMoveCommand((SceneFillMoveCommandInfo)cmd);
                         break;
                 }
             }
         }
 
-        private void PlayMusicCommand(KeyFramePlayCommandInfo command)
+        private void PlayMusicCommand(ScenePlayCommandInfo command)
         {
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
         }
 
-        private void SpriteCommand(KeyFrameSpriteCommandInfo command)
+        private void SpriteCommand(SceneSpriteCommandInfo command)
         {
             var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
             obj.Start();
@@ -204,7 +204,7 @@ namespace MegaMan.Engine
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
-        private void TextCommand(KeyFrameTextCommandInfo command)
+        private void TextCommand(SceneTextCommandInfo command)
         {
             var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
             obj.Start();
@@ -212,13 +212,13 @@ namespace MegaMan.Engine
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
-        private void RemoveCommand(KeyFrameRemoveCommandInfo command)
+        private void RemoveCommand(SceneRemoveCommandInfo command)
         {
             objects[command.Name].Stop();
             objects.Remove(command.Name);
         }
 
-        private void EntityCommand(KeyFrameEntityCommandInfo command)
+        private void EntityCommand(SceneEntityCommandInfo command)
         {
             var entity = GameEntity.Get(command.Entity, this);
             entity.GetComponent<PositionComponent>().SetPosition(command.X, command.Y);
@@ -230,7 +230,7 @@ namespace MegaMan.Engine
             entity.Start(this);
         }
 
-        private void FillCommand(KeyFrameFillCommandInfo command)
+        private void FillCommand(SceneFillCommandInfo command)
         {
             Color color = new Color(command.Red, command.Green, command.Blue);
 
@@ -240,7 +240,7 @@ namespace MegaMan.Engine
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
-        private void FillMoveCommand(KeyFrameFillMoveCommandInfo command)
+        private void FillMoveCommand(SceneFillMoveCommandInfo command)
         {
             SceneFill obj = objects[command.Name] as SceneFill;
             obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
@@ -275,13 +275,17 @@ namespace MegaMan.Engine
     public class SceneSprite : ISceneObject
     {
         private Sprite sprite;
-        private Point location;
+
+        private float x, y;
+        private float vx, vy, duration;
+        private int stopX, stopY, moveFrame;
 
         public SceneSprite(Sprite sprite, Point location)
         {
-            this.sprite = sprite;
+            this.sprite = new Sprite(sprite);
             this.sprite.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
-            this.location = location;
+            this.x = location.X;
+            this.y = location.Y;
             this.sprite.Play();
         }
 
@@ -295,14 +299,45 @@ namespace MegaMan.Engine
             Engine.Instance.GameLogicTick -= Update;
         }
 
+        public void Reset()
+        {
+            sprite.Reset();
+        }
+
         private void Update(GameTickEventArgs e)
         {
             sprite.Update();
         }
 
+        public void Move(int nx, int ny, int duration)
+        {
+            this.stopX = nx;
+            this.stopY = ny;
+            this.duration = duration;
+            vx = (nx - x) / duration;
+            vy = (ny - y) / duration;
+            moveFrame = 0;
+
+            Engine.Instance.GameLogicTick += MoveUpdate;
+        }
+
+        private void MoveUpdate(GameTickEventArgs e)
+        {
+            x += vx;
+            y += vy;
+            moveFrame++;
+
+            if (moveFrame >= duration)
+            {
+                x = stopX;
+                y = stopY;
+                Engine.Instance.GameLogicTick -= MoveUpdate;
+            }
+        }
+
         public void Draw(GameGraphicsLayers layers, Color opacity)
         {
-            sprite.DrawXna(layers.SpritesBatch[sprite.Layer], opacity, location.X, location.Y);
+            sprite.DrawXna(layers.SpritesBatch[sprite.Layer], opacity, x, y);
         }
     }
 

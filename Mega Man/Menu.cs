@@ -50,7 +50,7 @@ namespace MegaMan.Engine
 
             this.state = this.info.States[0];
             ResetState();
-            SetupState();
+            RunCommands(this.state.Commands);
         }
 
         public void StopHandler()
@@ -124,16 +124,14 @@ namespace MegaMan.Engine
             if (!e.Pressed) return;
 
             int id = selectedId;
-            Point nextPos = currentPos;
             int min = int.MaxValue;
 
             if (e.Input == GameInput.Start)
             {
-                var next = this.options[selectedId].NextHandler;
-                if (next != null && End != null)
+                var select = this.options[selectedId].SelectEvent;
+                if (select != null)
                 {
-                    End(next);
-                    return;
+                    RunCommands(select);
                 }
             }
             else if (e.Input == GameInput.Down)
@@ -155,7 +153,6 @@ namespace MegaMan.Engine
                     {
                         min = dist;
                         id = i;
-                        nextPos = new Point(info.X, info.Y);
                     }
                 }
             }
@@ -177,7 +174,6 @@ namespace MegaMan.Engine
                     {
                         min = dist;
                         id = i;
-                        nextPos = new Point(info.X, info.Y);
                     }
                 }
             }
@@ -198,7 +194,6 @@ namespace MegaMan.Engine
                     {
                         min = dist;
                         id = i;
-                        nextPos = new Point(info.X, info.Y);
                     }
                 }
             }
@@ -219,16 +214,26 @@ namespace MegaMan.Engine
                     {
                         min = dist;
                         id = i;
-                        nextPos = new Point(info.X, info.Y);
                     }
                 }
             }
 
             if (id != selectedId)
             {
-                selectedId = id;
-                currentPos = nextPos;
+                SelectOption(id);
             }
+        }
+
+        private void SelectOption(int id)
+        {
+            var off = this.options[selectedId].OffEvent;
+            var on = this.options[id].OnEvent;
+
+            if (off != null) RunCommands(off);
+            if (on != null) RunCommands(on);
+
+            selectedId = id;
+            currentPos = new Point(this.options[id].X, this.options[id].Y);
         }
 
         public void GameRender(GameRenderEventArgs e)
@@ -250,49 +255,61 @@ namespace MegaMan.Engine
             if (GameCleanup != null) GameCleanup();
         }
 
-        private void SetupState()
+        private void RunCommands(IEnumerable<SceneCommandInfo> commands)
         {
-            foreach (var cmd in this.state.Commands)
+            foreach (var cmd in commands)
             {
                 switch (cmd.Type)
                 {
-                    case KeyFrameCommands.PlayMusic:
-                        PlayMusicCommand((KeyFramePlayCommandInfo)cmd);
+                    case SceneCommands.PlayMusic:
+                        PlayMusicCommand((ScenePlayCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Sprite:
-                        SpriteCommand((KeyFrameSpriteCommandInfo)cmd);
+                    case SceneCommands.Sprite:
+                        SpriteCommand((SceneSpriteCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Remove:
-                        RemoveCommand((KeyFrameRemoveCommandInfo)cmd);
+                    case SceneCommands.SpriteMove:
+                        SpriteMoveCommand((SceneSpriteMoveCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Entity:
-                        EntityCommand((KeyFrameEntityCommandInfo)cmd);
+                    case SceneCommands.Remove:
+                        RemoveCommand((SceneRemoveCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Text:
-                        TextCommand((KeyFrameTextCommandInfo)cmd);
+                    case SceneCommands.Entity:
+                        EntityCommand((SceneEntityCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.Fill:
-                        FillCommand((KeyFrameFillCommandInfo)cmd);
+                    case SceneCommands.Text:
+                        TextCommand((SceneTextCommandInfo)cmd);
                         break;
 
-                    case KeyFrameCommands.FillMove:
-                        FillMoveCommand((KeyFrameFillMoveCommandInfo)cmd);
+                    case SceneCommands.Fill:
+                        FillCommand((SceneFillCommandInfo)cmd);
+                        break;
+
+                    case SceneCommands.FillMove:
+                        FillMoveCommand((SceneFillMoveCommandInfo)cmd);
+                        break;
+
+                    case SceneCommands.Sound:
+                        SoundCommand((SceneSoundCommandInfo)cmd);
+                        break;
+
+                    case SceneCommands.Next:
+                        NextCommand((SceneNextCommandInfo)cmd);
                         break;
                 }
             }
         }
 
-        private void PlayMusicCommand(KeyFramePlayCommandInfo command)
+        private void PlayMusicCommand(ScenePlayCommandInfo command)
         {
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
         }
 
-        private void SpriteCommand(KeyFrameSpriteCommandInfo command)
+        private void SpriteCommand(SceneSpriteCommandInfo command)
         {
             var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
             obj.Start();
@@ -300,7 +317,17 @@ namespace MegaMan.Engine
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
-        private void TextCommand(KeyFrameTextCommandInfo command)
+        private void SpriteMoveCommand(SceneSpriteMoveCommandInfo command)
+        {
+            SceneSprite obj = objects[command.Name] as SceneSprite;
+            if (obj != null)
+            {
+                obj.Move(command.X, command.Y, command.Duration);
+                obj.Reset();
+            }
+        }
+
+        private void TextCommand(SceneTextCommandInfo command)
         {
             var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
             obj.Start();
@@ -308,13 +335,13 @@ namespace MegaMan.Engine
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
         }
 
-        private void RemoveCommand(KeyFrameRemoveCommandInfo command)
+        private void RemoveCommand(SceneRemoveCommandInfo command)
         {
             objects[command.Name].Stop();
             objects.Remove(command.Name);
         }
 
-        private void EntityCommand(KeyFrameEntityCommandInfo command)
+        private void EntityCommand(SceneEntityCommandInfo command)
         {
             var entity = GameEntity.Get(command.Entity, this);
             entity.GetComponent<PositionComponent>().SetPosition(command.X, command.Y);
@@ -326,7 +353,7 @@ namespace MegaMan.Engine
             entity.Start(this);
         }
 
-        private void FillCommand(KeyFrameFillCommandInfo command)
+        private void FillCommand(SceneFillCommandInfo command)
         {
             Color color = new Color(command.Red, command.Green, command.Blue);
 
@@ -336,10 +363,23 @@ namespace MegaMan.Engine
             objects.Add(name, obj);
         }
 
-        private void FillMoveCommand(KeyFrameFillMoveCommandInfo command)
+        private void FillMoveCommand(SceneFillMoveCommandInfo command)
         {
             SceneFill obj = objects[command.Name] as SceneFill;
-            obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
+            if (obj != null) obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
+        }
+
+        private void SoundCommand(SceneSoundCommandInfo command)
+        {
+            Engine.Instance.SoundSystem.PlaySfx(command.SoundInfo.Name);
+        }
+
+        private void NextCommand(SceneNextCommandInfo command)
+        {
+            if (End != null && command.NextHandler != null)
+            {
+                End(command.NextHandler);
+            }
         }
 
         private static Dictionary<string, Menu> menus = new Dictionary<string, Menu>();
