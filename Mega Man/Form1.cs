@@ -12,6 +12,7 @@ namespace MegaMan.Engine
     {
         private string settingsPath;
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
+        private int widthZoom, heightZoom, width, height;
 
         public Form1()
         {
@@ -32,13 +33,22 @@ namespace MegaMan.Engine
                 MessageBox.Show("The config file could was not loaded successfully.");
             }
 
-            ResizeScreen(Const.PixelsAcross, Const.PixelsDown);
+            widthZoom = heightZoom = 1;
+            DefaultScreen();
             xnaImage.SetSize();
 
             Game.ScreenSizeChanged += Game_ScreenSizeChanged;
             Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
             customNtscForm.Apply += customNtscForm_Apply;
+        }
+
+        private void DefaultScreen()
+        {
+            width = Const.PixelsAcross;
+            height = Const.PixelsDown;
+
+            ResizeScreen();
         }
 
         protected override void OnDeactivate(EventArgs e)
@@ -151,22 +161,46 @@ namespace MegaMan.Engine
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
-            if (e.PixelsAcross != 256 || e.PixelsDown != 224 || !xnaImage.NTSC)
+            if (width != 256 || height != 224)
             {
-                ResizeScreen(e.PixelsAcross, e.PixelsDown);
-                xnaImage.SetSize();
+                xnaImage.NTSC = false;
+            }
+
+            width = e.PixelsAcross;
+            height = e.PixelsDown;
+            // force resize so xnaImage is correct
+            ResizeScreen(width, height);
+            xnaImage.SetSize();
+
+            if (xnaImage.NTSC)
+            {
+                ResizeScreen(602, 448);
+            }
+            else
+            {
+                // normal zoomed size
+                ResizeScreen();
             }
         }
 
-        private void ResizeScreen(int width, int height)
+        private void ResizeScreen(int? newWidth = null, int? newHeight = null)
         {
+            if (newWidth == null)
+            {
+                newWidth = width * widthZoom;
+            }
+            if (newHeight == null)
+            {
+                newHeight = height * heightZoom;
+            }
+
             // tell the image not to get crushed by the form
             xnaImage.Dock = DockStyle.None;
             // tell the form to fit the image
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            xnaImage.Width = width;
-            xnaImage.Height = height;
+            xnaImage.Width = newWidth.Value;
+            xnaImage.Height = newHeight.Value;
             // now remember the form size
             int tempheight = Height;
             int tempwidth = Width;
@@ -291,8 +325,17 @@ namespace MegaMan.Engine
 
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame == null) ResizeScreen(Const.PixelsAcross, Const.PixelsDown);
-            else ResizeScreen(Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            widthZoom = heightZoom = 1;
+
+            if (Game.CurrentGame == null)
+            {
+                DefaultScreen();
+            }
+            else
+            {
+                ResizeScreen();
+            }
+
             screen1XMenu.Checked = true;
             screen2XMenu.Checked = false;
             screenNTSCMenu.Checked = false;
@@ -301,8 +344,17 @@ namespace MegaMan.Engine
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame == null) ResizeScreen(Const.PixelsAcross * 2, Const.PixelsDown * 2);
-            else ResizeScreen(Game.CurrentGame.PixelsAcross * 2, Game.CurrentGame.PixelsDown * 2);
+            widthZoom = heightZoom = 2;
+
+            if (Game.CurrentGame == null)
+            {
+                DefaultScreen();
+            }
+            else
+            {
+                ResizeScreen();
+            }
+
             screen2XMenu.Checked = true;
             screen1XMenu.Checked = false;
             screenNTSCMenu.Checked = false;
@@ -325,7 +377,11 @@ namespace MegaMan.Engine
 
         private void screenNTSCMenu_Click(object sender, EventArgs e)
         {
+            if (width != 256 || height != 224) return;
+
+            widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
+
             screenNTSCMenu.Checked = true;
             screen2XMenu.Checked = false;
             screen1XMenu.Checked = false;

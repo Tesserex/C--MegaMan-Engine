@@ -352,6 +352,8 @@ namespace MegaMan.Engine
         // there either.
         private bool Step(float dt)
         {
+            if (graphics == null) return false;
+
             CheckInput();
 
             GameTickEventArgs e = new GameTickEventArgs(dt);

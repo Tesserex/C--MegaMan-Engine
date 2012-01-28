@@ -62,7 +62,10 @@ namespace MegaMan.Engine
         public void Unload()
         {
             Engine.Instance.Stop();
-            currentHandler.StopHandler();
+            if (currentHandler != null)
+            {
+                currentHandler.StopHandler();
+            }
             GameEntity.UnloadAll();
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
