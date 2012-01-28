@@ -103,7 +103,7 @@ namespace MegaMan.Engine
 
             if (e.Input == GameInput.Start)
             {
-                bool close = selectables[selectedName].Select();
+                bool close = selectables.ContainsKey(selectedName)? selectables[selectedName].Select() : true;
                 if (close && End != null) End(null);
             }
             else if (e.Input == GameInput.Down)
