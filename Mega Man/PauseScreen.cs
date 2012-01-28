@@ -41,12 +41,16 @@ namespace MegaMan.Engine
 
             foreach (var weaponInfo in pauseInfo.Weapons)
             {
+                if (selectables.ContainsKey(weaponInfo.Weapon)) continue;
+
                 var item = new MenuWeapon(weaponInfo, container);
                 selectables.Add(item.Name, item);
             }
 
             foreach (var inventory in pauseInfo.Inventory)
             {
+                if (selectables.ContainsKey(inventory.Name)) continue;
+
                 var item = new MenuInventory(inventory, container);
                 selectables.Add(item.Name, item);
             }

@@ -307,7 +307,7 @@ namespace MegaMan.Engine
             GamePlay.Player.Stopped += Player_Death;
             PlayerPos = GamePlay.Player.GetComponent<PositionComponent>();
 
-            if (!Map.Screens.ContainsKey(startScreen)) throw new GameEntityException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
+            if (!Map.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
             CurrentScreen = screens[startScreen];
             StartScreen();
 

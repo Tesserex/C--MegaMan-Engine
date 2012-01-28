@@ -174,6 +174,8 @@ namespace MegaMan.Engine
         }
         public event EventHandler<DeviceEventArgs> GetDevice;
 
+        public event Action<Exception> OnException;
+
         public float ThinkTime { get; private set; }
 
         private bool initialized;
@@ -343,7 +345,18 @@ namespace MegaMan.Engine
             float dt = timer.ElapsedTicks * invFreq;
             timer.Reset();
             timer.Start();
-            if (Step(dt)) Application.Exit();
+
+            try
+            {
+                if (Step(dt)) Application.Exit();
+            }
+            catch (GameRunException ex)
+            {
+                if (OnException != null) OnException(ex);
+
+                this.Stop();
+            }
+
             ThinkTime = timer.ElapsedTicks * invFreq / dt;
         }
 

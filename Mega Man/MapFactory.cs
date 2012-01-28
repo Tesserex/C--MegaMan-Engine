@@ -102,7 +102,7 @@ namespace MegaMan.Engine
                     }
                     catch
                     {
-                        throw new GameEntityException("There's an error in map " + screen.Map.Name + ", screen file " + screen.Name + ".scn,\nthere's a bad tile number somewhere.");
+                        throw new GameRunException("There's an error in map " + screen.Map.Name + ", screen file " + screen.Name + ".scn,\nthere's a bad tile number somewhere.");
                     }
                 }
             }

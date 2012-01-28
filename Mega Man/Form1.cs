@@ -40,6 +40,8 @@ namespace MegaMan.Engine
             Game.ScreenSizeChanged += Game_ScreenSizeChanged;
             Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
+            Engine.Instance.OnException += Engine_Exception;
+
             customNtscForm.Apply += customNtscForm_Apply;
         }
 
@@ -273,7 +275,16 @@ namespace MegaMan.Engine
 
         private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            CloseGame();
+        }
+
+        private void CloseGame()
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.Unload();
+                this.xnaImage.Clear();
+            }
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -582,5 +593,11 @@ namespace MegaMan.Engine
             }
         }
 
+        private void Engine_Exception(Exception e)
+        {
+            MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+
+            CloseGame();
+        }
     }
 }

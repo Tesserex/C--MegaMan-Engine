@@ -265,7 +265,7 @@ namespace MegaMan.Engine
 
         public static GameEntity Get(string name, IGameplayContainer container)
         {
-            if (!entities.ContainsKey(name)) throw new GameEntityException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +
+            if (!entities.ContainsKey(name)) throw new GameRunException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +
                 "You need to make sure it's defined in one of the included XML files.");
 
             // clone it

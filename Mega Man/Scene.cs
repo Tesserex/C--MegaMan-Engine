@@ -214,6 +214,11 @@ namespace MegaMan.Engine
 
         private void RemoveCommand(SceneRemoveCommandInfo command)
         {
+            if (!objects.ContainsKey(command.Name))
+            {
+                throw new GameRunException(String.Format("The scene '{0}' referenced an object called '{1}', which doesn't exist.", this.info.Name, command.Name));
+            }
+
             objects[command.Name].Stop();
             objects.Remove(command.Name);
         }
@@ -256,6 +261,13 @@ namespace MegaMan.Engine
 
         public static Scene Get(string name)
         {
+            if (!scenes.ContainsKey(name))
+            {
+                throw new GameRunException(
+                    String.Format("I tried to run the menu named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
+                );
+            }
+
             return scenes[name];
         }
 

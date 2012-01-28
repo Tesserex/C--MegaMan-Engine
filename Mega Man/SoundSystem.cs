@@ -232,7 +232,7 @@ namespace MegaMan.Engine
             {
                 loadedSounds[name].Play();
             }
-            else throw new GameEntityException("Tried to play sound effect called " + name + ", but none was defined!");
+            else throw new GameRunException("Tried to play sound effect called " + name + ", but none was defined!");
         }
 
         public void StopMusicNsf()

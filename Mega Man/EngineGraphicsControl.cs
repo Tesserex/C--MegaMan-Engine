@@ -132,9 +132,13 @@ namespace MegaMan.Engine
             e.Device = GraphicsDevice;
         }
 
-        protected override void Draw()
+        protected override void Draw() { }
+
+        public void Clear()
         {
-            //GraphicsDevice.Clear(Color.Black);
+            BeginDraw();
+            GraphicsDevice.Clear(Color.Black);
+            EndDraw();
         }
     }
 

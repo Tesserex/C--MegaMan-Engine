@@ -234,7 +234,7 @@ namespace MegaMan.Engine
             var stage = project.Stages.FirstOrDefault(s => s.Name == name);
             if (stage == null)
             {
-                throw new GameEntityException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
+                throw new GameRunException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
             }
 
             var factory = new MapFactory();
@@ -248,7 +248,7 @@ namespace MegaMan.Engine
             }
             catch (XmlException e)
             {
-                throw new GameEntityException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
+                throw new GameRunException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
             }
         }
 

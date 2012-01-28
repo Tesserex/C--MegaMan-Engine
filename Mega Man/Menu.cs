@@ -392,6 +392,13 @@ namespace MegaMan.Engine
 
         public static Menu Get(string name)
         {
+            if (!menus.ContainsKey(name))
+            {
+                throw new GameRunException(
+                    String.Format("I tried to run the scene named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
+                );
+            }
+
             return menus[name];
         }
 
