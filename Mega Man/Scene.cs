@@ -402,7 +402,7 @@ namespace MegaMan.Engine
 
         public void Draw(GameGraphicsLayers layers, Color opacity)
         {
-            FontSystem.Draw(layers.ForegroundBatch, "Boss", displayed, position);
+            FontSystem.Draw(layers.ForegroundBatch, "Big", displayed, position);
         }
     }
 
