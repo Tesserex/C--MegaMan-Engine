@@ -269,11 +269,11 @@ namespace MegaMan.Engine
                 float pdx = 0;
                 float pdy = 0;
                 GameEntity player = entity.Container.Player;
-                var playerPos = entity.GetComponent<PositionComponent>();
+                var playerPos = player.GetComponent<PositionComponent>();
                 if (playerPos != null)
                 {
-                    Math.Abs(playerPos.Position.X - pos.Position.X);
-                    Math.Abs(playerPos.Position.Y - pos.Position.Y);
+                    pdx = Math.Abs(playerPos.Position.X - pos.Position.X);
+                    pdy = Math.Abs(playerPos.Position.Y - pos.Position.Y);
                 }
 
                 return split(
