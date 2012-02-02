@@ -37,6 +37,16 @@ namespace MegaMan.Engine
         public float Gravity { get; private set; }
         public bool GravityFlip { get; set; }
 
+        public string Name
+        {
+            get
+            {
+                if (project == null) return "Mega Man";
+                if (string.IsNullOrWhiteSpace(project.Name)) return "Untitled Fan Game";
+                return project.Name;
+            }
+        }
+
         public bool Paused { get; private set; }
 
         public string BasePath { get; private set; }

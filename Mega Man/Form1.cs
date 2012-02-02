@@ -235,6 +235,7 @@ namespace MegaMan.Engine
                 try
                 {
                     Game.Load(dialog.FileName);
+                    Text = Game.CurrentGame.Name;
                 }
                 catch (GameXmlException ex)
                 {
@@ -284,6 +285,7 @@ namespace MegaMan.Engine
             {
                 Game.CurrentGame.Unload();
                 this.xnaImage.Clear();
+                Text = "Mega Man";
             }
         }
 
