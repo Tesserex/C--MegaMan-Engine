@@ -212,7 +212,11 @@ namespace MegaMan.Engine
 
         private void ChangeSprite(string key)
         {
-            if (!sprites[currentPalette].ContainsKey(key) || sprites[currentPalette][key] == null) throw new KeyNotFoundException("A sprite with key \""+key+"\" was not found in the collection.");
+            if (!sprites[currentPalette].ContainsKey(key) || sprites[currentPalette][key] == null)
+            {
+                throw new GameRunException(String.Format("A sprite with name {0} was not found in the entity {1}.", key, Parent.Name));
+            }
+
             if (currentSprite != null) currentSprite.Stop();
 
             currentSprite = sprites[currentPalette][key];
