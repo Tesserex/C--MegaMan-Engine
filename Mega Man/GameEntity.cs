@@ -78,9 +78,9 @@ namespace MegaMan.Engine
 
         public void Die()
         {
-            Stop();
             OnDeath(this);
             if (Death != null) Death();
+            Stop();
         }
 
         private void AddComponent(Component component)

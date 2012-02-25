@@ -29,6 +29,7 @@ namespace MegaMan.Engine
 
         private List<CollisionBox> hitboxes = new List<CollisionBox>();
         private readonly HashSet<string> touchedBy = new HashSet<string>();
+        private readonly Dictionary<string, HashSet<string>> touchedAt = new Dictionary<string, HashSet<string>>();
         private readonly HashSet<int> enabledBoxes = new HashSet<int>();
         private readonly Dictionary<string, int> boxIDsByName = new Dictionary<string, int>();
 
@@ -82,6 +83,7 @@ namespace MegaMan.Engine
         private void ClearTouch()
         {
             touchedBy.Clear();
+            touchedAt.Clear();
         }
 
         void Instance_GameRender(GameRenderEventArgs e)
@@ -103,7 +105,7 @@ namespace MegaMan.Engine
             Parent.Container.GameReact -= Update;
             Engine.Instance.GameRender -= Instance_GameRender;
             Enabled = false;
-            touchedBy.Clear();
+            ClearTouch();
             enabledBoxes.Clear();
         }
 
@@ -195,8 +197,8 @@ namespace MegaMan.Engine
                 RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
                 if (BlockByIntersection(boundBox, rect, false, false))
                 {
-                    collision.targetColl.Touch(collision.myBox);
-                    Touch(collision.targetBox);
+                    collision.targetColl.Touch(collision.myBox, collision.targetBox);
+                    Touch(collision.targetBox, collision.myBox);
                     // for now, entities can only be normal type
                     hitTypes.Add(collision.targetBox.Properties);
                     // now cause friction on the x, a la moving platforms
@@ -274,8 +276,8 @@ namespace MegaMan.Engine
             RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
             if (boundBox.IntersectsWith(rect))
             {
-                coll.Touch(hitbox);
-                Touch(targetBox);
+                coll.Touch(hitbox, targetBox);
+                Touch(targetBox, hitbox);
                 CollideWith(entity, hitbox, targetBox);
             }
             return boundBox;
@@ -405,11 +407,32 @@ namespace MegaMan.Engine
             return touchedBy.Contains(group);
         }
 
-        private void Touch(CollisionBox box)
+        public bool TouchedAt(string myGroup, string targetGroup = null)
         {
-            foreach (var group in box.Groups)
+            if (!touchedAt.ContainsKey(myGroup)) return false;
+
+            if (string.IsNullOrWhiteSpace(targetGroup))
+            {
+                return touchedAt[myGroup].Count > 0;
+            }
+
+            return touchedAt[myGroup].Contains(targetGroup);
+        }
+
+        private void Touch(CollisionBox targetbox, CollisionBox mybox)
+        {
+            foreach (var group in targetbox.Groups)
             {
                 touchedBy.Add(group);
+
+                foreach (var mygroup in mybox.Groups)
+                {
+                    if (!touchedAt.ContainsKey(mygroup))
+                    {
+                        touchedAt[mygroup] = new HashSet<string>();
+                    }
+                    touchedAt[mygroup].Add(group);
+                }
             }
         }
 
