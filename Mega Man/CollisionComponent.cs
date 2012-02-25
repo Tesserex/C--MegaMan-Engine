@@ -119,7 +119,15 @@ namespace MegaMan.Engine
                 }
 
                 enabledBoxes.Clear();
-                foreach (var name in boxes.EnableBoxes) enabledBoxes.Add(boxIDsByName[name]);
+                foreach (var name in boxes.EnableBoxes)
+                {
+                    if (!boxIDsByName.ContainsKey(name))
+                    {
+                        throw new GameRunException(String.Format("The {0} entity wanted to enable a hitbox named {1}, which doesn't exist.", Parent.Name, name));
+                    }
+
+                    enabledBoxes.Add(boxIDsByName[name]);
+                }
 
                 return;
             }

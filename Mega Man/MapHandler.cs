@@ -311,6 +311,8 @@ namespace MegaMan.Engine
             CurrentScreen = screens[startScreen];
             StartScreen();
 
+            Engine.Instance.SoundSystem.StopMusicNsf();
+
             if (music != null) music.Play();
             if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Map.MusicNsfTrack);
 
