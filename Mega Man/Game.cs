@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common;
+using System.Drawing;
 
 namespace MegaMan.Engine
 {
@@ -55,7 +56,7 @@ namespace MegaMan.Engine
 
         public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
 
-        public static void Load(string path)
+        public static void Load(string path, List<string> pathArgs = null)
         {
             Engine.Instance.Begin();
             if (CurrentGame != null)
@@ -63,7 +64,7 @@ namespace MegaMan.Engine
                 CurrentGame.Unload();
             }
             CurrentGame = new Game();
-            CurrentGame.LoadFile(path);
+            CurrentGame.LoadFile(path, pathArgs);
             // TODO: load fonts from xml
             FontSystem.LoadFont("Big", Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
             FontSystem.LoadFont("Boss", Path.Combine(Game.CurrentGame.BasePath, @"images\font_boss.png"), 8, 0);
@@ -97,7 +98,7 @@ namespace MegaMan.Engine
             GravityFlip = false;
         }
 
-        private void LoadFile(string path)
+        private void LoadFile(string path, List<string> pathArgs = null)
         {
             if (!File.Exists(path)) throw new FileNotFoundException("The project file does not exist: " + path);
 
@@ -126,13 +127,49 @@ namespace MegaMan.Engine
 
             currentPath = path;
 
-            if (project.StartHandler != null)
+            if (pathArgs != null && pathArgs.Count > 0)
+            {
+                var start = pathArgs[0];
+
+                var parts = start.Split('\\');
+                if (parts.Length != 2)
+                {
+                    throw new GameRunException("The starting point given by command line argument was invalid.");
+                }
+                var name = parts[1];
+                switch (parts[0].ToUpper())
+                {
+                    case "SCENE":
+                        StartScene(name);
+                        break;
+
+                    case "STAGE":
+                        var screen = (pathArgs.Count > 1) ? pathArgs[1] : null;
+                        Point? startPos = null;
+                        if (pathArgs.Count > 2)
+                        {
+                            var point = pathArgs[2];
+                            var coords = point.Split(',');
+                            startPos = new Point(int.Parse(coords[0]), int.Parse(coords[1]));
+                        }
+                        StartMap(name, screen, startPos);
+                        break;
+
+                    case "MENU":
+                        StartMenu(name);
+                        break;
+
+                    default:
+                        throw new GameRunException("The starting point given by command line argument was invalid.");
+                }
+            }
+            else if (project.StartHandler != null)
             {
                 StartHandler(project.StartHandler);
             }
             else
             {
-                throw new GameEntityException("The game file loaded correctly, but it failed to specify a starting point!");
+                throw new GameRunException("The game file loaded correctly, but it failed to specify a starting point!");
             }
 
             Player = new Player();
@@ -239,7 +276,7 @@ namespace MegaMan.Engine
             currentHandler = scene;
         }
 
-        private void StartMap(string name)
+        private void StartMap(string name, string screen = null, Point? startPosition = null)
         {
             var stage = project.Stages.FirstOrDefault(s => s.Name == name);
             if (stage == null)
@@ -252,6 +289,12 @@ namespace MegaMan.Engine
             try
             {
                 var map = factory.CreateMap(stage, project.PauseScreen);
+
+                if (screen != null && startPosition != null)
+                {
+                    map.SetTestingStartPosition(screen, startPosition.Value);
+                }
+
                 currentHandler = map;
                 currentHandler.StartHandler();
                 currentHandler.End += EndHandler;

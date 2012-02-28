@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Drawing;
 using System.IO;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
@@ -43,6 +45,20 @@ namespace MegaMan.Engine
             Engine.Instance.OnException += Engine_Exception;
 
             customNtscForm.Apply += customNtscForm_Apply;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                var path = args[1];
+                var start = (args.Length > 2) ? args[2] : null;
+
+                LoadGame(path, args.Skip(2).ToList());
+            }
         }
 
         private void DefaultScreen()
@@ -232,46 +248,51 @@ namespace MegaMan.Engine
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                try
-                {
-                    Game.Load(dialog.FileName);
-                    Text = Game.CurrentGame.Name;
-                }
-                catch (GameXmlException ex)
-                {
-                    // this builds a dialog message to tell the user where the error is in the XML file
-
-                    StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
-                    if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
-                    if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
-                    if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
-                    if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
-                    if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
-
-                    message.Append("\n").Append(ex.Message);
-
-                    MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    Game.CurrentGame.Unload();
-                }
-                catch (System.IO.FileNotFoundException ex)
-                {
-                    MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.FileName, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Game.CurrentGame.Unload();
-                }
-                catch (GameEntityException ex)
-                {
-                    MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Game.CurrentGame.Unload();
-                }
-                catch (XmlException ex)
-                {
-                    MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Game.CurrentGame.Unload();
-                }
-
-                this.OnActivated(new EventArgs());
+                LoadGame(dialog.FileName);
             }
+        }
+
+        private void LoadGame(string path, List<string> pathArgs = null)
+        {
+            try
+            {
+                Game.Load(path, pathArgs);
+                Text = Game.CurrentGame.Name;
+            }
+            catch (GameXmlException ex)
+            {
+                // this builds a dialog message to tell the user where the error is in the XML file
+
+                StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
+                if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
+                if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
+                if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
+                if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
+                if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
+
+                message.Append("\n").Append(ex.Message);
+
+                MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Game.CurrentGame.Unload();
+            }
+            catch (System.IO.FileNotFoundException ex)
+            {
+                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.FileName, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+            catch (GameEntityException ex)
+            {
+                MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+            catch (XmlException ex)
+            {
+                MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+
+            this.OnActivated(new EventArgs());
         }
 
         private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)

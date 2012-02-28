@@ -74,6 +74,13 @@ namespace MegaMan.Engine
             PlayerPos = gamePlay.Player.GetComponent<PositionComponent>();
         }
 
+        public void SetTestingStartPosition(string screen, Point startPosition)
+        {
+            startScreen = screen;
+            startX = startPosition.X;
+            startY = startPosition.Y;
+        }
+
         void BlinkReady(GameRenderEventArgs e)
         {
             if (readyBlinkTime >= 0)
