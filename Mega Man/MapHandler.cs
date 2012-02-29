@@ -327,6 +327,7 @@ namespace MegaMan.Engine
             drawFunc = Draw;
 
             Unpause();
+            FinishUnpause();
 
             // ready flashing
             readyBlinkTime = 0;
@@ -355,6 +356,7 @@ namespace MegaMan.Engine
             if (pauseScreen != null) pauseScreen.StopHandler();
 
             Pause();
+
             Engine.Instance.GameRender -= BlinkReady;
         }
 
@@ -364,16 +366,12 @@ namespace MegaMan.Engine
 
             Engine.Instance.GameLogicTick -= GameTick;
             Engine.Instance.GameRender -= GameRender;
-            
-            Engine.Instance.GameInputReceived -= GameInputReceived;
         }
 
         private void Unpause()
         {
             Engine.Instance.GameLogicTick += GameTick;
             Engine.Instance.GameRender += GameRender;
-            
-            Engine.Instance.GameInputReceived += GameInputReceived;
 
             GamePlay.StartHandler();
         }
@@ -399,8 +397,9 @@ namespace MegaMan.Engine
                 {
                     // clearly we are unpaused, otherwise we would not be receiving this input
                     Game.CurrentGame.Pause();
+                    Engine.Instance.GameInputReceived -= GameInputReceived;
                     pauseScreen.Sound();
-                    Engine.Instance.FadeTransition(OpenPauseScreen);
+                    Engine.Instance.FadeTransition(OpenPauseScreen, FinishPause);
                 }
             }
         }
@@ -414,10 +413,18 @@ namespace MegaMan.Engine
             }
         }
 
+        private void FinishPause()
+        {
+            if (pauseScreen != null) pauseScreen.StartInput();
+        }
+
         private void pauseScreen_Unpaused(HandlerTransfer nextHandler)
         {
             pauseScreen.Sound();
-            Engine.Instance.FadeTransition(ClosePauseScreen, Game.CurrentGame.Unpause);
+
+            if (pauseScreen != null) pauseScreen.StopInput();
+
+            Engine.Instance.FadeTransition(ClosePauseScreen, FinishUnpause);
         }
 
         private void ClosePauseScreen()
@@ -427,6 +434,12 @@ namespace MegaMan.Engine
             {
                 pauseScreen.StopHandler();
             }
+        }
+
+        private void FinishUnpause()
+        {
+            Engine.Instance.GameInputReceived += GameInputReceived;
+            Game.CurrentGame.Unpause();
         }
 
         private void GameTick(GameTickEventArgs e)

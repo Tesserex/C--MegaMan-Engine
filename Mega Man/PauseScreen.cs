@@ -69,9 +69,9 @@ namespace MegaMan.Engine
 
         #region IHandleGameEvents Members
 
+        private bool hasInput = false;
         public void StartHandler()
         {
-            Engine.Instance.GameInputReceived += GameInputReceived;
             Engine.Instance.GameRender += GameRender;
 
             selectedName = playerWeapons.CurrentWeapon;
@@ -93,11 +93,25 @@ namespace MegaMan.Engine
 
         public void StopHandler()
         {
-            Engine.Instance.GameInputReceived -= GameInputReceived;
+            if (hasInput) StopInput();
             Engine.Instance.GameRender -= GameRender;
         }
 
-        public void GameInputReceived(GameInputEventArgs e)
+        public void StartInput()
+        {
+            if (hasInput) return;
+            Engine.Instance.GameInputReceived += GameInputReceived;
+            hasInput = true;
+        }
+
+        public void StopInput()
+        {
+            if (!hasInput) return;
+            Engine.Instance.GameInputReceived -= GameInputReceived;
+            hasInput = false;
+        }
+
+        private void GameInputReceived(GameInputEventArgs e)
         {
             if (!e.Pressed) return;
 
