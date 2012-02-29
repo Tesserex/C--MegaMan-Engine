@@ -74,7 +74,16 @@ namespace MegaMan.Engine
 
             var handler = new MapHandler(map, pauseScreen, screens, GamePlay);
             handler.WinHandler = info.WinHandler;
-            handler.LoseHandler = info.LoseHandler;
+
+            if (info.LoseHandler == null)
+            {
+                // repeat this stage
+                handler.LoseHandler = new HandlerTransfer { Fade = true, Type = HandlerType.Stage, Name = info.Name };
+            }
+            else
+            {
+                handler.LoseHandler = info.LoseHandler;
+            }
 
             return handler;
         }
