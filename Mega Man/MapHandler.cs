@@ -27,6 +27,12 @@ namespace MegaMan.Engine
 
         private Dictionary<string, ScreenHandler> screens;
 
+        public Dictionary<string, bool[]> EntityRespawnable
+        {
+            get;
+            private set;
+        }
+
         private PauseScreen pauseScreen;
 
         private JoinHandler currentJoin;
@@ -69,6 +75,8 @@ namespace MegaMan.Engine
             if (pauseScreen != null) pauseScreen.End += pauseScreen_Unpaused;
 
             this.screens = screens;
+
+            this.EntityRespawnable = new Dictionary<string, bool[]>();
 
             this.GamePlay = gamePlay;
             PlayerPos = gamePlay.Player.GetComponent<PositionComponent>();
@@ -168,6 +176,20 @@ namespace MegaMan.Engine
             }
             else
             {
+                // enable respawn for on-death-respawn entities
+                foreach (var pair in this.screens)
+                {
+                    var screen = pair.Value;
+                    var respawns = this.EntityRespawnable[pair.Key];
+                    for (int i = 0; i < screen.Screen.EnemyInfo.Count; i++)
+                    {
+                        if (screen.Screen.EnemyInfo[i].respawn == RespawnBehavior.Death)
+                        {
+                            respawns[i] = true;
+                        }
+                    }
+                }
+
                 StartHandler();
             }
         }
@@ -243,7 +265,7 @@ namespace MegaMan.Engine
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
             CurrentScreen.BossDefeated += BossDefeated;
-            CurrentScreen.Start();
+            CurrentScreen.Start(this);
         }
 
         private void BossDefeated()
@@ -311,7 +333,6 @@ namespace MegaMan.Engine
         {
             GamePlay.Player.Death += Player_Death;
 
-            GamePlay.Player.Stopped += Player_Death;
             PlayerPos = GamePlay.Player.GetComponent<PositionComponent>();
             PlayerPos.SetPosition(new PointF(startX, 0));
 

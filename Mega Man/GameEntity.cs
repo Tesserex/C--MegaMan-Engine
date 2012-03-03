@@ -36,6 +36,7 @@ namespace MegaMan.Engine
 
         private Effect OnDeath = entity => { };
         public event Action Stopped;
+        public event Action Removed;
         public event Action Death;
 
         private GameEntity(IGameplayContainer container = null)
@@ -65,6 +66,11 @@ namespace MegaMan.Engine
 
         public void Stop() { Stop(true); }
 
+        // there are three levels of deletion. Each one fires the previous events.
+        // Stopped is used internally. Removed is used for anything forcibly removed
+        // by the game xml, and Death is used for actual enemy kills,
+        // with effects and explosions and such.
+
         private void Stop(bool remove)
         {
             if (!running) return;
@@ -76,11 +82,17 @@ namespace MegaMan.Engine
             running = false;
         }
 
+        public void Remove()
+        {
+            if (Removed != null) Removed();
+            Stop();
+        }
+
         public void Die()
         {
             OnDeath(this);
             if (Death != null) Death();
-            Stop();
+            Remove();
         }
 
         private void AddComponent(Component component)

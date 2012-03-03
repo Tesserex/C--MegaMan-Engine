@@ -8,12 +8,13 @@ namespace MegaMan.Engine
 {
     public class ScreenHandler : IScreenInformation
     {
+        private MapHandler map;
         private readonly MapSquare[][] tiles;
         public Screen Screen { get; private set; }
         private readonly List<BlocksPattern> patterns;
         private GameEntity[] entities;
+        private bool[] spawnable; // just for tracking whether the respawn point is off screen
         private readonly List<GameEntity> spawnedEntities;
-        private bool[] spawnable;
         private readonly List<JoinHandler> joins;
         private readonly List<bool> teleportEnabled;
         private readonly IGameplayContainer container;
@@ -55,18 +56,22 @@ namespace MegaMan.Engine
             playerPos = player.GetComponent<PositionComponent>();
         }
 
-        public void Start()
+        public void Start(MapHandler map)
         {
+            this.map = map;
             entities = new GameEntity[Screen.EnemyInfo.Count];
+
             spawnable = new bool[Screen.EnemyInfo.Count];
+            for (int i = 0; i < spawnable.Length; i++) { spawnable[i] = true; }
 
-            // place persistent entities
-            for (int i = 0; i < Screen.EnemyInfo.Count; i++)
+            if (!map.EntityRespawnable.ContainsKey(this.Screen.Name))
             {
-                if (entities[i] != null) continue; // already on screen
-
-                PlaceEntity(i);
+                var mapSpawns = new bool[Screen.EnemyInfo.Count];
+                for (int i = 0; i < mapSpawns.Length; i++) { mapSpawns[i] = true; }
+                map.EntityRespawnable[Screen.Name] = mapSpawns;
             }
+
+            RespawnEntities();
 
             foreach (BlocksPattern pattern in patterns)
             {
@@ -74,6 +79,11 @@ namespace MegaMan.Engine
             }
 
             container.GameThink += Instance_GameThink;
+        }
+
+        private void Instance_GameThink()
+        {
+            RespawnEntities();
         }
 
         // these frames only happen if we are not paused / scrolling
@@ -142,24 +152,6 @@ namespace MegaMan.Engine
             spawnedEntities.Add(entity);
         }
 
-        // because it is a thinking event, it happens every frame
-        private void Instance_GameThink()
-        {
-            // place any entities that have just appeared on screen
-            for (int i = 0; i < Screen.EnemyInfo.Count; i++)
-            {
-                if (entities[i] != null) continue; // already on screen
-                if (!IsOnScreen(Screen.EnemyInfo[i].screenX, Screen.EnemyInfo[i].screenY))
-                {
-                    spawnable[i] = true;    // it's off-screen, so it can spawn next time it's on screen
-                    continue;
-                }
-                if (!spawnable[i]) continue;
-
-                PlaceEntity(i);
-            }
-        }
-
         public bool IsOnScreen(float x, float y)
         {
             return x >= OffsetX && y >= OffsetY &&
@@ -167,15 +159,64 @@ namespace MegaMan.Engine
                 y <= OffsetY + Game.CurrentGame.PixelsDown;
         }
 
+        private void RespawnEntities()
+        {
+            for (int i = 0; i < Screen.EnemyInfo.Count; i++)
+            {
+                if (entities[i] != null) continue; // already on screen
+
+                var info = Screen.EnemyInfo[i];
+                var onScreen = IsOnScreen(info.screenX, info.screenY);
+
+                if (!onScreen)
+                {
+                    spawnable[i] = true;    // it's off-screen, so it can spawn next time it's on screen
+                }
+
+                switch (info.respawn)
+                {
+                    case RespawnBehavior.Offscreen:
+                        if (onScreen && spawnable[i])
+                        {
+                            PlaceEntity(i);
+                        }
+                        break;
+
+                    case RespawnBehavior.Death:
+                    case RespawnBehavior.Stage:
+                        if (onScreen && spawnable[i] &&
+                            map.EntityRespawnable[Screen.Name][i])
+                        {
+                            PlaceEntity(i);
+                        }
+                        break;
+                }
+            }
+        }
+
         private void PlaceEntity(int index)
         {
-            spawnable[index] = false;
-            EnemyCopyInfo info = Screen.EnemyInfo[index];
-
-            GameEntity enemy = GameEntity.Get(info.enemy, container);
+            EntityPlacement info = Screen.EnemyInfo[index];
+            GameEntity enemy = GameEntity.Get(info.entity, container);
             if (enemy == null) return;
             PositionComponent pos = enemy.GetComponent<PositionComponent>();
             if (!pos.PersistOffScreen && !IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
+
+            // can't respawn until the spawn point goes off screen
+            spawnable[index] = false;
+
+            switch (info.respawn)
+            {
+                case RespawnBehavior.Death:
+                case RespawnBehavior.Stage:
+                case RespawnBehavior.Never:
+                    // don't disable when it goes offscreen, just when the game asks for it to be gone
+                    enemy.Removed += () =>
+                    {
+                        this.map.EntityRespawnable[Screen.Name][index] = false;
+                    };
+                    break;
+            }
 
             enemy.Start(this);
 

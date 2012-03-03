@@ -133,8 +133,12 @@ namespace MegaMan.Engine
                     effect = LoadSpawnEffect(node);
                     break;
 
+                case "Remove":
+                    effect = entity => { entity.Remove(); };
+                    break;
+
                 case "Die":
-                    effect = entity => { entity.Stop(); };
+                    effect = entity => { entity.Die(); };
                     break;
                 
                 case "Collect":
