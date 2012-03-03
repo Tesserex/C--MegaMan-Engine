@@ -31,7 +31,7 @@ namespace MegaMan.Engine
         private Project project;
 
         private string currentPath;
-        private IHandleGameEvents currentHandler;
+        private Stack<IHandleGameEvents> handlerStack;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -73,9 +73,9 @@ namespace MegaMan.Engine
         public void Unload()
         {
             Engine.Instance.Stop();
-            if (currentHandler != null)
+            while (handlerStack.Count > 0)
             {
-                currentHandler.StopHandler();
+                handlerStack.Pop().StopHandler();
             }
             GameEntity.UnloadAll();
             Engine.Instance.UnloadAudio();
@@ -96,6 +96,7 @@ namespace MegaMan.Engine
         {
             Gravity = 0.25f;
             GravityFlip = false;
+            handlerStack = new Stack<IHandleGameEvents>();
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -216,21 +217,61 @@ namespace MegaMan.Engine
             }
         }
 
+        public void ProcessHandler(HandlerTransfer handler)
+        {
+            switch (handler.Mode)
+            {
+                case HandlerMode.Next:
+                    EndHandler(handler);
+                    break;
+
+                case HandlerMode.Push:
+                    if (handlerStack.Count > 0)
+                    {
+                        handlerStack.Peek().PauseHandler();
+                    }
+                    StartHandler(handler);
+                    break;
+
+                case HandlerMode.Pop:
+                    if (handlerStack.Count > 0)
+                    {
+                        var top = handlerStack.Pop();
+                        top.StopHandler();
+                        top.End -= ProcessHandler;
+                        if (handlerStack.Count > 0)
+                        {
+                            handlerStack.Peek().ResumeHandler();
+                        }
+                    }
+                    break;
+            }
+        }
+
         private void EndHandler(HandlerTransfer nextHandler)
         {
-            currentHandler.End -= EndHandler;
+            foreach (var handler in handlerStack)
+            {
+                handler.End -= ProcessHandler;
+            }
 
             if (nextHandler.Fade)
             {
                 Engine.Instance.FadeTransition(() =>
                 {
-                    currentHandler.StopHandler();
+                    while (handlerStack.Count > 0)
+                    {
+                        handlerStack.Pop().StopHandler();
+                    }
                     StartHandler(nextHandler);
                 });
             }
             else
             {
-                currentHandler.StopHandler();
+                while (handlerStack.Count > 0)
+                {
+                    handlerStack.Pop().StopHandler();
+                }
                 StartHandler(nextHandler);
             }
         }
@@ -263,17 +304,17 @@ namespace MegaMan.Engine
         private void StartMenu(string name)
         {
             var menu = Menu.Get(name);
-            menu.End += EndHandler;
+            menu.End += ProcessHandler;
             menu.StartHandler();
-            currentHandler = menu;
+            handlerStack.Push(menu);
         }
 
         private void StartScene(string name)
         {
             var scene = Scene.Get(name);
-            scene.End += EndHandler;
+            scene.End += ProcessHandler;
             scene.StartHandler();
-            currentHandler = scene;
+            handlerStack.Push(scene);
         }
 
         private void StartMap(string name, string screen = null, Point? startPosition = null)
@@ -288,16 +329,16 @@ namespace MegaMan.Engine
 
             try
             {
-                var map = factory.CreateMap(stage, project.PauseScreen);
+                var map = factory.CreateMap(stage);
 
                 if (screen != null && startPosition != null)
                 {
                     map.SetTestingStartPosition(screen, startPosition.Value);
                 }
 
-                currentHandler = map;
-                currentHandler.StartHandler();
-                currentHandler.End += EndHandler;
+                handlerStack.Push(map);
+                map.StartHandler();
+                map.End += ProcessHandler;
             }
             catch (XmlException e)
             {
@@ -314,8 +355,8 @@ namespace MegaMan.Engine
             }
 
             var select = new StageSelect(selectInfo);
-            currentHandler = select;
-            select.End += EndHandler;
+            handlerStack.Push(select);
+            select.End += ProcessHandler;
             select.StartHandler();
         }
 
@@ -333,7 +374,9 @@ namespace MegaMan.Engine
 
         public void DebugEmptyHealth()
         {
-            var map = currentHandler as MapHandler;
+            if (handlerStack.Count == 0) return;
+
+            var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
                 map.GamePlay.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
@@ -342,7 +385,9 @@ namespace MegaMan.Engine
 
         public void DebugFillHealth()
         {
-            var map = currentHandler as MapHandler;
+            if (handlerStack.Count == 0) return;
+
+            var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
                 map.GamePlay.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
@@ -351,7 +396,9 @@ namespace MegaMan.Engine
 
         public void DebugEmptyWeapon()
         {
-            var map = currentHandler as MapHandler;
+            if (handlerStack.Count == 0) return;
+
+            var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
                 var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();
@@ -364,7 +411,9 @@ namespace MegaMan.Engine
 
         public void DebugFillWeapon()
         {
-            var map = currentHandler as MapHandler;
+            if (handlerStack.Count == 0) return;
+
+            var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
                 var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();

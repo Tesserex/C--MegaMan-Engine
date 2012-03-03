@@ -41,12 +41,22 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
+            ResumeHandler();
+        }
+
+        public void PauseHandler()
+        {
+            Engine.Instance.GameLogicTick -= GameTick;
+        }
+
+        public void ResumeHandler()
+        {
             Engine.Instance.GameLogicTick += GameTick;
         }
 
         public void StopHandler()
         {
-            Engine.Instance.GameLogicTick -= GameTick;
+            PauseHandler();
         }
 
         public void EndPlay()

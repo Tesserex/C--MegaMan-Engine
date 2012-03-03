@@ -44,20 +44,31 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
-            Engine.Instance.GameLogicTick += Tick;
-            Engine.Instance.GameRender += GameRender;
-            Engine.Instance.GameInputReceived += GameInputReceived;
+            ResumeHandler();
 
             this.state = this.info.States[0];
             ResetState();
             RunCommands(this.state.Commands);
         }
 
-        public void StopHandler()
+        public void PauseHandler()
         {
             Engine.Instance.GameLogicTick -= Tick;
             Engine.Instance.GameRender -= GameRender;
             Engine.Instance.GameInputReceived -= GameInputReceived;
+        }
+
+        public void ResumeHandler()
+        {
+            Engine.Instance.GameLogicTick += Tick;
+            Engine.Instance.GameRender += GameRender;
+            Engine.Instance.GameInputReceived += GameInputReceived;
+        }
+
+        public void StopHandler()
+        {
+            PauseHandler();
+
             foreach (var entity in entities)
             {
                 entity.Stop();
@@ -387,6 +398,9 @@ namespace MegaMan.Engine
         public static void Load(XElement node)
         {
             var info = MenuInfo.FromXml(node, Game.CurrentGame.BasePath);
+
+            if (menus.ContainsKey(info.Name)) throw new GameXmlException(node, String.Format("You have two Menus with the name of {0} - names must be unique.", info.Name));
+
             menus.Add(info.Name, new Menu(info));
         }
 

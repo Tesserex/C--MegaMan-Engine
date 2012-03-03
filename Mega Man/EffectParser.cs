@@ -204,6 +204,11 @@ namespace MegaMan.Engine
                     effect = entity => { entity.Paused = false; };
                     break;
 
+                case "Next":
+                    var transfer = HandlerTransfer.FromXml(node);
+                    effect = e => { Game.CurrentGame.ProcessHandler(transfer); };
+                    break;
+
                 default:
                     effect = GameEntity.ParseComponentEffect(node);
                     break;

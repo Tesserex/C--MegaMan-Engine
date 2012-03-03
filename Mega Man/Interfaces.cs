@@ -9,6 +9,8 @@ namespace MegaMan.Engine
     {
         void StartHandler();
         void StopHandler();
+        void PauseHandler();
+        void ResumeHandler();
 
         event Action<HandlerTransfer> End;
     }

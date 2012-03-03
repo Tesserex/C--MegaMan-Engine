@@ -33,8 +33,6 @@ namespace MegaMan.Engine
             private set;
         }
 
-        private PauseScreen pauseScreen;
-
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
@@ -52,10 +50,9 @@ namespace MegaMan.Engine
 
         public event Action<HandlerTransfer> End;
 
-        public MapHandler(Map map, PauseScreen pauseScreen, Dictionary<string, ScreenHandler> screens, GamePlay gamePlay)
+        public MapHandler(Map map, Dictionary<string, ScreenHandler> screens, GamePlay gamePlay)
         {
             Map = map;
-            this.pauseScreen = pauseScreen;
             startScreen = Map.StartScreen;
             if (string.IsNullOrEmpty(startScreen)) startScreen = Map.Screens.Keys.First();
             startX = Map.PlayerStartX;
@@ -71,8 +68,6 @@ namespace MegaMan.Engine
             readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
-
-            if (pauseScreen != null) pauseScreen.End += pauseScreen_Unpaused;
 
             this.screens = screens;
 
@@ -348,8 +343,7 @@ namespace MegaMan.Engine
             // updateFunc isn't set until BeginPlay
             drawFunc = Draw;
 
-            Unpause();
-            FinishUnpause();
+            ResumeHandler();
 
             // ready flashing
             readyBlinkTime = 0;
@@ -375,93 +369,50 @@ namespace MegaMan.Engine
             if (music != null) music.Stop();
             if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
 
-            if (pauseScreen != null) pauseScreen.StopHandler();
-
-            Pause();
+            PauseHandler();
 
             Engine.Instance.GameRender -= BlinkReady;
         }
 
-        private void Pause()
+        public void PauseHandler()
         {
-            GamePlay.StopHandler();
+            GamePlay.PauseHandler();
+            GamePlay.Player.Paused = true;
 
             Engine.Instance.GameLogicTick -= GameTick;
             Engine.Instance.GameRender -= GameRender;
+            Engine.Instance.GameInputReceived -= GameInputReceived;
         }
 
-        private void Unpause()
+        public void ResumeHandler()
         {
             Engine.Instance.GameLogicTick += GameTick;
             Engine.Instance.GameRender += GameRender;
+            Engine.Instance.GameInputReceived += GameInputReceived;
 
-            GamePlay.StartHandler();
+            GamePlay.ResumeHandler();
+            GamePlay.Player.Paused = false;
+
+            Game.CurrentGame.Unpause();
         }
 
         private void GameInputReceived(GameInputEventArgs e)
         {
             if (updateFunc == null || (GamePlay.Player.GetComponent<InputComponent>()).Paused) return;
+
+            /* This might be useful even though pause screens are replaced
             if (e.Input == GameInput.Start && e.Pressed)
             {
-                // has to handle both pause and unpause, in case a pause screen isn't defined
-                if (pauseScreen == null)
+                if (Game.CurrentGame.Paused)
                 {
-                    if (Game.CurrentGame.Paused)
-                    {
-                        Game.CurrentGame.Unpause();
-                    }
-                    else
-                    {
-                        Game.CurrentGame.Pause();
-                    }
+                    Game.CurrentGame.Unpause();
                 }
                 else
                 {
-                    // clearly we are unpaused, otherwise we would not be receiving this input
                     Game.CurrentGame.Pause();
-                    Engine.Instance.GameInputReceived -= GameInputReceived;
-                    pauseScreen.Sound();
-                    Engine.Instance.FadeTransition(OpenPauseScreen, FinishPause);
                 }
             }
-        }
-
-        private void OpenPauseScreen()
-        {
-            Pause();
-            if (pauseScreen != null)
-            {
-                pauseScreen.StartHandler();
-            }
-        }
-
-        private void FinishPause()
-        {
-            if (pauseScreen != null) pauseScreen.StartInput();
-        }
-
-        private void pauseScreen_Unpaused(HandlerTransfer nextHandler)
-        {
-            pauseScreen.Sound();
-
-            if (pauseScreen != null) pauseScreen.StopInput();
-
-            Engine.Instance.FadeTransition(ClosePauseScreen, FinishUnpause);
-        }
-
-        private void ClosePauseScreen()
-        {
-            Unpause();
-            if (pauseScreen != null) 
-            {
-                pauseScreen.StopHandler();
-            }
-        }
-
-        private void FinishUnpause()
-        {
-            Engine.Instance.GameInputReceived += GameInputReceived;
-            Game.CurrentGame.Unpause();
+            */
         }
 
         private void GameTick(GameTickEventArgs e)

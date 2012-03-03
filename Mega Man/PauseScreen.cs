@@ -91,6 +91,9 @@ namespace MegaMan.Engine
             }
         }
 
+        public void PauseHandler() { }
+        public void ResumeHandler() { }
+
         public void StopHandler()
         {
             if (hasInput) StopInput();

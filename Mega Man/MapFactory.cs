@@ -10,7 +10,7 @@ namespace MegaMan.Engine
     {
         public GamePlay GamePlay { get; private set; }
 
-        public MapHandler CreateMap(StageInfo info, Common.PauseScreen pauseScreenInfo)
+        public MapHandler CreateMap(StageInfo info)
         {
             Map map = new Map(info.StagePath);
 
@@ -20,12 +20,6 @@ namespace MegaMan.Engine
 
             // TODO: Remove this circular dependency
             GamePlay.Player = Player;
-
-            PauseScreen pauseScreen = null;
-            if (pauseScreenInfo != null)
-            {
-                pauseScreen = new PauseScreen(pauseScreenInfo, GamePlay);
-            }
 
             var joins = new Dictionary<Screen, Dictionary<Join, JoinHandler>>();
             var bossDoors = new Dictionary<Screen, Dictionary<Join, GameEntity>>();
@@ -72,7 +66,7 @@ namespace MegaMan.Engine
                 screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
             }
 
-            var handler = new MapHandler(map, pauseScreen, screens, GamePlay);
+            var handler = new MapHandler(map, screens, GamePlay);
             handler.WinHandler = info.WinHandler;
 
             if (info.LoseHandler == null)

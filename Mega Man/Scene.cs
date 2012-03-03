@@ -33,6 +33,18 @@ namespace MegaMan.Engine
         public void StartHandler()
         {
             frame = 0;
+            ResumeHandler();
+        }
+
+        public void PauseHandler()
+        {
+            Engine.Instance.GameLogicTick -= Tick;
+            Engine.Instance.GameRender -= GameRender;
+            Engine.Instance.GameInputReceived -= GameInputReceived;
+        }
+
+        public void ResumeHandler()
+        {
             Engine.Instance.GameLogicTick += Tick;
             Engine.Instance.GameRender += GameRender;
             Engine.Instance.GameInputReceived += GameInputReceived;
@@ -40,9 +52,8 @@ namespace MegaMan.Engine
 
         public void StopHandler()
         {
-            Engine.Instance.GameLogicTick -= Tick;
-            Engine.Instance.GameRender -= GameRender;
-            Engine.Instance.GameInputReceived -= GameInputReceived;
+            PauseHandler();
+
             foreach (var entity in entities)
             {
                 entity.Stop();
@@ -256,6 +267,9 @@ namespace MegaMan.Engine
         public static void LoadScene(XElement node)
         {
             var info = SceneInfo.FromXml(node, Game.CurrentGame.BasePath);
+
+            if (scenes.ContainsKey(info.Name)) throw new GameXmlException(node, String.Format("You have two Scenes with the name of {0} - names must be unique.", info.Name));
+
             scenes.Add(info.Name, new Scene(info));
         }
 

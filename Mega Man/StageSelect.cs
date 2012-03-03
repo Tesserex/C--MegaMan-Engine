@@ -140,6 +140,9 @@ namespace MegaMan.Engine
             else if (musicStageSelect != null) musicStageSelect.Stop();
         }
 
+        public void PauseHandler() { }
+        public void ResumeHandler() { }
+
         public void GameInputReceived(GameInputEventArgs e)
         {
             if (!e.Pressed) return;

@@ -88,7 +88,7 @@ namespace MegaMan.Engine
 
             dict[e.Input] = e.Pressed;
 
-            if (!Paused)
+            if (!Paused && !Parent.Paused)
             {
                 switch (e.Input)
                 {
