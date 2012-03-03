@@ -35,7 +35,7 @@ namespace MegaMan.Engine
         public bool FlipSprite { get; set; }
 
         public bool CanMove { get; set; }
-        public Direction Direction { get; private set; }
+        public Direction Direction { get; set; }
 
         private PositionComponent position;
         private CollisionComponent collision;

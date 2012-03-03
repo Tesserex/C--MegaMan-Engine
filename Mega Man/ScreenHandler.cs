@@ -218,6 +218,9 @@ namespace MegaMan.Engine
                     break;
             }
 
+            // eventually these will use the same enum, once the main Direction enum moves to common
+            enemy.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
+
             enemy.Start(this);
 
             pos.SetPosition(new PointF(info.screenX, info.screenY));

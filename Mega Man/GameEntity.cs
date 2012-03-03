@@ -32,6 +32,11 @@ namespace MegaMan.Engine
                 if (movement != null) return movement.Direction;
                 return Direction.Right;
             }
+            set
+            {
+                MovementComponent movement = GetComponent<MovementComponent>();
+                if (movement != null) movement.Direction = value;
+            }
         }
 
         private Effect OnDeath = entity => { };
