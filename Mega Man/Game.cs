@@ -226,7 +226,7 @@ namespace MegaMan.Engine
                     break;
 
                 case HandlerMode.Push:
-                    if (handlerStack.Count > 0)
+                    if (handlerStack.Count > 0 && handler.Pause)
                     {
                         handlerStack.Peek().PauseHandler();
                     }

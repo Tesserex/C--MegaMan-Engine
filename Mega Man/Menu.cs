@@ -51,18 +51,24 @@ namespace MegaMan.Engine
             RunCommands(this.state.Commands);
         }
 
+        private bool running;
+
         public void PauseHandler()
         {
+            if (!running) return;
             Engine.Instance.GameLogicTick -= Tick;
             Engine.Instance.GameRender -= GameRender;
             Engine.Instance.GameInputReceived -= GameInputReceived;
+            running = false;
         }
 
         public void ResumeHandler()
         {
+            if (running) return;
             Engine.Instance.GameLogicTick += Tick;
             Engine.Instance.GameRender += GameRender;
             Engine.Instance.GameInputReceived += GameInputReceived;
+            running = true;
         }
 
         public void StopHandler()
