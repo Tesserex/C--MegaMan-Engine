@@ -354,6 +354,11 @@ namespace MegaMan.Engine
 
         private void RemoveCommand(SceneRemoveCommandInfo command)
         {
+            if (!objects.ContainsKey(command.Name))
+            {
+                throw new GameRunException(String.Format("The menu '{0}' referenced an object called '{1}', which doesn't exist.", this.info.Name, command.Name));
+            }
+
             objects[command.Name].Stop();
             objects.Remove(command.Name);
         }
