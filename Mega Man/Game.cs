@@ -226,22 +226,77 @@ namespace MegaMan.Engine
                     break;
 
                 case HandlerMode.Push:
-                    if (handlerStack.Count > 0 && handler.Pause)
+                    if (handler.Fade)
                     {
-                        handlerStack.Peek().PauseHandler();
+                        if (handlerStack.Count > 0 && handler.Pause)
+                        {
+                            var top = handlerStack.Peek();
+                            top.PauseHandler();
+                        }
+
+                        Engine.Instance.FadeTransition(() =>
+                        {
+                            if (handlerStack.Count > 0 && handler.Pause)
+                            {
+                                var top = handlerStack.Peek();
+                                top.StopDrawing();
+                            }
+                            StartHandler(handler);
+                            handlerStack.Peek().PauseHandler();
+                        },
+                        () => {
+                            handlerStack.Peek().ResumeHandler();
+                        });
                     }
-                    StartHandler(handler);
+                    else
+                    {
+                        if (handlerStack.Count > 0 && handler.Pause)
+                        {
+                            var top = handlerStack.Peek();
+                            top.PauseHandler();
+                            top.StopDrawing();
+                        }
+                        StartHandler(handler);
+                    }
                     break;
 
                 case HandlerMode.Pop:
-                    if (handlerStack.Count > 0)
+                    if (handler.Fade)
                     {
-                        var top = handlerStack.Pop();
-                        top.StopHandler();
-                        top.End -= ProcessHandler;
+                        IHandleGameEvents top = null;
                         if (handlerStack.Count > 0)
                         {
-                            handlerStack.Peek().ResumeHandler();
+                            top = handlerStack.Pop();
+                            top.PauseHandler();
+                            top.End -= ProcessHandler;
+                        }
+                        Engine.Instance.FadeTransition(() =>
+                        {
+                            if (top != null) top.StopHandler();
+                            if (handlerStack.Count > 0)
+                            {
+                                handlerStack.Peek().StartDrawing();
+                            }
+                        },
+                        () =>
+                        {
+                            if (handlerStack.Count > 0)
+                            {
+                                handlerStack.Peek().ResumeHandler();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        if (handlerStack.Count > 0)
+                        {
+                            var top = handlerStack.Pop();
+                            top.StopHandler();
+                            top.End -= ProcessHandler;
+                            if (handlerStack.Count > 0)
+                            {
+                                handlerStack.Peek().ResumeHandler();
+                            }
                         }
                     }
                     break;

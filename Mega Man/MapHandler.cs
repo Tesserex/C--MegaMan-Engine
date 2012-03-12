@@ -344,6 +344,7 @@ namespace MegaMan.Engine
             drawFunc = Draw;
 
             ResumeHandler();
+            StartDrawing();
 
             // ready flashing
             readyBlinkTime = 0;
@@ -370,6 +371,7 @@ namespace MegaMan.Engine
             if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
 
             PauseHandler();
+            StopDrawing();
 
             Engine.Instance.GameRender -= BlinkReady;
         }
@@ -383,8 +385,8 @@ namespace MegaMan.Engine
             GamePlay.Player.Paused = true;
 
             Engine.Instance.GameLogicTick -= GameTick;
-            Engine.Instance.GameRender -= GameRender;
             Engine.Instance.GameInputReceived -= GameInputReceived;
+            
             running = false;
         }
 
@@ -392,7 +394,6 @@ namespace MegaMan.Engine
         {
             if (running) return;
             Engine.Instance.GameLogicTick += GameTick;
-            Engine.Instance.GameRender += GameRender;
             Engine.Instance.GameInputReceived += GameInputReceived;
 
             GamePlay.ResumeHandler();
@@ -400,6 +401,16 @@ namespace MegaMan.Engine
 
             Game.CurrentGame.Unpause();
             running = true;
+        }
+
+        public void StopDrawing()
+        {
+            Engine.Instance.GameRender -= GameRender;
+        }
+
+        public void StartDrawing()
+        {
+            Engine.Instance.GameRender += GameRender;
         }
 
         private void GameInputReceived(GameInputEventArgs e)

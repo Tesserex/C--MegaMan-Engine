@@ -93,6 +93,8 @@ namespace MegaMan.Engine
 
         public void PauseHandler() { }
         public void ResumeHandler() { }
+        public void StartDrawing() { }
+        public void StopDrawing() { }
 
         public void StopHandler()
         {

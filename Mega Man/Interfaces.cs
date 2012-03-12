@@ -11,6 +11,8 @@ namespace MegaMan.Engine
         void StopHandler();
         void PauseHandler();
         void ResumeHandler();
+        void StopDrawing();
+        void StartDrawing();
 
         event Action<HandlerTransfer> End;
     }

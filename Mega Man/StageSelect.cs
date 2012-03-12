@@ -142,6 +142,8 @@ namespace MegaMan.Engine
 
         public void PauseHandler() { }
         public void ResumeHandler() { }
+        public void StopDrawing() { }
+        public void StartDrawing() { }
 
         public void GameInputReceived(GameInputEventArgs e)
         {

@@ -59,6 +59,10 @@ namespace MegaMan.Engine
             PauseHandler();
         }
 
+        public void StopDrawing() { }
+
+        public void StartDrawing() { }
+
         public void EndPlay()
         {
             if (End != null) End(null);

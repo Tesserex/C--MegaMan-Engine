@@ -34,6 +34,7 @@ namespace MegaMan.Engine
         {
             frame = 0;
             ResumeHandler();
+            StartDrawing();
         }
 
         private bool running;
@@ -42,8 +43,8 @@ namespace MegaMan.Engine
         {
             if (!running) return;
             Engine.Instance.GameLogicTick -= Tick;
-            Engine.Instance.GameRender -= GameRender;
             Engine.Instance.GameInputReceived -= GameInputReceived;
+            
             running = false;
         }
 
@@ -51,14 +52,24 @@ namespace MegaMan.Engine
         {
             if (running) return;
             Engine.Instance.GameLogicTick += Tick;
-            Engine.Instance.GameRender += GameRender;
             Engine.Instance.GameInputReceived += GameInputReceived;
             running = true;
+        }
+
+        public void StopDrawing() 
+        {
+            Engine.Instance.GameRender -= GameRender;
+        }
+
+        public void StartDrawing()
+        {
+            Engine.Instance.GameRender += GameRender;
         }
 
         public void StopHandler()
         {
             PauseHandler();
+            StopDrawing();
 
             foreach (var entity in entities)
             {
