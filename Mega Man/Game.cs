@@ -345,10 +345,6 @@ namespace MegaMan.Engine
                         StartMap(handler.Name);
                         break;
 
-                    case HandlerType.StageSelect:
-                        StageSelect(handler.Name);
-                        break;
-
                     case HandlerType.Menu:
                         StartMenu(handler.Name);
                         break;
@@ -419,20 +415,6 @@ namespace MegaMan.Engine
             {
                 throw new GameRunException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
             }
-        }
-
-        private void StageSelect(string name)
-        {
-            var selectInfo = project.StageSelects.FirstOrDefault(s => s.Name == name);
-            if (selectInfo == null)
-            {
-                throw new GameEntityException(String.Format("I couldn't find a stage select called {0}. Sorry.", name));
-            }
-
-            var select = new StageSelect(selectInfo);
-            handlerStack.Push(select);
-            select.End += ProcessHandler;
-            select.StartHandler();
         }
 
         public void Pause()

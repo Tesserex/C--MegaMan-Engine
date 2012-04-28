@@ -162,11 +162,9 @@
     <Compile Include="MapSquare.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Menu.cs" />
-    <Compile Include="MenuSelectable.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MovementComponent.cs" />
     <Compile Include="Music.cs" />
-    <Compile Include="PauseScreen.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PositionComponent.cs" />
     <Compile Include="const.cs" />
@@ -218,7 +216,6 @@
     <Compile Include="SoundEffect.cs" />
     <Compile Include="SoundSystem.cs" />
     <Compile Include="SpriteComponent.cs" />
-    <Compile Include="StageSelect.cs" />
     <Compile Include="StateComponent.cs" />
     <Compile Include="TimerComponent.cs" />
     <Compile Include="WeaponComponent.cs" />
