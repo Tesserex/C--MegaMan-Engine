@@ -120,6 +120,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingSource.cs" />
     <Compile Include="BlocksPattern.cs" />
     <Compile Include="BossDoorHandler.cs" />
     <Compile Include="CollisionBox.cs" />

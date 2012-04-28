@@ -141,7 +141,7 @@ namespace MegaMan.Engine
                     effect = entity => { entity.Die(); };
                     break;
                 
-                case "Collect":
+                case "AddInventory":
                     string itemName = node.RequireAttribute("item").Value;
                     int quantity;
                     bool hasQuantity = GameXml.TryInteger(node, "quantity", out quantity);
@@ -152,6 +152,20 @@ namespace MegaMan.Engine
                     effect = entity =>
                     {
                         Game.CurrentGame.Player.CollectItem(itemName, quantity);
+                    };
+                    break;
+
+                case "RemoveInventory":
+                    string itemNameUse = node.RequireAttribute("item").Value;
+                    int quantityUse;
+                    bool hasQuantityUse = GameXml.TryInteger(node, "quantity", out quantityUse);
+
+                    if (!hasQuantityUse)
+                        quantityUse = 1;
+
+                    effect = entity =>
+                    {
+                        Game.CurrentGame.Player.UseItem(itemNameUse, quantityUse);
                     };
                     break;
 

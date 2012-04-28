@@ -360,6 +360,16 @@ namespace MegaMan.Engine
         {
             var menu = Menu.Get(name);
             menu.End += ProcessHandler;
+
+            if (handlerStack.Count > 0)
+            {
+                var top = handlerStack.Peek();
+                if (top != null && top is IGameplayContainer && ((IGameplayContainer)top).Player != null)
+                {
+                    menu.Player = ((IGameplayContainer)top).Player;
+                }
+            }
+
             menu.StartHandler();
             handlerStack.Push(menu);
         }
@@ -368,6 +378,16 @@ namespace MegaMan.Engine
         {
             var scene = Scene.Get(name);
             scene.End += ProcessHandler;
+
+            if (handlerStack.Count > 0)
+            {
+                var top = handlerStack.Peek();
+                if (top != null && top is IGameplayContainer && ((IGameplayContainer)top).Player != null)
+                {
+                    scene.Player = ((IGameplayContainer)top).Player;
+                }
+            }
+
             scene.StartHandler();
             handlerStack.Push(scene);
         }

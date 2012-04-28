@@ -100,7 +100,8 @@ namespace MegaMan.Engine
 
         public GameEntity Player
         {
-            get { return null; }
+            get;
+            set;
         }
 
         public int TileSize
@@ -292,12 +293,12 @@ namespace MegaMan.Engine
                         PlayMusicCommand((ScenePlayCommandInfo)cmd);
                         break;
 
-                    case SceneCommands.Sprite:
-                        SpriteCommand((SceneSpriteCommandInfo)cmd);
+                    case SceneCommands.Add:
+                        AddCommand((SceneAddCommandInfo)cmd);
                         break;
 
-                    case SceneCommands.SpriteMove:
-                        SpriteMoveCommand((SceneSpriteMoveCommandInfo)cmd);
+                    case SceneCommands.Move:
+                        MoveCommand((SceneMoveCommandInfo)cmd);
                         break;
 
                     case SceneCommands.Remove:
@@ -327,7 +328,19 @@ namespace MegaMan.Engine
                     case SceneCommands.Next:
                         NextCommand((SceneNextCommandInfo)cmd);
                         break;
+
+                    case SceneCommands.Call:
+                        CallCommand((SceneCallCommandInfo)cmd);
+                        break;
                 }
+            }
+        }
+
+        private void CallCommand(SceneCallCommandInfo command)
+        {
+            if (this.Player != null)
+            {
+                EffectParser.GetEffect(command.Name)(this.Player);
             }
         }
 
@@ -336,15 +349,25 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
         }
 
-        private void SpriteCommand(SceneSpriteCommandInfo command)
+        private void AddCommand(SceneAddCommandInfo command)
         {
-            var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
-            obj.Start();
+            var obj = info.Objects[command.Object];
+
+            ISceneObject handler = null;
+            if (obj is HandlerSprite)
+            {
+                handler = new SceneSprite(((HandlerSprite)obj).Sprite, new Point(command.X, command.Y));
+            }
+            else if (obj is MeterInfo)
+            {
+                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false, this));
+            }
+            handler.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
-            if (!objects.ContainsKey(name)) objects.Add(name, obj);
+            if (!objects.ContainsKey(name)) objects.Add(name, handler);
         }
 
-        private void SpriteMoveCommand(SceneSpriteMoveCommandInfo command)
+        private void MoveCommand(SceneMoveCommandInfo command)
         {
             SceneSprite obj = objects[command.Name] as SceneSprite;
             if (obj != null)
@@ -356,7 +379,7 @@ namespace MegaMan.Engine
 
         private void TextCommand(SceneTextCommandInfo command)
         {
-            var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
+            var obj = new SceneText(command, this);
             obj.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
             if (!objects.ContainsKey(name)) objects.Add(name, obj);

@@ -86,7 +86,8 @@ namespace MegaMan.Engine
 
         public GameEntity Player
         {
-            get { return null; }
+            get;
+            set;
         }
 
         public int TileSize
@@ -192,8 +193,8 @@ namespace MegaMan.Engine
                         PlayMusicCommand((ScenePlayCommandInfo)cmd);
                         break;
 
-                    case SceneCommands.Sprite:
-                        SpriteCommand((SceneSpriteCommandInfo)cmd);
+                    case SceneCommands.Add:
+                        AddCommand((SceneAddCommandInfo)cmd);
                         break;
 
                     case SceneCommands.Remove:
@@ -214,7 +215,7 @@ namespace MegaMan.Engine
 
                     case SceneCommands.FillMove:
                         FillMoveCommand((SceneFillMoveCommandInfo)cmd);
-                        break;
+                        break;  
                 }
             }
         }
@@ -224,17 +225,27 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
         }
 
-        private void SpriteCommand(SceneSpriteCommandInfo command)
+        private void AddCommand(SceneAddCommandInfo command)
         {
-            var obj = new SceneSprite(info.Sprites[command.Sprite], new Point(command.X, command.Y));
-            obj.Start();
+            var obj = info.Objects[command.Object];
+
+            ISceneObject handler = null;
+            if (obj is HandlerSprite)
+            {
+                handler = new SceneSprite(((HandlerSprite)obj).Sprite, new Point(command.X, command.Y));
+            }
+            else if (obj is MeterInfo)
+            {
+                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false, this));
+            }
+            handler.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
-            if (!objects.ContainsKey(name)) objects.Add(name, obj);
+            if (!objects.ContainsKey(name)) objects.Add(name, handler);
         }
 
         private void TextCommand(SceneTextCommandInfo command)
         {
-            var obj = new SceneText(command.Content, command.Speed, command.X, command.Y);
+            var obj = new SceneText(command, this);
             obj.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
@@ -386,24 +397,36 @@ namespace MegaMan.Engine
 
     public class SceneText : ISceneObject
     {
-        private string content;
+        public string Content { get; set; }
+
         private string displayed = "";
         private int speed;
         private int frame;
         private Vector2 position;
+        private Binding binding;
 
-        public SceneText(string content, int? speed, int x, int y)
+        public SceneText(SceneTextCommandInfo info, IGameplayContainer scene)
         {
-            this.content = content;
-            this.speed = speed ?? 0;
-            this.position = new Vector2(x, y);
+            this.Content = info.Content ?? String.Empty;
+            this.speed = info.Speed ?? 0;
+            this.position = new Vector2(info.X, info.Y);
+
+            if (info.Binding != null)
+            {
+                this.binding = Binding.Create(info.Binding, this, scene);
+            }
         }
 
         public void Start()
         {
+            if (this.binding != null)
+            {
+                this.binding.Start();
+            }
+
             if (speed == 0)
             {
-                displayed = content;
+                displayed = Content;
             }
             else
             {
@@ -414,6 +437,11 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
+            if (this.binding != null)
+            {
+                this.binding.Stop();
+            }
+
             if (speed != 0)
             {
                 Engine.Instance.GameLogicTick -= Update;
@@ -423,10 +451,10 @@ namespace MegaMan.Engine
         private void Update(GameTickEventArgs e)
         {
             frame++;
-            if (frame >= speed && displayed.Length < content.Length)
+            if (frame >= speed && displayed.Length < Content.Length)
             {
                 // add a character to the displayed text
-                displayed += content.Substring(displayed.Length, 1);
+                displayed += Content.Substring(displayed.Length, 1);
                 frame = 0;
             }
         }
@@ -497,6 +525,31 @@ namespace MegaMan.Engine
                 height = stopHeight;
                 Engine.Instance.GameLogicTick -= Update;
             }
+        }
+    }
+
+    public class SceneMeter : ISceneObject
+    {
+        public HealthMeter Meter { get; set; }
+
+        public SceneMeter(HealthMeter meter)
+        {
+            this.Meter = meter;
+        }
+
+        public void Start()
+        {
+            Meter.StartHandler();
+        }
+
+        public void Stop()
+        {
+            Meter.StopHandler();
+        }
+
+        public void Draw(GameGraphicsLayers layers, Color opacity)
+        {
+            Meter.Draw(layers.SpritesBatch[3]);
         }
     }
 }

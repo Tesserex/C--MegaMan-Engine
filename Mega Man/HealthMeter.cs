@@ -10,8 +10,9 @@ namespace MegaMan.Engine
 {
     public class HealthMeter
     {
+        private Binding binding;
         private float value;
-        private float maxvalue;
+        private float maxvalue = 28;
         private float tickSize;
         private Texture2D meterTexture;
         private Texture2D tickTexture;
@@ -156,6 +157,11 @@ namespace MegaMan.Engine
             positionX = info.Position.X;
             positionY = info.Position.Y;
 
+            if (info.Binding != null)
+            {
+                this.binding = Binding.Create(info.Binding, this, container);
+            }
+
             if (tickTexture != null) tickTexture.Dispose();
             StreamReader srTick = new StreamReader(info.TickImage.Absolute);
             tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
@@ -248,12 +254,22 @@ namespace MegaMan.Engine
 
         public void StartHandler()
         {
+            if (this.binding != null)
+            {
+                this.binding.Start();
+            }
+
             Engine.Instance.GameRender += GameRender;
             running = true;
         }
 
         public void StopHandler()
         {
+            if (this.binding != null)
+            {
+                this.binding.Stop();
+            }
+
             Engine.Instance.GameLogicTick -= GameTick;
             Engine.Instance.GameRender -= GameRender;
             running = false;

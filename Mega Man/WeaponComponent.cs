@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
+using System;
 
 namespace MegaMan.Engine
 {
@@ -21,6 +22,8 @@ namespace MegaMan.Engine
 
         private List<WeaponInfo> weapons = new List<WeaponInfo>();
         private int current;
+
+        public event Action<string, int> AmmoChanged;
 
         public string CurrentWeapon { get { return weapons[current].Name; } }
 
@@ -158,6 +161,11 @@ namespace MegaMan.Engine
             if (weapons[current].Ammo > weapons[current].Max) weapons[current].Ammo = weapons[current].Max;
 
             if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
+
+            if (AmmoChanged != null)
+            {
+                AmmoChanged(weapons[current].Name, weapons[current].Ammo);
+            }
         }
 
         public void AddWeapon(string name, string entity, int ammo, int usage, HealthMeter meter, string spritegroup)

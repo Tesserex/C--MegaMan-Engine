@@ -8,8 +8,10 @@ namespace MegaMan.Engine
     public class Player
     {
         public int Lives { get; set; }
+        public event Action<int> LivesChanged;
 
         private Dictionary<string, int> inventory;
+        public event Action<string, int> InventoryChanged;
 
         public Player()
         {
@@ -25,6 +27,8 @@ namespace MegaMan.Engine
             }
 
             inventory[itemName] += quantity;
+
+            if (InventoryChanged != null) InventoryChanged(itemName, inventory[itemName]);
         }
 
         public bool UseItem(string itemName, int quantity = 1)
@@ -35,6 +39,9 @@ namespace MegaMan.Engine
             }
 
             inventory[itemName] -= quantity;
+
+            if (InventoryChanged != null) InventoryChanged(itemName, inventory[itemName]);
+
             return true;
         }
 
