@@ -10,13 +10,13 @@ using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private string settingsPath;
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private int widthZoom, heightZoom, width, height;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 

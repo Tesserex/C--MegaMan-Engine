@@ -93,9 +93,6 @@
     <Reference Include="FMOD, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>lib\FMOD.dll</HintPath>
     </Reference>
-    <Reference Include="Mega Man Common, Version=1.2.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>lib\Mega Man Common.dll</HintPath>
-    </Reference>
     <Reference Include="MegaManR.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>lib\MegaManR.Audio.dll</HintPath>
     </Reference>
@@ -123,69 +120,69 @@
     <Compile Include="BindingSource.cs" />
     <Compile Include="BlocksPattern.cs" />
     <Compile Include="BossDoorHandler.cs" />
-    <Compile Include="CollisionBox.cs" />
-    <Compile Include="CollisionComponent.cs" />
-    <Compile Include="CustomNtscForm.cs">
+    <Compile Include="Components\CollisionBox.cs" />
+    <Compile Include="Components\CollisionComponent.cs" />
+    <Compile Include="Forms\CustomNtscForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomNtscForm.Designer.cs">
+    <Compile Include="Forms\CustomNtscForm.Designer.cs">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dynamic.cs" />
     <Compile Include="EffectParser.cs" />
-    <Compile Include="EngineGraphicsControl.cs">
+    <Compile Include="Forms\EngineGraphicsControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GamePlay.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />
-    <Compile Include="GraphicsDeviceControl.cs">
+    <Compile Include="Forms\GraphicsDeviceControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GraphicsDeviceService.cs" />
-    <Compile Include="HealthComponent.cs" />
+    <Compile Include="Forms\GraphicsDeviceService.cs" />
+    <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="HealthMeter.cs" />
-    <Compile Include="HitBox.cs" />
-    <Compile Include="InputComponent.cs" />
+    <Compile Include="Components\HitBox.cs" />
+    <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="JoinHandler.cs" />
-    <Compile Include="Keyboard.cs">
+    <Compile Include="Forms\Keyboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Keyboard.Designer.cs">
+    <Compile Include="Forms\Keyboard.Designer.cs">
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="LadderComponent.cs" />
+    <Compile Include="Components\LadderComponent.cs" />
     <Compile Include="MapFactory.cs" />
     <Compile Include="MapHandler.cs" />
     <Compile Include="MapSquare.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="MovementComponent.cs" />
+    <Compile Include="Components\MovementComponent.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PositionComponent.cs" />
+    <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="const.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CustomNtscForm.resx">
+    <EmbeddedResource Include="Forms\CustomNtscForm.resx">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Keyboard.resx">
+    <EmbeddedResource Include="Forms\Keyboard.resx">
       <DependentUpon>Keyboard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -199,7 +196,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -212,13 +208,13 @@
     <Compile Include="Scene.cs" />
     <Compile Include="ScreenHandler.cs" />
     <Compile Include="ServiceContainer.cs" />
-    <Compile Include="SoundComponent.cs" />
+    <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="SoundEffect.cs" />
     <Compile Include="SoundSystem.cs" />
-    <Compile Include="SpriteComponent.cs" />
-    <Compile Include="StateComponent.cs" />
-    <Compile Include="TimerComponent.cs" />
-    <Compile Include="WeaponComponent.cs" />
+    <Compile Include="Components\SpriteComponent.cs" />
+    <Compile Include="Components\StateComponent.cs" />
+    <Compile Include="Components\TimerComponent.cs" />
+    <Compile Include="Components\WeaponComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -242,6 +238,12 @@
     <Content Include="lib\MegaManR.BGM.dll" />
     <Content Include="lib\nsf.dll" />
     <Content Include="lib\ntsc.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mega Man Common\Common.csproj">
+      <Project>{6779A7E6-CE6C-43E4-A0CB-1B0F921C8009}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
