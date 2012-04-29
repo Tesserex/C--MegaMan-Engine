@@ -48,8 +48,6 @@ namespace MegaMan.Engine
             }
         }
 
-        public bool Paused { get; private set; }
-
         public string BasePath { get; private set; }
 
         public Player Player { get; private set; }
@@ -415,16 +413,6 @@ namespace MegaMan.Engine
             {
                 throw new GameRunException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
             }
-        }
-
-        public void Pause()
-        {
-            Paused = true;
-        }
-
-        public void Unpause()
-        {
-            Paused = false;
         }
 
         #region Debug Menu

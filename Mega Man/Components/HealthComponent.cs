@@ -56,7 +56,7 @@ namespace MegaMan.Engine
             Health = MaxHealth;
             if (meter != null)
             {
-                meter.StartHandler();
+                meter.Start(Parent.Container);
             }
         }
 
@@ -71,7 +71,7 @@ namespace MegaMan.Engine
             Parent.Container.GameCleanup -= Instance_GameCleanup;
             if (meter != null)
             {
-                meter.StopHandler();
+                meter.Stop();
             }
             Hit = false;
             flashing = 0;
@@ -127,7 +127,7 @@ namespace MegaMan.Engine
             XElement meterNode = xml.Element("Meter");
             if (meterNode != null)
             {
-                meter = HealthMeter.Create(meterNode, true, Parent.Container);
+                meter = HealthMeter.Create(meterNode, true);
                 meter.MaxValue = maxHealth;
                 meter.IsPlayer = (Parent.Name == "Player");
             }

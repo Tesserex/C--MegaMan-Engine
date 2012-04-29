@@ -398,8 +398,6 @@ namespace MegaMan.Engine
 
             GamePlay.ResumeHandler();
             GamePlay.Player.Paused = false;
-
-            Game.CurrentGame.Unpause();
             running = true;
         }
 

@@ -274,12 +274,9 @@ namespace MegaMan.Engine
 
         private void Tick(GameTickEventArgs e)
         {
-            if (!Game.CurrentGame.Paused)
-            {
-                if (GameThink != null) GameThink();
-                if (GameAct != null) GameAct();
-                if (GameReact != null) GameReact();
-            }
+            if (GameThink != null) GameThink();
+            if (GameAct != null) GameAct();
+            if (GameReact != null) GameReact();
             if (GameCleanup != null) GameCleanup();
         }
 
@@ -360,7 +357,7 @@ namespace MegaMan.Engine
             }
             else if (obj is MeterInfo)
             {
-                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false, this));
+                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false), this);
             }
             handler.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();

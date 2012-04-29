@@ -61,7 +61,7 @@ namespace MegaMan.Engine
                 {
                     if (weapons[current].Meter != null)
                     {
-                        weapons[current].Meter.StopHandler();
+                        weapons[current].Meter.Stop();
                     }
 
                     current = info.Index;
@@ -106,7 +106,7 @@ namespace MegaMan.Engine
         {
             if (weapons[current].Meter != null)
             {
-                weapons[current].Meter.StopHandler();
+                weapons[current].Meter.Stop();
             }
 
             current++;
@@ -119,7 +119,7 @@ namespace MegaMan.Engine
         {
             if (weapons[current].Meter != null)
             {
-                weapons[current].Meter.StopHandler();
+                weapons[current].Meter.Stop();
             }
 
             current--;
@@ -135,7 +135,7 @@ namespace MegaMan.Engine
 
             if (weapons[current].Meter != null)
             {
-                weapons[current].Meter.StartHandler();
+                weapons[current].Meter.Start(Parent.Container);
             }
         }
 
@@ -211,7 +211,7 @@ namespace MegaMan.Engine
                 XElement meterNode = weapon.Element("Meter");
                 if (meterNode != null)
                 {
-                    meter = HealthMeter.Create(meterNode, true, Parent.Container);
+                    meter = HealthMeter.Create(meterNode, true);
 
                     meter.MaxValue = ammo;
                     meter.Reset();

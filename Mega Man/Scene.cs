@@ -167,12 +167,9 @@ namespace MegaMan.Engine
                 }
             }
 
-            if (!Game.CurrentGame.Paused)
-            {
-                if (GameThink != null) GameThink();
-                if (GameAct != null) GameAct();
-                if (GameReact != null) GameReact();
-            }
+            if (GameThink != null) GameThink();
+            if (GameAct != null) GameAct();
+            if (GameReact != null) GameReact();
             if (GameCleanup != null) GameCleanup();
 
             frame++;
@@ -236,7 +233,7 @@ namespace MegaMan.Engine
             }
             else if (obj is MeterInfo)
             {
-                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false, this));
+                handler = new SceneMeter(HealthMeter.Create((MeterInfo)obj, false), this);
             }
             handler.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
@@ -530,21 +527,23 @@ namespace MegaMan.Engine
 
     public class SceneMeter : ISceneObject
     {
+        private IGameplayContainer container;
         public HealthMeter Meter { get; set; }
 
-        public SceneMeter(HealthMeter meter)
+        public SceneMeter(HealthMeter meter, IGameplayContainer container)
         {
             this.Meter = meter;
+            this.container = container;
         }
 
         public void Start()
         {
-            Meter.StartHandler();
+            Meter.Start(container);
         }
 
         public void Stop()
         {
-            Meter.StopHandler();
+            Meter.Stop();
         }
 
         public void Draw(GameGraphicsLayers layers, Color opacity)

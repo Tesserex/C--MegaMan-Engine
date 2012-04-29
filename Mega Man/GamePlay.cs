@@ -70,12 +70,9 @@ namespace MegaMan.Engine
 
         private void GameTick(GameTickEventArgs e)
         {
-            if (!Game.CurrentGame.Paused)
-            {
-                if (GameThink != null) GameThink();
-                if (GameAct != null) GameAct();
-                if (GameReact != null) GameReact();
-            }
+            if (GameThink != null) GameThink();
+            if (GameAct != null) GameAct();
+            if (GameReact != null) GameReact();
             if (GameCleanup != null) GameCleanup();
         }
     }
