@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace MegaMan.Common
 {
-    public class MeterInfo : IHandlerObject
+    public class MeterInfo : IHandlerObjectInfo
     {
         public enum Orientation : byte
         {

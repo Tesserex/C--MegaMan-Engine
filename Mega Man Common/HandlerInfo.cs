@@ -7,21 +7,21 @@ using System.Xml;
 
 namespace MegaMan.Common
 {
-    public interface IHandlerObject
+    public interface IHandlerObjectInfo
     {
         string Name { get; }
         void Save(XmlTextWriter writer);
     }
 
-    public class HandlerSprite : IHandlerObject
+    public class HandlerSpriteInfo : IHandlerObjectInfo
     {
         public Sprite Sprite { get; private set; }
 
         public string Name { get { return Sprite.Name; } }
 
-        public static HandlerSprite FromXml(XElement node, string basePath)
+        public static HandlerSpriteInfo FromXml(XElement node, string basePath)
         {
-            var info = new HandlerSprite();
+            var info = new HandlerSpriteInfo();
             info.Sprite = Sprite.FromXml(node, basePath);
             return info;
         }
@@ -35,11 +35,11 @@ namespace MegaMan.Common
     public abstract class HandlerInfo
     {
         public string Name { get; set; }
-        public Dictionary<string, IHandlerObject> Objects { get; private set; }
+        public Dictionary<string, IHandlerObjectInfo> Objects { get; private set; }
 
         public HandlerInfo()
         {
-            this.Objects = new Dictionary<string, IHandlerObject>();
+            this.Objects = new Dictionary<string, IHandlerObjectInfo>();
         }
 
         protected virtual void Load(XElement node, string basePath)
@@ -48,7 +48,7 @@ namespace MegaMan.Common
 
             foreach (var spriteNode in node.Elements("Sprite"))
             {
-                var sprite = HandlerSprite.FromXml(spriteNode, basePath);
+                var sprite = HandlerSpriteInfo.FromXml(spriteNode, basePath);
                 this.Objects.Add(sprite.Name, sprite);
             }
 
