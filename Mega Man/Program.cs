@@ -47,16 +47,20 @@ namespace MegaMan.Engine
         [STAThread]
         static void Main()
         {
+#if !DEBUG
             try
             {
+#endif
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
+#if !DEBUG
             }
             catch (Exception e)
             {
                 MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+#endif
         }
     }
 }
