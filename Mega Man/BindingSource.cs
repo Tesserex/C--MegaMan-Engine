@@ -12,7 +12,7 @@ namespace MegaMan.Engine
         protected object target;
         protected PropertyInfo targetProperty;
 
-        public static Binding Create(SceneBindingInfo info, object target, IGameplayContainer container)
+        public static Binding Create(SceneBindingInfo info, object target)
         {
             var sourceParts = info.Source.Split('.');
             if (sourceParts.Length == 0)
@@ -33,7 +33,7 @@ namespace MegaMan.Engine
                     return new InventoryBinding(target, targetProperty, sourceParts);
                 
                 case "WEAPON":
-                    return new WeaponBinding(target, targetProperty, sourceParts[1], container);
+                    return new WeaponBinding(target, targetProperty, sourceParts[1]);
                 
                 default:
                     throw new GameRunException(String.Format("Binding '{0}' is invalid.", info.Source));
@@ -46,7 +46,7 @@ namespace MegaMan.Engine
             this.targetProperty = targetProperty;
         }
 
-        public abstract void Start();
+        public abstract void Start(IGameplayContainer container);
         public abstract void Stop();
     }
 
@@ -64,7 +64,7 @@ namespace MegaMan.Engine
             this.itemName = sourceParts[1];
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             var value = Game.CurrentGame.Player.ItemQuantity(itemName);
             Set(value);
@@ -96,15 +96,15 @@ namespace MegaMan.Engine
         private string weaponName;
         private IGameplayContainer container;
 
-        public WeaponBinding(object target, PropertyInfo targetProperty, string weaponName, IGameplayContainer container)
+        public WeaponBinding(object target, PropertyInfo targetProperty, string weaponName)
             : base(target, targetProperty)
         {
             this.weaponName = weaponName;
-            this.container = container;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
+            this.container = container;
             if (container.Player == null) return;
 
             var value = container.Player.GetComponent<WeaponComponent>().Ammo(weaponName);

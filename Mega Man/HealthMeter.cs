@@ -159,7 +159,7 @@ namespace MegaMan.Engine
 
             if (info.Binding != null)
             {
-                this.binding = Binding.Create(info.Binding, this, container);
+                this.binding = Binding.Create(info.Binding, this);
             }
 
             if (tickTexture != null) tickTexture.Dispose();
@@ -262,7 +262,7 @@ namespace MegaMan.Engine
 
             if (this.binding != null)
             {
-                this.binding.Start();
+                this.binding.Start(container);
             }
 
             Engine.Instance.GameRender += GameRender;

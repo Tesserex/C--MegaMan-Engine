@@ -86,6 +86,7 @@ namespace MegaMan.Engine
 
     public class HandlerText : IHandlerObject
     {
+        private IGameplayContainer container;
         public string Content { get; set; }
 
         private string displayed = "";
@@ -94,15 +95,16 @@ namespace MegaMan.Engine
         private Vector2 position;
         private Binding binding;
 
-        public HandlerText(SceneTextCommandInfo info, IGameplayContainer scene)
+        public HandlerText(SceneTextCommandInfo info, IGameplayContainer container)
         {
             this.Content = info.Content ?? String.Empty;
             this.speed = info.Speed ?? 0;
             this.position = new Vector2(info.X, info.Y);
+            this.container = container;
 
             if (info.Binding != null)
             {
-                this.binding = Binding.Create(info.Binding, this, scene);
+                this.binding = Binding.Create(info.Binding, this);
             }
         }
 
@@ -110,7 +112,7 @@ namespace MegaMan.Engine
         {
             if (this.binding != null)
             {
-                this.binding.Start();
+                this.binding.Start(container);
             }
 
             if (speed == 0)
