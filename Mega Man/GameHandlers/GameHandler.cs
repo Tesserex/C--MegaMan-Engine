@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace MegaMan.Engine
 {
-    public abstract class GameHandler : IGameplayContainer, IScreenInformation
+    public abstract class GameHandler : IGameplayContainer
     {
         protected HandlerInfo Info { get; set; }
 
         protected Dictionary<string, IHandlerObject> objects;
-        protected List<GameEntity> entities;
+
+        protected IEntityContainer entities;
 
         public event Action GameThink;
         public event Action GameAct;
@@ -28,51 +29,13 @@ namespace MegaMan.Engine
             set;
         }
 
-        public int TileSize
-        {
-            get
-            {
-                return 32;
-            }
-        }
-
-        public float OffsetX
-        {
-            get { return 0; }
-        }
-
-        public float OffsetY
-        {
-            get { return 0; }
-        }
-
-        public MapSquare SquareAt(int x, int y)
-        {
-            return null;
-        }
-
-        public Tile TileAt(int tx, int ty)
-        {
-            return null;
-        }
-
-        public IEnumerable<MapSquare> Tiles
-        {
-            get { return null; }
-        }
-
-        public void AddSpawnedEntity(GameEntity entity)
-        {
-            entities.Add(entity);
-        }
-
-        public bool IsOnScreen(float x, float y)
-        {
-            return true;
-        }
-
         public virtual void StartHandler()
         {
+            if (entities == null)
+            {
+                entities = new SceneEntities();
+            }
+
             ResumeHandler();
             StartDrawing();
         }
@@ -98,11 +61,7 @@ namespace MegaMan.Engine
             PauseHandler();
             StopDrawing();
 
-            foreach (var entity in entities)
-            {
-                entity.Stop();
-            }
-            entities.Clear();
+            entities.ClearEntities();
 
             foreach (var obj in objects.Values)
             {
@@ -250,8 +209,8 @@ namespace MegaMan.Engine
             {
                 entity.SendMessage(new StateMessage(null, command.State));
             }
-            entities.Add(entity);
-            entity.Start(this);
+            entities.AddEntity(entity);
+            entity.Start(entities);
         }
 
         private void FillCommand(SceneFillCommandInfo command)

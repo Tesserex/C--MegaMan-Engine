@@ -56,7 +56,7 @@ namespace MegaMan.Engine
             Health = MaxHealth;
             if (meter != null)
             {
-                meter.Start(Parent.Container);
+                meter.Start(Parent.Container, Parent.Screen);
             }
         }
 
@@ -81,7 +81,7 @@ namespace MegaMan.Engine
         {
             if (msg is DamageMessage && flashing == 0)
             {
-                if (Engine.Instance.Invincible && Parent == Parent.Container.Player) return;
+                if (Engine.Instance.Invincible && Parent.Name == "Player") return;
 
                 DamageMessage damage = (DamageMessage)msg;
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MegaMan.Common;
 
 namespace MegaMan.Engine
@@ -25,7 +26,7 @@ namespace MegaMan.Engine
         private int frame;
         private bool stopped;
         private PositionComponent playerPos;
-        private IScreenInformation screen;
+        private IEntityContainer screen;
         private IGameplayContainer container;
 
         public BlocksPattern(BlockPatternInfo info, IGameplayContainer container)
@@ -47,12 +48,12 @@ namespace MegaMan.Engine
             }
             running = false;
             frame = 0;
-            this.playerPos = container.Player.GetComponent<PositionComponent>();
             this.container = container;
         }
 
-        public void Start(IScreenInformation screen)
+        public void Start(IEntityContainer screen)
         {
+            this.playerPos = screen.GetEntities("Player").Single().GetComponent<PositionComponent>();
             this.screen = screen;
             container.GameThink += Update;
             stopped = false;

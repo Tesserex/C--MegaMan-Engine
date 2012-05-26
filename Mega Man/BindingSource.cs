@@ -46,7 +46,7 @@ namespace MegaMan.Engine
             this.targetProperty = targetProperty;
         }
 
-        public abstract void Start(IGameplayContainer container);
+        public abstract void Start(IEntityContainer container);
         public abstract void Stop();
     }
 
@@ -64,7 +64,7 @@ namespace MegaMan.Engine
             this.itemName = sourceParts[1];
         }
 
-        public override void Start(IGameplayContainer container)
+        public override void Start(IEntityContainer container)
         {
             var value = Game.CurrentGame.Player.ItemQuantity(itemName);
             Set(value);
@@ -94,7 +94,7 @@ namespace MegaMan.Engine
     public class WeaponBinding : Binding
     {
         private string weaponName;
-        private IGameplayContainer container;
+        private IEntityContainer container;
 
         public WeaponBinding(object target, PropertyInfo targetProperty, string weaponName)
             : base(target, targetProperty)
@@ -102,21 +102,24 @@ namespace MegaMan.Engine
             this.weaponName = weaponName;
         }
 
-        public override void Start(IGameplayContainer container)
+        public override void Start(IEntityContainer container)
         {
             this.container = container;
-            if (container.Player == null) return;
 
-            var value = container.Player.GetComponent<WeaponComponent>().Ammo(weaponName);
+            var player = container.GetEntities("Player").SingleOrDefault();
+            if (player == null) return;
+
+            var value = player.GetComponent<WeaponComponent>().Ammo(weaponName);
             Set(value);
 
-            container.Player.GetComponent<WeaponComponent>().AmmoChanged += WeaponAmmo_Changed;
+            player.GetComponent<WeaponComponent>().AmmoChanged += WeaponAmmo_Changed;
         }
 
         public override void Stop()
         {
-            if (container.Player == null) return;
-            container.Player.GetComponent<WeaponComponent>().AmmoChanged -= WeaponAmmo_Changed;
+            var player = container.GetEntities("Player").SingleOrDefault();
+            if (player == null) return;
+            player.GetComponent<WeaponComponent>().AmmoChanged -= WeaponAmmo_Changed;
         }
 
         private void WeaponAmmo_Changed(string weapon, int ammo)

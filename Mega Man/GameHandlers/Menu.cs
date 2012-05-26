@@ -20,7 +20,6 @@ namespace MegaMan.Engine
         private Menu(MenuInfo info)
         {
             objects = new Dictionary<string, IHandlerObject>();
-            entities = new List<GameEntity>();
             this.info = info;
             Info = info;
         }

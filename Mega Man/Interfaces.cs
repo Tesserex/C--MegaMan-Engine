@@ -17,7 +17,7 @@ namespace MegaMan.Engine
         event Action<HandlerTransfer> End;
     }
 
-    public interface IScreenInformation
+    public interface IEntityContainer
     {
         int TileSize { get; }
         float OffsetX { get; }
@@ -25,14 +25,14 @@ namespace MegaMan.Engine
         MapSquare SquareAt(int x, int y);
         IEnumerable<MapSquare> Tiles { get; }
         MegaMan.Common.Tile TileAt(int tx, int ty);
-        void AddSpawnedEntity(GameEntity entity);
+        void AddEntity(GameEntity entity);
+        IEnumerable<GameEntity> GetEntities(string name);
+        void ClearEntities();
         bool IsOnScreen(float x, float y);
     }
 
     public interface IGameplayContainer : IHandleGameEvents
     {
-        GameEntity Player { get; }
-
         event Action GameThink;
 
         event Action GameAct;

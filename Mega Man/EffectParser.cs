@@ -291,7 +291,7 @@ namespace MegaMan.Engine
                 
                 float pdx = 0;
                 float pdy = 0;
-                GameEntity player = entity.Container.Player;
+                GameEntity player = entity.Screen.GetEntities("Player").SingleOrDefault();
                 if (player != null)
                 {
                     var playerPos = player.GetComponent<PositionComponent>();

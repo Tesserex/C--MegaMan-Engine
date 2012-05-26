@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
+    <Compile Include="GameHandlers\SceneEntities.cs" />
     <Compile Include="GamePlay.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />

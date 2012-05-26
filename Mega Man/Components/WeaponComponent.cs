@@ -135,7 +135,7 @@ namespace MegaMan.Engine
 
             if (weapons[current].Meter != null)
             {
-                weapons[current].Meter.Start(Parent.Container);
+                weapons[current].Meter.Start(Parent.Container, Parent.Screen);
             }
         }
 

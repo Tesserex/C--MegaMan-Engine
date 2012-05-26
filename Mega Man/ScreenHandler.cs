@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public class ScreenHandler : IScreenInformation
+    public class ScreenHandler : IEntityContainer
     {
         private MapHandler map;
         private readonly MapSquare[][] tiles;
@@ -35,7 +35,8 @@ namespace MegaMan.Engine
 
         public event Action BossDefeated;
 
-        public ScreenHandler(Screen screen, MapSquare[][] tiles, IEnumerable<JoinHandler> joins, IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container)
+        public ScreenHandler(Screen screen, MapSquare[][] tiles, IEnumerable<JoinHandler> joins,
+            IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container, GameEntity player)
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
@@ -52,7 +53,7 @@ namespace MegaMan.Engine
             Music = music;
 
             this.container = container;
-            this.player = container.Player;
+            this.player = player;
             playerPos = player.GetComponent<PositionComponent>();
         }
 
@@ -147,9 +148,22 @@ namespace MegaMan.Engine
             }
         }
 
-        public void AddSpawnedEntity(GameEntity entity)
+        public void AddEntity(GameEntity entity)
         {
             spawnedEntities.Add(entity);
+        }
+
+        public IEnumerable<GameEntity> GetEntities(string name)
+        {
+            if (name == "Player") return new[] { player };
+
+            return entities.Concat(spawnedEntities)
+                .Where(e => e != null && e.Name == name);
+        }
+
+        public void ClearEntities()
+        {
+            // don't do anything!
         }
 
         public bool IsOnScreen(float x, float y)

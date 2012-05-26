@@ -63,7 +63,7 @@ namespace MegaMan.Engine
             var screens = new Dictionary<string, ScreenHandler>();
             foreach (var screen in map.Screens.Values)
             {
-                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
+                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList(), Player);
             }
 
             var handler = new MapHandler(map, screens, GamePlay);
@@ -82,7 +82,7 @@ namespace MegaMan.Engine
             return handler;
         }
 
-        private ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins)
+        private ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins, GameEntity player)
         {
             var patterns = new List<BlocksPattern>(screen.BlockPatternInfo.Count);
 
@@ -115,7 +115,7 @@ namespace MegaMan.Engine
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
-            return new ScreenHandler(screen, tiles, joins, patterns, music, GamePlay);
+            return new ScreenHandler(screen, tiles, joins, patterns, music, GamePlay, player);
         }
         
         private JoinHandler CreateJoin(Join join, Screen screen, GameEntity door, GameEntity otherDoor)
