@@ -13,7 +13,7 @@ namespace MegaMan.Engine
 
         protected Dictionary<string, IHandlerObject> objects;
 
-        protected IEntityContainer entities;
+        public IEntityContainer Entities { get; protected set; }
 
         public event Action GameThink;
         public event Action GameAct;
@@ -31,9 +31,9 @@ namespace MegaMan.Engine
 
         public virtual void StartHandler()
         {
-            if (entities == null)
+            if (Entities == null)
             {
-                entities = new SceneEntities();
+                Entities = new SceneEntities();
             }
 
             ResumeHandler();
@@ -61,7 +61,7 @@ namespace MegaMan.Engine
             PauseHandler();
             StopDrawing();
 
-            entities.ClearEntities();
+            Entities.ClearEntities();
 
             foreach (var obj in objects.Values)
             {
@@ -184,7 +184,7 @@ namespace MegaMan.Engine
 
         private void TextCommand(SceneTextCommandInfo command)
         {
-            var obj = new HandlerText(command, this);
+            var obj = new HandlerText(command, Entities);
             obj.Start();
             var name = command.Name ?? Guid.NewGuid().ToString();
             if (!objects.ContainsKey(name)) objects.Add(name, obj);
@@ -209,8 +209,8 @@ namespace MegaMan.Engine
             {
                 entity.SendMessage(new StateMessage(null, command.State));
             }
-            entities.AddEntity(entity);
-            entity.Start(entities);
+            Entities.AddEntity(entity);
+            entity.Start();
         }
 
         private void FillCommand(SceneFillCommandInfo command)

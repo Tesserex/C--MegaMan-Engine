@@ -315,7 +315,6 @@
     <None Include="Resources\bucket.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Resources\joins.png" />
   </ItemGroup>
   <ItemGroup>

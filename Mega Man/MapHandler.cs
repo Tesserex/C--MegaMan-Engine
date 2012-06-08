@@ -44,7 +44,16 @@ namespace MegaMan.Engine
 
         public HandlerTransfer LoseHandler { get; set; }
 
-        public ScreenHandler CurrentScreen { get; private set; }
+        private ScreenHandler _currentScreen;
+        public ScreenHandler CurrentScreen
+        {
+            get { return _currentScreen; }
+            private set
+            {
+                _currentScreen = value;
+                GamePlay.Entities = value;
+            }
+        }
 
         public PositionComponent PlayerPos;
 
@@ -125,7 +134,7 @@ namespace MegaMan.Engine
 
         private void BeginPlay()
         {
-            GamePlay.Player.Start(CurrentScreen);
+            GamePlay.Player.Start();
             GamePlay.Player.GetComponent<SpriteComponent>().Visible = true;
 
             StateMessage msg = new StateMessage(null, "Teleport");
@@ -172,10 +181,10 @@ namespace MegaMan.Engine
             else
             {
                 // enable respawn for on-death-respawn entities
-                foreach (var pair in this.screens)
+                foreach (var pair in this.EntityRespawnable)
                 {
-                    var screen = pair.Value;
-                    var respawns = this.EntityRespawnable[pair.Key];
+                    var screen = this.screens[pair.Key];
+                    var respawns = pair.Value;
                     for (int i = 0; i < screen.Screen.EnemyInfo.Count; i++)
                     {
                         if (screen.Screen.EnemyInfo[i].respawn == RespawnBehavior.Death)
@@ -213,7 +222,7 @@ namespace MegaMan.Engine
         {
             ScreenHandler oldscreen = CurrentScreen;
             CurrentScreen = nextScreen;
-            GamePlay.Player.Screen = CurrentScreen;
+
             oldscreen.Clean();
             StartScreen();
 
@@ -260,7 +269,7 @@ namespace MegaMan.Engine
             CurrentScreen.JoinTriggered += OnScrollTriggered;
             CurrentScreen.Teleport += OnTeleport;
             CurrentScreen.BossDefeated += BossDefeated;
-            CurrentScreen.Start(this);
+            CurrentScreen.Start(this, GamePlay.Player);
         }
 
         private void BossDefeated()

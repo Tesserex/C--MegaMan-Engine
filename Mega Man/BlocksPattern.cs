@@ -26,7 +26,6 @@ namespace MegaMan.Engine
         private int frame;
         private bool stopped;
         private PositionComponent playerPos;
-        private IEntityContainer screen;
         private IGameplayContainer container;
 
         public BlocksPattern(BlockPatternInfo info, IGameplayContainer container)
@@ -51,10 +50,9 @@ namespace MegaMan.Engine
             this.container = container;
         }
 
-        public void Start(IEntityContainer screen)
+        public void Start()
         {
-            this.playerPos = screen.GetEntities("Player").Single().GetComponent<PositionComponent>();
-            this.screen = screen;
+            this.playerPos = container.Entities.GetEntities("Player").Single().GetComponent<PositionComponent>();
             container.GameThink += Update;
             stopped = false;
         }
@@ -105,7 +103,7 @@ namespace MegaMan.Engine
             foreach (BlockInfo info in blocks)
             {
                 info.entity.SendMessage(new StateMessage(null, "Start"));
-                info.entity.Start(screen);
+                info.entity.Start();
                 PositionComponent pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);

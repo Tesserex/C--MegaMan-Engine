@@ -10,6 +10,8 @@ namespace MegaMan.Engine
     {
         public GameEntity Player { get; set; }
 
+        public IEntityContainer Entities { get; set; }
+
         /// <summary>
         /// This is the first phase of game logic, but comes after the GameLogicTick event.
         /// During this phase, entities should "think" - decide what they want to do this frame.

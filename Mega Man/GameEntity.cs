@@ -13,7 +13,7 @@ namespace MegaMan.Engine
         private readonly Dictionary<Type, Component> components;
         public IGameplayContainer Container { get; private set; }
         public string Name { get; private set; }
-        public IEntityContainer Screen { get; set; }
+        public IEntityContainer Screen { get { return Container.Entities; } }
         public GameEntity Parent { get; private set; }
 
         private bool running;
@@ -56,14 +56,10 @@ namespace MegaMan.Engine
             return null;
         }
 
-        public void Start(IEntityContainer screen = null)
+        public void Start()
         {
             if (entities[Name].numAlive >= entities[Name].maxAlive) return;
             entities[Name].numAlive++;
-            if (screen != null)
-            {
-                Screen = screen;
-            }
             foreach (Component c in components.Values) c.Start();
             RegisterEntity(this);
             running = true;
@@ -127,7 +123,7 @@ namespace MegaMan.Engine
             if (spawn != null)
             {
                 spawn.Parent = this;
-                spawn.Start(Screen);
+                spawn.Start();
                 Screen.AddEntity(spawn);
             }
 

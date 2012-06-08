@@ -33,6 +33,8 @@ namespace MegaMan.Engine
 
     public interface IGameplayContainer : IHandleGameEvents
     {
+        IEntityContainer Entities { get; }
+
         event Action GameThink;
 
         event Action GameAct;

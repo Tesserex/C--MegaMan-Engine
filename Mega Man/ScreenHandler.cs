@@ -18,8 +18,8 @@ namespace MegaMan.Engine
         private readonly List<JoinHandler> joins;
         private readonly List<bool> teleportEnabled;
         private readonly IGameplayContainer container;
-        private readonly GameEntity player;
-        private readonly PositionComponent playerPos;
+        private GameEntity player;
+        private PositionComponent playerPos;
 
         private float centerX, centerY;
 
@@ -36,7 +36,7 @@ namespace MegaMan.Engine
         public event Action BossDefeated;
 
         public ScreenHandler(Screen screen, MapSquare[][] tiles, IEnumerable<JoinHandler> joins,
-            IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container, GameEntity player)
+            IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container)
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
@@ -53,14 +53,15 @@ namespace MegaMan.Engine
             Music = music;
 
             this.container = container;
-            this.player = player;
-            playerPos = player.GetComponent<PositionComponent>();
         }
 
-        public void Start(MapHandler map)
+        public void Start(MapHandler map, GameEntity player)
         {
             this.map = map;
             entities = new GameEntity[Screen.EnemyInfo.Count];
+
+            this.player = player;
+            playerPos = player.GetComponent<PositionComponent>();
 
             spawnable = new bool[Screen.EnemyInfo.Count];
             for (int i = 0; i < spawnable.Length; i++) { spawnable[i] = true; }
@@ -76,7 +77,7 @@ namespace MegaMan.Engine
 
             foreach (BlocksPattern pattern in patterns)
             {
-                pattern.Start(this);
+                pattern.Start();
             }
 
             container.GameThink += Instance_GameThink;
@@ -235,7 +236,7 @@ namespace MegaMan.Engine
             // eventually these will use the same enum, once the main Direction enum moves to common
             enemy.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
 
-            enemy.Start(this);
+            enemy.Start();
 
             pos.SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")

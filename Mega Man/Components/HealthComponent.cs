@@ -56,7 +56,7 @@ namespace MegaMan.Engine
             Health = MaxHealth;
             if (meter != null)
             {
-                meter.Start(Parent.Container, Parent.Screen);
+                meter.Start(Parent.Container);
             }
         }
 

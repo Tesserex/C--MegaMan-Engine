@@ -86,7 +86,7 @@ namespace MegaMan.Engine
 
     public class HandlerText : IHandlerObject
     {
-        private IGameplayContainer container;
+        private IEntityContainer container;
         public string Content { get; set; }
 
         private string displayed = "";
@@ -95,7 +95,7 @@ namespace MegaMan.Engine
         private Vector2 position;
         private Binding binding;
 
-        public HandlerText(SceneTextCommandInfo info, IGameplayContainer container)
+        public HandlerText(SceneTextCommandInfo info, IEntityContainer container)
         {
             this.Content = info.Content ?? String.Empty;
             this.speed = info.Speed ?? 0;

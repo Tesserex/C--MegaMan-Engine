@@ -252,7 +252,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Start(IGameplayContainer container, IEntityContainer entities)
+        public void Start(IGameplayContainer container)
         {
             if (container == null)
             {
@@ -262,7 +262,7 @@ namespace MegaMan.Engine
 
             if (this.binding != null)
             {
-                this.binding.Start(entities);
+                this.binding.Start(container.Entities);
             }
 
             Engine.Instance.GameRender += GameRender;
