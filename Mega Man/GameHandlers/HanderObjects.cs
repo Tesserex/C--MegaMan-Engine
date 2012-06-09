@@ -87,13 +87,31 @@ namespace MegaMan.Engine
     public class HandlerText : IHandlerObject
     {
         private IEntityContainer container;
-        public string Content { get; set; }
 
         private string displayed = "";
         private int speed;
         private int frame;
         private Vector2 position;
         private Binding binding;
+
+        private string _content;
+        public string Content
+        {
+            get { return _content; }
+            set
+            {
+                _content = value;
+                if (speed == 0)
+                {
+                    displayed = value;
+                }
+                else
+                {
+                    displayed = "";
+                    frame = 0;
+                }
+            }
+        }
 
         public HandlerText(SceneTextCommandInfo info, IEntityContainer container)
         {
@@ -115,11 +133,7 @@ namespace MegaMan.Engine
                 this.binding.Start(container);
             }
 
-            if (speed == 0)
-            {
-                displayed = Content;
-            }
-            else
+            if (speed != 0)
             {
                 Engine.Instance.GameLogicTick += Update;
                 frame = 0;
