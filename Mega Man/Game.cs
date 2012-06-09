@@ -139,7 +139,7 @@ namespace MegaMan.Engine
                 switch (parts[0].ToUpper())
                 {
                     case "SCENE":
-                        StartScene(name);
+                        StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
                         break;
 
                     case "STAGE":
@@ -155,7 +155,7 @@ namespace MegaMan.Engine
                         break;
 
                     case "MENU":
-                        StartMenu(name);
+                        StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
                         break;
 
                     default:
@@ -336,7 +336,7 @@ namespace MegaMan.Engine
                 switch (handler.Type)
                 {
                     case HandlerType.Scene:
-                        StartScene(handler.Name);
+                        StartScene(handler);
                         break;
 
                     case HandlerType.Stage:
@@ -344,25 +344,35 @@ namespace MegaMan.Engine
                         break;
 
                     case HandlerType.Menu:
-                        StartMenu(handler.Name);
+                        StartMenu(handler);
                         break;
                 }
             }
         }
 
-        private void StartMenu(string name)
+        private void StartMenu(HandlerTransfer handler)
         {
-            var menu = Menu.Get(name);
+            var menu = Menu.Get(handler.Name);
             menu.End += ProcessHandler;
+
+            if (handler.Mode == HandlerMode.Push && handlerStack.Count > 0 && handlerStack.Peek() is IGameplayContainer)
+            {
+                menu.Entities = (handlerStack.Peek() as IGameplayContainer).Entities;
+            }
 
             menu.StartHandler();
             handlerStack.Push(menu);
         }
 
-        private void StartScene(string name)
+        private void StartScene(HandlerTransfer handler)
         {
-            var scene = Scene.Get(name);
+            var scene = Scene.Get(handler.Name);
             scene.End += ProcessHandler;
+
+            if (handler.Mode == HandlerMode.Push && handlerStack.Count > 0 && handlerStack.Peek() is IGameplayContainer)
+            {
+                scene.Entities = (handlerStack.Peek() as IGameplayContainer).Entities;
+            }
 
             scene.StartHandler();
             handlerStack.Push(scene);
@@ -406,7 +416,7 @@ namespace MegaMan.Engine
             var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
-                map.GamePlay.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
+                map.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
             }
         }
 
@@ -417,7 +427,7 @@ namespace MegaMan.Engine
             var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
-                map.GamePlay.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
+                map.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
             }
         }
 
@@ -428,7 +438,7 @@ namespace MegaMan.Engine
             var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
-                var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();
+                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
                 if (weaponComponent != null)
                 {
                     weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
@@ -443,7 +453,7 @@ namespace MegaMan.Engine
             var map = handlerStack.Peek() as MapHandler;
             if (map != null)
             {
-                var weaponComponent = map.GamePlay.Player.GetComponent<WeaponComponent>();
+                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
                 if (weaponComponent != null)
                 {
                     weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));

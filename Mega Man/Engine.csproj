@@ -117,7 +117,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingSource.cs" />
+    <Compile Include="Bindings\Binding.cs" />
+    <Compile Include="Bindings\HealthBinding.cs" />
+    <Compile Include="Bindings\InventoryBinding.cs" />
+    <Compile Include="Bindings\WeaponBinding.cs" />
     <Compile Include="BlocksPattern.cs" />
     <Compile Include="BossDoorHandler.cs" />
     <Compile Include="Components\CollisionBox.cs" />
@@ -136,7 +139,6 @@
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
     <Compile Include="GameHandlers\SceneEntities.cs" />
-    <Compile Include="GamePlay.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />

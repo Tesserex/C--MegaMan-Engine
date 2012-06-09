@@ -8,18 +8,13 @@ namespace MegaMan.Engine
 {
     public class MapFactory
     {
-        public GamePlay GamePlay { get; private set; }
+        private MapHandler handler;
 
         public MapHandler CreateMap(StageInfo info)
         {
             Map map = new Map(info.StagePath);
 
-            GamePlay = new GamePlay();
-
-            var Player = GameEntity.Get("Player", GamePlay);
-
-            // TODO: Remove this circular dependency
-            GamePlay.Player = Player;
+            handler = new MapHandler(map);
 
             var joins = new Dictionary<Screen, Dictionary<Join, JoinHandler>>();
             var bossDoors = new Dictionary<Screen, Dictionary<Join, GameEntity>>();
@@ -34,7 +29,7 @@ namespace MegaMan.Engine
                     GameEntity door = null;
                     if (join.bossDoor)
                     {
-                        door = GameEntity.Get(join.bossEntityName, GamePlay);
+                        door = GameEntity.Get(join.bossEntityName, handler);
                     }
                     bossDoors[screen][join] = door;
                 }
@@ -66,7 +61,8 @@ namespace MegaMan.Engine
                 screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
             }
 
-            var handler = new MapHandler(map, screens, GamePlay);
+            handler.InitScreens(screens);
+
             handler.WinHandler = info.WinHandler;
 
             if (info.LoseHandler == null)
@@ -88,7 +84,7 @@ namespace MegaMan.Engine
 
             foreach (BlockPatternInfo info in screen.BlockPatternInfo)
             {
-                BlocksPattern pattern = new BlocksPattern(info, GamePlay);
+                BlocksPattern pattern = new BlocksPattern(info, handler);
                 patterns.Add(pattern);
             }
 
@@ -115,7 +111,7 @@ namespace MegaMan.Engine
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
-            return new ScreenHandler(screen, tiles, joins, patterns, music, GamePlay);
+            return new ScreenHandler(screen, tiles, joins, patterns, music, handler);
         }
         
         private JoinHandler CreateJoin(Join join, Screen screen, GameEntity door, GameEntity otherDoor)

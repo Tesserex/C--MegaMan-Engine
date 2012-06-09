@@ -13,7 +13,7 @@ namespace MegaMan.Engine
 
         protected Dictionary<string, IHandlerObject> objects;
 
-        public IEntityContainer Entities { get; protected set; }
+        public IEntityContainer Entities { get; set; }
 
         public event Action GameThink;
         public event Action GameAct;
@@ -22,12 +22,6 @@ namespace MegaMan.Engine
         public event Action<HandlerTransfer> End;
 
         private bool running;
-
-        public GameEntity Player
-        {
-            get;
-            set;
-        }
 
         public virtual void StartHandler()
         {
@@ -225,9 +219,11 @@ namespace MegaMan.Engine
 
         private void CallCommand(SceneCallCommandInfo command)
         {
-            if (this.Player != null)
+            var player = Entities.GetEntities("Player").FirstOrDefault();
+
+            if (player != null)
             {
-                EffectParser.GetEffect(command.Name)(this.Player);
+                EffectParser.GetEffect(command.Name)(player);
             }
         }
 

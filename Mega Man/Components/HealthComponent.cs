@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
+using System;
 
 namespace MegaMan.Engine
 {
@@ -22,12 +23,19 @@ namespace MegaMan.Engine
                 {
                     meter.Value = health;
                 }
+
+                if (HealthChanged != null)
+                {
+                    HealthChanged(health, maxHealth);
+                }
             }
         }
         public float MaxHealth { get { return maxHealth; } }
         public bool Hit { get; private set; }
 
-        void Instance_GameCleanup()
+        public event Action<float, float> HealthChanged;
+
+        private void Instance_GameCleanup()
         {
             if (health <= 0) Parent.Die();
         }

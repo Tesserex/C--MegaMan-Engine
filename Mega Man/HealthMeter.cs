@@ -160,6 +160,7 @@ namespace MegaMan.Engine
             if (info.Binding != null)
             {
                 this.binding = Binding.Create(info.Binding, this);
+                MaxValue = 1; // use 0 - 1 range for values
             }
 
             if (tickTexture != null) tickTexture.Dispose();
