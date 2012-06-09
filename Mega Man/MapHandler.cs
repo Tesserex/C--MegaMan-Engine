@@ -410,27 +410,34 @@ namespace MegaMan.Engine
             Engine.Instance.GameRender -= BlinkReady;
         }
 
-        private bool running;
+        private int pauseCount = 1; // starts paused
 
         public void PauseHandler()
         {
-            if (!running) return;
-            Player.Paused = true;
+            if (pauseCount == 0)
+            {
+                Player.Paused = true;
 
-            Engine.Instance.GameLogicTick -= GameTick;
-            Engine.Instance.GameInputReceived -= GameInputReceived;
-            
-            running = false;
+                Engine.Instance.GameLogicTick -= GameTick;
+                Engine.Instance.GameInputReceived -= GameInputReceived;
+            }
+
+            pauseCount++;
         }
 
         public void ResumeHandler()
         {
-            if (running) return;
-            Engine.Instance.GameLogicTick += GameTick;
-            Engine.Instance.GameInputReceived += GameInputReceived;
+            if (pauseCount == 0) return;
 
-            Player.Paused = false;
-            running = true;
+            pauseCount--;
+
+            if (pauseCount == 0)
+            {
+                Engine.Instance.GameLogicTick += GameTick;
+                Engine.Instance.GameInputReceived += GameInputReceived;
+
+                Player.Paused = false;
+            }
         }
 
         public void StopDrawing()
