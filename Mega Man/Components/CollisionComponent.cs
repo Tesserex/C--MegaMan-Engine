@@ -74,7 +74,7 @@ namespace MegaMan.Engine
             Enabled = true;
             Parent.Container.GameAct += ClearTouch;
             Parent.Container.GameReact += Update;
-            Engine.Instance.GameRender += Instance_GameRender;
+            Parent.Container.Draw += Instance_GameRender;
 
             rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             rectTex.SetData(new[] { new Microsoft.Xna.Framework.Color(1, 0.6f, 0, 0.7f) });
@@ -103,7 +103,7 @@ namespace MegaMan.Engine
         {
             Parent.Container.GameAct -= ClearTouch;
             Parent.Container.GameReact -= Update;
-            Engine.Instance.GameRender -= Instance_GameRender;
+            Parent.Container.Draw -= Instance_GameRender;
             Enabled = false;
             ClearTouch();
             enabledBoxes.Clear();

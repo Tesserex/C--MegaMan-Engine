@@ -20,6 +20,7 @@ namespace MegaMan.Engine
         public event Action GameReact;
         public event Action GameCleanup;
         public event Action<HandlerTransfer> End;
+        public event GameRenderEventHandler Draw;
 
         private bool running;
 
@@ -90,6 +91,8 @@ namespace MegaMan.Engine
             {
                 obj.Draw(e.Layers, e.OpacityColor);
             }
+
+            if (Draw != null) Draw(e);
         }
 
         protected void Finish(HandlerTransfer transfer)

@@ -266,7 +266,7 @@ namespace MegaMan.Engine
                 this.binding.Start(container.Entities);
             }
 
-            Engine.Instance.GameRender += GameRender;
+            container.Draw += GameRender;
             running = true;
         }
 
@@ -278,7 +278,10 @@ namespace MegaMan.Engine
             }
 
             Engine.Instance.GameLogicTick -= GameTick;
-            Engine.Instance.GameRender -= GameRender;
+            if (container != null)
+            {
+                container.Draw -= GameRender;
+            }
             running = false;
         }
 

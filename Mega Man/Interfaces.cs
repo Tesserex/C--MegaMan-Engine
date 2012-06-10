@@ -31,6 +31,8 @@ namespace MegaMan.Engine
 
         event Action GameCleanup;
 
+        event GameRenderEventHandler Draw;
+
         event Action<HandlerTransfer> End;
 
         void StartHandler();

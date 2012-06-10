@@ -77,6 +77,8 @@ namespace MegaMan.Engine
         /// </summary>
         public event Action GameCleanup;
 
+        public event GameRenderEventHandler Draw;
+
         public event Action<HandlerTransfer> End;
 
         #endregion
@@ -180,7 +182,7 @@ namespace MegaMan.Engine
             GameThink += teleport;
         }
 
-        private void Draw(SpriteBatch batch)
+        private void DrawScreen(SpriteBatch batch)
         {
             _currentScreen.Draw(batch, PlayerPos.Position);
         }
@@ -233,7 +235,7 @@ namespace MegaMan.Engine
             ChangeScreen(nextScreen);
 
             updateFunc = Update;
-            drawFunc = Draw;
+            drawFunc = DrawScreen;
 
             // check for continue points
             if (Map.ContinuePoints.ContainsKey(nextScreen.Screen.Name))
@@ -375,7 +377,7 @@ namespace MegaMan.Engine
             if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Map.MusicNsfTrack);
 
             // updateFunc isn't set until BeginPlay
-            drawFunc = Draw;
+            drawFunc = DrawScreen;
 
             ResumeHandler();
             StartDrawing();
@@ -487,6 +489,8 @@ namespace MegaMan.Engine
         public void GameRender(GameRenderEventArgs e)
         {
             if (drawFunc != null && Engine.Instance.Background) drawFunc(e.Layers.BackgroundBatch);
+
+            if (Draw != null) Draw(e);
         }
 
         #endregion
