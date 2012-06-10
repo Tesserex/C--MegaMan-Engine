@@ -5,18 +5,6 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public interface IHandleGameEvents
-    {
-        void StartHandler();
-        void StopHandler();
-        void PauseHandler();
-        void ResumeHandler();
-        void StopDrawing();
-        void StartDrawing();
-
-        event Action<HandlerTransfer> End;
-    }
-
     public interface IEntityContainer
     {
         int TileSize { get; }
@@ -31,7 +19,7 @@ namespace MegaMan.Engine
         bool IsOnScreen(float x, float y);
     }
 
-    public interface IGameplayContainer : IHandleGameEvents
+    public interface IGameplayContainer
     {
         IEntityContainer Entities { get; }
 
@@ -42,6 +30,15 @@ namespace MegaMan.Engine
         event Action GameReact;
 
         event Action GameCleanup;
+
+        event Action<HandlerTransfer> End;
+
+        void StartHandler();
+        void StopHandler();
+        void PauseHandler();
+        void ResumeHandler();
+        void StopDrawing();
+        void StartDrawing();
     }
 
     public abstract class Component

@@ -31,7 +31,7 @@ namespace MegaMan.Engine
         private Project project;
 
         private string currentPath;
-        private Stack<IHandleGameEvents> handlerStack;
+        private Stack<IGameplayContainer> handlerStack;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -94,7 +94,7 @@ namespace MegaMan.Engine
         {
             Gravity = 0.25f;
             GravityFlip = false;
-            handlerStack = new Stack<IHandleGameEvents>();
+            handlerStack = new Stack<IGameplayContainer>();
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -261,7 +261,7 @@ namespace MegaMan.Engine
                 case HandlerMode.Pop:
                     if (handler.Fade)
                     {
-                        IHandleGameEvents top = null;
+                        IGameplayContainer top = null;
                         if (handlerStack.Count > 0)
                         {
                             top = handlerStack.Pop();
