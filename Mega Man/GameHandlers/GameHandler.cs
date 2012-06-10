@@ -152,6 +152,10 @@ namespace MegaMan.Engine
                     case SceneCommands.Call:
                         CallCommand((SceneCallCommandInfo)cmd);
                         break;
+
+                    case SceneCommands.Effect:
+                        EffectCommand((SceneEffectCommandInfo)cmd);
+                        break;
                 }
             }
         }
@@ -226,7 +230,7 @@ namespace MegaMan.Engine
 
             if (player != null)
             {
-                EffectParser.GetEffect(command.Name)(player);
+                EffectParser.GetLateBoundEffect(command.Name)(player);
             }
         }
 
@@ -256,6 +260,17 @@ namespace MegaMan.Engine
             if (command.NextHandler != null)
             {
                 Finish(command.NextHandler);
+            }
+        }
+
+        private void EffectCommand(SceneEffectCommandInfo command)
+        {
+            var entity = Entities.GetEntities(command.EntityName).FirstOrDefault();
+
+            if (entity != null)
+            {
+                var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
+                effect(entity);
             }
         }
     }

@@ -20,7 +20,8 @@ namespace MegaMan.Common
         Option,
         Sound,
         Next,
-        Call
+        Call,
+        Effect
     }
 
     public abstract class SceneCommandInfo
@@ -84,6 +85,10 @@ namespace MegaMan.Common
 
                     case "Call":
                         list.Add(SceneCallCommandInfo.FromXml(cmdNode));
+                        break;
+
+                    case "Effect":
+                        list.Add(SceneEffectCommandInfo.FromXml(cmdNode));
                         break;
                 }
             }
@@ -493,6 +498,34 @@ namespace MegaMan.Common
             writer.WriteStartElement("Call");
             writer.WriteValue(this.Name);
             writer.WriteEndElement();
+        }
+    }
+
+    public class SceneEffectCommandInfo : SceneCommandInfo
+    {
+        public string GeneratedName { get; private set; }
+        public string EntityName { get; private set; }
+        public XElement EffectNode { get; private set; }
+
+        public static SceneEffectCommandInfo FromXml(XElement node)
+        {
+            var info = new SceneEffectCommandInfo();
+
+            info.GeneratedName = Guid.NewGuid().ToString();
+            info.EntityName = node.RequireAttribute("entity").Value;
+            info.EffectNode = node;
+
+            return info;
+        }
+
+        public override SceneCommands Type
+        {
+            get { return SceneCommands.Effect; }
+        }
+
+        public override void Save(XmlTextWriter writer)
+        {
+            throw new NotImplementedException();
         }
     }
 

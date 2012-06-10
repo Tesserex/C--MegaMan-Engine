@@ -152,13 +152,13 @@ namespace MegaMan.Engine
             {
                 if (overTile != null && nextOverTile != null && nextOverTile.Properties.Name != overTile.Properties.Name)
                 {
-                    if (overTile.Properties.OnLeave != null) EffectParser.GetEffect(overTile.Properties.OnLeave)(Parent);
-                    if (nextOverTile.Properties.OnEnter != null) EffectParser.GetEffect(nextOverTile.Properties.OnEnter)(Parent);
+                    if (overTile.Properties.OnLeave != null) EffectParser.GetLateBoundEffect(overTile.Properties.OnLeave)(Parent);
+                    if (nextOverTile.Properties.OnEnter != null) EffectParser.GetLateBoundEffect(nextOverTile.Properties.OnEnter)(Parent);
                 }
 
                 if (nextOverTile != null && nextOverTile.Properties.OnOver != null)
                 {
-                    EffectParser.GetEffect(nextOverTile.Properties.OnOver)(Parent);
+                    EffectParser.GetLateBoundEffect(nextOverTile.Properties.OnOver)(Parent);
                 }
             }
 

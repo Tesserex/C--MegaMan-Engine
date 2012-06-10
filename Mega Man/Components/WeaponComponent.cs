@@ -29,45 +29,38 @@ namespace MegaMan.Engine
 
         public int Ammo(string weapon)
         {
-            foreach (WeaponInfo info in weapons)
+            var info = weapons.SingleOrDefault(w => w.Name == weapon);
+            if (info != null)
             {
-                if (info.Name == weapon)
-                {
-                    if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).Health;
-                    return info.Ammo;
-                }
+                if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).Health;
+                return info.Ammo;
             }
             return 0;
         }
 
         public int MaxAmmo(string weapon)
         {
-            foreach (WeaponInfo info in weapons)
+            var info = weapons.SingleOrDefault(w => w.Name == weapon);
+            if (info != null)
             {
-                if (info.Name == weapon)
-                {
-                    if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).MaxHealth;
-                    return info.Max;
-                }
+                if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).MaxHealth;
+                return info.Max;
             }
             return 0;
         }
 
-        public void SetWeapon(string entityName)
+        public void SetWeapon(string name)
         {
-            foreach (WeaponInfo info in weapons)
+            var weapon = weapons.SingleOrDefault(w => w.Name == name);
+            if (weapon != null)
             {
-                if (info.Name == entityName)
+                if (weapons[current].Meter != null)
                 {
-                    if (weapons[current].Meter != null)
-                    {
-                        weapons[current].Meter.Stop();
-                    }
-
-                    current = info.Index;
-                    ApplyCurrent();
-                    return;
+                    weapons[current].Meter.Stop();
                 }
+
+                current = weapon.Index;
+                ApplyCurrent();
             }
         }
 
@@ -245,11 +238,22 @@ namespace MegaMan.Engine
                 XElement ammoNode = node.Element("Ammo");
                 if (ammoNode != null)
                 {
-                    int val = int.Parse(ammoNode.RequireAttribute("val").Value);
+                    int val = ammoNode.GetInteger("val");
                     effect = entity =>
                     {
                         WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.AddAmmo(val);
+                    };
+                }
+
+                XElement changeNode = node.Element("Change");
+                if (changeNode != null)
+                {
+                    var weaponName = changeNode.RequireAttribute("name").Value;
+                    effect = entity =>
+                    {
+                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        if (weaponComponent != null) weaponComponent.SetWeapon(weaponName);
                     };
                 }
             }

@@ -119,8 +119,8 @@ namespace MegaMan.Engine
                         // if it's not a component name it will just return null safely
                         Parent.GetOrCreateComponent(child.Name.LocalName);
 
-                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(EffectParser.LoadXmlEffect(child));
-                        else state.AddInitial(EffectParser.LoadXmlEffect(child));
+                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(EffectParser.LoadEffectAction(child));
+                        else state.AddInitial(EffectParser.LoadEffectAction(child));
                         break;
                 }
             }

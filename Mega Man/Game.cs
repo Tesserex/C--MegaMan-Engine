@@ -188,7 +188,7 @@ namespace MegaMan.Engine
                             break;
 
                         case "Functions":
-                            EffectParser.LoadEffects(element);
+                            EffectParser.LoadEffectsList(element);
                             break;
 
                         case "Sounds":

@@ -63,6 +63,8 @@ namespace MegaMan.Engine
 
         private static readonly Dictionary<string, object> dirDict;
 
+        private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
+
         static EffectParser()
         {
             posParam = Expression.Parameter(typeof(PositionComponent), "Position");
@@ -107,8 +109,7 @@ namespace MegaMan.Engine
 
         public static Effect LoadTriggerEffect(XElement effectnode)
         {
-            Effect effect = entity => { };
-            effect = effectnode.Elements().Aggregate(effect, (current, child) => current + LoadXmlEffect(child));
+            Effect effect = LoadEffect(effectnode);
 
             // check for name to save
             XAttribute nameAttr = effectnode.Attribute("name");
@@ -119,14 +120,54 @@ namespace MegaMan.Engine
             return effect;
         }
 
-        public static Effect LoadXmlEffect(XElement node)
+        public static void LoadEffectsList(XElement element)
+        {
+            foreach (var effectnode in element.Elements("Function"))
+            {
+                string name = effectnode.RequireAttribute("name").Value;
+
+                Effect effect = LoadEffect(effectnode);
+
+                EffectParser.SaveEffect(name, effect);
+            }
+        }
+
+        public static void SaveEffect(string name, Effect effect)
+        {
+            storedEffects.Add(name, effect);
+        }
+
+        public static Effect GetLateBoundEffect(string name)
+        {
+            return e =>
+            {
+                if (storedEffects.ContainsKey(name)) storedEffects[name](e);
+            };
+        }
+
+        public static Effect GetOrLoadEffect(string name, XElement node)
+        {
+            if (!storedEffects.ContainsKey(name))
+            {
+                SaveEffect(name, LoadEffect(node));
+            }
+
+            return storedEffects[name];
+        }
+
+        private static Effect LoadEffect(XElement node)
+        {
+            return node.Elements().Aggregate(new Effect(e => { }), (current, child) => current + LoadEffectAction(child));
+        }
+
+        public static Effect LoadEffectAction(XElement node)
         {
             Effect effect = e => { };
 
             switch (node.Name.LocalName)
             {
                 case "Call":
-                    effect = GetEffect(node.Value);
+                    effect = GetLateBoundEffect(node.Value);
                     break;
 
                 case "Spawn":
@@ -252,33 +293,6 @@ namespace MegaMan.Engine
                 StateMessage msg = new StateMessage(entity, statename);
                 spawn.SendMessage(msg);
                 if (posEff != null) posEff(spawn);
-            };
-        }
-
-        private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
-
-        public static void LoadEffects(XElement element)
-        {
-            foreach (var effectnode in element.Elements("Function"))
-            {
-                string name = effectnode.RequireAttribute("name").Value;
-
-                Effect effect = entity => { };
-                effect = effectnode.Elements().Aggregate(effect, (current, child) => current + LoadXmlEffect(child));
-
-                EffectParser.SaveEffect(name, effect);
-            }
-        }
-
-        public static void SaveEffect(string name, Effect effect)
-        {
-            storedEffects.Add(name, effect);
-        }
-
-        public static Effect GetEffect(string name)
-        {
-            return e => {
-                if (storedEffects.ContainsKey(name)) storedEffects[name](e);
             };
         }
 
