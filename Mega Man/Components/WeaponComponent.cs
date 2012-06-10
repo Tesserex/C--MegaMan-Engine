@@ -23,7 +23,7 @@ namespace MegaMan.Engine
         private List<WeaponInfo> weapons = new List<WeaponInfo>();
         private int current;
 
-        public event Action<string, int> AmmoChanged;
+        public event Action<string, int, int> AmmoChanged;
 
         public string CurrentWeapon { get { return weapons[current].Name; } }
 
@@ -157,7 +157,7 @@ namespace MegaMan.Engine
 
             if (AmmoChanged != null)
             {
-                AmmoChanged(weapons[current].Name, weapons[current].Ammo);
+                AmmoChanged(weapons[current].Name, weapons[current].Ammo, weapons[current].Max);
             }
         }
 

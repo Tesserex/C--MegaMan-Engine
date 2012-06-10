@@ -24,8 +24,10 @@ namespace MegaMan.Engine
             var player = container.GetEntities("Player").SingleOrDefault();
             if (player == null) return;
 
-            var value = player.GetComponent<WeaponComponent>().Ammo(weaponName);
-            Set(value);
+            var component = player.GetComponent<WeaponComponent>();
+            var value = component.Ammo(weaponName);
+            var max = component.MaxAmmo(weaponName);
+            Set(value / (float)max);
 
             player.GetComponent<WeaponComponent>().AmmoChanged += WeaponAmmo_Changed;
         }
@@ -37,15 +39,15 @@ namespace MegaMan.Engine
             player.GetComponent<WeaponComponent>().AmmoChanged -= WeaponAmmo_Changed;
         }
 
-        private void WeaponAmmo_Changed(string weapon, int ammo)
+        private void WeaponAmmo_Changed(string weapon, int ammo, int max)
         {
             if (weapon == this.weaponName)
             {
-                Set(ammo);
+                Set(ammo / (float)max);
             }
         }
 
-        private void Set(int value)
+        private void Set(float value)
         {
             targetProperty.SetValue(target, value, null);
         }
