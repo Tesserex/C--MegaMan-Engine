@@ -18,8 +18,6 @@ namespace MegaMan.Common
     {
         #region Game XML File Stuff
 
-        private List<StageSelect> stageSelects = new List<StageSelect>();
-
         private List<StageInfo> stages = new List<StageInfo>();
         
         private List<string> includeFiles = new List<string>();
@@ -29,19 +27,9 @@ namespace MegaMan.Common
             get { return stages.AsReadOnly(); }
         }
 
-        public IEnumerable<StageSelect> StageSelects
-        {
-            get { return stageSelects.AsReadOnly(); }
-        }
-
         public void AddStage(StageInfo stage)
         {
             this.stages.Add(stage);
-        }
-
-        public void AddStageSelect(StageSelect select)
-        {
-            stageSelects.Add(select);
         }
 
         public IEnumerable<string> Includes
@@ -77,8 +65,6 @@ namespace MegaMan.Common
 
         public FilePath MusicNSF { get; set; }
         public FilePath EffectsNSF { get; set; }
-
-        public PauseScreen PauseScreen { get; set; }
 
         public HandlerTransfer StartHandler { get; set; }
 
@@ -164,14 +150,6 @@ namespace MegaMan.Common
                 StartHandler = HandlerTransfer.FromXml(startNode);
             }
 
-            foreach (var stageSelectNode in reader.Elements("StageSelect"))
-            {
-                stageSelects.Add(new StageSelect(stageSelectNode, this.BaseDir));
-            }
-
-            XElement pauseNode = reader.Element("PauseScreen");
-            if (pauseNode != null) PauseScreen = new PauseScreen(pauseNode, this.BaseDir);
-
             foreach (XElement entityNode in reader.Elements("Entities"))
             {
                 if (!string.IsNullOrEmpty(entityNode.Value.Trim())) includeFiles.Add(entityNode.Value);
@@ -235,13 +213,6 @@ namespace MegaMan.Common
             writer.WriteEndElement(); // Stages
 
             if (StartHandler != null) StartHandler.Save(writer);
-
-            foreach (var select in stageSelects)
-            {
-                select.Save(writer);
-            }
-
-            if (this.PauseScreen != null) this.PauseScreen.Save(writer);
 
             foreach (string entityFile in this.includeFiles)
             {

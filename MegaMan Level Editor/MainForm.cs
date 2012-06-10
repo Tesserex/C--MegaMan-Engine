@@ -56,8 +56,7 @@ namespace MegaMan.LevelEditor
                     closeToolStripMenuItem.Enabled = propertiesToolStripMenuItem.Enabled =
                     newScreenMenuItem.Enabled =
                     mergeScreenToolStripMenuItem.Enabled =
-                    splitScreenToolStripMenuItem.Enabled =
-                    stageSelectToolStripMenuItem.Enabled = (value != null);
+                    splitScreenToolStripMenuItem.Enabled = (value != null);
             }
         }
 
@@ -603,11 +602,6 @@ namespace MegaMan.LevelEditor
             foreach (ToolStripButton item in toolBar.Items) { item.Checked = false; }
             joinToolButton.Checked = true;
             DrawJoins = true;
-        }
-
-        private void stageSelectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (ActiveProject != null) new StageSelectEdit(ActiveProject).Show();
         }
 
         private void startPosToolButton_Click(object sender, EventArgs e)

@@ -103,7 +103,6 @@
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />
     <Compile Include="MusicInfo.cs" />
-    <Compile Include="PauseScreen.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneCommand.cs" />
@@ -111,10 +110,8 @@
     <Compile Include="Screen.cs" />
     <Compile Include="SoundInfo.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="StageSelect.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tileset.cs" />
-    <Compile Include="WeaponInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
