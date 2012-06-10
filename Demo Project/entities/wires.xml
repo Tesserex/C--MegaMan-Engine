@@ -1,0 +1,180 @@
+<Entities>
+	<Entity name="PosTerminal">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="32" duration="0" />
+		</Sprite>
+		<Sprite name="on" width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="48" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="box" x="0" y="0" width="16" height="16" environment="false"><Hits>Projectile</Hits></Hitbox>
+			<Hitbox name="on" x="6" y="-2" width="4" height="4" environment="false">
+				<Group>WireSend</Group><Hits>WireRcv</Hits>
+			</Hitbox>
+			<Hitbox name="off" x="6" y="-2" width="4" height="4" environment="false">
+				<Group>WireDisable</Group><Hits>WireRcv</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Trigger><Condition>StateTime > 12 And Collision.TouchedBy("Projectile")</Condition><Effect><State>On</State></Effect></Trigger>
+			<Collision><EnableBox name="off" /><EnableBox name="box" /></Collision>
+		</State>
+		<State name="On">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="on"/><EnableBox name="box" /></Collision>
+			<Trigger><Condition>StateTime > 12 And Collision.TouchedBy("Projectile")</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireVert">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="0" y="32" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="6" y="-2" width="4" height="20" environment="false"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="6" y="-2" width="4" height="20" environment="false"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="6" y="-2" width="4" height="20" environment="false"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="6" y="0" width="4" height="16" environment="false"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireHoriz">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="16" y="0" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="16" y="32" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="-2" y="6" width="20" height="4" environment="false"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="-2" y="6" width="20" height="4" environment="false"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="-2" y="6" width="20" height="4" environment="false"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="0" y="6" width="16" height="4" environment="false"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireTopLeft">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="32" y="0" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="32" y="32" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="6" y="6" width="12" height="12" environment="false"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="6" y="6" width="12" height="12" environment="false"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="6" y="6" width="12" height="12" environment="false"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="6" y="6" width="4" height="10" environment="false"><Hits>Player</Hits></Hitbox>
+			<Hitbox name="dmg2" damage="2" x="6" y="6" width="10" height="4" environment="false"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="dmg2" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireTopRight">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="0" y="16" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="0" y="48" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="-2" y="6" width="12" height="12" environment="false"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="-2" y="6" width="12" height="12" environment="false"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="-2" y="6" width="12" height="12" environment="false"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="6" y="6" width="4" height="10" environment="false"><Hits>Player</Hits></Hitbox>
+			<Hitbox name="dmg2" damage="2" x="0" y="6" width="10" height="4" environment="false"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="dmg2" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireBottomRight">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="16" y="16" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="16" y="48" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="-2" y="-2" width="12" height="12" environment="false"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="-2" y="-2" width="12" height="12" environment="false"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="-2" y="-2" width="12" height="12" environment="false"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="6" y="0" width="4" height="10" environment="false"><Hits>Player</Hits></Hitbox>
+			<Hitbox name="dmg2" damage="2" x="0" y="6" width="10" height="4" environment="false"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="dmg2" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="WireBottomLeft">
+		<Tilesheet>images\wires.png</Tilesheet>
+		<Sprite name="off" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="32" y="16" duration="0" /></Sprite>
+		<Sprite name="on" width="16" height="16"><Hotspot x="0" y="0" /><Frame x="32" y="48" duration="0" /></Sprite>
+		<Collision>
+			<Hitbox name="rcv" x="6" y="-2" width="12" height="12"><Group>WireRcv</Group></Hitbox>
+			<Hitbox name="send" x="6" y="-2" width="12" height="12"><Group>WireSend</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="send_dis" x="6" y="-2" width="12" height="12"><Group>WireDisable</Group><Hits>WireRcv</Hits></Hitbox>
+			<Hitbox name="dmg" damage="2" x="6" y="0" width="4" height="10"><Hits>Player</Hits></Hitbox>
+			<Hitbox name="dmg2" damage="2" x="6" y="6" width="10" height="4"><Hits>Player</Hits></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>off</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="send_dis" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireSend")</Condition><Effect><State>Live</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/></Collision></Effect></Trigger>
+		</State>
+		<State name="Live">
+			<Sprite><Name>on</Name></Sprite>
+			<Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="send" /></Collision>
+			<Trigger><Condition>Collision.TouchedBy("WireDisable")</Condition><Effect><State>Start</State></Effect></Trigger>
+			<Trigger condition="StateTime > 1"><Effect><Collision><EnableBox name="rcv"/><EnableBox name="dmg" /><EnableBox name="dmg2" /></Collision></Effect></Trigger>
+		</State>
+	</Entity>
+</Entities>

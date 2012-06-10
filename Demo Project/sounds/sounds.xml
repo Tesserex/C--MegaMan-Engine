@@ -1,0 +1,27 @@
+<Sounds>
+	<Sound name="Life" track="37" priority="1" />
+	<Sound name="MeterTick" track="39" priority="1" loop="true" />
+	<Sound name="MMDeath" track="30" priority="1" />
+    <Sound name="Bolt" track="25" priority="2" />
+	<Sound name="pause" track="42" priority="2"/>
+	<Sound name="change" track="40" priority="3"/>
+	<Sound name="Teleport" track="46" priority="4"/>
+	<Sound name="TeleportOut" track="54" priority="4"/>
+	<Sound name="MMHurt" track="29" priority="5"/>
+	<Sound name="EnemyDeath" track="44" priority="6" />
+	<Sound name="EnemyHurt" track="43" priority="7" />
+	<Sound name="BossDoor" track="38" priority="8" />
+	<Sound name="Deflect" track="31" priority="9" />
+    <Sound name="LowCharge" track="33" priority="9" />
+	<Sound name="FullCharge" track="34" priority="9" />
+	<Sound name="Buster" track="27" priority="10" />
+    <Sound name="Splash" track="59" priority="11" />
+    <Sound name="Gravity" track="64" priority="11" />
+	<Sound name="Charge" track="35" priority="12"/>
+	<Sound name="Gyro" track="66" loop="true" priority="12" />
+	<Sound name="YokuAppear" track="58" priority="13" />
+	<Sound name="MMLand" track="28" priority="14" />
+	<Sound name="Select" track="41" priority="15" />
+	<Sound name="Menu" track="40" priority="16" />
+    <Sound name="Deny" track="47" priority="17" />
+</Sounds>

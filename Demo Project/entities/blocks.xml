@@ -1,0 +1,408 @@
+<Entities>
+	<Properties>
+		<Properties name="block" blocking="true" resistX="0.1" />
+		<Properties name="lethal" lethal="true" blocking="true" />
+		<Properties name="conveyright" pushconstX="0.5" blocking="true" resistmultX="0" />
+		<Properties name="conveyleft" pushconstX="-0.5" blocking="true" resistmultX="0" />
+	</Properties>
+
+	<Entity name="Disappear">
+		<Tilesheet>images\blocks\disappearing.png</Tilesheet>
+		<Sprite name="Visible" width="16" height="24">
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="5" />
+			<Frame x="16" y="0" duration="5" />
+			<Frame x="32" y="0" duration="5" />
+			<Frame x="48" y="0" duration="5" />
+			<Frame x="64" y="0" duration="5" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+        <Collision>
+				<Hitbox name="H" x="0" y="0" width="16" height="16" properties="block">
+					<Group>Block</Group>
+					<Hits>Solid</Hits>
+				</Hitbox>
+			</Collision>
+		<State name="Start"></State>
+		<State name="Show">
+			<Sound name="YokuAppear" />
+			<Sprite><Name>Visible</Name></Sprite>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</State>
+		<State name="Hide">
+			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Clear /></Collision>
+		</State>
+	</Entity>
+
+    <Entity name="ElecYoku">
+		<Tilesheet>images\blocks\elec_yoku.png</Tilesheet>
+		<Sprite name="Visible" width="16" height="24">
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="6" />
+			<Frame x="48" y="0" duration="6" />
+			<Frame x="32" y="0" duration="6" />
+			<Frame x="16" y="0" duration="6" />
+			<Frame x="0" y="0" duration="6" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+        <Collision>
+				<Hitbox name="H" x="0" y="0" width="16" height="16" properties="block">
+					<Group>Block</Group>
+					<Hits>Solid</Hits>
+				</Hitbox>
+			</Collision>
+		<State name="Start"></State>
+		<State name="Show">
+			<Sound name="YokuAppear" />
+			<Sprite><Name>Visible</Name><Visible>True</Visible></Sprite>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+            <Trigger condition="StateTime >= 105">
+                <Effect><State>Hide</State></Effect>
+            </Trigger>
+		</State>
+		<State name="Hide">
+			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Clear /></Collision>
+		</State>
+	</Entity>
+
+	<Entity name="Moving">
+		<Tilesheet>images\blocks\disappearing.png</Tilesheet>
+		<Sprite name="Visible" width="16" height="16">
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="5" />
+			<Frame x="16" y="0" duration="5" />
+			<Frame x="32" y="0" duration="5" />
+			<Frame x="48" y="0" duration="5" />
+			<Frame x="64" y="0" duration="5" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Movement><Flying>True</Flying></Movement>
+		<Collision>
+			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="block">
+				<Group>Block</Group>
+				<Hits>Solid</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+          <Collision><EnableBox name="H" /></Collision>
+			<Movement mode="Repeat"><X magnitude="1" direction="Right" /></Movement>
+			<Trigger><Condition>StateTime > 120</Condition><Effect><State>Left</State></Effect></Trigger>
+		</State>
+		<State name="Left">
+			<Movement mode="Repeat"><X magnitude="1" direction="Left" /></Movement>
+			<Trigger><Condition>StateTime > 120</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="Wheel">
+		<Tilesheet>images\blocks\wheel.png</Tilesheet>
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+		</Sprite>
+		<Movement><Flying>True</Flying></Movement>
+		<State name="Start">
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="conveyright">
+					<Hits>Solid</Hits>
+				</Hitbox>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block"><Hits>Enemy</Hits></Hitbox>
+			</Collision>
+
+		</State>
+		<State name="Left">
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="conveyleft">
+					<Hits>Solid</Hits>
+				</Hitbox>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block"><Hits>Enemy</Hits></Hitbox>
+			</Collision>
+
+		</State>
+	</Entity>
+
+	<Entity name="YokuWheel">
+		<Tilesheet>images\blocks\wheel.png</Tilesheet>
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+		</Sprite>
+		<Movement><Flying>True</Flying></Movement>
+		<State name="Show">
+			<Sprite><Visible>True</Visible></Sprite>
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="conveyleft">
+					<Hits>Solid</Hits>
+				</Hitbox>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block"><Hits>Enemy</Hits></Hitbox>
+			</Collision>
+		</State>
+		<State name="Hide">
+			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Hitbox x="0" y="0" width="0" height="0"></Hitbox></Collision>
+		</State>
+	</Entity>
+
+	<Entity name="YokuSpike">
+		<Tilesheet>images\blocks\spike.png</Tilesheet>
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Movement><Flying>True</Flying></Movement>
+		<State name="Hide">
+			<Sprite><Visible>True</Visible></Sprite>
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="lethal"><Hits>Player</Hits></Hitbox>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block"><Hits>Solid</Hits><Hits>Enemy</Hits></Hitbox>
+			</Collision>
+		</State>
+		<State name="Show">
+			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Hitbox x="0" y="0" width="0" height="0"></Hitbox></Collision>
+		</State>
+	</Entity>
+
+	<Entity name="SpikeBlock" group="Block">
+		<Tilesheet>images\blocks\spikeflip.png</Tilesheet>
+		<Sprite name="Horiz" width="32" height="32">
+			<Hotspot x="16" y="16" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="HorizFlash" width="32" height="32">
+			<Hotspot x="16" y="16" />
+			<Frame x="0" y="0" duration="10" />
+			<Frame x="32" y="0" duration="10" />
+			<Frame x="0" y="0" duration="10" />
+			<Frame x="32" y="0" duration="10" />
+			<Frame x="0" y="0" duration="10" />
+			<Frame x="32" y="0" duration="10" />
+			<Frame x="64" y="0" duration="10" />
+			<Frame x="160" y="0" duration="20" />
+		</Sprite>
+		<Sprite name="Vert" width="32" height="32">
+			<Hotspot x="16" y="16" />
+			<Frame x="96" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="VertFlash" width="32" height="32">
+			<Hotspot x="16" y="16" />
+			<Frame x="96" y="0" duration="10" />
+			<Frame x="128" y="0" duration="10" />
+			<Frame x="96" y="0" duration="10" />
+			<Frame x="128" y="0" duration="10" />
+			<Frame x="96" y="0" duration="10" />
+			<Frame x="128" y="0" duration="10" />
+			<Frame x="160" y="0" duration="10" />
+			<Frame x="64" y="0" duration="20" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Collision>
+            <Enabled>True</Enabled>
+            <Hitbox name="body" x="-8" y="-8" width="16" height="16" properties="block"><Group>Block</Group><Hits>Solid</Hits></Hitbox>
+            <Hitbox name="left" x="-16" y="-6" width="8" height="12" damage="2"><Hits>Player</Hits></Hitbox>
+				<Hitbox name="right" x="8" y="-6" width="8" height="12" damage="2"><Hits>Player</Hits></Hitbox>
+                <Hitbox name="up" x="-6" y="-16" width="12" height="8" damage="2"><Hits>Player</Hits></Hitbox>
+				<Hitbox name="down" x="-6" y="8" width="12" height="8" damage="2"><Hits>Player</Hits></Hitbox>
+       </Collision>
+		<State name="Start">
+			<Sprite><Name>Horiz</Name></Sprite>
+			<Collision>
+				<EnableBox name="body" />
+				<EnableBox name="left" />
+				<EnableBox name="right" />
+			</Collision>
+			<Trigger><Condition>StateTime > 120</Condition><Effect><State>HFlash</State></Effect></Trigger>
+		</State>
+		<State name="HFlash">
+			<Collision><EnableBox name="body" /><EnableBox name="left" />
+				<EnableBox name="right" /></Collision>
+			<Sprite><Name>HorizFlash</Name></Sprite>
+			<Trigger><Condition>StateTime >= 80</Condition><Effect><State>Vert</State></Effect></Trigger>
+		</State>
+		<State name="Vert">
+			<Sprite><Name>Vert</Name></Sprite>
+			<Collision>
+				<EnableBox name="body" />
+				<EnableBox name="up" />
+				<EnableBox name="down" />
+			</Collision>
+			<Trigger><Condition>StateTime > 120</Condition><Effect><State>VFlash</State></Effect></Trigger>
+		</State>
+		<State name="VFlash">
+			<Collision><EnableBox name="body" /><EnableBox name="up" />
+				<EnableBox name="down" /></Collision>
+			<Sprite><Name>VertFlash</Name></Sprite>
+			<Trigger><Condition>StateTime >= 80</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="BreakBlock">
+		<Tilesheet>images\blocks\break.png</Tilesheet>
+		<Sprite name="Show" width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="hide" width="1" height="1">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="0" duration="0" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Movement><Flying>True</Flying></Movement>
+		<Collision><Enabled>True</Enabled></Collision>
+		<State name="Start">
+			<Sprite><Name>Show</Name></Sprite>
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block" environment="false">
+					<Group>Block</Group><Hits>Solid</Hits>
+				</Hitbox>
+			</Collision>
+			<Trigger>
+				<Condition>Collision.TouchedBy("Player") Or Collision.TouchedBy("BlockBreaker")</Condition>
+				<Effect><State>Tripped</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Tripped">
+			<Trigger><Condition>StateTime >= 8</Condition><Effect><State>Cascade</State></Effect></Trigger>
+		</State>
+		<State name="Cascade">
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" properties="block" environment="false">
+					<Group>Block</Group><Hits>Solid</Hits>
+				</Hitbox>
+				<Hitbox x="-2" y="2" width="20" height="12" properties="block" environment="false">
+					<Group>BlockBreaker</Group><Hits>Block</Hits>
+				</Hitbox>
+				<Hitbox x="2" y="-2" width="12" height="20" properties="block" environment="false">
+					<Group>BlockBreaker</Group><Hits>Block</Hits>
+				</Hitbox>
+			</Collision>
+			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Hide</State></Effect></Trigger>
+		</State>
+		<State name="Hide">
+			<Sprite><Name>hide</Name></Sprite>
+			<Collision><Hitbox x="0" y="0" width="0" height="0"></Hitbox></Collision>
+			<Trigger><Condition>StateTime >= 120</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="BossDoor">
+		<Tilesheet>images\blocks\door.png</Tilesheet>
+		<Sprite name="Closed" width="16" height="64">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Opening" width="16" height="64">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="32" y="0" duration="8" />
+			<Frame x="48" y="0" duration="8" />
+		</Sprite>
+		<Sprite name="Closing" width="16" height="64">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="48" y="0" duration="8" />
+			<Frame x="32" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="0" y="0" duration="8" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Collision>
+			<Hitbox name="H" x="0" y="0" width="16" height="64" properties="block" environment="false">
+				<Group>Door</Group><Hits>Player</Hits><Hits>Enemy</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Closed</Name></Sprite>
+			<Collision><EnableBox name="H" /></Collision>
+		</State>
+		<State name="Opening">
+			<Sprite><Name>Opening</Name></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Open</State></Effect></Trigger>
+		</State>
+		<State name="Open">
+			<Sprite><Visible>False</Visible></Sprite>
+		</State>
+		<State name="Closing">
+			<Sprite><Name>Closing</Name><Visible>True</Visible></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="BossDoorH">
+		<Tilesheet>images\blocks\hdoor.png</Tilesheet>
+		<Sprite name="Closed" width="64" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Opening" width="64" height="16">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="0" y="16" duration="8" />
+			<Frame x="0" y="32" duration="8" />
+			<Frame x="0" y="48" duration="8" />
+		</Sprite>
+		<Sprite name="Closing" width="64" height="16">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="0" y="48" duration="8" />
+			<Frame x="0" y="32" duration="8" />
+			<Frame x="0" y="16" duration="8" />
+			<Frame x="0" y="0" duration="8" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Collision>
+			<Hitbox x="0" y="0" width="64" height="16" properties="block" environment="false">
+				<Group>Door</Group><Hits>Player</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Closed</Name></Sprite>
+		</State>
+		<State name="Opening">
+			<Sprite><Name>Opening</Name></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Open</State></Effect></Trigger>
+		</State>
+		<State name="Open">
+			<Sprite><Visible>False</Visible></Sprite>
+		</State>
+		<State name="Closing">
+			<Sprite><Name>Closing</Name><Visible>True</Visible></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="Teleporter">
+		<Tilesheet>images\teleporters.png</Tilesheet>
+		<Sprite width="33" height="65" layer="1">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="4" duration="15" />
+			<Frame x="37" y="4" duration="15" />
+		</Sprite>
+		<Collision>
+			<Hitbox x="0" y="0" width="33" height="16" properties="block" environment="false">
+				<Group>Block</Group><Hits>Solid</Hits>
+			</Hitbox>
+			<Hitbox x="0" y="49" width="33" height="16" properties="block" environment="false">
+				<Group>Block</Group><Hits>Solid</Hits>
+			</Hitbox>
+		</Collision>
+	</Entity>
+</Entities>

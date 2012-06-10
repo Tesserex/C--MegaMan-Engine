@@ -1,0 +1,26 @@
+<Map name="crystal" tiles="tiles.xml">
+	<Music nsftrack="5" />
+	<Start screen="Start" x="132" y="148" />
+	<Screen id="Start">
+		<Entity name="Seeker" state="" x="230" y="126" />
+		<Entity name="Seeker" state="" x="164" y="54" />
+		<Entity name="Seeker" state="" x="209" y="79" />
+		<Entity name="EnergyTank" state="" x="48" y="105" respawn="Death" />
+	</Screen>
+	<Screen id="Boss">
+		<Music nsftrack="11" />
+		<Entity name="CrystalMan" x="200" y="-20" />
+	</Screen>
+	<Screen id="ScreenTwo">
+		<Entity name="Collapser" state="" x="138" y="128" />
+		<Entity name="Collapser" state="" x="176" y="96" />
+	</Screen>
+	<Screen id="4">
+		<Entity name="EnergyTank" state="" x="48" y="105" respawn="Death" />
+		<Entity name="ShieldGuy" state="" x="52" y="161" />
+		<Entity name="ShieldShooter" state="" x="160" y="96" direction="Right" />
+	</Screen>
+	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
+	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
+	<Join type="vertical" s1="4" s2="Boss" offset1="9" offset2="9" size="3" direction="both" />
+</Map>

@@ -1,0 +1,54 @@
+<Functions>
+    <Function name="EnemyDeath">
+        <Spawn name="DeathPop" />
+        <Sound name="EnemyDeath" />
+		<Trigger condition="Random &lt; 0.1"><Effect><Spawn name="SmallHealth" /></Effect></Trigger>
+		<Trigger condition="Random >= 0.1 And Random &lt; 0.2"><Effect><Spawn name="SmallBolt" /></Effect></Trigger>
+		<Trigger condition="Random >= 0.2 And Random &lt; 0.25"><Effect><Spawn name="BigHealth" /></Effect></Trigger>
+		<Trigger condition="Random >= 0.25 And Random &lt; 0.35"><Effect><Spawn name="SmallWeapon" /></Effect></Trigger>
+		<Trigger condition="Random >= 0.35 And Random &lt; 0.4"><Effect><Spawn name="BigWeapon" /></Effect></Trigger>
+		<Trigger condition="Random >= 0.4 And Random &lt; 0.41"><Effect><Spawn name="ExtraLife" /></Effect></Trigger>
+    </Function>
+
+    <Function name="Splash">
+        <Trigger>
+            <Condition>GameEntity.NumAlive("Splash") == 0</Condition>
+            <Effect>
+                <Spawn name="Splash" />
+                <Sound name="Splash" />
+            </Effect>
+        </Trigger>
+    </Function>
+
+    <Function name="Bubble">
+        <Trigger>
+            <Condition>GameEntity.NumAlive("Bubble") == 0</Condition>
+            <Effect><Spawn name="Bubble" /></Effect>
+        </Trigger>
+    </Function>
+
+    <Function name="GravityUp">
+        <Trigger>
+            <Condition>GravityFlip == False</Condition>
+            <Effect>
+                <GravityFlip>True</GravityFlip>
+                <Sound name="Gravity" />
+            </Effect>
+        </Trigger>
+    </Function>
+
+    <Function name="GravityDown">
+        <Trigger>
+            <Condition>GravityFlip == True</Condition>
+            <Effect>
+                <GravityFlip>False</GravityFlip>
+                <Sound name="Gravity" />
+            </Effect>
+        </Trigger>
+    </Function>
+
+    <Function name="UseE">
+        <Func>Health.Add(28)</Func>
+        <RemoveInventory item="EnergyTank" quantity="1" />
+    </Function>
+</Functions>

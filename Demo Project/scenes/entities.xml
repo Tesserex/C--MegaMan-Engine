@@ -1,0 +1,85 @@
+<Entities>
+	<Entity name="BigStar">
+		<Sprite tilesheet="images/cutscenes/boss/big.png" width="2" height="2">
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<State name="Start">
+			<Movement mode="repeat">
+				<Flying>True</Flying>
+				<X magnitude="2" direction="Left" />
+				<Y magnitude="2" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y > 224</Condition>
+				<Effect>
+					<Position>
+						<X offset="448" direction="Up" />
+						<Y offset="448" direction="Right" />
+					</Position>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="SmallStar">
+		<Sprite tilesheet="images/cutscenes/boss/small.png" width="1" height="1">
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<State name="Start">
+			<Timer><Start>T</Start></Timer>
+			<Movement mode="repeat">
+				<Flying>True</Flying>
+				<X magnitude="1" direction="Left" />
+				<Y magnitude="1" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y > 224</Condition>
+				<Effect>
+					<Position>
+						<X offset="448" direction="Up" />
+						<Y offset="448" direction="Right" />
+					</Position>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="TopBorder">
+		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
+			<Frame x="0" y="0" duration="10" />
+			<Frame x="256" y="0" duration="10" />
+		</Sprite>
+		<State name="Start">
+			<Movement>
+				<Flying>True</Flying>
+				<Y magnitude="2.5" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y >= 48</Condition>
+				<Effect>
+					<Movement>
+						<Y magnitude="0"/>
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="BottomBorder">
+		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
+			<Frame x="0" y="24" duration="10" />
+			<Frame x="256" y="24" duration="10" />
+		</Sprite>
+		<State name="Start">
+			<Movement>
+				<Flying>True</Flying>
+				<Y magnitude="2.5" direction="Up" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y &lt;= 142</Condition>
+				<Effect>
+					<Movement>
+						<Y magnitude="0"/>
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+</Entities>

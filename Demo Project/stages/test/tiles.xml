@@ -1,0 +1,53 @@
+<Tileset tilesheet="tiles.png" tilesize="16">
+	<TileProperties>
+       <Properties name="Wind" pushX="0.75" />
+		<Properties name="Block" blocking="true" resistX="0" />
+		<Properties name="Lethal" blocking="true" lethal="true" />
+		<Properties name="Water" gravitymult="0.4" onenter="Splash" onleave="Splash" onover="Bubble" />
+		<Properties name="GravUp" onenter="GravityUp" />
+		<Properties name="GravDown" onenter="GravityDown" />
+	</TileProperties>
+	<Tile id="0" name="" properties="Wind">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="1" name="" properties="Block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="0" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="2" name="" properties="Lethal">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="0" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="3" name="" properties="Water">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="0" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="4" name="" properties="GravUp">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="16" duration="6" />
+			<Frame x="16" y="16" duration="6" />
+			<Frame x="32" y="16" duration="6" />
+			<Frame x="48" y="16" duration="6" />
+		</Sprite>
+	</Tile>
+	<Tile id="5" name="" properties="GravDown">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="32" duration="6" />
+			<Frame x="16" y="32" duration="6" />
+			<Frame x="32" y="32" duration="6" />
+			<Frame x="48" y="32" duration="6" />
+		</Sprite>
+	</Tile>
+</Tileset>

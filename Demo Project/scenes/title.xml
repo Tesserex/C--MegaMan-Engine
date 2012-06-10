@@ -1,0 +1,25 @@
+<Menu name="Title">
+	<Sprite name="Title" tilesheet="images/cutscenes/title/title.png" width="210" height="74" layer="1">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="MegaMan" tilesheet="images/cutscenes/title/slide.png" width="174" height="144" layer="1">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<PlayMusic track="74" />
+		<Sprite name="Title" object="Title" x="-360" y="8" />
+		<Sprite name="MegaMan" object="MegaMan" x="448" y="80" />
+		<SpriteMove name="Title" x="8" y="8" duration="30" />
+		<SpriteMove name="MegaMan" x="80" y="80" duration="30" />
+		<Text content="Engine Demo" x="144" y="66" />
+		<Text content="Press Enter" x="8" y="128" />
+		<Option x="8" y="128">
+			<Select>
+				<Sound name="Select" />
+				<Next type="Menu" name="Main" fade="True" />
+			</Select>
+		</Option>
+	</State>
+</Menu>

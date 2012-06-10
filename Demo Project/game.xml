@@ -1,0 +1,32 @@
+<Game name="Engine Demo" author="Tesserex" version="1.2.0.0">
+	<Size x="256" y="224" />
+	<NSF>
+		<Music>music\mm5.nsf</Music>
+		<SFX>music\mm5.nsf</SFX>
+	</NSF>
+	<Stages>
+		<Stage name="Crystal" path="stages\crystal" />
+		<Stage name="Demo" path="stages\demo" />
+		<Stage name="Test" path="stages\Test" />
+		<Stage name="Elec" path="stages\Elec" />
+		<Stage name="Metal" path="stages\Metal" />
+	</Stages>
+	<Next type="Scene" name="Intro" fade="False" />
+	<Include>entities\bosses.xml</Include>
+	<Include>entities\player.xml</Include>
+	<Include>entities\weapons.xml</Include>
+	<Include>entities\particles.xml</Include>
+	<Include>entities\enemies.xml</Include>
+	<Include>entities\items.xml</Include>
+	<Include>entities\blocks.xml</Include>
+	<Include>entities\wires.xml</Include>
+	<Include>sounds\sounds.xml</Include>
+	<Include>entities\functions.xml</Include>
+	<Include>scenes\entities.xml</Include>
+	<Include>scenes\crystal.xml</Include>
+	<Include>scenes\intro.xml</Include>
+	<Include>scenes\title.xml</Include>
+	<Include>scenes\mainmenu.xml</Include>
+	<Include>scenes\stageselect.xml</Include>
+	<Include>scenes\pause.xml</Include>
+</Game>

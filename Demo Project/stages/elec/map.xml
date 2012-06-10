@@ -1,0 +1,104 @@
+<Map name="Elec" tiles="..\elec\tiles.xml">
+	<Start screen="1" x="112" y="180" />
+	<Screen id="1">
+		<Entity name="FloorBlade" state="" x="101" y="136" />
+		<Entity name="FloorBlade" state="" x="170" y="104" />
+		<Entity name="FloorBlade" state="" x="56" y="72" />
+	</Screen>
+	<Screen id="2">
+		<Entity name="FloorBlade" state="" x="137" y="136" />
+		<Entity name="FloorBlade" state="" x="91" y="104" />
+	</Screen>
+	<Screen id="3">
+		<Entity name="BoltOne" state="" x="160" y="144" />
+		<Entity name="BoltTwo" state="" x="112" y="111" />
+	</Screen>
+	<Screen id="4" />
+	<Screen id="5" />
+	<Screen id="6">
+		<Blocks left="0" right="256" length="240" entity="ElecYoku">
+			<Block x="144" y="96" on="0" off="105" />
+			<Block x="96" y="96" on="60" off="165" />
+			<Block x="176" y="64" on="120" off="225" />
+			<Block x="64" y="64" on="180" off="285" />
+		</Blocks>
+	</Screen>
+	<Screen id="7">
+		<Entity name="SmallWeapon" state="" x="114" y="188" />
+		<Entity name="SmallWeapon" state="" x="97" y="188" />
+		<Entity name="SmallWeapon" state="" x="79" y="188" />
+		<Blocks left="0" right="256" length="240" entity="ElecYoku">
+			<Block x="192" y="176" on="0" off="105" />
+			<Block x="176" y="176" on="60" off="165" />
+			<Block x="160" y="176" on="120" off="225" />
+			<Block x="144" y="176" on="180" off="285" />
+		</Blocks>
+	</Screen>
+	<Screen id="8">
+		<Entity name="BigHealth" state="" x="241" y="184" />
+	</Screen>
+	<Screen id="9" />
+	<Screen id="10">
+		<Entity name="FloorBlade" state="" x="42" y="120" />
+		<Entity name="FloorBlade" state="" x="48" y="56" />
+		<Entity name="FloorBlade" state="" x="117" y="88" />
+		<Entity name="BoltOne" x="160" y="112" />
+		<Entity name="BoltTwo" x="160" y="48" />
+	</Screen>
+	<Screen id="11" />
+	<Screen id="12">
+		<Entity name="LargeBolt" state="" x="208" y="122" />
+	</Screen>
+	<Screen id="13">
+		<Entity name="BoltTwo" state="" x="160" y="80" />
+		<Entity name="BoltOne" state="" x="160" y="144" />
+	</Screen>
+	<Screen id="14">
+		<Entity name="BoltOne" state="" x="16" y="144" />
+		<Entity name="BoltTwo" state="" x="16" y="80" />
+		<Entity name="BoltTwo" state="" x="160" y="48" />
+	</Screen>
+	<Screen id="15">
+		<Entity name="BoltTwo" state="" x="32" y="112" />
+		<Entity name="BoltOne" state="" x="32" y="176" />
+	</Screen>
+	<Screen id="16" />
+	<Screen id="17">
+		<Entity name="BoltOne" state="" x="96" y="143" />
+		<Entity name="BoltTwo" state="" x="64" y="111" />
+	</Screen>
+	<Screen id="18" />
+	<Screen id="19" />
+	<Screen id="20">
+		<Entity name="BoltTwo" state="" x="96" y="176" />
+		<Entity name="BoltTwo" state="" x="96" y="48" />
+		<Entity name="BoltOne" state="" x="96" y="112" />
+	</Screen>
+	<Screen id="21">
+		<Entity name="BoltOne" state="" x="96" y="112" />
+		<Entity name="BoltTwo" state="" x="96" y="48" />
+		<Entity name="BoltTwo" state="" x="96" y="176" />
+	</Screen>
+	<Screen id="22" />
+	<Join type="horizontal" s1="2" s2="1" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="3" s2="2" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="4" s2="3" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="5" s2="4" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="6" s2="5" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="7" s2="6" offset1="2" offset2="2" size="12" direction="both" />
+	<Join type="horizontal" s1="8" s2="7" offset1="0" offset2="0" size="8" direction="both" />
+	<Join type="horizontal" s1="9" s2="8" offset1="12" offset2="28" size="1" direction="both" />
+	<Join type="horizontal" s1="10" s2="9" offset1="0" offset2="0" size="9" direction="both" />
+	<Join type="horizontal" s1="11" s2="10" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="12" s2="11" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="13" s2="12" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="14" s2="13" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="15" s2="14" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="16" s2="15" offset1="0" offset2="0" size="10" direction="both" />
+	<Join type="horizontal" s1="17" s2="16" offset1="12" offset2="28" size="2" direction="both" />
+	<Join type="horizontal" s1="18" s2="17" offset1="0" offset2="0" size="3" direction="both" />
+	<Join type="vertical" s1="18" s2="19" offset1="4" offset2="4" size="4" direction="forward" />
+	<Join type="horizontal" s1="20" s2="19" offset1="6" offset2="6" size="4" direction="both" />
+	<Join type="horizontal" s1="21" s2="20" offset1="6" offset2="6" size="4" direction="both" />
+	<Join type="horizontal" s1="22" s2="21" offset1="6" offset2="6" size="4" direction="backward" />
+</Map>

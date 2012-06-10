@@ -1,0 +1,6 @@
+<Map name="Metal" tiles="..\metal\tiles.xml">
+	<Start screen="1" x="116" y="148" />
+	<Screen id="1">
+		<Entity name="EnergyTank" state="" x="504" y="152" respawn="stage" />
+	</Screen>
+</Map>

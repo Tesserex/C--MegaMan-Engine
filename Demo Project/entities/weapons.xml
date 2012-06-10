@@ -1,0 +1,797 @@
+<Entities>
+	<Entity name="EnemyShot">
+		<Sprite tilesheet="images\weapons\enemyshot.png" width="8" height="8">
+			<Hotspot x="4" y="4" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="1" x="-4" y="-4" width="8" height="8" environment="false">
+				<Hits>Player</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="4" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="2" direction="Inherit" /><Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+		</State>
+	</Entity>
+
+	<Entity name="SeekPlayerShot">
+		<Sprite tilesheet="images\weapons\enemyshot.png" width="8" height="8">
+			<Hotspot x="4" y="4" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="4" x="-4" y="-4" width="8" height="8" environment="false">
+				<Hits>Player</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="4" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<Velocity magnitude="4" direction="Player" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+		</State>
+	</Entity>
+
+	<Entity name="MBuster" limit="3">
+		<Sprite tilesheet="images\weapons\weapons.png" width="8" height="8">
+			<Hotspot x="4" y="4" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="1" x="-4" y="-4" width="8" height="8" environment="false">
+				<Hits>Enemy</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<Health>
+			<Max>1</Max>
+		</Health>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="4" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Sound name="Buster" />
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("Deflect")</Condition>
+			<Effect>
+				<Sound name="Deflect" />
+				<Collision><Enabled>False</Enabled></Collision>
+				<Movement><X magnitude="3" direction="Reverse" /><Y magnitude="3" direction="Up" /></Movement>
+			</Effect>
+		</Trigger>
+	</Entity>
+
+	<Entity name="ChargeLow">
+		<Sprite tilesheet="images\weapons\chargelow.png" width="16" height="16">
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="16" y="0" duration="4" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="2" x="-8" y="-8" width="16" height="16" environment="false">
+				<Hits>Enemy</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<Health>
+			<Max>2</Max>
+		</Health>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<FlipSprite>True</FlipSprite>
+				<X magnitude="5" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Sound name="LowCharge" />
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("Deflect")</Condition>
+			<Effect>
+				<Sound name="Deflect" />
+				<Collision><Enabled>False</Enabled></Collision>
+				<Movement><X magnitude="3" direction="Reverse" /><Y magnitude="3" direction="Up" /></Movement>
+			</Effect>
+		</Trigger>
+	</Entity>
+
+	<Entity name="ChargeFull">
+		<Sprite tilesheet="images\weapons\chargefull.png" width="31" height="30">
+			<Hotspot x="15" y="15" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="31" y="0" duration="4" />
+			<Frame x="62" y="0" duration="4" />
+			<Frame x="93" y="0" duration="4" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="4" x="-12" y="-15" width="24" height="30" environment="false">
+				<Hits>Enemy</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<Health>
+			<Max>4</Max>
+		</Health>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<FlipSprite>True</FlipSprite>
+				<X magnitude="5" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Sound name="FullCharge" />
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("Deflect")</Condition>
+			<Effect>
+				<Sound name="Deflect" />
+				<Collision><Enabled>False</Enabled></Collision>
+				<Movement><X magnitude="3" direction="Reverse" /><Y magnitude="3" direction="Up" /></Movement>
+			</Effect>
+		</Trigger>
+
+	</Entity>
+
+	<Entity name="Gyro" limit="1">
+		<Sprite tilesheet="images\weapons\weapons.png" width="21" height="10">
+			<Hotspot x="11" y="5" />
+			<Frame x="0" y="16" duration="2" />
+			<Frame x="21" y="16" duration="2" />
+			<Frame x="42" y="16" duration="2" />
+			<Frame x="63" y="16" duration="2" />
+		</Sprite>
+		<Input />
+		<Collision>
+			<Hitbox name="H" damage="1" x="-5" y="-4" width="10" height="8" environment="false">
+				<Hits>Enemy</Hits><Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<Health>
+			<Max>1</Max>
+		</Health>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="3" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Sound name="Gyro" />
+			<Timer><Start>SoundLoop</Start></Timer>
+			<Trigger>
+				<Condition>Input.Up==True</Condition>
+				<Effect>
+					<State>Up</State>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Input.Down==True</Condition>
+				<Effect>
+					<State>Down</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Up">
+			<Movement>
+				<X magnitude="0" />
+				<Y magnitude="3" direction="Up" />
+			</Movement>
+		</State>
+		<State name="Down">
+			<Movement>
+				<X magnitude="0" />
+				<Y magnitude="3" direction="Down" />
+			</Movement>
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("Deflect")</Condition>
+			<Effect>
+				<Sound name="Deflect" />
+				<Collision><Enabled>False</Enabled></Collision>
+				<Movement><X magnitude="3" direction="Reverse" /><Y magnitude="3" direction="Up" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Timer.Value("SoundLoop") == 35</Condition>
+			<Effect><Sound name="Gyro" /><Timer><Reset>SoundLoop</Reset></Timer></Effect>
+		</Trigger>
+	</Entity>
+
+	<Entity name="Crystal" group="Weapon">
+		<Sprite name="Big" tilesheet="images\weapons\crystal.png" width="16" height="16">
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="32" y="0" duration="8" />
+			<Frame x="48" y="0" duration="8" />
+			<Frame x="64" y="0" duration="8" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="3" x="-8" y="-8" width="16" height="16">
+				<Hits>Enemy</Hits>
+				<Group>Projectile</Group>
+				<Group>Solid</Group>
+			</Hitbox>
+			<Blocking>True</Blocking>
+		</Collision>
+		<Health>
+			<Max>3</Max>
+		</Health>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="4" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Sound name="Buster" />
+			<Trigger>
+				<Condition>Movement.Direction==Right</Condition>
+				<Effect><State>Right</State></Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Movement.Direction==Left</Condition>
+				<Effect><State>Left</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Right">
+			<Movement mode="Repeat">
+				<X magnitude="4" direction="Right" />
+				<Y magnitude="0" />
+			</Movement>
+			<Trigger>
+				<Condition>Collision.BlockRight == True</Condition>
+				<Effect>
+					<Spawn name="SmallCrystal" state="Left" />
+					<Spawn name="SmallCrystal" state="UpLeft" />
+					<Spawn name="SmallCrystal" state="DownLeft" />
+					<Remove />
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Left">
+			<Movement mode="Repeat">
+				<X magnitude="4" direction="Left" />
+				<Y magnitude="0" />
+			</Movement>
+			<Trigger>
+				<Condition>Collision.BlockLeft == True</Condition>
+				<Effect>
+					<Spawn name="SmallCrystal" state="Right" />
+					<Spawn name="SmallCrystal" state="UpRight" />
+					<Spawn name="SmallCrystal" state="DownRight" />
+					<Remove />
+				</Effect>
+			</Trigger>
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+	</Entity>
+
+	<Entity name="SmallCrystal">
+		<Sprite tilesheet="images\weapons\crystal.png" width="8" height="8">
+			<Hotspot x="4" y="4" />
+			<Frame x="80" y="0" duration="8" />
+			<Frame x="88" y="0" duration="8" />
+			<Frame x="96" y="0" duration="8" />
+			<Frame x="104" y="0" duration="8" />
+			<Frame x="112" y="0" duration="8" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="1" x="-4" y="-4" width="8" height="8">
+				<Hits>Enemy</Hits>
+				<Group>Projectile</Group>
+				<Group>Solid</Group>
+			</Hitbox>
+			<Blocking>True</Blocking>
+		</Collision>
+		<Health>
+			<Max>1</Max>
+		</Health>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+			</Movement>
+		</State>
+		<State name="Right">
+			<Movement mode="Repeat"><X magnitude="4" direction="Right" /><Y magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockRight == True</Condition><Effect><State>Left</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="Left">
+			<Movement mode="Repeat"><X magnitude="4" direction="Left" /><Y magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft == True</Condition><Effect><State>Right</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="UpLeft">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Left" /><Y magnitude="2.8" direction="Up" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft == True</Condition><Effect><State>UpRight</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTop == True</Condition><Effect><State>DownLeft</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="UpRight">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Right" /><Y magnitude="2.8" direction="Up" /></Movement>
+			<Trigger><Condition>Collision.BlockRight == True</Condition><Effect><State>UpLeft</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTop == True</Condition><Effect><State>DownRight</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="DownLeft">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Left" /><Y magnitude="2.8" direction="Down" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft == True</Condition><Effect><State>DownRight</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockBottom == True</Condition><Effect><State>UpLeft</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="DownRight">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Right" /><Y magnitude="2.8" direction="Down" /></Movement>
+			<Trigger><Condition>Collision.BlockRight == True</Condition><Effect><State>DownLeft</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockBottom == True</Condition><Effect><State>UpRight</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+	</Entity>
+
+	<Entity name="Napalm">
+		<Tilesheet>images\weapons\napalm.png</Tilesheet>
+		<Sprite name="Right" width="14" height="14">
+			<Hotspot x="7" y="7" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="14" y="0" duration="8" />
+			<Frame x="28" y="0" duration="8" />
+			<Frame x="42" y="0" duration="8" />
+		</Sprite>
+		<Sprite name="Left" width="14" height="14">
+			<Hotspot x="7" y="7" />
+			<Frame x="42" y="0" duration="8" />
+			<Frame x="28" y="0" duration="8" />
+			<Frame x="14" y="0" duration="8" />
+			<Frame x="0" y="0" duration="8" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="2" x="-4" y="-4" width="8" height="8">
+				<Hits>Enemy</Hits>
+				<Group>Projectile</Group>
+				<Group>Solid</Group>
+			</Hitbox>
+			<Blocking>True</Blocking>
+		</Collision>
+		<Health>
+			<Max>2</Max>
+		</Health>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>False</Flying>
+				<X magnitude="1" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Sound name="Buster" />
+			<Trigger>
+				<Condition>Movement.Direction==Right</Condition>
+				<Effect><State>Right</State></Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Movement.Direction==Left</Condition>
+				<Effect><State>Left</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Right">
+			<Sprite><Name>Right</Name></Sprite>
+			<Movement><X magnitude="1" direction="Right" /></Movement>
+			<Movement mode="Repeat"><X magnitude="1" /></Movement>
+			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>Left</State></Effect></Trigger>
+		</State>
+		<State name="Left">
+			<Sprite><Name>Left</Name></Sprite>
+			<Movement><X magnitude="1" direction="Left" /></Movement>
+			<Movement mode="Repeat"><X magnitude="1" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Right</State></Effect></Trigger>
+		</State>
+		<Trigger>
+			<Condition>LifeTime > 120</Condition>
+			<Effect>
+				<Remove />
+				<Spawn name="DeathPopBig" />
+				<Sound name="EnemyDeath" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockBottom == True</Condition>
+			<Effect>
+				<Movement>
+					<Y magnitude="2" direction="Up" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+		<Death>
+			<Spawn name="DeathPopBig" />
+			<Sound name="EnemyDeath" />
+		</Death>
+	</Entity>
+
+	<Entity name="RushCoil">
+		<Tilesheet>images\weapons\rush.png</Tilesheet>
+			<Sprite name="Warp" width="24" height="32">
+			<Hotspot x="12" y="32" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+		</Sprite>
+		<Sprite name="WarpStart" width="24" height="32">
+			<Hotspot x="12" y="32" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+		</Sprite>
+		<Sprite name="Stand" width="27" height="24">
+			<Hotspot x="15" y="24" />
+			<Frame x="72" y="8" duration="8" />
+      <Frame x="8" y="40" duration="8" />
+		</Sprite>
+		<Sprite name="Fire" width="27" height="24">
+			<Hotspot x="15" y="24" />
+			<Frame x="101" y="8" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="Warp" x="-4" y="-4" width="4" height="4" environment="true" pushaway="false"></Hitbox>
+			<Hitbox name="Spring" x="-10" y="-24" width="16" height="8" environment="false">
+				<Group>RushCoil</Group><Hits>PlayerRush</Hits>
+			</Hitbox>
+			<Hitbox name="Floor" x="-4" y="-4" width="4" height="4" environment="true"></Hitbox>
+		</Collision>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="0"/>
+			</Position>
+			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
+			<Movement mode="Repeat">
+				<Flying>True</Flying>
+				<X magnitude="0.5" direction="Inherit" /><X magnitude="0" /><Y magnitude="8" direction="Down" />
+				<FlipSprite>True</FlipSprite>
+			</Movement>
+			<Trigger condition="PlayerDistY &lt; 8">
+				<Effect>
+					<Collision>
+						<EnableBox name="Warp" />
+						<Enabled>True</Enabled>
+					</Collision>
+				</Effect>
+			</Trigger>
+
+			<Trigger condition="Collision.BlockBottom And !Collision.BlockTop">
+				<Effect><State>WarpEnd</State></Effect>
+			</Trigger>
+			<Trigger condition="Collision.BlockTop">
+				<Effect><Collision><Enabled>False</Enabled></Collision></Effect>
+			</Trigger>
+		</State>
+		<State name="WarpEnd">
+			<Sprite><Name>Warp</Name><Playing>True</Playing></Sprite>
+			<Movement>
+				<Y magnitude="0" />
+			</Movement>
+			<Trigger>
+				<Condition>StateTime > 7</Condition>
+				<Effect>
+					<Movement>
+						<Flying>False</Flying>
+					</Movement>
+					<State>Standing</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="WarpStart">
+			<Sprite><Name>WarpStart</Name><Playing>True</Playing></Sprite>
+			<Movement>
+				<Flying>True</Flying>
+			</Movement>
+			<Collision><Enabled>False</Enabled></Collision>
+			<Trigger><Condition>StateTime >= 12</Condition><Effect><State>WarpUp</State></Effect></Trigger>
+		</State>
+		<State name="WarpUp">
+			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="0" /><Y magnitude="4" direction="Up" />
+			</Movement>
+			<Collision><Enabled>False</Enabled></Collision>
+		</State>
+		<State name="Standing">
+			<Sprite><Name>Stand</Name></Sprite>
+			<Movement><FlipSprite>True</FlipSprite></Movement>
+			<Collision>
+				<EnableBox name="Spring" />
+				<EnableBox name="Floor" />
+			</Collision>
+			<Trigger><Condition>Collision.TouchedBy("PlayerRush")</Condition>
+				<Effect><State>Fire</State></Effect>
+			</Trigger>
+			<Trigger condition="StateTime >= 300">
+				<Effect><State>WarpStart</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Fire">
+			<Sprite><Name>Fire</Name></Sprite>
+			<Collision>
+				<EnableBox name="Floor" />
+			</Collision>
+			<Trigger condition="StateTime >= 90"><Effect><State>WarpStart</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="RushJet">
+		<Tilesheet>images\weapons\rush.png</Tilesheet>
+			<Sprite name="Warp" width="24" height="32">
+			<Hotspot x="12" y="24" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="48" y="0" duration="10" />
+		</Sprite>
+		<Sprite name="WarpStart" width="24" height="32">
+			<Hotspot x="12" y="24" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="0" y="0" duration="10" />
+		</Sprite>
+		<Sprite name="Down" width="32" height="13">
+			<Hotspot x="16" y="5" />
+			<Frame x="160" y="19" duration="6" />
+			<Frame x="192" y="19" duration="6" />
+		</Sprite>
+		<Position persistoffscreen="false" />
+		<Collision>
+			<Hitbox name="DetectFloor" x="-11" y="-1" width="28" height="9" environment="true" pushaway="false"></Hitbox>
+			<Hitbox name="ContactRight" x="-11" y="-3" width="28" height="8" environment="true" properties="block">
+				<Group>RushJetRight</Group>
+				<Hits>PlayerRush</Hits>
+			</Hitbox>
+			<Hitbox name="ContactLeft" x="-11" y="-3" width="28" height="8" environment="true" properties="block">
+				<Group>RushJetLeft</Group>
+				<Hits>PlayerRush</Hits>
+			</Hitbox>
+			<Hitbox name="Platform" x="-11" y="-4" width="28" height="9" environment="true">
+				<Group>RushJet</Group>
+				<Hits>PlayerRush</Hits>
+			</Hitbox>
+			<Hitbox name="Ammo" x="-256" y="-224" width="512" height="448" environment="false">
+				<Group>DeductAmmo</Group>
+				<Hits>Player</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" offset="20" direction="Inherit" />
+				<Y base="0" />
+			</Position>
+			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
+			<Movement>
+				<FlipSprite>True</FlipSprite>
+				<Flying>True</Flying>
+				<X magnitude="1" direction="Inherit" /><X magnitude="0" />
+			</Movement>
+			<Trigger condition="True">
+				<Effect><Position><Y offset="6" direction="Down" /></Position></Effect>
+			</Trigger>
+			<Trigger condition="PlayerDistY &lt; 16">
+				<Effect>
+					<Collision><Enabled>True</Enabled><EnableBox name="DetectFloor" /></Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="PlayerDistY &lt; 4 And Collision.Enabled And !Collision.BlockBottom And !Collision.BlockTop">
+				<Effect><State>WarpEnd</State></Effect>
+			</Trigger>
+		</State>
+		<State name="WarpEnd">
+			<Sprite><Name>Warp</Name><Playing>True</Playing></Sprite>
+			<Movement>
+				<Y magnitude="0" />
+			</Movement>
+			<Trigger>
+				<Condition>StateTime > 15</Condition>
+				<Effect>
+					<Collision><Enabled>True</Enabled></Collision>
+					<State>Down</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="WarpStart">
+			<Sprite><Name>WarpStart</Name><Playing>True</Playing></Sprite>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="0" /><Y magnitude="0" />
+			</Movement>
+			<Collision><Enabled>False</Enabled><Clear /></Collision>
+			<Collision><Enabled>False</Enabled></Collision>
+			<Trigger><Condition>StateTime >= 15</Condition><Effect><State>WarpUp</State></Effect></Trigger>
+		</State>
+		<State name="WarpUp">
+			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="0" /><Y magnitude="6" direction="Up" />
+			</Movement>
+		</State>
+		<State name="Down">
+			<Sprite><Name>Down</Name></Sprite>
+			<Movement><Flying>True</Flying></Movement>
+			<Trigger condition="Movement.Direction==Right">
+				<Effect>
+					<Collision>
+						<EnableBox name="ContactRight" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="Movement.Direction==Left">
+				<Effect>
+					<Collision>
+						<EnableBox name="ContactLeft" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime >= 300"><Effect><State>WarpStart</State></Effect></Trigger>
+			<Trigger><Condition>Collision.TouchedBy("PlayerRush")</Condition><Effect><State>Go</State></Effect></Trigger>
+		</State>
+		<Input />
+		<State name="Go">
+			<Sprite><Name>Down</Name></Sprite>
+			<Movement mode="Repeat"><X magnitude="1.375" /></Movement>
+			<Timer><Start>Fuel</Start></Timer>
+			<Trigger><Condition>Collision.TouchedBy("PlayerRush")</Condition>
+				<Effect>
+					<Collision>
+						<EnableBox name="Platform" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger><Condition>!Collision.TouchedBy("PlayerRush") And Movement.Direction==Right</Condition>
+				<Effect>
+					<Collision>
+						<EnableBox name="ContactRight" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger><Condition>!Collision.TouchedBy("PlayerRush") And Movement.Direction==Left</Condition>
+				<Effect>
+					<Collision>
+						<EnableBox name="ContactLeft" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Collision.TouchedBy("PlayerRush") And Input.Up == True</Condition>
+				<Effect>
+					<Position><Y offset="0.7" direction="Up" /></Position>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Collision.TouchedBy("PlayerRush") And Input.Down == True And Collision.BlockBottom == False</Condition>
+				<Effect>
+					<Position><Y offset="0.7" direction="Down" /></Position>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Timer.Value("Fuel") >= 60</Condition>
+				<Effect>
+					<Collision>
+						<EnableBox name="Platform" />
+						<EnableBox name="Ammo" />
+					</Collision>
+					<Timer><Reset>Fuel</Reset></Timer>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Timer.Value("Fuel") == 1</Condition>
+				<Effect>
+					<Collision><EnableBox name="Platform" /></Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="Collision.BlockRight Or Collision.BlockLeft"><Effect><State>WarpStart</State></Effect></Trigger>
+		</State>
+	</Entity>
+</Entities>

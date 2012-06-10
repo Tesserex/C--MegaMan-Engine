@@ -1,0 +1,78 @@
+<Scene name="Crystal" duration="420">
+	<Sprite name="Portal" tilesheet="images/cutscenes/boss/portal.png" width="25" height="35" layer="3">
+		<Hotspot x="12" y="15" />
+		<Frame x="0" y="4" duration="4" />
+		<Frame x="20" y="4" duration="4" />
+		<Frame x="44" y="4" duration="4" />
+		<Frame x="72" y="4" duration="4" />
+		<Frame x="44" y="4" duration="4" />
+		<Frame x="72" y="4" duration="8" />
+	</Sprite>
+	<Sprite name="IntroPose" width="32" height="30" tilesheet="images/enemies/crystalman.png" layer="3">
+		<Hotspot x="15" y="16" />
+		<Frame x="289" y="5" duration="2" />
+		<Frame x="320" y="5" duration="2" />
+		<Frame x="289" y="5" duration="2" />
+		<Frame x="320" y="5" duration="2" />
+		<Frame x="289" y="5" duration="4" />
+		<Frame x="320" y="5" duration="4" />
+		<Frame x="0" y="5" duration="30" />
+		<Frame x="33" y="5" duration="10" />
+		<Frame x="67" y="5" duration="28" />
+		<Frame x="99" y="5" duration="20" />
+		<Frame x="134" y="5" duration="4" />
+		<Frame x="99" y="5" duration="10" />
+		<Frame x="134" y="5" duration="4" />
+		<Frame x="99" y="5" duration="500" />
+	</Sprite>
+	<Keyframe frame="0">
+		<PlayMusic track="15" />
+		<Fill name="Background" color="0,0,0" x="0" y="0" width="256" height="224" layer="0" />
+		<Entity entity="BigStar" x="196" y="155" />
+		<Entity entity="BigStar" x="307" y="-100" />
+		<Entity entity="BigStar" x="416" y="-85" />
+		<Entity entity="BigStar" x="95" y="-47" />
+		<Entity entity="BigStar" x="394" y="-223" />
+		<Entity entity="BigStar" x="115" y="70" />
+		<Entity entity="BigStar" x="52" y="-119" />
+		<Entity entity="BigStar" x="340" y="-10" />
+		<Entity entity="BigStar" x="507" y="-128" />
+		<Entity entity="BigStar" x="462" y="-175" />
+		<Entity entity="BigStar" x="60" y="190" />
+		<Entity entity="BigStar" x="392" y="97" />
+		<Entity entity="BigStar" x="238" y="22" />
+		<Entity entity="SmallStar" x="90" y="-14" />
+		<Entity entity="SmallStar" x="36" y="168" />
+		<Entity entity="SmallStar" x="366" y="-60" />
+		<Entity entity="SmallStar" x="468" y="-162" />
+		<Entity entity="SmallStar" x="76" y="203" />
+		<Entity entity="SmallStar" x="295" y="-129" />
+		<Entity entity="SmallStar" x="194" y="84" />
+		<Entity entity="SmallStar" x="283" y="-4" />
+		<Entity entity="SmallStar" x="17" y="104" />
+		<Entity entity="SmallStar" x="79" y="-132" />
+		<Entity entity="SmallStar" x="90" y="161" />
+		<Entity entity="SmallStar" x="151" y="139" />
+		<Entity entity="SmallStar" x="365" y="59" />
+		<Entity entity="SmallStar" x="458" y="-98" />
+		<Entity entity="SmallStar" x="349" y="-197" />
+		<Entity entity="SmallStar" x="97" y="82" />
+		<Entity entity="SmallStar" x="262" y="139" />
+		<Entity entity="SmallStar" x="176" y="-12" />
+		<Entity entity="TopBorder" x="0" y="-32" />
+		<Entity entity="BottomBorder" x="0" y="224" />
+		<Fill name="Blue" color="0,0,255" x="0" y="0" width="256" height="224" layer="2" />
+		<FillMove name="Blue" x="0" y="72" width="256" height="70" duration="32" />
+	</Keyframe>
+	<Keyframe frame="32">
+		<Sprite name="Portal" object="Portal" x="128" y="100" />
+	</Keyframe>
+	<Keyframe frame="56">
+		<Remove name="Portal" />
+		<Sprite name="CrystalMan" object="IntroPose" x="128" y="100" />
+	</Keyframe>
+	<Keyframe frame="160">
+		<Text content="Crystal Man" x="86" y="124" speed="8" />
+	</Keyframe>
+	<Next type="stage" name="Crystal" fade="True" />
+</Scene>

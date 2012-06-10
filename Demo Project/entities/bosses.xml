@@ -1,0 +1,272 @@
+<Entities>
+
+	<Entity name="CrystalMan">
+		<GravityFlip>True</GravityFlip>
+		<Position persistoffscreen="true" />
+		<Tilesheet>images\enemies\crystalman.png</Tilesheet>
+		<Sprite name="Drop" width="30" height="30" reversed="true">
+			<Hotspot x="15" y="16" />
+			<Frame x="0" y="5" duration="0" />
+		</Sprite>
+		<Sprite name="Stand" width="30" height="30" reversed="true">
+			<Hotspot x="15" y="16" />
+			<Frame x="33" y="5" duration="0" />
+		</Sprite>
+		<Sprite name="Jump" width="30" height="36" reversed="true">
+			<Hotspot x="11" y="16" />
+			<Frame x="171" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Crystal" width="30" height="36" reversed="true">
+			<Hotspot x="11" y="16" />
+			<Frame x="200" y="0" duration="12" />
+			<Frame x="228" y="0" duration="5" />
+			<Frame x="257" y="0" duration="5" />
+			<Frame x="228" y="0" duration="5" />
+			<Frame x="257" y="0" duration="5" />
+			<Frame x="228" y="0" duration="5" />
+			<Frame x="257" y="0" duration="5" />
+			<Frame x="228" y="0" duration="40" />
+		</Sprite>
+		<Sprite name="Pose" width="32" height="30" reversed="true">
+			<Hotspot x="15" y="16" />
+			<Frame x="0" y="5" duration="4" />
+			<Frame x="33" y="5" duration="10" />
+			<Frame x="67" y="5" duration="28" />
+			<Frame x="99" y="5" duration="20" />
+			<Frame x="134" y="5" duration="4" />
+			<Frame x="99" y="5" duration="10" />
+			<Frame x="134" y="5" duration="4" />
+			<Frame x="99" y="5" duration="120" />
+		</Sprite>
+		<Sprite name="Ready" width="32" height="46" reversed="true">
+			<Hotspot x="12" y="23" />
+			<Frame x="196" y="110" duration="0" />
+		</Sprite>
+		<Health>
+			<Max>28</Max>
+			<Meter x="32" y="16" background="images\meters\healthmeter_back.png" image="images\meters\crystalhealth.png">
+				<Sound name="MeterTick" />
+			</Meter>
+			<Flash>60</Flash>
+		</Health>
+		<Collision>
+			<Hitbox name="Stand" damage="5" x="-12" y="-14" width="24" height="27">
+				<Group>Enemy</Group><Hits>Player</Hits>
+				<Resist name="Gyro" multiply="4" />
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Drop</Name></Sprite>
+			<Movement>
+				<Flying>False</Flying>
+				<FlipSprite>True</FlipSprite>
+				<X magnitude="1" direction="Left" /><X magnitude="0" />
+			</Movement>
+			<Trigger condition="StateTime >= 30"><Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+				</Collision>
+			</Effect></Trigger>
+			<Trigger condition="StateTime >= 50"><Effect><State>Pose</State></Effect></Trigger>
+		</State>
+		<State name="Pose">
+			<Sprite><Name>Pose</Name></Sprite>
+			<Trigger condition="StateTime >= 180">
+				<Effect>
+					<State>Stand</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Stand">
+			<Sprite><Name>Stand</Name></Sprite>
+			<Collision><EnableBox name="Stand" /></Collision>
+			<Movement mode="Repeat"><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
+			<Trigger>
+				<Condition>StateTime >= 20 And PlayerDistX > 80 And GameEntity.NumAlive("BossCrystal") == 0</Condition>
+				<Effect><State>CrystalJump</State></Effect>
+			</Trigger>
+			<Trigger condition="StateTime >= 20 And Random &lt; 0.3">
+				<Effect><State>LowJump</State></Effect>
+			</Trigger>
+			<Trigger condition="StateTime >= 20 And Random &gt;= 0.3">
+				<Effect><State>ShootJump</State></Effect>
+			</Trigger>
+		</State>
+		<State name="CrystalJump">
+			<Sprite><Name>Jump</Name></Sprite>
+			<Collision><EnableBox name="Stand" /></Collision>
+			<Movement><Y magnitude="7.5" direction="Up" /><X magnitude="1" direction="Player" /></Movement>
+			<Trigger>
+				<Condition>StateTime == 30</Condition>
+				<Effect>
+					<Movement>
+						<Flying>True</Flying>
+						<X magnitude="0" /><Y magnitude="0" />
+					</Movement>
+					<Sprite><Name>Crystal</Name></Sprite>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime == 70</Condition>
+				<Effect>
+					<Spawn name="BossCrystal" state="UpLeft" />
+					<Spawn name="BossCrystal" state="DownLeft" />
+					<Spawn name="BossCrystal" state="UpRight" />
+					<Spawn name="BossCrystal" state="DownRight" />
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime == 78</Condition>
+				<Effect>
+					<Movement>
+						<Flying>False</Flying>
+						<X magnitude="1" />
+					</Movement>
+					<Sprite><Name>Jump</Name></Sprite>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime > 60 And Collision.BlockBottom And Collision.BlockBottomWidth > 4</Condition>
+				<Effect><State>Stand</State></Effect>
+			</Trigger>
+		</State>
+		<State name="LowJump">
+			<Sprite><Name>Jump</Name></Sprite>
+			<Collision><EnableBox name="Stand" /></Collision>
+			<Movement><Y magnitude="6" direction="Up" /><X magnitude="1" direction="Player" /></Movement>
+			<Trigger>
+				<Condition>StateTime > 1 And Collision.BlockBottom And Collision.BlockBottomWidth > 4</Condition>
+				<Effect><State>Stand</State></Effect>
+			</Trigger>
+		</State>
+		<State name="ShootJump">
+			<Sprite><Name>Jump</Name></Sprite>
+			<Collision><EnableBox name="Stand" /></Collision>
+			<Movement><Y magnitude="6" direction="Up" /><X magnitude="1" direction="Player" /></Movement>
+			<Trigger>
+				<Condition>StateTime == 24</Condition>
+				<Effect>
+					<Movement>
+						<Flying>True</Flying>
+						<X magnitude="0" /><Y magnitude="0" />
+					</Movement>
+					<Sprite><Name>Crystal</Name></Sprite>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime == 66</Condition>
+				<Effect>
+					<Spawn name="SeekPlayerShot" state="UpLeft" />
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime == 72</Condition>
+				<Effect>
+					<Movement>
+						<Flying>False</Flying>
+						<X magnitude="1" />
+					</Movement>
+					<Sprite><Name>Jump</Name></Sprite>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime > 1 And Collision.BlockBottom And Collision.BlockBottomWidth > 4</Condition>
+				<Effect><State>Stand</State></Effect>
+			</Trigger>
+		</State>
+		<Trigger>
+			<Condition>Collision.BlockRight</Condition>
+			<Effect><Movement><X magnitude="1" direction="Left" /></Movement></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockLeft</Condition>
+			<Effect><Movement><X magnitude="1" direction="Right" /></Movement></Effect>
+		</Trigger>
+        <Trigger>
+            <Condition>Health.Hit == True</Condition>
+            <Effect>
+                <Sound name="EnemyHurt" />
+            </Effect>
+        </Trigger>
+		<Death>
+			<Spawn name="MegaManDeath" state="Up" />
+			<Spawn name="MegaManDeath" state="Down" />
+			<Spawn name="MegaManDeath" state="Left" />
+			<Spawn name="MegaManDeath" state="Right" />
+			<Spawn name="MegaManDeath" state="UpLeft" />
+			<Spawn name="MegaManDeath" state="UpRight" />
+			<Spawn name="MegaManDeath" state="DownLeft" />
+			<Spawn name="MegaManDeath" state="DownRight" />
+			<Spawn name="MegaManDeath" state="UpFast" />
+			<Spawn name="MegaManDeath" state="DownFast" />
+			<Spawn name="MegaManDeath" state="LeftFast" />
+			<Spawn name="MegaManDeath" state="RightFast" />
+			<Spawn name="MegaManDeath" state="UpLeftFast" />
+			<Spawn name="MegaManDeath" state="UpRightFast" />
+			<Spawn name="MegaManDeath" state="DownLeftFast" />
+			<Spawn name="MegaManDeath" state="DownRightFast" />
+			<Sound name="MMDeath" />
+		</Death>
+	</Entity>
+
+	<Entity name="BossCrystal">
+		<Sprite tilesheet="images\weapons\crystal.png" width="8" height="8">
+			<Hotspot x="4" y="4" />
+			<Frame x="80" y="0" duration="8" />
+			<Frame x="88" y="0" duration="8" />
+			<Frame x="96" y="0" duration="8" />
+			<Frame x="104" y="0" duration="8" />
+			<Frame x="112" y="0" duration="8" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="3" x="-4" y="-4" width="8" height="8">
+				<Hits>Player</Hits>
+				<Group>Projectile</Group>
+				<Group>Solid</Group>
+			</Hitbox>
+			<Blocking>True</Blocking>
+		</Collision>
+		<Health>
+			<Max>1</Max>
+		</Health>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+			</Movement>
+		</State>
+		<State name="UpLeft">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Left" /><Y magnitude="2.8" direction="Up" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft == True</Condition><Effect><State>UpRight</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTop == True</Condition><Effect><State>DownLeft</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="UpRight">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Right" /><Y magnitude="2.8" direction="Up" /></Movement>
+			<Trigger><Condition>Collision.BlockRight == True</Condition><Effect><State>UpLeft</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTop == True</Condition><Effect><State>DownRight</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="DownLeft">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Left" /><Y magnitude="2.8" direction="Down" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft == True</Condition><Effect><State>DownRight</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockBottom == True</Condition><Effect><State>UpLeft</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<State name="DownRight">
+			<Movement mode="Repeat"><X magnitude="2.8" direction="Right" /><Y magnitude="2.8" direction="Down" /></Movement>
+			<Trigger><Condition>Collision.BlockRight == True</Condition><Effect><State>DownLeft</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockBottom == True</Condition><Effect><State>UpRight</State></Effect></Trigger>
+			<Trigger><Condition>LifeTime > 300</Condition><Effect><Remove /></Effect></Trigger>
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect><Remove /></Effect>
+		</Trigger>
+	</Entity>
+
+</Entities>

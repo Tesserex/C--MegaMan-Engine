@@ -1,0 +1,42 @@
+<Menu name="Main">
+	<Sprite name="Background" tilesheet="images/cutscenes/main_menu.png" width="256" height="224" layer="1">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Cursor" tilesheet="images/cutscenes/cursor.png" width="4" height="7" layer="2">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="6" />
+		<Frame x="4" y="0" duration="6" />
+		<Frame x="8" y="0" duration="6" />
+		<Frame x="12" y="0" duration="6" />
+		<Frame x="8" y="0" duration="6" />
+		<Frame x="4" y="0" duration="6" />
+	</Sprite>
+	<State name="Start">
+		<PlayMusic track="20" />
+		<Sprite name="Background" object="Background" x="0" y="0" />
+		<Sprite name="Cursor" object="Cursor" x="84" y="80" />
+		<Text content="Start Game" x="96" y="80" />
+		<Text content="Back" x="96" y="96" />
+		<Option x="84" y="80">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Cursor" x="84" y="80" duration="0" />
+			</On>
+			<Select>
+				<Sound name="Select" />
+				<Next type="menu" name="StageSelect" fade="True" />
+			</Select>
+		</Option>
+		<Option x="84" y="96">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Cursor" x="84" y="96" duration="0" />
+			</On>
+			<Select>
+				<Sound name="Select" />
+				<Next type="menu" name="Title" fade="True" />
+			</Select>
+		</Option>
+	</State>
+</Menu>

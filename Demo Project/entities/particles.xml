@@ -1,0 +1,194 @@
+<Entities>
+	<Entity name="DeathPop">
+		<Sprite tilesheet="images\particles\enemy_death.png" width="24" height="24">
+			<Hotspot x="12" y="12" />
+			<Frame x="0" y="0" duration="2" />
+			<Frame x="24" y="0" duration="3" />
+			<Frame x="48" y="0" duration="3" />
+			<Frame x="72" y="0" duration="4" />
+			<Frame x="96" y="0" duration="3" />
+		</Sprite>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>true</Flying>
+			</Movement>
+			<Trigger>
+				<Condition>StateTime>=14</Condition>
+				<Effect><Die/></Effect>
+			</Trigger>
+		</State>
+	</Entity>
+
+  <Entity name="DeathPopBig">
+    <Sprite tilesheet="images\particles\enemy_death_large.png" width="56" height="56">
+      <Hotspot x="28" y="28" />
+      <Frame x="0" y="0" duration="2" />
+      <Frame x="56" y="0" duration="1" />
+      <Frame x="112" y="0" duration="2" />
+      <Frame x="168" y="0" duration="1" />
+      <Frame x="224" y="0" duration="1" />
+      <Frame x="280" y="0" duration="1" />
+      <Frame x="336" y="0" duration="2" />
+      <Frame x="392" y="0" duration="1" />
+      <Frame x="448" y="0" duration="1" />
+      <Frame x="504" y="0" duration="1" />
+      <Frame x="560" y="0" duration="1" />
+      <Frame x="616" y="0" duration="1" />
+      <Frame x="672" y="0" duration="1" />
+      <Frame x="728" y="0" duration="1" />
+      <Frame x="784" y="0" duration="1" />
+      <Frame x="840" y="0" duration="1" />
+      <Frame x="896" y="0" duration="1" />
+      <Frame x="952" y="0" duration="1" />
+      <Frame x="1008" y="0" duration="2" />
+    </Sprite>
+    <State name="Start">
+      <Position>
+        <X base="Inherit" />
+        <Y base="Inherit" />
+      </Position>
+      <Movement>
+        <Flying>true</Flying>
+      </Movement>
+      <Trigger>
+        <Condition>StateTime>=23</Condition>
+        <Effect>
+          <Die/>
+        </Effect>
+      </Trigger>
+    </State>
+  </Entity>
+
+	<Entity name="MegaManDeath">
+		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
+			<Hotspot x="12" y="12" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="72" y="0" duration="4" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="120" y="0" duration="4" />
+		</Sprite>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>true</Flying>
+			</Movement>
+		</State>
+		<State name="Up"><Movement><X magnitude="0" /><Y magnitude="1" direction="Up" /></Movement></State>
+		<State name="Down"><Movement><X magnitude="0" /><Y magnitude="1" direction="Down" /></Movement></State>
+		<State name="Left"><Movement><Y magnitude="0" /><X magnitude="1" direction="Left" /></Movement></State>
+		<State name="Right"><Movement><Y magnitude="0" /><X magnitude="1" direction="Right" /></Movement></State>
+		<State name="UpLeft"><Movement><X magnitude="0.71" direction="Left" /><Y magnitude="0.71" direction="Up" /></Movement></State>
+		<State name="UpRight"><Movement><X magnitude="0.71" direction="Right" /><Y magnitude="0.71" direction="Up" /></Movement></State>
+		<State name="DownLeft"><Movement><X magnitude="0.71" direction="Left" /><Y magnitude="0.71" direction="Down" /></Movement></State>
+		<State name="DownRight"><Movement><X magnitude="0.71" direction="Right" /><Y magnitude="0.71" direction="Down" /></Movement></State>
+		<State name="UpFast"><Movement><X magnitude="0" /><Y magnitude="2" direction="Up" /></Movement></State>
+		<State name="DownFast"><Movement><X magnitude="0" /><Y magnitude="2" direction="Down" /></Movement></State>
+		<State name="LeftFast"><Movement><Y magnitude="0" /><X magnitude="2" direction="Left" /></Movement></State>
+		<State name="RightFast"><Movement><Y magnitude="0" /><X magnitude="2" direction="Right" /></Movement></State>
+		<State name="UpLeftFast"><Movement><X magnitude="1.42" direction="Left" /><Y magnitude="1.42" direction="Up" /></Movement></State>
+		<State name="UpRightFast"><Movement><X magnitude="1.42" direction="Right" /><Y magnitude="1.42" direction="Up" /></Movement></State>
+		<State name="DownLeftFast"><Movement><X magnitude="1.42" direction="Left" /><Y magnitude="1.42" direction="Down" /></Movement></State>
+		<State name="DownRightFast"><Movement><X magnitude="1.42" direction="Right" /><Y magnitude="1.42" direction="Down" /></Movement></State>
+	</Entity>
+	<Entity name="Dust">
+		<Sprite tilesheet="images\particles\dust_-_spark.png" width="8" height="8">
+			<Hotspot x="4" y="-5" />
+			<Frame x="0" y="8" duration="1" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="8" y="0" duration="8" />
+			<Frame x="16" y="0" duration="1" />
+		</Sprite>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+				<X offset="-12" direction="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>true</Flying>
+			</Movement>
+			<Trigger>
+				<Condition>StateTime>=18</Condition>
+				<Effect><Die/></Effect>
+		<FlipSprite>True</FlipSprite>
+			</Trigger>
+		</State>
+	</Entity>
+		<Entity name="Spark" group="Particle">
+		<Sprite tilesheet="images\particles\spark.png" width="29" height="12">
+			<Hotspot x="14" y="26" />
+			<Frame x="58" y="0" duration="8" />
+			<Frame x="29" y="0" duration="8" />
+			<Frame x="0" y="0" duration="8" />
+		</Sprite>
+		<State name="Start">
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>true</Flying>
+			</Movement>
+			<Trigger>
+				<Condition>StateTime>=24</Condition>
+				<Effect><Die/></Effect>
+			</Trigger>
+		</State>
+	</Entity>
+
+    <Entity name="Splash">
+        <Sprite tilesheet="images\particles\splash.png" width="30" height="16">
+			<Hotspot x="15" y="14" />
+			<Frame x="-1" y="0" duration="6" />
+			<Frame x="32" y="0" duration="6" />
+			<Frame x="68" y="0" duration="8" />
+			<Frame x="103" y="0" duration="8" />
+		</Sprite>
+        <State name="Start">
+            <Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+            <Trigger condition="LifeTime >= 28"><Effect><Remove /></Effect></Trigger>
+        </State>
+    </Entity>
+
+    <Entity name="Bubble">
+        <Sprite tilesheet="images\particles\bubble.png" width="4" height="4">
+			<Hotspot x="2" y="2" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+        <State name="Start">
+            <Position>
+				<X base="Inherit" offset="1" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+            <Movement mode="repeat">
+                <Flying>True</Flying>
+                <Y magnitude="1" direction="Up" />
+            </Movement>
+            <Trigger><Condition>Movement.TileType != "water"</Condition>
+                <Effect><Remove /></Effect>
+            </Trigger>
+            <Trigger condition="(LifeTime % 32) == 0">
+                <Effect>
+                    <Position><X offset="1" direction="Left" /></Position>
+                </Effect>
+            </Trigger>
+            <Trigger condition="(LifeTime % 32) == 16">
+                <Effect>
+                    <Position><X offset="1" direction="Right" /></Position>
+                </Effect>
+            </Trigger>
+        </State>
+    </Entity>
+</Entities>

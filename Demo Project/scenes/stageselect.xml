@@ -1,0 +1,177 @@
+<Menu name="StageSelect">
+	<ChangeSound name="Menu" track="40" priority="16" />
+	<Sprite name="Background" tilesheet="images/cutscenes/stageselect/stageselect_back.png" width="256" height="224" layer="0">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="MegaMan" tilesheet="images/cutscenes/stageselect/megaman.png" width="32" height="32" layer="3">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Eye" tilesheet="images/cutscenes/stageselect/eye.png" width="3" height="6" layer="2">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Frame" width="49" height="49" tilesheet="images/cutscenes/stageselect/stageselect_frame.png" layer="1">
+		<Hotspot x="1" y="1" />
+		<Frame x="49" y="0" duration="8" />
+		<Frame x="0" y="0" duration="8" />
+	</Sprite>
+	<Sprite name="Blade" tilesheet="images/cutscenes/stageselect/blade.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Drill" tilesheet="images/cutscenes/stageselect/drill.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Crystal" tilesheet="images/cutscenes/stageselect/crystal.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Elec" tilesheet="images/cutscenes/stageselect/elec.png" width="32" height="33" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Tornado" tilesheet="images/cutscenes/stageselect/tornado.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Metal" tilesheet="images/cutscenes/stageselect/metal.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Magnet" tilesheet="images/cutscenes/stageselect/magnet.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<Sprite name="Centaur" tilesheet="images/cutscenes/stageselect/centaur.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
+	<State name="Start">
+		<PlayMusic track="14" />
+		<Sprite object="Background" x="0" y="0" />
+		<Fill name="Corneas" color="248,248,248" x="112" y="96" width="32" height="32" layer="2" />
+		<Sprite name="Frame" object="Frame" x="32" y="24" />
+		<Sprite name="MM" object="MegaMan" x="112" y="96" />
+		<Sprite name="LeftEye" object="Eye" x="120" y="110" />
+		<Sprite name="RightEye" object="Eye" x="129" y="110" />
+
+		<Sprite name="Blade" object="Blade" x="40" y="32" />
+		<Sprite name="Drill" object="Drill" x="112" y="32" />
+		<Sprite name="Crystal" object="Crystal" x="184" y="32" />
+		<Sprite name="Elec" object="Elec" x="40" y="96" />
+		<Sprite name="Tornado" object="Tornado" x="184" y="96" />
+		<Sprite name="Metal" object="Metal" x="40" y="160" />
+		<Sprite name="Magnet" object="Magnet" x="112" y="160" />
+		<Sprite name="Centaur" object="Centaur" x="184" y="160" />
+
+		<Text content="Blade" x="32" y="72" />
+		<Text content="Man" x="56" y="80" />
+		<Text content="Drill" x="104" y="72" />
+		<Text content="Man" x="128" y="80" />
+		<Text content="Crystal" x="168" y="72" />
+		<Text content="Man" x="200" y="80" />
+
+		<Text content="Elec" x="32" y="136" />
+		<Text content="Man" x="56" y="144" />
+		<Text content="Tornado" x="168" y="136" />
+		<Text content="Man" x="200" y="144" />
+
+		<Text content="Metal" x="32" y="200" />
+		<Text content="Man" x="56" y="208" />
+		<Text content="Magnet" x="104" y="200" />
+		<Text content="Man" x="128" y="208" />
+		<Text content="Centaur" x="168" y="200" />
+		<Text content="Man" x="200" y="208" />
+
+		<Option x="32" y="24">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="32" y="24" />
+				<SpriteMove name="LeftEye" x="120" y="110" />
+				<SpriteMove name="RightEye" x="129" y="110" />
+			</On>
+			<Select>
+				<Sound name="Deny" />
+			</Select>
+		</Option>
+
+		<Option x="104" y="24">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="104" y="24" />
+				<SpriteMove name="LeftEye" x="123" y="110" />
+				<SpriteMove name="RightEye" x="130" y="110" />
+			</On>
+			<Select>
+				<Sound name="Deny" />
+			</Select>
+		</Option>
+
+		<Option x="176" y="24">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="176" y="24" />
+				<SpriteMove name="LeftEye" x="124" y="110" />
+				<SpriteMove name="RightEye" x="133" y="110" />
+			</On>
+			<Select>
+				<Next type="Scene" name="Crystal" fade="True" />
+				<Sound name="Select" />
+			</Select>
+		</Option>
+
+		<Option x="32" y="88">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="32" y="88" />
+				<SpriteMove name="LeftEye" x="119" y="112" />
+				<SpriteMove name="RightEye" x="129" y="112" />
+			</On>
+			<Select>
+				<Sound name="Select" />
+                <Next type="Stage" name="Elec" fade="True" />
+			</Select>
+		</Option>
+
+		<Option x="104" y="88">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="104" y="88" />
+				<SpriteMove name="LeftEye" x="123" y="113" />
+				<SpriteMove name="RightEye" x="130" y="113" />
+			</On>
+			<Select>
+				<Sound name="Deny" />
+			</Select>
+		</Option>
+
+		<Option x="176" y="88">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="176" y="88" />
+				<SpriteMove name="LeftEye" x="124" y="112" />
+				<SpriteMove name="RightEye" x="134" y="112" />
+			</On>
+			<Select>
+				<Sound name="Deny" />
+			</Select>
+		</Option>
+
+		<Option x="32" y="152">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="32" y="152" />
+				<SpriteMove name="LeftEye" x="120" y="114" />
+				<SpriteMove name="RightEye" x="129" y="114" />
+			</On>
+			<Select>
+				<Sound name="Select" />
+                <Next type="Stage" name="Metal" fade="True" />
+			</Select>
+		</Option>
+
+		<Option x="104" y="152">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="104" y="152" />
+				<SpriteMove name="LeftEye" x="123" y="114" />
+				<SpriteMove name="RightEye" x="130" y="114" />
+			</On>
+			<Select>
+				<Sound name="Deny" />
+			</Select>
+		</Option>
+
+		<Option x="176" y="152">
+			<On>
+				<Sound name="Menu" />
+				<SpriteMove name="Frame" x="176" y="152" />
+				<SpriteMove name="LeftEye" x="124" y="114" />
+				<SpriteMove name="RightEye" x="133" y="114" />
+			</On>
+			<Select>
+				<Sound name="Select" />
+				<Next type="Stage" name="Demo" fade="True" />
+			</Select>
+		</Option>
+	</State>
+</Menu>

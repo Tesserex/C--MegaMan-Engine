@@ -1,0 +1,25 @@
+<Scene name="Intro" duration="1100" canskip="true">
+	<Sprite name="Capcom" tilesheet="images/cutscenes/title/capcom.png" width="85" height="50" layer="1">
+		<Hotspot x="42" y="17" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Protoman" tilesheet="images/cutscenes/title/protoman.png" width="208" height="128" layer="1">
+		<Hotspot x="104" y="64" />
+		<Frame x="0" y="0" duration="6" />
+		<Frame x="216" y="0" duration="6" />
+		<Frame x="435" y="0" duration="6" />
+	</Sprite>
+	<Keyframe frame="0" fade="true">
+		<Sprite name="Capcom" object="Capcom" x="128" y="96" />
+	</Keyframe>
+	<Keyframe frame="180" fade="true">
+		<PlayMusic track="12" />
+		<Remove name="Capcom" />
+		<Text name="AD" content="In the year 2012 AD..." x="42" y="80" />
+	</Keyframe>
+	<Keyframe frame="320" fade="true">
+		<Remove name="AD" />
+		<Sprite name="Protoman" object="Protoman" x="128" y="112" />
+	</Keyframe>
+	<Next type="Menu" name="Title" fade="True" />
+</Scene>

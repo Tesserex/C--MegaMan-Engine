@@ -1,0 +1,656 @@
+<Entities>
+    <Entity name="BoltOne">
+        <Sprite tilesheet="images/enemies/elec_bolt.png" width="64" height="16">
+            <Hotspot x="0" y="0" />
+            <Frame x="0" y="0" duration="3" />
+            <Frame x="0" y="16" duration="3" />
+        </Sprite>
+        <Collision>
+            <Hitbox name="H" damage="4" x="0" y="0" width="64" height="16" environment="false">
+                <Hits>Player</Hits>
+            </Hitbox>
+        </Collision>
+        <State name="Start">
+            <Position x="Inherit" y="Inherit" />
+            <Sprite><Visible>False</Visible></Sprite>
+            <Trigger condition="StateTime >= 60"><Effect><State>On</State></Effect></Trigger>
+        </State>
+        <State name="On">
+            <Collision>
+                <EnableBox name="H" />
+            </Collision>
+            <Sprite><Visible>True</Visible></Sprite>
+            <Trigger condition="StateTime >= 60"><Effect><State>Off</State></Effect></Trigger>
+        </State>
+        <State name="Off">
+            <Collision>
+                <Clear />
+            </Collision>
+            <Sprite><Visible>False</Visible></Sprite>
+            <Trigger condition="StateTime >= 120"><Effect><State>On</State></Effect></Trigger>
+        </State>
+    </Entity>
+
+    <Entity name="BoltTwo">
+        <Sprite tilesheet="images/enemies/elec_bolt.png" width="64" height="16">
+            <Hotspot x="0" y="0" />
+            <Frame x="0" y="0" duration="3" />
+            <Frame x="0" y="16" duration="3" />
+        </Sprite>
+        <Collision>
+            <Hitbox name="H" damage="4" x="0" y="0" width="64" height="16" environment="false">
+                <Hits>Player</Hits>
+            </Hitbox>
+        </Collision>
+        <State name="Start">
+            <Position x="Inherit" y="Inherit" />
+            <Sprite><Visible>False</Visible></Sprite>
+            <Trigger condition="StateTime >= 90"><Effect><State>On</State></Effect></Trigger>
+        </State>
+        <State name="On">
+            <Collision>
+                <EnableBox name="H" />
+            </Collision>
+            <Sprite><Visible>True</Visible></Sprite>
+            <Trigger condition="StateTime >= 60"><Effect><State>Off</State></Effect></Trigger>
+        </State>
+        <State name="Off">
+            <Collision>
+                <Clear />
+            </Collision>
+            <Sprite><Visible>False</Visible></Sprite>
+            <Trigger condition="StateTime >= 120"><Effect><State>On</State></Effect></Trigger>
+        </State>
+    </Entity>
+
+	<Entity name="PropFollower">
+		<Collision>
+			<Hitbox name="H" damage="2" x="-12" y="-8" width="24" height="16" environment="false">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+			</Hitbox>
+			<Enabled>True</Enabled>
+		</Collision>
+		<State name="Start">
+			<Movement mode="Repeat">
+				<Flying>true</Flying>
+				<Velocity magnitude="0.4" direction="Player" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+		</State>
+		<Tilesheet pallete="Default">images\enemies\propfollower.png</Tilesheet>
+		<Sprite width="24" height="16">
+			<Hotspot x="12" y="8" />
+			<Frame x="0" y="0" duration="6" />
+			<Frame x="24" y="0" duration="6" />
+			<Frame x="48" y="0" duration="6" />
+			<Frame x="72" y="0" duration="6" />
+			<Frame x="96" y="0" duration="6" />
+			<Frame x="120" y="0" duration="6" />
+		</Sprite>
+		<Health><Max>1</Max><Flash>8</Flash></Health>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="Seeker">
+		<Tilesheet>images\enemies\annoyingseeker.png</Tilesheet>
+		<Sprite name="Closed" width="16" height="14" reversed="true">
+			<Hotspot x="8" y="7" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Open" width="16" height="20" reversed="true">
+			<Hotspot x="8" y="7" />
+			<Frame x="16" y="0" duration="0" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="2" x="-8" y="-7" width="16" height="14" environment="false">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Closed</Name></Sprite>
+			<Timer><Start>Bob</Start></Timer>
+			<Movement>
+				<FlipSprite>True</FlipSprite>
+				<Flying>True</Flying>
+				<Y magnitude="0.5" direction="Down" /><X magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Trigger><Condition>Timer.Value("Bob") == 8</Condition>
+				<Effect><Movement><Y direction="Up"/></Movement></Effect>
+			</Trigger>
+			<Trigger><Condition>Timer.Value("Bob") == 16</Condition>
+				<Effect><Movement><Y direction="Down"/></Movement><Timer><Reset>Bob</Reset></Timer></Effect>
+			</Trigger>
+			<Trigger condition="StateTime >= 60">
+				<Effect><Timer><Delete>Bob</Delete></Timer><State>Open</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Open">
+			<Sprite><Name>Open</Name></Sprite>
+			<Movement><Velocity magnitude="1.5" direction="Player" /></Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Trigger condition="StateTime >= 30">
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+		<Health><Max>2</Max><Flash>8</Flash></Health>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="Metool" group="Enemy">
+		<Tilesheet>images\enemies\metool.png</Tilesheet>
+		<Sprite name="Sit" width="18" height="19">
+			<Hotspot x="9" y="15" />
+			<Frame x="44" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Mid" width="18" height="19">
+			<Hotspot x="9" y="15" />
+			<Frame x="22" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Stand" width="18" height="19">
+			<Hotspot x="9" y="15" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Health><Max>1</Max></Health>
+        <Collision>
+            <Hitbox name="Down" damage="2" x="-9" y="-7" width="18" height="11">
+                <Hits>Player</Hits>
+                <Group>Enemy</Group>
+                <Group>Deflect</Group>
+                <Resist name="ALL" multiply="0" />
+            </Hitbox>
+            <Hitbox name="MidHat" damage="2" x="-9" y="-11" width="18" height="8">
+					<Hits>Player</Hits>
+					<Group>Enemy</Group>
+					<Group>Deflect</Group>
+					<Resist name="ALL" multiply="0" />
+				</Hitbox>
+				<Hitbox name="MidBody" damage="2" x="-9" y="-3" width="18" height="7">
+					<Hits>Player</Hits>
+					<Group>Enemy</Group>
+				</Hitbox>
+              <Hitbox name="UpHat" damage="2" x="-9" y="-15" width="18" height="8">
+					<Hits>Player</Hits>
+					<Group>Enemy</Group>
+					<Group>Deflect</Group>
+					<Resist name="ALL" multiply="0" />
+				</Hitbox>
+				<Hitbox name="UpBody" damage="2" x="-9" y="-7" width="18" height="11">
+					<Hits>Player</Hits>
+					<Group>Enemy</Group>
+				</Hitbox>
+        </Collision>
+		<State name="Start">
+			<Movement>
+				<Flying>False</Flying>
+				<FlipSprite>True</FlipSprite>
+			</Movement>
+			<Sprite><Name>Sit</Name></Sprite>
+			<Collision><Enabled>True</Enabled><EnableBox name="Down" /></Collision>
+			<Trigger condition="StateTime >= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64">
+				<Effect>
+					<State>Up</State>
+					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Down">
+			<Sprite><Name>Mid</Name></Sprite>
+			<Collision>
+				<EnableBox name="MidHat" />
+              <EnableBox name="MidBody" />
+			</Collision>
+			<Trigger>
+				<Condition>StateTime >= 8</Condition>
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Up">
+			<Sprite><Name>Mid</Name></Sprite>
+			<Collision>
+				<EnableBox name="MidHat" />
+              <EnableBox name="MidBody" />
+			</Collision>
+			<Trigger>
+				<Condition>StateTime >= 8</Condition>
+				<Effect><State>Stand</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Stand">
+			<Sprite><Name>Stand</Name></Sprite>
+			<Spawn name="EnemyShot" />
+			<Collision>
+				<EnableBox name="UpHat" />
+              <EnableBox name="UpBody" />
+			</Collision>
+			<Trigger>
+				<Condition>StateTime >= 40</Condition>
+				<Effect><State>Down</State></Effect>
+			</Trigger>
+		</State>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="FloorBlade" group="Enemy">
+		<Tilesheet>images\enemies\floorblade.png</Tilesheet>
+		<Sprite width="16" height="16">
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="16" y="0" duration="4" />
+		</Sprite>
+		<Health><Max>1</Max></Health>
+		<Trigger condition="PlayerDistY &lt; 8">
+			<States>Start, Left</States>
+			<Effect><Movement><X magnitude="2" /></Movement></Effect>
+		</Trigger>
+		<Trigger condition="PlayerDistY >= 8">
+			<States>Start, Left</States>
+			<Effect><Movement><X magnitude="0.5" /></Movement></Effect>
+		</Trigger>
+       <Collision>
+            <Enabled>True</Enabled>
+            <Hitbox name="H" damage="2" x="-8" y="-8" width="16" height="16">
+                <Hits>Player</Hits>
+                <Group>Enemy</Group>
+                <Group>Deflect</Group>
+                <Resist name="ALL" multiply="0" />
+                <Resist name="MetalBlade" multiply="1" />
+            </Hitbox>
+        </Collision>
+		<State name="Start">
+			<Movement>
+				<Flying>True</Flying>
+				<X magnitude="0.5" direction="Right" />
+			</Movement>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+			<Trigger condition="StateTime>4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Right) Or Collision.BlockRight == True">
+				<Effect><State>Left</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Left">
+			<Movement>
+				<X direction="Left" />
+			</Movement>
+			<Trigger condition="StateTime>4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Left) Or Collision.BlockLeft == True">
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="GroundCannon" group="Enemy">
+		<Tilesheet>images\enemies\groundcannon.png</Tilesheet>
+		<Sprite name="Down" width="24" height="32">
+			<Hotspot x="12" y="14" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="MoveUp" width="24" height="32">
+			<Hotspot x="12" y="14" />
+			<Frame x="0" y="0" duration="5" />
+			<Frame x="24" y="0" duration="5" />
+			<Frame x="48" y="0" duration="5" />
+			<Frame x="72" y="0" duration="20" />
+			<Frame x="96" y="0" duration="5" />
+			<Frame x="120" y="0" duration="20" />
+		</Sprite>
+		<Sprite name="MoveDown" width="24" height="32">
+			<Hotspot x="12" y="14" />
+			<Frame x="120" y="0" duration="20" />
+			<Frame x="96" y="0" duration="5" />
+			<Frame x="72" y="0" duration="20" />
+			<Frame x="48" y="0" duration="5" />
+			<Frame x="24" y="0" duration="5" />
+			<Frame x="0" y="0" duration="20" />
+		</Sprite>
+		<Health><Max>2</Max><Flash>8</Flash></Health>
+		<Collision>
+			<Hitbox name="Down" damage="2" x="-8" y="14" width="16" height="4">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+			</Hitbox>
+			<Hitbox name="Low" damage="2" x="-10" y="6" width="20" height="12">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+			<Hitbox name="Mid" damage="2" x="-12" y="-2" width="24" height="20">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+			<Hitbox name="High" damage="2" x="-12" y="-10" width="24" height="28">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+			<Enabled>True</Enabled>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Down</Name></Sprite>
+			<Movement>
+				<Flying>True</Flying>
+				<FlipSprite>True</FlipSprite>
+			</Movement>
+			<Collision><EnableBox name="Down" /></Collision>
+			<Trigger condition="StateTime > 20 And PlayerDistX &lt; 128 And PlayerDistY &lt; 64">
+				<Effect>
+					<State>Up</State>
+					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Up">
+			<Sprite><Name>MoveUp</Name></Sprite>
+			<Trigger condition="StateTime == 5">
+				<Effect><Collision><EnableBox name="Low" /></Collision></Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 10">
+				<Effect><Collision><EnableBox name="Mid" /></Collision></Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 15">
+				<Effect><Collision><EnableBox name="High" /></Collision></Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime > 40</Condition>
+				<Effect><Spawn name="EnemyShot" /><State>Down</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Down">
+			<Sprite><Name>MoveDown</Name></Sprite>
+			<Trigger condition="StateTime == 50">
+				<Effect><Collision><EnableBox name="Low" /></Collision></Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 45">
+				<Effect><Collision><EnableBox name="Mid" /></Collision></Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 40">
+				<Effect><Collision><EnableBox name="High" /></Collision></Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>StateTime >= 55</Condition>
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="WallSpike">
+		<Sprite tilesheet="images\enemies\wallspike.png" width="16" height="16">
+			<Frame x="32" y="0" duration="5" />
+			<Frame x="16" y="0" duration="5" />
+			<Frame x="0" y="0" duration="5" />
+			<Hotspot x="8" y="8" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" damage="6" x="-6" y="-6" width="12" height="12">
+				<Hits>Player</Hits><Group>Enemy</Group><Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Movement><Flying>True</Flying></Movement>
+			<Trigger><Condition>Collision.BlockBottom</Condition><Effect><State>Right</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Down</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTop</Condition><Effect><State>Left</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>Up</State></Effect></Trigger>
+		</State>
+		<State name="Right">
+			<Movement mode="Repeat"><X magnitude="1" direction="Right" /><Y magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>Up</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockBottomWidth &lt; 2</Condition><Effect><State>Down</State>
+			<Position><Y offset="2" direction="Down" /></Position></Effect></Trigger>
+		</State>
+		<State name="Down">
+			<Movement mode="Repeat"><Y magnitude="1" direction="Down" /><X magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockBottom</Condition><Effect><State>Right</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockLeftWidth &lt; 2</Condition><Effect><State>Left</State>
+			<Position><X offset="2" direction="Left" /></Position></Effect></Trigger>
+		</State>
+		<State name="Left">
+			<Movement mode="Repeat"><X magnitude="1" direction="Left" /><Y magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Down</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockTopWidth &lt; 2</Condition><Effect><State>Up</State>
+			<Position><Y offset="2" direction="Up" /></Position></Effect></Trigger>
+		</State>
+		<State name="Up">
+			<Movement mode="Repeat"><Y magnitude="1" direction="Up" /><X magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockTop</Condition><Effect><State>Left</State></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockRightWidth &lt; 2</Condition><Effect><State>Right</State>
+			<Position><X offset="2" direction="Right" /></Position></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="ShieldGuy">
+		<Tilesheet>images\enemies\shieldguy.png</Tilesheet>
+		<Sprite name="Move" width="24" height="33" reversed="true">
+			<Hotspot x="12" y="16" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="30" y="-1" duration="4" />
+		</Sprite>
+		<Sprite name="Turn" width="24" height="32" reversed="true">
+			<Hotspot x="12" y="16" />
+			<Frame x="58" y="0" duration="6" />
+			<Frame x="84" y="0" duration="6" />
+			<Frame x="114" y="0" duration="6" />
+			<Frame x="142" y="0" duration="8" />
+		</Sprite>
+		<Health><Max>6</Max><Flash>8</Flash></Health>
+		<Collision>
+			<Hitbox name="Shield" damage="2" x="4" y="-16" width="8" height="32">
+				<Hits>Player</Hits><Group>Enemy</Group><Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+			<Hitbox name="Body" damage="2" x="-8" y="-16" width="12" height="32">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Collision><EnableBox name="Shield" /><EnableBox name="Body" /></Collision>
+			<Sprite><Name>Move</Name></Sprite>
+			<Movement mode="Repeat">
+				<FlipSprite>True</FlipSprite>
+				<Flying>True</Flying>
+				<X magnitude="2" direction="Right" /><Y magnitude="0" />
+			</Movement>
+			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>TurnLeft</State></Effect></Trigger>
+		</State>
+		<State name="TurnLeft">
+			<Sprite><Name>Turn</Name></Sprite>
+			<Movement><X magnitude="0" /></Movement>
+			<Trigger><Condition>StateTime >= 24</Condition><Effect><State>Right</State></Effect></Trigger>
+		</State>
+		<State name="Right">
+			<Sprite><Name>Move</Name></Sprite>
+			<Movement mode="Repeat"><X magnitude="2" direction="Left" /><Y magnitude="0" /></Movement>
+			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>TurnRight</State></Effect></Trigger>
+		</State>
+		<State name="TurnRight">
+			<Sprite><Name>Turn</Name></Sprite>
+			<Movement><X magnitude="0" /></Movement>
+			<Trigger><Condition>StateTime >= 24</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="ShieldShooter">
+		<Tilesheet pallete="Default">images\enemies\shieldshooter_red.png</Tilesheet>
+		<Tilesheet pallete="Yellow">images\enemies\shieldshooter_yellow.png</Tilesheet>
+		<Tilesheet pallete="Green">images\enemies\shieldshooter_green.png</Tilesheet>
+		<Sprite width="27" height="32" reversed="true">
+			<Hotspot x="17" y="16" />
+			<Frame x="0" y="0" duration="120" />
+			<Frame x="33" y="0" duration="8" />
+			<Frame x="63" y="0" duration="40" />
+			<Frame x="33" y="0" duration="8" />
+		</Sprite>
+		<Collision>
+			<Enabled>True</Enabled>
+			<Hitbox name="Shield" x="0" y="-10" width="13" height="26" damage="2">
+				<Hits>Player</Hits><Group>Enemy</Group><Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+			<Hitbox name="Body" x="-9" y="-10" width="10" height="26" damage="2">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+			<Hitbox name="Vulnerable" x="-9" y="-16" width="19" height="32" damage="2">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Movement><FlipSprite>True</FlipSprite></Movement>
+			<Trigger condition="StateTime == 1">
+				<Effect>
+					<Collision>
+						<EnableBox name="Shield" />
+						<EnableBox name="Body" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 128">
+				<Effect>
+					<Collision><EnableBox name="Vulnerable" /></Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 134">
+				<Effect>
+					<Spawn name="EnemyShot">
+						<X offset="8" direction="Inherit" />
+						<Y offset="5" direction="Down" />
+					</Spawn>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 168">
+				<Effect>
+					<Collision>
+						<EnableBox name="Shield" />
+						<EnableBox name="Body" />
+					</Collision>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 175">
+				<Effect><State>Reset</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Reset">
+			<Trigger condition="True"><Effect><State>Start</State></Effect></Trigger>
+		</State>
+		<Health><Max>2</Max><Flash>8</Flash></Health>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
+	<Entity name="Collapser">
+		<Tilesheet pallete="Default">images\enemies\collapser.png</Tilesheet>
+		<Sprite name="Stand" width="16" height="22">
+			<Hotspot x="8" y="22" />
+			<Frame x="0" y="0" duration="6" />
+			<Frame x="16" y="0" duration="6" />
+		</Sprite>
+		<Sprite name="Fall" width="16" height="13">
+			<Hotspot x="8" y="13" />
+			<Frame x="32" y="9" duration="0" />
+		</Sprite>
+		<Sprite name="Down" width="16" height="9">
+			<Hotspot x="8" y="9" />
+			<Frame x="48" y="13" duration="6" />
+			<Frame x="64" y="13" duration="6" />
+			<Frame x="80" y="13" duration="6" />
+		</Sprite>
+       <Collision>
+            <Hitbox name="Up" damage="1" x="-8" y="-22" width="16" height="22">
+                <Hits>Player</Hits><Group>Enemy</Group>
+            </Hitbox>
+            <Hitbox name="Mid" damage="1" x="-8" y="-13" width="16" height="13">
+					<Hits>Player</Hits><Group>Enemy</Group>
+				</Hitbox>
+            <Hitbox name="Down" damage="1" x="-6" y="-6" width="16" height="6">
+					<Hits>Player</Hits><Group>Enemy</Group>
+				</Hitbox>
+        </Collision>
+		<State name="Start">
+			<Movement><Flying>False</Flying></Movement>
+			<Sprite><Name>Stand</Name></Sprite>
+			<Collision>
+				<EnableBox name="Up" />
+			</Collision>
+			<Trigger condition="PlayerDistY &lt; 64 And PlayerDistX &lt; 96">
+				<Effect>
+					<State>Fall</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Fall">
+			<Sprite><Name>Fall</Name></Sprite>
+			<Collision>
+				<EnableBox name="Mid" />
+			</Collision>
+			<Trigger condition="StateTime > 6">
+				<Effect>
+					<State>Down</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Down">
+			<Sprite><Name>Down</Name></Sprite>
+			<Movement><X magnitude="3" direction="Player" /></Movement>
+			<Movement mode="Repeat"><X magnitude="2"/></Movement>
+			<Collision>
+				<EnableBox name="Down" />
+			</Collision>
+			<Trigger condition="Collision.BlockLeft Or Collision.BlockRight">
+				<Effect><Movement><X magnitude="3" direction="Reverse" /></Movement></Effect>
+			</Trigger>
+		</State>
+		<Health><Max>1</Max><Flash>8</Flash></Health>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+</Entities>

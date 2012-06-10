@@ -1,0 +1,68 @@
+<Map name="demo" tiles="tiles.xml">
+	<Music nsftrack="10" />
+	<Start screen="Start" x="128" y="68" />
+	<Continue screen="Continue" x="32" y="148" />
+	<Screen id="Start" />
+	<Screen id="Second">
+		<Entity name="ShieldShooter" x="128" y="80" />
+		<Entity name="Metool" x="220" y="236" />
+		<Entity name="GroundCannon" x="112" y="320" />
+	</Screen>
+	<Screen id="Third">
+		<Entity name="Collapser" x="128" y="128" />
+		<Entity name="Collapser" x="128" y="192" />
+	</Screen>
+	<Screen id="BottomLeft">
+		<Entity name="FloorBlade" x="60" y="168" />
+		<Entity name="SpikeBlock" x="220" y="120" />
+		<Entity name="SpikeBlock" state="Vert" x="280" y="104" />
+		<Entity name="SpikeBlock" x="330" y="120" />
+		<Entity name="SpikeBlock" state="Vert" x="400" y="104" />
+		<Blocks left="440" right="800" length="240" entity="Disappear">
+			<Block x="512" y="160" on="0" off="60" />
+			<Block x="560" y="160" on="60" off="120" />
+			<Block x="560" y="120" on="120" off="180" />
+			<Block x="608" y="160" on="180" off="240" />
+		</Blocks>
+	</Screen>
+	<Screen id="Slide" />
+	<Screen id="Continue">
+		<Entity name="Wheel" x="144" y="180" />
+		<Entity name="WallSpike" x="148" y="174" />
+		<Blocks left="0" right="256" length="240" entity="YokuWheel">
+			<Block x="88" y="180" on="0" off="90" />
+			<Block x="196" y="136" on="90" off="180" />
+		</Blocks>
+	</Screen>
+	<Screen id="Water">
+		<Entity name="PropFollower" x="32" y="64" />
+		<Entity name="PropFollower" x="212" y="48" />
+		<Entity name="PropFollower" x="80" y="128" />
+		<Entity name="Seeker" x="128" y="40" />
+		<Entity name="Seeker" x="48" y="172" />
+		<Entity name="Seeker" x="192" y="80" />
+	</Screen>
+	<Screen id="Stars">
+		<Entity name="Moving" x="552" y="128" />
+		<Blocks left="180" right="600" length="520" entity="YokuSpike">
+			<Block x="304" y="64" on="0" off="120" />
+			<Block x="320" y="64" on="40" off="160" />
+			<Block x="336" y="64" on="80" off="200" />
+			<Block x="352" y="64" on="120" off="240" />
+			<Block x="368" y="64" on="160" off="280" />
+			<Block x="384" y="64" on="200" off="320" />
+			<Block x="400" y="64" on="240" off="360" />
+			<Block x="416" y="64" on="280" off="400" />
+			<Block x="432" y="64" on="320" off="440" />
+			<Block x="448" y="64" on="360" off="480" />
+		</Blocks>
+	</Screen>
+	<Join type="horizontal" s1="Start" s2="Second" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="Second" s2="Third" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="horizontal" s1="Third" s2="BottomLeft" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="vertical" s1="Third" s2="Slide" offset1="8" offset2="8" size="4" direction="both" />
+	<Join type="horizontal" s1="Slide" s2="BottomLeft" offset1="0" offset2="16" size="16" direction="both" />
+	<Join type="vertical" s1="BottomLeft" s2="Continue" offset1="0" offset2="0" size="14" direction="forward" />
+	<Join type="horizontal" s1="Water" s2="Continue" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="vertical" s1="Water" s2="Stars" offset1="0" offset2="0" size="14" direction="both" />
+</Map>
