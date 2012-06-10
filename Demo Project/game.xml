@@ -29,4 +29,5 @@
 	<Include>scenes\mainmenu.xml</Include>
 	<Include>scenes\stageselect.xml</Include>
 	<Include>scenes\pause.xml</Include>
+	<Include>images\fonts\fonts.xml</Include>
 </Game>

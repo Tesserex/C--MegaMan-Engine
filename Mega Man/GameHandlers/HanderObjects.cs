@@ -167,7 +167,7 @@ namespace MegaMan.Engine
 
         public void Draw(GameGraphicsLayers layers, Color opacity)
         {
-            FontSystem.Draw(layers.ForegroundBatch, "Big", displayed, position);
+            FontSystem.Draw(layers.ForegroundBatch, "Default", displayed, position);
         }
     }
 

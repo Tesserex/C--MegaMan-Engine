@@ -15,10 +15,14 @@
 	<Keyframe frame="180" fade="true">
 		<PlayMusic track="12" />
 		<Remove name="Capcom" />
-		<Text name="AD" content="In the year 2012 AD..." x="42" y="80" />
+		<Text name="AD" content="Special Characters Test:" x="42" y="80" />
+		<Text name="spec" content=";!?@#$%^&amp;*()[|]{}&lt;&gt;" x="42" y="96" />
+		<Text name="kana" content="&#12354;&#12353;&#12356;&#12355;&#12358;&#12357;&#12360;&#12359;&#12362;&#12361;" x="42" y="112" />
 	</Keyframe>
 	<Keyframe frame="320" fade="true">
 		<Remove name="AD" />
+		<Remove name="spec" />
+		<Remove name="kana" />
 		<Sprite name="Protoman" object="Protoman" x="128" y="112" />
 	</Keyframe>
 	<Next type="Menu" name="Title" fade="True" />

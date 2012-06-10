@@ -63,9 +63,6 @@ namespace MegaMan.Engine
             }
             CurrentGame = new Game();
             CurrentGame.LoadFile(path, pathArgs);
-            // TODO: load fonts from xml
-            FontSystem.LoadFont("Big", Path.Combine(Game.CurrentGame.BasePath, @"images\font.png"), 8, 0);
-            FontSystem.LoadFont("Boss", Path.Combine(Game.CurrentGame.BasePath, @"images\font_boss.png"), 8, 0);
         }
 
         public void Unload()
@@ -201,6 +198,10 @@ namespace MegaMan.Engine
 
                         case "Menu":
                             Menu.Load(element);
+                            break;
+
+                        case "Fonts":
+                            FontSystem.Load(element);
                             break;
 
                         default:

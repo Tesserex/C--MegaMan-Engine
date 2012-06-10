@@ -4,6 +4,8 @@ using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
+using System.Xml.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
@@ -12,41 +14,70 @@ namespace MegaMan.Engine
         private class ImageFont : IDisposable
         {
             private readonly int charWidth;
-            private readonly float charSpace;
+            private readonly bool caseSensitive;
             private Image charImg;
             private readonly Texture2D charTex;
+            private readonly Dictionary<char, System.Drawing.Point> chars;
 
-            private static readonly List<char> chars = new List<char>(new[] {
-                                              'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', ',', '!', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-                                          });
-
-            public ImageFont(Image img, Texture2D tex, int width, int space)
+            public ImageFont(XElement node)
             {
-                charImg = img;
-                charTex = tex;
-                charWidth = width;
-                charSpace = space;
+                charWidth = node.GetInteger("charwidth");
+                caseSensitive = node.GetBool("cased");
+
+                chars = new Dictionary<char, System.Drawing.Point>();
+
+                foreach (var lineNode in node.Elements("Line"))
+                {
+                    var x = lineNode.GetInteger("x");
+                    var y = lineNode.GetInteger("y");
+
+                    var lineText = lineNode.Value;
+
+                    if (!caseSensitive)
+                    {
+                        lineText = lineText.ToUpper();
+                    }
+
+                    var lineChars = lineText.ToCharArray();
+
+                    for (int i = 0; i < lineChars.Length; i++)
+                    {
+                        var c = lineChars[i];
+
+                        chars.Add(c, new System.Drawing.Point(x + i * charWidth, y));
+                    }
+                }
+
+                var imagepath = System.IO.Path.Combine(Game.CurrentGame.BasePath, node.RequireAttribute("image").Value);
+                charImg = Image.FromFile(imagepath);
+                StreamReader sr = new StreamReader(imagepath);
+                charTex = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
             public void Draw(SpriteBatch batch, string text, Vector2 position)
             {
-                text = text.ToLower();
+                if (!caseSensitive)
+                {
+                    text = text.ToUpper();
+                }
+
                 float xpos = position.X;
 
                 foreach (char c in text)
                 {
                     if (c == ' ')
                     {
-                        xpos += charWidth + charSpace;
+                        xpos += charWidth;
                         continue;
                     }
 
-                    int cindex = chars.IndexOf(c);
-                    if (cindex < 0) continue;
+                    if (!chars.ContainsKey(c)) continue;
 
-                    batch.Draw(charTex, new Vector2(xpos, position.Y), new Microsoft.Xna.Framework.Rectangle(cindex * charWidth, 0, charWidth, charWidth), Engine.Instance.OpacityColor);
+                    var location = chars[c];
 
-                    xpos += charWidth + charSpace;
+                    batch.Draw(charTex, new Vector2(xpos, position.Y), new Microsoft.Xna.Framework.Rectangle(location.X, location.Y, charWidth, charWidth), Engine.Instance.OpacityColor);
+
+                    xpos += charWidth;
                 }
             }
 
@@ -71,14 +102,14 @@ namespace MegaMan.Engine
 
         private static readonly Dictionary<string, ImageFont> fonts = new Dictionary<string,ImageFont>();
 
-        public static void LoadFont(string name, string imagepath, int charWidth, int charSpace)
+        public static void Load(XElement node)
         {
-            Image charimg = Image.FromFile(imagepath);
-            StreamReader sr = new StreamReader(imagepath);
-            Texture2D chartex = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
-            ImageFont font = new ImageFont(charimg, chartex, charWidth, charSpace);
+            foreach (var fontNode in node.Elements("Font"))
+            {
+                var name = fontNode.RequireAttribute("name").Value;
 
-            fonts.Add(name, font);
+                fonts.Add(name, new ImageFont(fontNode));
+            }
         }
 
         public static void Draw(SpriteBatch batch, string font, string text, PointF position)
