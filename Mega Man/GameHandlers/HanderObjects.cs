@@ -135,6 +135,7 @@ namespace MegaMan.Engine
 
             if (speed != 0)
             {
+                displayed = "";
                 Engine.Instance.GameLogicTick += Update;
                 frame = 0;
             }
