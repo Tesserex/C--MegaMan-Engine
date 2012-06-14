@@ -209,6 +209,16 @@ namespace MegaMan.Engine
             }
         }
 
+        public void ChangePalette(int index)
+        {
+            var paletteName = currentSprite.PaletteName;
+            var palette = Palette.Get(paletteName);
+            if (palette != null)
+            {
+                palette.CurrentIndex = index;
+            }
+        }
+
         public void ChangeGroup(string group)
         {
             if (!sprites.ContainsKey(group) || sprites[group] == null) return;

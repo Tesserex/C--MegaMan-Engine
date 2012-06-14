@@ -1,12 +1,7 @@
 <Entities>
 <Entity name="Player">
 	<GravityFlip>True</GravityFlip>
-    <Tilesheet pallete="Default">images\megaman.png</Tilesheet>
-	<Tilesheet pallete="BadBoxArt">images\megaman_bba.png</Tilesheet>
-	<Tilesheet pallete="Gyro">images\megaman_gyro.png</Tilesheet>
-	<Tilesheet pallete="Crystal">images\megaman_crystal.png</Tilesheet>
-	<Tilesheet pallete="Rush">images\megaman_rush.png</Tilesheet>
-	<Tilesheet pallete="Napalm">images\megaman_napalm.png</Tilesheet>
+    <Tilesheet>images\megaman.png</Tilesheet>
 	<Sprite name="Teleport" palette="MegaMan" width="24" height="32">
 		<Hotspot x="12" y="12" />
 		<Frame x="164" y="72" duration="4" />
@@ -100,20 +95,20 @@
 		</Hitbox>
 	</Ladder>
 	<Weapons>
-		<Weapon name="MBuster" entity="MBuster" pallete="Default"/>
-		<Weapon name="RushCoil" entity="RushCoil" ammo="7" usage="0" pallete="Rush">
+		<Weapon name="MBuster" entity="MBuster" palette="0"/>
+		<Weapon name="RushCoil" entity="RushCoil" ammo="7" usage="0" palette="6">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\rushhealth.png" />
 		</Weapon>
-		<Weapon name="RushJet" entity="RushJet" ammo="28" usage="0" pallete="Rush">
+		<Weapon name="RushJet" entity="RushJet" ammo="28" usage="0" palette="6">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\rushhealth.png" />
 		</Weapon>
-		<Weapon name="Gyro" entity="Gyro" ammo="28" usage="1" pallete="Gyro">
+		<Weapon name="Gyro" entity="Gyro" ammo="28" usage="1" palette="7">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\gyrohealth.png" />
 		</Weapon>
-		<Weapon name="Crystal" entity="Crystal" ammo="28" usage="2" pallete="Crystal">
+		<Weapon name="Crystal" entity="Crystal" ammo="28" usage="2" palette="8">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\crystalhealth.png" />
 		</Weapon>
-		<Weapon name="Napalm" entity="Napalm" ammo="28" usage="1" pallete="Napalm">
+		<Weapon name="Napalm" entity="Napalm" ammo="28" usage="1" palette="9">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\napalmhealth.png" />
 		</Weapon>
 	</Weapons>

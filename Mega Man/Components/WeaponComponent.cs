@@ -17,7 +17,7 @@ namespace MegaMan.Engine
             public int Max;
             public int Usage;
             public HealthMeter Meter;
-            public string SpriteGroup;
+            public int? Palette;
         }
 
         private List<WeaponInfo> weapons = new List<WeaponInfo>();
@@ -32,7 +32,7 @@ namespace MegaMan.Engine
             var info = weapons.SingleOrDefault(w => w.Name == weapon);
             if (info != null)
             {
-                if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).Health;
+                if (info.Palette == 0) return (int)(Parent.GetComponent<HealthComponent>()).Health;
                 return info.Ammo;
             }
             return 0;
@@ -43,7 +43,7 @@ namespace MegaMan.Engine
             var info = weapons.SingleOrDefault(w => w.Name == weapon);
             if (info != null)
             {
-                if (info.SpriteGroup == "Default") return (int)(Parent.GetComponent<HealthComponent>()).MaxHealth;
+                if (info.Palette == 0) return (int)(Parent.GetComponent<HealthComponent>()).MaxHealth;
                 return info.Max;
             }
             return 0;
@@ -123,8 +123,14 @@ namespace MegaMan.Engine
 
         private void ApplyCurrent()
         {
-            SpriteComponent sprites = Parent.GetComponent<SpriteComponent>();
-            if (sprites != null) sprites.ChangeGroup(weapons[current].SpriteGroup);
+            if (weapons[current].Palette.HasValue)
+            {
+                SpriteComponent sprites = Parent.GetComponent<SpriteComponent>();
+                if (sprites != null)
+                {
+                    sprites.ChangePalette(weapons[current].Palette.Value);
+                }
+            }
 
             if (weapons[current].Meter != null)
             {
@@ -161,7 +167,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public void AddWeapon(string name, string entity, int ammo, int usage, HealthMeter meter, string spritegroup)
+        public void AddWeapon(string name, string entity, int ammo, int usage, HealthMeter meter, int? palette)
         {
             if (weapons.Any(info => info.Name == name))
             {
@@ -175,7 +181,7 @@ namespace MegaMan.Engine
                 Max = ammo,
                 Usage = usage,
                 Meter = meter,
-                SpriteGroup = spritegroup,
+                Palette = palette,
                 Index = weapons.Count
             };
 
@@ -196,9 +202,12 @@ namespace MegaMan.Engine
                 int usage;
                 if (!weapon.TryInteger("usage", out usage)) usage = 1;
 
-                string spritegroup = "Default";
-                XAttribute sprite = weapon.Attribute("pallete");
-                if (sprite != null) spritegroup = sprite.Value;
+                int? palette = null;
+                int p = 0;
+                if (weapon.TryInteger("palette", out p))
+                {
+                    palette = p;
+                }
 
                 HealthMeter meter = null;
                 XElement meterNode = weapon.Element("Meter");
@@ -210,7 +219,7 @@ namespace MegaMan.Engine
                     meter.Reset();
                 }
 
-                AddWeapon(name, entity, ammo, usage, meter, spritegroup);
+                AddWeapon(name, entity, ammo, usage, meter, palette);
             }
         }
 
