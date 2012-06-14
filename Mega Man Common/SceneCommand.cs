@@ -210,6 +210,7 @@ namespace MegaMan.Common
         public int? Speed { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public string Font { get; set; }
 
         public static SceneTextCommandInfo FromXml(XElement node)
         {
@@ -227,12 +228,19 @@ namespace MegaMan.Common
             info.Y = node.GetInteger("y");
             var bindingNode = node.Element("Binding");
             if (bindingNode != null) info.Binding = SceneBindingInfo.FromXml(bindingNode);
+
+            var fontAttr = node.Attribute("font");
+            if (fontAttr != null)
+            {
+                info.Font = fontAttr.Value;
+            }
             return info;
         }
 
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Text");
+            if (!string.IsNullOrEmpty("Font")) writer.WriteAttributeString("font", Font);
             if (!string.IsNullOrEmpty(Name)) writer.WriteAttributeString("name", Name);
             writer.WriteAttributeString("content", Content);
             if (Speed != null) writer.WriteAttributeString("speed", Speed.Value.ToString());

@@ -43,24 +43,24 @@
 		<Sprite name="Magnet" object="Magnet" x="112" y="160" />
 		<Sprite name="Centaur" object="Centaur" x="184" y="160" />
 
-		<Text content="Blade" x="32" y="72" />
-		<Text content="Man" x="56" y="80" />
-		<Text content="Drill" x="104" y="72" />
-		<Text content="Man" x="128" y="80" />
-		<Text content="Crystal" x="168" y="72" />
-		<Text content="Man" x="200" y="80" />
+		<Text content="BLADE" x="32" y="72" />
+		<Text content="MAN" x="56" y="80" />
+		<Text content="DRILL" x="104" y="72" />
+		<Text content="MAN" x="128" y="80" />
+		<Text content="CRYSTAL" x="168" y="72" />
+		<Text content="MAN" x="200" y="80" />
 
-		<Text content="Elec" x="32" y="136" />
-		<Text content="Man" x="56" y="144" />
-		<Text content="Tornado" x="168" y="136" />
-		<Text content="Man" x="200" y="144" />
+		<Text content="ELEC" x="32" y="136" />
+		<Text content="MAN" x="56" y="144" />
+		<Text content="TORNADO" x="168" y="136" />
+		<Text content="MAN" x="200" y="144" />
 
-		<Text content="Metal" x="32" y="200" />
-		<Text content="Man" x="56" y="208" />
-		<Text content="Magnet" x="104" y="200" />
-		<Text content="Man" x="128" y="208" />
-		<Text content="Centaur" x="168" y="200" />
-		<Text content="Man" x="200" y="208" />
+		<Text content="METAL" x="32" y="200" />
+		<Text content="MAN" x="56" y="208" />
+		<Text content="MAGNET" x="104" y="200" />
+		<Text content="MAN" x="128" y="208" />
+		<Text content="CENTAUR" x="168" y="200" />
+		<Text content="MAN" x="200" y="208" />
 
 		<Option x="32" y="24">
 			<On>

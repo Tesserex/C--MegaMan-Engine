@@ -106,8 +106,7 @@
 			</Hitbox>
 		</Collision>
 		<Tilesheet pallete="Default">images\items\coloritems.png</Tilesheet>
-		<Tilesheet pallete="Gyro">images\items\coloritems_gyro.png</Tilesheet>
-		<Sprite name="normal" width="8" height="8">
+		<Sprite name="normal" palette="MegaMan" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="8" y="0" duration="8" />
@@ -158,7 +157,7 @@
 			</Hitbox>
 		</Collision>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" width="16" height="12">
+		<Sprite name="normal" palette="MegaMan" width="16" height="12">
 			<Hotspot x="8" y="6" />
 			<Frame x="29" y="4" duration="8" />
 			<Frame x="50" y="4" duration="8" />
@@ -209,7 +208,7 @@
 			</Hitbox>
 		</Collision>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" width="16" height="15">
+		<Sprite name="normal" palette="MegaMan" width="16" height="15">
 			<Hotspot x="8" y="8" />
 			<Frame x="134" y="1" duration="0" />
 		</Sprite>
@@ -259,7 +258,7 @@
 			</Hitbox>
 		</Collision>
 		<Tilesheet>images\items\energytank.png</Tilesheet>
-		<Sprite name="normal" width="16" height="15">
+		<Sprite name="normal" palette="MegaMan" width="16" height="15">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="8" />
             <Frame x="18" y="0" duration="8" />

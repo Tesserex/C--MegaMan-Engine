@@ -38,7 +38,7 @@ namespace MegaMan.Engine
             get { return currentSpriteName; }
         }
 
-        public string Palette
+        public string Group
         {
             get { return currentPalette; }
         }
@@ -160,6 +160,19 @@ namespace MegaMan.Engine
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
                             spritecomp.ChangeGroup(group);
+                        };
+                        break;
+
+                    case "Palette":
+                        string pal = prop.RequireAttribute("name").Value;
+                        int index = prop.GetInteger("index");
+                        action += entity =>
+                        {
+                            var palette = Palette.Get(pal);
+                            if (palette != null)
+                            {
+                                palette.CurrentIndex = index;
+                            }
                         };
                         break;
                 }

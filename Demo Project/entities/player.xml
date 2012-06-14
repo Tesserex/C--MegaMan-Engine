@@ -3,77 +3,75 @@
 	<GravityFlip>True</GravityFlip>
     <Tilesheet pallete="Default">images\megaman.png</Tilesheet>
 	<Tilesheet pallete="BadBoxArt">images\megaman_bba.png</Tilesheet>
-	<Tilesheet pallete="Charge1">images\megaman_charge1.png</Tilesheet>
-	<Tilesheet pallete="Charge2">images\megaman_charge2.png</Tilesheet>
 	<Tilesheet pallete="Gyro">images\megaman_gyro.png</Tilesheet>
 	<Tilesheet pallete="Crystal">images\megaman_crystal.png</Tilesheet>
 	<Tilesheet pallete="Rush">images\megaman_rush.png</Tilesheet>
 	<Tilesheet pallete="Napalm">images\megaman_napalm.png</Tilesheet>
-	<Sprite name="Teleport" width="24" height="32">
+	<Sprite name="Teleport" palette="MegaMan" width="24" height="32">
 		<Hotspot x="12" y="12" />
 		<Frame x="164" y="72" duration="4" />
 		<Frame x="190" y="72" duration="4" />
 		<Frame x="218" y="72" duration="4" />
 	</Sprite>
-	<Sprite name="TeleportStart" width="24" height="32">
+	<Sprite name="TeleportStart" palette="MegaMan" width="24" height="32">
 		<Hotspot x="12" y="12" />
 		<Frame x="218" y="72" duration="4" />
 		<Frame x="190" y="72" duration="4" />
 		<Frame x="164" y="72" duration="4" />
 	</Sprite>
-	<Sprite name="Standing" width="32" height="24">
+	<Sprite name="Standing" palette="MegaMan" width="32" height="24">
 		<Hotspot x="16" y="11" />
 		<Frame x="0" y="0" duration="110" />
 		<Frame x="32" y="0" duration="10" />
 	</Sprite>
-	<Sprite name="BeginWalk" width="32" height="24">
+	<Sprite name="BeginWalk" palette="MegaMan" width="32" height="24">
 		<Hotspot x="16" y="11" />
 		<Frame x="64" y="0" duration="60" />
 	</Sprite>
-	<Sprite name="Walking" width="32" height="24">
+	<Sprite name="Walking" palette="MegaMan" width="32" height="24">
 		<Hotspot x="12" y="11" />
 		<AnimStyle>Bounce</AnimStyle>
 		<Frame x="96" y="0" duration="8" />
 		<Frame x="128" y="0" duration="8" />
 		<Frame x="160" y="0" duration="8" />
 	</Sprite>
-	<Sprite name="Air" width="32" height="32">
+	<Sprite name="Air" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="11" />
 		<Frame x="168" y="32" duration="60" />
 	</Sprite>
-	<Sprite name="Sliding" width="32" height="32">
+	<Sprite name="Sliding" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="9" />
 		<Frame x="128" y="72" duration="60" />
 	</Sprite>
-	<Sprite name="Climbing" width="32" height="32">
+	<Sprite name="Climbing" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="12" />
 		<Frame x="0" y="64" duration="12" />
 		<Frame x="32" y="64" duration="12" />
 	</Sprite>
-	<Sprite name="ClimbTop" width="32" height="32">
+	<Sprite name="ClimbTop" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="8" />
 		<Frame x="96" y="64" duration="60" />
 	</Sprite>
-	<Sprite name="ShootStanding" width="40" height="24">
+	<Sprite name="ShootStanding" palette="MegaMan" width="40" height="24">
 		<Hotspot x="20" y="11" />
 		<Frame x="0" y="32" duration="60" />
 	</Sprite>
-	<Sprite name="ShootWalking" width="32" height="24">
+	<Sprite name="ShootWalking" palette="MegaMan" width="32" height="24">
 		<Hotspot x="12" y="11" />
 		<Frame x="40" y="32" duration="8" />
 		<Frame x="72" y="32" duration="8" />
 		<Frame x="104" y="32" duration="8" />
 		<AnimStyle>Bounce</AnimStyle>
 	</Sprite>
-	<Sprite name="ShootAir" width="32" height="32">
+	<Sprite name="ShootAir" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="11" />
 		<Frame x="136" y="32" duration="860" />
 	</Sprite>
-	<Sprite name="ShootClimbing" width="32" height="32">
+	<Sprite name="ShootClimbing" palette="MegaMan" width="32" height="32">
 		<Hotspot x="16" y="12" />
 		<Frame x="64" y="64" duration="60" />
 	</Sprite>
-	<Sprite name="Hurt" width="32" height="24">
+	<Sprite name="Hurt" palette="MegaMan" width="32" height="24">
 		<Hotspot x="16" y="11" />
 		<Frame x="200" y="32" duration="3" />
 		<Frame x="200" y="0" duration="3" />
@@ -222,43 +220,47 @@
 	</Trigger>
 	<Trigger>
 		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
-		<Condition>Sprite.Palette == "Default" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
+		<Condition>Sprite.Group == "Default" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
 		<Effect>
 			<Timer><Start>ChargeShot</Start></Timer>
 		</Effect>
 	</Trigger>
 	<State name="Sliding" />
 	<Trigger>
-		<Condition>Timer.Value("ChargeShot") == 24</Condition>
+		<Condition>Timer.Value("ChargeShot") == 40</Condition>
 		<Effect><Timer><Start>ChargeLow</Start></Timer><Sound name="Charge" /></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeShot") == 86</Condition>
+		<Condition>Timer.Value("ChargeShot") == 96</Condition>
 		<Effect><Timer><Delete>ChargeLow</Delete><Start>ChargeHigh</Start></Timer></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeLow") == 2</Condition>
-		<Effect><Sprite><Group>Default</Group></Sprite></Effect>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 1</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeLow") == 4</Condition>
-		<Effect><Sprite><Group>Charge1</Group></Sprite></Effect>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &lt; 12</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="1" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeLow") >= 6</Condition>
-		<Effect><Sprite><Group>Default</Group></Sprite><Timer><Reset>ChargeLow</Reset></Timer></Effect>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 12 And Timer.Value("ChargeLow") &lt; 24</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="2" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeHigh") == 2</Condition>
-		<Effect><Sprite><Group>Default</Group></Sprite></Effect>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 24</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="3" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeHigh") == 4</Condition>
-		<Effect><Sprite><Group>Charge1</Group></Sprite></Effect>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 0</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
-		<Condition>Timer.Value("ChargeHigh") >= 6</Condition>
-		<Effect><Sprite><Group>Charge2</Group></Sprite><Timer><Reset>ChargeHigh</Reset></Timer></Effect>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 1</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="4" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 2</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="5" /></Sprite></Effect>
 	</Trigger>
 	<Trigger>
 		<States>Standing</States>
@@ -286,7 +288,7 @@
 		<Effect>
 			<Spawn name="ChargeLow" />
 			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Group>Default</Group></Sprite>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
 			<Sound name="Charge" playing="false" />
 		</Effect>
 	</Trigger>
@@ -296,7 +298,7 @@
 		<Effect>
 			<Spawn name="ChargeFull" />
 			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Group>Default</Group></Sprite>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
 			<Sound name="Charged" playing="false" />
 		</Effect>
 	</Trigger>
@@ -305,7 +307,7 @@
 		<Condition>Timer.Exists("ChargeShot") And Input.ShootHeld == False</Condition>
 		<Effect>
 			<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Group>Default</Group></Sprite>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
 		</Effect>
 	</Trigger>
 	<Trigger>
@@ -868,7 +870,7 @@
 			<Condition>Timer.Exists("ChargeShot")</Condition>
 			<Effect>
 				<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-				<Sprite><Group>Default</Group></Sprite>
+				<Sprite><Palette name="MegaMan" index="0" /></Sprite>
 				<Sound name="Charge" playing="false" />
 			</Effect>
 		</Trigger>

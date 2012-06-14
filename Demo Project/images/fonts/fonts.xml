@@ -7,4 +7,7 @@
 		<Line x="7" y="46">@[]^_`{|}~</Line>
 		<Line x="152" y="56">&#12354;&#12353;&#12356;&#12355;&#12358;&#12357;&#12360;&#12359;&#12362;&#12361;</Line>
 	</Font>
+	<Font name="Pause" image="images/fonts/pause.png" charwidth="8" cased="false">
+		<Line x="0" y="0">ABCDEFGHIJKLMNOPQRSTUVWXYZ.0123456789</Line>
+	</Font>
 </Fonts>

@@ -31,6 +31,9 @@ namespace MegaMan.Common
 
         internal Image sheet;
 
+        private Palette palette;
+        private List<Texture2D> paletteSwaps;
+
         /// <summary>
         /// Gets or sets the direction in which to play the sprite animation.
         /// </summary>
@@ -71,6 +74,8 @@ namespace MegaMan.Common
         public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
 
         public string Name { get; private set; }
+
+        public string PaletteName { get; private set; }
 
         /// <summary>
         /// Gets whether or not the sprite animation is currently playing.
@@ -116,6 +121,7 @@ namespace MegaMan.Common
             this.Height = height;
             this.Width = width;
             frames = new List<SpriteFrame>();
+            paletteSwaps = new List<Texture2D>();
 
             this.currentFrame = 0;
             this.lastFrameTime = 0;
@@ -149,17 +155,35 @@ namespace MegaMan.Common
             {
                 this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
             }
+            this.sheet = copy.sheet;
+            this.PaletteName = copy.PaletteName;
+            this.paletteSwaps = copy.paletteSwaps;
         }
 
-        public void SetTexture(GraphicsDevice device, string sheet)
+        public void SetTexture(GraphicsDevice device, string sheetPath)
         {
-            StreamReader sr = new StreamReader(sheet);
-            texture = Texture2D.FromStream(device, sr.BaseStream);
+            StreamReader sr = new StreamReader(sheetPath);
+            this.texture = Texture2D.FromStream(device, sr.BaseStream);
+
+            if (this.sheet == null)
+            {
+                this.sheet = Image.FromFile(sheetPath);
+            }
+
+            VerifyPaletteSwaps(device);
         }
 
-        public void SetTexture(Texture2D texture)
+        private void VerifyPaletteSwaps(GraphicsDevice device)
         {
-            this.texture = texture;
+            if (PaletteName != null && this.palette == null)
+            {
+                this.palette = Palette.Get(PaletteName);
+            }
+
+            if (this.palette != null && this.paletteSwaps.Count == 0)
+            {
+                this.paletteSwaps = this.palette.GenerateSwappedTextures((Bitmap)this.sheet, device);
+            }
         }
 
         public SpriteFrame this[int index]
@@ -249,8 +273,16 @@ namespace MegaMan.Common
 
             int hx = (HorizontalFlip ^ this.Reversed) ? this.Width - this.HotSpot.X : this.HotSpot.X;
             int hy = VerticalFlip ? this.Height - this.HotSpot.Y : this.HotSpot.Y;
+            
+            // check palette swap
+            var drawTexture = this.texture;
+            VerifyPaletteSwaps(batch.GraphicsDevice);
+            if (this.palette != null && this.paletteSwaps.Count > this.palette.CurrentIndex)
+            {
+                drawTexture = this.paletteSwaps[this.palette.CurrentIndex];
+            }
 
-            batch.Draw(this.texture,
+            batch.Draw(drawTexture,
                 new XnaRectangle((int)(positionX),
                     (int)(positionY), this.Width, this.Height),
                 new XnaRectangle(this[currentFrame].SheetLocation.X, this[currentFrame].SheetLocation.Y, this[currentFrame].SheetLocation.Width, this[currentFrame].SheetLocation.Height),
@@ -381,6 +413,12 @@ namespace MegaMan.Common
             XAttribute nameAttr = element.Attribute("name");
             if (nameAttr != null) sprite.Name = nameAttr.Value;
 
+            XAttribute paletteAttr = element.Attribute("palette");
+            if (paletteAttr != null)
+            {
+                sprite.PaletteName = paletteAttr.Value;
+            }
+
             XAttribute revAttr = element.Attribute("reversed");
             if (revAttr != null)
             {
@@ -400,12 +438,8 @@ namespace MegaMan.Common
                 sprite.HotSpot = new DrawPoint(0, 0);
             }
 
-            XAttribute layerAttr = element.Attribute("layer");
-            if (layerAttr != null)
-            {
-                int layer;
-                if (int.TryParse(layerAttr.Value, out layer)) sprite.Layer = layer;
-            }
+            int layer;
+            if (element.TryInteger("layer", out layer)) sprite.Layer = layer;
 
             XElement stylenode = element.Element("AnimStyle");
             if (stylenode != null)

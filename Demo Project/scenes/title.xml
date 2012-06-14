@@ -14,7 +14,7 @@
 		<SpriteMove name="Title" x="8" y="8" duration="30" />
 		<SpriteMove name="MegaMan" x="80" y="80" duration="30" />
 		<Text content="Engine Demo" x="144" y="66" />
-		<Text content="Press Enter" x="8" y="128" />
+		<Text content="PRESS ENTER" x="8" y="128" />
 		<Option x="8" y="128">
 			<Select>
 				<Sound name="Select" />

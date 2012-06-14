@@ -30,4 +30,5 @@
 	<Include>scenes\stageselect.xml</Include>
 	<Include>scenes\pause.xml</Include>
 	<Include>images\fonts\fonts.xml</Include>
+	<Include>images\palettes.xml</Include>
 </Game>

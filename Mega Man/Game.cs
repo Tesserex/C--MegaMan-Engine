@@ -78,6 +78,7 @@ namespace MegaMan.Engine
             HealthMeter.Unload();
             Scene.Unload();
             Menu.Unload();
+            Palette.Unload();
             CurrentGame = null;
         }
 
@@ -171,7 +172,7 @@ namespace MegaMan.Engine
             Player = new Player();
         }
 
-        private static void IncludeXmlFile(string path)
+        private void IncludeXmlFile(string path)
         {
             try
             {
@@ -202,6 +203,10 @@ namespace MegaMan.Engine
 
                         case "Fonts":
                             FontSystem.Load(element);
+                            break;
+
+                        case "Palettes":
+                            Palette.LoadPalettes(element, this.BasePath);
                             break;
 
                         default:

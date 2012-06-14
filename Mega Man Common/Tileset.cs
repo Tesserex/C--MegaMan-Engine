@@ -142,11 +142,9 @@ namespace MegaMan.Common
 
         public void SetTextures(Microsoft.Xna.Framework.Graphics.GraphicsDevice device)
         {
-            StreamReader sr = new StreamReader(this.sheetPathAbs);
-            Microsoft.Xna.Framework.Graphics.Texture2D tex = Microsoft.Xna.Framework.Graphics.Texture2D.FromStream(device, sr.BaseStream);
             foreach (Tile tile in this)
             {
-                tile.Sprite.SetTexture(tex);
+                tile.Sprite.SetTexture(device, this.sheetPathAbs);
             }
         }
 

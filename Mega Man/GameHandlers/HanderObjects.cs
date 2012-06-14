@@ -93,6 +93,7 @@ namespace MegaMan.Engine
         private int frame;
         private Vector2 position;
         private Binding binding;
+        private string font;
 
         private string _content;
         public string Content
@@ -119,6 +120,7 @@ namespace MegaMan.Engine
             this.speed = info.Speed ?? 0;
             this.position = new Vector2(info.X, info.Y);
             this.container = container;
+            this.font = info.Font ?? "Default";
 
             if (info.Binding != null)
             {
@@ -167,7 +169,7 @@ namespace MegaMan.Engine
 
         public void Draw(GameGraphicsLayers layers, Color opacity)
         {
-            FontSystem.Draw(layers.ForegroundBatch, "Default", displayed, position);
+            FontSystem.Draw(layers.ForegroundBatch, font, displayed, position);
         }
     }
 
