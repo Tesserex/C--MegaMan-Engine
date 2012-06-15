@@ -507,9 +507,7 @@
 	</Entity>
 
 	<Entity name="ShieldShooter">
-		<Tilesheet pallete="Default">images\enemies\shieldshooter_red.png</Tilesheet>
-		<Tilesheet pallete="Yellow">images\enemies\shieldshooter_yellow.png</Tilesheet>
-		<Tilesheet pallete="Green">images\enemies\shieldshooter_green.png</Tilesheet>
+		<Tilesheet pallete="Default">images\enemies\shieldshooter.png</Tilesheet>
 		<Sprite width="27" height="32" reversed="true">
 			<Hotspot x="17" y="16" />
 			<Frame x="0" y="0" duration="120" />

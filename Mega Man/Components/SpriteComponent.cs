@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using MegaMan.Common;
-using SpriteGroup = System.Collections.Generic.Dictionary<string, MegaMan.Common.Sprite>;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 
@@ -9,11 +8,10 @@ namespace MegaMan.Engine
 {
     public class SpriteComponent : Component
     {
-        private readonly Dictionary<string, SpriteGroup> sprites;
-        private readonly Dictionary<string, System.Drawing.Image> tilesheets = new Dictionary<string, System.Drawing.Image>();
-        private readonly Dictionary<string, string> sheetpaths = new Dictionary<string, string>();
+        private readonly Dictionary<string, Sprite> sprites;
+        private System.Drawing.Image _spriteSheet;
+        private string _sheetPath;
         private Sprite currentSprite;
-        private string currentPalette = "Default";
         private string currentSpriteName;
 
         private bool verticalFlip;
@@ -38,11 +36,6 @@ namespace MegaMan.Engine
             get { return currentSpriteName; }
         }
 
-        public string Group
-        {
-            get { return currentPalette; }
-        }
-
         public bool Visible { get; set; }
 
         private PositionComponent PositionSrc { get; set; }
@@ -54,7 +47,7 @@ namespace MegaMan.Engine
 
         public SpriteComponent()
         {
-            sprites = new Dictionary<string, SpriteGroup> {{"Default", new SpriteGroup()}};
+            sprites = new Dictionary<string, Sprite>();
 
             Playing = true;
             Visible = true;
@@ -64,13 +57,11 @@ namespace MegaMan.Engine
         {
             SpriteComponent copy = new SpriteComponent();
 
-            foreach (KeyValuePair<string, SpriteGroup> pair in sprites)
+            foreach (var spr in sprites)
             {
-                foreach (KeyValuePair<string, Sprite> spr in pair.Value)
-                {
-                    copy.Add(pair.Key, spr.Key, new Sprite(spr.Value));
-                }
+                copy.Add(spr.Key, new Sprite(spr.Value));
             }
+
             copy.verticalFlip = verticalFlip;
 
             return copy;
@@ -102,22 +93,14 @@ namespace MegaMan.Engine
             XAttribute palleteAttr = xmlNode.Attribute("pallete");
             if (palleteAttr != null) spritePallete = palleteAttr.Value;
 
-            if (xmlNode.Attribute("tilesheet") != null) // explicitly specified pallete for this sprite
+            if (xmlNode.Attribute("tilesheet") != null) // explicitly specified sheet for this sprite
             {
-                Sprite spr = Sprite.FromXml(xmlNode, Game.CurrentGame.BasePath);
-                string sheetpath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
-                spr.SetTexture(Engine.Instance.GraphicsDevice, sheetpath);
-                Add(spritePallete, spriteName, spr);
+                _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
             }
-            else // load sprite for all palletes
-            {
-                foreach (KeyValuePair<string, System.Drawing.Image> pair in tilesheets)
-                {
-                    Sprite sprite = Sprite.FromXml(xmlNode, pair.Value);
-                    sprite.SetTexture(Engine.Instance.GraphicsDevice, sheetpaths[pair.Key]);
-                    Add(pair.Key, spriteName, sprite);
-                }
-            }
+
+            Sprite sprite = Sprite.FromXml(xmlNode, _spriteSheet);
+            sprite.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
+            Add(spriteName, sprite);
         }
 
         public static Effect ParseEffect(XElement node)
@@ -154,15 +137,6 @@ namespace MegaMan.Engine
                         };
                         break;
 
-                    case "Group":
-                        string group = prop.Value;
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.ChangeGroup(group);
-                        };
-                        break;
-
                     case "Palette":
                         string pal = prop.RequireAttribute("name").Value;
                         int index = prop.GetInteger("index");
@@ -185,22 +159,16 @@ namespace MegaMan.Engine
             XAttribute palAttr = xmlComp.Attribute("pallete");
             string pallete = "Default";
             if (palAttr != null) pallete = palAttr.Value;
-            string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
-            System.Drawing.Bitmap sheet = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(path);
+            _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
+            var sheet = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(_sheetPath);
             sheet.SetResolution(Const.Resolution, Const.Resolution);
-            if (!tilesheets.ContainsKey(pallete))
-            {
-                tilesheets.Add(pallete, sheet);
-                sheetpaths.Add(pallete, path);
-            }
+            _spriteSheet = sheet;
         }
 
-        private void Add(string palette, string name, Sprite sprite)
+        private void Add(string name, Sprite sprite)
         {
-            if (!sprites.ContainsKey(palette)) sprites.Add(palette, new SpriteGroup());
+            sprites.Add(name, sprite);
 
-            sprites[palette].Add(name, sprite);
-            if (sprites.Count == 1) currentPalette = palette;
             if (currentSprite == null)
             {
                 currentSpriteName = name;
@@ -219,31 +187,17 @@ namespace MegaMan.Engine
             }
         }
 
-        public void ChangeGroup(string group)
+        private void ChangeSprite(string name)
         {
-            if (!sprites.ContainsKey(group) || sprites[group] == null) return;
-
-            int frame = currentSprite.CurrentFrame;
-            int time = currentSprite.FrameTime;
-
-            currentPalette = group;
-
-            ChangeSprite(currentSpriteName);
-            currentSprite.CurrentFrame = frame;
-            currentSprite.FrameTime = time;
-        }
-
-        private void ChangeSprite(string key)
-        {
-            if (!sprites[currentPalette].ContainsKey(key) || sprites[currentPalette][key] == null)
+            if (!sprites.ContainsKey(name) || sprites[name] == null)
             {
-                throw new GameRunException(String.Format("A sprite with name {0} was not found in the entity {1}.", key, Parent.Name));
+                throw new GameRunException(String.Format("A sprite with name {0} was not found in the entity {1}.", name, Parent.Name));
             }
 
             if (currentSprite != null) currentSprite.Stop();
 
-            currentSprite = sprites[currentPalette][key];
-            currentSpriteName = key;
+            currentSprite = sprites[name];
+            currentSpriteName = name;
             if (Playing) currentSprite.Play();
         }
 
