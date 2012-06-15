@@ -72,7 +72,7 @@
 		<Sprite name="CrystalMan" object="IntroPose" x="128" y="100" />
 	</Keyframe>
 	<Keyframe frame="160">
-		<Text content="Crystal Man" x="86" y="124" speed="8" />
+		<Text content="CRYSTAL MAN" x="86" y="124" speed="8" />
 	</Keyframe>
 	<Next type="stage" name="Crystal" fade="True" />
 </Scene>

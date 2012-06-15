@@ -6,39 +6,106 @@
 	<Sprite name="RushCoilOn" tilesheet="images/pause/coil_on.png" width="16" height="16" layer="3" />
 	<Sprite name="RushJetOff" tilesheet="images/pause/jet_off.png" width="16" height="16" layer="3" />
 	<Sprite name="RushJetOn" tilesheet="images/pause/jet_on.png" width="16" height="16" layer="3" />
+	<Sprite name="GyroOff" tilesheet="images/pause/gyro_off.png" width="16" height="16" layer="3" />
+	<Sprite name="GyroOn" tilesheet="images/pause/gyro_on.png" width="16" height="16" layer="3" />
+	<Sprite name="CrystalOff" tilesheet="images/pause/crystal_off.png" width="16" height="16" layer="3" />
+	<Sprite name="CrystalOn" tilesheet="images/pause/crystal_on.png" width="16" height="16" layer="3" />
+	<Sprite name="NapalmOff" tilesheet="images/pause/napalm_off.png" width="16" height="16" layer="3" />
+	<Sprite name="NapalmOn" tilesheet="images/pause/napalm_on.png" width="16" height="16" layer="3" />
 
 	<Sprite name="EOn" tilesheet="images\pause\e_on.png" width="16" height="16" layer="3" />
 	<Sprite name="EOff" tilesheet="images\pause\e_off.png" width="16" height="16" layer="3" />
 
 	<Sprite name="Bolt" tilesheet="images\items\bolt_large.png" width="16" height="16" layer="3" />
+	
+	<Sprite name="Rock" tilesheet="images\megaman.png" palette="MegaMan" width="32" height="24" layer="3" >
+		<Hotspot x="16" y="11" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	
+	<Sprite name="Lives" tilesheet="images\items.png" palette="MegaMan" width="16" height="15" layer="3" >
+		<Hotspot x="8" y="8" />
+		<Frame x="134" y="1" duration="0" />
+	</Sprite>
 
-	<Meter name="BusterMeter" x="48" y="40" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+	<Meter name="BusterMeter" x="64" y="40" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Health.Player" target="Value" />
 	</Meter>
-	<Meter name="BusterMeterOff" x="48" y="40" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+	<Meter name="BusterMeterOff" x="64" y="40" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Health.Player" target="Value" />
+	</Meter>
+	<Meter name="BusterMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Health.Player" target="Value" />
 	</Meter>
 
-	<Meter name="CoilMeter" x="160" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+	<Meter name="CoilMeter" x="168" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Weapon.RushCoil" target="Value" />
 	</Meter>
-	<Meter name="CoilMeterOff" x="160" y="104" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+	<Meter name="CoilMeterOff" x="168" y="104" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.RushCoil" target="Value" />
+	</Meter>
+	<Meter name="CoilMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Weapon.RushCoil" target="Value" />
 	</Meter>
 
-	<Meter name="JetMeter" x="160" y="120" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+	<Meter name="JetMeter" x="168" y="120" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Weapon.RushJet" target="Value" />
 	</Meter>
-	<Meter name="JetMeterOff" x="160" y="120" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+	<Meter name="JetMeterOff" x="168" y="120" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Weapon.RushJet" target="Value" />
+	</Meter>
+	<Meter name="JetMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.RushJet" target="Value" />
+	</Meter>
+	
+	<Meter name="GyroMeter" x="64" y="72" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+		<Binding source="Weapon.Gyro" target="Value" />
+	</Meter>
+	<Meter name="GyroMeterOff" x="64" y="72" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Gyro" target="Value" />
+	</Meter>
+	<Meter name="GyroMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Gyro" target="Value" />
+	</Meter>
+	
+	<Meter name="CrystalMeter" x="64" y="88" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+		<Binding source="Weapon.Crystal" target="Value" />
+	</Meter>
+	<Meter name="CrystalMeterOff" x="64" y="88" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Crystal" target="Value" />
+	</Meter>
+	<Meter name="CrystalMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Crystal" target="Value" />
+	</Meter>
+	
+	<Meter name="NapalmMeter" x="64" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+		<Binding source="Weapon.Napalm" target="Value" />
+	</Meter>
+	<Meter name="NapalmMeterOff" x="64" y="104" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Napalm" target="Value" />
+	</Meter>
+	<Meter name="NapalmMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Napalm" target="Value" />
 	</Meter>
 
 	<State name="Start">
 		<Sprite name="Background" object="Background" x="0" y="0" />
 
-		<Sprite name="BusterOn" object="BusterOn" x="24" y="32" />
-		<Text font="Pause" x="48" y="32" content="M.Buster" />
-		<Add name="BusterMeter" object="BusterMeter" x="48" y="40" />
+		<Sprite name="BusterOn" object="BusterOn" x="32" y="32" />
+		<Text font="Pause" x="56" y="32" content="M.Buster" />
+		<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
+		
+		<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+		<Text font="Pause" x="56" y="64" content="G.Attack" />
+		<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
+		
+		<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
+		<Text font="Pause" x="56" y="80" content="C.Eye" />
+		<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="80" />
+		
+		<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
+		<Text font="Pause" x="56" y="96" content="N.Bomb" />
+		<Add name="NapalmMeterOff" object="NapalmMeterOff" x="56" y="96" />
 
 		<Sprite name="RushCoilOff" object="RushCoilOff" x="136" y="96" />
 		<Text font="Pause" x="160" y="96" content="R.Coil" />
@@ -48,34 +115,117 @@
 		<Text font="Pause" x="160" y="112" content="R.Jet" />
 		<Add name="JetMeterOff" object="JetMeterOff" x="160" y="104" />
 
-		<Sprite name="EOff" object="EOff" x="24" y="184" />
-		<Text font="Pause" name="EnergyTanks" x="42" y="192">
+		<Sprite name="EOff" object="EOff" x="28" y="180" />
+		<Text font="Pause" name="EnergyTanks" x="46" y="196">
 			<Binding source="Inventory.EnergyTank" target="Content" />
 		</Text>
 
-		<Sprite name="Bolt" object="Bolt" x="92" y="188" />
-		<Text font="Pause" name="Bolts" x="112" y="192">
+		<Sprite name="Bolt" object="Bolt" x="92" y="184" />
+		<Text font="Pause" name="Bolts" x="112" y="196">
 			<Binding source="Inventory.Bolts" target="Content" />
 		</Text>
+		
+		<Sprite name="Rock" object="Rock" x="176" y="191" />
+		<Add name="BusterMeterBottom" object="BusterMeterBottom" x="148" y="204" />
+		
+		<Sprite name="Lives" object="Lives" x="214" y="188" />
+		<Text font="Pause" name="LivesText" x="222" y="194" content="03" />
 
-		<Option x="24" y="32">
+		<Option x="32" y="32">
 			<On>
 				<Sound name="Menu" />
 				<Remove name="BusterOff" />
-				<Sprite name="BusterOn" object="BusterOn" x="24" y="32" />
+				<Sprite name="BusterOn" object="BusterOn" x="32" y="32" />
 				<Remove name="BusterMeterOff" />
-				<Add name="BusterMeter" object="BusterMeter" x="48" y="40" />
-			</On>
-			<Off>
-				<Remove name="BusterOn" />
-				<Sprite name="BusterOff" object="BusterOff" x="24" y="32" />
-				<Remove name="BusterMeter" />
-				<Add name="BusterMeterOff" object="BusterMeterOff" x="48" y="40" />
-			</Off>
-			<Select>
+				<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
+				<Add name="BusterMeterBottom" object="BusterMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
 					<Weapon><Change name="MBuster" /></Weapon>
 				</Effect>
+			</On>
+			<Off>
+				<Remove name="BusterOn" />
+				<Sprite name="BusterOff" object="BusterOff" x="32" y="32" />
+				<Remove name="BusterMeter" />
+				<Remove name="BusterMeterBottom" />
+				<Add name="BusterMeterOff" object="BusterMeterOff" x="56" y="40" />
+			</Off>
+			<Select>
+				<Sound name="pause" />
+				<Next mode="Pop" fade="true" />
+			</Select>
+		</Option>
+		
+		<Option x="32" y="64">
+			<On>
+				<Sound name="Menu" />
+				<Remove name="GyroOff" />
+				<Sprite name="GyroOn" object="GyroOn" x="32" y="64" />
+				<Remove name="GyroMeterOff" />
+				<Add name="GyroMeter" object="GyroMeter" x="56" y="72" />
+				<Add name="GyroMeterBottom" object="GyroMeterBottom" x="148" y="204" />
+				<Effect entity="Player">
+					<Weapon><Change name="Gyro" /></Weapon>
+				</Effect>
+			</On>
+			<Off>
+				<Remove name="GyroOn" />
+				<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+				<Remove name="GyroMeter" />
+				<Remove name="GyroMeterBottom" />
+				<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="72" />
+			</Off>
+			<Select>
+				<Sound name="pause" />
+				<Next mode="Pop" fade="true" />
+			</Select>
+		</Option>
+		
+		<Option x="32" y="80">
+			<On>
+				<Sound name="Menu" />
+				<Remove name="CrystalOff" />
+				<Sprite name="CrystalOn" object="CrystalOn" x="32" y="80" />
+				<Remove name="CrystalMeterOff" />
+				<Add name="CrystalMeter" object="CrystalMeter" x="56" y="88" />
+				<Add name="CrystalMeterBottom" object="CrystalMeterBottom" x="148" y="204" />
+				<Effect entity="Player">
+					<Weapon><Change name="Crystal" /></Weapon>
+				</Effect>
+			</On>
+			<Off>
+				<Remove name="CrystalOn" />
+				<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
+				<Remove name="CrystalMeter" />
+				<Remove name="CrystalMeterBottom" />
+				<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="88" />
+			</Off>
+			<Select>
+				<Sound name="pause" />
+				<Next mode="Pop" fade="true" />
+			</Select>
+		</Option>
+		
+		<Option x="32" y="96">
+			<On>
+				<Sound name="Menu" />
+				<Remove name="NapalmOff" />
+				<Sprite name="NapalmOn" object="NapalmOn" x="32" y="96" />
+				<Remove name="NapalmMeterOff" />
+				<Add name="NapalmMeter" object="NapalmMeter" x="56" y="104" />
+				<Add name="NapalmMeterBottom" object="NapalmMeterBottom" x="148" y="204" />
+				<Effect entity="Player">
+					<Weapon><Change name="Napalm" /></Weapon>
+				</Effect>
+			</On>
+			<Off>
+				<Remove name="NapalmOn" />
+				<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
+				<Remove name="NapalmMeter" />
+				<Remove name="NapalmMeterBottom" />
+				<Add name="NapalmMeterOff" object="NapalmMeterOff" x="56" y="104" />
+			</Off>
+			<Select>
 				<Sound name="pause" />
 				<Next mode="Pop" fade="true" />
 			</Select>
@@ -88,17 +238,19 @@
 				<Sprite name="RushCoilOn" object="RushCoilOn" x="136" y="96" />
 				<Remove name="CoilMeterOff" />
 				<Add name="CoilMeter" object="CoilMeter" x="160" y="104" />
+				<Add name="CoilMeterBottom" object="CoilMeterBottom" x="148" y="204" />
+				<Effect entity="Player">
+					<Weapon><Change name="RushCoil" /></Weapon>
+				</Effect>
 			</On>
 			<Off>
 				<Remove name="RushCoilOn" />
 				<Sprite name="RushCoilOff" object="RushCoilOff" x="136" y="96" />
 				<Remove name="CoilMeter" />
+				<Remove name="CoilMeterBottom" />
 				<Add name="CoilMeterOff" object="CoilMeterOff" x="160" y="104" />
 			</Off>
 			<Select>
-				<Effect entity="Player">
-					<Weapon><Change name="RushCoil" /></Weapon>
-				</Effect>
 				<Sound name="pause" />
 				<Next mode="Pop" fade="true" />
 			</Select>
@@ -111,17 +263,19 @@
 				<Sprite name="RushJetOn" object="RushJetOn" x="136" y="112" />
 				<Remove name="JetMeterOff" />
 				<Add name="JetMeter" object="JetMeter" x="160" y="120" />
+				<Add name="JetMeterBottom" object="JetMeterBottom" x="148" y="204" />
+				<Effect entity="Player">
+					<Weapon><Change name="RushJet" /></Weapon>
+				</Effect>
 			</On>
 			<Off>
 				<Remove name="RushJetOn" />
 				<Sprite name="RushJetOff" object="RushJetOff" x="136" y="112" />
 				<Remove name="JetMeter" />
+				<Remove name="JetMeterBottom" />
 				<Add name="JetMeterOff" object="JetMeterOff" x="160" y="120" />
 			</Off>
 			<Select>
-				<Effect entity="Player">
-					<Weapon><Change name="RushJet" /></Weapon>
-				</Effect>
 				<Sound name="pause" />
 				<Next mode="Pop" fade="true" />
 			</Select>
@@ -131,12 +285,12 @@
 			<On>
 				<Sound name="Menu" />
 				<Remove name="EOff" />
-				<Sprite name="EOn" object="EOn" x="24" y="184" />
+				<Sprite name="EOn" object="EOn" x="28" y="180" />
 			</On>
 			<Off>
 				<Sound name="Menu" />
 				<Remove name="EOn" />
-				<Sprite name="EOff" object="EOff" x="24" y="184" />
+				<Sprite name="EOff" object="EOff" x="28" y="180" />
 			</Off>
 			<Select>
 				<Call>UseE</Call>

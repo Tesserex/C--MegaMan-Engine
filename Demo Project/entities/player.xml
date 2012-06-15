@@ -215,7 +215,7 @@
 	</Trigger>
 	<Trigger>
 		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
-		<Condition>Sprite.Group == "Default" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
+		<Condition>Weapon.CurrentWeapon == "MBuster" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
 		<Effect>
 			<Timer><Start>ChargeShot</Start></Timer>
 		</Effect>
