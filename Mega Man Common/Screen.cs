@@ -20,17 +20,18 @@ namespace MegaMan.Common
     {
         private int[][] tiles;
 
+        #region Properties
         public FilePath MusicIntroPath { get; set; }
         public FilePath MusicLoopPath { get; set; }
         public int MusicNsfTrack { get; set; }
 
         public Map Map { get; private set; }
 
+        public List<TileLayer> TileLayers { get; private set; }
         public List<EntityPlacement> EnemyInfo { get; private set; }
         public List<BlockPatternInfo> BlockPatternInfo { get; private set; }
-        public List<TeleportInfo> Teleports { get; private set; }
+        public List<TeleportInfo> Teleports { get; private set; } 
         
-        #region Properties
         public string Name { get; set; }
         public int Width { get { return tiles[0].Length; } }
         public int Height { get { return tiles.GetLength(0); } }
@@ -49,6 +50,7 @@ namespace MegaMan.Common
             EnemyInfo = new List<EntityPlacement>();
             BlockPatternInfo = new List<BlockPatternInfo>();
             Teleports = new List<TeleportInfo>();
+            TileLayers = new List<TileLayer>();
             Tileset = parent.Tileset;
 
             Resize(width, height);
@@ -77,9 +79,15 @@ namespace MegaMan.Common
                 }
             }
 
+            TileLayers = new List<TileLayer>();
             EnemyInfo = new List<EntityPlacement>();
             BlockPatternInfo = new List<BlockPatternInfo>();
             Teleports = new List<TeleportInfo>();
+        }
+
+        public void LoadTileLayer(string filepath, int x, int y)
+        {
+            this.TileLayers.Add(new TileLayer(filepath, this, x, y));
         }
         
         public void Resize(int width, int height) 

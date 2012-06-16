@@ -1,5 +1,7 @@
 <Map name="Test" tiles="..\test\tiles.xml">
     <Music nsftrack="9" />
 	<Start screen="Start" x="48" y="164" />
-	<Screen id="Start" />
+	<Screen id="Start">
+		<Overlay path="overlay.scn" x="0" y="64" />
+	</Screen>
 </Map>

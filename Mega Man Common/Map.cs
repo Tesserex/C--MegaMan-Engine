@@ -209,11 +209,22 @@ namespace MegaMan.Common
             {
                 string id = screen.Attribute("id").Value;
                 Screen s = new Screen(Path.Combine(StagePath.Absolute, id + ".scn"), this);
+
                 Screens.Add(id, s);
                 if (Screens.Count == 1)
                 {
                     StartScreen = StartScreen ?? id;
                 }
+
+                foreach (var overlay in screen.Elements("Overlay"))
+                {
+                    var path = Path.Combine(StagePath.Absolute, overlay.RequireAttribute("path").Value);
+                    var x = overlay.GetInteger("x");
+                    var y = overlay.GetInteger("y");
+
+                    s.LoadTileLayer(path, x, y);
+                }
+
                 foreach (XElement entity in screen.Elements("Entity"))
                 {
                     EntityPlacement info = EntityPlacement.FromXml(entity);
@@ -223,6 +234,7 @@ namespace MegaMan.Common
                     else info.pallete = "Default";
                     s.AddEnemy(info);
                 }
+
                 foreach (XElement teleport in screen.Elements("Teleport"))
                 {
                     TeleportInfo info;
@@ -236,6 +248,7 @@ namespace MegaMan.Common
                     info.TargetScreen = teleport.Attribute("to_screen").Value;
                     s.AddTeleport(info);
                 }
+
                 foreach (XElement blocks in screen.Elements("Blocks"))
                 {
                     BlockPatternInfo pattern = BlockPatternInfo.FromXml(blocks);

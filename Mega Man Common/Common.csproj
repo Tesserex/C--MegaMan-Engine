@@ -112,6 +112,7 @@
     <Compile Include="SoundInfo.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="TileLayer.cs" />
     <Compile Include="Tileset.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -108,7 +108,7 @@
 			</On>
 			<Select>
 				<Sound name="Select" />
-                <Next type="Stage" name="Elec" fade="True" />
+				<Next type="Stage" name="Elec" fade="True" />
 			</Select>
 		</Option>
 
@@ -120,7 +120,8 @@
 				<SpriteMove name="RightEye" x="130" y="113" />
 			</On>
 			<Select>
-				<Sound name="Deny" />
+				<Next type="Stage" name="Test" fade="True" />
+				<Sound name="Select" />
 			</Select>
 		</Option>
 

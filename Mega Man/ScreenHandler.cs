@@ -342,6 +342,11 @@ namespace MegaMan.Engine
             OffsetY += off_y;
 
             Screen.DrawXna(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+
+            foreach (var layer in Screen.TileLayers)
+            {
+                layer.Draw(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            }
         }
 
         public Tile TileAt(int tx, int ty)
