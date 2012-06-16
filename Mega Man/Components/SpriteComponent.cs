@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using MegaMan.Common;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,8 +12,9 @@ namespace MegaMan.Engine
         private readonly Dictionary<string, Sprite> sprites;
         private System.Drawing.Image _spriteSheet;
         private string _sheetPath;
-        private Sprite currentSprite;
-        private string currentSpriteName;
+
+        private string _defaultKey = Guid.NewGuid().ToString();
+        private Dictionary<string, Sprite> currentSprites = new Dictionary<string, Sprite>();
 
         private bool verticalFlip;
 
@@ -23,17 +25,12 @@ namespace MegaMan.Engine
             set
             {
                 playing = value;
-                if (currentSprite != null)
+                foreach (var sprite in currentSprites.Values)
                 {
-                    if (playing) currentSprite.Resume();
-                    else currentSprite.Pause();
+                    if (playing) sprite.Resume();
+                    else sprite.Pause();
                 }
             }
-        }
-
-        public string Name
-        {
-            get { return currentSpriteName; }
         }
 
         public bool Visible { get; set; }
@@ -42,7 +39,13 @@ namespace MegaMan.Engine
 
         public bool HorizontalFlip
         {
-            set { currentSprite.HorizontalFlip = value; }
+            set
+            {
+                foreach (var sprite in currentSprites.Values)
+                {
+                    sprite.HorizontalFlip = value;
+                }
+            }
         }
 
         public SpriteComponent()
@@ -112,10 +115,18 @@ namespace MegaMan.Engine
                 {
                     case "Name":
                         string spritename = prop.Value;
+
+                        string key = null;
+                        var keyAttr = prop.Attribute("key");
+                        if (keyAttr != null)
+                        {
+                            key = keyAttr.Value;
+                        }
+
                         action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.ChangeSprite(spritename);
+                            spritecomp.ChangeSprite(spritename, key);
                         };
                         break;
 
@@ -169,17 +180,16 @@ namespace MegaMan.Engine
         {
             sprites.Add(name, sprite);
 
-            if (currentSprite == null)
+            if (currentSprites.Count == 0)
             {
-                currentSpriteName = name;
-                currentSprite = sprite;
-                currentSprite.Play();
+                currentSprites.Add(_defaultKey, sprite);
+                sprite.Play();
             }
         }
 
         public void ChangePalette(int index)
         {
-            var paletteName = currentSprite.PaletteName;
+            var paletteName = currentSprites.Values.First().PaletteName;
             var palette = Palette.Get(paletteName);
             if (palette != null)
             {
@@ -187,23 +197,30 @@ namespace MegaMan.Engine
             }
         }
 
-        private void ChangeSprite(string name)
+        private void ChangeSprite(string name, string key = null)
         {
             if (!sprites.ContainsKey(name) || sprites[name] == null)
             {
                 throw new GameRunException(String.Format("A sprite with name {0} was not found in the entity {1}.", name, Parent.Name));
             }
 
-            if (currentSprite != null) currentSprite.Stop();
+            if (key == null) key = _defaultKey;
 
-            currentSprite = sprites[name];
-            currentSpriteName = name;
-            if (Playing) currentSprite.Play();
+            if (currentSprites.ContainsKey(key)) currentSprites[key].Stop();
+
+            currentSprites[key] = sprites[name];
+            if (Playing) currentSprites[key].Play();
         }
 
         protected override void Update()
         {
-            if (!Parent.Paused) currentSprite.Update();
+            if (!Parent.Paused)
+            {
+                foreach (var sprite in currentSprites.Values)
+                {
+                    sprite.Update();
+                }
+            }
         }
 
         public override void RegisterDependencies(Component component)
@@ -215,6 +232,14 @@ namespace MegaMan.Engine
         private void Instance_GameRender(GameRenderEventArgs e)
         {
             evenframe = !evenframe;
+            foreach (var sprite in currentSprites.Values)
+            {
+                RenderSprite(sprite, e);
+            }
+        }
+
+        private void RenderSprite(Sprite currentSprite, GameRenderEventArgs e)
+        {
             if (currentSprite.Layer < e.Layers.SpritesBatch.Length && (
                 (currentSprite.Layer == 0 && Engine.Instance.SpritesOne) ||
                 (currentSprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
@@ -231,24 +256,24 @@ namespace MegaMan.Engine
                         bounds.Offset(PositionSrc.Position);
                         if (meter.Bounds.IntersectsWith(bounds))
                         {
-                            Draw(e.Layers.ForegroundBatch, e.OpacityColor);
+                            Draw(currentSprite, e.Layers.ForegroundBatch, e.OpacityColor);
                             return;
                         }
                     }
                 }
-                Draw(e.Layers.SpritesBatch[currentSprite.Layer], e.OpacityColor);
+                Draw(currentSprite, e.Layers.SpritesBatch[currentSprite.Layer], e.OpacityColor);
             }
         }
 
-        private void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color)
+        private void Draw(Sprite sprite, SpriteBatch batch, Microsoft.Xna.Framework.Color color)
         {
             if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
             float off_x = Parent.Screen.OffsetX;
             float off_y = Parent.Screen.OffsetY;
-            if (currentSprite != null && Visible)
+            if (sprite != null && Visible)
             {
-                currentSprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
-                currentSprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
+                sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
+                sprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
             }
         }
     }
