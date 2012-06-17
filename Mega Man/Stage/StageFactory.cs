@@ -6,18 +6,18 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public class MapFactory
+    public class StageFactory
     {
-        private MapHandler handler;
+        private StageHandler handler;
 
-        public MapHandler CreateMap(StageInfo info)
+        public StageHandler CreateMap(StageLinkInfo info)
         {
-            Map map = new Map(info.StagePath);
+            StageInfo map = new StageInfo(info.StagePath);
 
-            handler = new MapHandler(map);
+            handler = new StageHandler(map);
 
-            var joins = new Dictionary<Screen, Dictionary<Join, JoinHandler>>();
-            var bossDoors = new Dictionary<Screen, Dictionary<Join, GameEntity>>();
+            var joins = new Dictionary<ScreenInfo, Dictionary<Join, JoinHandler>>();
+            var bossDoors = new Dictionary<ScreenInfo, Dictionary<Join, GameEntity>>();
 
             foreach (var screen in map.Screens.Values)
             {
@@ -58,7 +58,7 @@ namespace MegaMan.Engine
             var screens = new Dictionary<string, ScreenHandler>();
             foreach (var screen in map.Screens.Values)
             {
-                screens[screen.Name] = CreateScreen(screen, joins[screen].Values.ToList());
+                screens[screen.Name] = CreateScreen(handler, screen, joins[screen].Values.ToList());
             }
 
             handler.InitScreens(screens);
@@ -78,32 +78,20 @@ namespace MegaMan.Engine
             return handler;
         }
 
-        private ScreenHandler CreateScreen(Screen screen, IEnumerable<JoinHandler> joins)
+        private ScreenHandler CreateScreen(StageHandler stage, ScreenInfo screen, IEnumerable<JoinHandler> joins)
         {
-            var patterns = new List<BlocksPattern>(screen.BlockPatternInfo.Count);
+            var patterns = new List<BlocksPattern>(screen.BlockPatterns.Count);
 
-            foreach (BlockPatternInfo info in screen.BlockPatternInfo)
+            foreach (BlockPatternInfo info in screen.BlockPatterns)
             {
                 BlocksPattern pattern = new BlocksPattern(info, handler);
                 patterns.Add(pattern);
             }
 
-            MapSquare[][] tiles = new MapSquare[screen.Height][];
-            for (int y = 0; y < screen.Height; y++)
+            var layers = new List<ScreenLayer>();
+            foreach (var layerInfo in screen.Layers)
             {
-                tiles[y] = new MapSquare[screen.Width];
-                for (int x = 0; x < screen.Width; x++)
-                {
-                    try
-                    {
-                        Tile tile = screen.TileAt(x, y);
-                        tiles[y][x] = new MapSquare(screen, tile, x, y, x * screen.Tileset.TileSize, y * screen.Tileset.TileSize);
-                    }
-                    catch
-                    {
-                        throw new GameRunException("There's an error in map " + screen.Map.Name + ", screen file " + screen.Name + ".scn,\nthere's a bad tile number somewhere.");
-                    }
-                }
+                layers.Add(new ScreenLayer(layerInfo, stage));
             }
 
             Music music = null;
@@ -111,10 +99,10 @@ namespace MegaMan.Engine
             string looppath = (screen.MusicLoopPath != null) ? screen.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
-            return new ScreenHandler(screen, tiles, joins, patterns, music, handler);
+            return new ScreenHandler(screen, layers, joins, patterns, music, handler);
         }
-        
-        private JoinHandler CreateJoin(Join join, Screen screen, GameEntity door, GameEntity otherDoor)
+
+        private JoinHandler CreateJoin(Join join, ScreenInfo screen, GameEntity door, GameEntity otherDoor)
         {
             if (join.bossDoor)
             {

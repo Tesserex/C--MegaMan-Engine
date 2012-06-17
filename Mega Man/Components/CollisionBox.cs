@@ -87,20 +87,20 @@ namespace MegaMan.Engine
 
         public void SetParent(CollisionComponent parent) { parentComponent = parent; }
 
-        public bool EnvironmentCollisions(PointF position, MapSquare tile, ref PointF offset)
+        public bool EnvironmentCollisions(PointF position, MapSquare square, ref PointF offset)
         {
             offset.X = 0;
             offset.Y = 0;
             // some optimizations
-            RectangleF tileBox = tile.BlockBox;
+            RectangleF tileBox = square.BlockBox;
             if (box.Right + position.X < tileBox.Left) return false;
             if (box.Left + position.X > tileBox.Right) return false;
             RectangleF boundBox = BoxAt(position);
 
-            return EnvironmentContact(tile, tileBox, boundBox, out offset);
+            return EnvironmentContact(square.Tile, tileBox, boundBox, out offset);
         }
 
-        private bool EnvironmentContact(MapSquare square, RectangleF tileBox, RectangleF boundBox, out PointF offset)
+        private bool EnvironmentContact(Tile tile, RectangleF tileBox, RectangleF boundBox, out PointF offset)
         {
             // can't use intersection, use epsilon
             offset = PointF.Empty;
@@ -121,8 +121,8 @@ namespace MegaMan.Engine
                 if (boundBox.Right - tileBox.Left + Const.PixelEpsilon <= 0) return false;
             }
 
-            bool down = (!Game.CurrentGame.GravityFlip && square.Tile.Properties.Climbable);
-            bool up = (Game.CurrentGame.GravityFlip && square.Tile.Properties.Climbable);
+            bool down = (!Game.CurrentGame.GravityFlip && tile.Properties.Climbable);
+            bool up = (Game.CurrentGame.GravityFlip && tile.Properties.Climbable);
 
             if (parentComponent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
             else offset = CheckTileOffset(tileBox, boundBox, 0, 0, up, down);

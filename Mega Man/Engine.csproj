@@ -159,9 +159,10 @@
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\LadderComponent.cs" />
-    <Compile Include="MapFactory.cs" />
-    <Compile Include="MapHandler.cs" />
-    <Compile Include="MapSquare.cs" />
+    <Compile Include="Stage\ScreenLayer.cs" />
+    <Compile Include="Stage\StageFactory.cs" />
+    <Compile Include="Stage\StageHandler.cs" />
+    <Compile Include="Stage\MapSquare.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameHandlers\Menu.cs" />
     <Compile Include="Messages.cs" />
@@ -211,7 +212,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="GameHandlers\Scene.cs" />
-    <Compile Include="ScreenHandler.cs" />
+    <Compile Include="Stage\ScreenHandler.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="SoundEffect.cs" />

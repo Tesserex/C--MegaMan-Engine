@@ -29,7 +29,6 @@ namespace MegaMan.Common
         public RespawnBehavior respawn;
         public float screenX;
         public float screenY;
-        public string pallete;
         public bool boss;
 
         public static EntityPlacement FromXml(XElement entity)

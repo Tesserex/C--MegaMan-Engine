@@ -28,7 +28,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public MapSquare(Screen screen, Tile tile, int x, int y, float screenX, float screenY)
+        public MapSquare(TileLayer layer, Tile tile, int x, int y, float screenX, float screenY)
         {
             Tile = tile;
             X = x;
@@ -46,7 +46,7 @@ namespace MegaMan.Engine
             }
             else if (Tile.Properties.Climbable)
             {
-                Tile below = screen.TileAt(X, Y + 1);
+                Tile below = layer.TileAt(X, Y + 1);
                 if (below != null && !below.Properties.Climbable)
                 {
                     flipBox = basisBox;
@@ -55,7 +55,7 @@ namespace MegaMan.Engine
                 }
                 else flipBox = RectangleF.Empty;
 
-                Tile above = screen.TileAt(X, Y - 1);
+                Tile above = layer.TileAt(X, Y - 1);
                 if (above != null && !above.Properties.Climbable)
                 {
                     boundBox = basisBox;

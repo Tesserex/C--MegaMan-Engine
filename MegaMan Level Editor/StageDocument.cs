@@ -15,7 +15,7 @@ namespace MegaMan.LevelEditor
 
     public class StageDocument
     {
-        private readonly Map map;
+        private readonly StageInfo map;
 
         private StageForm stageForm;
 
@@ -40,13 +40,13 @@ namespace MegaMan.LevelEditor
         public StageDocument(ProjectEditor project)
         {
             Project = project;
-            map = new Map();
+            map = new StageInfo();
         }
 
         public StageDocument(ProjectEditor project, string basepath, string filepath)
         {
             Project = project;
-            map = new Map(FilePath.FromAbsolute(filepath, basepath));
+            map = new StageInfo(FilePath.FromAbsolute(filepath, basepath));
 
             // wrap all map screens in screendocuments
             // this should be the only time MegaMan.Screen's are touched directly
@@ -139,15 +139,21 @@ namespace MegaMan.LevelEditor
 
         public void AddScreen(string name, int tile_width, int tile_height)
         {
-            var screen = new MegaMan.Common.Screen(tile_width, tile_height, map) {Name = name};
+            var screen = new MegaMan.Common.ScreenInfo(name, Tileset);
+
+            int[][] tiles = new int[tile_height][];
+            for (int y = 0; y < tile_height; y++)
+            {
+                tiles[y] = new int[tile_width];
+            }
+
+            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset, 0, 0), new List<EntityPlacement>()));
 
             map.Screens.Add(name, screen);
 
             if (StartScreen == null) StartScreen = map.Screens.Keys.First();
 
             ScreenDocument doc = WrapScreen(screen);
-            
-            screen.Save(System.IO.Path.Combine(Path.Absolute, name + ".scn"));
 
             // now I can do things like fire an event... how useful!
             if (ScreenAdded != null) ScreenAdded(doc);
@@ -255,7 +261,7 @@ namespace MegaMan.LevelEditor
             MainForm.Instance.FocusScreen(this);
         }
 
-        private ScreenDocument WrapScreen(MegaMan.Common.Screen screen)
+        private ScreenDocument WrapScreen(MegaMan.Common.ScreenInfo screen)
         {
             ScreenDocument doc = new ScreenDocument(screen, this);
             screens.Add(screen.Name, doc);

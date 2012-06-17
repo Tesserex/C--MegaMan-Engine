@@ -298,7 +298,7 @@ namespace MegaMan.Engine
             for (int y = miny; y <= maxy; y++)
                 for (int x = minx; x <= maxx; x++)
                 {
-                    MapSquare tile = Parent.Screen.SquareAt(x, y);
+                    var tile = Parent.Screen.SquareAt(x, y);
                     if (tile == null) continue;
                     if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
                     {

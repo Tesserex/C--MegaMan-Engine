@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
-    public class MapHandler : IGameplayContainer
+    public class StageHandler : IGameplayContainer
     {
         private int playerDeadCount;
 
@@ -38,7 +38,7 @@ namespace MegaMan.Engine
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
-        public Map Map { get; private set; }
+        public StageInfo Info { get; private set; }
 
         public HandlerTransfer WinHandler { get; set; }
 
@@ -83,17 +83,17 @@ namespace MegaMan.Engine
 
         #endregion
 
-        public MapHandler(Map map)
+        public StageHandler(StageInfo stage)
         {
-            Map = map;
-            startScreen = Map.StartScreen;
+            Info = stage;
+            startScreen = Info.StartScreen;
 
-            if (string.IsNullOrEmpty(startScreen)) startScreen = Map.Screens.Keys.First();
-            startX = Map.PlayerStartX;
-            startY = Map.PlayerStartY;
+            if (string.IsNullOrEmpty(startScreen)) startScreen = Info.Screens.Keys.First();
+            startX = Info.PlayerStartX;
+            startY = Info.PlayerStartY;
 
-            string intropath = (map.MusicIntroPath != null) ? map.MusicIntroPath.Absolute : null;
-            string looppath = (map.MusicLoopPath != null) ? map.MusicLoopPath.Absolute : null;
+            string intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
+            string looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
             String imagePath = Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png");
@@ -101,7 +101,7 @@ namespace MegaMan.Engine
             StreamReader sr = new StreamReader(imagePath);
             readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
-            map.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
+            stage.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
 
             this.EntityRespawnable = new Dictionary<string, bool[]>();
 
@@ -213,11 +213,15 @@ namespace MegaMan.Engine
                 {
                     var screen = this.screens[pair.Key];
                     var respawns = pair.Value;
-                    for (int i = 0; i < screen.Screen.EnemyInfo.Count; i++)
+
+                    foreach (var layer in screen.Screen.Layers)
                     {
-                        if (screen.Screen.EnemyInfo[i].respawn == RespawnBehavior.Death)
+                        for (int i = 0; i < layer.Entities.Count; i++)
                         {
-                            respawns[i] = true;
+                            if (layer.Entities[i].respawn == RespawnBehavior.Death)
+                            {
+                                respawns[i] = true;
+                            }
                         }
                     }
                 }
@@ -238,11 +242,11 @@ namespace MegaMan.Engine
             drawFunc = DrawScreen;
 
             // check for continue points
-            if (Map.ContinuePoints.ContainsKey(nextScreen.Screen.Name))
+            if (Info.ContinuePoints.ContainsKey(nextScreen.Screen.Name))
             {
                 startScreen = nextScreen.Screen.Name;
-                startX = Map.ContinuePoints[nextScreen.Screen.Name].X;
-                startY = Map.ContinuePoints[nextScreen.Screen.Name].Y;
+                startX = Info.ContinuePoints[nextScreen.Screen.Name].X;
+                startY = Info.ContinuePoints[nextScreen.Screen.Name].Y;
             }
         }
 
@@ -257,7 +261,7 @@ namespace MegaMan.Engine
             if (nextScreen.Music != null || nextScreen.Screen.MusicNsfTrack != 0)
             {
                 if (music != null) music.Stop();
-                if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
+                if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
                 
             }
 
@@ -367,14 +371,14 @@ namespace MegaMan.Engine
             PlayerPos = Player.GetComponent<PositionComponent>();
             PlayerPos.SetPosition(new PointF(startX, 0));
 
-            if (!Map.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+Map.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
+            if (!Info.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+Info.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
             _currentScreen = screens[startScreen];
             StartScreen();
 
             Engine.Instance.SoundSystem.StopMusicNsf();
 
             if (music != null) music.Play();
-            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Map.MusicNsfTrack);
+            if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Info.MusicNsfTrack);
 
             // updateFunc isn't set until BeginPlay
             drawFunc = DrawScreen;
@@ -404,7 +408,7 @@ namespace MegaMan.Engine
             }
 
             if (music != null) music.Stop();
-            if (Map.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
+            if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
 
             PauseHandler();
             StopDrawing();
@@ -475,7 +479,7 @@ namespace MegaMan.Engine
         {
             if (updateFunc != null) updateFunc();
 
-            foreach (Tile t in Map.Tileset)
+            foreach (Tile t in Info.Tileset)
             {
                 t.Sprite.Update();
             }

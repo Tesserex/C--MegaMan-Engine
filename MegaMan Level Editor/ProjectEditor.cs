@@ -195,7 +195,7 @@ namespace MegaMan.LevelEditor
             
             openStages.Add(name, stage);
 
-            var info = new StageInfo {Name = name, StagePath = FilePath.FromAbsolute(stagePath, BaseDir)};
+            var info = new StageLinkInfo {Name = name, StagePath = FilePath.FromAbsolute(stagePath, BaseDir)};
             Project.AddStage(info);
 
             Save(); // need to save the reference to the new stage

@@ -392,7 +392,7 @@ namespace MegaMan.Engine
                 throw new GameRunException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
             }
 
-            var factory = new MapFactory();
+            var factory = new StageFactory();
 
             try
             {
@@ -419,7 +419,7 @@ namespace MegaMan.Engine
         {
             if (handlerStack.Count == 0) return;
 
-            var map = handlerStack.Peek() as MapHandler;
+            var map = handlerStack.Peek() as StageHandler;
             if (map != null)
             {
                 map.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
@@ -430,7 +430,7 @@ namespace MegaMan.Engine
         {
             if (handlerStack.Count == 0) return;
 
-            var map = handlerStack.Peek() as MapHandler;
+            var map = handlerStack.Peek() as StageHandler;
             if (map != null)
             {
                 map.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
@@ -441,7 +441,7 @@ namespace MegaMan.Engine
         {
             if (handlerStack.Count == 0) return;
 
-            var map = handlerStack.Peek() as MapHandler;
+            var map = handlerStack.Peek() as StageHandler;
             if (map != null)
             {
                 var weaponComponent = map.Player.GetComponent<WeaponComponent>();
@@ -456,7 +456,7 @@ namespace MegaMan.Engine
         {
             if (handlerStack.Count == 0) return;
 
-            var map = handlerStack.Peek() as MapHandler;
+            var map = handlerStack.Peek() as StageHandler;
             if (map != null)
             {
                 var weaponComponent = map.Player.GetComponent<WeaponComponent>();

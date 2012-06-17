@@ -7,7 +7,7 @@ namespace MegaMan.LevelEditor
 {
     public class ScreenDocument
     {
-        private readonly Screen screen;
+        private readonly ScreenInfo screen;
 
         private int? selectedEntityIndex;
 
@@ -54,7 +54,7 @@ namespace MegaMan.LevelEditor
 
         public event Action<string, string> Renamed;
 
-        public ScreenDocument(Screen screen, StageDocument stage)
+        public ScreenDocument(ScreenInfo screen, StageDocument stage)
         {
             Stage = stage;
             this.screen = screen;
@@ -62,19 +62,19 @@ namespace MegaMan.LevelEditor
 
         public void Resize(int width, int height)
         {
-            screen.Resize(width, height);
+            screen.Layers[0].Tiles.Resize(width, height);
             Dirty = true;
             if (Resized != null) Resized(width, height);
         }
 
         public Tile TileAt(int x, int y)
         {
-            return screen.TileAt(x, y);
+            return screen.Layers[0].Tiles.TileAt(x, y);
         }
 
         public void ChangeTile(int tile_x, int tile_y, int tile_id)
         {
-            screen.ChangeTile(tile_x, tile_y, tile_id);
+            screen.Layers[0].Tiles.ChangeTile(tile_x, tile_y, tile_id);
             Dirty = true;
             if (TileChanged != null) TileChanged();
         }
@@ -88,7 +88,7 @@ namespace MegaMan.LevelEditor
                     screenY = location.Y,
                 };
 
-            screen.AddEnemy(info);
+            screen.Layers[0].Entities.Add(info);
 
             Dirty = true;
 
@@ -97,13 +97,13 @@ namespace MegaMan.LevelEditor
 
         public void AddEntity(EntityPlacement info)
         {
-            screen.AddEnemy(info);
+            screen.Layers[0].Entities.Add(info);
             Dirty = true;
         }
 
         public void RemoveEntity(Entity entity, Point location)
         {
-            screen.EnemyInfo.RemoveAll(i =>
+            screen.Layers[0].Entities.RemoveAll(i =>
                 i.entity == entity.Name && i.screenX == location.X && i.screenY == location.Y
             );
             Dirty = true;
@@ -111,19 +111,19 @@ namespace MegaMan.LevelEditor
 
         public void RemoveEntity(EntityPlacement info)
         {
-            screen.EnemyInfo.Remove(info);
+            screen.Layers[0].Entities.Remove(info);
         }
 
         public int FindEntityAt(Point location)
         {
-            return screen.EnemyInfo.FindIndex(e => EntityBounded(e, location));
+            return screen.Layers[0].Entities.FindIndex(e => EntityBounded(e, location));
         }
 
         public EntityPlacement GetEntity(int index)
         {
-            if (index >= 0 && index < screen.EnemyInfo.Count)
+            if (index >= 0 && index < screen.Layers[0].Entities.Count)
             {
-                return screen.EnemyInfo[index];
+                return screen.Layers[0].Entities[index];
             }
             return null;
         }
@@ -154,9 +154,9 @@ namespace MegaMan.LevelEditor
 
         public void DrawEntities(Graphics graphics)
         {
-            for (var i = 0; i < screen.EnemyInfo.Count; i++)
+            for (var i = 0; i < screen.Layers[0].Entities.Count; i++)
             {
-                var info = screen.EnemyInfo[i];
+                var info = screen.Layers[0].Entities[i];
 
                 var sprite = Stage.Project.EntityByName(info.entity).MainSprite;
 
@@ -183,7 +183,7 @@ namespace MegaMan.LevelEditor
 
         public void SelectEntity(int index)
         {
-            if (index >= 0 && index < screen.EnemyInfo.Count)
+            if (index >= 0 && index < screen.Layers[0].Entities.Count)
             {
                 selectedEntityIndex = index;
             }

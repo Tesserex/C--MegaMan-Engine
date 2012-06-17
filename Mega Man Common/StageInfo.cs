@@ -52,14 +52,14 @@ namespace MegaMan.Common
         public string bossEntityName;
     }
 
-    public class Map {
+    public class StageInfo {
         private Dictionary<string, Point> continuePoints;
         public IDictionary<string, Point> ContinuePoints { get { return continuePoints; } }
 
         private FilePath tilePath;
 
         #region Properties
-        public Dictionary<string, Screen> Screens { get; private set; }
+        public Dictionary<string, ScreenInfo> Screens { get; private set; }
         public List<Join> Joins { get; private set; }
         public string StartScreen { get; set; }
         public int PlayerStartX { get; set; }
@@ -80,19 +80,19 @@ namespace MegaMan.Common
         
         #endregion Properties
 
-        public Map() 
+        public StageInfo() 
         {
-            Screens = new Dictionary<string, Screen>();
+            Screens = new Dictionary<string, ScreenInfo>();
             Joins = new List<Join>();
             continuePoints = new Dictionary<string, Point>();
         }
 
-        public Map(FilePath path) : this() 
+        public StageInfo(FilePath path) : this() 
         {
-            LoadMapXml(path);
+            LoadStageXml(path);
         }
 
-        public void LoadMapXml(FilePath path) 
+        public void LoadStageXml(FilePath path) 
         {
             StagePath = path;
 
@@ -207,81 +207,12 @@ namespace MegaMan.Common
         {
             foreach (XElement screen in mapXml.Elements("Screen"))
             {
-                string id = screen.Attribute("id").Value;
-                Screen s = new Screen(Path.Combine(StagePath.Absolute, id + ".scn"), this);
-
-                Screens.Add(id, s);
-                if (Screens.Count == 1)
-                {
-                    StartScreen = StartScreen ?? id;
-                }
-
-                foreach (var overlay in screen.Elements("Overlay"))
-                {
-                    var path = Path.Combine(StagePath.Absolute, overlay.RequireAttribute("path").Value);
-                    var x = overlay.GetInteger("x");
-                    var y = overlay.GetInteger("y");
-
-                    s.LoadTileLayer(path, x, y);
-                }
-
-                foreach (XElement entity in screen.Elements("Entity"))
-                {
-                    EntityPlacement info = EntityPlacement.FromXml(entity);
-                    info.boss = false;
-                    XAttribute palAttr = entity.Attribute("pallete");
-                    if (palAttr != null) info.pallete = palAttr.Value;
-                    else info.pallete = "Default";
-                    s.AddEnemy(info);
-                }
-
-                foreach (XElement teleport in screen.Elements("Teleport"))
-                {
-                    TeleportInfo info;
-                    int from_x, from_y, to_x, to_y;
-                    teleport.Attribute("from_x").Value.TryParse(out from_x);
-                    teleport.Attribute("from_y").Value.TryParse(out from_y);
-                    teleport.Attribute("to_x").Value.TryParse(out to_x);
-                    teleport.Attribute("to_y").Value.TryParse(out to_y);
-                    info.From = new Point(from_x, from_y);
-                    info.To = new Point(to_x, to_y);
-                    info.TargetScreen = teleport.Attribute("to_screen").Value;
-                    s.AddTeleport(info);
-                }
-
-                foreach (XElement blocks in screen.Elements("Blocks"))
-                {
-                    BlockPatternInfo pattern = BlockPatternInfo.FromXml(blocks);
-                    s.AddBlockPattern(pattern);
-                }
-
-                XElement screenmusic = screen.Element("Music");
-                if (screenmusic != null)
-                {
-                    XElement intro = screenmusic.Element("Intro");
-                    XElement loop = screenmusic.Element("Loop");
-                    s.MusicIntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, StagePath.BasePath) : null;
-                    s.MusicLoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, StagePath.BasePath) : null;
-
-                    XAttribute nsfAttr = screenmusic.Attribute("nsftrack");
-                    if (nsfAttr != null)
-                    {
-                        int track;
-                        nsfAttr.Value.TryParse(out track);
-                        s.MusicNsfTrack = track;
-                    }
-                }
-
-                foreach (XElement entity in screen.Elements("Boss"))
-                {
-                    EntityPlacement info = EntityPlacement.FromXml(entity);
-                    info.boss = true;
-                    s.AddEnemy(info);
-                }
+                ScreenInfo s = ScreenInfoFactory.FromXml(screen, StagePath, Tileset);
+                this.Screens.Add(s.Name, s);
             }
         }
 
-        public void RenameScreen(Screen screen, string name)
+        public void RenameScreen(ScreenInfo screen, string name)
         {
             this.Screens.Remove(screen.Name);
             screen.Name = name;
@@ -302,7 +233,7 @@ namespace MegaMan.Common
             tilePath = FilePath.FromAbsolute(path, StagePath.Absolute);
             Tileset = new Tileset(tilePath.Absolute);
             
-            foreach (Screen s in Screens.Values) s.Tileset = Tileset;
+            foreach (ScreenInfo s in Screens.Values) s.Tileset = Tileset;
         }
 
         public void Clear() 
@@ -357,42 +288,9 @@ namespace MegaMan.Common
                 writer.WriteEndElement();
             }
 
-            foreach (string id in Screens.Keys)
+            foreach (var screen in Screens.Values)
             {
-                writer.WriteStartElement("Screen");
-                writer.WriteAttributeString("id", id);
-
-                if (Screens[id].MusicIntroPath != null || Screens[id].MusicLoopPath != null || Screens[id].MusicNsfTrack > 0)
-                {
-                    writer.WriteStartElement("Music");
-                    if (Screens[id].MusicNsfTrack > 0) writer.WriteAttributeString("nsftrack", Screens[id].MusicNsfTrack.ToString());
-                    if (Screens[id].MusicIntroPath != null && !string.IsNullOrEmpty(Screens[id].MusicIntroPath.Relative)) writer.WriteElementString("Intro", Screens[id].MusicIntroPath.Relative);
-                    if (Screens[id].MusicLoopPath != null && !string.IsNullOrEmpty(Screens[id].MusicLoopPath.Relative)) writer.WriteElementString("Loop", Screens[id].MusicLoopPath.Relative);
-                    writer.WriteEndElement();
-                }
-
-                foreach (EntityPlacement info in Screens[id].EnemyInfo)
-                {
-                    info.Save(writer);
-                }
-
-                foreach (BlockPatternInfo pattern in Screens[id].BlockPatternInfo)
-                {
-                    pattern.Save(writer);
-                }
-
-                foreach (TeleportInfo teleport in Screens[id].Teleports) 
-                {
-                    writer.WriteStartElement("Teleport");
-                    writer.WriteAttributeString("from_x", teleport.From.X.ToString());
-                    writer.WriteAttributeString("from_y", teleport.From.Y.ToString());
-                    writer.WriteAttributeString("to_screen", teleport.TargetScreen);
-                    writer.WriteAttributeString("to_x", teleport.To.X.ToString());
-                    writer.WriteAttributeString("to_y", teleport.To.Y.ToString());
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
+                screen.Save(writer, StagePath);
             }
 
             foreach (Join join in Joins)
@@ -417,10 +315,6 @@ namespace MegaMan.Common
 
             writer.WriteEndElement();
             writer.Close();
-
-            foreach (string i in Screens.Keys) {
-                Screens[i].Save(Path.Combine(directory, i + ".scn"));
-            }
         }
 
         // this doesn't work for files on different drives

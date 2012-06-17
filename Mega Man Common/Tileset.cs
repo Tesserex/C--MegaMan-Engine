@@ -26,7 +26,7 @@ namespace MegaMan.Common
                 sheetPathAbs = Path.GetFullPath(value);
                 if (!string.IsNullOrEmpty(filePathAbs))
                 {
-                    sheetPathRel = Map.PathToRelative(sheetPathAbs, filePathAbs);
+                    sheetPathRel = StageInfo.PathToRelative(sheetPathAbs, filePathAbs);
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace MegaMan.Common
                 filePathAbs = Path.GetFullPath(value);
                 if (!string.IsNullOrEmpty(SheetPathAbs))
                 {
-                    sheetPathRel = Map.PathToRelative(SheetPathAbs, filePathAbs);
+                    sheetPathRel = StageInfo.PathToRelative(SheetPathAbs, filePathAbs);
                 }
             }
         }
