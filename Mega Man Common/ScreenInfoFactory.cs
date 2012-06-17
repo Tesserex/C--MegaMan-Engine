@@ -85,7 +85,14 @@ namespace MegaMan.Common
                 entities.Add(info);
             }
 
-            return new ScreenLayerInfo(name, tileLayer, entities);
+            var keyframes = new List<ScreenLayerKeyframe>();
+            foreach (var keyframeNode in node.Elements("Keyframe"))
+            {
+                var frame = ScreenLayerKeyframe.FromXml(keyframeNode);
+                keyframes.Add(frame);
+            }
+
+            return new ScreenLayerInfo(name, tileLayer, entities, keyframes);
         }
 
         private static int[][] LoadTiles(string filepath)

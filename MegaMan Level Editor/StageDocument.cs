@@ -147,7 +147,7 @@ namespace MegaMan.LevelEditor
                 tiles[y] = new int[tile_width];
             }
 
-            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset, 0, 0), new List<EntityPlacement>()));
+            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset, 0, 0), new List<EntityPlacement>(), new List<ScreenLayerKeyframe>()));
 
             map.Screens.Add(name, screen);
 

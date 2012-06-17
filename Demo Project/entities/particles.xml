@@ -176,7 +176,7 @@
                 <Flying>True</Flying>
                 <Y magnitude="1" direction="Up" />
             </Movement>
-            <Trigger><Condition>Movement.TileType != "water"</Condition>
+            <Trigger><Condition>Movement.TileType != "Water"</Condition>
                 <Effect><Remove /></Effect>
             </Trigger>
             <Trigger condition="(LifeTime % 32) == 0">

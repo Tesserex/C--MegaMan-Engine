@@ -103,7 +103,7 @@ namespace MegaMan.Engine
         {
             foreach (var layer in layers)
             {
-                layer.RespawnEntities();
+                layer.Update();
             }
         }
 
@@ -290,9 +290,9 @@ namespace MegaMan.Engine
 
             Screen.DrawXna(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
 
-            foreach (var layer in this.Screen.Layers)
+            foreach (var layer in this.layers)
             {
-                layer.Tiles.Draw(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+                layer.Draw(batch);
             }
         }
     }
