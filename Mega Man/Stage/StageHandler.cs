@@ -29,12 +29,6 @@ namespace MegaMan.Engine
 
         private Dictionary<string, ScreenHandler> screens;
 
-        public Dictionary<string, bool[]> EntityRespawnable
-        {
-            get;
-            private set;
-        }
-
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
@@ -102,8 +96,6 @@ namespace MegaMan.Engine
             readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
             stage.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
-
-            this.EntityRespawnable = new Dictionary<string, bool[]>();
 
             Player = GameEntity.Get("Player", this);
             PlayerPos = Player.GetComponent<PositionComponent>();
@@ -209,21 +201,9 @@ namespace MegaMan.Engine
             else
             {
                 // enable respawn for on-death-respawn entities
-                foreach (var pair in this.EntityRespawnable)
+                foreach (var screen in this.screens.Values)
                 {
-                    var screen = this.screens[pair.Key];
-                    var respawns = pair.Value;
-
-                    foreach (var layer in screen.Screen.Layers)
-                    {
-                        for (int i = 0; i < layer.Entities.Count; i++)
-                        {
-                            if (layer.Entities[i].respawn == RespawnBehavior.Death)
-                            {
-                                respawns[i] = true;
-                            }
-                        }
-                    }
+                    screen.Reset();
                 }
 
                 StartHandler();

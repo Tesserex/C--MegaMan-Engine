@@ -15,6 +15,7 @@ namespace MegaMan.Engine
 
         private GameEntity[] entities;
         private bool[] spawnable; // just for tracking whether the respawn point is off screen
+        private bool[] respawnable;
 
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }
@@ -57,11 +58,11 @@ namespace MegaMan.Engine
             spawnable = new bool[_info.Entities.Count];
             for (int i = 0; i < spawnable.Length; i++) { spawnable[i] = true; }
 
-            if (!_stage.EntityRespawnable.ContainsKey(_info.Name))
+            if (respawnable == null)
             {
                 var mapSpawns = new bool[_info.Entities.Count];
                 for (int i = 0; i < mapSpawns.Length; i++) { mapSpawns[i] = true; }
-                _stage.EntityRespawnable[_info.Name] = mapSpawns;
+                respawnable = mapSpawns;
             }
 
             RespawnEntities();
@@ -73,6 +74,17 @@ namespace MegaMan.Engine
             {
                 if (entities[i] != null) entities[i].Stop();
                 entities[i] = null;
+            }
+        }
+
+        public void ResetDeath()
+        {
+            for (int i = 0; i < _info.Entities.Count; i++)
+            {
+                if (_info.Entities[i].respawn == RespawnBehavior.Death)
+                {
+                    respawnable[i] = true;
+                }
             }
         }
 
@@ -101,8 +113,7 @@ namespace MegaMan.Engine
 
                     case RespawnBehavior.Death:
                     case RespawnBehavior.Stage:
-                        if (onScreen && spawnable[i] &&
-                            _stage.EntityRespawnable[_info.Name][i])
+                        if (onScreen && spawnable[i] && respawnable[i])
                         {
                             PlaceEntity(i);
                         }
@@ -130,7 +141,7 @@ namespace MegaMan.Engine
                     // don't disable when it goes offscreen, just when the game asks for it to be gone
                     enemy.Removed += () =>
                     {
-                        this._stage.EntityRespawnable[_info.Name][index] = false;
+                        this.respawnable[index] = false;
                     };
                     break;
             }

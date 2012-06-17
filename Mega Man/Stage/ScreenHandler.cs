@@ -194,6 +194,14 @@ namespace MegaMan.Engine
                 y <= OffsetY + Game.CurrentGame.PixelsDown;
         }
 
+        public void Reset()
+        {
+            foreach (var layer in layers)
+            {
+                layer.ResetDeath();
+            }
+        }
+
         public void Stop()
         {
             foreach (var layer in layers)
@@ -225,14 +233,25 @@ namespace MegaMan.Engine
 
         public MapSquare SquareAt(int x, int y)
         {
-            return this.layers.First().SquareAt(x, y);
+            MapSquare square = null;
+
+            foreach (var layer in this.layers)
+            {
+                var s = layer.SquareAt(x, y);
+                if (s != null)
+                {
+                    square = s;
+                }
+            }
+
+            return square;
         }
 
         public IEnumerable<MapSquare> Tiles
         {
             get 
             {
-                return this.layers.First().Tiles;
+                return this.layers.SelectMany(l => l.Tiles);
             }
         }
 
@@ -272,7 +291,18 @@ namespace MegaMan.Engine
 
         public Tile TileAt(int tx, int ty)
         {
-            return Screen.Layers[0].Tiles.TileAt(tx, ty);
+            Tile tile = null;
+
+            foreach (var layer in this.layers)
+            {
+                var s = layer.SquareAt(tx, ty);
+                if (s != null)
+                {
+                    tile = s.Tile;
+                }
+            }
+
+            return tile;
         }
     }
 }
