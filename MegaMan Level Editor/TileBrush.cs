@@ -46,7 +46,10 @@ namespace MegaMan.LevelEditor
 
         public void DrawOn(Graphics g, int x, int y)
         {
-            tile.Draw(g, x, y);
+            if (tile.Sprite != null)
+            {
+                tile.Sprite.Draw(g, x, y);
+            }
         }
 
         public virtual ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y)
@@ -149,7 +152,11 @@ namespace MegaMan.LevelEditor
             foreach (TileBrushCell cell in Cells())
             {
                 if (cell.tile == null) continue;
-                cell.tile.Draw(g, x + cell.x * cell.tile.Width, y + cell.y * cell.tile.Height);
+
+                if (cell.tile.Sprite != null)
+                {
+                    cell.tile.Sprite.Draw(g, x + cell.x * cell.tile.Width, y + cell.y * cell.tile.Height);
+                }
             }
         }
 

@@ -54,7 +54,14 @@ namespace MegaMan.LevelEditor
         protected override void OnPaint(PaintEventArgs e)
         {
             if (Tile == null) e.Graphics.FillRectangle(Brushes.Black, e.ClipRectangle);
-            else Tile.Draw(e.Graphics, 0, 0);
+            else
+            {
+                if (Tile.Sprite != null)
+                {
+                    Tile.Sprite.Draw(e.Graphics, 0, 0);
+                }
+            }
+
             if (hover) e.Graphics.DrawRectangle(highlightPen, e.ClipRectangle);
             base.OnPaint(e);
         }

@@ -288,8 +288,6 @@ namespace MegaMan.Engine
             OffsetX += off_x;
             OffsetY += off_y;
 
-            Screen.DrawXna(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
-
             foreach (var layer in this.layers)
             {
                 layer.Draw(batch);

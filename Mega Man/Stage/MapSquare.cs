@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using MegaMan.Common;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -83,6 +84,12 @@ namespace MegaMan.Engine
             {
                 flipBox = boundBox = RectangleF.Empty;
             }
+        }
+
+        public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float posX, float posY)
+        {
+            if (Tile.Sprite != null)
+                Tile.Sprite.DrawXna(batch, color, (int)posX, (int)posY);
         }
     }
 }

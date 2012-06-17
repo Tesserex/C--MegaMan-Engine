@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Xml.Linq;
 using System.Xml;
 
@@ -158,23 +157,6 @@ namespace MegaMan.Common
             Sprite = sprite;
             if (Sprite.Count == 0) Sprite.AddFrame();
             Properties = TileProperties.Default;
-        }
-
-        public void Draw(Graphics g, float posX, float posY) 
-        {
-            Draw(g, posX, posY, (img) => { return img; });
-        }
-
-        public void Draw(Graphics g, float posX, float posY, Func<Image, Image> transform) 
-        {
-            if (Sprite != null) 
-                Sprite.Draw(g, (int)posX, (int)posY, transform);
-        }
-
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, Microsoft.Xna.Framework.Color color, float posX, float posY)
-        {
-            if (Sprite != null) 
-                Sprite.DrawXna(batch, color, (int)posX, (int)posY);
         }
     }
 }

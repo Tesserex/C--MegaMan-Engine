@@ -149,7 +149,7 @@ namespace MegaMan.LevelEditor
 
         public void DrawOn(Graphics graphics)
         {
-            screen.Draw(graphics, 0, 0, screen.PixelWidth, screen.PixelHeight);
+            //screen.Draw(graphics, 0, 0, screen.PixelWidth, screen.PixelHeight);
         }
 
         public void DrawEntities(Graphics graphics)

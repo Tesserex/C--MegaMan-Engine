@@ -49,21 +49,6 @@ namespace MegaMan.Common
             Layers = new List<ScreenLayerInfo>();
         }
 
-        public void Draw(Graphics g, float off_x, float off_y, int width, int height)
-        {
-            Draw(g, off_x, off_y, width, height, (img) => { return img; });
-        }
-
-        public void Draw(Graphics g, float off_x, float off_y, int width, int height, Func<Image, Image> transform)
-        {
-            Layers[0].Tiles.Draw(g, off_x, off_y, width, height, transform);
-        }
-                
-        public void DrawXna(SpriteBatch batch, XnaColor color, float off_x, float off_y, int width, int height)
-        {
-            Layers[0].Tiles.Draw(batch, color, off_x, off_y, width, height);
-        }
-
         public void Save(XmlTextWriter writer, FilePath stagePath)
         {
             writer.WriteStartElement("Screen");

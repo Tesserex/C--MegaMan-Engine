@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -265,9 +266,30 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
+        public void Draw(SpriteBatch batch)
         {
-            this._info.Tiles.Draw(batch, Engine.Instance.OpacityColor, (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            this.Draw(batch, Engine.Instance.OpacityColor, (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+        }
+
+        private void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float off_x, float off_y, int width, int height)
+        {
+            if (this._info.Tiles.Tileset == null)
+                throw new InvalidOperationException("Screen has no tileset to draw with.");
+
+            var tileSize = this._info.Tiles.Tileset.TileSize;
+
+            for (int y = 0; y < this._info.Tiles.Height; y++)
+            {
+                for (int x = 0; x < this._info.Tiles.Width; x++)
+                {
+                    float xpos = x * tileSize + off_x + this._info.Tiles.BaseX;
+                    float ypos = y * tileSize + off_y + this._info.Tiles.BaseY;
+
+                    if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
+                    if (xpos > width || ypos > height) continue;
+                    this._squares[y][x].Draw(batch, color, xpos, ypos);
+                }
+            }
         }
     }
 }

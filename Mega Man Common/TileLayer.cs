@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Common
 {
@@ -33,44 +30,6 @@ namespace MegaMan.Common
         {
             if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
             return Tileset[tiles[y][x]];
-        }
-
-        public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float off_x, float off_y, int width, int height)
-        {
-            if (Tileset == null)
-                throw new InvalidOperationException("Screen has no tileset to draw with.");
-
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    float xpos = x * Tileset.TileSize + off_x + BaseX;
-                    float ypos = y * Tileset.TileSize + off_y + BaseY;
-
-                    if (xpos + Tileset.TileSize < 0 || ypos + Tileset.TileSize < 0) continue;
-                    if (xpos > width || ypos > height) continue;
-                    Tileset[tiles[y][x]].Draw(batch, color, xpos, ypos);
-                }
-            }
-        }
-
-        public void Draw(Graphics g, float off_x, float off_y, int width, int height, Func<Image, Image> transform)
-        {
-            if (Tileset == null)
-                throw new InvalidOperationException("Screen has no tileset to draw with.");
-
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    float xpos = x * Tileset.TileSize + off_x;
-                    float ypos = y * Tileset.TileSize + off_y;
-
-                    if (xpos + Tileset.TileSize < 0 || ypos + Tileset.TileSize < 0) continue;
-                    if (xpos > width || ypos > height) continue;
-                    Tileset[tiles[y][x]].Draw(g, xpos, ypos, transform);
-                }
-            }
         }
 
         public void Save(string filepath)
