@@ -231,13 +231,13 @@ namespace MegaMan.Engine
             }
         }
 
-        public MapSquare SquareAt(int x, int y)
+        public MapSquare SquareAt(float px, float py)
         {
             MapSquare square = null;
 
             foreach (var layer in this.layers)
             {
-                var s = layer.SquareAt(x, y);
+                var s = layer.SquareAt(px, py);
                 if (s != null)
                 {
                     square = s;
@@ -245,6 +245,13 @@ namespace MegaMan.Engine
             }
 
             return square;
+        }
+
+        public Tile TileAt(float px, float py)
+        {
+            var square = SquareAt(px, py);
+            if (square == null) return null;
+            return square.Tile;
         }
 
         public IEnumerable<MapSquare> Tiles
@@ -287,22 +294,6 @@ namespace MegaMan.Engine
             {
                 layer.Tiles.Draw(batch, Engine.Instance.OpacityColor, -OffsetX, -OffsetY, Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
             }
-        }
-
-        public Tile TileAt(int tx, int ty)
-        {
-            Tile tile = null;
-
-            foreach (var layer in this.layers)
-            {
-                var s = layer.SquareAt(tx, ty);
-                if (s != null)
-                {
-                    tile = s.Tile;
-                }
-            }
-
-            return tile;
         }
     }
 }

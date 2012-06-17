@@ -77,10 +77,7 @@ namespace MegaMan.Engine
 
             if (Parent.Screen != null)
             {
-                int ts = Parent.Screen.TileSize;
-                int tx = (int)(position.Position.X / ts);
-                int ty = (int)(position.Position.Y / ts);
-                overTile = Parent.Screen.TileAt(tx, ty);
+                overTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
             }
         }
 
@@ -143,10 +140,7 @@ namespace MegaMan.Engine
                 position.SetPosition(pos);
             }
 
-            int ts = Parent.Screen.TileSize;
-            int tx = (int)(position.Position.X / ts);
-            int ty = (int)(position.Position.Y / ts);
-            Tile nextOverTile = Parent.Screen.TileAt(tx, ty);
+            Tile nextOverTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
 
             if (Parent.Name == "Player")
             {

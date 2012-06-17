@@ -291,25 +291,50 @@ namespace MegaMan.Engine
             // this bounds checking prevents needlessly checking collisions way too far away
             // it's a very effective optimization (brings busy time from ~60% down to 45%!)
             int size = Parent.Screen.TileSize;
-            int minx = (int)(hitRect.Left / size) - 1;
-            int miny = (int)(hitRect.Top / size) - 1;
-            int maxx = (int)(hitRect.Right / size) + 1;
-            int maxy = (int)(hitRect.Bottom / size) + 1;
-            for (int y = miny; y <= maxy; y++)
-                for (int x = minx; x <= maxx; x++)
+
+            for (float y = hitRect.Top - size; y < hitRect.Bottom; y += size)
+            {
+                for (float x = hitRect.Left - size; x < hitRect.Right; x += size)
                 {
                     var tile = Parent.Screen.SquareAt(x, y);
                     if (tile == null) continue;
-                    if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
-                    {
-                        hitSquares.Add(tile);
-                        if (hitbox.PushAway) PositionSrc.Offset(offset.X, offset.Y);
-                    }
-                    else if (hitRect.IntersectsWith(tile.BoundBox))
-                    {
-                        hitSquares.Add(tile);
-                    }
+
+                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset);
                 }
+
+                var rightEdge = Parent.Screen.SquareAt(hitRect.Right, y);
+                if (rightEdge != null)
+                {
+                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, rightEdge, ref offset);
+                }
+            }
+
+            for (float x = hitRect.Left - size; x < hitRect.Right; x += size)
+            {
+                var tile = Parent.Screen.SquareAt(x, hitRect.Bottom);
+                if (tile == null) continue;
+
+                CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset);
+            }
+
+            var lastCorner = Parent.Screen.SquareAt(hitRect.Right, hitRect.Bottom);
+            if (lastCorner != null)
+            {
+                CheckEnvironmentTile(hitSquares, hitbox, hitRect, lastCorner, ref offset);
+            }
+        }
+
+        private void CheckEnvironmentTile(List<MapSquare> hitSquares, CollisionBox hitbox, RectangleF hitRect, MapSquare tile, ref PointF offset)
+        {
+            if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
+            {
+                hitSquares.Add(tile);
+                if (hitbox.PushAway) PositionSrc.Offset(offset.X, offset.Y);
+            }
+            else if (hitRect.IntersectsWith(tile.BoundBox))
+            {
+                hitSquares.Add(tile);
+            }
         }
 
         private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)

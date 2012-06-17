@@ -9,9 +9,12 @@ namespace MegaMan.Engine
 {
     public class ScreenLayer
     {
-        private ScreenLayerInfo _info;
-        private StageHandler _stage;
+        private readonly ScreenLayerInfo _info;
+        private readonly StageHandler _stage;
         private readonly MapSquare[][] _squares;
+
+        private float location_offset_x;
+        private float location_offset_y;
 
         private GameEntity[] entities;
         private bool[] spawnable; // just for tracking whether the respawn point is off screen
@@ -53,6 +56,9 @@ namespace MegaMan.Engine
 
         public void Start()
         {
+            location_offset_x = 0;
+            location_offset_y = 0;
+
             entities = new GameEntity[_info.Entities.Count];
 
             spawnable = new bool[_info.Entities.Count];
@@ -167,11 +173,17 @@ namespace MegaMan.Engine
             return entities.Where(e => e != null && e.Name == name);
         }
 
-        public MapSquare SquareAt(int x, int y)
+        public MapSquare SquareAt(float px, float py)
         {
-            if (y < 0 || y >= _squares.GetLength(0)) return null;
-            if (x < 0 || x >= _squares[y].GetLength(0)) return null;
-            return _squares[y][x];
+            var location_x = _info.Tiles.BaseX + location_offset_x;
+            var location_y = _info.Tiles.BaseY + location_offset_y;
+
+            int tx = (int)Math.Floor((px - location_x) / _info.Tiles.Tileset.TileSize);
+            int ty = (int)Math.Floor((py - location_y) / _info.Tiles.Tileset.TileSize);
+
+            if (ty < 0 || ty >= _squares.GetLength(0)) return null;
+            if (tx < 0 || tx >= _squares[ty].GetLength(0)) return null;
+            return _squares[ty][tx];
         }
 
         public IEnumerable<MapSquare> Tiles

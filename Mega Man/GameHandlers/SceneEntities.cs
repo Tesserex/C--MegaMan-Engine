@@ -36,12 +36,12 @@ namespace MegaMan.Engine
             get { return 0; }
         }
 
-        public MapSquare SquareAt(int x, int y)
+        public MapSquare SquareAt(float px, float py)
         {
             return null;
         }
 
-        public Tile TileAt(int tx, int ty)
+        public Tile TileAt(float px, float py)
         {
             return null;
         }

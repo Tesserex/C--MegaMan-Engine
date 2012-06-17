@@ -12,9 +12,9 @@ namespace MegaMan.Common
     public class TileLayer
     {
         private int[][] tiles;
-        private int base_x;
-        private int base_y;
 
+        public int BaseX { get; private set; }
+        public int BaseY { get; private set; }
         public Tileset Tileset { get; private set; }
         public int Width { get { return tiles[0].Length; } }
         public int Height { get { return tiles.GetLength(0); } }
@@ -24,8 +24,8 @@ namespace MegaMan.Common
         public TileLayer(int[][] tiles, Tileset tileset, int base_x, int base_y)
         {
             this.Tileset = tileset;
-            this.base_x = base_x;
-            this.base_y = base_y;
+            this.BaseX = base_x;
+            this.BaseY = base_y;
             this.tiles = tiles;
         }
 
@@ -33,12 +33,6 @@ namespace MegaMan.Common
         {
             if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
             return Tileset[tiles[y][x]];
-        }
-
-        public int? TileIndexAt(int x, int y)
-        {
-            if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
-            return tiles[y][x];
         }
 
         public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float off_x, float off_y, int width, int height)
@@ -50,8 +44,8 @@ namespace MegaMan.Common
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    float xpos = x * Tileset.TileSize + off_x + base_x;
-                    float ypos = y * Tileset.TileSize + off_y + base_y;
+                    float xpos = x * Tileset.TileSize + off_x + BaseX;
+                    float ypos = y * Tileset.TileSize + off_y + BaseY;
 
                     if (xpos + Tileset.TileSize < 0 || ypos + Tileset.TileSize < 0) continue;
                     if (xpos > width || ypos > height) continue;

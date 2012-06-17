@@ -155,7 +155,7 @@ namespace MegaMan.Engine
             Tile above;
             if (Parent.GravityFlip && Game.CurrentGame.GravityFlip)
             {
-                above = Parent.Screen.TileAt(inReachTile.X, inReachTile.Y + 1);
+                above = Parent.Screen.TileAt(inReachTile.X * Parent.Screen.TileSize, (inReachTile.Y + 1) * Parent.Screen.TileSize);
                 if (above != null && !above.Properties.Climbable)
                 {
                     if (reachRect.Height < 5 && reachRect.Bottom == inReachTile.BoundBox.Bottom)	// at the top
@@ -166,7 +166,7 @@ namespace MegaMan.Engine
             }
             else
             {
-                above = Parent.Screen.TileAt(inReachTile.X, inReachTile.Y - 1);
+                above = Parent.Screen.TileAt(inReachTile.X * Parent.Screen.TileSize, (inReachTile.Y - 1) * Parent.Screen.TileSize);
                 if (above != null && !above.Properties.Climbable)
                 {
                     if (reachRect.Height < 5 && reachRect.Top == inReachTile.BoundBox.Top)	// at the top
@@ -183,15 +183,15 @@ namespace MegaMan.Engine
             aboveLadder = false;
             if (position == null) return;
 
-            int tileX = (int)(position.Position.X / Parent.Screen.TileSize);
-            int tileY = (int)(position.Position.Y / Parent.Screen.TileSize);
+            var px = position.Position.X;
+            var py = position.Position.Y;
 
             MapSquare below;
             if (Parent.GravityFlip && Game.CurrentGame.GravityFlip)
             {
-                below = Parent.Screen.SquareAt(tileX, tileY - 1);
+                below = Parent.Screen.SquareAt(px, py - Parent.Screen.TileSize);
             }
-            else below = Parent.Screen.SquareAt(tileX, tileY + 1);
+            else below = Parent.Screen.SquareAt(px, py + Parent.Screen.TileSize);
 
             aboveLadder = (below != null && below.Tile.Properties.Climbable);
             if (aboveLadder) aboveTile = below;

@@ -10,9 +10,9 @@ namespace MegaMan.Engine
         int TileSize { get; }
         float OffsetX { get; }
         float OffsetY { get; }
-        MapSquare SquareAt(int x, int y);
+        MapSquare SquareAt(float px, float py);
         IEnumerable<MapSquare> Tiles { get; }
-        MegaMan.Common.Tile TileAt(int tx, int ty);
+        MegaMan.Common.Tile TileAt(float px, float py);
         void AddEntity(GameEntity entity);
         IEnumerable<GameEntity> GetEntities(string name);
         void ClearEntities();
