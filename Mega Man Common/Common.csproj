@@ -101,6 +101,7 @@
     <Compile Include="InventoryInfo.cs" />
     <Compile Include="ScreenInfoFactory.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
+    <Compile Include="Sprite\ISpriteDrawer.cs" />
     <Compile Include="StageInfo.cs" />
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="SceneInfo.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="SoundInfo.cs" />
-    <Compile Include="Sprite.cs" />
+    <Compile Include="Sprite\Sprite.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileLayer.cs" />
     <Compile Include="Tileset.cs" />

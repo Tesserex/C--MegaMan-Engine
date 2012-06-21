@@ -245,11 +245,6 @@ namespace MegaMan.Common
         /// <param name="posY">The y-coordinate at which to draw the sprite.</param>
         public void Draw(Graphics graphics, float positionX, float positionY) 
         {
-            Draw(graphics, positionX, positionY, (img) => { return img; });
-        }
-
-        public void Draw(Graphics graphics, float positionX, float positionY, Func<Image, Image> transform)
-        {
             if (!Visible || frames.Count == 0) return;
             if (this.frames[currentFrame].Image == null)
             {
@@ -260,7 +255,7 @@ namespace MegaMan.Common
             bool horiz = this.HorizontalFlip;
             if (this.Reversed) 
                 horiz = !horiz;
-            this.frames[currentFrame].Draw(graphics, positionX - this.HotSpot.X, positionY - this.HotSpot.Y, horiz, this.VerticalFlip, transform);
+            this.frames[currentFrame].Draw(graphics, positionX - this.HotSpot.X, positionY - this.HotSpot.Y, horiz, this.VerticalFlip, (img) => { return img; });
         }
 
         public void DrawXna(SpriteBatch batch, XnaColor color, float positionX, float positionY)
@@ -603,12 +598,7 @@ namespace MegaMan.Common
             }
         }
 
-        public void Draw(Graphics g, float positionX, float positionY, bool hflip, bool vflip) 
-        {
-            Draw(g, positionX, positionY, hflip, vflip, img => img);
-        }
-
-        public void Draw(Graphics g, float positionX, float positionY, bool hflip, bool vflip, Func<Image,Image> transform) 
+        internal void Draw(Graphics g, float positionX, float positionY, bool hflip, bool vflip, Func<Image,Image> transform) 
         {
             if (hflip)
             {
@@ -630,7 +620,6 @@ namespace MegaMan.Common
 
             if (vflip) 
                 this.Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            
         }
     }
 
