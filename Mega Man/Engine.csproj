@@ -159,6 +159,7 @@
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\LadderComponent.cs" />
+    <Compile Include="XnaSprite.cs" />
     <Compile Include="Stage\ScreenLayer.cs" />
     <Compile Include="Stage\StageFactory.cs" />
     <Compile Include="Stage\StageHandler.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XnaPalette.cs" />
     <EmbeddedResource Include="Forms\CustomNtscForm.resx">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
       <SubType>Designer</SubType>
