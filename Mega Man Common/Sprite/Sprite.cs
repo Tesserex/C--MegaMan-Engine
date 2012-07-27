@@ -19,20 +19,12 @@ namespace MegaMan.Common
     /// <summary>
     /// Represents a 2D rectangular image sprite, which can be animated.
     /// </summary>
-    public class Sprite : ICollection<SpriteFrame>
+    public abstract class Sprite : ICollection<SpriteFrame>
     {
-        private List<SpriteFrame> frames;
-        private int currentFrame;
-        private int lastFrameTime;
-        private FilePath sheetPath;
-
-        // XNA stuff
-        private Texture2D texture;
-
-        internal Image sheet;
-
-        private Palette palette;
-        private List<Texture2D> paletteSwaps;
+        protected List<SpriteFrame> frames;
+        protected int currentFrame;
+        protected int lastFrameTime;
+        protected FilePath sheetPath;
 
         /// <summary>
         /// Gets or sets the direction in which to play the sprite animation.
@@ -90,7 +82,7 @@ namespace MegaMan.Common
 
         public int Layer { get; private set; }
 
-        public FilePath SheetPath
+        public virtual FilePath SheetPath
         {
             get
             {
@@ -99,11 +91,8 @@ namespace MegaMan.Common
             set
             {
                 this.sheetPath = value;
-                this.sheet = Image.FromFile(this.sheetPath.Absolute);
             }
         }
-
-        public Image Sheet { get { return this.sheet; } }
 
         /// <summary>
         /// If this is true, it means the sprite sheet is backwards - it's facing left instead of right,
@@ -116,12 +105,11 @@ namespace MegaMan.Common
         /// <summary>
         /// Creates a new Sprite object with the given width and height, and no frames.
         /// </summary>
-        public Sprite(int width, int height)
+        public virtual void Initialize(int width, int height)
         {
             this.Height = height;
             this.Width = width;
             frames = new List<SpriteFrame>();
-            paletteSwaps = new List<Texture2D>();
 
             this.currentFrame = 0;
             this.lastFrameTime = 0;
@@ -131,7 +119,6 @@ namespace MegaMan.Common
             this.Visible = true;
             this.AnimDirection = AnimationDirection.Forward;
             this.AnimStyle = AnimationStyle.Repeat;
-            this.sheet = null;
         }
 
         public Sprite(Sprite copy)
@@ -149,41 +136,14 @@ namespace MegaMan.Common
             this.AnimDirection = copy.AnimDirection;
             this.AnimStyle = copy.AnimStyle;
             this.Layer = copy.Layer;
-            this.texture = copy.texture;
+            
             this.Reversed = copy.Reversed;
             if (copy.SheetPath != null)
             {
                 this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
             }
-            this.sheet = copy.sheet;
+            
             this.PaletteName = copy.PaletteName;
-            this.paletteSwaps = copy.paletteSwaps;
-        }
-
-        public void SetTexture(GraphicsDevice device, string sheetPath)
-        {
-            StreamReader sr = new StreamReader(sheetPath);
-            this.texture = Texture2D.FromStream(device, sr.BaseStream);
-
-            if (this.sheet == null)
-            {
-                this.sheet = Image.FromFile(sheetPath);
-            }
-
-            VerifyPaletteSwaps(device);
-        }
-
-        private void VerifyPaletteSwaps(GraphicsDevice device)
-        {
-            if (PaletteName != null && this.palette == null)
-            {
-                this.palette = Palette.Get(PaletteName);
-            }
-
-            if (this.palette != null && this.paletteSwaps.Count == 0)
-            {
-                this.paletteSwaps = this.palette.GenerateSwappedTextures((Bitmap)this.sheet, device);
-            }
         }
 
         public SpriteFrame this[int index]
@@ -196,9 +156,11 @@ namespace MegaMan.Common
         /// </summary>
         public void AddFrame()
         {
-            frames.Add(new SpriteFrame(this, this.sheet, 0, DrawRectangle.Empty));
+            frames.Add(CreateFrame());
             CheckTickable();
         }
+
+        protected abstract SpriteFrame CreateFrame();
 
         /// <summary>
         /// Adds a frame to the collection from a given Image.
@@ -235,54 +197,6 @@ namespace MegaMan.Common
                 this.TickFrame();
                 while (this.frames[currentFrame].Duration == 0) this.TickFrame();
             }
-        }
-
-        /// <summary>
-        /// Draws the sprite on the specified Graphics surface at the specified position. Remember that the HotSpot is used as a position offset.
-        /// </summary>
-        /// <param name="graphics">The graphics surface on which to draw the sprite.</param>
-        /// <param name="posX">The x-coordinate at which to draw the sprite.</param>
-        /// <param name="posY">The y-coordinate at which to draw the sprite.</param>
-        public void Draw(Graphics graphics, float positionX, float positionY) 
-        {
-            if (!Visible || frames.Count == 0) return;
-            if (this.frames[currentFrame].Image == null)
-            {
-                graphics.FillRectangle(Brushes.Black, positionX, positionY, this.Width, this.Height);
-                return;
-            }
-
-            bool horiz = this.HorizontalFlip;
-            if (this.Reversed) 
-                horiz = !horiz;
-            this.frames[currentFrame].Draw(graphics, positionX - this.HotSpot.X, positionY - this.HotSpot.Y, horiz, this.VerticalFlip, (img) => { return img; });
-        }
-
-        public void DrawXna(SpriteBatch batch, XnaColor color, float positionX, float positionY)
-        {
-            if (!Visible || frames.Count == 0 || batch == null || this.texture == null) return;
-
-            SpriteEffects effect = SpriteEffects.None;
-            if (HorizontalFlip ^ this.Reversed) effect = SpriteEffects.FlipHorizontally;
-            if (VerticalFlip) effect |= SpriteEffects.FlipVertically;
-
-            int hx = (HorizontalFlip ^ this.Reversed) ? this.Width - this.HotSpot.X : this.HotSpot.X;
-            int hy = VerticalFlip ? this.Height - this.HotSpot.Y : this.HotSpot.Y;
-            
-            // check palette swap
-            var drawTexture = this.texture;
-            VerifyPaletteSwaps(batch.GraphicsDevice);
-            if (this.palette != null && this.paletteSwaps.Count > this.palette.CurrentIndex)
-            {
-                drawTexture = this.paletteSwaps[this.palette.CurrentIndex];
-            }
-
-            batch.Draw(drawTexture,
-                new XnaRectangle((int)(positionX),
-                    (int)(positionY), this.Width, this.Height),
-                new XnaRectangle(this[currentFrame].SheetLocation.X, this[currentFrame].SheetLocation.Y, this[currentFrame].SheetLocation.Width, this[currentFrame].SheetLocation.Height),
-                color, 0,
-                new Vector2(hx, hy), effect, 0);
         }
 
         private bool tickable;
@@ -383,8 +297,6 @@ namespace MegaMan.Common
                 }
             }
         }
-
-        public static readonly Sprite Empty = new Sprite(0, 0);
 
         public static Sprite FromXml(XElement element, string basePath)
         {
