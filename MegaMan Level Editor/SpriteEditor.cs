@@ -75,7 +75,7 @@ namespace MegaMan.LevelEditor
             using (Graphics g = Graphics.FromImage(spritePreview.Image))
             {
                 g.Clear(spritePreview.BackColor);
-                Sprite.Draw(g, 0, 0);
+                //Sprite.Draw(g, 0, 0);
             }
             spritePreview.Refresh();
         }
@@ -107,12 +107,12 @@ namespace MegaMan.LevelEditor
 
         private void InitPreview()
         {
-            if (Sprite.Sheet == null) return;
+            //if (Sprite.Sheet == null) return;
 
             spritePreview.Width = Sprite.Width;
             spritePreview.Height = Sprite.Height;
             Bitmap prev = new Bitmap(Sprite.Width, Sprite.Height);
-            prev.SetResolution(Sprite.Sheet.HorizontalResolution, Sprite.Sheet.VerticalResolution);
+            //prev.SetResolution(Sprite.Sheet.HorizontalResolution, Sprite.Sheet.VerticalResolution);
             spritePreview.Image = prev;
         }
 
@@ -166,7 +166,7 @@ namespace MegaMan.LevelEditor
 
         private void SetupSheet()
         {
-            tileSheet = this.Sprite.Sheet;
+            //tileSheet = this.Sprite.Sheet;
 
             Bitmap srcImg = new Bitmap(tileSheet.Width, tileSheet.Height);
             transparency = new Bitmap(tileSheet.Width, tileSheet.Height);

@@ -162,7 +162,7 @@ namespace MegaMan.LevelEditor
 
                 if (sprite != null)
                 {
-                    sprite.Draw(graphics, info.screenX, info.screenY);
+                    //sprite.Draw(graphics, info.screenX, info.screenY);
 
                     if (selectedEntityIndex == i)
                     {

@@ -95,7 +95,12 @@ namespace MegaMan.Engine
             StreamReader sr = new StreamReader(imagePath);
             readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
 
-            stage.Tileset.SetTextures(Engine.Instance.GraphicsDevice);
+            foreach (var tile in stage.Tileset)
+            {
+                var drawer = new XnaSpriteDrawer(tile.Sprite);
+                drawer.SetTexture(Engine.Instance.GraphicsDevice, tile.Sprite.SheetPath.Absolute);
+                tile.Sprite.Drawer = drawer;
+            }
 
             Player = GameEntity.Get("Player", this);
             PlayerPos = Player.GetComponent<PositionComponent>();

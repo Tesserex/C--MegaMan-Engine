@@ -29,8 +29,7 @@ namespace MegaMan.LevelEditor
                 else
                 {
                     string sheetPath = System.IO.Path.Combine(basePath, sheetNode.Value);
-                    var sheet = Image.FromFile(sheetPath);
-                    MainSprite = Sprite.FromXml(spriteNode, sheet);
+                    MainSprite = Sprite.FromXml(spriteNode);
                 }
 
                 MainSprite.Play();

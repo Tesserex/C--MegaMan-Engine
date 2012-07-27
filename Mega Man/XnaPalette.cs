@@ -6,12 +6,15 @@ using MegaMan.Common;
 using System.Drawing.Imaging;
 using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace MegaMan.Engine
 {
     public class XnaPalette : Palette
     {
-        public void Initialize(string name, FilePath imagePath)
+        private List<Dictionary<uint, uint>> _swapColors;
+
+        public override void Initialize(string name, FilePath imagePath)
         {
             this.Name = name;
 

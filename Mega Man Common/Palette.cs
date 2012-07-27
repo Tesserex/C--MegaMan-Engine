@@ -47,9 +47,7 @@ namespace MegaMan.Common
             palettes.Clear();
         }
 
-        private List<Dictionary<uint, uint>> _swapColors;
-
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
         public int CurrentIndex { get; set; }
 

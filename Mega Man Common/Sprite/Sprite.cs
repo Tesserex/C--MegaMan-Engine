@@ -19,7 +19,7 @@ namespace MegaMan.Common
     /// <summary>
     /// Represents a 2D rectangular image sprite, which can be animated.
     /// </summary>
-    public abstract class Sprite : ICollection<SpriteFrame>
+    public class Sprite : ICollection<SpriteFrame>
     {
         protected List<SpriteFrame> frames;
         protected int currentFrame;
@@ -61,7 +61,15 @@ namespace MegaMan.Common
         /// </summary>
         public int Count { get { return frames.Count; } }
 
-        public int CurrentFrame { get { return this.currentFrame; } set { this.currentFrame = value; } }
+        public int CurrentIndex { get { return this.currentFrame; } set { this.currentFrame = value; } }
+
+        public SpriteFrame CurrentFrame
+        {
+            get
+            {
+                return frames[currentFrame];
+            }
+        }
         
         public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
 
@@ -100,12 +108,91 @@ namespace MegaMan.Common
         /// </summary>
         public bool Reversed { get; set; }
 
+        public ISpriteDrawer Drawer { get; set; }
+
         public event Action Stopped;
+
+        public static Sprite FromXml(XElement element, string basePath)
+        {
+            XAttribute tileattr = element.RequireAttribute("tilesheet");
+            Sprite sprite;
+
+            string sheetPath = Path.Combine(basePath, tileattr.Value);
+            sprite = FromXml(element);
+            sprite.sheetPath = FilePath.FromRelative(tileattr.Value, basePath);
+            return sprite;
+        }
+
+        public static Sprite FromXml(XElement element)
+        {
+            int width = element.GetInteger("width");
+            int height = element.GetInteger("height");
+
+            Sprite sprite = new Sprite(width, height);
+
+            XAttribute nameAttr = element.Attribute("name");
+            if (nameAttr != null) sprite.Name = nameAttr.Value;
+
+            XAttribute paletteAttr = element.Attribute("palette");
+            if (paletteAttr != null)
+            {
+                sprite.PaletteName = paletteAttr.Value;
+            }
+
+            XAttribute revAttr = element.Attribute("reversed");
+            if (revAttr != null)
+            {
+                bool r;
+                if (bool.TryParse(revAttr.Value, out r)) sprite.Reversed = r;
+            }
+
+            XElement hotspot = element.Element("Hotspot");
+            if (hotspot != null)
+            {
+                int hx = Int32.Parse(hotspot.RequireAttribute("x").Value);
+                int hy = Int32.Parse(hotspot.RequireAttribute("y").Value);
+                sprite.HotSpot = new DrawPoint(hx, hy);
+            }
+            else
+            {
+                sprite.HotSpot = new DrawPoint(0, 0);
+            }
+
+            int layer;
+            if (element.TryInteger("layer", out layer)) sprite.Layer = layer;
+
+            XElement stylenode = element.Element("AnimStyle");
+            if (stylenode != null)
+            {
+                string style = stylenode.Value;
+                switch (style)
+                {
+                    case "Bounce": sprite.AnimStyle = AnimationStyle.Bounce; break;
+                    case "PlayOnce": sprite.AnimStyle = AnimationStyle.PlayOnce; break;
+                }
+            }
+
+            foreach (XElement frame in element.Elements("Frame"))
+            {
+                int duration = 0;
+                frame.TryInteger("duration", out duration);
+                int x = frame.GetInteger("x");
+                int y = frame.GetInteger("y");
+                sprite.AddFrame(x, y, duration);
+            }
+
+            if (sprite.frames.Count == 0)
+            {
+                sprite.AddFrame(0, 0, 0);
+            }
+
+            return sprite;
+        }
 
         /// <summary>
         /// Creates a new Sprite object with the given width and height, and no frames.
         /// </summary>
-        public virtual void Initialize(int width, int height)
+        public Sprite(int width, int height)
         {
             this.Height = height;
             this.Width = width;
@@ -156,11 +243,9 @@ namespace MegaMan.Common
         /// </summary>
         public void AddFrame()
         {
-            frames.Add(CreateFrame());
+            frames.Add(new SpriteFrame(this, 0, DrawRectangle.Empty));
             CheckTickable();
         }
-
-        protected abstract SpriteFrame CreateFrame();
 
         /// <summary>
         /// Adds a frame to the collection from a given Image.
@@ -169,9 +254,9 @@ namespace MegaMan.Common
         /// <param name="x">The x-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="y">The y-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="duration">The duration of the frame, in game ticks.</param>
-        public void AddFrame(Image tilesheet, int x, int y, int duration)
+        public void AddFrame(int x, int y, int duration)
         {
-            this.frames.Add(new SpriteFrame(this, tilesheet, duration, new DrawRectangle(x, y, this.Width, this.Height)));
+            this.frames.Add(new SpriteFrame(this, duration, new DrawRectangle(x, y, this.Width, this.Height)));
             CheckTickable();
         }
 
@@ -298,84 +383,6 @@ namespace MegaMan.Common
             }
         }
 
-        public static Sprite FromXml(XElement element, string basePath)
-        {
-            XAttribute tileattr = element.RequireAttribute("tilesheet");
-            Sprite sprite;
-
-            string sheetPath = Path.Combine(basePath, tileattr.Value);
-            Image tilesheet = Image.FromFile(sheetPath);
-            sprite = FromXml(element, tilesheet);
-            sprite.sheetPath = FilePath.FromRelative(tileattr.Value, basePath);
-            return sprite;
-        }
-
-        public static Sprite FromXml(XElement element, Image tilesheet)
-        {
-            int width = element.GetInteger("width");
-            int height = element.GetInteger("height");
-
-            Sprite sprite = new Sprite(width, height) {sheet = tilesheet};
-
-            XAttribute nameAttr = element.Attribute("name");
-            if (nameAttr != null) sprite.Name = nameAttr.Value;
-
-            XAttribute paletteAttr = element.Attribute("palette");
-            if (paletteAttr != null)
-            {
-                sprite.PaletteName = paletteAttr.Value;
-            }
-
-            XAttribute revAttr = element.Attribute("reversed");
-            if (revAttr != null)
-            {
-                bool r;
-                if (bool.TryParse(revAttr.Value, out r)) sprite.Reversed = r;
-            }
-
-            XElement hotspot = element.Element("Hotspot");
-            if (hotspot != null)
-            {
-                int hx = Int32.Parse(hotspot.RequireAttribute("x").Value);
-                int hy = Int32.Parse(hotspot.RequireAttribute("y").Value);
-                sprite.HotSpot = new DrawPoint(hx, hy);
-            }
-            else
-            {
-                sprite.HotSpot = new DrawPoint(0, 0);
-            }
-
-            int layer;
-            if (element.TryInteger("layer", out layer)) sprite.Layer = layer;
-
-            XElement stylenode = element.Element("AnimStyle");
-            if (stylenode != null)
-            {
-                string style = stylenode.Value;
-                switch (style)
-                {
-                    case "Bounce": sprite.AnimStyle = AnimationStyle.Bounce; break;
-                    case "PlayOnce": sprite.AnimStyle = AnimationStyle.PlayOnce; break;
-                }
-            }
-
-            foreach (XElement frame in element.Elements("Frame"))
-            {
-                int duration = 0;
-                frame.TryInteger("duration", out duration);
-                int x = frame.GetInteger("x");
-                int y = frame.GetInteger("y");
-                sprite.AddFrame(tilesheet, x, y, duration);
-            }
-
-            if (sprite.frames.Count == 0)
-            {
-                sprite.AddFrame(tilesheet, 0, 0, 0);
-            }
-
-            return sprite;
-        }
-
         public void WriteTo(XmlTextWriter writer)
         {
             writer.WriteStartElement("Sprite");
@@ -398,6 +405,8 @@ namespace MegaMan.Common
             }
             writer.WriteEndElement();   // end Sprite
         }
+
+        public static Sprite Empty = new Sprite(0, 0);
 
         #region ICollection<SpriteFrame> Members
 
@@ -457,14 +466,8 @@ namespace MegaMan.Common
     public class SpriteFrame
     {
         private Sprite sprite;
-        private Image cutTile;
         private int duration;
 
-        /// <summary>
-        /// Gets or sets the image for this frame.
-        /// </summary>
-        public Image Image { get; private set; }
-        public Image CutTile { get { return cutTile; } }
         public DrawRectangle SheetLocation { get; private set; }
 
         /// <summary>
@@ -483,55 +486,16 @@ namespace MegaMan.Common
             }
         }
 
-        internal SpriteFrame(Sprite spr, Image img, int duration, DrawRectangle sheetRect)
+        internal SpriteFrame(Sprite spr, int duration, DrawRectangle sheetRect)
         {
             this.sprite = spr;
-            this.Image = img;
             this.Duration = duration;
             this.SheetLocation = sheetRect;
-
-            CutoutTile();
         }
 
         public void SetSheetPosition(DrawRectangle rect)
         {
             SheetLocation = rect;
-            CutoutTile();
-        }
-
-        private void CutoutTile()
-        {
-            if (this.Image == null || this.SheetLocation == DrawRectangle.Empty) return;
-            if (this.cutTile != null) this.cutTile.Dispose();
-            this.cutTile = new Bitmap(SheetLocation.Width, SheetLocation.Height);
-            using (Graphics g = Graphics.FromImage(cutTile))
-            {
-                g.DrawImage(Image, new DrawRectangle(0, 0, SheetLocation.Width, SheetLocation.Height), SheetLocation.X, SheetLocation.Y, SheetLocation.Width, SheetLocation.Height, GraphicsUnit.Pixel);
-            }
-        }
-
-        internal void Draw(Graphics g, float positionX, float positionY, bool hflip, bool vflip, Func<Image,Image> transform) 
-        {
-            if (hflip)
-            {
-                this.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            }
-
-            if (vflip) 
-            {
-                this.Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            }
-
-            if (this.cutTile == null) 
-                g.FillRectangle(Brushes.Black, positionX, positionY, this.SheetLocation.Width, this.SheetLocation.Height);
-            else
-                g.DrawImage(transform(this.cutTile), positionX, positionY, cutTile.Width, cutTile.Height);
-
-            if (hflip) 
-                this.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
-
-            if (vflip) 
-                this.Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
         }
     }
 

@@ -16,7 +16,7 @@ namespace MegaMan.LevelEditor
             get
             {
                 if (entity.MainSprite == null) return Properties.Resources.nosprite;
-                return entity.MainSprite[0].CutTile;
+                return Properties.Resources.nosprite; // entity.MainSprite[0].CutTile;
             }
         }
 

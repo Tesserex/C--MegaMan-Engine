@@ -48,7 +48,7 @@ namespace MegaMan.LevelEditor
         {
             if (tile.Sprite != null)
             {
-                tile.Sprite.Draw(g, x, y);
+                //tile.Sprite.Draw(g, x, y);
             }
         }
 
@@ -155,7 +155,7 @@ namespace MegaMan.LevelEditor
 
                 if (cell.tile.Sprite != null)
                 {
-                    cell.tile.Sprite.Draw(g, x + cell.x * cell.tile.Width, y + cell.y * cell.tile.Height);
+                    //cell.tile.Sprite.Draw(g, x + cell.x * cell.tile.Width, y + cell.y * cell.tile.Height);
                 }
             }
         }

@@ -206,7 +206,7 @@ namespace MegaMan.Engine
                             break;
 
                         case "Palettes":
-                            Palette.LoadPalettes(element, this.BasePath);
+                            Palette.LoadPalettes<XnaPalette>(element, this.BasePath);
                             break;
 
                         default:

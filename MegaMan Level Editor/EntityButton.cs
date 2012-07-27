@@ -29,7 +29,7 @@ namespace MegaMan.LevelEditor
             spritePict.Top = 4;
             spritePict.Left = 4;
 
-            spritePict.Image = sprite[0].CutTile;
+            spritePict.Image = null; // sprite[0].CutTile;
             spritePict.Refresh();
 
             Program.AnimateTick += Program_FrameTick;
@@ -43,10 +43,10 @@ namespace MegaMan.LevelEditor
 
         private void Program_FrameTick()
         {
-            if (sprite.CurrentFrame == lastFrame) return;
-            lastFrame = sprite.CurrentFrame;
+            if (sprite.CurrentIndex == lastFrame) return;
+            lastFrame = sprite.CurrentIndex;
 
-            spritePict.Image = sprite[sprite.CurrentFrame].CutTile;
+            spritePict.Image = null; // sprite[sprite.CurrentFrame].CutTile;
             spritePict.Refresh();
         }
     }

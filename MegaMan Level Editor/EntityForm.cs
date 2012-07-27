@@ -36,7 +36,7 @@ namespace MegaMan.LevelEditor
                 }
                 else
                 {
-                    entity.MainSprite.Draw(g, entity.MainSprite.HotSpot.X, entity.MainSprite.HotSpot.Y);
+                    //entity.MainSprite.Draw(g, entity.MainSprite.HotSpot.X, entity.MainSprite.HotSpot.Y);
                 }
             }
             entityPreview.Refresh();

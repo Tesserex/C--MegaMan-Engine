@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Xml.Linq;
 using System.IO;
 using System.Xml;
@@ -13,8 +12,6 @@ namespace MegaMan.Common
     {
         private Dictionary<string, TileProperties> properties;
         public IEnumerable<TileProperties> Properties { get { return properties.Values; } }
-
-        public Image Sheet { get; private set; }
 
         private string sheetPathAbs, sheetPathRel;
 
@@ -51,19 +48,6 @@ namespace MegaMan.Common
 
         public int TileSize { get; private set; }
 
-        // ************
-        // Constructors
-        // ************
-
-        // Creates a new Tileset from the given image with tiles of the specified size.
-        public Tileset(Image sheet, int tilesize)
-        {
-            this.TileSize = tilesize;
-            this.Sheet = sheet;
-            this.properties = new Dictionary<string, TileProperties>();
-            this.properties["Default"] = TileProperties.Default;
-        }
-
         /// <summary>
         /// Construct a Tileset by specifying an absolute path to a tileset XML definition file.
         /// </summary>
@@ -86,15 +70,6 @@ namespace MegaMan.Common
             // this will then set the relative sheet path automatically
             SheetPathAbs = Path.Combine(sheetDirectory, reader.Attribute("tilesheet").Value);
 
-            try 
-            {
-                Sheet = Bitmap.FromFile(SheetPathAbs);
-            } 
-            catch (FileNotFoundException err) 
-            {
-                throw new Exception("A tile image file was not found at the location specified by the tileset definition: " + SheetPathAbs, err);
-            }
-
             int size;
             if (!int.TryParse(reader.Attribute("tilesize").Value, out size)) 
                 throw new Exception("The tileset definition does not contain a valid tilesize attribute.");
@@ -112,7 +87,7 @@ namespace MegaMan.Common
             LoadTilesFromXml(reader);
         }
 
-        public void LoadTilesFromXml(XElement reader) 
+        private void LoadTilesFromXml(XElement reader) 
         {
             foreach (XElement tileNode in reader.Elements("Tile")) 
             {
@@ -121,8 +96,10 @@ namespace MegaMan.Common
                 var sprite = Sprite.Empty;
 
                 var spriteNode = tileNode.Element("Sprite");
-                if (spriteNode != null) 
-                    sprite = Sprite.FromXml(spriteNode, Sheet);
+                if (spriteNode != null)
+                {
+                    sprite = Sprite.FromXml(spriteNode);
+                }
 
                 Tile tile = new Tile(id, sprite);
 
@@ -139,15 +116,6 @@ namespace MegaMan.Common
             }
         }
 
-
-        public void SetTextures(Microsoft.Xna.Framework.Graphics.GraphicsDevice device)
-        {
-            foreach (Tile tile in this)
-            {
-                tile.Sprite.SetTexture(device, this.sheetPathAbs);
-            }
-        }
-
         // Do not use! Use AddTile instead!
         public new void Add(Tile tile) 
         { 
@@ -157,7 +125,6 @@ namespace MegaMan.Common
         public void AddTile()
         {
             Sprite sprite = new Sprite(this.TileSize, this.TileSize);
-            sprite.sheet = this.Sheet;
             base.Add(new Tile(this.Count, sprite));
         }
 

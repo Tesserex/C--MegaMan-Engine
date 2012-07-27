@@ -15,8 +15,10 @@ using XnaColor = Microsoft.Xna.Framework.Color;
 
 namespace MegaMan.Engine
 {
-    public class XnaSprite : Sprite
+    public class XnaSpriteDrawer : ISpriteDrawer
     {
+        private Sprite _info;
+
         private List<Texture2D> _paletteSwaps;
 
         private Texture2D texture;
@@ -27,39 +29,26 @@ namespace MegaMan.Engine
 
         private XnaPalette palette;
 
-        public override FilePath SheetPath
+        public FilePath SheetPath
         {
             get
             {
-                return base.SheetPath;
+                return _info.SheetPath;
             }
             set
             {
-                base.SheetPath = value;
+                _info.SheetPath = value;
                 this.sheet = Image.FromFile(value.Absolute);
             }
         }
 
-        public override void Initialize(int width, int height)
+        public XnaSpriteDrawer(Sprite info)
         {
-            base.Initialize(width, height);
+            this._info = info;
 
             this._paletteSwaps = new List<Texture2D>();
 
             this.sheet = null;
-        }
-
-        public XnaSprite(XnaSprite copy)
-            : base(copy)
-        {
-            this._paletteSwaps = copy._paletteSwaps;
-            this.texture = copy.texture;
-            this.sheet = copy.sheet;
-        }
-
-        protected override SpriteFrame CreateFrame()
-        {
-            return new SpriteFrame(this, this.sheet, 0, DrawRectangle.Empty);
         }
 
         public void SetTexture(GraphicsDevice device, string sheetPath)
@@ -77,14 +66,14 @@ namespace MegaMan.Engine
 
         public void DrawXna(SpriteBatch batch, XnaColor color, float positionX, float positionY)
         {
-            if (!Visible || this.Count == 0 || batch == null || this.texture == null) return;
+            if (!_info.Visible || _info.Count == 0 || batch == null || this.texture == null) return;
 
             SpriteEffects effect = SpriteEffects.None;
-            if (HorizontalFlip ^ this.Reversed) effect = SpriteEffects.FlipHorizontally;
-            if (VerticalFlip) effect |= SpriteEffects.FlipVertically;
+            if (_info.HorizontalFlip ^ _info.Reversed) effect = SpriteEffects.FlipHorizontally;
+            if (_info.VerticalFlip) effect |= SpriteEffects.FlipVertically;
 
-            int hx = (HorizontalFlip ^ this.Reversed) ? this.Width - this.HotSpot.X : this.HotSpot.X;
-            int hy = VerticalFlip ? this.Height - this.HotSpot.Y : this.HotSpot.Y;
+            int hx = (_info.HorizontalFlip ^ _info.Reversed) ? _info.Width - _info.HotSpot.X : _info.HotSpot.X;
+            int hy = _info.VerticalFlip ? _info.Height - _info.HotSpot.Y : _info.HotSpot.Y;
 
             // check palette swap
             var drawTexture = this.texture;
@@ -96,17 +85,17 @@ namespace MegaMan.Engine
 
             batch.Draw(drawTexture,
                 new XnaRectangle((int)(positionX),
-                    (int)(positionY), this.Width, this.Height),
-                new XnaRectangle(this[currentFrame].SheetLocation.X, this[currentFrame].SheetLocation.Y, this[currentFrame].SheetLocation.Width, this[currentFrame].SheetLocation.Height),
+                    (int)(positionY), _info.Width, _info.Height),
+                new XnaRectangle(_info.CurrentFrame.SheetLocation.X, _info.CurrentFrame.SheetLocation.Y, _info.CurrentFrame.SheetLocation.Width, _info.CurrentFrame.SheetLocation.Height),
                 color, 0,
                 new Vector2(hx, hy), effect, 0);
         }
 
         private void VerifyPaletteSwaps(GraphicsDevice device)
         {
-            if (PaletteName != null && this.palette == null)
+            if (_info.PaletteName != null && this.palette == null)
             {
-                this.palette = Palette.Get(PaletteName);
+                this.palette = Palette.Get(_info.PaletteName) as XnaPalette;
             }
 
             if (this.palette != null && this._paletteSwaps.Count == 0)

@@ -58,7 +58,7 @@ namespace MegaMan.LevelEditor
             {
                 if (Tile.Sprite != null)
                 {
-                    Tile.Sprite.Draw(e.Graphics, 0, 0);
+                    //Tile.Sprite.Draw(e.Graphics, 0, 0);
                 }
             }
 
