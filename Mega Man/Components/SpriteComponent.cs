@@ -62,7 +62,9 @@ namespace MegaMan.Engine
 
             foreach (var spr in sprites)
             {
-                copy.Add(spr.Key, new Sprite(spr.Value));
+                var copySprite = new Sprite(spr.Value);
+                copySprite.Drawer = spr.Value.Drawer;
+                copy.Add(spr.Key, copySprite);
             }
 
             copy.verticalFlip = verticalFlip;
@@ -101,8 +103,10 @@ namespace MegaMan.Engine
                 _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
             }
 
-            Sprite sprite = Sprite.FromXml(xmlNode, _spriteSheet);
-            sprite.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
+            Sprite sprite = Sprite.FromXml(xmlNode);
+            var drawer = new XnaSpriteDrawer(sprite);
+            drawer.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
+            sprite.Drawer = drawer;
             Add(spriteName, sprite);
         }
 
@@ -273,7 +277,7 @@ namespace MegaMan.Engine
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
-                sprite.DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
+                (sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, (float)Math.Round(PositionSrc.Position.X - off_x), (float)Math.Round(PositionSrc.Position.Y - off_y));
             }
         }
     }

@@ -89,7 +89,9 @@ namespace MegaMan.Engine
         public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float posX, float posY)
         {
             if (Tile.Sprite != null)
-                Tile.Sprite.DrawXna(batch, color, (int)posX, (int)posY);
+            {
+                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, (int)posX, (int)posY);
+            }
         }
     }
 }

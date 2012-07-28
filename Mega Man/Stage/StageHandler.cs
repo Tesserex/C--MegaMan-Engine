@@ -98,7 +98,7 @@ namespace MegaMan.Engine
             foreach (var tile in stage.Tileset)
             {
                 var drawer = new XnaSpriteDrawer(tile.Sprite);
-                drawer.SetTexture(Engine.Instance.GraphicsDevice, tile.Sprite.SheetPath.Absolute);
+                drawer.SetTexture(Engine.Instance.GraphicsDevice, stage.Tileset.SheetPathAbs);
                 tile.Sprite.Drawer = drawer;
             }
 

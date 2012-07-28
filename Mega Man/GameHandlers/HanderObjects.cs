@@ -26,7 +26,9 @@ namespace MegaMan.Engine
         public HandlerSprite(Sprite sprite, Point location)
         {
             this.sprite = new Sprite(sprite);
-            this.sprite.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
+            var drawer = new XnaSpriteDrawer(sprite);
+            drawer.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
+            this.sprite.Drawer = drawer;
             this.x = location.X;
             this.y = location.Y;
             this.sprite.Play();
@@ -80,7 +82,7 @@ namespace MegaMan.Engine
 
         public void Draw(GameGraphicsLayers layers, Color opacity)
         {
-            sprite.DrawXna(layers.SpritesBatch[sprite.Layer], opacity, x, y);
+            (sprite.Drawer as XnaSpriteDrawer).DrawXna(layers.SpritesBatch[sprite.Layer], opacity, x, y);
         }
     }
 
