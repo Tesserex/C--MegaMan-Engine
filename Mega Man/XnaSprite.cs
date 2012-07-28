@@ -25,8 +25,6 @@ namespace MegaMan.Engine
 
         private Image sheet;
 
-        public Image Sheet { get { return this.sheet; } }
-
         private XnaPalette palette;
 
         public FilePath SheetPath

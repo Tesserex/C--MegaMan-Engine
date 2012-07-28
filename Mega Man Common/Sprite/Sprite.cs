@@ -5,14 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using DrawPoint     = System.Drawing.Point;
 using DrawRectangle = System.Drawing.Rectangle;
-
-using XnaRectangle  = Microsoft.Xna.Framework.Rectangle;
-using XnaColor      = Microsoft.Xna.Framework.Color;
 
 namespace MegaMan.Common
 {

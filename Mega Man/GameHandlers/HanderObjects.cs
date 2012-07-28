@@ -26,7 +26,7 @@ namespace MegaMan.Engine
         public HandlerSprite(Sprite sprite, Point location)
         {
             this.sprite = new Sprite(sprite);
-            var drawer = new XnaSpriteDrawer(sprite);
+            var drawer = new XnaSpriteDrawer(this.sprite);
             drawer.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
             this.sprite.Drawer = drawer;
             this.x = location.X;

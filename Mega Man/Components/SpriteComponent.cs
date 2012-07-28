@@ -63,7 +63,9 @@ namespace MegaMan.Engine
             foreach (var spr in sprites)
             {
                 var copySprite = new Sprite(spr.Value);
-                copySprite.Drawer = spr.Value.Drawer;
+                var drawer = new XnaSpriteDrawer(copySprite);
+                drawer.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
+                copySprite.Drawer = drawer;
                 copy.Add(spr.Key, copySprite);
             }
 
@@ -104,9 +106,6 @@ namespace MegaMan.Engine
             }
 
             Sprite sprite = Sprite.FromXml(xmlNode);
-            var drawer = new XnaSpriteDrawer(sprite);
-            drawer.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
-            sprite.Drawer = drawer;
             Add(spriteName, sprite);
         }
 
