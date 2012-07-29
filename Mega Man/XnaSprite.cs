@@ -27,19 +27,6 @@ namespace MegaMan.Engine
 
         private XnaPalette palette;
 
-        public FilePath SheetPath
-        {
-            get
-            {
-                return _info.SheetPath;
-            }
-            set
-            {
-                _info.SheetPath = value;
-                this.sheet = Image.FromFile(value.Absolute);
-            }
-        }
-
         public XnaSpriteDrawer(Sprite info)
         {
             this._info = info;
@@ -56,7 +43,7 @@ namespace MegaMan.Engine
 
             if (this.sheet == null)
             {
-                this.sheet = Image.FromFile(sheetPath);
+                this.sheet = GetImage(sheetPath);
             }
 
             VerifyPaletteSwaps(device);
@@ -100,6 +87,28 @@ namespace MegaMan.Engine
             {
                 this._paletteSwaps = this.palette.GenerateSwappedTextures((Bitmap)this.sheet, device);
             }
+        }
+
+        private static Dictionary<string, Image> loadedImages = new Dictionary<string, Image>();
+
+        private static Image GetImage(string absolutePath)
+        {
+            if (!loadedImages.ContainsKey(absolutePath))
+            {
+                loadedImages[absolutePath] = Image.FromFile(absolutePath);
+            }
+
+            return loadedImages[absolutePath];
+        }
+
+        public static void Unload()
+        {
+            foreach (var image in loadedImages.Values)
+            {
+                image.Dispose();
+            }
+
+            loadedImages.Clear();
         }
     }
 }
