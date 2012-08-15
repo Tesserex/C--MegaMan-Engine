@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MegaMan.Common;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace MegaMan.Engine
 {
@@ -278,7 +279,9 @@ namespace MegaMan.Engine
                 {
                     foreach (var meter in HealthMeter.AllMeters)
                     {
-                        var bounds = currentSprite.BoundBox;
+                        var bounds = new RectangleF(currentSprite.BoundBox.X, currentSprite.BoundBox.Y,
+                            currentSprite.BoundBox.Width, currentSprite.BoundBox.Height);
+
                         bounds.Offset(-currentSprite.HotSpot.X, -currentSprite.HotSpot.Y);
                         bounds.Offset(PositionSrc.Position);
                         if (meter.Bounds.IntersectsWith(bounds))

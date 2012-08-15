@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.IO;
-using Microsoft.Xna.Framework.Graphics;
-using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Xml;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common
 {

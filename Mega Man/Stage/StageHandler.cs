@@ -314,7 +314,7 @@ namespace MegaMan.Engine
             {
                 setpos = (state) =>
                 {
-                    PlayerPos.SetPosition(info.To);
+                    PlayerPos.SetPosition(new Point(info.To.X, info.To.Y));
                     (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
                     teleporting = false;
@@ -332,7 +332,7 @@ namespace MegaMan.Engine
                     { 
                         StopScreen();
                         ChangeScreen(screens[info.TargetScreen]);
-                        PlayerPos.SetPosition(info.To); // do it here so drawing is correct for fade-in
+                        PlayerPos.SetPosition(new Point(info.To.X, info.To.Y)); // do it here so drawing is correct for fade-in
                     }, () =>
                     {
                         (Player.GetComponent<SpriteComponent>()).Visible = true;

@@ -175,7 +175,7 @@ namespace MegaMan.Engine
             }
 
             horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
-            tickOffset = info.TickOffset;
+            tickOffset = new Point(info.TickOffset.X, info.TickOffset.Y);
 
             if (info.Sound != null) sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
         }

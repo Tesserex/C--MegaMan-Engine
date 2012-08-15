@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-
-using DrawPoint     = System.Drawing.Point;
-using DrawRectangle = System.Drawing.Rectangle;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common
 {
@@ -34,7 +31,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets or sets the point representing the drawing offset for the sprite.
         /// </summary>
-        public DrawPoint HotSpot { get; set; }
+        public Point HotSpot { get; set; }
 
         /// <summary>
         /// Gets a rectangle representing the box surrounding the sprite.
@@ -146,11 +143,11 @@ namespace MegaMan.Common
             {
                 int hx = Int32.Parse(hotspot.RequireAttribute("x").Value);
                 int hy = Int32.Parse(hotspot.RequireAttribute("y").Value);
-                sprite.HotSpot = new DrawPoint(hx, hy);
+                sprite.HotSpot = new Point(hx, hy);
             }
             else
             {
-                sprite.HotSpot = new DrawPoint(0, 0);
+                sprite.HotSpot = new Point(0, 0);
             }
 
             int layer;
@@ -195,7 +192,7 @@ namespace MegaMan.Common
 
             this.currentFrame = 0;
             this.lastFrameTime = 0;
-            this.HotSpot = new DrawPoint(0, 0);
+            this.HotSpot = new Point(0, 0);
             this.BoundBox = new RectangleF(0, 0, Width, Height);
             this.Playing = false;
             this.Visible = true;
@@ -211,7 +208,7 @@ namespace MegaMan.Common
             this.frames = copy.frames;
             this.currentFrame = 0;
             this.lastFrameTime = 0;
-            this.HotSpot = new DrawPoint(copy.HotSpot.X, copy.HotSpot.Y);
+            this.HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
             this.BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
             this.Playing = false;
             this.Visible = true;
@@ -238,7 +235,7 @@ namespace MegaMan.Common
         /// </summary>
         public void AddFrame()
         {
-            frames.Add(new SpriteFrame(this, 0, DrawRectangle.Empty));
+            frames.Add(new SpriteFrame(this, 0, Rectangle.Empty));
             CheckTickable();
         }
 
@@ -251,7 +248,7 @@ namespace MegaMan.Common
         /// <param name="duration">The duration of the frame, in game ticks.</param>
         public void AddFrame(int x, int y, int duration)
         {
-            this.frames.Add(new SpriteFrame(this, duration, new DrawRectangle(x, y, this.Width, this.Height)));
+            this.frames.Add(new SpriteFrame(this, duration, new Rectangle(x, y, this.Width, this.Height)));
             CheckTickable();
         }
 
@@ -463,7 +460,7 @@ namespace MegaMan.Common
         private Sprite sprite;
         private int duration;
 
-        public DrawRectangle SheetLocation { get; private set; }
+        public Rectangle SheetLocation { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of ticks that this image should be displayed.
@@ -481,14 +478,14 @@ namespace MegaMan.Common
             }
         }
 
-        internal SpriteFrame(Sprite spr, int duration, DrawRectangle sheetRect)
+        internal SpriteFrame(Sprite spr, int duration, Rectangle sheetRect)
         {
             this.sprite = spr;
             this.Duration = duration;
             this.SheetLocation = sheetRect;
         }
 
-        public void SetSheetPosition(DrawRectangle rect)
+        public void SetSheetPosition(Rectangle rect)
         {
             SheetLocation = rect;
         }

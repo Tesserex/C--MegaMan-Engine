@@ -99,6 +99,7 @@
     <Compile Include="HandlerInfo.cs" />
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="InventoryInfo.cs" />
+    <Compile Include="Math.cs" />
     <Compile Include="ScreenInfoFactory.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
     <Compile Include="Sprite\ISpriteDrawer.cs" />

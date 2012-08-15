@@ -54,7 +54,9 @@ namespace MegaMan.Engine
             screenX = x * tilesize;
             screenY = y * tilesize;
 
-            basisBox = Tile.Sprite.BoundBox;
+            var commonBox = Tile.Sprite.BoundBox;
+
+            basisBox = new RectangleF(commonBox.X, commonBox.Y, commonBox.Width, commonBox.Height);
             basisBox.Offset(-Tile.Sprite.HotSpot.X, -Tile.Sprite.HotSpot.Y);
 
             if (Tile.Properties.Blocking)
