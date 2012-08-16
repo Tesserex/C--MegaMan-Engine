@@ -126,6 +126,31 @@ namespace MegaMan.Engine
 
             if (parentComponent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
             else offset = CheckTileOffset(tileBox, boundBox, 0, 0, up, down);
+
+            // Quicksand sinking property tells us not to push the hitbox outward
+            if (tile.Properties.Sinking > 0)
+            {
+                // don't clip left or right at all
+                offset.X = 0;
+
+                if (Game.CurrentGame.GravityFlip)
+                {
+                    // don't clip them downward out of the collision
+                    if (offset.Y > 0)
+                    {
+                        offset.Y = 0;
+                    }
+                }
+                else
+                {
+                    // don't clip them upward out of the collision
+                    if (offset.Y < 0)
+                    {
+                        offset.Y = 0;
+                    }
+                }
+            }
+
             return true;
         }
 

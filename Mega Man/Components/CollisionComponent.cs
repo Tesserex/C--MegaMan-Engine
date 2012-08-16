@@ -471,6 +471,29 @@ namespace MegaMan.Engine
                 MovementSrc.ResistY(properties.ResistY);
                 MovementSrc.DragX(properties.DragX);
                 MovementSrc.DragY(properties.DragY);
+
+                if (properties.Sinking > 0)
+                {
+                    if (Game.CurrentGame.GravityFlip)
+                    {
+                        if (MovementSrc.VelocityY <= 0)
+                        {
+                            BlockTop = true;
+                            PositionSrc.Offset(0, -1 * properties.Sinking);
+                            // don't let gravity accumulate like in MM1
+                            MovementSrc.VelocityY = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (MovementSrc.VelocityY >= 0)
+                        {
+                            BlockBottom = true;
+                            PositionSrc.Offset(0, properties.Sinking);
+                            MovementSrc.VelocityY = 0;
+                        }
+                    }
+                }
             }
             // don't just kill, it needs to be conditional on invincibility
             if (properties.Lethal && Parent.Name == "Player") Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));

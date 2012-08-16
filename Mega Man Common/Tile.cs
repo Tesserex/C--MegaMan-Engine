@@ -20,6 +20,7 @@ namespace MegaMan.Common
         public float DragX { get; set; }
         public float DragY { get; set; }
         public float GravityMult { get; set; }
+        public float Sinking { get; set; }
         public string OnEnter { get; set; }
         public string OnLeave { get; set; }
         public string OnOver { get; set; }
@@ -43,7 +44,7 @@ namespace MegaMan.Common
             {
                 bool b;
                 float f;
-                switch (attr.Name.LocalName)
+                switch (attr.Name.LocalName.ToLower())
                 {
                     case "name":
                         this.Name = attr.Value;
@@ -64,34 +65,39 @@ namespace MegaMan.Common
                         Lethal = b;
                         break;
 
-                    case "pushX":
+                    case "pushx":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushX attribute was not a valid number.");
                         PushX = f;
                         break;
 
-                    case "pushY":
+                    case "pushy":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushY attribute was not a valid number.");
                         PushY = f;
                         break;
 
-                    case "resistX":
+                    case "resistx":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistX attribute was not a valid number.");
                         ResistX = f;
                         break;
 
-                    case "resistY":
+                    case "resisty":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistY attribute was not a valid number.");
                         ResistY = f;
                         break;
 
-                    case "dragX":
+                    case "dragx":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragX attribute was not a valid number.");
                         DragX = f;
                         break;
 
-                    case "dragY":
+                    case "dragy":
                         if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragY attribute was not a valid number.");
                         DragY = f;
+                        break;
+
+                    case "sinking":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property sinking attribute was not a valid number.");
+                        Sinking = f;
                         break;
 
                     case "gravitymult":
@@ -128,6 +134,7 @@ namespace MegaMan.Common
             if (this.ResistY != 1) writer.WriteAttributeString("resistY", this.ResistY.ToString());
             if (this.DragX != 1) writer.WriteAttributeString("dragX", this.DragX.ToString());
             if (this.DragY != 1) writer.WriteAttributeString("dragY", this.DragY.ToString());
+            if (this.Sinking != 0) writer.WriteAttributeString("sinking", this.Sinking.ToString());
             if (this.OnEnter != null) writer.WriteAttributeString("onenter", this.OnEnter);
             if (this.OnLeave != null) writer.WriteAttributeString("onleave", this.OnLeave);
             if (this.OnOver != null) writer.WriteAttributeString("onover", this.OnOver);
