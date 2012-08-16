@@ -11,13 +11,15 @@ namespace MegaMan.Common
     {
         public String Name { get; private set; }
         public TileLayer Tiles { get; private set; }
+        public Boolean Foreground { get; private set; }
         public List<EntityPlacement> Entities { get; private set; }
         public List<ScreenLayerKeyframe> Keyframes { get; private set; }
 
-        public ScreenLayerInfo(string name, TileLayer tiles, List<EntityPlacement> entities, List<ScreenLayerKeyframe> keyframes)
+        public ScreenLayerInfo(string name, TileLayer tiles, bool foreground, List<EntityPlacement> entities, List<ScreenLayerKeyframe> keyframes)
         {
             this.Name = name;
             this.Tiles = tiles;
+            this.Foreground = foreground;
             this.Entities = entities;
             this.Keyframes = keyframes;
         }
@@ -27,6 +29,11 @@ namespace MegaMan.Common
             writer.WriteStartElement("Overlay");
 
             writer.WriteAttributeString("name", Name);
+
+            if (Foreground)
+            {
+                writer.WriteAttributeString("foreground", Foreground.ToString());
+            }
 
             foreach (var entity in Entities)
             {

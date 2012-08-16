@@ -13,7 +13,7 @@ namespace MegaMan.Engine
         private int playerDeadCount;
 
         private Action updateFunc;
-        private Action<SpriteBatch> drawFunc;
+        private Action<GameRenderEventArgs> drawFunc;
 
         private string startScreen;
         private int startX, startY;
@@ -179,9 +179,9 @@ namespace MegaMan.Engine
             GameThink += teleport;
         }
 
-        private void DrawScreen(SpriteBatch batch)
+        private void DrawScreen(GameRenderEventArgs renderArgs)
         {
-            _currentScreen.Draw(batch, PlayerPos.Position);
+            _currentScreen.Draw(renderArgs, PlayerPos.Position);
         }
 
         private void DeadUpdate()
@@ -275,10 +275,10 @@ namespace MegaMan.Engine
             StopScreen();
         }
 
-        private void DrawJoin(SpriteBatch batch)
+        private void DrawJoin(GameRenderEventArgs renderArgs)
         {
-            _currentScreen.Draw(batch, PlayerPos.Position, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
-            nextScreen.Draw(batch, PlayerPos.Position, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
+            _currentScreen.Draw(renderArgs, PlayerPos.Position, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
+            nextScreen.Draw(renderArgs, PlayerPos.Position, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
         }
 
         private void StartScreen()
@@ -477,7 +477,7 @@ namespace MegaMan.Engine
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (drawFunc != null && Engine.Instance.Background) drawFunc(e.Layers.BackgroundBatch);
+            if (drawFunc != null) drawFunc(e);
 
             if (Draw != null) Draw(e);
         }

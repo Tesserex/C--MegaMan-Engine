@@ -2,6 +2,6 @@
     <Music nsftrack="9" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
-		<Overlay name="floor" x="48" y="144" />
+		<Overlay name="floor" x="64" y="176" foreground="true" />
 	</Screen>
 </Map>

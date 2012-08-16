@@ -262,7 +262,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, PointF playerPos, float adj_x = 0, float adj_y = 0, float off_x = 0, float off_y = 0)
+        public void Draw(GameRenderEventArgs renderArgs, PointF playerPos, float adj_x = 0, float adj_y = 0, float off_x = 0, float off_y = 0)
         {
             int width = Screen.PixelWidth;
             int height = Screen.PixelHeight;
@@ -290,7 +290,7 @@ namespace MegaMan.Engine
 
             foreach (var layer in this.layers)
             {
-                layer.Draw(batch);
+                layer.Draw(renderArgs);
             }
         }
     }

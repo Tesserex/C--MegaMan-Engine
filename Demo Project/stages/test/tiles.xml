@@ -6,7 +6,7 @@
 		<Properties name="Water" gravitymult="0.4" onenter="Splash" onleave="Splash" onover="Bubble" />
 		<Properties name="GravUp" onenter="GravityUp" />
 		<Properties name="GravDown" onenter="GravityDown" />
-		<Properties name="Sand" resistX="0.2" dragX="0.5" gravitymult="2" sinking="0.2" />
+		<Properties name="Sand" resistX="0.2" dragX="0.4" gravitymult="3" sinking="0.2" />
 	</TileProperties>
 	<Tile id="0" name="" properties="Wind">
 		<Sprite width="16" height="16">

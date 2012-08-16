@@ -266,9 +266,18 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameRenderEventArgs renderArgs)
         {
-            this.Draw(batch, Engine.Instance.OpacityColor, (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            if (_info.Foreground && Engine.Instance.Foreground)
+            {
+                this.Draw(renderArgs.Layers.ForegroundBatch, renderArgs.OpacityColor,
+                    (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            }
+            else if (!_info.Foreground && Engine.Instance.Background)
+            {
+                this.Draw(renderArgs.Layers.BackgroundBatch, renderArgs.OpacityColor,
+                    (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            }
         }
 
         private void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float off_x, float off_y, int width, int height)

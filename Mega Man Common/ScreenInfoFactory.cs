@@ -16,15 +16,17 @@ namespace MegaMan.Common
 
             var screen = new ScreenInfo(id, tileset);
 
-            screen.Layers.Add(LoadScreenLayer(node, stagePath.Absolute, id, tileset, 0, 0));
+            screen.Layers.Add(LoadScreenLayer(node, stagePath.Absolute, id, tileset, 0, 0, false));
 
             foreach (var overlay in node.Elements("Overlay"))
             {
                 var name = overlay.RequireAttribute("name").Value;
                 var x = overlay.GetInteger("x");
                 var y = overlay.GetInteger("y");
+                bool foreground = false;
+                overlay.TryBool("foreground", out foreground);
 
-                screen.Layers.Add(LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y));
+                screen.Layers.Add(LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground));
             }
 
             foreach (XElement teleport in node.Elements("Teleport"))
@@ -70,7 +72,7 @@ namespace MegaMan.Common
             return screen;
         }
 
-        private static ScreenLayerInfo LoadScreenLayer(XElement node, string stagePath, string name, Tileset tileset, int tileStartX, int tileStartY)
+        private static ScreenLayerInfo LoadScreenLayer(XElement node, string stagePath, string name, Tileset tileset, int tileStartX, int tileStartY, bool foreground)
         {
             var tileFilePath = Path.Combine(stagePath, name + ".scn");
 
@@ -92,7 +94,7 @@ namespace MegaMan.Common
                 keyframes.Add(frame);
             }
 
-            return new ScreenLayerInfo(name, tileLayer, entities, keyframes);
+            return new ScreenLayerInfo(name, tileLayer, foreground, entities, keyframes);
         }
 
         private static int[][] LoadTiles(string filepath)
