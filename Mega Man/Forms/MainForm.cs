@@ -360,26 +360,33 @@ namespace MegaMan.Engine
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
             widthZoom = heightZoom = 1;
-
-            if (Game.CurrentGame == null)
-            {
-                DefaultScreen();
-            }
-            else
-            {
-                ResizeScreen();
-            }
-
+            ScreenSizeMultiple();
             screen1XMenu.Checked = true;
-            screen2XMenu.Checked = false;
-            screenNTSCMenu.Checked = false;
-            xnaImage.NTSC = false;
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
             widthZoom = heightZoom = 2;
+            ScreenSizeMultiple();
+            screen2XMenu.Checked = true;
+        }
 
+        private void screen3XMenu_Click(object sender, EventArgs e)
+        {
+            widthZoom = heightZoom = 3;
+            ScreenSizeMultiple();
+            screen3XMenu.Checked = true;
+        }
+
+        private void screen4XMenu_Click(object sender, EventArgs e)
+        {
+            widthZoom = heightZoom = 4;
+            ScreenSizeMultiple();
+            screen4XMenu.Checked = true;
+        }
+
+        private void ScreenSizeMultiple()
+        {
             if (Game.CurrentGame == null)
             {
                 DefaultScreen();
@@ -389,8 +396,10 @@ namespace MegaMan.Engine
                 ResizeScreen();
             }
 
-            screen2XMenu.Checked = true;
             screen1XMenu.Checked = false;
+            screen2XMenu.Checked = false;
+            screen3XMenu.Checked = false;
+            screen4XMenu.Checked = false;
             screenNTSCMenu.Checked = false;
             xnaImage.NTSC = false;
         }
@@ -621,6 +630,30 @@ namespace MegaMan.Engine
             MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
             CloseGame();
+        }
+
+        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.TopMost)
+            {
+                this.TopMost = false;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.WindowState = FormWindowState.Normal;
+                menuStrip1.Visible = !hideMenuItem.Checked;
+#if DEBUG
+                debugBar.Visible = true;
+#endif
+            }
+            else
+            {
+                this.TopMost = true;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+                menuStrip1.Visible = false;
+#if DEBUG
+                debugBar.Visible = false;
+#endif
+            }
         }
     }
 }
