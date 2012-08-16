@@ -264,6 +264,28 @@ namespace MegaMan.Engine
                     effect = e => { Game.CurrentGame.ProcessHandler(transfer); };
                     break;
 
+                case "Palette":
+                    var paletteName = node.RequireAttribute("name").Value;
+                    var paletteIndex = node.GetInteger("index");
+                    effect = e =>
+                    {
+                        var palette = Palette.Get(paletteName);
+                        if (palette != null)
+                        {
+                            palette.CurrentIndex = paletteIndex;
+                        }
+                    };
+                    break;
+
+                case "Delay":
+                    var delayFrames = node.GetInteger("frames");
+                    var delayEffect = LoadEffect(node);
+                    effect = e =>
+                    {
+                        Engine.Instance.DelayedCall(() => delayEffect(e), null, delayFrames);
+                    };
+                    break;
+
                 default:
                     effect = GameEntity.ParseComponentEffect(node);
                     break;

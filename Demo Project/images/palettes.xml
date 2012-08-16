@@ -1,3 +1,4 @@
 <Palettes>
 	<Palette name="MegaMan" image="images\palettes\megaman.png" />
+	<Palette name="Tiles" image="images\palettes\tiles.png" />
 </Palettes>
