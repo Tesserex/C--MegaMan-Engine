@@ -271,12 +271,12 @@ namespace MegaMan.Engine
             if (_info.Foreground && Engine.Instance.Foreground)
             {
                 this.Draw(renderArgs.Layers.ForegroundBatch, renderArgs.OpacityColor,
-                    (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
             }
             else if (!_info.Foreground && Engine.Instance.Background)
             {
                 this.Draw(renderArgs.Layers.BackgroundBatch, renderArgs.OpacityColor,
-                    (int)(_locationOffsetX - OffsetX), (int)(_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
             }
         }
 

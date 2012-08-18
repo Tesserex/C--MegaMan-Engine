@@ -92,7 +92,7 @@ namespace MegaMan.Engine
         {
             if (Tile.Sprite != null)
             {
-                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, (int)posX, (int)posY);
+                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, posX, posY);
             }
         }
     }
