@@ -405,4 +405,59 @@
 			</Hitbox>
 		</Collision>
 	</Entity>
+
+    <Entity name="Lightswitch">
+        <Tilesheet>images\blocks\lightswitch.png</Tilesheet>
+        <Sprite palette="Tiles" name="On" width="16" height="32" layer="0">
+            <Hotspot x="0" y="0" />
+            <Frame x="0" y="0" />
+        </Sprite>
+        <Sprite palette="Tiles" name="Off" width="16" height="32" layer="0">
+            <Hotspot x="0" y="0" />
+            <Frame x="16" y="0" />
+        </Sprite>
+        <Collision>
+            <Enabled>True</Enabled>
+            <Hitbox name="H" x="4" y="4" width="8" height="24">
+				<Group>Block</Group>
+				<Hits>Solid</Hits>
+			</Hitbox>
+        </Collision>
+        <State name="Start">
+            <Sprite><Name>On</Name></Sprite>
+            <Collision><EnableBox name="H" /></Collision>
+            <Trigger>
+                <Condition>Collision.Touched</Condition>
+                <Effect>
+                    <Call>Darken</Call>
+                    <State>OffReset</State>
+                </Effect>
+            </Trigger>
+        </State>
+        <State name="OffReset">
+            <Sprite><Name>Off</Name></Sprite>
+            <Trigger>
+                <Condition>Collision.Touched == False</Condition>
+                <Effect><State>Off</State></Effect>
+            </Trigger>
+        </State>
+        <State name="Off">
+            <Sprite><Name>Off</Name></Sprite>
+            <Collision><EnableBox name="H" /></Collision>
+            <Trigger>
+                <Condition>Collision.Touched</Condition>
+                <Effect>
+                    <Call>Lighten</Call>
+                    <State>OnReset</State>
+                </Effect>
+            </Trigger>
+        </State>
+        <State name="OnReset">
+            <Sprite><Name>On</Name></Sprite>
+            <Trigger>
+                <Condition>Collision.Touched == False</Condition>
+                <Effect><State>Start</State></Effect>
+            </Trigger>
+        </State>
+    </Entity>
 </Entities>

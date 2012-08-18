@@ -2,6 +2,19 @@
     <Music nsftrack="9" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
+        <Entity name="Lightswitch" x="864" y="96" />
 		<Overlay name="floor" x="64" y="176" foreground="true" />
+        <Overlay name="floor" x="320" y="0" foreground="true" />
+        <Overlay name="overlay" x="560" y="-48">
+            <Keyframe frame="0">
+               <Move x="560" y="-48" duration="176" />
+            </Keyframe>
+            <Keyframe frame="176">
+               <Move x="560" y="-128" duration="176" />
+            </Keyframe>
+            <Keyframe frame="348">
+               <Reset/>
+            </Keyframe>
+        </Overlay>
 	</Screen>
 </Map>
