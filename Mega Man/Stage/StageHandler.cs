@@ -386,6 +386,10 @@ namespace MegaMan.Engine
         {
             Player.Death -= Player_Death;
 
+            // reset gravity and palettes
+            Game.CurrentGame.GravityFlip = false;
+            Palette.ResetAll();
+
             if (_currentScreen != null)
             {
                 StopScreen();

@@ -42,6 +42,14 @@ namespace MegaMan.Common
             return palette;
         }
 
+        public static void ResetAll()
+        {
+            foreach (var palette in palettes.Values)
+            {
+                palette.CurrentIndex = 0;
+            }
+        }
+
         public static void Unload()
         {
             palettes.Clear();
