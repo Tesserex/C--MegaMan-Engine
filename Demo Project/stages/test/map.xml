@@ -1,5 +1,5 @@
 <Map name="Test" tiles="..\test\tiles.xml">
-    <Music nsftrack="9" />
+    <Music nsftrack="10" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
         <Entity name="Lightswitch" x="864" y="96" />

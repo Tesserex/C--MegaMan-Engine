@@ -62,11 +62,9 @@
 				<FlipSprite>True</FlipSprite>
 				<X magnitude="1" direction="Left" /><X magnitude="0" />
 			</Movement>
-			<Trigger condition="StateTime >= 30"><Effect>
-				<Collision>
-					<EnableBox name="Stand" />
-				</Collision>
-			</Effect></Trigger>
+          <Collision>
+              <EnableBox name="Stand" />
+          </Collision>
 			<Trigger condition="StateTime >= 50"><Effect><State>Pose</State></Effect></Trigger>
 		</State>
 		<State name="Pose">
