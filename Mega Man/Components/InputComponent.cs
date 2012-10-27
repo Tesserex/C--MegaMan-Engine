@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace MegaMan.Engine
 {
@@ -39,7 +40,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private bool KeyVal(GameInput key) { return activeKeys.ContainsKey(key)? activeKeys[key] : false; }
+        private bool KeyVal(GameInput key) { return (!Paused && activeKeys.ContainsKey(key))? activeKeys[key] : false; }
 
         public override Component Clone()
         {
@@ -79,7 +80,29 @@ namespace MegaMan.Engine
 
         public static Effect ParseEffect(System.Xml.Linq.XElement effectNode)
         {
-            return entity => { };
+            Effect action = entity => { };
+
+            foreach (XElement prop in effectNode.Elements())
+            {
+                switch (prop.Name.LocalName)
+                {
+                    case "Pause":
+                        action += entity =>
+                        {
+                            entity.GetComponent<InputComponent>().Paused = true;
+                        };
+                        break;
+
+                    case "Unpause":
+                        action += entity =>
+                        {
+                            entity.GetComponent<InputComponent>().Paused = false;
+                        };
+                        break;
+                }
+            }
+
+            return action;
         }
 
         private void Instance_GameInputReceived(GameInputEventArgs e)
