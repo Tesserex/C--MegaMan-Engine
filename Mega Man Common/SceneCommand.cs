@@ -10,6 +10,7 @@ namespace MegaMan.Common
     public enum SceneCommands
     {
         PlayMusic,
+        StopMusic,
         Add,
         Move,
         Remove,
@@ -39,6 +40,10 @@ namespace MegaMan.Common
                 {
                     case "PlayMusic":
                         list.Add(ScenePlayCommandInfo.FromXml(cmdNode));
+                        break;
+
+                    case "StopMusic":
+                        list.Add(SceneStopMusicCommandInfo.FromXml(cmdNode));
                         break;
 
                     case "Sprite":
@@ -113,6 +118,23 @@ namespace MegaMan.Common
         {
             writer.WriteStartElement("PlayMusic");
             writer.WriteAttributeString("track", Track.ToString());
+            writer.WriteEndElement();
+        }
+    }
+
+    public class SceneStopMusicCommandInfo : SceneCommandInfo
+    {
+        public override SceneCommands Type { get { return SceneCommands.StopMusic; } }
+        public int Track { get; set; }
+
+        public static SceneStopMusicCommandInfo FromXml(XElement node)
+        {
+            return new SceneStopMusicCommandInfo();
+        }
+
+        public override void Save(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("StopMusic");
             writer.WriteEndElement();
         }
     }

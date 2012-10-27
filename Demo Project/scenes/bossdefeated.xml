@@ -1,0 +1,12 @@
+<Scene name="BossDefeated" duration="480" canskip="true">
+	<Keyframe frame="0">
+		<StopMusic />
+	</Keyframe>
+	<Keyframe frame="180">
+		<PlayMusic track="18" />
+	</Keyframe>
+	<Keyframe frame="450">
+
+	</Keyframe>
+	<Next type="Menu" name="StageSelect" fade="True" />
+</Scene>

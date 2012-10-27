@@ -113,6 +113,10 @@ namespace MegaMan.Engine
                         PlayMusicCommand((ScenePlayCommandInfo)cmd);
                         break;
 
+                    case SceneCommands.StopMusic:
+                        StopMusicCommand((SceneStopMusicCommandInfo)cmd);
+                        break;
+
                     case SceneCommands.Add:
                         AddCommand((SceneAddCommandInfo)cmd);
                         break;
@@ -163,6 +167,11 @@ namespace MegaMan.Engine
         private void PlayMusicCommand(ScenePlayCommandInfo command)
         {
             Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
+        }
+
+        private void StopMusicCommand(SceneStopMusicCommandInfo command)
+        {
+            Engine.Instance.SoundSystem.StopMusicNsf();
         }
 
         private void AddCommand(SceneAddCommandInfo command)

@@ -204,6 +204,7 @@
 			<Spawn name="MegaManDeath" state="DownLeftFast" />
 			<Spawn name="MegaManDeath" state="DownRightFast" />
 			<Sound name="MMDeath" />
+            <Next mode="Push" type="Scene" name="BossDefeated" pause="false" />
 		</Death>
 	</Entity>
 
