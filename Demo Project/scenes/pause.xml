@@ -17,12 +17,12 @@
 	<Sprite name="EOff" tilesheet="images\pause\e_off.png" width="16" height="16" layer="3" />
 
 	<Sprite name="Bolt" tilesheet="images\items\bolt_large.png" width="16" height="16" layer="3" />
-	
+
 	<Sprite name="Rock" tilesheet="images\megaman.png" palette="MegaMan" width="32" height="24" layer="3" >
 		<Hotspot x="16" y="11" />
 		<Frame x="0" y="0" duration="0" />
 	</Sprite>
-	
+
 	<Sprite name="Lives" tilesheet="images\items.png" palette="MegaMan" width="16" height="15" layer="3" >
 		<Hotspot x="8" y="8" />
 		<Frame x="134" y="1" duration="0" />
@@ -57,7 +57,7 @@
 	<Meter name="JetMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Weapon.RushJet" target="Value" />
 	</Meter>
-	
+
 	<Meter name="GyroMeter" x="64" y="72" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Weapon.Gyro" target="Value" />
 	</Meter>
@@ -67,7 +67,7 @@
 	<Meter name="GyroMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Weapon.Gyro" target="Value" />
 	</Meter>
-	
+
 	<Meter name="CrystalMeter" x="64" y="88" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Weapon.Crystal" target="Value" />
 	</Meter>
@@ -77,7 +77,7 @@
 	<Meter name="CrystalMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
 		<Binding source="Weapon.Crystal" target="Value" />
 	</Meter>
-	
+
 	<Meter name="NapalmMeter" x="64" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
 		<Binding source="Weapon.Napalm" target="Value" />
 	</Meter>
@@ -94,15 +94,17 @@
 		<Sprite name="BusterOn" object="BusterOn" x="32" y="32" />
 		<Text font="Pause" x="56" y="32" content="M.Buster" />
 		<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
-		
-		<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
-		<Text font="Pause" x="56" y="64" content="G.Attack" />
-		<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
-		
+
+        <Condition property="WeaponUnlocked" parameter="Gyro">
+            <Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+            <Text font="Pause" x="56" y="64" content="G.Attack" />
+            <Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
+        </Condition>
+
 		<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
 		<Text font="Pause" x="56" y="80" content="C.Eye" />
 		<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="80" />
-		
+
 		<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
 		<Text font="Pause" x="56" y="96" content="N.Bomb" />
 		<Add name="NapalmMeterOff" object="NapalmMeterOff" x="56" y="96" />
@@ -124,10 +126,10 @@
 		<Text font="Pause" name="Bolts" x="112" y="196">
 			<Binding source="Inventory.Bolts" target="Content" />
 		</Text>
-		
+
 		<Sprite name="Rock" object="Rock" x="176" y="191" />
 		<Add name="BusterMeterBottom" object="BusterMeterBottom" x="148" y="204" />
-		
+
 		<Sprite name="Lives" object="Lives" x="214" y="188" />
 		<Text font="Pause" name="LivesText" x="222" y="194" content="03" />
 
@@ -155,7 +157,8 @@
 				<Next mode="Pop" fade="true" />
 			</Select>
 		</Option>
-		
+
+        <Condition property="WeaponUnlocked" parameter="Gyro">
 		<Option x="32" y="64">
 			<On>
 				<Sound name="Menu" />
@@ -180,7 +183,8 @@
 				<Next mode="Pop" fade="true" />
 			</Select>
 		</Option>
-		
+        </Condition>
+
 		<Option x="32" y="80">
 			<On>
 				<Sound name="Menu" />
@@ -205,7 +209,7 @@
 				<Next mode="Pop" fade="true" />
 			</Select>
 		</Option>
-		
+
 		<Option x="32" y="96">
 			<On>
 				<Sound name="Menu" />

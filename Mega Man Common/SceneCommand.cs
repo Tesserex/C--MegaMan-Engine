@@ -22,7 +22,8 @@ namespace MegaMan.Common
         Sound,
         Next,
         Call,
-        Effect
+        Effect,
+        Condition
     }
 
     public abstract class SceneCommandInfo
@@ -94,6 +95,10 @@ namespace MegaMan.Common
 
                     case "Effect":
                         list.Add(SceneEffectCommandInfo.FromXml(cmdNode));
+                        break;
+
+                    case "Condition":
+                        list.Add(SceneConditionCommandInfo.FromXml(cmdNode, basePath));
                         break;
                 }
             }
@@ -556,6 +561,43 @@ namespace MegaMan.Common
         public override void Save(XmlTextWriter writer)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class SceneConditionCommandInfo : SceneCommandInfo
+    {
+        public string ConditionProperty { get; private set; }
+        public string ConditionParameter { get; private set; }
+        public List<SceneCommandInfo> Commands { get; private set; }
+
+        public static SceneConditionCommandInfo FromXml(XElement node, string basePath)
+        {
+            var info = new SceneConditionCommandInfo();
+
+            info.ConditionProperty = node.RequireAttribute("property").Value;
+            info.ConditionParameter = node.RequireAttribute("parameter").Value;
+            info.Commands = SceneCommandInfo.Load(node, basePath);
+
+            return info;
+        }
+
+        public override SceneCommands Type
+        {
+            get { return SceneCommands.Condition; }
+        }
+
+        public override void Save(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Condition");
+            writer.WriteAttributeString("property", ConditionProperty);
+            writer.WriteAttributeString("parameter", ConditionParameter);
+
+            foreach (var cmd in Commands)
+            {
+                cmd.Save(writer);
+            }
+
+            writer.WriteEndElement();
         }
     }
 

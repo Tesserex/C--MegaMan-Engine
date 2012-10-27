@@ -160,6 +160,10 @@ namespace MegaMan.Engine
                     case SceneCommands.Effect:
                         EffectCommand((SceneEffectCommandInfo)cmd);
                         break;
+
+                    case SceneCommands.Condition:
+                        ConditionCommand((SceneConditionCommandInfo)cmd);
+                        break;
                 }
             }
         }
@@ -280,6 +284,27 @@ namespace MegaMan.Engine
             {
                 var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
                 effect(entity);
+            }
+        }
+
+        private void ConditionCommand(SceneConditionCommandInfo command)
+        {
+            var run = false;
+
+            switch (command.ConditionProperty.ToUpper())
+            {
+                case "BOSSDEFEATED":
+                    run = Game.CurrentGame.Player.IsBossDefeated(command.ConditionParameter);
+                    break;
+
+                case "WEAPONUNLOCKED":
+                    run = Game.CurrentGame.Player.IsWeaponUnlocked(command.ConditionParameter);
+                    break;
+            }
+
+            if (run)
+            {
+                RunCommands(command.Commands);
             }
         }
     }

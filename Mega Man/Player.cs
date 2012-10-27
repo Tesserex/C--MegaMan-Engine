@@ -13,10 +13,35 @@ namespace MegaMan.Engine
         private Dictionary<string, int> inventory;
         public event Action<string, int> InventoryChanged;
 
+        private HashSet<string> unlockedWeapons;
+        private HashSet<string> defeatedBosses;
+
         public Player()
         {
             Lives = 2;
             inventory = new Dictionary<string, int>();
+            unlockedWeapons = new HashSet<string>();
+            defeatedBosses = new HashSet<string>();
+        }
+
+        public bool IsWeaponUnlocked(string name)
+        {
+            return unlockedWeapons.Contains(name);
+        }
+
+        public void UnlockWeapon(string name)
+        {
+            unlockedWeapons.Add(name);
+        }
+
+        public bool IsBossDefeated(string name)
+        {
+            return defeatedBosses.Contains(name);
+        }
+
+        public void DefeatBoss(string name)
+        {
+            defeatedBosses.Add(name);
         }
 
         public void CollectItem(string itemName, int quantity = 1)
