@@ -11,6 +11,7 @@ namespace MegaMan.Engine
     public class StateComponent : Component
     {
         private string currentState;
+        private bool stateChanged;
         private Dictionary<string, State> states;
 
         public int StateFrames { get; private set; }
@@ -41,6 +42,7 @@ namespace MegaMan.Engine
         public override void Start()
         {
             currentState = "Start";
+            stateChanged = false;
             Parent.Container.GameThink += Update;
             if (states.ContainsKey(currentState)) states[currentState].Initialize(Parent);
         }
@@ -75,16 +77,24 @@ namespace MegaMan.Engine
             StateFrames++;
             FrameRand = Program.rand.NextDouble();
 
-            string old = currentState;
             states[currentState].CheckTriggers(this, Parent);
-            if (old != currentState)
+
+            if (stateChanged)
             {
-                if (!states.ContainsKey(currentState)) throw new GameRunException("Entity \"" + Parent.Name + "\" tried to change to state \"" + currentState + "\", which does not exist.");
                 states[currentState].Initialize(Parent);
                 StateFrames = 0;
+                stateChanged = false;
 
                 if (StateChanged != null) StateChanged(currentState);
             }
+        }
+
+        public void ChangeState(string stateName)
+        {
+            if (!states.ContainsKey(currentState)) throw new GameRunException("Entity \"" + Parent.Name + "\" tried to change to state \"" + currentState + "\", which does not exist.");
+
+            currentState = stateName;
+            stateChanged = true;
         }
 
         public override void RegisterDependencies(Component component)
@@ -184,7 +194,10 @@ namespace MegaMan.Engine
             return entity =>
             {
                 StateComponent state = entity.GetComponent<StateComponent>();
-                if (state != null) state.currentState = newstate;
+                if (state != null)
+                {
+                    state.ChangeState(newstate);
+                }
             };
         }
 
