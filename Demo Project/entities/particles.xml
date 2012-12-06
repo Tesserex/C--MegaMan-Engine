@@ -191,4 +191,40 @@
             </Trigger>
         </State>
     </Entity>
+
+	<Entity name="PowerAbsorb">
+		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
+			<Hotspot x="12" y="12" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="72" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+		</Sprite>
+		<State name="Start">
+			<Movement>
+				<Flying>true</Flying>
+			</Movement>
+		</State>
+		<State name="UpLeft">
+			<Position><X base="Inherit" offset="80" direction="Left" /><Y base="Inherit" offset="80" direction="Up" /></Position>
+			<Trigger condition="true"><Effect><Func>Movement.SetX((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+		</State>
+		<State name="UpRight">
+			<Position><X base="Inherit" offset="80" direction="Right" /><Y base="Inherit" offset="80" direction="Up" /></Position>
+			<Trigger condition="true"><Effect><Func>Movement.SetX((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+		</State>
+		<State name="DownLeft">
+			<Position><X base="Inherit" offset="80" direction="Left" /><Y base="Inherit" offset="80" direction="Down" /></Position>
+			<Trigger condition="true"><Effect><Func>Movement.SetX((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+		</State>
+		<State name="DownRight">
+			<Position><X base="Inherit" offset="80" direction="Right" /><Y base="Inherit" offset="80" direction="Down" /></Position>
+			<Trigger condition="true"><Effect><Func>Movement.SetX((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+		</State>
+		<Trigger>
+			<Condition>StateTime > 20</Condition>
+			<Effect><Die /></Effect>
+		</Trigger>
+	</Entity>
 </Entities>

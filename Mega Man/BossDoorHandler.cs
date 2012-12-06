@@ -5,42 +5,67 @@ namespace MegaMan.Engine
 {
     public class BossDoorHandler : JoinHandler
     {
-        public GameEntity Door { get; private set; }
-        private GameEntity otherDoor;
+        private GameEntity doorOne;
+        private GameEntity doorTwo;
         private bool open;
         private int triggerSize;
 
-        public BossDoorHandler(GameEntity door, GameEntity otherDoor, Join join, int tileSize, int height, int width, string name)
+        private int doorOneX;
+        private int doorOneY;
+        private int doorTwoX;
+        private int doorTwoY;
+
+        public BossDoorHandler(GameEntity doorOne, GameEntity doorTwo, Join join, int tileSize, int height, int width, string name)
             : base(join, tileSize, height, width, name)
         {
-            this.otherDoor = otherDoor;
+            this.doorOne = doorOne;
+            this.doorTwo = doorTwo;
 
-            this.Door = door;
+            if (direction == Direction.Down)
+            {
+                doorOneX = join.offsetOne * tileSize;
+                doorOneY = height - tileSize;
 
-            if (direction == Direction.Down) threshYmin -= tileSize;
+                doorTwoX = join.offsetOne * tileSize;
+                doorTwoY = height;
+            }
             else if (direction == Direction.Left)
             {
-                threshXmin = 0;
-                threshXmax += tileSize;
+                doorOneX = 0;
+                doorOneY = join.offsetTwo * tileSize;
+
+                doorTwoX = -tileSize;
+                doorTwoY = join.offsetTwo * tileSize;
             }
-            else if (direction == Direction.Right) threshXmin -= tileSize;
+            else if (direction == Direction.Right)
+            {
+                doorOneX = width - tileSize;
+                doorOneY = join.offsetOne * tileSize;
+
+                doorTwoX = width;
+                doorTwoY = join.offsetOne * tileSize;
+            }
             else if (direction == Direction.Up)
             {
-                threshYmin = 0;
-                threshYmax += tileSize;
-            }
+                doorOneX = join.offsetTwo * tileSize;
+                doorOneY = 0;
 
-            PositionComponent pos = door.GetComponent<PositionComponent>();
-            pos.SetPosition(new PointF(threshXmin, threshYmin));
+                doorTwoX = join.offsetTwo * tileSize;
+                doorTwoY = -tileSize;
+            }
         }
 
         public override void Start(ScreenHandler screen)
         {
             base.Start(screen);
 
-            Door.Start();
+            doorOne.GetComponent<PositionComponent>().SetPosition(new PointF(doorOneX, doorOneY));
+            doorTwo.GetComponent<PositionComponent>().SetPosition(new PointF(doorTwoX, doorTwoY));
 
-            Door.GetComponent<StateComponent>().StateChanged += s =>
+            doorOne.Start();
+            doorTwo.Start();
+
+            doorOne.GetComponent<StateComponent>().StateChanged += s =>
             {
                 if (s == "Open") open = true;
             };
@@ -48,7 +73,8 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            Door.Die();
+            doorOne.Die();
+            doorTwo.Die();
         }
 
         public override bool Trigger(PointF position)
@@ -59,12 +85,12 @@ namespace MegaMan.Engine
             }
             else if (JoinInfo.direction == JoinDirection.ForwardOnly) return false;
 
-            return (Door.GetComponent<CollisionComponent>()).TouchedBy("Player");
+            return (doorOne.GetComponent<CollisionComponent>()).TouchedBy("Player");
         }
 
         public override void BeginScroll(ScreenHandler next, PointF playerPos)
         {
-            Door.SendMessage(new StateMessage(null, "Opening"));
+            doorOne.SendMessage(new StateMessage(null, "Opening"));
             if (direction == Direction.Down) triggerSize = (int)(height - playerPos.Y);
             else if (direction == Direction.Left) triggerSize = (int)playerPos.X;
             else if (direction == Direction.Right) triggerSize = (int)(width - playerPos.X);
@@ -72,38 +98,33 @@ namespace MegaMan.Engine
 
             base.BeginScroll(next, playerPos);
 
-            if (otherDoor != null)
+            if (doorTwo != null)
             {
-                otherDoor.SendMessage(new StateMessage(null, "Open"));
+                doorTwo.SendMessage(new StateMessage(null, "Open"));
             }
         }
 
         public override void Update(PositionComponent playerPos)
         {
-            if (!open) return;
-
-            scrollDist += Const.ScrollSpeed;
-            if (JoinInfo.type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
-                JoinInfo.type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
+            if (open)
             {
-                scrollDist = JoinInfo.type == JoinType.Vertical ?
-                    Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
+                base.Update(playerPos);
+            }
+        }
 
-                otherDoor.SendMessage(new StateMessage(null, "Closing"));
-                (otherDoor.GetComponent<StateComponent>()).StateChanged += s =>
+        protected override void Finish(PositionComponent playerPos)
+        {
+            scrollDist = JoinInfo.type == JoinType.Vertical ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
+
+            doorTwo.SendMessage(new StateMessage(null, "Closing"));
+            (doorTwo.GetComponent<StateComponent>()).StateChanged += s =>
+            {
+                if (s == "Start")
                 {
-                    if (s == "Start")
-                    {
-                        Finish();
-                        FinalizePlayerPos(playerPos);
-                    }
-                };
-                open = false;
-            }
-            else
-            {
-                MovePlayer(playerPos);
-            }
+                    base.Finish(playerPos);
+                }
+            };
+            open = false;
         }
 
         protected override int TriggerSize()

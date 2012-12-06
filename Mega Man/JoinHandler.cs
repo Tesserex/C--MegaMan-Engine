@@ -8,8 +8,8 @@ namespace MegaMan.Engine
     {
         public Join JoinInfo { get; private set; }
 
-        protected int threshXmin, threshXmax;
-        protected int threshYmin, threshYmax;
+        private int threshXmin, threshXmax;
+        private int threshYmin, threshYmax;
         private readonly int size;
         protected readonly Direction direction;
 
@@ -142,12 +142,14 @@ namespace MegaMan.Engine
             else if (direction == Direction.Up) playerPos.SetPosition(new PointF(playerPos.Position.X, playerPos.Position.Y - tickdist));
         }
 
-        protected void FinalizePlayerPos(PositionComponent playerPos)
+        protected virtual void Finish(PositionComponent playerPos)
         {
             if (direction == Direction.Right) { playerPos.SetPosition(new PointF(OffsetDist(), playerPos.Position.Y + NextScreenY)); }
             else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextWidth - OffsetDist(), playerPos.Position.Y + NextScreenY)); }
             else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, OffsetDist())); }
             else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextHeight - OffsetDist())); }
+
+            if (ScrollDone != null) ScrollDone(this);
         }
 
         public virtual void Update(PositionComponent playerPos)
@@ -156,8 +158,7 @@ namespace MegaMan.Engine
             if (JoinInfo.type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
                 JoinInfo.type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
             {
-                FinalizePlayerPos(playerPos);
-                Finish();
+                Finish(playerPos);
             }
             else
             {
@@ -165,11 +166,6 @@ namespace MegaMan.Engine
             }
 
             Calculate();
-        }
-
-        protected void Finish()
-        {
-            if (ScrollDone != null) ScrollDone(this);
         }
 
         private void Calculate()

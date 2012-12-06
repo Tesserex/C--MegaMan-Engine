@@ -566,16 +566,16 @@ namespace MegaMan.Common
 
     public class SceneConditionCommandInfo : SceneCommandInfo
     {
-        public string ConditionProperty { get; private set; }
-        public string ConditionParameter { get; private set; }
+        public string ConditionExpression { get; private set; }
+        public string ConditionEntity { get; private set; }
         public List<SceneCommandInfo> Commands { get; private set; }
 
         public static SceneConditionCommandInfo FromXml(XElement node, string basePath)
         {
             var info = new SceneConditionCommandInfo();
 
-            info.ConditionProperty = node.RequireAttribute("property").Value;
-            info.ConditionParameter = node.RequireAttribute("parameter").Value;
+            info.ConditionExpression = node.RequireAttribute("condition").Value;
+            info.ConditionEntity = node.RequireAttribute("entity").Value;
             info.Commands = SceneCommandInfo.Load(node, basePath);
 
             return info;
@@ -589,8 +589,8 @@ namespace MegaMan.Common
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Condition");
-            writer.WriteAttributeString("property", ConditionProperty);
-            writer.WriteAttributeString("parameter", ConditionParameter);
+            writer.WriteAttributeString("entity", ConditionEntity);
+            writer.WriteAttributeString("condition", ConditionExpression);
 
             foreach (var cmd in Commands)
             {

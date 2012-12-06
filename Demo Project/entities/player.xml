@@ -877,6 +877,77 @@
 			</Effect>
 		</Trigger>
 	</State>
+	<State name="EndStage">
+		<Sprite><Name>Walking</Name></Sprite>
+		<Trigger>
+			<Condition>Position.Position.X &lt; 127</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Right" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &gt; 129</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Left" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &lt;= 129 And Position.Position.X >= 127</Condition>
+			<Effect>
+				<Position><X base="128" /></Position>
+				<State>EndStageJump</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="EndStageJump">
+		<Sprite><Name>Air</Name></Sprite>
+		<Movement><X magnitude="0" /><Y magnitude="8" direction="Up" /></Movement>
+		<Trigger condition="Position.Position.Y &lt; 64">
+			<Effect>
+				<Movement><Y magnitude="0" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger condition="Position.Position.Y >= 106 And Movement.VelocityY > 0">
+			<Effect>
+				<Position><Y base="108" /></Position>
+				<Movement><Flying>True</Flying><Y magnitude="0" /></Movement>
+				<State>Powerup</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Powerup">
+		<Trigger>
+			<Condition>(StateTime % 24) == 0 And StateTime &lt; 200</Condition>
+			<Effect>
+				<Spawn name="PowerAbsorb" state="UpLeft" />
+				<Spawn name="PowerAbsorb" state="UpRight" />
+				<Spawn name="PowerAbsorb" state="DownLeft" />
+				<Spawn name="PowerAbsorb" state="DownRight" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(StateTime % 24) == 12 And StateTime &lt; 200</Condition>
+			<Effect>
+				<Sound name="Powerup" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 220</Condition>
+			<Effect>
+				<Movement><Flying>False</Flying></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockBottom</Condition>
+			<Effect>
+				<State>TeleportStart</State>
+			</Effect>
+		</Trigger>
+	</State>
 
 	<Trigger>
 		<States>Climbing, ClimbTop</States>

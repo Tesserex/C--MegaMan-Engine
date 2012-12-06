@@ -91,6 +91,11 @@ namespace MegaMan.Engine
                 layer.Start();
             }
 
+            foreach (JoinHandler join in joins)
+            {
+                join.Start(this);
+            }
+
             foreach (BlocksPattern pattern in patterns)
             {
                 pattern.Start();

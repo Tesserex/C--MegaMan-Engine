@@ -49,8 +49,8 @@ namespace MegaMan.Engine
 
                 JoinHandler handlerTwo = CreateJoin(join,
                     screenTwo,
-                    bossDoors[screenOne][join],
-                    bossDoors[screenTwo][join]);
+                    bossDoors[screenTwo][join],
+                    bossDoors[screenOne][join]);
 
                 joins[screenTwo].Add(join, handlerTwo);
             }

@@ -95,15 +95,15 @@
 		<Text font="Pause" x="56" y="32" content="M.Buster" />
 		<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
 
-        <Condition property="WeaponUnlocked" parameter="Gyro">
-            <Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
-            <Text font="Pause" x="56" y="64" content="G.Attack" />
-            <Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
-        </Condition>
+		<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+		<Text font="Pause" x="56" y="64" content="G.Attack" />
+		<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
 
-		<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
-		<Text font="Pause" x="56" y="80" content="C.Eye" />
-		<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="80" />
+		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Crystal&quot;)">
+			<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
+			<Text font="Pause" x="56" y="80" content="C.Eye" />
+			<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="80" />
+		</Condition>
 
 		<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
 		<Text font="Pause" x="56" y="96" content="N.Bomb" />
@@ -158,32 +158,32 @@
 			</Select>
 		</Option>
 
-        <Condition property="WeaponUnlocked" parameter="Gyro">
-		<Option x="32" y="64">
-			<On>
-				<Sound name="Menu" />
-				<Remove name="GyroOff" />
-				<Sprite name="GyroOn" object="GyroOn" x="32" y="64" />
-				<Remove name="GyroMeterOff" />
-				<Add name="GyroMeter" object="GyroMeter" x="56" y="72" />
-				<Add name="GyroMeterBottom" object="GyroMeterBottom" x="148" y="204" />
-				<Effect entity="Player">
-					<Weapon><Change name="Gyro" /></Weapon>
-				</Effect>
-			</On>
-			<Off>
-				<Remove name="GyroOn" />
-				<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
-				<Remove name="GyroMeter" />
-				<Remove name="GyroMeterBottom" />
-				<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="72" />
-			</Off>
-			<Select>
-				<Sound name="pause" />
-				<Next mode="Pop" fade="true" />
-			</Select>
-		</Option>
-        </Condition>
+		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Gyro&quot;)">
+			<Option x="32" y="64">
+				<On>
+					<Sound name="Menu" />
+					<Remove name="GyroOff" />
+					<Sprite name="GyroOn" object="GyroOn" x="32" y="64" />
+					<Remove name="GyroMeterOff" />
+					<Add name="GyroMeter" object="GyroMeter" x="56" y="72" />
+					<Add name="GyroMeterBottom" object="GyroMeterBottom" x="148" y="204" />
+					<Effect entity="Player">
+						<Weapon><Change name="Gyro" /></Weapon>
+					</Effect>
+				</On>
+				<Off>
+					<Remove name="GyroOn" />
+					<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+					<Remove name="GyroMeter" />
+					<Remove name="GyroMeterBottom" />
+					<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="72" />
+				</Off>
+				<Select>
+					<Sound name="pause" />
+					<Next mode="Pop" fade="true" />
+				</Select>
+			</Option>
+		</Condition>
 
 		<Option x="32" y="80">
 			<On>

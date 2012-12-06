@@ -335,11 +335,58 @@
 		</State>
 		<State name="Open">
 			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Clear /></Collision>
 		</State>
 		<State name="Closing">
 			<Sprite><Name>Closing</Name><Visible>True</Visible></Sprite>
 			<Sound name="BossDoor" />
 			<Trigger><Condition>StateTime >= 30</Condition><Effect><State>Start</State></Effect></Trigger>
+		</State>
+	</Entity>
+
+	<Entity name="CrystalDoor">
+		<Tilesheet>images\blocks\crystaldoor.png</Tilesheet>
+		<Sprite name="Closed" width="16" height="48">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Opening" width="16" height="48">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="32" y="0" duration="8" />
+		</Sprite>
+		<Sprite name="Closing" width="16" height="48">
+			<Hotspot x="0" y="0" />
+			<AnimStyle>PlayOnce</AnimStyle>
+			<Frame x="32" y="0" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="0" y="0" duration="8" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Collision>
+			<Hitbox name="H" x="0" y="0" width="16" height="64" properties="block" environment="false">
+				<Group>Door</Group><Hits>Player</Hits><Hits>Enemy</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Sprite><Name>Closed</Name></Sprite>
+			<Collision><EnableBox name="H" /></Collision>
+		</State>
+		<State name="Opening">
+			<Sprite><Name>Opening</Name></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 24</Condition><Effect><State>Open</State></Effect></Trigger>
+		</State>
+		<State name="Open">
+			<Sprite><Visible>False</Visible></Sprite>
+			<Collision><Clear /></Collision>
+		</State>
+		<State name="Closing">
+			<Sprite><Name>Closing</Name><Visible>True</Visible></Sprite>
+			<Sound name="BossDoor" />
+			<Trigger><Condition>StateTime >= 24</Condition><Effect><State>Start</State></Effect></Trigger>
 		</State>
 	</Entity>
 

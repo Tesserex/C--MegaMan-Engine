@@ -573,7 +573,8 @@ namespace System.Linq.Dynamic
             typeof(MegaMan.Engine.SpriteComponent),
             typeof(MegaMan.Engine.LadderComponent),
             typeof(MegaMan.Engine.HealthComponent),
-            typeof(MegaMan.Engine.WeaponComponent)
+            typeof(MegaMan.Engine.WeaponComponent),
+            typeof(MegaMan.Engine.Player)
         };
 
         static readonly Expression trueLiteral = Expression.Constant(true);

@@ -1,4 +1,4 @@
-<Scene name="Crystal" duration="420">
+<Scene name="Crystal" duration="420" canskip="true">
 	<Sprite name="Portal" tilesheet="images/cutscenes/boss/portal.png" width="25" height="35" layer="3">
 		<Hotspot x="12" y="15" />
 		<Frame x="0" y="4" duration="4" />

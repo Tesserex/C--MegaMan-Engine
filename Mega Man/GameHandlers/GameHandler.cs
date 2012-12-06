@@ -289,20 +289,10 @@ namespace MegaMan.Engine
 
         private void ConditionCommand(SceneConditionCommandInfo command)
         {
-            var run = false;
+            var condition = EffectParser.ParseCondition(command.ConditionExpression);
+            var entity = this.Entities.GetEntities(command.ConditionEntity).FirstOrDefault();
 
-            switch (command.ConditionProperty.ToUpper())
-            {
-                case "BOSSDEFEATED":
-                    run = Game.CurrentGame.Player.IsBossDefeated(command.ConditionParameter);
-                    break;
-
-                case "WEAPONUNLOCKED":
-                    run = Game.CurrentGame.Player.IsWeaponUnlocked(command.ConditionParameter);
-                    break;
-            }
-
-            if (run)
+            if (condition(entity))
             {
                 RunCommands(command.Commands);
             }

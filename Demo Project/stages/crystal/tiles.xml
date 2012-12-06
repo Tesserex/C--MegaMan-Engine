@@ -326,4 +326,238 @@
 			<Frame x="112" y="144" duration="8" />
 		</Sprite>
 	</Tile>
+	<Tile id="40" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="41" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="42" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="43" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="44" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="45" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="46" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="47" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="48" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="49" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="50" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="51" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="52" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="53" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="54" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="55" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="56" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="57" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="58" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="59" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="60" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="61" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="62" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="63" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="64" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="65" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="66" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="67" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="68" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="69" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="70" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="71" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="72" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="73" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="74" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="75" name="" properties="Default">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="64" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="76" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="77" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="78" name="" properties="block">
+		<Sprite width="16" height="16">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="224" duration="0" />
+		</Sprite>
+	</Tile>
 </Tileset>

@@ -1,29 +1,29 @@
-<Scene name="BossDefeated" duration="720" canskip="true">
+<Scene name="BossDefeated" duration="1040">
 	<Keyframe frame="0">
 		<StopMusic />
 	</Keyframe>
 	<Keyframe frame="330">
 		<PlayMusic track="18" />
-        <Effect entity="Player">
-            <Movement>
-                <X magnitude="0" />
-            </Movement>
-            <Input><Pause /></Input>
-            <Trigger>
-                <Condition>Weapon.CurrentWeapon == "MBuster"</Condition>
-                <Effect>
-                    <Timer><Delete>Shoot</Delete><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-                    <Sprite><Palette name="MegaMan" index="0" /></Sprite>
-                    <Sound name="Charge" playing="false" />
-                    <Sound name="Charged" playing="false" />
-                </Effect>
-            </Trigger>
-        </Effect>
+		<Effect entity="Player">
+			<Movement>
+				<X magnitude="0" />
+			</Movement>
+			<Input><Pause /></Input>
+			<Trigger>
+				<Condition>Weapon.CurrentWeapon == "MBuster"</Condition>
+				<Effect>
+					<Timer><Delete>Shoot</Delete><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+					<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+					<Sound name="Charge" playing="false" />
+					<Sound name="Charged" playing="false" />
+				</Effect>
+			</Trigger>
+		</Effect>
 	</Keyframe>
-	<Keyframe frame="540">
-        <Effect entity="Player">
-            <State>TeleportStart</State>
-        </Effect>
+	<Keyframe frame="570">
+		<Effect entity="Player">
+			<State>EndStage</State>
+		</Effect>
 	</Keyframe>
 	<Next type="Menu" name="StageSelect" fade="True" />
 </Scene>

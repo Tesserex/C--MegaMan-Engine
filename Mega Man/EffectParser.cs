@@ -23,7 +23,8 @@ namespace MegaMan.Engine
             float playerdx,
             float playerdy,
             bool gravflip,
-            double random
+            double random,
+            Player player
         );
 
     public delegate void SplitEffect(
@@ -36,7 +37,8 @@ namespace MegaMan.Engine
         TimerComponent timer,
         HealthComponent health,
         StateComponent state,
-        WeaponComponent weapon
+        WeaponComponent weapon,
+        Player player
     );
 
     public delegate bool Condition(GameEntity entity);
@@ -60,6 +62,7 @@ namespace MegaMan.Engine
         private static readonly ParameterExpression playerYParam;
         private static readonly ParameterExpression gravParam;
         private static readonly ParameterExpression randParam;
+        private static readonly ParameterExpression playerParam;
 
         private static readonly Dictionary<string, object> dirDict;
 
@@ -83,6 +86,7 @@ namespace MegaMan.Engine
             playerYParam = Expression.Parameter(typeof(float), "PlayerDistY");
             gravParam = Expression.Parameter(typeof(bool), "GravityFlip");
             randParam = Expression.Parameter(typeof(double), "Random");
+            playerParam = Expression.Parameter(typeof(Player), "Game");
 
             dirDict = new Dictionary<string, object>
             {
@@ -96,7 +100,7 @@ namespace MegaMan.Engine
         public static Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam },
+                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
@@ -229,7 +233,7 @@ namespace MegaMan.Engine
                     foreach (string st in statements.Where(st => !string.IsNullOrEmpty(st.Trim())))
                     {
                         LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam },
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitEffect),
                             null,
                             st,
@@ -323,6 +327,16 @@ namespace MegaMan.Engine
         {
             return entity =>
             {
+                if (entity == null)
+                {
+                    return split(
+                        null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
+                        Game.CurrentGame.GravityFlip,
+                        0,
+                        Game.CurrentGame.Player
+                    );
+                }
+
                 PositionComponent pos = entity.GetComponent<PositionComponent>();
                 
                 float pdx = 0;
@@ -353,8 +367,9 @@ namespace MegaMan.Engine
                     pdx,
                     pdy,
                     Game.CurrentGame.GravityFlip,
-                    (entity.GetComponent<StateComponent>()).FrameRand
-                    );
+                    (entity.GetComponent<StateComponent>()).FrameRand,
+                    Game.CurrentGame.Player
+                );
             };
         }
 
@@ -371,7 +386,8 @@ namespace MegaMan.Engine
                 entity.GetComponent<TimerComponent>(),
                 entity.GetComponent<HealthComponent>(),
                 entity.GetComponent<StateComponent>(),
-                entity.GetComponent<WeaponComponent>()
+                entity.GetComponent<WeaponComponent>(),
+                Game.CurrentGame.Player
             );
         }
 
