@@ -297,6 +297,18 @@ namespace MegaMan.Engine
             return entity;
         }
 
+        private static List<Tuple<string, string, int>> neverRespawnable = new List<Tuple<string, string, int>>();
+
+        public static void NeverRespawnAgain(string stage, string screen, int index)
+        {
+            neverRespawnable.Add(new Tuple<string, string, int>(stage, screen, index));
+        }
+
+        public static bool Respawnable(string stage, string screen, int index)
+        {
+            return !neverRespawnable.Contains(new Tuple<string, string, int>(stage, screen, index));
+        }
+
         public static TileProperties GetProperties(string name)
         {
             if (entityProperties.ContainsKey(name)) return entityProperties[name];
@@ -339,6 +351,8 @@ namespace MegaMan.Engine
                 entity.Stop(false);
             }
             entities.Clear();
+
+            neverRespawnable.Clear();
 
             EffectParser.Unload();
         }

@@ -8,7 +8,7 @@
 	</Screen>
 	<Screen id="Boss">
 		<Music nsftrack="11" />
-		<Entity name="CrystalMan" x="200" y="-64" />
+		<Entity name="CrystalMan" x="200" y="-48" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">
 		<Entity name="Collapser" state="" x="138" y="128" />

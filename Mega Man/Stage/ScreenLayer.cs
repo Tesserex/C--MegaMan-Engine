@@ -173,6 +173,10 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
+                GameEntity enemy = GameEntity.Get(info.entity, _stage);
+                if (enemy == null) continue;
+
+                PositionComponent pos = enemy.GetComponent<PositionComponent>();
                 var onScreen = IsOnScreen(info.screenX, info.screenY);
 
                 if (!onScreen)
@@ -180,33 +184,38 @@ namespace MegaMan.Engine
                     _spawnable[i] = true;    // it's off-screen, so it can spawn next time it's on screen
                 }
 
+                var spawnable = (onScreen || pos.PersistOffScreen) && _spawnable[i];
+
                 switch (info.respawn)
                 {
                     case RespawnBehavior.Offscreen:
-                        if (onScreen && _spawnable[i])
+                        if (spawnable)
                         {
-                            PlaceEntity(i);
+                            PlaceEntity(i, enemy);
                         }
                         break;
 
                     case RespawnBehavior.Death:
                     case RespawnBehavior.Stage:
-                        if (onScreen && _spawnable[i] && _respawnable[i])
+                        if (spawnable && _respawnable[i])
                         {
-                            PlaceEntity(i);
+                            PlaceEntity(i, enemy);
+                        }
+                        break;
+
+                    case RespawnBehavior.Never:
+                        if (GameEntity.Respawnable(this._stage.Info.Name, this._info.Name, i))
+                        {
+                            PlaceEntity(i, enemy);
                         }
                         break;
                 }
             }
         }
 
-        private void PlaceEntity(int index)
+        private void PlaceEntity(int index, GameEntity enemy)
         {
             EntityPlacement info = _info.Entities[index];
-            GameEntity enemy = GameEntity.Get(info.entity, _stage);
-            if (enemy == null) return;
-            PositionComponent pos = enemy.GetComponent<PositionComponent>();
-            if (!pos.PersistOffScreen && !IsOnScreen(info.screenX, info.screenY)) return; // what a waste of that allocation...
 
             // can't respawn until the spawn point goes off screen
             _spawnable[index] = false;
@@ -215,11 +224,17 @@ namespace MegaMan.Engine
             {
                 case RespawnBehavior.Death:
                 case RespawnBehavior.Stage:
-                case RespawnBehavior.Never:
                     // don't disable when it goes offscreen, just when the game asks for it to be gone
                     enemy.Removed += () =>
                     {
                         this._respawnable[index] = false;
+                    };
+                    break;
+
+                case RespawnBehavior.Never:
+                    enemy.Removed += () =>
+                    {
+                        GameEntity.NeverRespawnAgain(this._stage.Info.Name, this._info.Name, index);
                     };
                     break;
             }
@@ -229,7 +244,7 @@ namespace MegaMan.Engine
 
             enemy.Start();
 
-            pos.SetPosition(new PointF(info.screenX, info.screenY));
+            enemy.GetComponent<PositionComponent>().SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")
             {
                 StateMessage msg = new StateMessage(null, info.state);
