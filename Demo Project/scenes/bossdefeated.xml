@@ -23,6 +23,8 @@
 	<Keyframe frame="570">
 		<Effect entity="Player">
 			<State>EndStage</State>
+			<UnlockWeapon name="Crystal" />
+			<DefeatBoss name="Crystal" />
 		</Effect>
 	</Keyframe>
 	<Next type="Menu" name="StageSelect" fade="True" />

@@ -103,68 +103,73 @@ namespace MegaMan.Engine
             }
         }
 
-        protected void RunCommands(IEnumerable<SceneCommandInfo> commands)
+        protected virtual void RunCommands(IEnumerable<SceneCommandInfo> commands)
         {
             foreach (var cmd in commands)
             {
-                switch (cmd.Type)
-                {
-                    case SceneCommands.PlayMusic:
-                        PlayMusicCommand((ScenePlayCommandInfo)cmd);
-                        break;
+                RunCommand(cmd);
+            }
+        }
 
-                    case SceneCommands.StopMusic:
-                        StopMusicCommand((SceneStopMusicCommandInfo)cmd);
-                        break;
+        protected void RunCommand(SceneCommandInfo cmd)
+        {
+            switch (cmd.Type)
+            {
+                case SceneCommands.PlayMusic:
+                    PlayMusicCommand((ScenePlayCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Add:
-                        AddCommand((SceneAddCommandInfo)cmd);
-                        break;
+                case SceneCommands.StopMusic:
+                    StopMusicCommand((SceneStopMusicCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Move:
-                        MoveCommand((SceneMoveCommandInfo)cmd);
-                        break;
+                case SceneCommands.Add:
+                    AddCommand((SceneAddCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Remove:
-                        RemoveCommand((SceneRemoveCommandInfo)cmd);
-                        break;
+                case SceneCommands.Move:
+                    MoveCommand((SceneMoveCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Entity:
-                        EntityCommand((SceneEntityCommandInfo)cmd);
-                        break;
+                case SceneCommands.Remove:
+                    RemoveCommand((SceneRemoveCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Text:
-                        TextCommand((SceneTextCommandInfo)cmd);
-                        break;
+                case SceneCommands.Entity:
+                    EntityCommand((SceneEntityCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Fill:
-                        FillCommand((SceneFillCommandInfo)cmd);
-                        break;
+                case SceneCommands.Text:
+                    TextCommand((SceneTextCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.FillMove:
-                        FillMoveCommand((SceneFillMoveCommandInfo)cmd);
-                        break;
+                case SceneCommands.Fill:
+                    FillCommand((SceneFillCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Sound:
-                        SoundCommand((SceneSoundCommandInfo)cmd);
-                        break;
+                case SceneCommands.FillMove:
+                    FillMoveCommand((SceneFillMoveCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Next:
-                        NextCommand((SceneNextCommandInfo)cmd);
-                        break;
+                case SceneCommands.Sound:
+                    SoundCommand((SceneSoundCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Call:
-                        CallCommand((SceneCallCommandInfo)cmd);
-                        break;
+                case SceneCommands.Next:
+                    NextCommand((SceneNextCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Effect:
-                        EffectCommand((SceneEffectCommandInfo)cmd);
-                        break;
+                case SceneCommands.Call:
+                    CallCommand((SceneCallCommandInfo)cmd);
+                    break;
 
-                    case SceneCommands.Condition:
-                        ConditionCommand((SceneConditionCommandInfo)cmd);
-                        break;
-                }
+                case SceneCommands.Effect:
+                    EffectCommand((SceneEffectCommandInfo)cmd);
+                    break;
+
+                case SceneCommands.Condition:
+                    ConditionCommand((SceneConditionCommandInfo)cmd);
+                    break;
             }
         }
 

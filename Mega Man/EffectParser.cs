@@ -214,6 +214,24 @@ namespace MegaMan.Engine
                     };
                     break;
 
+                case "UnlockWeapon":
+                    string weaponName = node.RequireAttribute("name").Value;
+                    
+                    effect = entity =>
+                    {
+                        Game.CurrentGame.Player.UnlockWeapon(weaponName);
+                    };
+                    break;
+
+                case "DefeatBoss":
+                    string name = node.RequireAttribute("name").Value;
+
+                    effect = entity =>
+                    {
+                        Game.CurrentGame.Player.DefeatBoss(name);
+                    };
+                    break;
+
                 case "Lives":
                     int add = int.Parse(node.RequireAttribute("add").Value);
                     effect = entity =>

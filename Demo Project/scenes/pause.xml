@@ -95,9 +95,11 @@
 		<Text font="Pause" x="56" y="32" content="M.Buster" />
 		<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
 
-		<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
-		<Text font="Pause" x="56" y="64" content="G.Attack" />
-		<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
+		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Gyro&quot;)">
+			<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
+			<Text font="Pause" x="56" y="64" content="G.Attack" />
+			<Add name="GyroMeterOff" object="GyroMeterOff" x="56" y="64" />
+		</Condition>
 
 		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Crystal&quot;)">
 			<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
@@ -185,6 +187,7 @@
 			</Option>
 		</Condition>
 
+		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Crystal&quot;)">
 		<Option x="32" y="80">
 			<On>
 				<Sound name="Menu" />
@@ -209,6 +212,7 @@
 				<Next mode="Pop" fade="true" />
 			</Select>
 		</Option>
+		</Condition>
 
 		<Option x="32" y="96">
 			<On>

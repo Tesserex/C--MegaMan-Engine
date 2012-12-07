@@ -36,7 +36,11 @@
 
 		<Sprite name="Blade" object="Blade" x="40" y="32" />
 		<Sprite name="Drill" object="Drill" x="112" y="32" />
-		<Sprite name="Crystal" object="Crystal" x="184" y="32" />
+
+		<Condition entity="Player" condition="!Game.IsBossDefeated(&quot;Crystal&quot;)">
+			<Sprite name="Crystal" object="Crystal" x="184" y="32" />
+		</Condition>
+
 		<Sprite name="Elec" object="Elec" x="40" y="96" />
 		<Sprite name="Tornado" object="Tornado" x="184" y="96" />
 		<Sprite name="Metal" object="Metal" x="40" y="160" />
@@ -94,7 +98,12 @@
 				<SpriteMove name="RightEye" x="133" y="110" />
 			</On>
 			<Select>
-				<Next type="Scene" name="Crystal" fade="True" />
+				<Condition entity="Player" condition="!Game.IsBossDefeated(&quot;Crystal&quot;)">
+					<Next type="Scene" name="Crystal" fade="True" />
+				</Condition>
+				<Condition entity="Player" condition="Game.IsBossDefeated(&quot;Crystal&quot;)">
+					<Next type="stage" name="Crystal" fade="True" />
+				</Condition>
 				<Sound name="Select" />
 			</Select>
 		</Option>

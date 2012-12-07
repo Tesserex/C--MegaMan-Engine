@@ -42,6 +42,19 @@ namespace MegaMan.Engine
             RunCommands(this.state.Commands);
         }
 
+        protected override void RunCommands(IEnumerable<SceneCommandInfo> commands)
+        {
+            base.RunCommands(commands);
+
+            foreach (var cmd in commands)
+            {
+                if (cmd.Type == SceneCommands.Option)
+                {
+                    this.options.Add((MenuOptionCommandInfo)cmd);
+                }
+            }
+        }
+
         protected override void GameInputReceived(GameInputEventArgs e)
         {
             if (!e.Pressed) return;
