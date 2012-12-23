@@ -7,6 +7,9 @@
 		<Entity entity="Seeker" state="" x="209" y="79" />
 	</Screen>
 	<Screen id="Boss">
+		<Condition condition="Game.IsBossDefeated(&quot;Crystal&quot;)">
+			<Next type="Scene" mode="Push" name="LeaveStage" />
+		</Condition>
 		<Entity entity="CrystalMan" x="200" y="-48" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">

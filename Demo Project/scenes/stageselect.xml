@@ -27,6 +27,9 @@
 	<Sprite name="Centaur" tilesheet="images/cutscenes/stageselect/centaur.png" width="32" height="32" layer="3"><Hotspot x="0" y="0" /><Frame x="0" y="0" duration="0" /></Sprite>
 	<State name="Start">
 		<PlayMusic track="14" />
+		<Effect>
+			<Palette name="MegaMan" index="0" />
+		</Effect>
 		<Sprite object="Background" x="0" y="0" />
 		<Fill name="Corneas" color="248,248,248" x="112" y="96" width="32" height="32" layer="2" />
 		<Sprite name="Frame" object="Frame" x="32" y="24" />

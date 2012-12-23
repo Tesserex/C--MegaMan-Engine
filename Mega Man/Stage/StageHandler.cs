@@ -168,7 +168,6 @@ namespace MegaMan.Engine
         private void Reset()
         {
             StopHandler();
-            GameEntity.StopAll();
 
             if (Game.CurrentGame.Player.Lives < 0) // game over!
             {
@@ -362,6 +361,8 @@ namespace MegaMan.Engine
             StopDrawing();
 
             Engine.Instance.GameRender -= BlinkReady;
+
+            GameEntity.StopAll();
         }
 
         private int pauseCount = 1; // starts paused

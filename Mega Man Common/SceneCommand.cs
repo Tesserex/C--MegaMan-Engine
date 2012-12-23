@@ -584,7 +584,13 @@ namespace MegaMan.Common
             var info = new SceneConditionCommandInfo();
 
             info.ConditionExpression = node.RequireAttribute("condition").Value;
-            info.ConditionEntity = node.RequireAttribute("entity").Value;
+
+            var attr = node.Attribute("entity");
+            if (attr != null)
+            {
+                info.ConditionEntity = attr.Value;
+            }
+            
             info.Commands = SceneCommandInfo.Load(node, basePath);
 
             return info;
@@ -598,7 +604,12 @@ namespace MegaMan.Common
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Condition");
-            writer.WriteAttributeString("entity", ConditionEntity);
+
+            if (ConditionEntity != null)
+            {
+                writer.WriteAttributeString("entity", ConditionEntity);
+            }
+
             writer.WriteAttributeString("condition", ConditionExpression);
 
             foreach (var cmd in Commands)

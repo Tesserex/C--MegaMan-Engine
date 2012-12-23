@@ -1,0 +1,9 @@
+<Scene name="LeaveStage" duration="240">
+	<Keyframe frame="0">
+		<Effect entity="Player">
+			<Input><Pause /></Input>
+			<State>LeaveStage</State>
+		</Effect>
+	</Keyframe>
+	<Next type="Menu" name="StageSelect" fade="True" />
+</Scene>
