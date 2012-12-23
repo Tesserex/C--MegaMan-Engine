@@ -386,7 +386,7 @@
 		<Sound name="TeleportOut" />
 		<Movement>
 			<Flying>True</Flying>
-			<X magnitude="0" /><Y magnitude="6" direction="Up" />
+			<X magnitude="0" /><Y magnitude="10" direction="Up" />
 		</Movement>
 		<Collision><Enabled>False</Enabled></Collision>
 	</State>
@@ -906,11 +906,6 @@
 	<State name="EndStageJump">
 		<Sprite><Name>Air</Name></Sprite>
 		<Movement><X magnitude="0" /><Y magnitude="8" direction="Up" /></Movement>
-		<Trigger condition="Position.Position.Y &lt; 64">
-			<Effect>
-				<Movement><Y magnitude="0" /></Movement>
-			</Effect>
-		</Trigger>
 		<Trigger condition="Position.Position.Y >= 106 And Movement.VelocityY > 0">
 			<Effect>
 				<Position><Y base="108" /></Position>

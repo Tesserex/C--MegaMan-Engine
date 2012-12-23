@@ -27,5 +27,5 @@
 			<DefeatBoss name="Crystal" />
 		</Effect>
 	</Keyframe>
-	<Next type="Menu" name="StageSelect" fade="True" />
+	<Next type="scene" name="CrystalWeapon" fade="True" />
 </Scene>

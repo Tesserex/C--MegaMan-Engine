@@ -82,4 +82,44 @@
 			</Trigger>
 		</State>
 	</Entity>
+	<Entity name="TopWeaponBorder">
+		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<State name="Start">
+			<Movement>
+				<Flying>True</Flying>
+				<Y magnitude="2.5" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y >= 48</Condition>
+				<Effect>
+					<Position><Y base="48" /></Position>
+					<Movement>
+						<Y magnitude="0"/>
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="BottomWeaponBorder">
+		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
+			<Frame x="0" y="23" duration="0" />
+		</Sprite>
+		<State name="Start">
+			<Movement>
+				<Flying>True</Flying>
+				<Y magnitude="2.5" direction="Up" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y &lt;= 142</Condition>
+				<Effect>
+					<Position><Y base="142" /></Position>
+					<Movement>
+						<Y magnitude="0"/>
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
 </Entities>

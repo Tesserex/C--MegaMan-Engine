@@ -547,7 +547,12 @@ namespace MegaMan.Common
             var info = new SceneEffectCommandInfo();
 
             info.GeneratedName = Guid.NewGuid().ToString();
-            info.EntityName = node.RequireAttribute("entity").Value;
+
+            var attr = node.Attribute("entity");
+            if (attr != null)
+            {
+                info.EntityName = attr.Value;
+            }
             info.EffectNode = node;
 
             return info;
@@ -560,7 +565,13 @@ namespace MegaMan.Common
 
         public override void Save(XmlTextWriter writer)
         {
-            throw new NotImplementedException();
+            writer.WriteStartElement("Effect");
+            if (EntityName != null)
+            {
+                writer.WriteAttributeString("entity", EntityName);
+            }
+            EffectNode.WriteTo(writer);
+            writer.WriteEndElement();
         }
     }
 

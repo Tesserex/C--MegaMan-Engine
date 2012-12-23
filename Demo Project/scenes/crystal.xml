@@ -61,7 +61,7 @@
 		<Entity entity="SmallStar" x="176" y="-12" />
 		<Entity entity="TopBorder" x="0" y="-32" />
 		<Entity entity="BottomBorder" x="0" y="224" />
-		<Fill name="Blue" color="0,0,255" x="0" y="0" width="256" height="224" layer="2" />
+		<Fill name="Blue" color="0,0,224" x="0" y="0" width="256" height="224" layer="2" />
 		<FillMove name="Blue" x="0" y="72" width="256" height="70" duration="32" />
 	</Keyframe>
 	<Keyframe frame="32">

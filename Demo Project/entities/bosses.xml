@@ -62,6 +62,9 @@
 				<FlipSprite>True</FlipSprite>
 				<X magnitude="1" direction="Left" /><X magnitude="0" />
 			</Movement>
+			<Trigger condition="StateTime == 1">
+				<Effect><Next mode="Push" type="Scene" name="BossIntro" /></Effect>
+			</Trigger>
 			<Trigger condition="StateTime == 30">
 				<Effect>
 					<Collision>
@@ -72,6 +75,7 @@
 			<Trigger condition="Collision.BlockBottom"><Effect><State>Pose</State></Effect></Trigger>
 		</State>
 		<State name="Pose">
+			<Health change="-28" />
 			<Sprite><Name>Pose</Name></Sprite>
 			<Trigger condition="StateTime >= 180">
 				<Effect>

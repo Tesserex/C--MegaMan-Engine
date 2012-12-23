@@ -33,8 +33,6 @@ namespace MegaMan.Common
         public int PixelHeight { get { return Layers[0].Tiles.PixelHeight; } }
         public Tileset Tileset { get; set; }
 
-        public bool IsBossRoom { get; private set; }
-
         #endregion Properties
 
         public ScreenInfo(string name, Tileset tileset)

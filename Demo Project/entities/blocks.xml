@@ -367,7 +367,7 @@
 		<Position persistoffscreen="true" />
 		<Collision>
 			<Hitbox name="H" x="0" y="0" width="16" height="64" properties="block" environment="false">
-				<Group>Door</Group><Hits>Player</Hits><Hits>Enemy</Hits>
+				<Hits>Solid</Hits><Group>Door</Group><Hits>Player</Hits><Hits>Enemy</Hits>
 			</Hitbox>
 		</Collision>
 		<State name="Start">

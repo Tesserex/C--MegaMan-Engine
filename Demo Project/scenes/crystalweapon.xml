@@ -1,0 +1,100 @@
+<Scene name="CrystalWeapon" duration="600" canskip="true">
+	<Sprite name="MegaManSpin" palette="MegaMan" tilesheet="images/cutscenes/megaman_spin.png" width="21" height="24" layer="3">
+		<Hotspot x="12" y="15" />
+		<Frame x="174" y="0" duration="5" />
+		<Frame x="147" y="0" duration="5" />
+		<Frame x="124" y="0" duration="5" />
+		<Frame x="100" y="0" duration="5" />
+		<Frame x="73" y="0" duration="5" />
+		<Frame x="47" y="0" duration="5" />
+		<Frame x="23" y="0" duration="5" />
+		<Frame x="0" y="0" duration="5" />
+	</Sprite>
+	<Sprite name="MegaManStand" palette="MegaMan" tilesheet="images/cutscenes/megaman_spin.png" width="21" height="24" layer="3">
+		<Hotspot x="12" y="15" />
+		<Frame x="174" y="0" duration="0" />
+	</Sprite>
+	<Keyframe frame="0">
+		<PlayMusic track="21" />
+		<Fill name="Background" color="0,0,0" x="0" y="0" width="256" height="224" layer="0" />
+		<Entity entity="BigStar" x="196" y="155" />
+		<Entity entity="BigStar" x="307" y="-100" />
+		<Entity entity="BigStar" x="416" y="-85" />
+		<Entity entity="BigStar" x="95" y="-47" />
+		<Entity entity="BigStar" x="394" y="-223" />
+		<Entity entity="BigStar" x="115" y="70" />
+		<Entity entity="BigStar" x="52" y="-119" />
+		<Entity entity="BigStar" x="340" y="-10" />
+		<Entity entity="BigStar" x="507" y="-128" />
+		<Entity entity="BigStar" x="462" y="-175" />
+		<Entity entity="BigStar" x="60" y="190" />
+		<Entity entity="BigStar" x="392" y="97" />
+		<Entity entity="BigStar" x="238" y="22" />
+		<Entity entity="SmallStar" x="90" y="-14" />
+		<Entity entity="SmallStar" x="36" y="168" />
+		<Entity entity="SmallStar" x="366" y="-60" />
+		<Entity entity="SmallStar" x="468" y="-162" />
+		<Entity entity="SmallStar" x="76" y="203" />
+		<Entity entity="SmallStar" x="295" y="-129" />
+		<Entity entity="SmallStar" x="194" y="84" />
+		<Entity entity="SmallStar" x="283" y="-4" />
+		<Entity entity="SmallStar" x="17" y="104" />
+		<Entity entity="SmallStar" x="79" y="-132" />
+		<Entity entity="SmallStar" x="90" y="161" />
+		<Entity entity="SmallStar" x="151" y="139" />
+		<Entity entity="SmallStar" x="365" y="59" />
+		<Entity entity="SmallStar" x="458" y="-98" />
+		<Entity entity="SmallStar" x="349" y="-197" />
+		<Entity entity="SmallStar" x="97" y="82" />
+		<Entity entity="SmallStar" x="262" y="139" />
+		<Entity entity="SmallStar" x="176" y="-12" />
+		<Entity entity="TopWeaponBorder" x="0" y="-32" />
+		<Entity entity="BottomWeaponBorder" x="0" y="224" />
+		<Fill name="Green" color="0,96,0" x="0" y="0" width="256" height="224" layer="2" />
+		<FillMove name="Green" x="0" y="71" width="256" height="71" duration="32" />
+	</Keyframe>
+	<Keyframe frame="30">
+		<Sprite name="MegaManSpin" object="MegaManSpin" x="122" y="104" />
+	</Keyframe>
+	<Keyframe frame="160">
+		<Effect>
+			<Palette name="MegaMan" index="8" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="172">
+		<Effect>
+			<Palette name="MegaMan" index="0" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="184">
+		<Effect>
+			<Palette name="MegaMan" index="8" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="196">
+		<Effect>
+			<Palette name="MegaMan" index="0" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="208">
+		<Effect>
+			<Palette name="MegaMan" index="8" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="220">
+		<Effect>
+			<Palette name="MegaMan" index="0" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="232">
+		<Remove name="MegaManSpin" />
+		<Sprite name="MegaManStand" object="MegaManStand" x="122" y="104" />
+		<Effect>
+			<Palette name="MegaMan" index="8" />
+		</Effect>
+	</Keyframe>
+	<Keyframe frame="300">
+		<Text content="YOU GOT CRYSTAL EYE." x="40" y="172" speed="8" />
+	</Keyframe>
+	<Next type="Menu" name="StageSelect" fade="True" />
+</Scene>
