@@ -247,7 +247,6 @@ namespace MegaMan.Engine
             {
                 if (music != null) music.Stop();
                 if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
-                
             }
 
             if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)nextScreen.Screen.MusicNsfTrack);

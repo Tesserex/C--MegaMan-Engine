@@ -285,11 +285,8 @@ namespace MegaMan.Engine
         {
             var entity = Entities.GetEntities(command.EntityName).FirstOrDefault();
 
-            if (entity != null)
-            {
-                var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
-                effect(entity);
-            }
+            var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
+            effect(entity);
         }
 
         private void ConditionCommand(SceneConditionCommandInfo command)

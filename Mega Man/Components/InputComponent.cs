@@ -40,7 +40,10 @@ namespace MegaMan.Engine
             }
         }
 
-        private bool KeyVal(GameInput key) { return (!Paused && activeKeys.ContainsKey(key))? activeKeys[key] : false; }
+        private bool KeyVal(GameInput key)
+        {
+            return (!Paused && activeKeys.ContainsKey(key))? activeKeys[key] : false;
+        }
 
         public override Component Clone()
         {

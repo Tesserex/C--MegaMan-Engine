@@ -42,7 +42,7 @@
 			<Hotspot x="12" y="23" />
 			<Frame x="196" y="110" duration="0" />
 		</Sprite>
-		<Health>
+		<Health startValue="0">
 			<Max>28</Max>
 			<Meter x="32" y="16" background="images\meters\healthmeter_back.png" image="images\meters\crystalhealth.png">
 				<Sound name="MeterTick" />
@@ -75,11 +75,15 @@
 			<Trigger condition="Collision.BlockBottom"><Effect><State>Pose</State></Effect></Trigger>
 		</State>
 		<State name="Pose">
-			<Health change="-28" />
 			<Sprite><Name>Pose</Name></Sprite>
 			<Trigger condition="StateTime >= 180">
 				<Effect>
 					<State>Stand</State>
+				</Effect>
+			</Trigger>
+			<Trigger condition="StateTime == 90">
+				<Effect>
+					<Health change="28" />
 				</Effect>
 			</Trigger>
 		</State>

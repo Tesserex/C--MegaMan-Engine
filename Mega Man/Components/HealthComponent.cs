@@ -6,6 +6,9 @@ namespace MegaMan.Engine
 {
     public class HealthComponent : Component
     {
+        // alive is set to true if health ever goes above zero
+        private bool alive = false;
+
         private float maxHealth;
         private float health;
         private HealthMeter meter;
@@ -19,6 +22,12 @@ namespace MegaMan.Engine
             {
                 health = value;
                 if (health > maxHealth) health = maxHealth;
+
+                if (health > 0)
+                {
+                    alive = true;
+                }
+
                 if (meter != null)
                 {
                     meter.Value = health;
@@ -30,6 +39,8 @@ namespace MegaMan.Engine
                 }
             }
         }
+
+        public float StartHealth { get; private set; }
         public float MaxHealth { get { return maxHealth; } }
         public bool Hit { get; private set; }
 
@@ -37,15 +48,15 @@ namespace MegaMan.Engine
 
         private void Instance_GameCleanup()
         {
-            if (health <= 0) Parent.Die();
+            if (alive && Health <= 0) Parent.Die();
         }
 
         public override Component Clone()
         {
             HealthComponent copy = new HealthComponent
             {
+                StartHealth = this.StartHealth,
                 maxHealth = this.maxHealth,
-                health = this.health,
                 flashtime = this.flashtime,
                 meter = this.meter
             };
@@ -61,7 +72,8 @@ namespace MegaMan.Engine
         {
             Parent.Container.GameThink += Update;
             Parent.Container.GameCleanup += Instance_GameCleanup;
-            Health = MaxHealth;
+            Health = StartHealth;
+
             if (meter != null)
             {
                 meter.Start(Parent.Container);
@@ -123,16 +135,28 @@ namespace MegaMan.Engine
             
         }
 
-        public override void LoadXml(XElement xml)
+        public override void LoadXml(XElement node)
         {
-            XElement maxNode = xml.Element("Max");
+            XElement maxNode = node.Element("Max");
             if (maxNode != null)
             {
-                if (!maxNode.Value.TryParse(out maxHealth)) throw new GameXmlException(maxNode, "Health maximum was not a valid number.");
-                health = maxHealth;
+                if (!maxNode.Value.TryParse(out maxHealth))
+                {
+                    throw new GameXmlException(maxNode, "Health maximum was not a valid number.");
+                }
             }
 
-            XElement meterNode = xml.Element("Meter");
+            float startHealth;
+            if (node.TryFloat("startValue", out startHealth))
+            {
+                StartHealth = startHealth;
+            }
+            else
+            {
+                StartHealth = MaxHealth;
+            }
+
+            XElement meterNode = node.Element("Meter");
             if (meterNode != null)
             {
                 meter = HealthMeter.Create(meterNode, true);
@@ -140,7 +164,7 @@ namespace MegaMan.Engine
                 meter.IsPlayer = (Parent.Name == "Player");
             }
 
-            XElement flashNode = xml.Element("Flash");
+            XElement flashNode = node.Element("Flash");
             if (flashNode != null)
             {
                 if (!int.TryParse(flashNode.Value, out flashtime)) throw new GameXmlException(flashNode, "Health flash time was not a valid number.");

@@ -71,10 +71,10 @@ namespace MegaMan.Engine
             {
                 if (running && value > this.value) // tick up slowly
                 {
-                    tickframes = 0;
                     stopvalue = (int)value;
                     if (!animating)
                     {
+                        tickframes = 0;
                         Engine.Instance.GameLogicTick += GameTick;
                         if (IsPlayer) container.PauseHandler();
                         animating = true;
