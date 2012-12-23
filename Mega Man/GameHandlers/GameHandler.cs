@@ -9,11 +9,11 @@ namespace MegaMan.Engine
 {
     public abstract class GameHandler : IGameplayContainer
     {
-        protected HandlerInfo Info { get; set; }
+        public virtual HandlerInfo Info { get; set; }
 
-        protected Dictionary<string, IHandlerObject> objects;
+        protected Dictionary<string, IHandlerObject> objects = new Dictionary<string, IHandlerObject>();
 
-        public IEntityContainer Entities { get; set; }
+        public virtual IEntityContainer Entities { get; set; }
 
         public event Action GameThink;
         public event Action GameAct;
@@ -35,7 +35,7 @@ namespace MegaMan.Engine
             StartDrawing();
         }
 
-        public void PauseHandler()
+        public virtual void PauseHandler()
         {
             if (!running) return;
             Engine.Instance.GameLogicTick -= Tick;
@@ -43,7 +43,7 @@ namespace MegaMan.Engine
             running = false;
         }
 
-        public void ResumeHandler()
+        public virtual void ResumeHandler()
         {
             if (running) return;
             Engine.Instance.GameLogicTick += Tick;
@@ -51,7 +51,7 @@ namespace MegaMan.Engine
             running = true;
         }
 
-        public void StopHandler()
+        public virtual void StopHandler()
         {
             PauseHandler();
             StopDrawing();
@@ -111,7 +111,7 @@ namespace MegaMan.Engine
             }
         }
 
-        protected void RunCommand(SceneCommandInfo cmd)
+        protected virtual void RunCommand(SceneCommandInfo cmd)
         {
             switch (cmd.Type)
             {
@@ -175,7 +175,16 @@ namespace MegaMan.Engine
 
         private void PlayMusicCommand(ScenePlayCommandInfo command)
         {
-            Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
+            if (command.LoopPath != null)
+            {
+                string intropath = (command.IntroPath != null) ? command.IntroPath.Absolute : null;
+                string looppath = (command.LoopPath != null) ? command.LoopPath.Absolute : null;
+                Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1).Play();
+            }
+            else
+            {
+                Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
+            }
         }
 
         private void StopMusicCommand(SceneStopMusicCommandInfo command)
@@ -222,11 +231,11 @@ namespace MegaMan.Engine
 
         private void EntityCommand(SceneEntityCommandInfo command)
         {
-            var entity = GameEntity.Get(command.Entity, this);
-            entity.GetComponent<PositionComponent>().SetPosition(command.X, command.Y);
-            if (!string.IsNullOrEmpty(command.State))
+            var entity = GameEntity.Get(command.Placement.entity, this);
+            entity.GetComponent<PositionComponent>().SetPosition(command.Placement.screenX, command.Placement.screenY);
+            if (!string.IsNullOrEmpty(command.Placement.state))
             {
-                entity.SendMessage(new StateMessage(null, command.State));
+                entity.SendMessage(new StateMessage(null, command.Placement.state));
             }
             Entities.AddEntity(entity);
             entity.Start();

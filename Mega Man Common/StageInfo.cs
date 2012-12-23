@@ -52,7 +52,7 @@ namespace MegaMan.Common
         public string bossEntityName;
     }
 
-    public class StageInfo {
+    public class StageInfo : HandlerInfo {
         private Dictionary<string, Point> continuePoints;
         public IDictionary<string, Point> ContinuePoints { get { return continuePoints; } }
 
@@ -66,8 +66,6 @@ namespace MegaMan.Common
         public int PlayerStartY { get; set; }
 
         public Tileset Tileset { get; private set; }
-
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the absolute file path to the directory where this stage is stored

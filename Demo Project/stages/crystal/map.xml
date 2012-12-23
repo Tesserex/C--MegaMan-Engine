@@ -2,22 +2,21 @@
 	<Music nsftrack="5" />
 	<Start screen="Tunnel" x="116" y="164" />
 	<Screen id="Start">
-		<Entity name="Seeker" state="" x="230" y="126" />
-		<Entity name="Seeker" state="" x="164" y="54" />
-		<Entity name="Seeker" state="" x="209" y="79" />
+		<Entity entity="Seeker" state="" x="230" y="126" />
+		<Entity entity="Seeker" state="" x="164" y="54" />
+		<Entity entity="Seeker" state="" x="209" y="79" />
 	</Screen>
 	<Screen id="Boss">
-		<Music nsftrack="11" />
-		<Entity name="CrystalMan" x="200" y="-48" respawn="Never" />
+		<Entity entity="CrystalMan" x="200" y="-48" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">
-		<Entity name="Collapser" state="" x="138" y="128" />
-		<Entity name="Collapser" state="" x="176" y="96" />
+		<Entity entity="Collapser" state="" x="138" y="128" />
+		<Entity entity="Collapser" state="" x="176" y="96" />
 	</Screen>
 	<Screen id="4">
-		<Entity name="EnergyTank" state="" x="48" y="105" />
-		<Entity name="ShieldGuy" state="" x="52" y="161" />
-		<Entity name="ShieldShooter" state="" x="160" y="96" />
+		<Entity entity="EnergyTank" state="" x="48" y="105" />
+		<Entity entity="ShieldGuy" state="" x="52" y="161" />
+		<Entity entity="ShieldShooter" state="" x="160" y="96" />
 	</Screen>
 	<Screen id="Tunnel" />
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />

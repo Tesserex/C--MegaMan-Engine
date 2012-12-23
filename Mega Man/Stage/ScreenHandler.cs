@@ -22,8 +22,6 @@ namespace MegaMan.Engine
 
         private float centerX, centerY;
 
-        public Music Music { get; private set; }
-
         private float _offsetX, _offsetY;
 
         public float OffsetX
@@ -57,10 +55,8 @@ namespace MegaMan.Engine
         public event Action<JoinHandler> JoinTriggered;
         public event Action<TeleportInfo> Teleport;
 
-        public event Action BossDefeated;
-
         public ScreenHandler(ScreenInfo screen, IEnumerable<ScreenLayer> layers, IEnumerable<JoinHandler> joins,
-            IEnumerable<BlocksPattern> blockPatterns, Music music, IGameplayContainer container)
+            IEnumerable<BlocksPattern> blockPatterns, IGameplayContainer container)
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
@@ -73,8 +69,6 @@ namespace MegaMan.Engine
             this.joins = joins;
 
             teleportEnabled = new List<bool>(screen.Teleports.Select(info => false));
-
-            Music = music;
 
             this.container = container;
         }

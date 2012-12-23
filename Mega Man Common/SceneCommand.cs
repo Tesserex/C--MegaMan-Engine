@@ -40,7 +40,8 @@ namespace MegaMan.Common
                 switch (cmdNode.Name.LocalName)
                 {
                     case "PlayMusic":
-                        list.Add(ScenePlayCommandInfo.FromXml(cmdNode));
+                    case "Music":
+                        list.Add(ScenePlayCommandInfo.FromXml(cmdNode, basePath));
                         break;
 
                     case "StopMusic":
@@ -111,11 +112,24 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.PlayMusic; } }
         public int Track { get; set; }
+        public FilePath IntroPath { get; set; }
+        public FilePath LoopPath { get; set; }
 
-        public static ScenePlayCommandInfo FromXml(XElement node)
+        public static ScenePlayCommandInfo FromXml(XElement node, string basePath)
         {
             var info = new ScenePlayCommandInfo();
-            info.Track = node.GetInteger("track");
+
+            int track;
+            if (node.TryInteger("nsftrack", out track) || node.TryInteger("track", out track))
+            {
+                info.Track = track;
+            }
+
+            XElement intro = node.Element("Intro");
+            XElement loop = node.Element("Loop");
+            info.IntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, basePath) : null;
+            info.LoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, basePath) : null;
+
             return info;
         }
 
@@ -197,34 +211,18 @@ namespace MegaMan.Common
     public class SceneEntityCommandInfo : SceneCommandInfo
     {
         public override SceneCommands Type { get { return SceneCommands.Entity; } }
-        public string Name { get; set; }
-        public string Entity { get; set; }
-        public string State { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public EntityPlacement Placement { get; set; }
 
         public static SceneEntityCommandInfo FromXml(XElement node)
         {
             var info = new SceneEntityCommandInfo();
-            info.Entity = node.RequireAttribute("entity").Value;
-            var nameAttr = node.Attribute("name");
-            if (nameAttr != null) info.Name = nameAttr.Value;
-            var stateAttr = node.Attribute("state");
-            if (stateAttr != null) info.State = stateAttr.Value;
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
+            info.Placement = EntityPlacement.FromXml(node);
             return info;
         }
 
         public override void Save(XmlTextWriter writer)
         {
-            writer.WriteStartElement("Entity");
-            if (!string.IsNullOrEmpty(Name)) writer.WriteAttributeString("name", Name);
-            writer.WriteAttributeString("entity", Entity);
-            if (!string.IsNullOrEmpty(State)) writer.WriteAttributeString("state", State);
-            writer.WriteAttributeString("x", X.ToString());
-            writer.WriteAttributeString("y", Y.ToString());
-            writer.WriteEndElement();
+            this.Placement.Save(writer);
         }
     }
 

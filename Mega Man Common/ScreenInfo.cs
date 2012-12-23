@@ -18,9 +18,7 @@ namespace MegaMan.Common
     public class ScreenInfo
     {
         #region Properties
-        public FilePath MusicIntroPath { get; set; }
-        public FilePath MusicLoopPath { get; set; }
-        public int MusicNsfTrack { get; set; }
+        public List<SceneCommandInfo> Commands { get; set; }
 
         public List<ScreenLayerInfo> Layers { get; private set; }
         public List<BlockPatternInfo> BlockPatterns { get; private set; }
@@ -50,13 +48,9 @@ namespace MegaMan.Common
             writer.WriteStartElement("Screen");
             writer.WriteAttributeString("id", Name);
 
-            if (MusicIntroPath != null || MusicLoopPath != null || MusicNsfTrack > 0)
+            foreach (var command in Commands)
             {
-                writer.WriteStartElement("Music");
-                if (MusicNsfTrack > 0) writer.WriteAttributeString("nsftrack", MusicNsfTrack.ToString());
-                if (MusicIntroPath != null && !string.IsNullOrEmpty(MusicIntroPath.Relative)) writer.WriteElementString("Intro", MusicIntroPath.Relative);
-                if (MusicLoopPath != null && !string.IsNullOrEmpty(MusicLoopPath.Relative)) writer.WriteElementString("Loop", MusicLoopPath.Relative);
-                writer.WriteEndElement();
+                command.Save(writer);
             }
 
             foreach (var info in Layers[0].Entities)

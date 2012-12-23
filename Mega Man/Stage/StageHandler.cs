@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
-    public class StageHandler : IGameplayContainer
+    public class StageHandler : GameHandler
     {
         private int playerDeadCount;
 
@@ -32,8 +32,8 @@ namespace MegaMan.Engine
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
-        public StageInfo Info { get; private set; }
-
+        private StageInfo info;
+        
         public HandlerTransfer WinHandler { get; set; }
 
         public HandlerTransfer LoseHandler { get; set; }
@@ -44,47 +44,19 @@ namespace MegaMan.Engine
 
         public GameEntity Player { get; private set; }
 
-        public IEntityContainer Entities { get { return _currentScreen; } }
-
-        /// <summary>
-        /// This is the first phase of game logic, but comes after the GameLogicTick event.
-        /// During this phase, entities should "think" - decide what they want to do this frame.
-        /// </summary>
-        public event Action GameThink;
-
-        /// <summary>
-        /// During this phase, which comes between GameThink and GameReact, entities should carry out
-        /// the actions decided during the thinking phase. Mainly used for movement.
-        /// </summary>
-        public event Action GameAct;
-
-        /// <summary>
-        /// This is the last logic phase, in which entities should react to the actions of other
-        /// entities on the screen. Primarily used for collision detection and response.
-        /// </summary>
-        public event Action GameReact;
-
-        /// <summary>
-        /// The final phase before rendering. Used to delete entities,
-        /// so please do not enumerate through entity collections during this phase. If you must,
-        /// then make a copy first.
-        /// </summary>
-        public event Action GameCleanup;
-
-        public event GameRenderEventHandler Draw;
-
-        public event Action<HandlerTransfer> End;
+        public override IEntityContainer Entities { get { return _currentScreen; } }
 
         #endregion
 
         public StageHandler(StageInfo stage)
         {
+            info = stage;
             Info = stage;
-            startScreen = Info.StartScreen;
+            startScreen = info.StartScreen;
 
-            if (string.IsNullOrEmpty(startScreen)) startScreen = Info.Screens.Keys.First();
-            startX = Info.PlayerStartX;
-            startY = Info.PlayerStartY;
+            if (string.IsNullOrEmpty(startScreen)) startScreen = info.Screens.Keys.First();
+            startX = info.PlayerStartX;
+            startY = info.PlayerStartY;
 
             string intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
             string looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
@@ -150,7 +122,6 @@ namespace MegaMan.Engine
         {
             if (music != null) music.Stop();
             Engine.Instance.SoundSystem.StopMusicNsf();
-            if (_currentScreen.Music != null) _currentScreen.Music.Stop();
             
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
@@ -201,7 +172,7 @@ namespace MegaMan.Engine
 
             if (Game.CurrentGame.Player.Lives < 0) // game over!
             {
-                if (End != null) End(LoseHandler);
+                Finish(LoseHandler);
             }
             else
             {
@@ -227,11 +198,11 @@ namespace MegaMan.Engine
             drawFunc = DrawScreen;
 
             // check for continue points
-            if (Info.ContinuePoints.ContainsKey(nextScreen.Screen.Name))
+            if (info.ContinuePoints.ContainsKey(nextScreen.Screen.Name))
             {
                 startScreen = nextScreen.Screen.Name;
-                startX = Info.ContinuePoints[nextScreen.Screen.Name].X;
-                startY = Info.ContinuePoints[nextScreen.Screen.Name].Y;
+                startX = info.ContinuePoints[nextScreen.Screen.Name].X;
+                startY = info.ContinuePoints[nextScreen.Screen.Name].Y;
             }
         }
 
@@ -243,14 +214,7 @@ namespace MegaMan.Engine
             oldscreen.Clean();
             StartScreen();
 
-            if (nextScreen.Music != null || nextScreen.Screen.MusicNsfTrack != 0)
-            {
-                if (music != null) music.Stop();
-                if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
-            }
-
-            if (nextScreen.Screen.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)nextScreen.Screen.MusicNsfTrack);
-            else if (nextScreen.Music != null) nextScreen.Music.Play();
+            RunCommands(_currentScreen.Screen.Commands);
         }
 
         private void Update()
@@ -284,16 +248,12 @@ namespace MegaMan.Engine
         {
             _currentScreen.JoinTriggered += OnScrollTriggered;
             _currentScreen.Teleport += OnTeleport;
-            _currentScreen.BossDefeated += BossDefeated;
             _currentScreen.Start(this, Player);
         }
 
         private void BossDefeated()
         {
-            if (End != null)
-            {
-                End(WinHandler);
-            }
+            Finish(WinHandler); 
         }
 
         private void StopScreen()
@@ -348,21 +308,21 @@ namespace MegaMan.Engine
 
         #region IHandleGameEvents Members
 
-        public void StartHandler()
+        public override void StartHandler()
         {
             Player.Death += Player_Death;
 
             PlayerPos = Player.GetComponent<PositionComponent>();
             PlayerPos.SetPosition(new PointF(startX, 0));
 
-            if (!Info.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+Info.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
+            if (!info.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+info.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
             _currentScreen = screens[startScreen];
             StartScreen();
 
             Engine.Instance.SoundSystem.StopMusicNsf();
 
             if (music != null) music.Play();
-            if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)Info.MusicNsfTrack);
+            if (info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)info.MusicNsfTrack);
 
             // updateFunc isn't set until BeginPlay
             drawFunc = DrawScreen;
@@ -381,7 +341,7 @@ namespace MegaMan.Engine
             (Player.GetComponent<InputComponent>()).Paused = false;
         }
 
-        public void StopHandler()
+        public override void StopHandler()
         {
             Player.Death -= Player_Death;
 
@@ -396,7 +356,7 @@ namespace MegaMan.Engine
             }
 
             if (music != null) music.Stop();
-            if (Info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
+            if (info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.StopMusicNsf();
 
             PauseHandler();
             StopDrawing();
@@ -406,20 +366,20 @@ namespace MegaMan.Engine
 
         private int pauseCount = 1; // starts paused
 
-        public void PauseHandler()
+        public override void PauseHandler()
         {
             if (pauseCount == 0)
             {
                 Player.Paused = true;
 
-                Engine.Instance.GameLogicTick -= GameTick;
+                Engine.Instance.GameLogicTick -= Tick;
                 Engine.Instance.GameInputReceived -= GameInputReceived;
             }
 
             pauseCount++;
         }
 
-        public void ResumeHandler()
+        public override void ResumeHandler()
         {
             if (pauseCount == 0) return;
 
@@ -427,62 +387,46 @@ namespace MegaMan.Engine
 
             if (pauseCount == 0)
             {
-                Engine.Instance.GameLogicTick += GameTick;
+                Engine.Instance.GameLogicTick += Tick;
                 Engine.Instance.GameInputReceived += GameInputReceived;
 
                 Player.Paused = false;
             }
         }
 
-        public void StopDrawing()
-        {
-            Engine.Instance.GameRender -= GameRender;
-        }
-
-        public void StartDrawing()
-        {
-            Engine.Instance.GameRender += GameRender;
-        }
-
-        private void GameInputReceived(GameInputEventArgs e)
+        protected override void GameInputReceived(GameInputEventArgs e)
         {
             if (updateFunc == null || (Player.GetComponent<InputComponent>()).Paused) return;
-
-            /* This might be useful even though pause screens are replaced
-            if (e.Input == GameInput.Start && e.Pressed)
-            {
-                if (Game.CurrentGame.Paused)
-                {
-                    Game.CurrentGame.Unpause();
-                }
-                else
-                {
-                    Game.CurrentGame.Pause();
-                }
-            }
-            */
         }
 
-        private void GameTick(GameTickEventArgs e)
+        protected override void Tick(GameTickEventArgs e)
         {
             if (updateFunc != null) updateFunc();
 
-            foreach (Tile t in Info.Tileset)
+            foreach (Tile t in info.Tileset)
             {
                 t.Sprite.Update();
             }
 
-            if (GameThink != null) GameThink();
-            if (GameAct != null) GameAct();
-            if (GameReact != null) GameReact();
-            if (GameCleanup != null) GameCleanup();
+            base.Tick(e);
         }
 
-        public void GameRender(GameRenderEventArgs e)
+        protected override void GameRender(GameRenderEventArgs e)
         {
             if (drawFunc != null) drawFunc(e);
 
-            if (Draw != null) Draw(e);
+            base.GameRender(e);
+        }
+
+        protected override void RunCommand(SceneCommandInfo cmd)
+        {
+            // stage handlers only run a subset of all commands
+            // entities aren't included because we handle them in a totally different way
+            if (cmd.Type == SceneCommands.Call || cmd.Type == SceneCommands.Condition || cmd.Type == SceneCommands.Effect ||
+                cmd.Type == SceneCommands.Next || cmd.Type == SceneCommands.PlayMusic || cmd.Type == SceneCommands.Sound || cmd.Type == SceneCommands.StopMusic)
+            {
+                base.RunCommand(cmd);
+            }
         }
 
         #endregion

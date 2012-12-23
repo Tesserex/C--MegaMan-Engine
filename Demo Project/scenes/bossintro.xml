@@ -1,5 +1,6 @@
 <Scene name="BossIntro" duration="235">
 	<Keyframe frame="0">
+		<PlayMusic track="11" />
 		<Effect entity="Player">
 			<Input><Pause /></Input>
 		</Effect>

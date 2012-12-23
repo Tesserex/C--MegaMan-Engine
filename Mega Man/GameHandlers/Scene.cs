@@ -16,7 +16,6 @@ namespace MegaMan.Engine
 
         private Scene(SceneInfo info)
         {
-            objects = new Dictionary<string, IHandlerObject>();
             this.info = info;
             Info = info;
         }

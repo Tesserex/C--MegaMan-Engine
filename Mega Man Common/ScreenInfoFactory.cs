@@ -52,22 +52,7 @@ namespace MegaMan.Common
                 screen.BlockPatterns.Add(pattern);
             }
 
-            XElement screenmusic = node.Element("Music");
-            if (screenmusic != null)
-            {
-                XElement intro = screenmusic.Element("Intro");
-                XElement loop = screenmusic.Element("Loop");
-                screen.MusicIntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, stagePath.BasePath) : null;
-                screen.MusicLoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, stagePath.BasePath) : null;
-
-                XAttribute nsfAttr = screenmusic.Attribute("nsftrack");
-                if (nsfAttr != null)
-                {
-                    int track;
-                    nsfAttr.Value.TryParse(out track);
-                    screen.MusicNsfTrack = track;
-                }
-            }
+            screen.Commands = SceneCommandInfo.Load(node, stagePath.BasePath);
 
             return screen;
         }

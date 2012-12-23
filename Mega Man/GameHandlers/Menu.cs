@@ -19,7 +19,6 @@ namespace MegaMan.Engine
 
         private Menu(MenuInfo info)
         {
-            objects = new Dictionary<string, IHandlerObject>();
             this.info = info;
             Info = info;
         }

@@ -29,13 +29,12 @@ namespace MegaMan.Common
         public RespawnBehavior respawn;
         public float screenX;
         public float screenY;
-        public bool boss;
 
         public static EntityPlacement FromXml(XElement entity)
         {
             EntityPlacement info = new EntityPlacement();
 
-            var nameAttr = entity.RequireAttribute("name");
+            var nameAttr = entity.RequireAttribute("entity");
             info.entity = nameAttr.Value;
 
             string state = "Start";
