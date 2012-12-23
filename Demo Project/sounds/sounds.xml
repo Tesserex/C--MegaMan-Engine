@@ -1,6 +1,6 @@
 <Sounds>
 	<Sound name="Life" track="37" priority="1" />
-	<Sound name="MeterTick" track="39" priority="1" loop="true" />
+	<Sound name="MeterTick" path="sounds\health.wav" priority="1" loop="true" />
 	<Sound name="MMDeath" track="30" priority="1" />
 	<Sound name="Bolt" track="25" priority="2" />
 	<Sound name="pause" track="42" priority="2"/>
