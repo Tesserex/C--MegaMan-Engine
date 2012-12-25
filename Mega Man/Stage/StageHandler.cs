@@ -18,11 +18,6 @@ namespace MegaMan.Engine
         private string startScreen;
         private int startX, startY;
 
-        private int readyBlinkTime;
-        private int readyBlinks;
-        private readonly Image readyImage;
-        private readonly Texture2D readyTexture;
-
         private readonly Music music;
 
         private ScreenHandler _currentScreen;
@@ -62,11 +57,6 @@ namespace MegaMan.Engine
             string looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
 
-            String imagePath = Path.Combine(Game.CurrentGame.BasePath, @"images\ready.png");
-            readyImage = Image.FromFile(imagePath);
-            StreamReader sr = new StreamReader(imagePath);
-            readyTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
-
             foreach (var tile in stage.Tileset)
             {
                 var drawer = new XnaSpriteDrawer(tile.Sprite);
@@ -88,34 +78,6 @@ namespace MegaMan.Engine
             startScreen = screen;
             startX = startPosition.X;
             startY = startPosition.Y;
-        }
-
-        void BlinkReady(GameRenderEventArgs e)
-        {
-            if (readyBlinkTime >= 0)
-            {
-                if (Engine.Instance.Foreground)
-                {
-                    e.Layers.ForegroundBatch.Draw(
-                        readyTexture,
-                        new Microsoft.Xna.Framework.Vector2(
-                            (Game.CurrentGame.PixelsAcross - readyImage.Width) / 2,
-                            ((Game.CurrentGame.PixelsDown - readyImage.Height) / 2) - 24
-                        ),
-                        e.OpacityColor);
-                }
-            }
-            readyBlinkTime++;
-            if (readyBlinkTime > 8)
-            {
-                readyBlinkTime = -8;
-                readyBlinks++;
-                if (readyBlinks >= 8)
-                {
-                    Engine.Instance.GameRender -= BlinkReady;
-                    BeginPlay();
-                }
-            }
         }
 
         private void Player_Death()
@@ -212,8 +174,6 @@ namespace MegaMan.Engine
 
             oldscreen.Clean();
             StartScreen();
-
-            RunCommands(_currentScreen.Screen.Commands);
         }
 
         private void Update()
@@ -248,6 +208,8 @@ namespace MegaMan.Engine
             _currentScreen.JoinTriggered += OnScrollTriggered;
             _currentScreen.Teleport += OnTeleport;
             _currentScreen.Start(this, Player);
+
+            RunCommands(_currentScreen.Screen.Commands);
         }
 
         private void BossDefeated()
@@ -329,12 +291,7 @@ namespace MegaMan.Engine
             ResumeHandler();
             StartDrawing();
 
-            // ready flashing
-            readyBlinkTime = 0;
-            readyBlinks = 0;
-            Engine.Instance.GameRender += BlinkReady;
-
-            Player.GetComponent<SpriteComponent>().Visible = false;
+            BeginPlay();
 
             // make sure we can move
             (Player.GetComponent<InputComponent>()).Paused = false;
@@ -359,8 +316,6 @@ namespace MegaMan.Engine
 
             PauseHandler();
             StopDrawing();
-
-            Engine.Instance.GameRender -= BlinkReady;
 
             GameEntity.StopAll();
         }

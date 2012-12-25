@@ -405,8 +405,9 @@ namespace MegaMan.Engine
                 }
 
                 handlerStack.Push(map);
-                map.StartHandler();
                 map.End += ProcessHandler;
+
+                map.StartHandler();
             }
             catch (XmlException e)
             {

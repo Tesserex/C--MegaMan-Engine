@@ -21,7 +21,9 @@
 		<Entity entity="ShieldGuy" state="" x="52" y="161" />
 		<Entity entity="ShieldShooter" state="" x="160" y="96" />
 	</Screen>
-	<Screen id="Tunnel" />
+	<Screen id="Tunnel">
+		<Next type="Scene" mode="Push" name="StageReady" />
+	</Screen>
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
 	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
 	<Join type="vertical" s1="Tunnel" s2="Boss" offset1="8" offset2="8" size="3" direction="forward" bossdoor="CrystalDoor" />
