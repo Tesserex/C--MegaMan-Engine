@@ -52,7 +52,7 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            this.playerPos = container.Entities.GetEntities("Player").Single().GetComponent<PositionComponent>();
+            this.playerPos = container.Entities.GetEntity("Player").GetComponent<PositionComponent>();
             container.GameThink += Update;
             stopped = false;
         }

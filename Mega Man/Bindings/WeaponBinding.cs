@@ -21,7 +21,7 @@ namespace MegaMan.Engine
         {
             this.container = container;
 
-            var player = container.GetEntities("Player").SingleOrDefault();
+            var player = container.GetEntity("Player");
             if (player == null) return;
 
             var component = player.GetComponent<WeaponComponent>();
@@ -34,7 +34,7 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            var player = container.GetEntities("Player").SingleOrDefault();
+            var player = container.GetEntity("Player");
             if (player == null) return;
             player.GetComponent<WeaponComponent>().AmmoChanged -= WeaponAmmo_Changed;
         }

@@ -237,7 +237,7 @@ namespace MegaMan.Engine
             {
                 entity.SendMessage(new StateMessage(null, command.Placement.state));
             }
-            Entities.AddEntity(entity);
+            Entities.AddEntity(command.Placement.id ?? Guid.NewGuid().ToString(), entity);
             entity.Start();
         }
 
@@ -253,7 +253,7 @@ namespace MegaMan.Engine
 
         private void CallCommand(SceneCallCommandInfo command)
         {
-            var player = Entities.GetEntities("Player").FirstOrDefault();
+            var player = Entities.GetEntity("Player");
 
             if (player != null)
             {
@@ -292,7 +292,7 @@ namespace MegaMan.Engine
 
         private void EffectCommand(SceneEffectCommandInfo command)
         {
-            var entity = Entities.GetEntities(command.EntityName).FirstOrDefault();
+            var entity = Entities.GetEntity(command.EntityId);
 
             var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
             effect(entity);

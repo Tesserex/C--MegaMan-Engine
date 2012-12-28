@@ -11,11 +11,11 @@ namespace MegaMan.Engine
     /// </summary>
     public class SceneEntities : IEntityContainer
     {
-        private List<GameEntity> entities;
+        private Dictionary<string, GameEntity> entities;
 
         public SceneEntities()
         {
-            entities = new List<GameEntity>();
+            entities = new Dictionary<string, GameEntity>();
         }
 
         public int TileSize
@@ -51,19 +51,26 @@ namespace MegaMan.Engine
             get { return null; }
         }
 
-        public void AddEntity(GameEntity entity)
+        public void AddEntity(string id, GameEntity entity)
         {
-            entities.Add(entity);
+            entities.Add(id, entity);
+        }
+
+        public GameEntity GetEntity(string id)
+        {
+            if (id == null) return null;
+
+            return entities.ContainsKey(id) ? entities[id] : null;
         }
 
         public IEnumerable<GameEntity> GetEntities(string name)
         {
-            return entities.Where(e => e.Name == name);
+            return entities.Values.Where(e => e.Name == name);
         }
 
         public void ClearEntities()
         {
-            foreach (var entity in entities)
+            foreach (var entity in entities.Values)
             {
                 entity.Stop();
             }

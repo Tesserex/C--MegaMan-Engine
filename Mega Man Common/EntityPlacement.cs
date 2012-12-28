@@ -23,6 +23,7 @@ namespace MegaMan.Common
 
     public class EntityPlacement
     {
+        public string id;
         public string entity;
         public string state;
         public EntityDirection direction;
@@ -33,6 +34,12 @@ namespace MegaMan.Common
         public static EntityPlacement FromXml(XElement entity)
         {
             EntityPlacement info = new EntityPlacement();
+
+            var idAttr = entity.Attribute("id");
+            if (idAttr != null)
+            {
+                info.id = idAttr.Value;
+            }
 
             var nameAttr = entity.RequireAttribute("entity");
             info.entity = nameAttr.Value;
@@ -67,6 +74,10 @@ namespace MegaMan.Common
         public void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Entity");
+            if (id != null)
+            {
+                writer.WriteAttributeString("id", id);
+            }
             writer.WriteAttributeString("name", entity);
             if (state != "Start") writer.WriteAttributeString("state", state);
             writer.WriteAttributeString("x", screenX.ToString());

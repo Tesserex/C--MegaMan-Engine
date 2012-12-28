@@ -8,18 +8,18 @@ namespace MegaMan.Engine
 {
     public class HealthBinding : Binding
     {
-        private string _entityName;
+        private string _entityId;
         private HealthComponent _health;
 
         public HealthBinding(object target, PropertyInfo targetProperty, string entity)
             : base(target, targetProperty)
         {
-            this._entityName = entity;
+            this._entityId = entity;
         }
 
         public override void Start(IEntityContainer container)
         {
-            var entity = container.GetEntities(_entityName).FirstOrDefault();
+            var entity = container.GetEntity(_entityId);
             if (entity == null) return;
 
             _health = entity.GetComponent<HealthComponent>();

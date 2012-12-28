@@ -167,15 +167,23 @@ namespace MegaMan.Engine
             }
         }
 
-        public void AddEntity(GameEntity entity)
+        public void AddEntity(string id, GameEntity entity)
         {
             spawnedEntities.Add(entity);
         }
 
+        public GameEntity GetEntity(string id)
+        {
+            if (id == null) return null;
+
+            if (id == "Player") return player;
+
+            return layers.Select(l => l.GetEntity(id))
+                .FirstOrDefault(e => e != null);
+        }
+
         public IEnumerable<GameEntity> GetEntities(string name)
         {
-            if (name == "Player") return new[] { player };
-
             return layers.SelectMany(l => l.GetEntities(name))
                 .Concat(spawnedEntities
                     .Where(e => e != null && e.Name == name));

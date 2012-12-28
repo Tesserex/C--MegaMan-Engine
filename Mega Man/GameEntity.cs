@@ -124,7 +124,7 @@ namespace MegaMan.Engine
             {
                 spawn.Parent = this;
                 spawn.Start();
-                Screen.AddEntity(spawn);
+                Screen.AddEntity(Guid.NewGuid().ToString(), spawn);
             }
 
             return spawn;

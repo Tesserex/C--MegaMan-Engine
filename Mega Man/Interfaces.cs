@@ -13,7 +13,8 @@ namespace MegaMan.Engine
         MapSquare SquareAt(float px, float py);
         IEnumerable<MapSquare> Tiles { get; }
         MegaMan.Common.Tile TileAt(float px, float py);
-        void AddEntity(GameEntity entity);
+        void AddEntity(string id, GameEntity entity);
+        GameEntity GetEntity(string id);
         IEnumerable<GameEntity> GetEntities(string name);
         void ClearEntities();
         bool IsOnScreen(float x, float y);

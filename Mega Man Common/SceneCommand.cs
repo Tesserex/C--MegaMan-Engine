@@ -551,7 +551,7 @@ namespace MegaMan.Common
     public class SceneEffectCommandInfo : SceneCommandInfo
     {
         public string GeneratedName { get; private set; }
-        public string EntityName { get; private set; }
+        public string EntityId { get; private set; }
         public XElement EffectNode { get; private set; }
 
         public static SceneEffectCommandInfo FromXml(XElement node)
@@ -563,7 +563,7 @@ namespace MegaMan.Common
             var attr = node.Attribute("entity");
             if (attr != null)
             {
-                info.EntityName = attr.Value;
+                info.EntityId = attr.Value;
             }
             info.EffectNode = node;
 
@@ -578,9 +578,9 @@ namespace MegaMan.Common
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Effect");
-            if (EntityName != null)
+            if (EntityId != null)
             {
-                writer.WriteAttributeString("entity", EntityName);
+                writer.WriteAttributeString("entity", EntityId);
             }
             EffectNode.WriteTo(writer);
             writer.WriteEndElement();

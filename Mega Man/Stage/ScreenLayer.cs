@@ -255,6 +255,15 @@ namespace MegaMan.Engine
             enemy.Stopped += () => _entities[index] = null;
         }
 
+        public GameEntity GetEntity(string id)
+        {
+            var placementIndex = _info.Entities.FindIndex(p => p.id == id);
+
+            if (placementIndex < 0) return null;
+
+            return _entities[placementIndex];
+        }
+
         public IEnumerable<GameEntity> GetEntities(string name)
         {
             return _entities.Where(e => e != null && e.Name == name);
