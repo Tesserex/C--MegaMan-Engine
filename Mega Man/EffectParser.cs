@@ -308,6 +308,15 @@ namespace MegaMan.Engine
                     };
                     break;
 
+                case "SetVar":
+                    var varname = node.RequireAttribute("name").Value;
+                    var value = node.RequireAttribute("value").Value;
+                    effect = e =>
+                    {
+                        Game.CurrentGame.Player.SetVar(varname, value);
+                    };
+                    break;
+
                 default:
                     effect = GameEntity.ParseComponentEffect(node);
                     break;

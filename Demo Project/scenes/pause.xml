@@ -91,9 +91,9 @@
 	<State name="Start">
 		<Sprite name="Background" object="Background" x="0" y="0" />
 
-		<Sprite name="BusterOn" object="BusterOn" x="32" y="32" />
+		<Sprite name="BusterOff" object="BusterOff" x="32" y="32" />
 		<Text font="Pause" x="56" y="32" content="M.Buster" />
-		<Add name="BusterMeter" object="BusterMeter" x="56" y="40" />
+		<Add name="BusterMeterOff" object="BusterMeterOff" x="56" y="40" />
 
 		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Gyro&quot;)">
 			<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
@@ -135,9 +135,8 @@
 		<Sprite name="Lives" object="Lives" x="214" y="188" />
 		<Text font="Pause" name="LivesText" x="222" y="194" content="03" />
 
-		<Option x="32" y="32">
+		<Option name="MBuster" x="32" y="32">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="BusterOff" />
 				<Sprite name="BusterOn" object="BusterOn" x="32" y="32" />
 				<Remove name="BusterMeterOff" />
@@ -145,9 +144,11 @@
 				<Add name="BusterMeterBottom" object="BusterMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
 					<Weapon><Change name="MBuster" /></Weapon>
+					<SetVar name="weapon" value="MBuster" />
 				</Effect>
 			</On>
 			<Off>
+				<Sound name="Menu" />
 				<Remove name="BusterOn" />
 				<Sprite name="BusterOff" object="BusterOff" x="32" y="32" />
 				<Remove name="BusterMeter" />
@@ -161,19 +162,20 @@
 		</Option>
 
 		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Gyro&quot;)">
-			<Option x="32" y="64">
+			<Option name="Gyro" x="32" y="64">
 				<On>
-					<Sound name="Menu" />
 					<Remove name="GyroOff" />
 					<Sprite name="GyroOn" object="GyroOn" x="32" y="64" />
 					<Remove name="GyroMeterOff" />
 					<Add name="GyroMeter" object="GyroMeter" x="56" y="72" />
 					<Add name="GyroMeterBottom" object="GyroMeterBottom" x="148" y="204" />
 					<Effect entity="Player">
+						<SetVar name="weapon" value="Gyro" />
 						<Weapon><Change name="Gyro" /></Weapon>
 					</Effect>
 				</On>
 				<Off>
+					<Sound name="Menu" />
 					<Remove name="GyroOn" />
 					<Sprite name="GyroOff" object="GyroOff" x="32" y="64" />
 					<Remove name="GyroMeter" />
@@ -188,19 +190,20 @@
 		</Condition>
 
 		<Condition entity="Player" condition="Game.IsWeaponUnlocked(&quot;Crystal&quot;)">
-		<Option x="32" y="80">
+		<Option name="Crystal" x="32" y="80">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="CrystalOff" />
 				<Sprite name="CrystalOn" object="CrystalOn" x="32" y="80" />
 				<Remove name="CrystalMeterOff" />
 				<Add name="CrystalMeter" object="CrystalMeter" x="56" y="88" />
 				<Add name="CrystalMeterBottom" object="CrystalMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
+					<SetVar name="weapon" value="Crystal" />
 					<Weapon><Change name="Crystal" /></Weapon>
 				</Effect>
 			</On>
 			<Off>
+				<Sound name="Menu" />
 				<Remove name="CrystalOn" />
 				<Sprite name="CrystalOff" object="CrystalOff" x="32" y="80" />
 				<Remove name="CrystalMeter" />
@@ -214,9 +217,8 @@
 		</Option>
 		</Condition>
 
-		<Option x="32" y="96">
+		<Option name="Napalm" x="32" y="96">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="NapalmOff" />
 				<Sprite name="NapalmOn" object="NapalmOn" x="32" y="96" />
 				<Remove name="NapalmMeterOff" />
@@ -224,9 +226,11 @@
 				<Add name="NapalmMeterBottom" object="NapalmMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
 					<Weapon><Change name="Napalm" /></Weapon>
+					<SetVar name="weapon" value="Napalm" />
 				</Effect>
 			</On>
 			<Off>
+				<Sound name="Menu" />
 				<Remove name="NapalmOn" />
 				<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
 				<Remove name="NapalmMeter" />
@@ -239,9 +243,8 @@
 			</Select>
 		</Option>
 
-		<Option x="136" y="96">
+		<Option name="RushCoil" x="136" y="96">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="RushCoilOff" />
 				<Sprite name="RushCoilOn" object="RushCoilOn" x="136" y="96" />
 				<Remove name="CoilMeterOff" />
@@ -249,9 +252,11 @@
 				<Add name="CoilMeterBottom" object="CoilMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
 					<Weapon><Change name="RushCoil" /></Weapon>
+					<SetVar name="weapon" value="RushCoil" />
 				</Effect>
 			</On>
 			<Off>
+				<Sound name="Menu" />
 				<Remove name="RushCoilOn" />
 				<Sprite name="RushCoilOff" object="RushCoilOff" x="136" y="96" />
 				<Remove name="CoilMeter" />
@@ -264,9 +269,8 @@
 			</Select>
 		</Option>
 
-		<Option x="136" y="112">
+		<Option name="RushJet" x="136" y="112">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="RushJetOff" />
 				<Sprite name="RushJetOn" object="RushJetOn" x="136" y="112" />
 				<Remove name="JetMeterOff" />
@@ -274,9 +278,11 @@
 				<Add name="JetMeterBottom" object="JetMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
 					<Weapon><Change name="RushJet" /></Weapon>
+					<SetVar name="weapon" value="RushJet" />
 				</Effect>
 			</On>
 			<Off>
+				<Sound name="Menu" />
 				<Remove name="RushJetOn" />
 				<Sprite name="RushJetOff" object="RushJetOff" x="136" y="112" />
 				<Remove name="JetMeter" />
@@ -291,7 +297,6 @@
 
 		<Option x="32" y="186">
 			<On>
-				<Sound name="Menu" />
 				<Remove name="EOff" />
 				<Sprite name="EOn" object="EOn" x="28" y="180" />
 			</On>
@@ -304,5 +309,7 @@
 				<Call>UseE</Call>
 			</Select>
 		</Option>
+
+		<SelectOption var="weapon" />
 	</State>
 </Menu>

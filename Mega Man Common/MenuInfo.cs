@@ -55,6 +55,8 @@ namespace MegaMan.Common
         public string Name { get; set; }
         public bool Fade { get; set; }
         public List<SceneCommandInfo> Commands { get; private set; }
+        public string StartOptionName { get; set; }
+        public string StartOptionVar { get; set; }
 
         public static MenuStateInfo FromXml(XElement node, string basePath)
         {
@@ -65,6 +67,23 @@ namespace MegaMan.Common
             bool fade = false;
             node.TryBool("fade", out fade);
             info.Fade = fade;
+
+            var startNode = node.Element("SelectOption");
+            if (startNode != null)
+            {
+                var startNameAttr = startNode.Attribute("name");
+                var startVarAttr = startNode.Attribute("var");
+
+                if (startNameAttr != null)
+                {
+                    info.StartOptionName = startNameAttr.Value;
+                }
+
+                if (startVarAttr != null)
+                {
+                    info.StartOptionVar = startVarAttr.Value;
+                }
+            }
 
             info.Commands = SceneCommandInfo.Load(node, basePath);
 
@@ -79,6 +98,19 @@ namespace MegaMan.Common
             foreach (var command in Commands)
             {
                 command.Save(writer);
+            }
+
+            if (StartOptionName != null || StartOptionVar != null)
+            {
+                writer.WriteStartElement("SelectOption");
+                if (StartOptionName != null)
+                {
+                    writer.WriteAttributeString("name", StartOptionName);
+                }
+                if (StartOptionVar != null)
+                {
+                    writer.WriteAttributeString("var", StartOptionVar);
+                }
             }
 
             writer.WriteEndElement();

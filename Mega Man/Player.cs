@@ -10,6 +10,7 @@ namespace MegaMan.Engine
         public int Lives { get; set; }
         public event Action<int> LivesChanged;
 
+        private Dictionary<string, string> _globalVars;
         private Dictionary<string, int> inventory;
         public event Action<string, int> InventoryChanged;
 
@@ -19,9 +20,20 @@ namespace MegaMan.Engine
         public Player()
         {
             Lives = 2;
+            _globalVars = new Dictionary<string, string>();
             inventory = new Dictionary<string, int>();
             unlockedWeapons = new HashSet<string>();
             defeatedBosses = new HashSet<string>();
+        }
+
+        public string Var(string name)
+        {
+            return _globalVars.ContainsKey(name) ? _globalVars[name] : String.Empty;
+        }
+
+        public void SetVar(string name, string value)
+        {
+            _globalVars[name] = value;
         }
 
         public bool IsWeaponUnlocked(string name)

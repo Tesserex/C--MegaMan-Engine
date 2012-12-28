@@ -21,14 +21,37 @@ namespace MegaMan.Engine
         {
             this.info = info;
             Info = info;
+            this.options = new List<MenuOptionCommandInfo>();
         }
 
         private void ResetState()
         {
-            this.options = this.state.Commands.OfType<MenuOptionCommandInfo>().ToList();
-
-            var option = this.options[0];
             this.selectedId = 0;
+
+            if (this.state.StartOptionName != null)
+            {
+                var findId = this.options.FindIndex(o => o.Name == this.state.StartOptionName);
+                if (findId >= 0)
+                {
+                    this.selectedId = findId;
+                }
+            }
+            else if (this.state.StartOptionVar != null)
+            {
+                var findId = this.options.FindIndex(o => o.Name == Game.CurrentGame.Player.Var(this.state.StartOptionVar));
+                if (findId >= 0)
+                {
+                    this.selectedId = findId;
+                }
+            }
+
+            var option = this.options[this.selectedId];
+
+            if (option.OnEvent != null)
+            {
+                RunCommands(option.OnEvent);
+            }
+
             this.currentPos = new Point(option.X, option.Y);
         }
 
@@ -37,8 +60,9 @@ namespace MegaMan.Engine
             base.StartHandler();
 
             this.state = this.info.States[0];
-            ResetState();
             RunCommands(this.state.Commands);
+
+            ResetState();
         }
 
         protected override void RunCommands(IEnumerable<SceneCommandInfo> commands)

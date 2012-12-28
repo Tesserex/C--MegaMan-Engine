@@ -125,6 +125,7 @@
     <Compile Include="BossDoorHandler.cs" />
     <Compile Include="Components\CollisionBox.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
+    <Compile Include="Components\VarsComponent.cs" />
     <Compile Include="Forms\CustomNtscForm.cs">
       <SubType>Form</SubType>
     </Compile>

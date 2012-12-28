@@ -574,6 +574,7 @@ namespace System.Linq.Dynamic
             typeof(MegaMan.Engine.LadderComponent),
             typeof(MegaMan.Engine.HealthComponent),
             typeof(MegaMan.Engine.WeaponComponent),
+            typeof(MegaMan.Engine.VarsComponent),
             typeof(MegaMan.Engine.Player)
         };
 

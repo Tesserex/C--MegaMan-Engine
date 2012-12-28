@@ -395,6 +395,7 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.Option; } }
 
+        public string Name { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -405,6 +406,13 @@ namespace MegaMan.Common
         public static MenuOptionCommandInfo FromXml(XElement node, string basePath)
         {
             var info = new MenuOptionCommandInfo();
+
+            var nameAttr = node.Attribute("name");
+            if (nameAttr != null)
+            {
+                info.Name = nameAttr.Value;
+            }
+
             info.X = node.GetInteger("x");
             info.Y = node.GetInteger("y");
 
@@ -432,6 +440,12 @@ namespace MegaMan.Common
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Option");
+
+            if (Name != null)
+            {
+                writer.WriteAttributeString("name", Name);
+            }
+
             writer.WriteAttributeString("x", X.ToString());
             writer.WriteAttributeString("y", Y.ToString());
 
