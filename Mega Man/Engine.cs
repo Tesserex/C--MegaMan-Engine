@@ -239,18 +239,20 @@ namespace MegaMan.Engine
         /// <summary>
         /// Fades the screen to black, calls an optional callback function, and then fades back in,
         /// and calls another callback function when done.
-        /// Only one transition can be in progress at a time. If it is called during a transition,
-        /// it will not do anything.
         /// </summary>
         /// <param name="callback">The function to call when the screen is black. Can be null.</param>
         /// <param name="finished">The function to call when the transition is finished. Can be null.</param>
         public void FadeTransition(Action callback, Action finished = null)
         {
+            // if a fade in is in progress, finish that and immediately
+            // switch to the new fade out
             if (fadeHandle != null)
             {
-                if (callback != null) callback();
-                if (finished != null) finished();
-                return; // can't do more than one at a time
+                GameLogicTick -= fadeHandle;
+                if (fadeFinished != null)
+                {
+                    fadeFinished();
+                }
             }
 
             fadeHandle = new GameTickEventHandler(e => opacityDown(callback));
