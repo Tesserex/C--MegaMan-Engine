@@ -47,7 +47,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            return this;
+            return new InputComponent();
         }
 
         public override void Start()
