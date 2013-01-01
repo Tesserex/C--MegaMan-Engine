@@ -2,37 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
     public class StageFactory
     {
-        private StageHandler handler;
+        private Dictionary<string, StageHandler> _loadedStages = new Dictionary<string, StageHandler>();
 
-        public StageHandler CreateMap(StageLinkInfo info)
+        public StageHandler Get(string name)
+        {
+            if (!_loadedStages.ContainsKey(name))
+            {
+                throw new GameRunException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
+            }
+
+            return _loadedStages[name];
+        }
+
+        public void Load(StageLinkInfo info)
+        {
+            try
+            {
+                TryLoad(info);
+            }
+            catch (XmlException e)
+            {
+                throw new GameRunException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", info.Name, e.Message));
+            }
+        }
+
+        public void TryLoad(StageLinkInfo info)
         {
             StageInfo map = new StageInfo(info.StagePath);
 
-            handler = new StageHandler(map);
+            var handler = new StageHandler(map);
 
             var joins = new Dictionary<ScreenInfo, Dictionary<Join, JoinHandler>>();
-            var bossDoors = new Dictionary<ScreenInfo, Dictionary<Join, GameEntity>>();
 
             foreach (var screen in map.Screens.Values)
             {
                 joins[screen] = new Dictionary<Join, JoinHandler>();
-                bossDoors[screen] = new Dictionary<Join, GameEntity>();
-
-                foreach (Join join in map.Joins)
-                {
-                    GameEntity door = null;
-                    if (join.bossDoor)
-                    {
-                        door = GameEntity.Get(join.bossEntityName, handler);
-                    }
-                    bossDoors[screen][join] = door;
-                }
             }
 
             foreach (Join join in map.Joins)
@@ -40,17 +51,11 @@ namespace MegaMan.Engine
                 var screenOne = map.Screens[join.screenOne];
                 var screenTwo = map.Screens[join.screenTwo];
 
-                JoinHandler handlerOne = CreateJoin(join,
-                    screenOne,
-                    bossDoors[screenOne][join],
-                    bossDoors[screenTwo][join]);
+                JoinHandler handlerOne = CreateJoin(join, handler, screenOne);
 
                 joins[screenOne].Add(join, handlerOne);
 
-                JoinHandler handlerTwo = CreateJoin(join,
-                    screenTwo,
-                    bossDoors[screenTwo][join],
-                    bossDoors[screenOne][join]);
+                JoinHandler handlerTwo = CreateJoin(join, handler, screenTwo);
 
                 joins[screenTwo].Add(join, handlerTwo);
             }
@@ -75,7 +80,7 @@ namespace MegaMan.Engine
                 handler.LoseHandler = info.LoseHandler;
             }
 
-            return handler;
+            _loadedStages[info.Name] = handler;
         }
 
         private ScreenHandler CreateScreen(StageHandler stage, ScreenInfo screen, IEnumerable<JoinHandler> joins)
@@ -84,7 +89,7 @@ namespace MegaMan.Engine
 
             foreach (BlockPatternInfo info in screen.BlockPatterns)
             {
-                BlocksPattern pattern = new BlocksPattern(info, handler);
+                BlocksPattern pattern = new BlocksPattern(info, stage);
                 patterns.Add(pattern);
             }
 
@@ -94,14 +99,14 @@ namespace MegaMan.Engine
                 layers.Add(new ScreenLayer(layerInfo, stage));
             }
 
-            return new ScreenHandler(screen, layers, joins, patterns, handler);
+            return new ScreenHandler(screen, layers, joins, patterns, stage);
         }
 
-        private JoinHandler CreateJoin(Join join, ScreenInfo screen, GameEntity door, GameEntity otherDoor)
+        private JoinHandler CreateJoin(Join join, StageHandler stage, ScreenInfo screen)
         {
             if (join.bossDoor)
             {
-                return new BossDoorHandler(door, otherDoor, join, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);
+                return new BossDoorHandler(join, stage, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);
             }
 
             return new JoinHandler(join, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);

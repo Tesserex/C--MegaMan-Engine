@@ -19,6 +19,7 @@ namespace MegaMan.Engine
         }
 
         private readonly int length;
+        private readonly BlockPatternInfo info;
         private readonly List<BlockInfo> blocks;
         private readonly int leftBoundary;
         private readonly int rightBoundary;
@@ -30,21 +31,11 @@ namespace MegaMan.Engine
 
         public BlocksPattern(BlockPatternInfo info, IGameplayContainer container)
         {
+            this.info = info;
             length = info.Length;
             leftBoundary = info.LeftBoundary;
             rightBoundary = info.RightBoundary;
             blocks = new List<BlockInfo>();
-            foreach (BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
-            {
-                BlockInfo myInfo = new BlockInfo {entity = GameEntity.Get(info.Entity, container)};
-                // should always persist off screen
-                PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
-                pos.PersistOffScreen = true;
-                myInfo.pos = new PointF(blockinfo.pos.X, blockinfo.pos.Y);
-                myInfo.on = blockinfo.on;
-                myInfo.off = blockinfo.off;
-                blocks.Add(myInfo);
-            }
             running = false;
             frame = 0;
             this.container = container;
@@ -52,6 +43,21 @@ namespace MegaMan.Engine
 
         public void Start()
         {
+            if (!blocks.Any())
+            {
+                foreach (BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
+                {
+                    BlockInfo myInfo = new BlockInfo { entity = GameEntity.Get(info.Entity, container) };
+                    // should always persist off screen
+                    PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
+                    pos.PersistOffScreen = true;
+                    myInfo.pos = new PointF(blockinfo.pos.X, blockinfo.pos.Y);
+                    myInfo.on = blockinfo.on;
+                    myInfo.off = blockinfo.off;
+                    blocks.Add(myInfo);
+                }
+            }
+
             this.playerPos = container.Entities.GetEntity("Player").GetComponent<PositionComponent>();
             container.GameThink += Update;
             stopped = false;

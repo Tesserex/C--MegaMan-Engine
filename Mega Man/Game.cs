@@ -29,6 +29,7 @@ namespace MegaMan.Engine
         public static Game CurrentGame { get; private set; }
 
         private Project project;
+        private StageFactory stageFactory;
 
         private string currentPath;
         private Stack<IGameplayContainer> handlerStack;
@@ -117,6 +118,12 @@ namespace MegaMan.Engine
             if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
             if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
 
+            stageFactory = new StageFactory();
+            foreach (var stageInfo in project.Stages)
+            {
+                stageFactory.Load(stageInfo);
+            }
+
             foreach (string includePath in project.Includes)
             {
                 string includefile = Path.Combine(BasePath, includePath);
@@ -150,7 +157,7 @@ namespace MegaMan.Engine
                             var coords = point.Split(',');
                             startPos = new Point(int.Parse(coords[0]), int.Parse(coords[1]));
                         }
-                        StartMap(name, screen, startPos);
+                        StartStage(name, screen, startPos);
                         break;
 
                     case "MENU":
@@ -347,7 +354,7 @@ namespace MegaMan.Engine
                         break;
 
                     case HandlerType.Stage:
-                        StartMap(handler.Name);
+                        StartStage(handler.Name);
                         break;
 
                     case HandlerType.Menu:
@@ -385,34 +392,19 @@ namespace MegaMan.Engine
             handlerStack.Push(scene);
         }
 
-        private void StartMap(string name, string screen = null, Point? startPosition = null)
+        private void StartStage(string name, string screen = null, Point? startPosition = null)
         {
-            var stage = project.Stages.FirstOrDefault(s => s.Name == name);
-            if (stage == null)
+            var stage = stageFactory.Get(name);
+
+            if (screen != null && startPosition != null)
             {
-                throw new GameRunException(String.Format("I couldn't find a stage called {0}. Sorry.", name));
+                stage.SetTestingStartPosition(screen, startPosition.Value);
             }
 
-            var factory = new StageFactory();
+            handlerStack.Push(stage);
+            stage.End += ProcessHandler;
 
-            try
-            {
-                var map = factory.CreateMap(stage);
-
-                if (screen != null && startPosition != null)
-                {
-                    map.SetTestingStartPosition(screen, startPosition.Value);
-                }
-
-                handlerStack.Push(map);
-                map.End += ProcessHandler;
-
-                map.StartHandler();
-            }
-            catch (XmlException e)
-            {
-                throw new GameRunException(String.Format("The map file for stage {0} has badly formatted XML:\n\n{1}", name, e.Message));
-            }
+            stage.StartHandler();
         }
 
         #region Debug Menu

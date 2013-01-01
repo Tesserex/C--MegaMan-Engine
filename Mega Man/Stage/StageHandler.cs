@@ -63,9 +63,6 @@ namespace MegaMan.Engine
                 drawer.SetTexture(Engine.Instance.GraphicsDevice, stage.Tileset.SheetPathAbs);
                 tile.Sprite.Drawer = drawer;
             }
-
-            Player = GameEntity.Get("Player", this);
-            PlayerPos = Player.GetComponent<PositionComponent>();
         }
 
         public void InitScreens(Dictionary<string, ScreenHandler> screens)
@@ -271,6 +268,9 @@ namespace MegaMan.Engine
 
         public override void StartHandler()
         {
+            Player = GameEntity.Get("Player", this);
+            PlayerPos = Player.GetComponent<PositionComponent>();
+
             Player.Death += Player_Death;
 
             PlayerPos = Player.GetComponent<PositionComponent>();

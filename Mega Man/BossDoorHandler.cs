@@ -5,6 +5,7 @@ namespace MegaMan.Engine
 {
     public class BossDoorHandler : JoinHandler
     {
+        private IGameplayContainer container;
         private GameEntity doorOne;
         private GameEntity doorTwo;
         private bool open;
@@ -15,11 +16,10 @@ namespace MegaMan.Engine
         private int doorTwoX;
         private int doorTwoY;
 
-        public BossDoorHandler(GameEntity doorOne, GameEntity doorTwo, Join join, int tileSize, int height, int width, string name)
+        public BossDoorHandler(Join join, IGameplayContainer container, int tileSize, int height, int width, string name)
             : base(join, tileSize, height, width, name)
         {
-            this.doorOne = doorOne;
-            this.doorTwo = doorTwo;
+            this.container = container;
 
             if (direction == Direction.Down)
             {
@@ -58,6 +58,9 @@ namespace MegaMan.Engine
         public override void Start(ScreenHandler screen)
         {
             base.Start(screen);
+
+            doorOne = GameEntity.Get(JoinInfo.bossEntityName, container);
+            doorTwo = GameEntity.Get(JoinInfo.bossEntityName, container);
 
             doorOne.GetComponent<PositionComponent>().SetPosition(new PointF(doorOneX, doorOneY));
             doorTwo.GetComponent<PositionComponent>().SetPosition(new PointF(doorTwoX, doorTwoY));

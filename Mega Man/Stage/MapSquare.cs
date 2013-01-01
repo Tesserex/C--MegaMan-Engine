@@ -16,15 +16,16 @@ namespace MegaMan.Engine
         public float ScreenX { get { return screenX + layer.LocationX; } }
         public float ScreenY { get { return screenY + layer.LocationY; } }
 
-        private readonly RectangleF basisBox;
-        private readonly RectangleF boundBox;
-        private readonly RectangleF flipBox;
+        private readonly RectangleF blockBox;
+        private RectangleF ladderBox;
+        private RectangleF flipLadderBox;
+        private bool ladderBoxesLoaded;
 
         public RectangleF BoundBox
         {
             get
             {
-                var box = basisBox;
+                var box = blockBox;
                 box.Offset(ScreenX, ScreenY);
                 return box;
             } 
@@ -34,10 +35,31 @@ namespace MegaMan.Engine
         {
             get
             {
-                var box = boundBox;
-                if (Game.CurrentGame.GravityFlip)
+                RectangleF box;
+
+                if (Tile.Properties.Blocking)
                 {
-                    box = flipBox;
+                    box = blockBox;
+                }
+                else if (Tile.Properties.Climbable)
+                {
+                    if (!ladderBoxesLoaded)
+                    {
+                        LoadLadderBoxes();
+                    }
+
+                    if (Game.CurrentGame.GravityFlip)
+                    {
+                        box = flipLadderBox;
+                    }
+                    else
+                    {
+                        box = ladderBox;
+                    }
+                }
+                else
+                {
+                    box = RectangleF.Empty;
                 }
 
                 box.Offset(ScreenX, ScreenY);
@@ -56,36 +78,32 @@ namespace MegaMan.Engine
 
             var commonBox = Tile.Sprite.BoundBox;
 
-            basisBox = new RectangleF(commonBox.X, commonBox.Y, commonBox.Width, commonBox.Height);
-            basisBox.Offset(-Tile.Sprite.HotSpot.X, -Tile.Sprite.HotSpot.Y);
+            blockBox = new RectangleF(commonBox.X, commonBox.Y, commonBox.Width, commonBox.Height);
+            blockBox.Offset(-Tile.Sprite.HotSpot.X, -Tile.Sprite.HotSpot.Y);
+        }
 
-            if (Tile.Properties.Blocking)
-            {
-                boundBox = flipBox = basisBox;
-            }
-            else if (Tile.Properties.Climbable)
-            {
-                Tile below = layer.SquareAt(ScreenX, ScreenY + tilesize).Tile;
-                if (below != null && !below.Properties.Climbable)
-                {
-                    flipBox = basisBox;
-                    flipBox.Offset(0, flipBox.Height - 4);
-                    flipBox.Height = 4;
-                }
-                else flipBox = RectangleF.Empty;
+        private void LoadLadderBoxes()
+        {
+            var tilesize = Tile.Width;
 
-                Tile above = layer.SquareAt(ScreenX, ScreenY - tilesize).Tile;
-                if (above != null && !above.Properties.Climbable)
-                {
-                    boundBox = basisBox;
-                    boundBox.Height = 4;
-                }
-                else boundBox = RectangleF.Empty;
-            }
-            else
+            Tile below = layer.SquareAt(ScreenX, ScreenY + tilesize).Tile;
+            if (below != null && !below.Properties.Climbable)
             {
-                flipBox = boundBox = RectangleF.Empty;
+                flipLadderBox = blockBox;
+                flipLadderBox.Offset(0, flipLadderBox.Height - 4);
+                flipLadderBox.Height = 4;
             }
+            else flipLadderBox = RectangleF.Empty;
+
+            Tile above = layer.SquareAt(ScreenX, ScreenY - tilesize).Tile;
+            if (above != null && !above.Properties.Climbable)
+            {
+                ladderBox = blockBox;
+                ladderBox.Height = 4;
+            }
+            else ladderBox = RectangleF.Empty;
+
+            ladderBoxesLoaded = true;
         }
 
         public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float posX, float posY)
