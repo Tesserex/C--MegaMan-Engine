@@ -39,6 +39,11 @@ namespace MegaMan.Engine
             }
         }
 
+        // there are three levels of deletion. Each one fires the previous events.
+        // Stopped is used internally. Removed is used for anything forcibly removed
+        // by the game xml, and Death is used for actual enemy kills,
+        // with effects and explosions and such.
+
         private Effect OnDeath = entity => { };
         public event Action Stopped;
         public event Action Removed;
@@ -66,11 +71,6 @@ namespace MegaMan.Engine
         }
 
         public void Stop() { Stop(true); }
-
-        // there are three levels of deletion. Each one fires the previous events.
-        // Stopped is used internally. Removed is used for anything forcibly removed
-        // by the game xml, and Death is used for actual enemy kills,
-        // with effects and explosions and such.
 
         private void Stop(bool remove)
         {
@@ -281,6 +281,15 @@ namespace MegaMan.Engine
             if (!entities.ContainsKey(name)) throw new GameRunException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +
                 "You need to make sure it's defined in one of the included XML files.");
 
+            // look in the pool
+            if (deadEntityPool.ContainsKey(name))
+            {
+                if (deadEntityPool[name].Any())
+                {
+                    return deadEntityPool[name].Pop();
+                }
+            }
+
             // clone it
             GameEntity entity = new GameEntity(container);
             GameEntity source = entities[name];
@@ -316,6 +325,7 @@ namespace MegaMan.Engine
         }
 
         private static readonly List<GameEntity> actives = new List<GameEntity>();
+        private static readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
 
         public static int ActiveCount { get { return actives.Count; } }
 
@@ -327,6 +337,13 @@ namespace MegaMan.Engine
         private static void RemoveEntity(GameEntity entity)
         {
             actives.Remove(entity);
+
+            if (!deadEntityPool.ContainsKey(entity.Name))
+            {
+                deadEntityPool[entity.Name] = new Stack<GameEntity>();
+            }
+
+            deadEntityPool[entity.Name].Push(entity);
         }
 
         public static IEnumerable<GameEntity> GetAll()
