@@ -4,20 +4,20 @@
 	<Continue screen="Continue" x="32" y="148" />
 	<Screen id="Start" />
 	<Screen id="Second">
-		<Entity name="ShieldShooter" x="128" y="80" />
-		<Entity name="Metool" x="220" y="236" />
-		<Entity name="GroundCannon" x="112" y="320" />
+		<Entity entity="ShieldShooter" x="128" y="80" />
+		<Entity entity="Metool" x="220" y="236" />
+		<Entity entity="GroundCannon" x="112" y="320" />
 	</Screen>
 	<Screen id="Third">
-		<Entity name="Collapser" x="128" y="128" />
-		<Entity name="Collapser" x="128" y="192" />
+		<Entity entity="Collapser" x="128" y="128" />
+		<Entity entity="Collapser" x="128" y="192" />
 	</Screen>
 	<Screen id="BottomLeft">
-		<Entity name="FloorBlade" x="60" y="168" />
-		<Entity name="SpikeBlock" x="220" y="120" />
-		<Entity name="SpikeBlock" state="Vert" x="280" y="104" />
-		<Entity name="SpikeBlock" x="330" y="120" />
-		<Entity name="SpikeBlock" state="Vert" x="400" y="104" />
+		<Entity entity="FloorBlade" x="60" y="168" />
+		<Entity entity="SpikeBlock" x="220" y="120" />
+		<Entity entity="SpikeBlock" state="Vert" x="280" y="104" />
+		<Entity entity="SpikeBlock" x="330" y="120" />
+		<Entity entity="SpikeBlock" state="Vert" x="400" y="104" />
 		<Blocks left="440" right="800" length="240" entity="Disappear">
 			<Block x="512" y="160" on="0" off="60" />
 			<Block x="560" y="160" on="60" off="120" />
@@ -27,23 +27,23 @@
 	</Screen>
 	<Screen id="Slide" />
 	<Screen id="Continue">
-		<Entity name="Wheel" x="144" y="180" />
-		<Entity name="WallSpike" x="148" y="174" />
+		<Entity entity="Wheel" x="144" y="180" />
+		<Entity entity="WallSpike" x="148" y="174" />
 		<Blocks left="0" right="256" length="240" entity="YokuWheel">
 			<Block x="88" y="180" on="0" off="90" />
 			<Block x="196" y="136" on="90" off="180" />
 		</Blocks>
 	</Screen>
 	<Screen id="Water">
-		<Entity name="PropFollower" x="32" y="64" />
-		<Entity name="PropFollower" x="212" y="48" />
-		<Entity name="PropFollower" x="80" y="128" />
-		<Entity name="Seeker" x="128" y="40" />
-		<Entity name="Seeker" x="48" y="172" />
-		<Entity name="Seeker" x="192" y="80" />
+		<Entity entity="PropFollower" x="32" y="64" />
+		<Entity entity="PropFollower" x="212" y="48" />
+		<Entity entity="PropFollower" x="80" y="128" />
+		<Entity entity="Seeker" x="128" y="40" />
+		<Entity entity="Seeker" x="48" y="172" />
+		<Entity entity="Seeker" x="192" y="80" />
 	</Screen>
 	<Screen id="Stars">
-		<Entity name="Moving" x="552" y="128" />
+		<Entity entity="Moving" x="552" y="128" />
 		<Blocks left="180" right="600" length="520" entity="YokuSpike">
 			<Block x="304" y="64" on="0" off="120" />
 			<Block x="320" y="64" on="40" off="160" />

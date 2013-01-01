@@ -2,7 +2,7 @@
     <Music nsftrack="10" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
-        <Entity name="Lightswitch" x="864" y="96" />
+        <Entity entity="Lightswitch" x="864" y="96" />
 		<Overlay name="floor" x="64" y="176" foreground="true" />
         <Overlay name="floor" x="320" y="0" foreground="true" />
         <Overlay name="overlay" x="560" y="-48">

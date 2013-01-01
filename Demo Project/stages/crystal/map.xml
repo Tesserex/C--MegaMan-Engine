@@ -11,6 +11,7 @@
 			<Next type="Scene" mode="Push" name="LeaveStage" />
 		</Condition>
 		<Entity entity="CrystalMan" x="200" y="-48" respawn="Never" />
+		<Entity entity="Player" x="128" y="164" state="Standing" />
 	</Screen>
 	<Screen id="ScreenTwo">
 		<Entity entity="Collapser" state="" x="138" y="128" />

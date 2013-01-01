@@ -1,17 +1,17 @@
 <Map name="Elec" tiles="..\elec\tiles.xml">
 	<Start screen="1" x="112" y="180" />
 	<Screen id="1">
-		<Entity name="FloorBlade" state="" x="101" y="136" />
-		<Entity name="FloorBlade" state="" x="170" y="104" />
-		<Entity name="FloorBlade" state="" x="56" y="72" />
+		<Entity entity="FloorBlade" state="" x="101" y="136" />
+		<Entity entity="FloorBlade" state="" x="170" y="104" />
+		<Entity entity="FloorBlade" state="" x="56" y="72" />
 	</Screen>
 	<Screen id="2">
-		<Entity name="FloorBlade" state="" x="137" y="136" />
-		<Entity name="FloorBlade" state="" x="91" y="104" />
+		<Entity entity="FloorBlade" state="" x="137" y="136" />
+		<Entity entity="FloorBlade" state="" x="91" y="104" />
 	</Screen>
 	<Screen id="3">
-		<Entity name="BoltOne" state="" x="160" y="144" />
-		<Entity name="BoltTwo" state="" x="112" y="111" />
+		<Entity entity="BoltOne" state="" x="160" y="144" />
+		<Entity entity="BoltTwo" state="" x="112" y="111" />
 	</Screen>
 	<Screen id="4" />
 	<Screen id="5" />
@@ -24,9 +24,9 @@
 		</Blocks>
 	</Screen>
 	<Screen id="7">
-		<Entity name="SmallWeapon" state="" x="114" y="188" />
-		<Entity name="SmallWeapon" state="" x="97" y="188" />
-		<Entity name="SmallWeapon" state="" x="79" y="188" />
+		<Entity entity="SmallWeapon" state="" x="114" y="188" />
+		<Entity entity="SmallWeapon" state="" x="97" y="188" />
+		<Entity entity="SmallWeapon" state="" x="79" y="188" />
 		<Blocks left="0" right="256" length="240" entity="ElecYoku">
 			<Block x="192" y="176" on="0" off="105" />
 			<Block x="176" y="176" on="60" off="165" />
@@ -35,49 +35,49 @@
 		</Blocks>
 	</Screen>
 	<Screen id="8">
-		<Entity name="BigHealth" state="" x="241" y="184" />
+		<Entity entity="BigHealth" state="" x="241" y="184" />
 	</Screen>
 	<Screen id="9" />
 	<Screen id="10">
-		<Entity name="FloorBlade" state="" x="42" y="120" />
-		<Entity name="FloorBlade" state="" x="48" y="56" />
-		<Entity name="FloorBlade" state="" x="117" y="88" />
-		<Entity name="BoltOne" x="160" y="112" />
-		<Entity name="BoltTwo" x="160" y="48" />
+		<Entity entity="FloorBlade" state="" x="42" y="120" />
+		<Entity entity="FloorBlade" state="" x="48" y="56" />
+		<Entity entity="FloorBlade" state="" x="117" y="88" />
+		<Entity entity="BoltOne" x="160" y="112" />
+		<Entity entity="BoltTwo" x="160" y="48" />
 	</Screen>
 	<Screen id="11" />
 	<Screen id="12">
-		<Entity name="LargeBolt" state="" x="208" y="122" />
+		<Entity entity="LargeBolt" state="" x="208" y="122" />
 	</Screen>
 	<Screen id="13">
-		<Entity name="BoltTwo" state="" x="160" y="80" />
-		<Entity name="BoltOne" state="" x="160" y="144" />
+		<Entity entity="BoltTwo" state="" x="160" y="80" />
+		<Entity entity="BoltOne" state="" x="160" y="144" />
 	</Screen>
 	<Screen id="14">
-		<Entity name="BoltOne" state="" x="16" y="144" />
-		<Entity name="BoltTwo" state="" x="16" y="80" />
-		<Entity name="BoltTwo" state="" x="160" y="48" />
+		<Entity entity="BoltOne" state="" x="16" y="144" />
+		<Entity entity="BoltTwo" state="" x="16" y="80" />
+		<Entity entity="BoltTwo" state="" x="160" y="48" />
 	</Screen>
 	<Screen id="15">
-		<Entity name="BoltTwo" state="" x="32" y="112" />
-		<Entity name="BoltOne" state="" x="32" y="176" />
+		<Entity entity="BoltTwo" state="" x="32" y="112" />
+		<Entity entity="BoltOne" state="" x="32" y="176" />
 	</Screen>
 	<Screen id="16" />
 	<Screen id="17">
-		<Entity name="BoltOne" state="" x="96" y="143" />
-		<Entity name="BoltTwo" state="" x="64" y="111" />
+		<Entity entity="BoltOne" state="" x="96" y="143" />
+		<Entity entity="BoltTwo" state="" x="64" y="111" />
 	</Screen>
 	<Screen id="18" />
 	<Screen id="19" />
 	<Screen id="20">
-		<Entity name="BoltTwo" state="" x="96" y="176" />
-		<Entity name="BoltTwo" state="" x="96" y="48" />
-		<Entity name="BoltOne" state="" x="96" y="112" />
+		<Entity entity="BoltTwo" state="" x="96" y="176" />
+		<Entity entity="BoltTwo" state="" x="96" y="48" />
+		<Entity entity="BoltOne" state="" x="96" y="112" />
 	</Screen>
 	<Screen id="21">
-		<Entity name="BoltOne" state="" x="96" y="112" />
-		<Entity name="BoltTwo" state="" x="96" y="48" />
-		<Entity name="BoltTwo" state="" x="96" y="176" />
+		<Entity entity="BoltOne" state="" x="96" y="112" />
+		<Entity entity="BoltTwo" state="" x="96" y="48" />
+		<Entity entity="BoltTwo" state="" x="96" y="176" />
 	</Screen>
 	<Screen id="22" />
 	<Join type="horizontal" s1="2" s2="1" offset1="2" offset2="2" size="12" direction="both" />
