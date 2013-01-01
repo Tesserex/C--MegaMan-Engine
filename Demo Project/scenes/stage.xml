@@ -1,0 +1,79 @@
+<Scenes>
+	<Scene name="StageReady" duration="128">
+		<Sprite name="Ready" tilesheet="images/ready.png" width="38" height="7">
+			<Hotspot x="19" y="0" />
+			<Frame x="0" y="0" duration="8" />
+			<Frame x="39" y="8" duration="8" />
+		</Sprite>
+		<Keyframe frame="0">
+			<Effect entity="Player">
+				<Pause />
+			</Effect>
+			<Add name="Ready" object="Ready" x="128" y="84" />
+		</Keyframe>
+		<Keyframe frame="127">
+			<Effect entity="Player">
+				<Unpause />
+			</Effect>
+			<Add name="Ready" object="Ready" x="128" y="84" />
+		</Keyframe>
+		<Next type="scene" mode="Pop" />
+	</Scene>
+
+	<Scene name="BossIntro" duration="235">
+		<Keyframe frame="0">
+			<PlayMusic track="11" />
+			<Effect entity="Player">
+				<Input><Pause /></Input>
+			</Effect>
+		</Keyframe>
+		<Keyframe frame="234">
+			<Effect entity="Player">
+				<Input><Unpause /></Input>
+			</Effect>
+		</Keyframe>
+		<Next mode="Pop" />
+	</Scene>
+
+	<Scene name="BossDefeated" duration="1040">
+		<Keyframe frame="0">
+			<StopMusic />
+		</Keyframe>
+		<Keyframe frame="330">
+			<PlayMusic track="18" />
+			<Effect entity="Player">
+				<Movement>
+					<X magnitude="0" />
+				</Movement>
+				<Input><Pause /></Input>
+				<Trigger>
+					<Condition>Weapon.CurrentWeapon == "MBuster"</Condition>
+					<Effect>
+						<Timer><Delete>Shoot</Delete><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+						<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+						<Sound name="Charge" playing="false" />
+						<Sound name="Charged" playing="false" />
+					</Effect>
+				</Trigger>
+			</Effect>
+		</Keyframe>
+		<Keyframe frame="570">
+			<Effect entity="Player">
+				<State>EndStage</State>
+				<UnlockWeapon name="Crystal" />
+				<DefeatBoss name="Crystal" />
+			</Effect>
+		</Keyframe>
+		<Next type="scene" name="CrystalWeapon" fade="True" />
+	</Scene>
+
+	<Scene name="LeaveStage" duration="240">
+		<Keyframe frame="0">
+			<Effect entity="Player">
+				<Input><Pause /></Input>
+				<State>LeaveStage</State>
+			</Effect>
+		</Keyframe>
+		<Next type="Menu" name="StageSelect" fade="True" />
+	</Scene>
+</Scenes>

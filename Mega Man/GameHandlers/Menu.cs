@@ -197,7 +197,15 @@ namespace MegaMan.Engine
 
         private static Dictionary<string, Menu> menus = new Dictionary<string, Menu>();
 
-        public static void Load(XElement node)
+        public static void LoadMenus(XElement node)
+        {
+            foreach (var menuNode in node.Elements("Menu"))
+            {
+                LoadMenu(menuNode);
+            }
+        }
+
+        public static void LoadMenu(XElement node)
         {
             var info = MenuInfo.FromXml(node, Game.CurrentGame.BasePath);
 

@@ -201,12 +201,20 @@ namespace MegaMan.Engine
                             Engine.Instance.SoundSystem.LoadEffectsFromXml(element);
                             break;
 
+                        case "Scenes":
+                            Scene.LoadScenes(element);
+                            break;
+
                         case "Scene":
                             Scene.LoadScene(element);
                             break;
 
+                        case "Menus":
+                            Menu.LoadMenus(element);
+                            break;
+
                         case "Menu":
-                            Menu.Load(element);
+                            Menu.LoadMenu(element);
                             break;
 
                         case "Fonts":

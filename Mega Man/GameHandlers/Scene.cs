@@ -69,6 +69,14 @@ namespace MegaMan.Engine
 
         private static Dictionary<string, Scene> scenes = new Dictionary<string,Scene>();
 
+        public static void LoadScenes(XElement node)
+        {
+            foreach (var sceneNode in node.Elements("Scene"))
+            {
+                LoadScene(sceneNode);
+            }
+        }
+
         public static void LoadScene(XElement node)
         {
             var info = SceneInfo.FromXml(node, Game.CurrentGame.BasePath);

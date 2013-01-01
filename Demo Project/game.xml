@@ -25,15 +25,12 @@
 	<Include>scenes\entities.xml</Include>
 	<Include>scenes\crystal.xml</Include>
 	<Include>scenes\intro.xml</Include>
-	<Include>scenes\title.xml</Include>
-	<Include>scenes\mainmenu.xml</Include>
-	<Include>scenes\stageselect.xml</Include>
-	<Include>scenes\stageready.xml</Include>
-	<Include>scenes\pause.xml</Include>
+	<Include>menus\title.xml</Include>
+	<Include>menus\mainmenu.xml</Include>
+	<Include>menus\stageselect.xml</Include>
+	<Include>scenes\stage.xml</Include>
+	<Include>menus\pause.xml</Include>
 	<Include>scenes\crystalweapon.xml</Include>
-	<Include>scenes\bossintro.xml</Include>
-	<Include>scenes\bossdefeated.xml</Include>
-	<Include>scenes\leavestage.xml</Include>
 	<Include>images\fonts\fonts.xml</Include>
 	<Include>images\palettes.xml</Include>
 </Game>
