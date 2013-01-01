@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml;
 
@@ -19,7 +20,9 @@ namespace MegaMan.Common
         #region Game XML File Stuff
 
         private List<StageLinkInfo> stages = new List<StageLinkInfo>();
-        
+
+        private List<string> includeFolders = new List<string>();
+        private List<string> includeFilesFromFolders = new List<string>();
         private List<string> includeFiles = new List<string>();
 
         public IEnumerable<StageLinkInfo> Stages
@@ -34,7 +37,7 @@ namespace MegaMan.Common
 
         public IEnumerable<string> Includes
         {
-            get { return includeFiles; }
+            get { return includeFiles.Concat(includeFilesFromFolders); }
         }
 
         public string Name
@@ -150,14 +153,18 @@ namespace MegaMan.Common
                 StartHandler = HandlerTransfer.FromXml(startNode);
             }
 
-            foreach (XElement entityNode in reader.Elements("Entities"))
-            {
-                if (!string.IsNullOrEmpty(entityNode.Value.Trim())) includeFiles.Add(entityNode.Value);
-            }
-            foreach (XElement entityNode in reader.Elements("Include"))
-            {
-                if (!string.IsNullOrEmpty(entityNode.Value.Trim())) includeFiles.Add(entityNode.Value);
-            }
+            includeFiles.AddRange(reader.Elements("Include")
+                .Select(e => e.Value)
+                .Where(v => !string.IsNullOrEmpty(v.Trim())));
+
+            includeFolders.AddRange(reader.Elements("IncludeFolder")
+                .Select(e => e.Value)
+                .Where(v => !string.IsNullOrEmpty(v.Trim())));
+
+            includeFilesFromFolders.AddRange(includeFolders
+                .SelectMany(f => Directory.EnumerateFiles(
+                    Path.Combine(BaseDir, f), "*.xml", SearchOption.AllDirectories)
+                ));
         }
 
         public void Save()
@@ -214,9 +221,14 @@ namespace MegaMan.Common
 
             if (StartHandler != null) StartHandler.Save(writer);
 
-            foreach (string entityFile in this.includeFiles)
+            foreach (string folder in this.includeFolders)
             {
-                writer.WriteElementString("Include", entityFile);
+                writer.WriteElementString("IncludeFolder", folder);
+            }
+
+            foreach (string file in this.includeFiles)
+            {
+                writer.WriteElementString("Include", file);
             }
 
             writer.WriteEndElement(); // Game

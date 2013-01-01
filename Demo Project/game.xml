@@ -12,25 +12,8 @@
 		<Stage name="Metal" path="stages\Metal" />
 	</Stages>
 	<Next type="Scene" name="Intro" fade="False" />
-	<Include>entities\bosses.xml</Include>
-	<Include>entities\player.xml</Include>
-	<Include>entities\weapons.xml</Include>
-	<Include>entities\particles.xml</Include>
-	<Include>entities\enemies.xml</Include>
-	<Include>entities\items.xml</Include>
-	<Include>entities\blocks.xml</Include>
-	<Include>entities\wires.xml</Include>
+	<IncludeFolder>objects</IncludeFolder>
 	<Include>sounds\sounds.xml</Include>
-	<Include>entities\functions.xml</Include>
-	<Include>scenes\entities.xml</Include>
-	<Include>scenes\crystal.xml</Include>
-	<Include>scenes\intro.xml</Include>
-	<Include>menus\title.xml</Include>
-	<Include>menus\mainmenu.xml</Include>
-	<Include>menus\stageselect.xml</Include>
-	<Include>scenes\stage.xml</Include>
-	<Include>menus\pause.xml</Include>
-	<Include>scenes\crystalweapon.xml</Include>
 	<Include>images\fonts\fonts.xml</Include>
 	<Include>images\palettes.xml</Include>
 </Game>
