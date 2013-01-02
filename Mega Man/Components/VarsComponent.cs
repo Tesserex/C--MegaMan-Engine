@@ -32,7 +32,8 @@ namespace MegaMan.Engine
         }
 
         public override void Stop()
-        {   
+        {
+            _vars.Clear();
         }
 
         public override void Message(IGameMessage msg)

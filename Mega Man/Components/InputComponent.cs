@@ -45,6 +45,13 @@ namespace MegaMan.Engine
             return (!Paused && activeKeys.ContainsKey(key))? activeKeys[key] : false;
         }
 
+        private void Reset()
+        {
+            Shoot = Jump = StartKey = Select = false;
+            activeKeys.Clear();
+            backupKeys.Clear();
+        }
+
         public override Component Clone()
         {
             return new InputComponent();
@@ -52,12 +59,14 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
+            Reset();
             Parent.Container.GameThink += Update;
             Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
         public override void Stop()
         {
+            Reset();
             Parent.Container.GameThink -= Update;
             Engine.Instance.GameInputReceived -= Instance_GameInputReceived;
         }

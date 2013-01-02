@@ -43,12 +43,16 @@ namespace MegaMan.Engine
         {
             currentState = "Start";
             stateChanged = false;
+            StateFrames = 0;
+            Lifetime = 0;
             Parent.Container.GameThink += Update;
             if (states.ContainsKey(currentState)) states[currentState].Initialize(Parent);
         }
 
         public override void Stop()
         {
+            StateFrames = 0;
+            Lifetime = 0;
             Parent.Container.GameThink -= Update;
         }
 
