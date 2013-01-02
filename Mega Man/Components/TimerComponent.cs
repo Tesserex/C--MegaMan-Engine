@@ -15,11 +15,13 @@ namespace MegaMan.Engine
 
         public override void Start()
         {
+            timers.Clear();
             Parent.Container.GameThink += Update;
         }
 
         public override void Stop()
         {
+            timers.Clear();
             Parent.Container.GameThink -= Update;
         }
 
