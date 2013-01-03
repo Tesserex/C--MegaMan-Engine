@@ -23,7 +23,8 @@ namespace MegaMan.Common
         Next,
         Call,
         Effect,
-        Condition
+        Condition,
+        WaitForInput
     }
 
     public abstract class SceneCommandInfo
@@ -100,6 +101,10 @@ namespace MegaMan.Common
 
                     case "Condition":
                         list.Add(SceneConditionCommandInfo.FromXml(cmdNode, basePath));
+                        break;
+
+                    case "WaitForInput":
+                        list.Add(new SceneWaitCommandInfo());
                         break;
                 }
             }
@@ -632,6 +637,19 @@ namespace MegaMan.Common
             }
 
             writer.WriteEndElement();
+        }
+    }
+
+    public class SceneWaitCommandInfo : SceneCommandInfo
+    {
+        public override SceneCommands Type
+        {
+            get { return SceneCommands.WaitForInput; }
+        }
+
+        public override void Save(XmlTextWriter writer)
+        {
+            writer.WriteElementString("WaitForInput", "");
         }
     }
 

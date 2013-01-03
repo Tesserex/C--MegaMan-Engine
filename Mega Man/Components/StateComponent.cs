@@ -82,11 +82,11 @@ namespace MegaMan.Engine
             FrameRand = Program.rand.NextDouble();
 
             states[currentState].CheckTriggers(this, Parent);
+            states[currentState].RunLogic(Parent);
 
             if (stateChanged)
             {
                 states[currentState].Initialize(Parent);
-                StateFrames = 0;
                 stateChanged = false;
 
                 if (StateChanged != null) StateChanged(currentState);
@@ -98,6 +98,7 @@ namespace MegaMan.Engine
             if (!states.ContainsKey(currentState)) throw new GameRunException("Entity \"" + Parent.Name + "\" tried to change to state \"" + currentState + "\", which does not exist.");
 
             currentState = stateName;
+            StateFrames = 0;
             stateChanged = true;
         }
 
@@ -224,6 +225,11 @@ namespace MegaMan.Engine
                 initializer(entity);
             }
 
+            public void RunLogic(GameEntity entity)
+            {
+                logic(entity);
+            }
+
             public void AddInitial(Effect func)
             {
                 initializer += func;
@@ -251,7 +257,6 @@ namespace MegaMan.Engine
                         if (statecomp.currentState != state) break;
                     }
                 }
-                statecomp.states[statecomp.currentState].logic(entity);
             }
         }
     }

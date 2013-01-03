@@ -13,6 +13,7 @@ namespace MegaMan.Engine
     {
         private SceneInfo info;
         private int frame = 0;
+        private bool waiting = false;
 
         private Scene(SceneInfo info)
         {
@@ -26,9 +27,28 @@ namespace MegaMan.Engine
             base.StartHandler();
         }
 
+        protected override void RunCommand(SceneCommandInfo cmd)
+        {
+            if (cmd.Type == SceneCommands.WaitForInput)
+            {
+                waiting = true;
+            }
+            else
+            {
+                base.RunCommand(cmd);
+            }
+        }
+
         protected override void GameInputReceived(GameInputEventArgs e)
         {
-            if (info.CanSkip && e.Pressed && e.Input == GameInput.Start)
+            if (waiting)
+            {
+                if (e.Input == GameInput.Shoot || e.Input == GameInput.Jump || e.Input == GameInput.Start)
+                {
+                    waiting = false;
+                }
+            }
+            else if (info.CanSkip && e.Pressed && e.Input == GameInput.Start)
             {
                 Finish(info.NextHandler);
             }
@@ -36,6 +56,12 @@ namespace MegaMan.Engine
 
         protected override void Tick(GameTickEventArgs e)
         {
+            if (waiting)
+            {
+                base.Tick(e);
+                return;
+            }
+
             foreach (var keyframe in info.KeyFrames)
             {
                 if (keyframe.Frame == frame)

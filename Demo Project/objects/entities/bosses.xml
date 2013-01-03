@@ -72,7 +72,6 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger condition="Collision.BlockBottom"><Effect><State>Pose</State></Effect></Trigger>
 		</State>
 		<State name="Pose">
 			<Sprite><Name>Pose</Name></Sprite>
