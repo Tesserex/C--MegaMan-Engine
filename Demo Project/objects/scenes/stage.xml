@@ -20,16 +20,41 @@
 		<Next type="scene" mode="Pop" />
 	</Scene>
 
-	<Scene name="BossIntro" duration="235">
+	<Scene name="BossIntro" duration="472">
 		<Keyframe frame="0">
 			<PlayMusic track="11" />
 			<Effect entity="Player">
 				<Input><Pause /></Input>
 			</Effect>
 		</Keyframe>
-		<Keyframe frame="234">
+		<Keyframe frame="30">
+			<Fill name="Box" color="0,0,0" x="128" y="56" width="0" height="0" layer="2" />
+			<FillMove name="Box" x="32" y="32" width="192" height="48" duration="60" />
+		</Keyframe>
+		<Keyframe frame="105">
+			<Text name="text" content="Mwahaha!!! I will" x="40" y="40" speed="6" />
+		</Keyframe>
+		<Keyframe frame="213">
+			<Text name="text2" content="destroy you with my" x="40" y="52" speed="6" />
+		</Keyframe>
+		<Keyframe frame="336">
+			<Text name="text3" content="shiny balls!" x="40" y="64" speed="6" />
+		</Keyframe>
+		<Keyframe frame="410">
+			<WaitForInput />
+		</Keyframe>
+		<Keyframe frame="411">
+			<Remove name="text" />
+			<Remove name="text2" />
+			<Remove name="text3" />
+			<FillMove name="Box" x="128" y="56" width="0" height="0" duration="60" />
+		</Keyframe>
+		<Keyframe frame="471">
 			<Effect entity="Player">
 				<Input><Unpause /></Input>
+			</Effect>
+			<Effect entity="CrystalMan">
+				<State>Pose</State>
 			</Effect>
 		</Keyframe>
 		<Next mode="Pop" />

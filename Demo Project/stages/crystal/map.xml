@@ -10,7 +10,7 @@
 		<Condition condition="Game.IsBossDefeated(&quot;Crystal&quot;)">
 			<Next type="Scene" mode="Push" name="LeaveStage" />
 		</Condition>
-		<Entity entity="CrystalMan" x="200" y="-48" respawn="Never" />
+		<Entity id="CrystalMan" entity="CrystalMan" x="200" y="-48" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">
 		<Entity entity="Collapser" state="" x="138" y="128" />
