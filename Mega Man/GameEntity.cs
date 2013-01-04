@@ -369,6 +369,8 @@ namespace MegaMan.Engine
             }
             entities.Clear();
 
+            deadEntityPool.Clear();
+
             neverRespawnable.Clear();
 
             EffectParser.Unload();
