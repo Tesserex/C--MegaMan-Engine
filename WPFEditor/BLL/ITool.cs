@@ -3,17 +3,12 @@ using MegaMan.Common.Geometry;
 
 namespace MegaMan.LevelEditor
 {
-    public interface IScreenSurface
-    {
-        ScreenDocument Screen { get; }
-    }
-
     public interface IToolBehavior
     {
-        void Click(IScreenSurface surface, Point location);
-        void Move(IScreenSurface surface, Point location);
-        void Release(IScreenSurface surface);
-        void RightClick(IScreenSurface surface, Point location);
+        void Click(ScreenDocument surface, Point location);
+        void Move(ScreenDocument surface, Point location);
+        void Release(ScreenDocument surface);
+        void RightClick(ScreenDocument surface, Point location);
     }
 
     public class ToolChangedEventArgs : EventArgs

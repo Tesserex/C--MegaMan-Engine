@@ -9,11 +9,16 @@ namespace MegaMan.LevelEditor
     {
         private readonly ScreenInfo screen;
 
+        private int? selectedEntityIndex;
+
         public StageDocument Stage { get; private set; }
 
         public event Action<int, int> Resized;
         public event Action TileChanged;
         public event Action EntitiesChanged;
+
+        public Rectangle? Selection { get; private set; }
+        public event Action<Rectangle?> SelectionChanged;
 
         private bool Dirty
         {
@@ -150,6 +155,50 @@ namespace MegaMan.LevelEditor
 
             bounds.Offset(entityInfo.screenX, entityInfo.screenY);
             return bounds.Contains(location);
+        }
+
+        public void SelectEntity(int index)
+        {
+            if (index >= 0 && index < screen.Layers[0].Entities.Count)
+            {
+                selectedEntityIndex = index;
+            }
+            else
+            {
+                selectedEntityIndex = null;
+            }
+        }
+
+        public void SetSelection(int tx, int ty, int width, int height)
+        {
+            if (width != 0 && height != 0)
+            {
+                if (tx < 0)
+                {
+                    width += tx;
+                    tx = 0;
+                }
+                if (ty < 0)
+                {
+                    height += ty;
+                    ty = 0;
+                }
+
+                if (width + tx > Width) width = Width - tx;
+                if (height + ty > Height) height = Height - ty;
+
+                // all in tile sizes
+                Selection = new Rectangle(tx, ty, width, height);
+            }
+            else
+            {
+                Selection = null;
+            }
+
+            if (SelectionChanged != null)
+            {
+                SelectionChanged(Selection);
+            }
         }
     }
 }

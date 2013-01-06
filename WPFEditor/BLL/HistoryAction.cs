@@ -30,23 +30,23 @@ namespace MegaMan.LevelEditor
             return new TileChange(tileX, tileY, newTileId, oldTileId);
         }
 
-        public void ApplyToSurface(IScreenSurface surface)
+        public void ApplyToScreen(ScreenDocument screen)
         {
-            surface.Screen.ChangeTile(tileX, tileY, newTileId);
+            screen.ChangeTile(tileX, tileY, newTileId);
         }
     }
 
     public class DrawAction : HistoryAction
     {
         private readonly List<TileChange> changes;
-        private readonly IScreenSurface surface;
+        private readonly ScreenDocument screen;
         private readonly string name;
 
-        public DrawAction(string name, IEnumerable<TileChange> changes, IScreenSurface surface)
+        public DrawAction(string name, IEnumerable<TileChange> changes, ScreenDocument screen)
         {
             this.name = name;
             this.changes = new List<TileChange>(changes);
-            this.surface = surface;
+            this.screen = screen;
         }
 
         public override string ToString()
@@ -58,7 +58,7 @@ namespace MegaMan.LevelEditor
         {
             foreach (TileChange change in changes)
             {
-                change.ApplyToSurface(surface);
+                change.ApplyToScreen(screen);
             }
         }
 
@@ -66,51 +66,51 @@ namespace MegaMan.LevelEditor
         {
             List<TileChange> ch = new List<TileChange>(changes.Count);
             ch.AddRange(changes.Select(change => change.Reverse()));
-            return new DrawAction(name, ch, surface);
+            return new DrawAction(name, ch, screen);
         }
     }
 
     public class AddEntityAction : HistoryAction
     {
         private readonly EntityPlacement entity;
-        private readonly IScreenSurface surface;
+        private readonly ScreenDocument screen;
 
-        public AddEntityAction(EntityPlacement entity, IScreenSurface surface)
+        public AddEntityAction(EntityPlacement entity, ScreenDocument screen)
         {
             this.entity = entity;
-            this.surface = surface;
+            this.screen = screen;
         }
 
         public void Run()
         {
-            surface.Screen.AddEntity(entity);
+            screen.AddEntity(entity);
         }
 
         public HistoryAction Reverse()
         {
-            return new RemoveEntityAction(entity, surface);
+            return new RemoveEntityAction(entity, screen);
         }
     }
 
     public class RemoveEntityAction : HistoryAction
     {
         private readonly EntityPlacement entity;
-        private readonly IScreenSurface surface;
+        private readonly ScreenDocument screen;
 
-        public RemoveEntityAction(EntityPlacement entity, IScreenSurface surface)
+        public RemoveEntityAction(EntityPlacement entity, ScreenDocument screen)
         {
             this.entity = entity;
-            this.surface = surface;
+            this.screen = screen;
         }
 
         public void Run()
         {
-            surface.Screen.RemoveEntity(entity);
+            screen.RemoveEntity(entity);
         }
 
         public HistoryAction Reverse()
         {
-            return new AddEntityAction(entity, surface);
+            return new AddEntityAction(entity, screen);
         }
     }
 }
