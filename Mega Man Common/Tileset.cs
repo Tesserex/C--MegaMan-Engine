@@ -13,37 +13,16 @@ namespace MegaMan.Common
         private Dictionary<string, TileProperties> properties;
         public IEnumerable<TileProperties> Properties { get { return properties.Values; } }
 
-        private string sheetPathAbs, sheetPathRel;
-
-        public string SheetPathAbs
+        public FilePath SheetPath
         {
-            get { return sheetPathAbs; }
-            set
-            {
-                sheetPathAbs = Path.GetFullPath(value);
-                if (!string.IsNullOrEmpty(filePathAbs))
-                {
-                    sheetPathRel = StageInfo.PathToRelative(sheetPathAbs, filePathAbs);
-                }
-            }
+            get;
+            private set;
         }
 
-        private string filePathAbs;
-
-        // this is inherently an absolute path.
-        // If you asked "what about relative?",
-        // I would reply, "relative to what?"
-        public string FilePath
+        public FilePath FilePath
         {
-            get { return filePathAbs; }
-            private set
-            {
-                filePathAbs = Path.GetFullPath(value);
-                if (!string.IsNullOrEmpty(SheetPathAbs))
-                {
-                    sheetPathRel = StageInfo.PathToRelative(SheetPathAbs, filePathAbs);
-                }
-            }
+            get;
+            private set;
         }
 
         public int TileSize { get; private set; }
@@ -52,23 +31,18 @@ namespace MegaMan.Common
         /// Construct a Tileset by specifying an absolute path to a tileset XML definition file.
         /// </summary>
         /// <param name="path"></param>
-        public Tileset(string path)
+        public Tileset(FilePath path)
         {
             this.properties = new Dictionary<string, TileProperties>();
 
             FilePath = path;
 
-            var doc = XDocument.Load(FilePath);
+            var doc = XDocument.Load(FilePath.Absolute);
             var reader = doc.Element("Tileset");
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
 
-            string sheetDirectory = Directory.GetParent(FilePath).FullName;
-            
-            // this may seem redundant, combining, and then having the property split it
-            // but it protects from the case where the given path was accidentally absolute
-            // this will then set the relative sheet path automatically
-            SheetPathAbs = Path.Combine(sheetDirectory, reader.Attribute("tilesheet").Value);
+            SheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
 
             int size;
             if (!int.TryParse(reader.Attribute("tilesize").Value, out size)) 
@@ -141,19 +115,26 @@ namespace MegaMan.Common
 
         public void Save(string path)
         {
-            FilePath = path; // this will adjust sheet paths accordingly
+            if (FilePath == null)
+            {
+                FilePath = FilePath.FromAbsolute(path, Directory.GetParent(path).FullName);
+            }
+            else
+            {
+                FilePath = FilePath.FromAbsolute(path, FilePath.BasePath);
+            }
             Save();
         }
 
         public void Save()
         {
-            XmlTextWriter writer = new XmlTextWriter(FilePath, null);
+            XmlTextWriter writer = new XmlTextWriter(FilePath.Absolute, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 1;
             writer.IndentChar = '\t';
 
             writer.WriteStartElement("Tileset");
-            writer.WriteAttributeString("tilesheet", sheetPathRel);
+            writer.WriteAttributeString("tilesheet", SheetPath.Relative);
             writer.WriteAttributeString("tilesize", TileSize.ToString());
 
             writer.WriteStartElement("TileProperties");
