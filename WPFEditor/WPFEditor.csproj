@@ -7,8 +7,8 @@
     <ProjectGuid>{113536D5-91FD-48C1-92B4-10868F65232E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WPFEditor</RootNamespace>
-    <AssemblyName>WPFEditor</AssemblyName>
+    <RootNamespace>MegaMan.Editor</RootNamespace>
+    <AssemblyName>Mega Man Editor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -94,6 +94,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\StageLayoutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,9 +118,16 @@
     <Compile Include="BLL\ProjectDocument.cs" />
     <Compile Include="BLL\ScreenDocument.cs" />
     <Compile Include="BLL\StageDocument.cs" />
+    <Compile Include="Controls\GridCanvas.cs" />
     <Compile Include="Controls\ProjectTree.xaml.cs">
       <DependentUpon>ProjectTree.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ScreenCanvas.cs" />
+    <Compile Include="Controls\ScreenLayer.cs" />
+    <Compile Include="Controls\StageLayoutControl.xaml.cs">
+      <DependentUpon>StageLayoutControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileScreenLayer.cs" />
     <Compile Include="Controls\ViewModels\ProjectViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

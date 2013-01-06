@@ -11,9 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPFEditor.Controls.ViewModels;
+using MegaMan.Editor.Controls.ViewModels;
 
-namespace WPFEditor.Controls
+namespace MegaMan.Editor.Controls
 {
     /// <summary>
     /// Interaction logic for ProjectTree.xaml

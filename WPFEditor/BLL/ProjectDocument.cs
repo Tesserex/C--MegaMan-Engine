@@ -5,7 +5,7 @@ using MegaMan.Common;
 using System.IO;
 using System.Xml.Linq;
 
-namespace MegaMan.LevelEditor
+namespace MegaMan.Editor.Bll
 {
     public class ProjectDocument
     {

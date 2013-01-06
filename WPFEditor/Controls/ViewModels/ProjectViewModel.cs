@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 
-namespace WPFEditor.Controls.ViewModels
+namespace MegaMan.Editor.Controls.ViewModels
 {
     public class TreeViewItemViewModel : INotifyPropertyChanged
     {

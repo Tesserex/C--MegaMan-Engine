@@ -17,6 +17,12 @@ namespace MegaMan.Common.Geometry
             Y = y;
         }
 
+        public void Offset(int x, int y)
+        {
+            X += x;
+            Y += y;
+        }
+
         public override bool Equals(object obj)
         {
             return (obj is Point) && (this == (Point)obj);
@@ -142,6 +148,62 @@ namespace MegaMan.Common.Geometry
             Y = y;
             Width = width;
             Height = height;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is RectangleF))
+            {
+                return false;
+            }
+            RectangleF rectangleF = (RectangleF)obj;
+            return rectangleF.X == this.X && rectangleF.Y == this.Y && rectangleF.Width == this.Width && rectangleF.Height == this.Height;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)((uint)this.X ^ ((uint)this.Y << 13 | (uint)this.Y >> 19) ^ ((uint)this.Width << 26 | (uint)this.Width >> 6) ^ ((uint)this.Height << 7 | (uint)this.Height >> 25));
+        }
+
+        public static bool operator ==(Rectangle left, Rectangle right)
+        {
+            return left.X == right.X && left.Y == right.Y && left.Width == right.Width && left.Height == right.Height;
+        }
+
+        public static bool operator !=(Rectangle left, Rectangle right)
+        {
+            return !(left == right);
+        }
+
+        public void Intersect(Rectangle rect)
+        {
+            Rectangle rectangle = Rectangle.Intersect(rect, this);
+            this.X = rectangle.X;
+            this.Y = rectangle.Y;
+            this.Width = rectangle.Width;
+            this.Height = rectangle.Height;
+        }
+
+        public static Rectangle Intersect(Rectangle a, Rectangle b)
+        {
+            int num = Math.Max(a.X, b.X);
+            int num2 = Math.Min(a.X + a.Width, b.X + b.Width);
+            int num3 = Math.Max(a.Y, b.Y);
+            int num4 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+            if (num2 >= num && num4 >= num3)
+            {
+                return new Rectangle(num, num3, num2 - num, num4 - num3);
+            }
+            return Rectangle.Empty;
+        }
+
+        public static Rectangle Union(Rectangle a, Rectangle b)
+        {
+            int num = Math.Min(a.X, b.X);
+            int num2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            int num3 = Math.Min(a.Y, b.Y);
+            int num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+            return new Rectangle(num, num3, num2 - num, num4 - num3);
         }
 
         public static explicit operator Rectangle(RectangleF p)

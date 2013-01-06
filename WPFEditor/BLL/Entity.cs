@@ -1,7 +1,7 @@
 ﻿using MegaMan.Common;
 using System.Xml.Linq;
 
-namespace MegaMan.LevelEditor
+namespace MegaMan.Editor.Bll
 {
     public class Entity
     {

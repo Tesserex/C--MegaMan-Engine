@@ -12,9 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MegaMan.Editor.Bll;
 using Microsoft.Win32;
 
-namespace WPFEditor
+namespace MegaMan.Editor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,6 +25,8 @@ namespace WPFEditor
         public MainWindow()
         {
             InitializeComponent();
+
+            UseLayoutRounding = true;
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -48,12 +51,11 @@ namespace WPFEditor
 
             if (result == true)
             {
-                MegaMan.Common.Project project;
+                ProjectDocument project;
 
                 try
                 {
-                    project = new MegaMan.Common.Project();
-                    project.Load(dialog.FileName);
+                    project = ProjectDocument.FromFile(dialog.FileName);
                 }
                 catch (MegaMan.Common.GameXmlException)
                 {
@@ -72,7 +74,8 @@ namespace WPFEditor
 
                 if (project != null)
                 {
-                    projectTree.Update(project);
+                    projectTree.Update(project.Project);
+                    stageLayoutControl.Stage = project.StageByName(project.StageNames.First());
                 }
             }
         }

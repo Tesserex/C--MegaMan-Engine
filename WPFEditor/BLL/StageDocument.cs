@@ -4,7 +4,7 @@ using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 
-namespace MegaMan.LevelEditor
+namespace MegaMan.Editor.Bll
 {
     // ========= What this IS, and IS NOT ===============
     // This class controls a single stage. NOT the whole damn project!

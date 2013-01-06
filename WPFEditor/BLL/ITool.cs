@@ -1,7 +1,7 @@
 ﻿using System;
 using MegaMan.Common.Geometry;
 
-namespace MegaMan.LevelEditor
+namespace MegaMan.Editor.Bll
 {
     public interface IToolBehavior
     {

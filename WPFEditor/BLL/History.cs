@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMan.LevelEditor
+namespace MegaMan.Editor.Bll
 {
     /* *
     * History - Saves previous actions for "undo"/"redo" functionality

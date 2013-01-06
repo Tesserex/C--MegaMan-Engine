@@ -1,4 +1,4 @@
-﻿namespace MegaMan.LevelEditor
+﻿namespace MegaMan.Editor.Bll
 {
     public static class Const
     {
