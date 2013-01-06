@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace MegaMan.Editor.Controls
 {
-    public class GridCanvas : Canvas
+    public class GridCanvas : Grid
     {
         private static Pen _gridPen;
 

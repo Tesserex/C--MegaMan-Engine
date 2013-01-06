@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MegaMan.Editor.Controls.ViewModels"
+             xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
@@ -45,6 +46,12 @@
 
                 <DataTemplate DataType="{x:Type local:StageTreeItemViewModel}">
                     <StackPanel Orientation="Horizontal">
+                        <StackPanel.CommandBindings>
+                            <CommandBinding Command="c:ProjectTree.ClickCommand" Executed="StageClick" />
+                        </StackPanel.CommandBindings>
+                        <StackPanel.InputBindings>
+                            <MouseBinding Command="c:ProjectTree.ClickCommand" MouseAction="LeftClick" CommandParameter="{Binding}" />
+                        </StackPanel.InputBindings>
                         <TextBlock Text="{Binding StageName}" />
                     </StackPanel>
                 </DataTemplate>

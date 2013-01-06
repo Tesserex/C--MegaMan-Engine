@@ -37,6 +37,7 @@ namespace MegaMan.Editor.Controls
 
         private Dictionary<string, ScreenCanvas> _screens;
         private HashSet<string> _screensPlaced;
+        private Size _stageSize;
 
         public StageLayoutControl()
         {
@@ -44,38 +45,59 @@ namespace MegaMan.Editor.Controls
 
             _screens = new Dictionary<string, ScreenCanvas>();
             _screensPlaced = new HashSet<string>();
+
+            this.SizeChanged += StageLayoutControl_SizeChanged;
+        }
+
+        void StageLayoutControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetSize();
+        }
+
+        private void SetSize()
+        {
+            canvas.Width = Math.Max(_stageSize.Width, scrollContainer.ViewportWidth - 20);
+            canvas.Height = Math.Max(_stageSize.Height, scrollContainer.ViewportHeight - 20);
         }
 
         private void ResetScreens()
         {
             // recycle objects if we can
             var canvases = _screens.Values.ToArray();
-            var screens = Stage.Screens.ToArray();
+            var screenDocuments = Stage.Screens.ToArray();
 
-            if (canvases.Length >= screens.Length)
+            _screens.Clear();
+
+            if (canvases.Length >= screenDocuments.Length)
             {
-                for (int i = 0; i < screens.Length; i++)
+                for (int i = 0; i < screenDocuments.Length; i++)
                 {
-                    canvases[i].Screen = screens[i];
+                    canvases[i].Screen = screenDocuments[i];
                 }
 
-                canvas.Children.RemoveRange(screens.Length, canvases.Length - screens.Length);
+                canvas.Children.RemoveRange(screenDocuments.Length, canvases.Length - screenDocuments.Length);
             }
             else
             {
                 for (int i = 0; i < canvases.Length; i++)
                 {
-                    canvases[i].Screen = screens[i];
+                    canvases[i].Screen = screenDocuments[i];
                 }
 
-                for (int i = canvases.Length; i < screens.Length; i++)
+                for (int i = canvases.Length; i < screenDocuments.Length; i++)
                 {
                     var screen = new ScreenCanvas();
-                    screen.Screen = screens[i];
+                    screen.Screen = screenDocuments[i];
+                    screen.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                    screen.VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
-                    _screens[screens[i].Name] = screen;
                     canvas.Children.Add(screen);
                 }
+            }
+
+            foreach (ScreenCanvas child in canvas.Children)
+            {
+                _screens[child.Screen.Name] = child;
             }
 
             LayoutScreens();
@@ -135,19 +157,20 @@ namespace MegaMan.Editor.Controls
                 maxX = Math.Max(maxX, right);
                 maxY = Math.Max(maxY, bottom);
             }
+
+            _stageSize = new Size(maxX, maxY);
+
+            SetSize();
         }
 
         private MegaMan.Common.Geometry.Point GetCanvasLocation(ScreenCanvas surface)
         {
-            return new MegaMan.Common.Geometry.Point(
-                Convert.ToInt32(surface.GetValue(Canvas.LeftProperty)),
-                Convert.ToInt32(surface.GetValue(Canvas.TopProperty)));
+            return new MegaMan.Common.Geometry.Point((int)surface.Margin.Left, (int)surface.Margin.Top);
         }
 
         private void SetCanvasLocation(ScreenCanvas surface, MegaMan.Common.Geometry.Point location)
         {
-            surface.SetValue(Canvas.LeftProperty, (double)location.X);
-            surface.SetValue(Canvas.TopProperty, (double)location.Y);
+            surface.Margin = new Thickness(location.X, location.Y, 0, 0);
         }
 
         private void LayoutFromScreen(ScreenCanvas surface, MegaMan.Common.Geometry.Point location)

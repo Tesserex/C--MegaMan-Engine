@@ -9,7 +9,7 @@
              Background="Transparent"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <ScrollViewer x:Name="scrollContainer" CanContentScroll="True">
+    <ScrollViewer x:Name="scrollContainer" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <local:GridCanvas x:Name="canvas"></local:GridCanvas>
     </ScrollViewer>
 </UserControl>

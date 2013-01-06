@@ -22,6 +22,8 @@ namespace MegaMan.Editor.Controls
     {
         private ProjectViewModel _project;
 
+        public event Action<string> StageSelected;
+
         public ProjectTree()
         {
             InitializeComponent();
@@ -32,6 +34,18 @@ namespace MegaMan.Editor.Controls
             _project = new ProjectViewModel(project);
 
             base.DataContext = _project;
+        }
+
+        public static readonly RoutedUICommand ClickCommand = new RoutedUICommand("Click", "Click", typeof(ProjectTree));
+
+        private void StageClick(object sender, ExecutedRoutedEventArgs e)
+        {
+            var stageInfo = (StageTreeItemViewModel)e.Parameter;
+
+            if (StageSelected != null)
+            {
+                StageSelected(stageInfo.StageName);
+            }
         }
     }
 }

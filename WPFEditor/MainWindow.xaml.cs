@@ -22,11 +22,23 @@ namespace MegaMan.Editor
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ProjectDocument _openProject;
+
         public MainWindow()
         {
             InitializeComponent();
 
             UseLayoutRounding = true;
+
+            projectTree.StageSelected += projectTree_StageDoubleClicked;
+        }
+
+        private void projectTree_StageDoubleClicked(string stageName)
+        {
+            if (_openProject != null)
+            {
+                stageLayoutControl.Stage = _openProject.StageByName(stageName);
+            }
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -51,11 +63,9 @@ namespace MegaMan.Editor
 
             if (result == true)
             {
-                ProjectDocument project;
-
                 try
                 {
-                    project = ProjectDocument.FromFile(dialog.FileName);
+                    _openProject = ProjectDocument.FromFile(dialog.FileName);
                 }
                 catch (MegaMan.Common.GameXmlException)
                 {
@@ -72,10 +82,9 @@ namespace MegaMan.Editor
                     return;
                 }
 
-                if (project != null)
+                if (_openProject != null)
                 {
-                    projectTree.Update(project.Project);
-                    stageLayoutControl.Stage = project.StageByName(project.StageNames.First());
+                    projectTree.Update(_openProject.Project);
                 }
             }
         }
