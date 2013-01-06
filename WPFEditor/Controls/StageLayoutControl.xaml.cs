@@ -90,11 +90,6 @@ namespace MegaMan.Editor.Controls
 
             _screensPlaced.Clear();
 
-            double oldHorizScroll = this.scrollContainer.HorizontalOffset;
-            double oldVertScroll = this.scrollContainer.VerticalOffset;
-            this.scrollContainer.ScrollToHorizontalOffset(0);
-            this.scrollContainer.ScrollToVerticalOffset(0);
-
             int minX = 0, minY = 0, maxX = 0, maxY = 0;
 
             var startScreen = _screens.Values.First();
@@ -119,15 +114,13 @@ namespace MegaMan.Editor.Controls
                 minY = Math.Min(minY, location.Y);
             }
 
-            if (minX < -this.scrollContainer.HorizontalOffset || minY < -this.scrollContainer.VerticalOffset)
+            if (minX < 0 || minY < 0)
             {
                 // now readjust to all positive locations
                 foreach (var surface in _screens.Values)
                 {
                     var location = GetCanvasLocation(surface);
-                    location.Offset(
-                        - minX - (int)this.scrollContainer.HorizontalOffset,
-                        - minY - (int)this.scrollContainer.VerticalOffset);
+                    location.Offset(-minX, -minY);
 
                     SetCanvasLocation(surface, location);
                 }
@@ -142,9 +135,6 @@ namespace MegaMan.Editor.Controls
                 maxX = Math.Max(maxX, right);
                 maxY = Math.Max(maxY, bottom);
             }
-
-            this.scrollContainer.ScrollToHorizontalOffset(oldHorizScroll);
-            this.scrollContainer.ScrollToVerticalOffset(oldVertScroll);
         }
 
         private MegaMan.Common.Geometry.Point GetCanvasLocation(ScreenCanvas surface)
