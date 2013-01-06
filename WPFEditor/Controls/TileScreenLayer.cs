@@ -42,7 +42,7 @@ namespace MegaMan.Editor.Controls
         {
             base.OnRender(dc);
 
-            var image = new BitmapImage(new Uri(Screen.Tileset.SheetPathAbs));
+            var image = new BitmapImage(new Uri(Screen.Tileset.SheetPath.Absolute));
             var size = Screen.Tileset.TileSize;
 
             for (int y = 0; y < Screen.Height; y++)
