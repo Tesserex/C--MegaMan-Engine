@@ -23,12 +23,15 @@ namespace MegaMan.Editor
     public partial class MainWindow : Window
     {
         private ProjectDocument _openProject;
+        private Animator _animator;
 
         public MainWindow()
         {
             InitializeComponent();
 
             UseLayoutRounding = true;
+
+            _animator = new Animator();
 
             projectTree.StageSelected += projectTree_StageDoubleClicked;
         }
@@ -38,6 +41,7 @@ namespace MegaMan.Editor
             if (_openProject != null)
             {
                 stageLayoutControl.Stage = _openProject.StageByName(stageName);
+                _animator.ChangeTileset(stageLayoutControl.Stage.Tileset);
             }
         }
 

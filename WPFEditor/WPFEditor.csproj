@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SpriteBitmapCache.cs" />
     <Page Include="Controls\ProjectTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,6 +111,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Animator.cs" />
     <Compile Include="BLL\Const.cs" />
     <Compile Include="BLL\Entity.cs" />
     <Compile Include="BLL\History.cs" />

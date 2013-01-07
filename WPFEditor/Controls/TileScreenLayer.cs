@@ -42,7 +42,6 @@ namespace MegaMan.Editor.Controls
         {
             base.OnRender(dc);
 
-            var image = new BitmapImage(new Uri(Screen.Tileset.SheetPath.Absolute));
             var size = Screen.Tileset.TileSize;
 
             for (int y = 0; y < Screen.Height; y++)
@@ -50,11 +49,11 @@ namespace MegaMan.Editor.Controls
                 for (int x = 0; x < Screen.Width; x++)
                 {
                     var tile = Screen.TileAt(x, y);
-                    var location = tile.Sprite[0].SheetLocation;
+                    var location = tile.Sprite.CurrentFrame.SheetLocation;
 
-                    var crop = new CroppedBitmap(image, new Int32Rect(location.X, location.Y, location.Width, location.Height));
+                    var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
 
-                    dc.DrawImage(crop, new Rect(x * size, y * size, size, size));
+                    dc.DrawImage(image, new Rect(x * size, y * size, size, size));
                 }
             }
         }

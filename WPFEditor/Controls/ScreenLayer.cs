@@ -50,6 +50,16 @@ namespace MegaMan.Editor.Controls
 
         protected abstract void Update();
 
+        public ScreenLayer()
+        {
+            ((App)App.Current).Tick += ScreenLayer_Tick;
+        }
+
+        private void ScreenLayer_Tick()
+        {
+            InvalidateVisual();
+        }
+
         static ScreenLayer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ScreenLayer), new FrameworkPropertyMetadata(typeof(ScreenLayer)));
