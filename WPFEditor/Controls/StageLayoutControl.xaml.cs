@@ -56,8 +56,11 @@ namespace MegaMan.Editor.Controls
 
         private void SetSize()
         {
-            canvas.Width = Math.Max(_stageSize.Width, scrollContainer.ViewportWidth - 20);
-            canvas.Height = Math.Max(_stageSize.Height, scrollContainer.ViewportHeight - 20);
+            canvas.Width = Math.Max(_stageSize.Width, scrollContainer.ViewportWidth);
+            canvas.Height = Math.Max(_stageSize.Height, scrollContainer.ViewportHeight);
+
+            scrollContainer.HorizontalScrollBarVisibility = (scrollContainer.ViewportWidth < _stageSize.Width) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
+            scrollContainer.VerticalScrollBarVisibility = (scrollContainer.ViewportHeight < _stageSize.Height) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
         }
 
         private void ResetScreens()
@@ -91,6 +94,9 @@ namespace MegaMan.Editor.Controls
                     screen.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     screen.VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
+                    screen.MouseEnter += screen_MouseEnter;
+                    screen.MouseLeave += screen_MouseLeave;
+
                     canvas.Children.Add(screen);
                 }
             }
@@ -101,6 +107,20 @@ namespace MegaMan.Editor.Controls
             }
 
             LayoutScreens();
+        }
+
+        void screen_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            highlight.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        void screen_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var screen = (ScreenCanvas)sender;
+            highlight.Margin = new Thickness(screen.Margin.Left, screen.Margin.Top, screen.Margin.Right, screen.Margin.Bottom);
+            highlight.Width = screen.Screen.PixelWidth;
+            highlight.Height = screen.Screen.PixelHeight;
+            highlight.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void LayoutScreens()
