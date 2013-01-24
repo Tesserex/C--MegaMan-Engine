@@ -24,10 +24,17 @@ namespace MegaMan.Editor.Controls
             }
             set
             {
+                if (_stage != null)
+                {
+                    Unhook();
+                    ResetScreens();
+                }
+
                 _stage = value;
 
                 if (_stage != null)
                 {
+                    Hook();
                     ResetScreens();
                 }
 
@@ -49,18 +56,33 @@ namespace MegaMan.Editor.Controls
             this.SizeChanged += StageLayoutControl_SizeChanged;
         }
 
-        void StageLayoutControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Hook()
+        {
+            Stage.JoinChanged += StageJoinChanged;
+        }
+
+        private void Unhook()
+        {
+            Stage.JoinChanged -= StageJoinChanged;
+        }
+
+        private void StageJoinChanged(Join obj)
+        {
+            LayoutScreens();
+        }
+
+        private void StageLayoutControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetSize();
         }
 
         private void SetSize()
         {
-            canvas.Width = Math.Max(_stageSize.Width, scrollContainer.ViewportWidth);
-            canvas.Height = Math.Max(_stageSize.Height, scrollContainer.ViewportHeight);
+            canvas.Width = Math.Max(_stageSize.Width, scrollContainer.ActualWidth);
+            canvas.Height = Math.Max(_stageSize.Height, scrollContainer.ActualHeight);
 
-            scrollContainer.HorizontalScrollBarVisibility = (scrollContainer.ViewportWidth < _stageSize.Width) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
-            scrollContainer.VerticalScrollBarVisibility = (scrollContainer.ViewportHeight < _stageSize.Height) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
+            scrollContainer.HorizontalScrollBarVisibility = (scrollContainer.ActualWidth < _stageSize.Width) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
+            scrollContainer.VerticalScrollBarVisibility = (scrollContainer.ActualHeight < _stageSize.Height) ? ScrollBarVisibility.Auto : ScrollBarVisibility.Hidden;
         }
 
         private void ResetScreens()
@@ -89,13 +111,8 @@ namespace MegaMan.Editor.Controls
 
                 for (int i = canvases.Length; i < screenDocuments.Length; i++)
                 {
-                    var screen = new ScreenCanvas();
+                    var screen = new LayoutScreenCanvas();
                     screen.Screen = screenDocuments[i];
-                    screen.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                    screen.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-
-                    screen.MouseEnter += screen_MouseEnter;
-                    screen.MouseLeave += screen_MouseLeave;
 
                     canvas.Children.Add(screen);
                 }
@@ -107,20 +124,6 @@ namespace MegaMan.Editor.Controls
             }
 
             LayoutScreens();
-        }
-
-        void screen_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            highlight.Visibility = System.Windows.Visibility.Hidden;
-        }
-
-        void screen_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            var screen = (ScreenCanvas)sender;
-            highlight.Margin = new Thickness(screen.Margin.Left, screen.Margin.Top, screen.Margin.Right, screen.Margin.Bottom);
-            highlight.Width = screen.Screen.PixelWidth;
-            highlight.Height = screen.Screen.PixelHeight;
-            highlight.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void LayoutScreens()

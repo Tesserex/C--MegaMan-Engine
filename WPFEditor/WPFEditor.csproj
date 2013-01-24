@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LayoutScreenCanvas.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Page Include="Controls\ProjectTree.xaml">
       <SubType>Designer</SubType>

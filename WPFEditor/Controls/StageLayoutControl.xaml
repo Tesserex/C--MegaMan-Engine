@@ -12,7 +12,6 @@
     <ScrollViewer x:Name="scrollContainer" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <local:GridCanvas x:Name="canvas" HorizontalAlignment="Left" VerticalAlignment="Top"></local:GridCanvas>
-            <Rectangle Stroke="Red" StrokeThickness="5" x:Name="highlight" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" />
         </Grid>
     </ScrollViewer>
 </UserControl>

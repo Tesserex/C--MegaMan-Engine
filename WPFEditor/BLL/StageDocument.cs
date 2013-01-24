@@ -174,12 +174,6 @@ namespace MegaMan.Editor.Bll
             if (JoinChanged != null) JoinChanged(join);
         }
 
-        // this should probably be replaced by a join wrapper that has events
-        public void RaiseJoinChange(Join join)
-        {
-            if (JoinChanged != null) JoinChanged(join);
-        }
-
         public void Undo()
         {
             history.Undo();

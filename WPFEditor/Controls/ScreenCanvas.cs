@@ -17,9 +17,11 @@ namespace MegaMan.Editor.Controls
 {
     public class ScreenCanvas : Canvas
     {
-        private ScreenDocument _screen;
+        protected ScreenDocument _screen;
 
-        private TileScreenLayer _tiles;
+        protected TileScreenLayer _tiles;
+
+        protected Rectangle _highlight;
 
         public ScreenDocument Screen
         {
@@ -31,6 +33,9 @@ namespace MegaMan.Editor.Controls
             {
                 _screen = value;
 
+                _highlight.Width = _screen.PixelWidth;
+                _highlight.Height = _screen.PixelHeight;
+
                 _tiles.Screen = value;
             }
         }
@@ -38,8 +43,22 @@ namespace MegaMan.Editor.Controls
         public ScreenCanvas()
         {
             _tiles = new TileScreenLayer();
+
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            VerticalAlignment = System.Windows.VerticalAlignment.Top;
             
             this.Children.Add(_tiles);
+
+            _highlight = new Rectangle()
+            {
+                Stroke = Brushes.Red,
+                StrokeThickness = 5,
+                Visibility = Visibility.Hidden,
+            };
+
+            this.Children.Add(_highlight);
+
+            Canvas.SetZIndex(_highlight, 1000);
         }
 
         static ScreenCanvas()
