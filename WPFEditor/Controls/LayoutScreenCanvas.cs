@@ -12,6 +12,80 @@ namespace MegaMan.Editor.Controls
         private bool _dragging;
         private Vector _dragAnchorOffset;
 
+        public event EventHandler ScreenDropped;
+
+        public double RightDistanceTo(LayoutScreenCanvas second)
+        {
+            if ((this.Margin.Top < second.Margin.Top + second.Screen.PixelHeight) && (this.Margin.Top + this.Screen.PixelHeight > second.Margin.Top))
+            {
+                return Math.Abs(second.Margin.Left - (this.Margin.Left + this.Screen.PixelWidth));
+            }
+            else
+            {
+                return double.PositiveInfinity;
+            }
+        }
+
+        public double DownDistanceTo(LayoutScreenCanvas second)
+        {
+            if ((this.Margin.Left < second.Margin.Left + second.Screen.PixelWidth) && (this.Margin.Left + this.Screen.PixelWidth > second.Margin.Left))
+            {
+                return Math.Abs(second.Margin.Top - (this.Margin.Top + this.Screen.PixelHeight));
+            }
+            else
+            {
+                return double.PositiveInfinity;
+            }
+        }
+
+        public void JoinRightwardTo(LayoutScreenCanvas canvas)
+        {
+            var tileTopOne = (int)(this.Margin.Top / Screen.Tileset.TileSize);
+            var tileTopTwo = (int)(canvas.Margin.Top / Screen.Tileset.TileSize);
+
+            var startPoint = Math.Max(tileTopOne, tileTopTwo);
+            var endPoint = Math.Min(tileTopOne + Screen.Height, tileTopTwo + canvas.Screen.Height);
+
+            var startTileOne = (startPoint - tileTopOne);
+            var startTileTwo = (startPoint - tileTopTwo);
+            var length = endPoint - startPoint;
+
+            var join = new MegaMan.Common.Join();
+            join.screenOne = Screen.Name;
+            join.screenTwo = canvas.Screen.Name;
+            join.direction = Common.JoinDirection.Both;
+            join.type = Common.JoinType.Vertical;
+            join.offsetOne = startTileOne;
+            join.offsetTwo = startTileTwo;
+            join.Size = length;
+
+            Screen.Stage.AddJoin(join);
+        }
+
+        public void JoinDownwardTo(LayoutScreenCanvas canvas)
+        {
+            var tileLeftOne = (int)(this.Margin.Left / Screen.Tileset.TileSize);
+            var tileLeftTwo = (int)(canvas.Margin.Left / Screen.Tileset.TileSize);
+
+            var startPoint = Math.Max(tileLeftOne, tileLeftTwo);
+            var endPoint = Math.Min(tileLeftOne + Screen.Width, tileLeftTwo + canvas.Screen.Width);
+
+            var startTileOne = (startPoint - tileLeftOne);
+            var startTileTwo = (startPoint - tileLeftTwo);
+            var length = endPoint - startPoint;
+
+            var join = new MegaMan.Common.Join();
+            join.screenOne = Screen.Name;
+            join.screenTwo = canvas.Screen.Name;
+            join.direction = Common.JoinDirection.Both;
+            join.type = Common.JoinType.Horizontal;
+            join.offsetOne = startTileOne;
+            join.offsetTwo = startTileTwo;
+            join.Size = length;
+
+            Screen.Stage.AddJoin(join);
+        }
+
         protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -69,6 +143,11 @@ namespace MegaMan.Editor.Controls
             ReleaseMouseCapture();
 
             Canvas.SetZIndex(this, 1);
+
+            if (ScreenDropped != null)
+            {
+                ScreenDropped(this, EventArgs.Empty);
+            }
         }
     }
 }

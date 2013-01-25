@@ -83,6 +83,18 @@ namespace MegaMan.Editor.Bll
             if (TileChanged != null) TileChanged();
         }
 
+        public void SeverAllJoins()
+        {
+            var myJoins = Stage.Joins
+                .Where(j => j.screenOne == Name || j.screenTwo == Name)
+                .ToList();
+
+            foreach (var join in myJoins)
+            {
+                Stage.RemoveJoin(join);
+            }
+        }
+
         public EntityPlacement AddEntity(Entity entity, Point location)
         {
             var info = new EntityPlacement

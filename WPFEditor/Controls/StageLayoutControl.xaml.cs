@@ -16,6 +16,8 @@ namespace MegaMan.Editor.Controls
     {
         private StageDocument _stage;
 
+        private bool _freezeLayout;
+
         public StageDocument Stage
         {
             get
@@ -42,7 +44,7 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        private Dictionary<string, ScreenCanvas> _screens;
+        private Dictionary<string, LayoutScreenCanvas> _screens;
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
@@ -50,7 +52,7 @@ namespace MegaMan.Editor.Controls
         {
             InitializeComponent();
 
-            _screens = new Dictionary<string, ScreenCanvas>();
+            _screens = new Dictionary<string, LayoutScreenCanvas>();
             _screensPlaced = new HashSet<string>();
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
@@ -68,7 +70,10 @@ namespace MegaMan.Editor.Controls
 
         private void StageJoinChanged(Join obj)
         {
-            LayoutScreens();
+            if (!_freezeLayout)
+            {
+                LayoutScreens();
+            }
         }
 
         private void StageLayoutControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -100,6 +105,11 @@ namespace MegaMan.Editor.Controls
                     canvases[i].Screen = screenDocuments[i];
                 }
 
+                for (int i = screenDocuments.Length; i < canvases.Length; i++)
+                {
+                    canvases[i].ScreenDropped -= screen_ScreenDropped;
+                }
+
                 canvas.Children.RemoveRange(screenDocuments.Length, canvases.Length - screenDocuments.Length);
             }
             else
@@ -114,16 +124,25 @@ namespace MegaMan.Editor.Controls
                     var screen = new LayoutScreenCanvas();
                     screen.Screen = screenDocuments[i];
 
+                    screen.ScreenDropped += screen_ScreenDropped;
+
                     canvas.Children.Add(screen);
                 }
             }
 
-            foreach (ScreenCanvas child in canvas.Children)
+            foreach (LayoutScreenCanvas child in canvas.Children)
             {
                 _screens[child.Screen.Name] = child;
             }
 
             LayoutScreens();
+        }
+
+        private void screen_ScreenDropped(object sender, EventArgs e)
+        {
+            var screen = (LayoutScreenCanvas)sender;
+
+            SnapScreenJoin(screen);
         }
 
         private void LayoutScreens()
@@ -292,5 +311,48 @@ namespace MegaMan.Editor.Controls
                     new MegaMan.Common.Geometry.Point(location.X + surface.Screen.Tileset.TileSize, location.Y)); 
             }
         }
+
+        private void SnapScreenJoin(LayoutScreenCanvas screenCanvas)
+        {
+            _freezeLayout = true;
+
+            screenCanvas.Screen.SeverAllJoins();
+
+            foreach (var neighbor in _screens.Values)
+            {
+                if (neighbor == screenCanvas)
+                {
+                    continue;
+                }
+
+                var rightDistance = screenCanvas.RightDistanceTo(neighbor);
+                var leftDistance = neighbor.RightDistanceTo(screenCanvas);
+                var downDistance = screenCanvas.DownDistanceTo(neighbor);
+                var upDistance = neighbor.DownDistanceTo(screenCanvas);
+
+                if (rightDistance < 10)
+                {
+                    screenCanvas.JoinRightwardTo(neighbor);
+                }
+                else if (leftDistance < 10)
+                {
+                    neighbor.JoinRightwardTo(screenCanvas);
+                }
+
+                if (downDistance < 10)
+                {
+                    screenCanvas.JoinDownwardTo(neighbor);
+                }
+                else if (upDistance < 10)
+                {
+                    neighbor.JoinDownwardTo(screenCanvas);
+                }
+            }
+
+            _freezeLayout = false;
+            LayoutScreens();
+        }
+
+        
     }
 }
