@@ -91,12 +91,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\LayoutScreenCanvas.cs" />
+    <Compile Include="Controls\StageControl.cs" />
+    <Compile Include="Controls\StageLayoutControl.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Page Include="Controls\ProjectTree.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\StageLayoutControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,9 +125,6 @@
     </Compile>
     <Compile Include="Controls\ScreenCanvas.cs" />
     <Compile Include="Controls\ScreenLayer.cs" />
-    <Compile Include="Controls\StageLayoutControl.xaml.cs">
-      <DependentUpon>StageLayoutControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TileScreenLayer.cs" />
     <Compile Include="Controls\ViewModels\ProjectViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

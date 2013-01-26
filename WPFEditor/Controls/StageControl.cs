@@ -6,17 +6,20 @@ using System.Windows.Controls;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
+using System.Windows.Media;
 
 namespace MegaMan.Editor.Controls
 {
     /// <summary>
     /// Interaction logic for StageLayoutControl.xaml
     /// </summary>
-    public partial class StageLayoutControl : UserControl
+    public abstract class StageControl : UserControl
     {
-        private StageDocument _stage;
+        internal ScrollViewer scrollContainer;
 
-        private bool _freezeLayout;
+        internal GridCanvas canvas;
+
+        private StageDocument _stage;
 
         public StageDocument Stage
         {
@@ -44,29 +47,59 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        private Dictionary<string, LayoutScreenCanvas> _screens;
+        protected Dictionary<string, ScreenCanvas> _screens;
+        protected bool _freezeLayout;
+
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
-        public StageLayoutControl()
+        public StageControl()
         {
             InitializeComponent();
 
-            _screens = new Dictionary<string, LayoutScreenCanvas>();
+            _screens = new Dictionary<string, ScreenCanvas>();
             _screensPlaced = new HashSet<string>();
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
         }
 
-        private void Hook()
+        public void InitializeComponent()
+        {
+            Background = Brushes.Transparent;
+            SnapsToDevicePixels = true;
+            UseLayoutRounding = true;
+
+            scrollContainer = new ScrollViewer()
+            {
+                CanContentScroll = true,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+            };
+
+            canvas = new GridCanvas()
+            {
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                VerticalAlignment = System.Windows.VerticalAlignment.Top
+            };
+
+            scrollContainer.Content = canvas;
+
+            this.Content = scrollContainer;
+        }
+
+        protected virtual void Hook()
         {
             Stage.JoinChanged += StageJoinChanged;
         }
 
-        private void Unhook()
+        protected virtual void Unhook()
         {
             Stage.JoinChanged -= StageJoinChanged;
         }
+
+        protected abstract ScreenCanvas CreateScreenCanvas(ScreenDocument screen);
+
+        protected abstract void DestroyScreenCanvas(ScreenCanvas canvas);
 
         private void StageJoinChanged(Join obj)
         {
@@ -107,7 +140,7 @@ namespace MegaMan.Editor.Controls
 
                 for (int i = screenDocuments.Length; i < canvases.Length; i++)
                 {
-                    canvases[i].ScreenDropped -= screen_ScreenDropped;
+                    DestroyScreenCanvas(canvases[i]);
                 }
 
                 canvas.Children.RemoveRange(screenDocuments.Length, canvases.Length - screenDocuments.Length);
@@ -121,16 +154,13 @@ namespace MegaMan.Editor.Controls
 
                 for (int i = canvases.Length; i < screenDocuments.Length; i++)
                 {
-                    var screen = new LayoutScreenCanvas();
-                    screen.Screen = screenDocuments[i];
-
-                    screen.ScreenDropped += screen_ScreenDropped;
+                    var screen = CreateScreenCanvas(screenDocuments[i]);
 
                     canvas.Children.Add(screen);
                 }
             }
 
-            foreach (LayoutScreenCanvas child in canvas.Children)
+            foreach (ScreenCanvas child in canvas.Children)
             {
                 _screens[child.Screen.Name] = child;
             }
@@ -138,14 +168,7 @@ namespace MegaMan.Editor.Controls
             LayoutScreens();
         }
 
-        private void screen_ScreenDropped(object sender, EventArgs e)
-        {
-            var screen = (LayoutScreenCanvas)sender;
-
-            SnapScreenJoin(screen);
-        }
-
-        private void LayoutScreens()
+        protected void LayoutScreens()
         {
             if (canvas.Children.Count == 0) return;
 
@@ -221,8 +244,8 @@ namespace MegaMan.Editor.Controls
 
             _screensPlaced.Add(surface.Screen.Name);
 
-            var myJoins = Stage.Joins.Where(j => j.screenOne == surface.Screen.Name || j.screenTwo == surface.Screen.Name);
-            var joinedScreens = _screens.Values.Where(s => myJoins.Any(j => j.screenOne == s.Screen.Name || j.screenTwo == s.Screen.Name));
+            var myJoins = surface.Screen.Joins;
+            var joinedScreens = _screens.Values.Where(s => s.Screen.Joins.Intersect(myJoins).Any());
 
             var placed = _screens.Values.Where(s => _screensPlaced.Contains(s.Screen.Name) && s != surface && !joinedScreens.Contains(s));
             var collision = SurfaceCollides(placed, surface);
@@ -311,48 +334,5 @@ namespace MegaMan.Editor.Controls
                     new MegaMan.Common.Geometry.Point(location.X + surface.Screen.Tileset.TileSize, location.Y)); 
             }
         }
-
-        private void SnapScreenJoin(LayoutScreenCanvas screenCanvas)
-        {
-            _freezeLayout = true;
-
-            screenCanvas.Screen.SeverAllJoins();
-
-            foreach (var neighbor in _screens.Values)
-            {
-                if (neighbor == screenCanvas)
-                {
-                    continue;
-                }
-
-                var rightDistance = screenCanvas.RightDistanceTo(neighbor);
-                var leftDistance = neighbor.RightDistanceTo(screenCanvas);
-                var downDistance = screenCanvas.DownDistanceTo(neighbor);
-                var upDistance = neighbor.DownDistanceTo(screenCanvas);
-
-                if (rightDistance < 10)
-                {
-                    screenCanvas.JoinRightwardTo(neighbor);
-                }
-                else if (leftDistance < 10)
-                {
-                    neighbor.JoinRightwardTo(screenCanvas);
-                }
-
-                if (downDistance < 10)
-                {
-                    screenCanvas.JoinDownwardTo(neighbor);
-                }
-                else if (upDistance < 10)
-                {
-                    neighbor.JoinDownwardTo(screenCanvas);
-                }
-            }
-
-            _freezeLayout = false;
-            LayoutScreens();
-        }
-
-        
     }
 }

@@ -14,7 +14,7 @@ namespace MegaMan.Editor.Controls
 
         public event EventHandler ScreenDropped;
 
-        public double RightDistanceTo(LayoutScreenCanvas second)
+        public double RightDistanceTo(ScreenCanvas second)
         {
             if ((this.Margin.Top < second.Margin.Top + second.Screen.PixelHeight) && (this.Margin.Top + this.Screen.PixelHeight > second.Margin.Top))
             {
@@ -26,7 +26,7 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        public double DownDistanceTo(LayoutScreenCanvas second)
+        public double DownDistanceTo(ScreenCanvas second)
         {
             if ((this.Margin.Left < second.Margin.Left + second.Screen.PixelWidth) && (this.Margin.Left + this.Screen.PixelWidth > second.Margin.Left))
             {
@@ -38,7 +38,7 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        public void JoinRightwardTo(LayoutScreenCanvas canvas)
+        public void JoinRightwardTo(ScreenCanvas canvas)
         {
             var tileTopOne = (int)(this.Margin.Top / Screen.Tileset.TileSize);
             var tileTopTwo = (int)(canvas.Margin.Top / Screen.Tileset.TileSize);
@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Controls
             Screen.Stage.AddJoin(join);
         }
 
-        public void JoinDownwardTo(LayoutScreenCanvas canvas)
+        public void JoinDownwardTo(ScreenCanvas canvas)
         {
             var tileLeftOne = (int)(this.Margin.Left / Screen.Tileset.TileSize);
             var tileLeftTwo = (int)(canvas.Margin.Left / Screen.Tileset.TileSize);

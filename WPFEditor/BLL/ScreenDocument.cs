@@ -2,6 +2,7 @@
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using System.Collections.Generic;
 
 namespace MegaMan.Editor.Bll
 {
@@ -56,6 +57,14 @@ namespace MegaMan.Editor.Bll
         public int PixelWidth { get { return screen.PixelWidth; } }
         public int PixelHeight { get { return screen.PixelHeight; } }
 
+        public IEnumerable<Join> Joins
+        {
+            get
+            {
+                return Stage.Joins.Where(j => j.screenOne == Name || j.screenTwo == Name);
+            }
+        }
+
         public event Action<string, string> Renamed;
 
         public ScreenDocument(ScreenInfo screen, StageDocument stage)
@@ -85,9 +94,7 @@ namespace MegaMan.Editor.Bll
 
         public void SeverAllJoins()
         {
-            var myJoins = Stage.Joins
-                .Where(j => j.screenOne == Name || j.screenTwo == Name)
-                .ToList();
+            var myJoins = Joins.ToList();
 
             foreach (var join in myJoins)
             {
