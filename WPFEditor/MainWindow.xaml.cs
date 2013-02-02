@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MegaMan.Editor.Bll;
 using Microsoft.Win32;
+using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor
 {
@@ -32,17 +33,6 @@ namespace MegaMan.Editor
             UseLayoutRounding = true;
 
             _animator = new Animator();
-
-            projectTree.StageSelected += projectTree_StageDoubleClicked;
-        }
-
-        private void projectTree_StageDoubleClicked(string stageName)
-        {
-            if (_openProject != null)
-            {
-                stageLayoutControl.Stage = _openProject.StageByName(stageName);
-                _animator.ChangeTileset(stageLayoutControl.Stage.Tileset);
-            }
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -88,7 +78,13 @@ namespace MegaMan.Editor
 
                 if (_openProject != null)
                 {
-                    projectTree.Update(_openProject.Project);
+                    var projectViewModel = new ProjectViewModel(_openProject);
+
+                    projectTree.Update(projectViewModel);
+
+                    _animator.SetStageSelector(projectViewModel);
+                    stageLayoutControl.SetStageSelector(projectViewModel);
+                    stageTileControl.SetStageSelector(projectViewModel);
                 }
             }
         }

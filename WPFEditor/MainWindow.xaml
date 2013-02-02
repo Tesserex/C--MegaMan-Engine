@@ -159,7 +159,10 @@
                                     <TabItem.Header>
                                         Tiling
                                     </TabItem.Header>
-                                    <TextBlock>HI</TextBlock>
+                                    <DockPanel>
+                                        <c:TileStrip x:Name="tileStrip" DockPanel.Dock="Top"></c:TileStrip>
+                                        <c:StageTileControl x:Name="stageTileControl"></c:StageTileControl>
+                                    </DockPanel>
                                 </TabItem>
                                 <TabItem>
                                     <TabItem.Header>

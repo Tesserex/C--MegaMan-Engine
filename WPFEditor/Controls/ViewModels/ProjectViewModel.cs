@@ -1,85 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using MegaMan.Editor.Bll;
 using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TreeViewItemViewModel : INotifyPropertyChanged
+    public class ProjectViewModel : TreeViewItemViewModel, IStageSelector
     {
-        private bool _isSelected;
-        private bool _isExpanded;
-
-        protected TreeViewItemViewModel _parent;
-        protected ObservableCollection<TreeViewItemViewModel> _children;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected TreeViewItemViewModel(TreeViewItemViewModel parent)
+        private ProjectDocument _project;
+        public ProjectViewModel(ProjectDocument project) : base(null)
         {
-            _parent = parent;
+            _project = project;
 
-            _children = new ObservableCollection<TreeViewItemViewModel>();
+            _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
         }
 
-        public IEnumerable<TreeViewItemViewModel> Root
+        private StageDocument _stage;
+
+        public StageDocument Stage
         {
-            get { return new TreeViewItemViewModel[] { this }; }
+            get { return _stage; }
         }
 
-        public ObservableCollection<TreeViewItemViewModel> Children
+        public void ChangeStage(string stageName)
         {
-            get { return _children; }
-        }
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
+            var nextStage = _project.StageByName(stageName);
+            if (nextStage != _stage)
             {
-                if (value != _isSelected)
+                _stage = nextStage;
+
+                if (StageChanged != null)
                 {
-                    _isSelected = value;
-                    this.OnPropertyChanged("IsSelected");
+                    StageChanged(this, new StageChangedEventArgs(_stage));
                 }
             }
         }
 
-        public bool IsExpanded
-        {
-            get { return _isExpanded; }
-            set
-            {
-                if (value != _isExpanded)
-                {
-                    _isExpanded = value;
-                    this.OnPropertyChanged("IsExpanded");
-                }
-
-                // Expand all the way up to the root.
-                if (_isExpanded && _parent != null)
-                    _parent.IsExpanded = true;
-            }
-        }
-
-        protected void OnPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-    }
-
-    public class ProjectViewModel : TreeViewItemViewModel
-    {
-        public ProjectViewModel(Project project) : base(null)
-        {
-            _children.Add(new StagesRootViewModel(this, project.Stages));
-        }
+        public event EventHandler<StageChangedEventArgs> StageChanged;
     }
 
     public class StagesRootViewModel : TreeViewItemViewModel

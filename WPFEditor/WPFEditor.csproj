@@ -90,9 +90,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bll\IToolProvider.cs" />
+    <Compile Include="Bll\StageSelector.cs" />
     <Compile Include="Controls\LayoutScreenCanvas.cs" />
     <Compile Include="Controls\StageControl.cs" />
     <Compile Include="Controls\StageLayoutControl.cs" />
+    <Compile Include="Controls\StageTileControl.cs" />
+    <Compile Include="Controls\TileScreenCanvas.cs" />
+    <Compile Include="Controls\TileStrip.cs" />
+    <Compile Include="Controls\ViewModels\TilesetViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Page Include="Controls\ProjectTree.xaml">
       <SubType>Designer</SubType>
@@ -110,15 +117,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\Animator.cs" />
-    <Compile Include="BLL\Const.cs" />
-    <Compile Include="BLL\Entity.cs" />
-    <Compile Include="BLL\History.cs" />
-    <Compile Include="BLL\HistoryAction.cs" />
-    <Compile Include="BLL\ITool.cs" />
-    <Compile Include="BLL\ProjectDocument.cs" />
-    <Compile Include="BLL\ScreenDocument.cs" />
-    <Compile Include="BLL\StageDocument.cs" />
+    <Compile Include="Bll\Animator.cs" />
+    <Compile Include="Bll\Const.cs" />
+    <Compile Include="Bll\Entity.cs" />
+    <Compile Include="Bll\History.cs" />
+    <Compile Include="Bll\HistoryAction.cs" />
+    <Compile Include="Bll\IToolBehavior.cs" />
+    <Compile Include="Bll\ProjectDocument.cs" />
+    <Compile Include="Bll\ScreenDocument.cs" />
+    <Compile Include="Bll\StageDocument.cs" />
     <Compile Include="Controls\GridCanvas.cs" />
     <Compile Include="Controls\ProjectTree.xaml.cs">
       <DependentUpon>ProjectTree.xaml</DependentUpon>

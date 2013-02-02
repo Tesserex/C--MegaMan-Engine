@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MegaMan.Editor.Controls.ViewModels;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls
 {
@@ -20,20 +21,18 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class ProjectTree : UserControl
     {
-        private ProjectViewModel _project;
-
-        public event Action<string> StageSelected;
+        private ProjectViewModel _viewModel;
 
         public ProjectTree()
         {
             InitializeComponent();
         }
 
-        public void Update(MegaMan.Common.Project project)
+        public void Update(ProjectViewModel projectViewModel)
         {
-            _project = new ProjectViewModel(project);
+            _viewModel = projectViewModel;
 
-            base.DataContext = _project;
+            base.DataContext = _viewModel;
         }
 
         public static readonly RoutedUICommand ClickCommand = new RoutedUICommand("Click", "Click", typeof(ProjectTree));
@@ -42,10 +41,7 @@ namespace MegaMan.Editor.Controls
         {
             var stageInfo = (StageTreeItemViewModel)e.Parameter;
 
-            if (StageSelected != null)
-            {
-                StageSelected(stageInfo.StageName);
-            }
+            _viewModel.ChangeStage(stageInfo.StageName);
         }
     }
 }

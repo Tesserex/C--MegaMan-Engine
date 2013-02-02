@@ -19,6 +19,7 @@ namespace MegaMan.Editor.Controls
 
         internal GridCanvas canvas;
 
+        private IStageSelector _stageSelector;
         private StageDocument _stage;
 
         public StageDocument Stage
@@ -27,7 +28,7 @@ namespace MegaMan.Editor.Controls
             {
                 return _stage;
             }
-            set
+            private set
             {
                 if (_stage != null)
                 {
@@ -45,6 +46,25 @@ namespace MegaMan.Editor.Controls
 
                 InvalidateVisual();
             }
+        }
+
+        public void SetStageSelector(IStageSelector selector)
+        {
+            if (_stageSelector != null)
+            {
+                _stageSelector.StageChanged -= StageChanged;
+            }
+
+            _stageSelector = selector;
+
+            _stageSelector.StageChanged += StageChanged;
+
+            Stage = selector.Stage;
+        }
+
+        private void StageChanged(object sender, StageChangedEventArgs e)
+        {
+            Stage = e.Stage;
         }
 
         protected Dictionary<string, ScreenCanvas> _screens;
