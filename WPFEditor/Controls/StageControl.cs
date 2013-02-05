@@ -13,7 +13,7 @@ namespace MegaMan.Editor.Controls
     /// <summary>
     /// Interaction logic for StageLayoutControl.xaml
     /// </summary>
-    public abstract class StageControl : UserControl
+    public abstract class StageControl : UserControl, IRequireCurrentStage
     {
         internal ScrollViewer scrollContainer;
 
@@ -48,23 +48,9 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        public void SetStageSelector(IStageSelector selector)
+        public void SetStage(StageDocument stage)
         {
-            if (_stageSelector != null)
-            {
-                _stageSelector.StageChanged -= StageChanged;
-            }
-
-            _stageSelector = selector;
-
-            _stageSelector.StageChanged += StageChanged;
-
-            Stage = selector.Stage;
-        }
-
-        private void StageChanged(object sender, StageChangedEventArgs e)
-        {
-            Stage = e.Stage;
+            Stage = stage;
         }
 
         protected Dictionary<string, ScreenCanvas> _screens;

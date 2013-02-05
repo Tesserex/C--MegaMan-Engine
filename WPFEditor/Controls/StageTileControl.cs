@@ -1,4 +1,5 @@
 ﻿using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;

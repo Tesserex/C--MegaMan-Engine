@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Editor.Bll
 {
-    public class Animator
+    public class Animator : IRequireCurrentStage
     {
         private Tileset _tileset;
         private IStageSelector _stageSelector;
@@ -16,26 +16,9 @@ namespace MegaMan.Editor.Bll
             ((App)App.Current).Tick += Animator_Tick;
         }
 
-        public void SetStageSelector(IStageSelector selector)
+        public void SetStage(StageDocument stage)
         {
-            if (_stageSelector != null)
-            {
-                _stageSelector.StageChanged -= StageChanged;
-            }
-
-            _stageSelector = selector;
-
-            _stageSelector.StageChanged += StageChanged;
-
-            if (selector.Stage != null)
-            {
-                ChangeTileset(selector.Stage.Tileset);
-            }
-        }
-
-        private void StageChanged(object sender, StageChangedEventArgs e)
-        {
-            ChangeTileset(e.Stage.Tileset);
+            ChangeTileset(stage.Tileset);
         }
 
         private void ChangeTileset(Tileset tileset)

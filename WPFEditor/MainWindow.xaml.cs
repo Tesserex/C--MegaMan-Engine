@@ -24,7 +24,9 @@ namespace MegaMan.Editor
     public partial class MainWindow : Window
     {
         private ProjectDocument _openProject;
-        private Animator _animator;
+        private ProjectViewModel _projectViewModel;
+
+        private List<IRequireCurrentStage> _stageDependents;
 
         public MainWindow()
         {
@@ -32,7 +34,16 @@ namespace MegaMan.Editor
 
             UseLayoutRounding = true;
 
-            _animator = new Animator();
+            _stageDependents = new List<IRequireCurrentStage>();
+
+            _stageDependents.Add(new Animator());
+            _stageDependents.Add(stageLayoutControl);
+            _stageDependents.Add(stageTileControl);
+
+            var tilesetModel = new TilesetViewModel();
+            _stageDependents.Add(tilesetModel);
+            tileStrip.Update(tilesetModel);
+            stageTileControl.ToolProvider = tilesetModel;
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -78,14 +89,34 @@ namespace MegaMan.Editor
 
                 if (_openProject != null)
                 {
-                    var projectViewModel = new ProjectViewModel(_openProject);
-
-                    projectTree.Update(projectViewModel);
-
-                    _animator.SetStageSelector(projectViewModel);
-                    stageLayoutControl.SetStageSelector(projectViewModel);
-                    stageTileControl.SetStageSelector(projectViewModel);
+                    SetStageSelector(_openProject);
                 }
+            }
+        }
+
+        public void SetStageSelector(ProjectDocument project)
+        {
+            if (_projectViewModel != null)
+            {
+                _projectViewModel.StageChanged -= StageChanged;
+            }
+
+            _projectViewModel = new ProjectViewModel(project);
+            projectTree.Update(_projectViewModel);
+
+            _projectViewModel.StageChanged += StageChanged;
+        }
+
+        private void StageChanged(object sender, StageChangedEventArgs e)
+        {
+            ChangeStage(e.Stage);
+        }
+
+        private void ChangeStage(StageDocument stageDocument)
+        {
+            foreach (var dependent in _stageDependents)
+            {
+                dependent.SetStage(stageDocument);
             }
         }
     }
