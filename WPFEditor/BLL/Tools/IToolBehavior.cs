@@ -11,13 +11,6 @@ namespace MegaMan.Editor.Bll.Tools
         void RightClick(ScreenDocument screen, Point location);
     }
 
-    public class ToolChangedEventArgs : EventArgs
-    {
-        public ToolChangedEventArgs(IToolBehavior tool)
-        {
-        }
-    }
-
     public enum ToolType
     {
         Cursor,

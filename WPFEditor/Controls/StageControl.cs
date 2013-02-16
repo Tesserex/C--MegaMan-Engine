@@ -19,7 +19,6 @@ namespace MegaMan.Editor.Controls
 
         internal GridCanvas canvas;
 
-        private IStageSelector _stageSelector;
         private StageDocument _stage;
 
         public StageDocument Stage

@@ -128,10 +128,10 @@ namespace MegaMan.Common.Geometry
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", new object[]
-			{
-				this.x,
-				this.y
-			});
+            {
+                this.x,
+                this.y
+            });
         }
     }
 
@@ -204,6 +204,21 @@ namespace MegaMan.Common.Geometry
             int num3 = Math.Min(a.Y, b.Y);
             int num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
             return new Rectangle(num, num3, num2 - num, num4 - num3);
+        }
+
+        public bool Contains(int x, int y)
+        {
+            return this.X <= x && x < this.X + this.Width && this.Y <= y && y < this.Y + this.Height;
+        }
+
+        public bool Contains(Point pt)
+        {
+            return this.Contains(pt.X, pt.Y);
+        }
+
+        public bool Contains(Rectangle rect)
+        {
+            return this.X <= rect.X && rect.X + rect.Width <= this.X + this.Width && this.Y <= rect.Y && rect.Y + rect.Height <= this.Y + this.Height;
         }
 
         public static explicit operator Rectangle(RectangleF p)
@@ -446,17 +461,17 @@ namespace MegaMan.Common.Geometry
         public override string ToString()
         {
             return string.Concat(new string[]
-			{
-				"{X=",
-				this.X.ToString(CultureInfo.CurrentCulture),
-				",Y=",
-				this.Y.ToString(CultureInfo.CurrentCulture),
-				",Width=",
-				this.Width.ToString(CultureInfo.CurrentCulture),
-				",Height=",
-				this.Height.ToString(CultureInfo.CurrentCulture),
-				"}"
-			});
+            {
+                "{X=",
+                this.X.ToString(CultureInfo.CurrentCulture),
+                ",Y=",
+                this.Y.ToString(CultureInfo.CurrentCulture),
+                ",Width=",
+                this.Width.ToString(CultureInfo.CurrentCulture),
+                ",Height=",
+                this.Height.ToString(CultureInfo.CurrentCulture),
+                "}"
+            });
         }
     }
 }

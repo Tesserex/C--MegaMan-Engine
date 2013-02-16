@@ -92,6 +92,7 @@
     <Compile Include="Bll\IRequireCurrentStage.cs" />
     <Compile Include="Bll\Tools\IToolProvider.cs" />
     <Compile Include="Bll\StageSelector.cs" />
+    <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
     <Compile Include="Controls\LayoutScreenCanvas.cs" />
     <Compile Include="Controls\StageControl.cs" />

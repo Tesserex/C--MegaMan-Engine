@@ -15,6 +15,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         private Tileset _tileset;
         private IToolBehavior _currentTool;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<ToolChangedEventArgs> ToolChanged;
+
         public IToolBehavior Tool
         {
             get { return _currentTool; }
@@ -35,6 +38,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public IEnumerable<Tile> Tiles
+        {
+            get
+            {
+                return _tileset;
+            }
+        }
+
+        public Tile SelectedTile { get; private set; }
+
         public void SetStage(StageDocument stage)
         {
             _tileset = stage.Tileset;
@@ -47,17 +60,18 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void ChangeTile(Tile tile)
         {
-            
-        }
+            _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));
+            SelectedTile = tile;
 
-        public IEnumerable<Tile> Tiles
-        {
-            get
+            if (ToolChanged != null)
             {
-                return _tileset;
+                ToolChanged(this, new ToolChangedEventArgs(_currentTool));
+            }
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
