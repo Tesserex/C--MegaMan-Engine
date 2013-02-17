@@ -17,20 +17,8 @@ namespace MegaMan.Editor.Controls
 
         public IToolProvider ToolProvider
         {
-            get
-            {
-                return _toolProvider;
-            }
-
-            set
-            {
-                _toolProvider = value;
-
-                if (_cursorAdorner != null)
-                {
-                    _cursorAdorner.ToolProvider = value;
-                }
-            }
+            get;
+            set;
         }
 
         public StageTileControl() : base()
@@ -40,8 +28,7 @@ namespace MegaMan.Editor.Controls
 
         private void StageTileControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            _cursorAdorner = new ToolCursorAdorner(this.canvas);
-            _cursorAdorner.ToolProvider = this.ToolProvider;
+            _cursorAdorner = new ToolCursorAdorner(this.canvas, ToolProvider);
 
             this.adornerLayer.Add(_cursorAdorner);
         }

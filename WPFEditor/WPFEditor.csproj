@@ -91,6 +91,7 @@
     </ApplicationDefinition>
     <Compile Include="Bll\IRequireCurrentStage.cs" />
     <Compile Include="Controls\ToolCursorAdorner.cs" />
+    <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
     <Compile Include="Bll\StageSelector.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Controls\ViewModels\TilesetViewModel.cs" />
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
+    <Compile Include="Tools\SingleTileCursor.cs" />
     <Page Include="Controls\ProjectTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

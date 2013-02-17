@@ -21,7 +21,7 @@ namespace MegaMan.Editor.Tools
     {
         IToolBehavior Tool { get; }
 
-        ImageSource ToolCursor { get; }
+        IToolCursor ToolCursor { get; }
 
         event EventHandler<ToolChangedEventArgs> ToolChanged;
     }

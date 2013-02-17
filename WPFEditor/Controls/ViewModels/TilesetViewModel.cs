@@ -15,25 +15,24 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private Tileset _tileset;
         private IToolBehavior _currentTool;
+        private IToolCursor _currentCursor;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
         public IToolBehavior Tool
         {
-            get { return _currentTool; }
+            get
+            {
+                return _currentTool;
+            }
         }
 
-        public System.Windows.Media.ImageSource ToolCursor
+        public IToolCursor ToolCursor
         {
             get
             {
-                if (SelectedTile == null)
-                {
-                    return null;
-                }
-
-                return SpriteBitmapCache.GetOrLoadFrame(_tileset.SheetPath.Absolute, SelectedTile.Sprite.CurrentFrame.SheetLocation);
+                return _currentCursor;
             }
         }
 
@@ -75,6 +74,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public void ChangeTile(Tile tile)
         {
             _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));
+            _currentCursor = new SingleTileCursor(_tileset, tile);
             SelectedTile = tile;
 
             if (ToolChanged != null)

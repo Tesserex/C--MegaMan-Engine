@@ -12,13 +12,16 @@ namespace MegaMan.Editor.Controls
 {
     public class ToolCursorAdorner : Adorner
     {
-        public IToolProvider ToolProvider { get; set; }
+        private IToolProvider _toolProvider;
 
-        public ToolCursorAdorner(UIElement adornedElement) : base(adornedElement)
+        public ToolCursorAdorner(UIElement adornedElement, IToolProvider toolProvider) : base(adornedElement)
         {
+            _toolProvider = toolProvider;
+
             IsHitTestVisible = false;
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;
+
             ((App)App.Current).Tick += Tick;
         }
 
@@ -31,11 +34,19 @@ namespace MegaMan.Editor.Controls
         {
             base.OnRender(drawingContext);
 
-            if (ToolProvider != null && ToolProvider.ToolCursor != null)
+            if (_toolProvider != null && _toolProvider.ToolCursor != null)
             {
+                var cursor = _toolProvider.ToolCursor;
+
                 var cursorPosition = Mouse.GetPosition(this);
 
-                drawingContext.DrawImage(ToolProvider.ToolCursor, new Rect(cursorPosition.X - 8, cursorPosition.Y - 8, 16, 16));
+                drawingContext.DrawImage(cursor.CursorImage,
+                    new Rect(
+                        cursorPosition.X - (cursor.CursorWidth / 2),
+                        cursorPosition.Y - (cursor.CursorHeight / 2),
+                        cursor.CursorWidth,
+                        cursor.CursorHeight)
+                    );
             }
         }
     }
