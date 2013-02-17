@@ -90,7 +90,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bll\IRequireCurrentStage.cs" />
-    <Compile Include="Bll\Tools\IToolProvider.cs" />
+    <Compile Include="Controls\ToolCursorAdorner.cs" />
+    <Compile Include="Tools\IToolProvider.cs" />
     <Compile Include="Bll\StageSelector.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />

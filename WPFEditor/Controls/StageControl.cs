@@ -7,6 +7,7 @@ using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
 using System.Windows.Media;
+using System.Windows.Documents;
 
 namespace MegaMan.Editor.Controls
 {
@@ -18,6 +19,8 @@ namespace MegaMan.Editor.Controls
         internal ScrollViewer scrollContainer;
 
         internal GridCanvas canvas;
+
+        protected AdornerLayer adornerLayer;
 
         private StageDocument _stage;
 
@@ -87,9 +90,14 @@ namespace MegaMan.Editor.Controls
                 VerticalAlignment = System.Windows.VerticalAlignment.Top
             };
 
+            var adornerDecorator = new System.Windows.Documents.AdornerDecorator();
+            adornerDecorator.Child = scrollContainer;
+
+            this.adornerLayer = adornerDecorator.AdornerLayer;
+
             scrollContainer.Content = canvas;
 
-            this.Content = scrollContainer;
+            this.Content = adornerDecorator;
         }
 
         protected virtual void Hook()

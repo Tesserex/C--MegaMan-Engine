@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MegaMan.Editor.Bll.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 
-namespace MegaMan.Editor.Bll.Tools
+namespace MegaMan.Editor.Tools
 {
     public class ToolChangedEventArgs : EventArgs
     {
@@ -18,6 +20,8 @@ namespace MegaMan.Editor.Bll.Tools
     public interface IToolProvider
     {
         IToolBehavior Tool { get; }
+
+        ImageSource ToolCursor { get; }
 
         event EventHandler<ToolChangedEventArgs> ToolChanged;
     }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using MegaMan.Editor.Bll;
 using MegaMan.Common;
-using MegaMan.Editor.Bll.Tools;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using MegaMan.Editor.Tools;
+using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -21,6 +22,19 @@ namespace MegaMan.Editor.Controls.ViewModels
         public IToolBehavior Tool
         {
             get { return _currentTool; }
+        }
+
+        public System.Windows.Media.ImageSource ToolCursor
+        {
+            get
+            {
+                if (SelectedTile == null)
+                {
+                    return null;
+                }
+
+                return SpriteBitmapCache.GetOrLoadFrame(_tileset.SheetPath.Absolute, SelectedTile.Sprite.CurrentFrame.SheetLocation);
+            }
         }
 
         public string SheetPath
@@ -72,6 +86,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
             }
-        }
+        }   
     }
 }

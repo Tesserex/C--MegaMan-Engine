@@ -1,15 +1,50 @@
 ﻿using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Tools;
+using MegaMan.Editor.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls
 {
     public class StageTileControl : StageControl
     {
-        public IToolProvider ToolProvider { get; set; }
+        private ToolCursorAdorner _cursorAdorner;
+
+        private IToolProvider _toolProvider;
+
+        public IToolProvider ToolProvider
+        {
+            get
+            {
+                return _toolProvider;
+            }
+
+            set
+            {
+                _toolProvider = value;
+
+                if (_cursorAdorner != null)
+                {
+                    _cursorAdorner.ToolProvider = value;
+                }
+            }
+        }
+
+        public StageTileControl() : base()
+        {
+            this.Loaded += StageTileControl_Loaded;
+        }
+
+        private void StageTileControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _cursorAdorner = new ToolCursorAdorner(this.canvas);
+            _cursorAdorner.ToolProvider = this.ToolProvider;
+
+            this.adornerLayer.Add(_cursorAdorner);
+        }
 
         protected override ScreenCanvas CreateScreenCanvas(ScreenDocument screen)
         {
@@ -24,9 +59,28 @@ namespace MegaMan.Editor.Controls
             
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        protected override void OnMouseEnter(MouseEventArgs e)
         {
-            base.OnRender(drawingContext);
+            base.OnMouseEnter(e);
+
+            if (ToolProvider != null)
+            {
+                Cursor = Cursors.None;
+                this.adornerLayer.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                this.adornerLayer.Visibility = System.Windows.Visibility.Hidden;
+                Cursor = Cursors.Arrow;
+            }
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+
+            this.adornerLayer.Visibility = System.Windows.Visibility.Hidden;
+            Cursor = Cursors.Arrow;
         }
     }
 }
