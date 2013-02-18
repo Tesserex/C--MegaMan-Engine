@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Mega Man\Engine.csproj", "{2B1E4B31-FF73-483C-9C32-8742B0951916}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Mega Man Common\Common.csproj", "{6779A7E6-CE6C-43E4-A0CB-1B0F921C8009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "MegaMan Level Editor\Editor.csproj", "{86E97D52-F819-4048-B9D6-B4E5AD02C66A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTests", "CommonTests\CommonTests.csproj", "{591C3487-ECF7-4AD4-B13C-784EDDB51335}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,14 @@ Global
 		{86E97D52-F819-4048-B9D6-B4E5AD02C66A}.Release|x64.ActiveCfg = Release|x86
 		{86E97D52-F819-4048-B9D6-B4E5AD02C66A}.Release|x86.ActiveCfg = Release|x86
 		{86E97D52-F819-4048-B9D6-B4E5AD02C66A}.Release|x86.Build.0 = Release|x86
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Release|x64.ActiveCfg = Release|Any CPU
+		{591C3487-ECF7-4AD4-B13C-784EDDB51335}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

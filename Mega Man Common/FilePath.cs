@@ -13,17 +13,12 @@ namespace MegaMan.Common
         public string BasePath
         {
             get { return basepath; }
-            set
-            {
-                basepath = Path.GetFullPath(value);
-                FindRelative();
-            }
         }
 
         public string Absolute
         {
             get { return absolute; }
-            set
+            private set
             {
                 absolute = Path.GetFullPath(value);
                 FindRelative();
@@ -73,7 +68,7 @@ namespace MegaMan.Common
 
             // split into directories
             string[] pathdirs = absolute.Split(Path.DirectorySeparatorChar);
-            string[] reldirs = basepath.Split(Path.DirectorySeparatorChar);
+            string[] reldirs = basepath.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
 
             int length = Math.Min(pathdirs.Length, reldirs.Length);
             StringBuilder relativePath = new StringBuilder();
