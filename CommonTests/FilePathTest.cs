@@ -2,10 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MegaMan.Common;
 
-namespace CommonTests
+namespace MegaMan.Common.Tests
 {
     [TestClass]
-    public class FilePathTest
+    public class FilePathTests
     {
         [TestMethod]
         public void ShouldGetRelativeWithTrailingSlashes()

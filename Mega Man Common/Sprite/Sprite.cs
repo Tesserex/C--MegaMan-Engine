@@ -164,6 +164,17 @@ namespace MegaMan.Common
                 }
             }
 
+            XElement directionNode = element.Element("AnimDirection");
+            if (directionNode != null)
+            {
+                string direction = directionNode.Value;
+                switch (direction)
+                {
+                    case "Forward": sprite.AnimDirection = AnimationDirection.Forward; break;
+                    case "Backward": sprite.AnimDirection = AnimationDirection.Backward; break;
+                }
+            }
+
             foreach (XElement frame in element.Elements("Frame"))
             {
                 int duration = 0;
@@ -268,11 +279,12 @@ namespace MegaMan.Common
             this.lastFrameTime += ticks;
             int neededTime = frames[currentFrame].Duration;
 
-            if (this.lastFrameTime >= neededTime)
+            while (this.lastFrameTime >= neededTime)
             {
                 this.lastFrameTime -= neededTime;
                 this.TickFrame();
-                while (this.frames[currentFrame].Duration == 0) this.TickFrame();
+
+                neededTime = frames[currentFrame].Duration;
             }
         }
 
@@ -346,7 +358,8 @@ namespace MegaMan.Common
                 switch (this.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.Stop();
+                        this.currentFrame--;
+                        this.Pause();
                         break;
                     case AnimationStyle.Repeat:
                         this.currentFrame = 0;
@@ -362,7 +375,8 @@ namespace MegaMan.Common
                 switch (this.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.Stop();
+                        this.currentFrame++;
+                        this.Pause();
                         break;
                     case AnimationStyle.Repeat:
                         this.currentFrame = this.Count - 1;

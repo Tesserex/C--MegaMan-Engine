@@ -1,0 +1,7 @@
+﻿<Sprite name="MyTestSprite" tilesheet="foo.png" width="48" height="24" palette="MyPalette" layer="3" reversed="true">
+  <Hotspot x="24" y="8" />
+  <AnimStyle>PlayOnce</AnimStyle>
+  <AnimDirection>Backward</AnimDirection>
+  <Frame x="0" y="0" duration="6" />
+  <Frame x="48" y="0" duration="4" />
+</Sprite>
