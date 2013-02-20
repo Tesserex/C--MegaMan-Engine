@@ -21,6 +21,11 @@ namespace MegaMan.Editor.Bll
             ChangeTileset(stage.Tileset);
         }
 
+        public void UnsetStage()
+        {
+            ChangeTileset(null);
+        }
+
         private void ChangeTileset(Tileset tileset)
         {
             _tileset = tileset;

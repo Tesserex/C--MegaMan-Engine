@@ -55,6 +55,13 @@ namespace MegaMan.Editor.Controls
             Stage = stage;
         }
 
+        public void UnsetStage()
+        {
+            Stage = null;
+            _screens.Clear();
+            canvas.Children.Clear();
+        }
+
         protected Dictionary<string, ScreenCanvas> _screens;
         protected bool _freezeLayout;
 

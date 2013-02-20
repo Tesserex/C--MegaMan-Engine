@@ -71,6 +71,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public void UnsetStage()
+        {
+            _tileset = null;
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
+            }
+        }
+
         public void ChangeTile(Tile tile)
         {
             _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));

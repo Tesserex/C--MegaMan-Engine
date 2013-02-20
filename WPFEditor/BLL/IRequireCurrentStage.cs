@@ -8,5 +8,6 @@ namespace MegaMan.Editor.Bll
     public interface IRequireCurrentStage
     {
         void SetStage(StageDocument stage);
+        void UnsetStage();
     }
 }

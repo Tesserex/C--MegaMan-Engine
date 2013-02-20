@@ -89,12 +89,12 @@ namespace MegaMan.Editor
 
                 if (_openProject != null)
                 {
-                    SetStageSelector(_openProject);
+                    SetupProjectDependencies(_openProject);
                 }
             }
         }
 
-        public void SetStageSelector(ProjectDocument project)
+        private void SetupProjectDependencies(ProjectDocument project)
         {
             if (_projectViewModel != null)
             {
@@ -107,6 +107,22 @@ namespace MegaMan.Editor
             _projectViewModel.StageChanged += StageChanged;
         }
 
+        private void DestroyProjectDependencies()
+        {
+            if (_projectViewModel != null)
+            {
+                _projectViewModel.StageChanged -= StageChanged;
+            }
+
+            _projectViewModel = null;
+            projectTree.Update(null);
+
+            foreach (var dependent in _stageDependents)
+            {
+                dependent.UnsetStage();
+            }
+        }
+
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
             ChangeStage(e.Stage);
@@ -117,6 +133,28 @@ namespace MegaMan.Editor
             foreach (var dependent in _stageDependents)
             {
                 dependent.SetStage(stageDocument);
+            }
+        }
+
+        private void SaveProject(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_openProject != null)
+            {
+                _openProject.Save();
+            }
+        }
+
+        private void IsProjectOpen(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (_openProject != null);
+        }
+
+        private void CloseProject(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_openProject != null)
+            {
+                DestroyProjectDependencies();
+                _openProject = null;
             }
         }
     }
