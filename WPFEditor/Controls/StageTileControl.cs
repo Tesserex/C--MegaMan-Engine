@@ -17,8 +17,29 @@ namespace MegaMan.Editor.Controls
 
         public IToolProvider ToolProvider
         {
-            get;
-            set;
+            get
+            {
+                return _toolProvider;
+            }
+            set
+            {
+                if (_toolProvider != null)
+                {
+                    _toolProvider.ToolChanged -= ToolChanged;
+                }
+
+                _toolProvider = value;
+
+                if (_toolProvider != null)
+                {
+                    _toolProvider.ToolChanged += ToolChanged;
+                }
+            }
+        }
+
+        private void ToolChanged(object sender, ToolChangedEventArgs e)
+        {
+            UpdateCursor();
         }
 
         public StageTileControl() : base()
@@ -50,7 +71,12 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseEnter(e);
 
-            if (ToolProvider != null)
+            UpdateCursor();
+        }
+
+        private void UpdateCursor()
+        {
+            if (ToolProvider != null && ToolProvider.ToolCursor != null)
             {
                 Cursor = Cursors.None;
                 this.adornerLayer.Visibility = System.Windows.Visibility.Visible;

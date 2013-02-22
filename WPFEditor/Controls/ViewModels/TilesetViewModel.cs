@@ -65,6 +65,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _tileset = stage.Tileset;
 
+            ChangeTile(_tileset.FirstOrDefault());
+
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
@@ -75,6 +77,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _tileset = null;
 
+            ChangeTile(null);
+
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
@@ -83,8 +87,17 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void ChangeTile(Tile tile)
         {
-            _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));
-            _currentCursor = new SingleTileCursor(_tileset, tile);
+            if (tile != null)
+            {
+                _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));
+                _currentCursor = new SingleTileCursor(_tileset, tile);
+            }
+            else
+            {
+                _currentTool = null;
+                _currentCursor = null;
+            }
+
             SelectedTile = tile;
 
             if (ToolChanged != null)
