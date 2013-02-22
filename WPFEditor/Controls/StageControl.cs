@@ -35,7 +35,6 @@ namespace MegaMan.Editor.Controls
                 if (_stage != null)
                 {
                     Unhook();
-                    ResetScreens();
                 }
 
                 _stage = value;
@@ -43,8 +42,9 @@ namespace MegaMan.Editor.Controls
                 if (_stage != null)
                 {
                     Hook();
-                    ResetScreens();
                 }
+
+                ResetScreens();
 
                 InvalidateVisual();
             }
