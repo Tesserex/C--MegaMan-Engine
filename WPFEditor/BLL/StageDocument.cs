@@ -33,6 +33,7 @@ namespace MegaMan.Editor.Bll
         }
 
         public event Action<ScreenDocument> ScreenAdded;
+        public event Action<ScreenDocument, int, int> ScreenResized;
         public event Action<Join> JoinChanged;
         public event Action<bool> DirtyChanged;
 
@@ -190,7 +191,16 @@ namespace MegaMan.Editor.Bll
             screens.Add(screen.Name, doc);
             doc.Renamed += ScreenRenamed;
             doc.TileChanged += () => Dirty = true;
+            doc.Resized += (w, h) => OnScreenResized(doc, w, h);
             return doc;
+        }
+
+        void OnScreenResized(ScreenDocument screen, int width, int height)
+        {
+            if (ScreenResized != null)
+            {
+                ScreenResized(screen, width, height);
+            }
         }
 
         private void ScreenRenamed(string oldName, string newName)
