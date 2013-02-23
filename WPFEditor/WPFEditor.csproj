@@ -89,6 +89,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
+    <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
+    <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\IRequireCurrentStage.cs" />
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
