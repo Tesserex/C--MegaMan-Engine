@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace MegaMan.Editor.Controls
 {
@@ -13,6 +14,18 @@ namespace MegaMan.Editor.Controls
         private Vector _dragAnchorOffset;
 
         public event EventHandler ScreenDropped;
+
+        public LayoutScreenCanvas() : base()
+        {
+            this.Loaded += AddAdorners;
+        }
+
+        private void AddAdorners(object sender, RoutedEventArgs e)
+        {
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this);
+
+            adornerLayer.Add(new ScreenResizeAdorner(this, this.Screen));
+        }
 
         public double RightDistanceTo(ScreenCanvas second)
         {
@@ -84,20 +97,6 @@ namespace MegaMan.Editor.Controls
             join.Size = length;
 
             Screen.Stage.AddJoin(join);
-        }
-
-        protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
-
-            _highlight.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-
-            _highlight.Visibility = System.Windows.Visibility.Hidden;
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)

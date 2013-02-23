@@ -17,8 +17,6 @@ namespace MegaMan.Editor.Controls
 {
     public abstract class ScreenLayer : Canvas
     {
-        protected RenderTargetBitmap _surface;
-
         private ScreenDocument _screen;
 
         public ScreenDocument Screen
@@ -53,6 +51,11 @@ namespace MegaMan.Editor.Controls
         public ScreenLayer()
         {
             ((App)App.Current).Tick += ScreenLayer_Tick;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            return new Size(_screen.PixelWidth, _screen.PixelHeight);
         }
 
         private void ScreenLayer_Tick()

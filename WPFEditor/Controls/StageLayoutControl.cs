@@ -14,6 +14,8 @@ namespace MegaMan.Editor.Controls
 
             canvas.ScreenDropped += screenDropped;
 
+            
+
             return canvas;
         }
 

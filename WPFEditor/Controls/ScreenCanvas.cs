@@ -21,8 +21,6 @@ namespace MegaMan.Editor.Controls
 
         protected TileScreenLayer _tiles;
 
-        protected Rectangle _highlight;
-
         public ScreenDocument Screen
         {
             get
@@ -31,13 +29,24 @@ namespace MegaMan.Editor.Controls
             }
             set
             {
+                if (_screen != null)
+                {
+                    _screen.Resized -= Resized;
+                }
+
                 _screen = value;
 
-                _highlight.Width = _screen.PixelWidth;
-                _highlight.Height = _screen.PixelHeight;
-
                 _tiles.Screen = value;
+
+                _screen.Resized += Resized;
             }
+        }
+
+        private void Resized(int width, int height)
+        {
+            Width = MaxWidth = MinWidth = _screen.PixelWidth;
+            Height = MaxHeight = MinHeight = _screen.PixelHeight;
+            InvalidateMeasure();
         }
 
         public ScreenCanvas()
@@ -48,17 +57,12 @@ namespace MegaMan.Editor.Controls
             VerticalAlignment = System.Windows.VerticalAlignment.Top;
             
             this.Children.Add(_tiles);
+        }
 
-            _highlight = new Rectangle()
-            {
-                Stroke = Brushes.Red,
-                StrokeThickness = 5,
-                Visibility = Visibility.Hidden,
-            };
-
-            this.Children.Add(_highlight);
-
-            Canvas.SetZIndex(_highlight, 1000);
+        protected override Size MeasureOverride(Size constraint)
+        {
+            _tiles.Measure(new Size(_screen.PixelWidth, _screen.PixelHeight));
+            return new Size(_screen.PixelWidth, _screen.PixelHeight);
         }
 
         static ScreenCanvas()

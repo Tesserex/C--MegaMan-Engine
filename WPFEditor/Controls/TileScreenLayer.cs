@@ -30,7 +30,6 @@ namespace MegaMan.Editor.Controls
         protected override void BindScreen(ScreenDocument newScreen)
         {
             newScreen.TileChanged += Update;
-            _surface = new RenderTargetBitmap(newScreen.PixelWidth, newScreen.PixelHeight, 96, 96, PixelFormats.Default);
         }
 
         protected override void Update()

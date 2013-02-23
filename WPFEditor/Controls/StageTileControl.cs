@@ -79,11 +79,11 @@ namespace MegaMan.Editor.Controls
             if (ToolProvider != null && ToolProvider.ToolCursor != null)
             {
                 Cursor = Cursors.None;
-                this.adornerLayer.Visibility = System.Windows.Visibility.Visible;
+                this._cursorAdorner.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                this.adornerLayer.Visibility = System.Windows.Visibility.Hidden;
+                this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
                 Cursor = Cursors.Arrow;
             }
         }
@@ -92,7 +92,7 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseLeave(e);
 
-            this.adornerLayer.Visibility = System.Windows.Visibility.Hidden;
+            this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
             Cursor = Cursors.Arrow;
         }
     }

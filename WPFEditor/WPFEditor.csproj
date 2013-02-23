@@ -93,6 +93,7 @@
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\IRequireCurrentStage.cs" />
+    <Compile Include="Controls\ScreenResizeAdorner.cs" />
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
