@@ -80,6 +80,13 @@ namespace MegaMan.Editor.Bll
             if (Resized != null) Resized(width, height);
         }
 
+        public void ResizeTopLeft(int width, int height)
+        {
+            screen.Layers[0].Tiles.ResizeTopLeft(width, height);
+            Dirty = true;
+            if (Resized != null) Resized(width, height);
+        }
+
         public Tile TileAt(int x, int y)
         {
             return screen.Layers[0].Tiles.TileAt(x, y);

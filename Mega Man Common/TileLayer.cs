@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegaMan.Common.Geometry;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -69,20 +70,53 @@ namespace MegaMan.Common
             var newTiles = CreateNewTiles(width, height);
 
             if (this.tiles != null)
-                CopyOldTiles(width, height, newTiles);
+                CopyOldTiles(width, height, newTiles, Point.Empty, Point.Empty);
 
             this.tiles = newTiles;
         }
 
-        private void CopyOldTiles(int width, int height, int[][] newTiles)
+        public void ResizeTopLeft(int width, int height)
+        {
+            var newTiles = CreateNewTiles(width, height);
+
+            if (this.tiles != null)
+            {
+                var oldOffset = Point.Empty;
+                var newOffset = Point.Empty;
+
+                if (width > tiles[0].Length)
+                {
+                    newOffset.X = width - tiles[0].Length;
+                }
+                else if (width < tiles[0].Length)
+                {
+                    oldOffset.X = tiles[0].Length - width;
+                }
+
+                if (height > tiles.Length)
+                {
+                    newOffset.Y = height - tiles.Length;
+                }
+                else if (height < tiles.Length)
+                {
+                    oldOffset.Y = tiles.Length - height;
+                }
+
+                CopyOldTiles(width, height, newTiles, oldOffset, newOffset);
+            }
+
+            this.tiles = newTiles;
+        }
+
+        private void CopyOldTiles(int width, int height, int[][] newTiles, Point oldOffset, Point newOffset)
         {
             // Copy over old tiles
-            int minWidth = (width < tiles[0].Length) ? width : tiles[0].Length;
-            int minHeight = (height < tiles.Length) ? height : tiles.Length;
+            int minWidth = Math.Min(width, tiles[0].Length);
+            int minHeight = Math.Min(height, tiles.Length);
 
             for (int j = 0; j < minHeight; j++)
                 for (int i = 0; i < minWidth; i++)
-                    newTiles[j][i] = tiles[j][i];
+                    newTiles[j + newOffset.Y][i + newOffset.X] = tiles[j + oldOffset.Y][i + oldOffset.X];
         }
 
         private int[][] CreateNewTiles(int width, int height)

@@ -99,9 +99,17 @@ namespace MegaMan.Editor.Controls
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
+            var heightChangePixels = args.VerticalChange;
+
+            var tileChange = (int)(heightChangePixels / _screen.Tileset.TileSize);
+            var newHeight = _screen.Height + tileChange;
+
+            if (newHeight != _screen.Height && newHeight > 0)
+            {
+                _screen.Resize(_screen.Width, newHeight);
+                InvalidateMeasure();
+                InvalidateVisual();
+            }
         }
 
         // Handler for resizing from the bottom-left.
@@ -115,9 +123,17 @@ namespace MegaMan.Editor.Controls
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            var widthChangePixels = -args.HorizontalChange;
+
+            var tileChange = (int)(widthChangePixels / _screen.Tileset.TileSize);
+            var newWidth = _screen.Width + tileChange;
+
+            if (newWidth != _screen.Width && newWidth > 0)
+            {
+                _screen.ResizeTopLeft(newWidth, _screen.Height);
+                InvalidateMeasure();
+                InvalidateVisual();
+            }
         }
 
         // Handler for resizing from the top-right.
@@ -132,16 +148,12 @@ namespace MegaMan.Editor.Controls
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            // adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
+            var widthChangePixels = args.HorizontalChange;
 
-            _widthChangePixels = args.HorizontalChange;
-
-            var tileChange = (int)(_widthChangePixels / _screen.Tileset.TileSize);
+            var tileChange = (int)(widthChangePixels / _screen.Tileset.TileSize);
             var newWidth = _screen.Width + tileChange;
 
-            if (newWidth != _screen.Width)
+            if (newWidth != _screen.Width && newWidth > 0)
             {
                 _screen.Resize(newWidth, _screen.Height);
                 InvalidateMeasure();
@@ -160,9 +172,17 @@ namespace MegaMan.Editor.Controls
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+            var heightChangePixels = -args.VerticalChange;
+
+            var tileChange = (int)(heightChangePixels / _screen.Tileset.TileSize);
+            var newHeight = _screen.Height + tileChange;
+
+            if (newHeight != _screen.Height && newHeight > 0)
+            {
+                _screen.ResizeTopLeft(_screen.Width, newHeight);
+                InvalidateMeasure();
+                InvalidateVisual();
+            }
         }
 
         // Arrange the Adorners.
