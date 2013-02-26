@@ -82,22 +82,21 @@ namespace MegaMan.Common
             return new ScreenLayerInfo(name, tileLayer, foreground, entities, keyframes);
         }
 
-        private static int[][] LoadTiles(string filepath)
+        private static int[,] LoadTiles(string filepath)
         {
             string[] lines = File.ReadAllLines(filepath);
             string[] firstline = lines[0].Split(' ');
             int width = int.Parse(firstline[0]);
             int height = int.Parse(firstline[1]);
 
-            int[][] tiles = new int[height][];
+            int[,] tiles = new int[width, height];
             for (int y = 0; y < height; y++)
             {
-                tiles[y] = new int[width];
                 string[] line = lines[y + 1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int x = 0; x < width; x++)
                 {
                     int id = int.Parse(line[x]);
-                    tiles[y][x] = id;
+                    tiles[x,y] = id;
                 }
             }
 

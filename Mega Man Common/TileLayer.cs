@@ -9,17 +9,17 @@ namespace MegaMan.Common
 {
     public class TileLayer
     {
-        private int[][] tiles;
+        private int[,] tiles;
 
         public int BaseX { get; private set; }
         public int BaseY { get; private set; }
         public Tileset Tileset { get; private set; }
-        public int Width { get { return tiles[0].Length; } }
-        public int Height { get { return tiles.GetLength(0); } }
-        public int PixelWidth { get { return tiles[0].Length * Tileset.TileSize; } }
-        public int PixelHeight { get { return tiles.GetLength(0) * Tileset.TileSize; } }
+        public int Width { get { return tiles.GetLength(0); } }
+        public int Height { get { return tiles.GetLength(1); } }
+        public int PixelWidth { get { return Width * Tileset.TileSize; } }
+        public int PixelHeight { get { return Height * Tileset.TileSize; } }
 
-        public TileLayer(int[][] tiles, Tileset tileset, int base_x, int base_y)
+        public TileLayer(int[,] tiles, Tileset tileset, int base_x, int base_y)
         {
             this.Tileset = tileset;
             this.BaseX = base_x;
@@ -30,7 +30,7 @@ namespace MegaMan.Common
         public Tile TileAt(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
-            return Tileset[tiles[y][x]];
+            return Tileset[tiles[x,y]];
         }
 
         public void Save(string filepath)
@@ -45,7 +45,7 @@ namespace MegaMan.Common
                     {
                         for (int x = 0; x < Width; x++)
                         {
-                            s.Write(tiles[y][x].ToString() + " ");
+                            s.Write(tiles[x,y].ToString() + " ");
                         }
                         s.Write('\n');
                     }
@@ -62,7 +62,7 @@ namespace MegaMan.Common
             if (tile < 0 || tile >= Tileset.Count)
                 throw new ArgumentException("Tile is not within tileset range");
 
-            tiles[y][x] = tile;
+            tiles[x,y] = tile;
         }
 
         public void Resize(int width, int height)
@@ -84,22 +84,22 @@ namespace MegaMan.Common
                 var oldOffset = Point.Empty;
                 var newOffset = Point.Empty;
 
-                if (width > tiles[0].Length)
+                if (width > this.Width)
                 {
-                    newOffset.X = width - tiles[0].Length;
+                    newOffset.X = width - this.Width;
                 }
-                else if (width < tiles[0].Length)
+                else if (width < this.Width)
                 {
-                    oldOffset.X = tiles[0].Length - width;
+                    oldOffset.X = this.Width - width;
                 }
 
-                if (height > tiles.Length)
+                if (height > this.Height)
                 {
-                    newOffset.Y = height - tiles.Length;
+                    newOffset.Y = height - this.Height;
                 }
-                else if (height < tiles.Length)
+                else if (height < this.Height)
                 {
-                    oldOffset.Y = tiles.Length - height;
+                    oldOffset.Y = this.Height - height;
                 }
 
                 CopyOldTiles(width, height, newTiles, oldOffset, newOffset);
@@ -108,27 +108,20 @@ namespace MegaMan.Common
             this.tiles = newTiles;
         }
 
-        private void CopyOldTiles(int width, int height, int[][] newTiles, Point oldOffset, Point newOffset)
+        private void CopyOldTiles(int width, int height, int[,] newTiles, Point oldOffset, Point newOffset)
         {
             // Copy over old tiles
-            int minWidth = Math.Min(width, tiles[0].Length);
-            int minHeight = Math.Min(height, tiles.Length);
-
+            int minWidth = Math.Min(width, this.Width);
+            int minHeight = Math.Min(height, this.Height);
+            
             for (int j = 0; j < minHeight; j++)
                 for (int i = 0; i < minWidth; i++)
-                    newTiles[j + newOffset.Y][i + newOffset.X] = tiles[j + oldOffset.Y][i + oldOffset.X];
+                    newTiles[i + newOffset.X, j + newOffset.Y] = tiles[i + oldOffset.X, j + oldOffset.Y];
         }
 
-        private int[][] CreateNewTiles(int width, int height)
+        private int[,] CreateNewTiles(int width, int height)
         {
-            var newTiles = new int[height][];
-            for (int y = 0; y < height; y++)
-            {
-                newTiles[y] = new int[width];
-                for (int x = 0; x < width; x++)
-                    newTiles[y][x] = 0;
-            }
-            return newTiles;
+            return new int[width, height];
         }
     }
 }
