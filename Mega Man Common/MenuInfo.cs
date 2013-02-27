@@ -64,9 +64,7 @@ namespace MegaMan.Common
 
             info.Name = node.RequireAttribute("name").Value;
 
-            bool fade = false;
-            node.TryBool("fade", out fade);
-            info.Fade = fade;
+            info.Fade = node.TryAttribute<bool>("fade");
 
             var startNode = node.Element("SelectOption");
             if (startNode != null)

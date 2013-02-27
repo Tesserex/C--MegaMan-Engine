@@ -140,21 +140,10 @@ namespace MegaMan.Engine
             XElement maxNode = node.Element("Max");
             if (maxNode != null)
             {
-                if (!maxNode.Value.TryParse(out maxHealth))
-                {
-                    throw new GameXmlException(maxNode, "Health maximum was not a valid number.");
-                }
+                maxHealth = maxNode.GetValue<float>();
             }
 
-            float startHealth;
-            if (node.TryFloat("startValue", out startHealth))
-            {
-                StartHealth = startHealth;
-            }
-            else
-            {
-                StartHealth = MaxHealth;
-            }
+            StartHealth = node.TryAttribute<float>("startValue", MaxHealth);
 
             XElement meterNode = node.Element("Meter");
             if (meterNode != null)
@@ -173,9 +162,9 @@ namespace MegaMan.Engine
 
         public static Effect ParseEffect(XElement effectNode)
         {
-            float changeval;
-            if (effectNode.TryFloat("change", out changeval))
+            if (effectNode.Attribute("change") != null)
             {
+                float changeval = effectNode.TryAttribute<float>("change");
                 return entity =>
                 {
                     entity.GetComponent<HealthComponent>().Health += changeval;

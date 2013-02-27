@@ -117,32 +117,22 @@ namespace MegaMan.Common
 
         public static Sprite FromXml(XElement element)
         {
-            int width = element.GetInteger("width");
-            int height = element.GetInteger("height");
+            int width = element.GetAttribute<int>("width");
+            int height = element.GetAttribute<int>("height");
 
             Sprite sprite = new Sprite(width, height);
 
-            XAttribute nameAttr = element.Attribute("name");
-            if (nameAttr != null) sprite.Name = nameAttr.Value;
+            sprite.Name = element.TryAttribute<string>("name");
 
-            XAttribute paletteAttr = element.Attribute("palette");
-            if (paletteAttr != null)
-            {
-                sprite.PaletteName = paletteAttr.Value;
-            }
+            sprite.PaletteName = element.TryAttribute<string>("palette");
 
-            XAttribute revAttr = element.Attribute("reversed");
-            if (revAttr != null)
-            {
-                bool r;
-                if (bool.TryParse(revAttr.Value, out r)) sprite.Reversed = r;
-            }
+            sprite.Reversed = element.TryAttribute<bool>("reversed");
 
             XElement hotspot = element.Element("Hotspot");
             if (hotspot != null)
             {
-                int hx = Int32.Parse(hotspot.RequireAttribute("x").Value);
-                int hy = Int32.Parse(hotspot.RequireAttribute("y").Value);
+                int hx = hotspot.GetAttribute<int>("x");
+                int hy = hotspot.GetAttribute<int>("y");
                 sprite.HotSpot = new Point(hx, hy);
             }
             else
@@ -150,8 +140,7 @@ namespace MegaMan.Common
                 sprite.HotSpot = new Point(0, 0);
             }
 
-            int layer;
-            if (element.TryInteger("layer", out layer)) sprite.Layer = layer;
+            sprite.Layer = element.TryAttribute<int>("layer");
 
             XElement stylenode = element.Element("AnimStyle");
             if (stylenode != null)
@@ -164,12 +153,22 @@ namespace MegaMan.Common
                 }
             }
 
+            XElement directionNode = element.Element("AnimDirection");
+            if (directionNode != null)
+            {
+                string direction = directionNode.Value;
+                switch (direction)
+                {
+                    case "Forward": sprite.AnimDirection = AnimationDirection.Forward; break;
+                    case "Backward": sprite.AnimDirection = AnimationDirection.Backward; break;
+                }
+            }
+
             foreach (XElement frame in element.Elements("Frame"))
             {
-                int duration = 0;
-                frame.TryInteger("duration", out duration);
-                int x = frame.GetInteger("x");
-                int y = frame.GetInteger("y");
+                int duration = frame.TryAttribute<int>("duration");
+                int x = frame.GetAttribute<int>("x");
+                int y = frame.GetAttribute<int>("y");
                 sprite.AddFrame(x, y, duration);
             }
 
@@ -268,11 +267,12 @@ namespace MegaMan.Common
             this.lastFrameTime += ticks;
             int neededTime = frames[currentFrame].Duration;
 
-            if (this.lastFrameTime >= neededTime)
+            while (this.lastFrameTime >= neededTime)
             {
                 this.lastFrameTime -= neededTime;
                 this.TickFrame();
-                while (this.frames[currentFrame].Duration == 0) this.TickFrame();
+
+                neededTime = frames[currentFrame].Duration;
             }
         }
 
@@ -346,7 +346,8 @@ namespace MegaMan.Common
                 switch (this.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.Stop();
+                        this.currentFrame--;
+                        this.Pause();
                         break;
                     case AnimationStyle.Repeat:
                         this.currentFrame = 0;
@@ -362,7 +363,8 @@ namespace MegaMan.Common
                 switch (this.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.Stop();
+                        this.currentFrame++;
+                        this.Pause();
                         break;
                     case AnimationStyle.Repeat:
                         this.currentFrame = this.Count - 1;

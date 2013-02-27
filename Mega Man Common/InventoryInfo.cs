@@ -36,17 +36,15 @@ namespace MegaMan.Common
                 info.IconOff = FilePath.FromRelative(iconNode.RequireAttribute("off").Value, basePath);
             }
 
-            info.IconLocation = new Point(iconNode.GetInteger("x"), iconNode.GetInteger("y"));
+            info.IconLocation = new Point(iconNode.GetAttribute<int>("x"), iconNode.GetAttribute<int>("y"));
 
             var numberNode = inventoryNode.Element("Number");
             if (numberNode != null)
             {
-                info.NumberLocation = new Point(numberNode.GetInteger("x"), numberNode.GetInteger("y"));
+                info.NumberLocation = new Point(numberNode.GetAttribute<int>("x"), numberNode.GetAttribute<int>("y"));
             }
 
-            bool b = true;
-            inventoryNode.TryBool("selectable", out b);
-            info.Selectable = b;
+            info.Selectable = inventoryNode.TryAttribute<bool>("selectable");
 
             return info;
         }

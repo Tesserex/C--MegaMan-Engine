@@ -143,11 +143,8 @@ namespace MegaMan.Engine
                 box.SetParent(this);
                 AddBox(box);
             }
-            bool b;
-            if (xml.TryBool("Enabled", out b))
-            {
-                Enabled = b;
-            }
+            
+            Enabled = xml.TryAttribute<bool>("Enabled");
         }
 
         private void AddBox(CollisionBox box)
@@ -612,7 +609,7 @@ namespace MegaMan.Engine
                 switch (prop.Name.LocalName)
                 {
                     case "Enabled":
-                        bool b = prop.GetBool();
+                        bool b = prop.GetValue<bool>();
                         effect += entity =>
                         {
                             CollisionComponent col = entity.GetComponent<CollisionComponent>();

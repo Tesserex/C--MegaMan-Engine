@@ -246,7 +246,7 @@ namespace MegaMan.Engine
                 switch (prop.Name.LocalName)
                 {
                     case "Flying":
-                        bool f = prop.GetBool();
+                        bool f = prop.GetValue<bool>();
                         action += entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
@@ -255,7 +255,7 @@ namespace MegaMan.Engine
                         break;
 
                     case "FlipSprite":
-                        bool flip = prop.GetBool();
+                        bool flip = prop.GetValue<bool>();
                         action += entity =>
                         {
                             MovementComponent mov = entity.GetComponent<MovementComponent>();

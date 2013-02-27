@@ -52,7 +52,7 @@ namespace MegaMan.Common
 
         public static ScreenLayerKeyframe FromXml(XElement node)
         {
-            var frameNumber = node.GetInteger("frame");
+            var frameNumber = node.GetAttribute<int>("frame");
 
             var keyframe = new ScreenLayerKeyframe();
             keyframe.Frame = frameNumber;
@@ -78,9 +78,9 @@ namespace MegaMan.Common
         public static ScreenLayerMoveCommand FromXml(XElement node)
         {
             var info = new ScreenLayerMoveCommand();
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
-            info.Duration = node.GetInteger("duration");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
+            info.Duration = node.GetAttribute<int>("duration");
 
             return info;
         }

@@ -144,9 +144,9 @@ namespace MegaMan.Engine
                 }
             }
 
-            float offset;
-            if (prop.TryFloat("offset", out offset))
+            if (prop.Attribute("offset") != null)
             {
+                float offset = prop.TryAttribute<float>("offset");
                 XAttribute offdirattr = prop.RequireAttribute("direction");
                 if (offdirattr.Value == "Inherit")
                 {

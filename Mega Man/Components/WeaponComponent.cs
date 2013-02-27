@@ -196,18 +196,11 @@ namespace MegaMan.Engine
 
                 string entity = weapon.RequireAttribute("entity").Value;
 
-                int ammo;
-                if (!weapon.TryInteger("ammo", out ammo)) ammo = -1;
+                int ammo = weapon.TryAttribute<int>("ammo", -1);
 
-                int usage;
-                if (!weapon.TryInteger("usage", out usage)) usage = 1;
+                int usage = weapon.TryAttribute<int>("usage", 1);
 
-                int? palette = null;
-                int p = 0;
-                if (weapon.TryInteger("palette", out p))
-                {
-                    palette = p;
-                }
+                int? palette = weapon.TryAttribute<int?>("palette");
 
                 HealthMeter meter = null;
                 XElement meterNode = weapon.Element("Meter");
@@ -247,7 +240,7 @@ namespace MegaMan.Engine
                 XElement ammoNode = node.Element("Ammo");
                 if (ammoNode != null)
                 {
-                    int val = ammoNode.GetInteger("val");
+                    int val = ammoNode.GetAttribute<int>("val");
                     effect = entity =>
                     {
                         WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();

@@ -31,7 +31,7 @@ namespace MegaMan.Common
 
             meter.Name = meterNode.RequireAttribute("name").Value;
 
-            meter.Position = new PointF(meterNode.GetFloat("x"), meterNode.GetFloat("y"));
+            meter.Position = new PointF(meterNode.GetAttribute<float>("x"), meterNode.GetAttribute<float>("y"));
 
             XAttribute imageAttr = meterNode.RequireAttribute("image");
             meter.TickImage = FilePath.FromRelative(imageAttr.Value, basePath);
@@ -50,9 +50,8 @@ namespace MegaMan.Common
             }
             meter.Orient = horiz? Orientation.Horizontal : Orientation.Vertical;
 
-            int x = 0; int y = 0;
-            meterNode.TryInteger("tickX", out x);
-            meterNode.TryInteger("tickY", out y);
+            int x = meterNode.TryAttribute<int>("tickX");
+            int y = meterNode.TryAttribute<int>("tickY");
 
             meter.TickOffset = new Point(x, y);
 

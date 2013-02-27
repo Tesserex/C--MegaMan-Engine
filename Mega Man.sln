@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "MegaMan Level Edi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFEditor", "WPFEditor\WPFEditor.csproj", "{113536D5-91FD-48C1-92B4-10868F65232E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTests", "CommonTests\CommonTests.csproj", "{591C3487-ECF7-4AD4-B13C-784EDDB51335}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

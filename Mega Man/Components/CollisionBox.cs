@@ -53,7 +53,7 @@ namespace MegaMan.Engine
             {
                 XAttribute nameAttr = resistNode.RequireAttribute("name");
 
-                float mult = resistNode.GetFloat("multiply");
+                float mult = resistNode.GetAttribute<float>("multiply");
 
                 resistance.Add(nameAttr.Value, mult);
             }
@@ -61,25 +61,11 @@ namespace MegaMan.Engine
             XAttribute boxnameAttr = xmlNode.Attribute("name");
             if (boxnameAttr != null) Name = boxnameAttr.Value;
 
-            float dmg;
-            if (xmlNode.TryFloat("damage", out dmg))
-            {
-                ContactDamage = dmg;
-            }
+            ContactDamage = xmlNode.TryAttribute<float>("damage");
 
-            Environment = true;
-            bool env;
-            if (xmlNode.TryBool("environment", out env))
-            {
-                Environment = env;
-            }
+            Environment = xmlNode.TryAttribute<bool>("environment", true);
 
-            PushAway = true;
-            bool push;
-            if (xmlNode.TryBool("pushaway", out push))
-            {
-                PushAway = push;
-            }
+            PushAway = xmlNode.TryAttribute<bool>("pushaway", true);
 
             XAttribute propAttr = xmlNode.Attribute("properties");
             if (propAttr != null) Properties = GameEntity.GetProperties(propAttr.Value);

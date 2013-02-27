@@ -124,11 +124,7 @@ namespace MegaMan.Common
         {
             var info = new ScenePlayCommandInfo();
 
-            int track;
-            if (node.TryInteger("nsftrack", out track) || node.TryInteger("track", out track))
-            {
-                info.Track = track;
-            }
+            info.Track = node.TryAttribute<int>("nsftrack", node.TryAttribute<int>("track"));
 
             XElement intro = node.Element("Intro");
             XElement loop = node.Element("Loop");
@@ -177,8 +173,8 @@ namespace MegaMan.Common
             var nameAttr = node.Attribute("name");
             if (nameAttr != null) info.Name = nameAttr.Value;
             info.Object = node.RequireAttribute("object").Value;
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
             return info;
         }
 
@@ -245,25 +241,17 @@ namespace MegaMan.Common
         public static SceneTextCommandInfo FromXml(XElement node)
         {
             var info = new SceneTextCommandInfo();
-            var contentAttr = node.Attribute("content");
-            if (contentAttr != null)
-            {
-                info.Content = contentAttr.Value;
-            }
-            var nameAttr = node.Attribute("name");
-            if (nameAttr != null) info.Name = nameAttr.Value;
-            int speed;
-            if (node.TryInteger("speed", out speed)) info.Speed = speed;
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
+            info.Content = node.TryAttribute<string>("content");
+            info.Name = node.TryAttribute<string>("name");
+            info.Speed = node.TryAttribute<int>("speed");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
+
             var bindingNode = node.Element("Binding");
             if (bindingNode != null) info.Binding = SceneBindingInfo.FromXml(bindingNode);
 
-            var fontAttr = node.Attribute("font");
-            if (fontAttr != null)
-            {
-                info.Font = fontAttr.Value;
-            }
+            info.Font = node.TryAttribute<string>("font");
+
             return info;
         }
 
@@ -305,12 +293,11 @@ namespace MegaMan.Common
             info.Red = byte.Parse(split[0]);
             info.Green = byte.Parse(split[1]);
             info.Blue = byte.Parse(split[2]);
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
-            info.Width = node.GetInteger("width");
-            info.Height = node.GetInteger("height");
-            int layer = 1;
-            if (node.TryInteger("layer", out layer)) info.Layer = layer;
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
+            info.Width = node.GetAttribute<int>("width");
+            info.Height = node.GetAttribute<int>("height");
+            info.Layer = node.TryAttribute<int>("layer");
             return info;
         }
 
@@ -342,11 +329,11 @@ namespace MegaMan.Common
         {
             var info = new SceneFillMoveCommandInfo();
             info.Name = node.RequireAttribute("name").Value;
-            info.Duration = node.GetInteger("duration");
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
-            info.Width = node.GetInteger("width");
-            info.Height = node.GetInteger("height");
+            info.Duration = node.GetAttribute<int>("duration");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
+            info.Width = node.GetAttribute<int>("width");
+            info.Height = node.GetAttribute<int>("height");
             return info;
         }
 
@@ -376,12 +363,10 @@ namespace MegaMan.Common
             var info = new SceneMoveCommandInfo();
             info.Name = node.RequireAttribute("name").Value;
 
-            int d = 0;
-            node.TryInteger("duration", out d);
-            info.Duration = d;
+            info.Duration = node.TryAttribute<int>("duration");
 
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
             return info;
         }
 
@@ -418,8 +403,8 @@ namespace MegaMan.Common
                 info.Name = nameAttr.Value;
             }
 
-            info.X = node.GetInteger("x");
-            info.Y = node.GetInteger("y");
+            info.X = node.GetAttribute<int>("x");
+            info.Y = node.GetAttribute<int>("y");
 
             var onNode = node.Element("On");
             if (onNode != null)

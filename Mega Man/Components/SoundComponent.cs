@@ -56,8 +56,8 @@ namespace MegaMan.Engine
         public static Effect ParseEffect(XElement node)
         {
             string soundname = node.RequireAttribute("name").Value;
-            bool playing;
-            if (!node.TryBool("playing", out playing)) playing = true;
+            bool playing = node.TryAttribute<bool>("playing", true);
+
             return entity =>
             {
                 entity.GetOrCreateComponent("Sound");

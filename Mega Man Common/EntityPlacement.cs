@@ -49,8 +49,8 @@ namespace MegaMan.Common
             if (stateAttr != null) state = stateAttr.Value;
             info.state = state;
 
-            info.screenX = entity.GetInteger("x");
-            info.screenY = entity.GetInteger("y");
+            info.screenX = entity.GetAttribute<int>("x");
+            info.screenY = entity.GetAttribute<int>("y");
 
             var dirAttr = entity.Attribute("direction");
             if (dirAttr != null)
