@@ -65,58 +65,57 @@ namespace MegaMan.Common
             tiles[x,y] = tile;
         }
 
+        public void ChangeTiles(Point offset, int[,] newTiles)
+        {
+            int minWidth = Math.Min(newTiles.GetLength(0), this.Width - offset.X);
+            int minHeight = Math.Min(newTiles.GetLength(1), this.Height - offset.Y);
+
+            for (int x = 0; x < minWidth; x++)
+            {
+                for (int y = 0; y < minHeight; y++)
+                {
+                    this.tiles[x + offset.X, y + offset.Y] = newTiles[x, y];
+                }
+            }
+        }
+
+        public int[,] GetTiles(Point offset, int width, int height)
+        {
+            width = Math.Min(width, this.Width - offset.X);
+            height = Math.Min(height, this.Height - offset.Y);
+
+            var tileBuffer = new int[width, height];
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    tileBuffer[x, y] = this.tiles[x + offset.X, y + offset.Y];
+                }
+            }
+
+            return tileBuffer;
+        }
+
         public void Resize(int width, int height)
         {
-            var newTiles = CreateNewTiles(width, height);
+            var currentTileBuffer = this.tiles;
 
-            if (this.tiles != null)
-                CopyOldTiles(width, height, newTiles, Point.Empty, Point.Empty);
+            this.tiles = CreateNewTiles(width, height);
 
-            this.tiles = newTiles;
+            ChangeTiles(Point.Empty, currentTileBuffer);
         }
 
         public void ResizeTopLeft(int width, int height)
         {
-            var newTiles = CreateNewTiles(width, height);
+            var bufferOffset = new Point(Math.Max(0, this.Width - width), Math.Max(0, this.Height - height));
+            var placementOffset = new Point(Math.Max(0, width - this.Width), Math.Max(0, height - this.Height));
 
-            if (this.tiles != null)
-            {
-                var oldOffset = Point.Empty;
-                var newOffset = Point.Empty;
+            var currentTileBuffer = GetTiles(bufferOffset, this.Width, this.Height);
 
-                if (width > this.Width)
-                {
-                    newOffset.X = width - this.Width;
-                }
-                else if (width < this.Width)
-                {
-                    oldOffset.X = this.Width - width;
-                }
+            this.tiles = CreateNewTiles(width, height);
 
-                if (height > this.Height)
-                {
-                    newOffset.Y = height - this.Height;
-                }
-                else if (height < this.Height)
-                {
-                    oldOffset.Y = this.Height - height;
-                }
-
-                CopyOldTiles(width, height, newTiles, oldOffset, newOffset);
-            }
-
-            this.tiles = newTiles;
-        }
-
-        private void CopyOldTiles(int width, int height, int[,] newTiles, Point oldOffset, Point newOffset)
-        {
-            // Copy over old tiles
-            int minWidth = Math.Min(width, this.Width);
-            int minHeight = Math.Min(height, this.Height);
-            
-            for (int j = 0; j < minHeight; j++)
-                for (int i = 0; i < minWidth; i++)
-                    newTiles[i + newOffset.X, j + newOffset.Y] = tiles[i + oldOffset.X, j + oldOffset.Y];
+            ChangeTiles(placementOffset, currentTileBuffer);
         }
 
         private int[,] CreateNewTiles(int width, int height)
