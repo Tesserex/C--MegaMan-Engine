@@ -10,13 +10,13 @@ namespace MegaMan.Engine
 
         public HitBox(XElement xmlNode)
         {
-            float width = xmlNode.GetFloat("width");
+            float width = xmlNode.GetAttribute<float>("width");
 
-            float height = xmlNode.GetFloat("height");
+            float height = xmlNode.GetAttribute<float>("height");
 
-            float x = xmlNode.GetFloat("x");
-            
-            float y = xmlNode.GetFloat("y");
+            float x = xmlNode.GetAttribute<float>("x");
+
+            float y = xmlNode.GetAttribute<float>("y");
 
             box = new RectangleF(x, y, width, height);
         }

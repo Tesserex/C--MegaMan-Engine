@@ -19,115 +19,90 @@ namespace MegaMan.Common
             return attr;
         }
 
-        public static bool TryBool(this XElement node, string name, out bool result)
+        public static T TryAttribute<T>(this XElement node, String attributeName)
         {
-            XAttribute attr = node.Attribute(name);
-            result = false;
-            if (attr == null) return false;
-            result = RequireBool(node, attr);
-            return true;
+            return TryAttribute<T>(node, attributeName, default(T));
         }
 
-        public static bool GetBool(this XElement node)
+        public static T TryAttribute<T>(this XElement node, String attributeName, T defaultValue)
         {
-            bool result;
-            if (!bool.TryParse(node.Value, out result))
+            XAttribute attr = node.Attribute(attributeName);
+
+            if (attr == null || String.IsNullOrEmpty(attr.Value))
             {
-                string msg = string.Format("{0} node's value must be a boolean (\"true\" or \"false\").", node.Name);
-                throw new GameXmlException(node, msg);
+                return defaultValue;
             }
-            return result;
+
+            return ParseValue<T>(node, attr);
         }
 
-        public static bool GetBool(this XElement node, string name)
+        public static T GetAttribute<T>(this XElement node, String attributeName)
         {
-            return RequireBool(node, node.RequireAttribute(name));
+            return ParseValue<T>(node, node.RequireAttribute(attributeName));
         }
 
-        private static bool RequireBool(XElement node, XAttribute attr)
+        private static T ParseValue<T>(XElement node, XAttribute attribute)
         {
-            bool result;
-            if (!bool.TryParse(attr.Value, out result))
+            try
             {
-                string msg = string.Format("{0} node's {1} attribute must be a boolean (\"true\" or \"false\").", node.Name, attr.Name);
-                throw new GameXmlException(attr, msg);
+                return ConvertValue<T>(attribute.Value);
             }
-            return result;
-        }
-
-        public static bool TryInteger(this XElement node, string name, out int result)
-        {
-            XAttribute attr = node.Attribute(name);
-            result = 0;
-            if (attr == null) return false;
-            result = RequireInteger(node, attr);
-            return true;
-        }
-
-        public static int GetInteger(this XElement node, string name)
-        {
-            return RequireInteger(node, node.RequireAttribute(name));
-        }
-
-        private static int RequireInteger(XElement node, XAttribute attr)
-        {
-            int result;
-            if (!attr.Value.TryParse(out result))
+            catch (Exception ex)
             {
-                string msg = string.Format("{0} node's {1} attribute must be an integer.", node.Name, attr.Name);
-                throw new GameXmlException(node, msg);
+                if (ex is InvalidCastException || ex is FormatException)
+                {
+                    String msg = String.Format("{0} node's {1} attribute was of the wrong type.", node.Name, attribute.Name);
+                    throw new GameXmlException(attribute, msg);
+                }
+
+                throw;
             }
-            return result;
         }
 
-        public static bool TryFloat(this XElement node, string name, out float result)
+        public static T TryValue<T>(this XElement node)
         {
-            XAttribute attr = node.Attribute(name);
-            result = 0;
-            if (attr == null) return false;
-            result = RequireFloat(node, attr);
-            return true;
+            return TryValue<T>(node, default(T));
         }
 
-        public static float GetFloat(this XElement node, string name)
+        public static T TryValue<T>(this XElement node, T defaultValue)
         {
-            return RequireFloat(node, node.RequireAttribute(name));
-        }
-
-        public static float RequireFloat(XElement node, XAttribute attr)
-        {
-            float result;
-            if (!attr.Value.TryParse(out result))
+            if (String.IsNullOrEmpty(node.Value))
             {
-                string msg = string.Format("{0} node's {1} attribute must be a number, using a period as a decimal mark.", node.Name, attr.Name);
-                throw new GameXmlException(node, msg);
+                return defaultValue;
             }
-            return result;
+
+            return GetValue<T>(node);
         }
 
-        public static bool TryDouble(this XElement node, string name, out double result)
+        public static T GetValue<T>(this XElement node)
         {
-            XAttribute attr = node.Attribute(name);
-            result = 0;
-            if (attr == null) return false;
-            result = RequireDouble(node, attr);
-            return true;
-        }
-
-        public static double GetDouble(this XElement node, string name)
-        {
-            return RequireDouble(node, node.RequireAttribute(name));
-        }
-
-        public static double RequireDouble(XElement node, XAttribute attr)
-        {
-            float result;
-            if (!attr.Value.TryParse(out result))
+            try
             {
-                string msg = string.Format("{0} node's {1} attribute must be a number, using a period as a decimal mark.", node.Name, attr.Name);
-                throw new GameXmlException(node, msg);
+                return ConvertValue<T>(node.Value);
             }
-            return result;
+            catch (Exception ex)
+            {
+                if (ex is InvalidCastException || ex is FormatException)
+                {
+                    String msg = String.Format("{0} node's value was of the wrong type.", node.Name);
+                    throw new GameXmlException(node, msg);
+                }
+
+                throw;
+            }
+        }
+
+        private static T ConvertValue<T>(string value)
+        {
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            if (underlyingType != null)
+            {
+                return (T)Convert.ChangeType(value, underlyingType);
+            }
+            else
+            {
+                return (T)Convert.ChangeType(value, typeof(T));
+            }
         }
     }
 }

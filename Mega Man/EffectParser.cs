@@ -188,11 +188,7 @@ namespace MegaMan.Engine
                 
                 case "AddInventory":
                     string itemName = node.RequireAttribute("item").Value;
-                    int quantity;
-                    bool hasQuantity = GameXml.TryInteger(node, "quantity", out quantity);
-
-                    if (!hasQuantity)
-                        quantity = 1;
+                    int quantity = node.TryAttribute<int>("quantity", 1);
 
                     effect = entity =>
                     {
@@ -202,11 +198,7 @@ namespace MegaMan.Engine
 
                 case "RemoveInventory":
                     string itemNameUse = node.RequireAttribute("item").Value;
-                    int quantityUse;
-                    bool hasQuantityUse = GameXml.TryInteger(node, "quantity", out quantityUse);
-
-                    if (!hasQuantityUse)
-                        quantityUse = 1;
+                    int quantityUse = node.TryAttribute<int>("quantity", 1);
 
                     effect = entity =>
                     {
@@ -241,7 +233,7 @@ namespace MegaMan.Engine
                     break;
 
                 case "GravityFlip":
-                    bool flip = node.GetBool();
+                    bool flip = node.GetValue<bool>();
                     effect = entity => { Game.CurrentGame.GravityFlip = flip; };
                     break;
 
@@ -288,7 +280,7 @@ namespace MegaMan.Engine
 
                 case "Palette":
                     var paletteName = node.RequireAttribute("name").Value;
-                    var paletteIndex = node.GetInteger("index");
+                    var paletteIndex = node.GetAttribute<int>("index");
                     effect = e =>
                     {
                         var palette = Palette.Get(paletteName);
@@ -300,7 +292,7 @@ namespace MegaMan.Engine
                     break;
 
                 case "Delay":
-                    var delayFrames = node.GetInteger("frames");
+                    var delayFrames = node.GetAttribute<int>("frames");
                     var delayEffect = LoadEffect(node);
                     effect = e =>
                     {

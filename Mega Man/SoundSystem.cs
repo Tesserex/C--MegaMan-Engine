@@ -139,11 +139,9 @@ namespace MegaMan.Engine
             {
                 string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
 
-                bool loop;
-                soundNode.TryBool("loop", out loop);
+                bool loop = soundNode.TryAttribute<bool>("loop");
 
-                float vol;
-                if (!soundNode.TryFloat("volume", out vol)) vol = 1;
+                float vol = soundNode.TryAttribute<float>("volume", 1);
 
                 sound = new WavEffect(soundSystem, path, loop, vol);
             }
@@ -159,12 +157,11 @@ namespace MegaMan.Engine
                 int track;
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
 
-                bool loop;
-                soundNode.TryBool("loop", out loop);
+                bool loop = soundNode.TryAttribute<bool>("loop");
 
-                int priority;
-                if (!soundNode.TryInteger("priority", out priority)) priority = 100;
-                sound = new NsfEffect(sfx, track, (byte)priority, loop);
+                byte priority = soundNode.TryAttribute<byte>("priority", 100);
+
+                sound = new NsfEffect(sfx, track, priority, loop);
             }
             loadedSounds[name] = sound;
             return name;

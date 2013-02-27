@@ -17,13 +17,9 @@ namespace MegaMan.Common
         {
             SoundInfo sound = new SoundInfo {Name = soundNode.RequireAttribute("name").Value};
 
-            bool loop;
-            soundNode.TryBool("loop", out loop);
-            sound.Loop = loop;
+            sound.Loop = soundNode.TryAttribute<bool>("loop");
 
-            float vol;
-            if (!soundNode.TryFloat("volume", out vol)) vol = 1;
-            sound.Volume = vol;
+            sound.Volume = soundNode.TryAttribute<float>("volume", 1);
 
             XAttribute pathattr = soundNode.Attribute("path");
             XAttribute trackAttr = soundNode.Attribute("track");
@@ -40,9 +36,7 @@ namespace MegaMan.Common
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
                 sound.NsfTrack = track;
 
-                int priority;
-                if (!soundNode.TryInteger("priority", out priority)) priority = 100;
-                sound.Priority = (byte)priority;
+                sound.Priority = soundNode.TryAttribute<byte>("priority", 100);
             }
             else
             {

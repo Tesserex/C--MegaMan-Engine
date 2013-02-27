@@ -182,8 +182,8 @@ namespace MegaMan.Engine
 
         private void LoadXml(XElement node)
         {
-            positionX = node.GetFloat("x");
-            positionY = node.GetFloat("y");
+            positionX = node.GetAttribute<float>("x");
+            positionY = node.GetAttribute<float>("y");
             XAttribute imageAttr = node.RequireAttribute("image");
             
             if (tickTexture != null) tickTexture.Dispose();
@@ -206,9 +206,8 @@ namespace MegaMan.Engine
             }
             horizontal = horiz;
 
-            int x; int y;
-            node.TryInteger("tickX", out x);
-            node.TryInteger("tickY", out y);
+            int x = node.TryAttribute<int>("tickX");
+            int y = node.TryAttribute<int>("tickY");
 
             tickOffset = new Point(x, y);
 

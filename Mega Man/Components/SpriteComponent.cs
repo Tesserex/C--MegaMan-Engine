@@ -137,7 +137,7 @@ namespace MegaMan.Engine
                         break;
 
                     case "Playing":
-                        bool play = prop.GetBool();
+                        bool play = prop.GetValue<bool>();
                         action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
@@ -146,7 +146,7 @@ namespace MegaMan.Engine
                         break;
 
                     case "Visible":
-                        bool vis = prop.GetBool();
+                        bool vis = prop.GetValue<bool>();
                         action += entity =>
                         {
                             SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
@@ -156,7 +156,7 @@ namespace MegaMan.Engine
 
                     case "Palette":
                         string pal = prop.RequireAttribute("name").Value;
-                        int index = prop.GetInteger("index");
+                        int index = prop.GetAttribute<int>("index");
                         action += entity =>
                         {
                             var palette = Palette.Get(pal);

@@ -55,6 +55,8 @@
     <Compile Include="FilePathTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpriteTests.cs" />
+    <Compile Include="TestHelpers.cs" />
+    <Compile Include="XmlExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">
@@ -67,6 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sprite_Defaults.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Xml_RequireAttribute.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

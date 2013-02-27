@@ -33,11 +33,9 @@ namespace MegaMan.Common
         {
             base.Load(node, basePath);
 
-            this.Duration = node.GetInteger("duration");
+            this.Duration = node.GetAttribute<int>("duration");
 
-            bool canSkip = false;
-            node.TryBool("canskip", out canSkip);
-            this.CanSkip = canSkip;
+            this.CanSkip = node.TryAttribute<bool>("canskip");
 
             foreach (var keyNode in node.Elements("Keyframe"))
             {
@@ -84,11 +82,9 @@ namespace MegaMan.Common
         {
             var info = new KeyFrameInfo();
 
-            info.Frame = node.GetInteger("frame");
+            info.Frame = node.GetAttribute<int>("frame");
 
-            bool fade = false;
-            node.TryBool("fade", out fade);
-            info.Fade = fade;
+            info.Fade = node.TryAttribute<bool>("fade");
 
             info.Commands = SceneCommandInfo.Load(node, basePath);
 

@@ -21,10 +21,9 @@ namespace MegaMan.Common
             foreach (var overlay in node.Elements("Overlay"))
             {
                 var name = overlay.RequireAttribute("name").Value;
-                var x = overlay.GetInteger("x");
-                var y = overlay.GetInteger("y");
-                bool foreground = false;
-                overlay.TryBool("foreground", out foreground);
+                var x = overlay.GetAttribute<int>("x");
+                var y = overlay.GetAttribute<int>("y");
+                bool foreground = overlay.TryAttribute<bool>("foreground");
 
                 screen.Layers.Add(LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground));
             }
@@ -32,11 +31,10 @@ namespace MegaMan.Common
             foreach (XElement teleport in node.Elements("Teleport"))
             {
                 TeleportInfo info;
-                int from_x, from_y, to_x, to_y;
-                teleport.TryInteger("from_x", out from_x);
-                teleport.TryInteger("from_y", out from_y);
-                teleport.TryInteger("to_x", out to_x);
-                teleport.TryInteger("to_y", out to_y);
+                int from_x = teleport.TryAttribute<int>("from_x");
+                int from_y = teleport.TryAttribute<int>("from_y");
+                int to_x = teleport.TryAttribute<int>("to_x");
+                int to_y = teleport.TryAttribute<int>("to_y");
                 info.From = new Point(from_x, from_y);
                 info.To = new Point(to_x, to_y);
                 info.TargetScreen = teleport.Attribute("to_screen").Value;

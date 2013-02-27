@@ -28,17 +28,17 @@ namespace MegaMan.Common
             var info = new BlockPatternInfo();
 
             info.Entity = xmlNode.RequireAttribute("entity").Value;
-            info.LeftBoundary = xmlNode.GetInteger("left");
-            info.RightBoundary = xmlNode.GetInteger("right");
-            info.Length = xmlNode.GetInteger("length");
+            info.LeftBoundary = xmlNode.GetAttribute<int>("left");
+            info.RightBoundary = xmlNode.GetAttribute<int>("right");
+            info.Length = xmlNode.GetAttribute<int>("length");
 
             info.Blocks = new List<BlockInfo>();
             foreach (XElement blockInfo in xmlNode.Elements("Block"))
             {
                 BlockInfo block = new BlockInfo();
-                block.pos = new PointF((float)blockInfo.GetDouble("x"), (float)blockInfo.GetDouble("y"));
-                block.on = blockInfo.GetInteger("on");
-                block.off = blockInfo.GetInteger("off");
+                block.pos = new PointF(blockInfo.GetAttribute<float>("x"), blockInfo.GetAttribute<float>("y"));
+                block.on = blockInfo.GetAttribute<int>("on");
+                block.off = blockInfo.GetAttribute<int>("off");
 
                 info.Blocks.Add(block);
             }

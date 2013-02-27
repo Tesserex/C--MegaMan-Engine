@@ -21,15 +21,15 @@ namespace MegaMan.Engine
 
             public ImageFont(XElement node)
             {
-                charWidth = node.GetInteger("charwidth");
-                caseSensitive = node.GetBool("cased");
+                charWidth = node.GetAttribute<int>("charwidth");
+                caseSensitive = node.GetAttribute<bool>("cased");
 
                 chars = new Dictionary<char, System.Drawing.Point>();
 
                 foreach (var lineNode in node.Elements("Line"))
                 {
-                    var x = lineNode.GetInteger("x");
-                    var y = lineNode.GetInteger("y");
+                    var x = lineNode.GetAttribute<int>("x");
+                    var y = lineNode.GetAttribute<int>("y");
 
                     var lineText = lineNode.Value;
 

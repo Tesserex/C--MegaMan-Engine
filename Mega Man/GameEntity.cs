@@ -192,9 +192,7 @@ namespace MegaMan.Engine
             if (entities.ContainsKey(name)) throw new GameXmlException(xml, "You have defined two entities both named \"" + name + "\".");
 
             entity.Name = name;
-
-            int limit;
-            if (xml.TryInteger("limit", out limit)) entity.maxAlive = limit;
+            entity.maxAlive = xml.TryAttribute<int>("limit", 50);
 
             SpriteComponent spritecomp = null;
             PositionComponent poscomp = null;
@@ -253,7 +251,7 @@ namespace MegaMan.Engine
                             break;
 
                         case "GravityFlip":
-                            entity.GravityFlip = xmlComp.GetBool();
+                            entity.GravityFlip = xmlComp.GetValue<bool>();
                             break;
 
                         default:

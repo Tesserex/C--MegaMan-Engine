@@ -246,7 +246,7 @@ namespace MegaMan.Common.Tests
 
         public static Sprite GetSpriteFromFile(string filename, string basePath = null)
         {
-            String xmlInput = GetInputFile(filename);
+            String xmlInput = TestHelpers.GetInputFile(filename);
 
             var xmlNode = XElement.Parse(xmlInput);
 
@@ -258,15 +258,6 @@ namespace MegaMan.Common.Tests
             {
                 return Sprite.FromXml(xmlNode, basePath);
             }
-        }
-
-        public static string GetInputFile(string filename)
-        {
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
-
-            string path = "MegaMan.Common.Tests.Resources";
-
-            return new StreamReader(thisAssembly.GetManifestResourceStream(path + "." + filename)).ReadToEnd();
         } 
     }
 }

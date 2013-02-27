@@ -45,9 +45,7 @@ namespace MegaMan.Common
 
             if (mode == HandlerMode.Push)
             {
-                bool pause = true;
-                node.TryBool("pause", out pause);
-                transfer.Pause = pause;
+                transfer.Pause = node.TryAttribute<bool>("pause");
             }
 
             if (mode != HandlerMode.Pop)
@@ -74,9 +72,7 @@ namespace MegaMan.Common
                 transfer.Name = node.RequireAttribute("name").Value;
             }
 
-            bool f = false;
-            node.TryBool("fade", out f);
-            transfer.Fade = f;
+            transfer.Fade = node.TryAttribute<bool>("fade");
 
             return transfer;
         }
