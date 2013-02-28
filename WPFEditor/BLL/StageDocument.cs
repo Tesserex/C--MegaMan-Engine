@@ -153,8 +153,6 @@ namespace MegaMan.Editor.Bll
 
             // now I can do things like fire an event... how useful!
             if (ScreenAdded != null) ScreenAdded(doc);
-
-            Save();
         }
 
         public void AddJoin(Join join)

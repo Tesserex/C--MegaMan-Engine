@@ -112,11 +112,14 @@ namespace MegaMan.Editor.Controls
         {
             Stage.JoinChanged += StageJoinChanged;
             Stage.ScreenResized += ScreenResized;
+            Stage.ScreenAdded += ScreenAdded;
         }
 
         protected virtual void Unhook()
         {
             Stage.JoinChanged -= StageJoinChanged;
+            Stage.ScreenResized -= ScreenResized;
+            Stage.ScreenAdded -= ScreenAdded;
         }
 
         protected abstract ScreenCanvas CreateScreenCanvas(ScreenDocument screen);
@@ -126,6 +129,11 @@ namespace MegaMan.Editor.Controls
         private void ScreenResized(ScreenDocument screen, int width, int height)
         {
             LayoutScreens();
+        }
+
+        private void ScreenAdded(ScreenDocument obj)
+        {
+            ResetScreens();
         }
 
         private void StageJoinChanged(Join obj)
