@@ -93,11 +93,16 @@
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\IRequireCurrentStage.cs" />
+    <Compile Include="Controls\LayoutToolbar.xaml.cs">
+      <DependentUpon>LayoutToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ScreenResizeAdorner.cs" />
     <Compile Include="Controls\ToolCursorAdorner.cs" />
+    <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
+    <Compile Include="Controls\ViewModels\RelayCommand.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
-    <Compile Include="Bll\StageSelector.cs" />
+    <Compile Include="Bll\IStageProvider.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
     <Compile Include="Controls\LayoutScreenCanvas.cs" />
@@ -113,6 +118,10 @@
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
+    <Page Include="Controls\LayoutToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ProjectTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

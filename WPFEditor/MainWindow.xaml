@@ -155,7 +155,10 @@
                                     <TabItem.Header>
                                         Layout
                                     </TabItem.Header>
-                                    <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
+                                    <DockPanel>
+                                        <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
+                                        <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
+                                    </DockPanel>
                                 </TabItem>
                                 <TabItem>
                                     <TabItem.Header>

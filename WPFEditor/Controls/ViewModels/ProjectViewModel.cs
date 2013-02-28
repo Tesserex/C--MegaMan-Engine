@@ -8,7 +8,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class ProjectViewModel : TreeViewItemViewModel, IStageSelector
+    public class ProjectViewModel : TreeViewItemViewModel, IStageProvider
     {
         private ProjectDocument _project;
         public ProjectViewModel(ProjectDocument project) : base(null)
@@ -20,7 +20,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private StageDocument _stage;
 
-        public StageDocument Stage
+        public StageDocument CurrentStage
         {
             get { return _stage; }
         }

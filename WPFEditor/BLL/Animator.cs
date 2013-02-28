@@ -9,7 +9,7 @@ namespace MegaMan.Editor.Bll
     public class Animator : IRequireCurrentStage
     {
         private Tileset _tileset;
-        private IStageSelector _stageSelector;
+        private IStageProvider _stageSelector;
 
         public Animator()
         {

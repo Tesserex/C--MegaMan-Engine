@@ -105,6 +105,8 @@ namespace MegaMan.Editor
             projectTree.Update(_projectViewModel);
 
             _projectViewModel.StageChanged += StageChanged;
+
+            layoutToolbar.DataContext = new LayoutEditingViewModel(_projectViewModel);
         }
 
         private void DestroyProjectDependencies()
@@ -121,6 +123,8 @@ namespace MegaMan.Editor
             {
                 dependent.UnsetStage();
             }
+
+            layoutToolbar.DataContext = null;
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
