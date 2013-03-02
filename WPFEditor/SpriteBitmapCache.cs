@@ -15,6 +15,8 @@ namespace MegaMan.Editor
 
         private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, CroppedBitmap>> croppedImages = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, CroppedBitmap>>();
 
+        private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, FormatConvertedBitmap>> croppedImagesGrayscale = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, FormatConvertedBitmap>>();
+
         private static BitmapImage GetOrLoadImage(string absolutePath)
         {
             if (!images.ContainsKey(absolutePath))
@@ -45,6 +47,26 @@ namespace MegaMan.Editor
             }
 
             return croppedImages[imagePath][tuple];
+        }
+
+        public static ImageSource GetOrLoadFrameGrayscale(string imagePath, Rectangle srcRect)
+        {
+            var tuple = Tuple.Create(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+
+            if (!croppedImagesGrayscale.ContainsKey(imagePath))
+            {
+                croppedImagesGrayscale[imagePath] = new Dictionary<Tuple<int, int, int, int>, FormatConvertedBitmap>();
+            }
+
+            if (!croppedImagesGrayscale[imagePath].ContainsKey(tuple))
+            {
+                var source = GetOrLoadFrame(imagePath, srcRect);
+                var grayscale = new FormatConvertedBitmap((BitmapSource)source, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
+
+                croppedImagesGrayscale[imagePath][tuple] = grayscale;
+            }
+
+            return croppedImagesGrayscale[imagePath][tuple];
         }
     }
 }

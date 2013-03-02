@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegaMan.Editor.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,11 @@ namespace MegaMan.Editor.Controls
 
         public event EventHandler ScreenDropped;
 
-        public LayoutScreenCanvas() : base()
+        public LayoutScreenCanvas(IToolProvider toolProvider) : base(toolProvider)
         {
             this.Loaded += AddAdorners;
+
+            _tiles.RenderGrayscale();
         }
 
         private void AddAdorners(object sender, RoutedEventArgs e)
@@ -97,6 +100,20 @@ namespace MegaMan.Editor.Controls
             join.Size = length;
 
             Screen.Stage.AddJoin(join);
+        }
+
+        protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+
+            _tiles.RenderColor();
+        }
+
+        protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+
+            _tiles.RenderGrayscale();
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)

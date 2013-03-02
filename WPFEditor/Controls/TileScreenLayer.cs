@@ -17,9 +17,21 @@ namespace MegaMan.Editor.Controls
 {
     public class TileScreenLayer : ScreenLayer
     {
+        private bool _grayscale;
+
         static TileScreenLayer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TileScreenLayer), new FrameworkPropertyMetadata(typeof(TileScreenLayer)));
+        }
+
+        public void RenderColor()
+        {
+            _grayscale = false;
+        }
+
+        public void RenderGrayscale()
+        {
+            _grayscale = true;
         }
 
         protected override void UnbindScreen(ScreenDocument oldScreen)
@@ -50,9 +62,16 @@ namespace MegaMan.Editor.Controls
                     var tile = Screen.TileAt(x, y);
                     var location = tile.Sprite.CurrentFrame.SheetLocation;
 
-                    var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
-
-                    dc.DrawImage(image, new Rect(x * size, y * size, size, size));
+                    if (_grayscale)
+                    {
+                        var image = SpriteBitmapCache.GetOrLoadFrameGrayscale(Screen.Tileset.SheetPath.Absolute, location);
+                        dc.DrawImage(image, new Rect(x * size, y * size, size, size));
+                    }
+                    else
+                    {
+                        var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
+                        dc.DrawImage(image, new Rect(x * size, y * size, size, size));
+                    }
                 }
             }
         }
