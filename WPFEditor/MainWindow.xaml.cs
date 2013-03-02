@@ -106,7 +106,9 @@ namespace MegaMan.Editor
 
             _projectViewModel.StageChanged += StageChanged;
 
-            layoutToolbar.DataContext = new LayoutEditingViewModel(_projectViewModel);
+            var layoutEditor = new LayoutEditingViewModel(_projectViewModel);
+            layoutToolbar.DataContext = layoutEditor;
+            stageLayoutControl.ToolProvider = layoutEditor;
         }
 
         private void DestroyProjectDependencies()

@@ -6,12 +6,17 @@ using MegaMan.Editor.Tools;
 using System.ComponentModel;
 using MegaMan.Editor.Bll;
 using System.Windows.Input;
+using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class LayoutEditingViewModel : IToolProvider, INotifyPropertyChanged
     {
         private IStageProvider _stageProvider;
+
+        private IToolCursor _toolCursor = new CleaveToolCursor();
+
+        private IToolBehavior _toolBehavior = new CleaveScreenVerticalToolBehavior();
 
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
@@ -36,14 +41,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public Bll.Tools.IToolBehavior Tool
+        public IToolBehavior Tool
         {
-            get { throw new NotImplementedException(); }
+            get { return _toolBehavior; }
         }
 
         public IToolCursor ToolCursor
         {
-            get { throw new NotImplementedException(); }
+            get { return _toolCursor; }
         }
 
         public void AddScreen()
@@ -52,7 +57,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (stage != null)
             {
-                int nextScreenId = FindNextScreenId(stage);
+                int nextScreenId = stage.FindNextScreenId();
 
                 stage.AddScreen(nextScreenId.ToString(), 16, 14);
             }
@@ -69,17 +74,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("HasStage"));
             }
-        }
-
-        private static int FindNextScreenId(StageDocument stage)
-        {
-            int stageCount = stage.Screens.Count();
-            int nextScreenId = stageCount + 1;
-            while (stage.Screens.Any(s => s.Name == nextScreenId.ToString()))
-            {
-                nextScreenId++;
-            }
-            return nextScreenId;
         }
     }
 }

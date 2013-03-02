@@ -84,7 +84,7 @@ namespace MegaMan.Editor.Bll.Tools
             Draw(screen, pos.X, pos.Y);
         }
 
-        public void Release(ScreenDocument surface)
+        public void Release(ScreenDocument surface, Point location)
         {
             if (startTiles == null) return;
 

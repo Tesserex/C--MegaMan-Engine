@@ -137,7 +137,18 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
-        public void AddScreen(string name, int tile_width, int tile_height)
+        public int FindNextScreenId()
+        {
+            int stageCount = Screens.Count();
+            int nextScreenId = stageCount + 1;
+            while (Screens.Any(s => s.Name == nextScreenId.ToString()))
+            {
+                nextScreenId++;
+            }
+            return nextScreenId;
+        }
+
+        public ScreenDocument AddScreen(string name, int tile_width, int tile_height)
         {
             var screen = new MegaMan.Common.ScreenInfo(name, Tileset);
 
@@ -153,6 +164,17 @@ namespace MegaMan.Editor.Bll
 
             // now I can do things like fire an event... how useful!
             if (ScreenAdded != null) ScreenAdded(doc);
+
+            return doc;
+        }
+
+        public void RemoveScreen(ScreenDocument screen)
+        {
+            screen.Renamed -= ScreenRenamed;
+            screen.TileChanged -= () => Dirty = true;
+            screen.Resized -= (w, h) => OnScreenResized(screen, w, h);
+
+            screens.Remove(screen.Name);
         }
 
         public void AddJoin(Join join)

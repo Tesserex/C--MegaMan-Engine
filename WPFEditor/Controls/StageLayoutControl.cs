@@ -9,7 +9,7 @@ namespace MegaMan.Editor.Controls
     {
         protected override ScreenCanvas CreateScreenCanvas(Bll.ScreenDocument screen)
         {
-            var canvas = new LayoutScreenCanvas();
+            var canvas = new LayoutScreenCanvas(ToolProvider);
             canvas.Screen = screen;
 
             canvas.ScreenDropped += screenDropped;
@@ -31,7 +31,7 @@ namespace MegaMan.Editor.Controls
 
         private void SnapScreenJoin(LayoutScreenCanvas screenCanvas)
         {
-            _freezeLayout = true;
+            FreezeLayout();
 
             screenCanvas.Screen.SeverAllJoins();
 
@@ -66,8 +66,7 @@ namespace MegaMan.Editor.Controls
                 }
             }
 
-            _freezeLayout = false;
-            LayoutScreens();
+            UnfreezeLayout();
         }
     }
 }

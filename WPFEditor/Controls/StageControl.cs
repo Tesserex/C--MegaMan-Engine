@@ -9,6 +9,8 @@ using MegaMan.Editor.Bll;
 using System.Windows.Media;
 using System.Windows.Documents;
 using MegaMan.Editor.Bll.Algorithms;
+using MegaMan.Editor.Tools;
+using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls
 {
@@ -18,10 +20,18 @@ namespace MegaMan.Editor.Controls
     public abstract class StageControl : UserControl, IRequireCurrentStage
     {
         internal ScrollViewer scrollContainer;
-
         internal GridCanvas canvas;
 
         protected AdornerLayer adornerLayer;
+        private ToolCursorAdorner _cursorAdorner;
+
+        protected Dictionary<string, ScreenCanvas> _screens;
+        private bool _freezeLayout;
+        private bool _resetNeeded;
+        private bool _layoutNeeded;
+
+        private HashSet<string> _screensPlaced;
+        private Size _stageSize;
 
         private StageDocument _stage;
 
@@ -51,23 +61,29 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        public void SetStage(StageDocument stage)
+        private IToolProvider _toolProvider;
+
+        public IToolProvider ToolProvider
         {
-            Stage = stage;
+            get
+            {
+                return _toolProvider;
+            }
+            set
+            {
+                if (_toolProvider != null)
+                {
+                    _toolProvider.ToolChanged -= ToolChanged;
+                }
+
+                _toolProvider = value;
+
+                if (_toolProvider != null)
+                {
+                    _toolProvider.ToolChanged += ToolChanged;
+                }
+            }
         }
-
-        public void UnsetStage()
-        {
-            Stage = null;
-            _screens.Clear();
-            canvas.Children.Clear();
-        }
-
-        protected Dictionary<string, ScreenCanvas> _screens;
-        protected bool _freezeLayout;
-
-        private HashSet<string> _screensPlaced;
-        private Size _stageSize;
 
         public StageControl()
         {
@@ -77,6 +93,8 @@ namespace MegaMan.Editor.Controls
             _screensPlaced = new HashSet<string>();
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
+
+            this.Loaded += ControlLoaded;
         }
 
         public void InitializeComponent()
@@ -108,6 +126,25 @@ namespace MegaMan.Editor.Controls
             this.Content = adornerDecorator;
         }
 
+        public void SetStage(StageDocument stage)
+        {
+            Stage = stage;
+        }
+
+        public void UnsetStage()
+        {
+            Stage = null;
+            _screens.Clear();
+            canvas.Children.Clear();
+        }
+
+        private void ControlLoaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _cursorAdorner = new ToolCursorAdorner(this.canvas, ToolProvider);
+
+            this.adornerLayer.Add(_cursorAdorner);
+        }
+
         protected virtual void Hook()
         {
             Stage.JoinChanged += StageJoinChanged;
@@ -126,6 +163,30 @@ namespace MegaMan.Editor.Controls
 
         protected abstract void DestroyScreenCanvas(ScreenCanvas canvas);
 
+        protected void FreezeLayout()
+        {
+            _freezeLayout = true;
+        }
+
+        protected void UnfreezeLayout()
+        {
+            _freezeLayout = false;
+
+            if (_resetNeeded)
+            {
+                ResetScreens();
+            }
+            else if (_layoutNeeded)
+            {
+                LayoutScreens();
+            }
+        }
+
+        private void ToolChanged(object sender, ToolChangedEventArgs e)
+        {
+            UpdateCursor();
+        }
+
         private void ScreenResized(ScreenDocument screen, int width, int height)
         {
             LayoutScreens();
@@ -138,10 +199,7 @@ namespace MegaMan.Editor.Controls
 
         private void StageJoinChanged(Join obj)
         {
-            if (!_freezeLayout)
-            {
-                LayoutScreens();
-            }
+            LayoutScreens();
         }
 
         private void StageLayoutControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -160,6 +218,12 @@ namespace MegaMan.Editor.Controls
 
         private void ResetScreens()
         {
+            if (_freezeLayout)
+            {
+                _resetNeeded = true;
+                return;
+            }
+
             // recycle objects if we can
             var canvases = _screens.Values.ToArray();
             var screenDocuments = Stage.Screens.ToArray();
@@ -201,10 +265,18 @@ namespace MegaMan.Editor.Controls
             }
 
             LayoutScreens();
+
+            _resetNeeded = false;
         }
 
         protected void LayoutScreens()
         {
+            if (_freezeLayout)
+            {
+                _layoutNeeded = true;
+                return;
+            }
+
             if (canvas.Children.Count == 0) return;
 
             var arranger = new ScreenLayoutArranger(this.Stage);
@@ -232,6 +304,8 @@ namespace MegaMan.Editor.Controls
             _stageSize = new Size(maxX, maxY);
 
             SetSize();
+
+            _layoutNeeded = false;
         }
 
         private MegaMan.Common.Geometry.Point GetCanvasLocation(ScreenCanvas surface)
@@ -242,6 +316,35 @@ namespace MegaMan.Editor.Controls
         private void SetCanvasLocation(ScreenCanvas surface, MegaMan.Common.Geometry.Point location)
         {
             surface.Margin = new Thickness(location.X, location.Y, 0, 0);
+        }
+
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+
+            UpdateCursor();
+        }
+
+        private void UpdateCursor()
+        {
+            if (ToolProvider != null && ToolProvider.ToolCursor != null)
+            {
+                Cursor = Cursors.None;
+                this._cursorAdorner.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
+                Cursor = Cursors.Arrow;
+            }
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+
+            this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
+            Cursor = Cursors.Arrow;
         }
     }
 }

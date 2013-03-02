@@ -7,7 +7,7 @@ namespace MegaMan.Editor.Bll.Tools
     {
         void Click(ScreenDocument screen, Point location);
         void Move(ScreenDocument screen, Point location);
-        void Release(ScreenDocument screen);
+        void Release(ScreenDocument screen, Point location);
         void RightClick(ScreenDocument screen, Point location);
     }
 

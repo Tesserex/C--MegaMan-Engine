@@ -11,49 +11,6 @@ namespace MegaMan.Editor.Controls
 {
     public class StageTileControl : StageControl
     {
-        private ToolCursorAdorner _cursorAdorner;
-
-        private IToolProvider _toolProvider;
-
-        public IToolProvider ToolProvider
-        {
-            get
-            {
-                return _toolProvider;
-            }
-            set
-            {
-                if (_toolProvider != null)
-                {
-                    _toolProvider.ToolChanged -= ToolChanged;
-                }
-
-                _toolProvider = value;
-
-                if (_toolProvider != null)
-                {
-                    _toolProvider.ToolChanged += ToolChanged;
-                }
-            }
-        }
-
-        private void ToolChanged(object sender, ToolChangedEventArgs e)
-        {
-            UpdateCursor();
-        }
-
-        public StageTileControl() : base()
-        {
-            this.Loaded += StageTileControl_Loaded;
-        }
-
-        private void StageTileControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _cursorAdorner = new ToolCursorAdorner(this.canvas, ToolProvider);
-
-            this.adornerLayer.Add(_cursorAdorner);
-        }
-
         protected override ScreenCanvas CreateScreenCanvas(ScreenDocument screen)
         {
             var canvas = new TileScreenCanvas(ToolProvider);
@@ -65,35 +22,6 @@ namespace MegaMan.Editor.Controls
         protected override void DestroyScreenCanvas(ScreenCanvas canvas)
         {
             
-        }
-
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
-
-            UpdateCursor();
-        }
-
-        private void UpdateCursor()
-        {
-            if (ToolProvider != null && ToolProvider.ToolCursor != null)
-            {
-                Cursor = Cursors.None;
-                this._cursorAdorner.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
-                Cursor = Cursors.Arrow;
-            }
-        }
-
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-
-            this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
-            Cursor = Cursors.Arrow;
         }
     }
 }

@@ -99,6 +99,34 @@ namespace MegaMan.Editor.Bll
             if (TileChanged != null) TileChanged();
         }
 
+        public void CleaveVertically(int leftHalfTileWidth)
+        {
+            if (leftHalfTileWidth > 0 && leftHalfTileWidth < screen.Width)
+            {
+                var leftSide = screen.Layers[0].Tiles.GetTiles(Point.Empty, leftHalfTileWidth, Height);
+                var rightSide = screen.Layers[0].Tiles.GetTiles(new Point(leftHalfTileWidth, 0), Width - leftHalfTileWidth, Height);
+
+                var leftScreen = Stage.AddScreen(Stage.FindNextScreenId().ToString(), leftHalfTileWidth, Height);
+                var rightScreen = Stage.AddScreen(Stage.FindNextScreenId().ToString(), Width - leftHalfTileWidth, Height);
+
+                leftScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, leftSide);
+                rightScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, rightSide);
+
+                Stage.RemoveScreen(this);
+
+                Stage.AddJoin(new Join()
+                {
+                    direction = JoinDirection.Both,
+                    type = JoinType.Vertical,
+                    screenOne = leftScreen.Name,
+                    screenTwo = rightScreen.Name,
+                    offsetOne = 0,
+                    offsetTwo = 0,
+                    Size = Height
+                });
+            }
+        }
+
         public void SeverAllJoins()
         {
             var myJoins = Joins.ToList();

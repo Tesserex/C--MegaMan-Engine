@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {
@@ -20,6 +21,8 @@ namespace MegaMan.Editor.Controls
         protected ScreenDocument _screen;
 
         protected TileScreenLayer _tiles;
+
+        private IToolProvider _toolProvider;
 
         public ScreenDocument Screen
         {
@@ -49,9 +52,11 @@ namespace MegaMan.Editor.Controls
             InvalidateMeasure();
         }
 
-        public ScreenCanvas()
+        public ScreenCanvas(IToolProvider toolProvider)
         {
             _tiles = new TileScreenLayer();
+
+            _toolProvider = toolProvider;
 
             HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             VerticalAlignment = System.Windows.VerticalAlignment.Top;
@@ -63,6 +68,62 @@ namespace MegaMan.Editor.Controls
         {
             _tiles.Measure(new Size(_screen.PixelWidth, _screen.PixelHeight));
             return new Size(_screen.PixelWidth, _screen.PixelHeight);
+        }
+
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            if (_toolProvider.Tool == null)
+            {
+                return;
+            }
+
+            var mousePoint = e.GetPosition(this);
+
+            _toolProvider.Tool.Click(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+        }
+
+        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+
+            if (_toolProvider.Tool == null)
+            {
+                return;
+            }
+
+            var mousePoint = e.GetPosition(this);
+
+            _toolProvider.Tool.Release(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+        }
+
+        protected override void OnMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonUp(e);
+
+            if (_toolProvider.Tool == null)
+            {
+                return;
+            }
+
+            var mousePoint = e.GetPosition(this);
+
+            _toolProvider.Tool.RightClick(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+        }
+
+        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (_toolProvider.Tool == null)
+            {
+                return;
+            }
+
+            var mousePoint = e.GetPosition(this);
+
+            _toolProvider.Tool.Move(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
         }
 
         static ScreenCanvas()
