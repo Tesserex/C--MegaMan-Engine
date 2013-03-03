@@ -53,9 +53,8 @@ namespace MegaMan.Editor.Controls
                 if (_stage != null)
                 {
                     Hook();
+                    ResetScreens();
                 }
-
-                ResetScreens();
 
                 InvalidateVisual();
             }
