@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MegaMan.Editor.Tools
 {
-    public interface IToolCursor
+    public interface IToolCursor : IDisposable
     {
-        ImageSource CursorImage { get; }
-
-        Double CursorWidth { get; }
-
-        Double CursorHeight { get; }
+        void ApplyCursorTo(FrameworkElement element);
     }
 }

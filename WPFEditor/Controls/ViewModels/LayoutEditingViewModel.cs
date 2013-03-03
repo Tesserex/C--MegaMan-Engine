@@ -14,7 +14,7 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private IStageProvider _stageProvider;
 
-        private IToolCursor _toolCursor = new CleaveToolCursor();
+        private IToolCursor _toolCursor;
 
         private IToolBehavior _toolBehavior = new CleaveScreenVerticalToolBehavior();
 
@@ -29,9 +29,13 @@ namespace MegaMan.Editor.Controls.ViewModels
             _stageProvider.StageChanged += StageChanged;
 
             AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage);
+
+            ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage);
         }
 
         public ICommand AddScreenCommand { get; private set; }
+
+        public ICommand ChangeToolCommand { get; private set; }
 
         public bool HasStage
         {
@@ -48,10 +52,22 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public IToolCursor ToolCursor
         {
-            get { return _toolCursor; }
+            get
+            {
+                return _toolCursor;
+            }
+            private set
+            {
+                if (_toolCursor != null)
+                {
+                    _toolCursor.Dispose();
+                }
+
+                _toolCursor = value;
+            }
         }
 
-        public void AddScreen()
+        private void AddScreen()
         {
             var stage = _stageProvider.CurrentStage;
 
@@ -63,9 +79,28 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void DeleteScreen(ScreenDocument screen)
+        private void DeleteScreen(ScreenDocument screen)
         {
             
+        }
+
+        private void ChangeTool(object toolParam)
+        {
+            switch (toolParam.ToString())
+            {
+                case "Hand":
+                    ToolCursor = new StandardToolCursor("hand.cur");
+                    break;
+
+                case "VSplit":
+                    ToolCursor = new StandardToolCursor("vsplit.cur");
+                    break;
+            }
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
+            }
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)

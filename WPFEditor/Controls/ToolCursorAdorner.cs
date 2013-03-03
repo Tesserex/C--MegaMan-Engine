@@ -12,11 +12,11 @@ namespace MegaMan.Editor.Controls
 {
     public class ToolCursorAdorner : Adorner
     {
-        private IToolProvider _toolProvider;
+        private Action<DrawingContext> _renderAction;
 
-        public ToolCursorAdorner(UIElement adornedElement, IToolProvider toolProvider) : base(adornedElement)
+        public ToolCursorAdorner(UIElement adornedElement, Action<DrawingContext> renderAction) : base(adornedElement)
         {
-            _toolProvider = toolProvider;
+            _renderAction = renderAction;
 
             IsHitTestVisible = false;
             SnapsToDevicePixels = true;
@@ -30,24 +30,11 @@ namespace MegaMan.Editor.Controls
             InvalidateVisual();
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
 
-            if (_toolProvider != null && _toolProvider.ToolCursor != null)
-            {
-                var cursor = _toolProvider.ToolCursor;
-
-                var cursorPosition = Mouse.GetPosition(this);
-
-                drawingContext.DrawImage(cursor.CursorImage,
-                    new Rect(
-                        cursorPosition.X - (cursor.CursorWidth / 2),
-                        cursorPosition.Y - (cursor.CursorHeight / 2),
-                        cursor.CursorWidth,
-                        cursor.CursorHeight)
-                    );
-            }
+            _renderAction(drawingContext);
         }
     }
 }

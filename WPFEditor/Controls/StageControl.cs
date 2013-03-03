@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Tools;
 using System.Windows.Input;
+using System.Reflection;
 
 namespace MegaMan.Editor.Controls
 {
@@ -23,7 +24,6 @@ namespace MegaMan.Editor.Controls
         internal GridCanvas canvas;
 
         protected AdornerLayer adornerLayer;
-        private ToolCursorAdorner _cursorAdorner;
 
         protected Dictionary<string, ScreenCanvas> _screens;
         private bool _freezeLayout;
@@ -93,8 +93,6 @@ namespace MegaMan.Editor.Controls
             _screensPlaced = new HashSet<string>();
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
-
-            this.Loaded += ControlLoaded;
         }
 
         public void InitializeComponent()
@@ -136,13 +134,6 @@ namespace MegaMan.Editor.Controls
             Stage = null;
             _screens.Clear();
             canvas.Children.Clear();
-        }
-
-        private void ControlLoaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _cursorAdorner = new ToolCursorAdorner(this.canvas, ToolProvider);
-
-            this.adornerLayer.Add(_cursorAdorner);
         }
 
         protected virtual void Hook()
@@ -318,33 +309,16 @@ namespace MegaMan.Editor.Controls
             surface.Margin = new Thickness(location.X, location.Y, 0, 0);
         }
 
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
-
-            UpdateCursor();
-        }
-
         private void UpdateCursor()
         {
             if (ToolProvider != null && ToolProvider.ToolCursor != null)
             {
-                Cursor = Cursors.None;
-                this._cursorAdorner.Visibility = System.Windows.Visibility.Visible;
+                ToolProvider.ToolCursor.ApplyCursorTo(this.scrollContainer);
             }
             else
             {
-                this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
-                Cursor = Cursors.Arrow;
+                this.Cursor = Cursors.Arrow;
             }
-        }
-
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-
-            this._cursorAdorner.Visibility = System.Windows.Visibility.Hidden;
-            Cursor = Cursors.Arrow;
         }
     }
 }

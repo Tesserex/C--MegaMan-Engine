@@ -26,6 +26,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 return _currentTool;
             }
+            private set
+            {
+                _currentTool = value;
+            }
         }
 
         public IToolCursor ToolCursor
@@ -33,6 +37,15 @@ namespace MegaMan.Editor.Controls.ViewModels
             get
             {
                 return _currentCursor;
+            }
+            private set
+            {
+                if (_currentCursor != null)
+                {
+                    _currentCursor.Dispose();
+                }
+
+                _currentCursor = value;
             }
         }
 
@@ -89,13 +102,13 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (tile != null)
             {
-                _currentTool = new TileBrushToolBehavior(new SingleTileBrush(tile));
-                _currentCursor = new SingleTileCursor(_tileset, tile);
+                Tool = new TileBrushToolBehavior(new SingleTileBrush(tile));
+                ToolCursor = new SingleTileCursor(_tileset, tile);
             }
             else
             {
-                _currentTool = null;
-                _currentCursor = null;
+                Tool = null;
+                ToolCursor = null;
             }
 
             SelectedTile = tile;
