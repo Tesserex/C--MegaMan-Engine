@@ -11,11 +11,30 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class ProjectViewModel : TreeViewItemViewModel, IStageProvider
     {
         private ProjectDocument _project;
-        public ProjectViewModel(ProjectDocument project) : base(null)
-        {
-            _project = project;
 
-            _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
+        public ProjectViewModel()
+            : base(null)
+        {
+        }
+
+        public ProjectDocument Project
+        {
+            get
+            {
+                return _project;
+            }
+            set
+            {
+                _project = value;
+
+                _children.Clear();
+                _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
+
+                if (StageChanged != null)
+                {
+                    StageChanged(this, new StageChangedEventArgs(null));
+                }
+            }
         }
 
         private StageDocument _stage;

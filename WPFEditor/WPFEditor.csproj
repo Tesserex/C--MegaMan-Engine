@@ -96,7 +96,6 @@
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
-    <Compile Include="Bll\IRequireCurrentStage.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
@@ -148,7 +147,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Animator.cs" />
     <Compile Include="Bll\Const.cs" />
     <Compile Include="Bll\Entity.cs" />
     <Compile Include="Bll\History.cs" />

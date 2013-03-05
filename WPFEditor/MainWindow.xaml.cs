@@ -26,24 +26,24 @@ namespace MegaMan.Editor
         private ProjectDocument _openProject;
         private ProjectViewModel _projectViewModel;
 
-        private List<IRequireCurrentStage> _stageDependents;
-
         public MainWindow()
         {
             InitializeComponent();
 
             UseLayoutRounding = true;
 
-            _stageDependents = new List<IRequireCurrentStage>();
+            _projectViewModel = new ProjectViewModel();
+            projectTree.Update(_projectViewModel);
 
-            _stageDependents.Add(new Animator());
-            _stageDependents.Add(stageLayoutControl);
-            _stageDependents.Add(stageTileControl);
-
-            var tilesetModel = new TilesetViewModel();
-            _stageDependents.Add(tilesetModel);
+            var tilesetModel = new TilesetViewModel(_projectViewModel);
             tileStrip.Update(tilesetModel);
             stageTileControl.ToolProvider = tilesetModel;
+            stageTileControl.StageProvider = _projectViewModel;
+
+            var layoutEditor = new LayoutEditingViewModel(_projectViewModel);
+            layoutToolbar.DataContext = layoutEditor;
+            stageLayoutControl.ToolProvider = layoutEditor;
+            stageLayoutControl.StageProvider = _projectViewModel;
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -96,50 +96,12 @@ namespace MegaMan.Editor
 
         private void SetupProjectDependencies(ProjectDocument project)
         {
-            if (_projectViewModel != null)
-            {
-                _projectViewModel.StageChanged -= StageChanged;
-            }
-
-            _projectViewModel = new ProjectViewModel(project);
-            projectTree.Update(_projectViewModel);
-
-            _projectViewModel.StageChanged += StageChanged;
-
-            var layoutEditor = new LayoutEditingViewModel(_projectViewModel);
-            layoutToolbar.DataContext = layoutEditor;
-            stageLayoutControl.ToolProvider = layoutEditor;
+            _projectViewModel.Project = project;
         }
 
         private void DestroyProjectDependencies()
         {
-            if (_projectViewModel != null)
-            {
-                _projectViewModel.StageChanged -= StageChanged;
-            }
-
-            _projectViewModel = null;
-            projectTree.Update(null);
-
-            foreach (var dependent in _stageDependents)
-            {
-                dependent.UnsetStage();
-            }
-
-            layoutToolbar.DataContext = null;
-        }
-
-        private void StageChanged(object sender, StageChangedEventArgs e)
-        {
-            ChangeStage(e.Stage);
-        }
-
-        private void ChangeStage(StageDocument stageDocument)
-        {
-            foreach (var dependent in _stageDependents)
-            {
-                dependent.SetStage(stageDocument);
-            }
+            _projectViewModel.Project = null;
         }
 
         private void SaveProject(object sender, ExecutedRoutedEventArgs e)

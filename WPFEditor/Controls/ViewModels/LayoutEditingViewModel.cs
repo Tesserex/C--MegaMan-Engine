@@ -16,7 +16,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private IToolCursor _toolCursor;
 
-        private IToolBehavior _toolBehavior = new CleaveScreenVerticalToolBehavior();
+        private IToolBehavior _toolBehavior;
 
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 

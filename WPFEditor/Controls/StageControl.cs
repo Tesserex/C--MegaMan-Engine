@@ -18,7 +18,7 @@ namespace MegaMan.Editor.Controls
     /// <summary>
     /// Interaction logic for StageLayoutControl.xaml
     /// </summary>
-    public abstract class StageControl : UserControl, IRequireCurrentStage
+    public abstract class StageControl : UserControl
     {
         internal ScrollViewer scrollContainer;
         internal GridCanvas canvas;
@@ -33,7 +33,22 @@ namespace MegaMan.Editor.Controls
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
+        private IStageProvider _stageProvider;
+
         private StageDocument _stage;
+
+        public IStageProvider StageProvider
+        {
+            get
+            {
+                return _stageProvider;
+            }
+            set
+            {
+                _stageProvider = value;
+                _stageProvider.StageChanged += StageChanged;
+            }
+        }
 
         public StageDocument Stage
         {
@@ -123,9 +138,12 @@ namespace MegaMan.Editor.Controls
             this.Content = adornerDecorator;
         }
 
-        public void SetStage(StageDocument stage)
+        private void StageChanged(object sender, StageChangedEventArgs e)
         {
-            Stage = stage;
+            if (e.Stage != null)
+                Stage = e.Stage;
+            else
+                UnsetStage();
         }
 
         public void UnsetStage()

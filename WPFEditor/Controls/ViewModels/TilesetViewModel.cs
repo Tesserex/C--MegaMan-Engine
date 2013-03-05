@@ -11,11 +11,12 @@ using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TilesetViewModel : IToolProvider, IRequireCurrentStage, INotifyPropertyChanged
+    public class TilesetViewModel : IToolProvider, INotifyPropertyChanged
     {
         private Tileset _tileset;
         private IToolBehavior _currentTool;
         private IToolCursor _currentCursor;
+        private IStageProvider _stageProvider;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
@@ -74,7 +75,24 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public Tile SelectedTile { get; private set; }
 
-        public void SetStage(StageDocument stage)
+        public TilesetViewModel(IStageProvider stageProvider)
+        {
+            _stageProvider = stageProvider;
+
+            _stageProvider.StageChanged += StageChanged;
+
+            ((App)App.Current).Tick += Animate;
+        }
+
+        private void StageChanged(object sender, StageChangedEventArgs e)
+        {
+            if (e.Stage != null)
+                SetStage(e.Stage);
+            else
+                UnsetStage();
+        }
+
+        private void SetStage(StageDocument stage)
         {
             _tileset = stage.Tileset;
 
@@ -86,7 +104,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void UnsetStage()
+        private void UnsetStage()
         {
             _tileset = null;
 
@@ -95,6 +113,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
+            }
+        }
+
+        private void Animate()
+        {
+            if (_tileset != null)
+            {
+                foreach (var tile in _tileset)
+                {
+                    tile.Sprite.Update();
+                }
             }
         }
 
