@@ -8,7 +8,7 @@ namespace MegaMan.Common.Tests
     [TestClass]
     public class XmlExtensionTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("Xml")]
         public void RequireAttribute_HasAttribute_Succeed()
         {
             var input = TestHelpers.GetInputFile("Xml_RequireAttribute.xml");
@@ -17,7 +17,7 @@ namespace MegaMan.Common.Tests
             xmlNode.RequireAttribute("fooString");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Xml")]
         [ExpectedException(typeof(GameXmlException))]
         public void RequireAttribute_NoAttribute_Exception()
         {
@@ -27,7 +27,7 @@ namespace MegaMan.Common.Tests
             xmlNode.RequireAttribute("does-not-exist");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Xml")]
         public void GetAttributeT_Valid_Parses()
         {
             var input = TestHelpers.GetInputFile("Xml_RequireAttribute.xml");
@@ -39,7 +39,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(-1.5, xmlNode.GetAttribute<Double>("fooDouble"));
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Xml")]
         [ExpectedException(typeof(GameXmlException))]
         public void TryAttributeT_BadValue_Exception()
         {
@@ -49,7 +49,7 @@ namespace MegaMan.Common.Tests
             xmlNode.TryAttribute<Double>("fooString");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Xml")]
         public void TryAttributeT_NoAttribute_Defaults()
         {
             var input = TestHelpers.GetInputFile("Xml_RequireAttribute.xml");

@@ -32,11 +32,31 @@ namespace MegaMan.Common
 
         public static FilePath FromAbsolute(string absolute, string basepath)
         {
+            if (string.IsNullOrWhiteSpace(absolute))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", "absolute");
+            }
+
+            if (string.IsNullOrWhiteSpace(basepath))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", "basepath");
+            }
+
             return new FilePath(absolute, basepath);
         }
 
         public static FilePath FromRelative(string relative, string basepath)
         {
+            if (string.IsNullOrWhiteSpace(relative))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", "relative");
+            }
+
+            if (string.IsNullOrWhiteSpace(basepath))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", "basepath");
+            }
+
             FilePath fp = new FilePath
             {
                 basepath = Path.GetFullPath(basepath),

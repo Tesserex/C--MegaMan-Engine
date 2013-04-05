@@ -486,11 +486,6 @@ namespace MegaMan.Common
             this.Duration = duration;
             this.SheetLocation = sheetRect;
         }
-
-        public void SetSheetPosition(Rectangle rect)
-        {
-            SheetLocation = rect;
-        }
     }
 
     /// <summary>

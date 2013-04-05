@@ -7,7 +7,7 @@ namespace MegaMan.Common.Tests
     [TestClass]
     public class FilePathTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("FilePath")]
         public void ShouldGetRelativeWithTrailingSlashes()
         {
             var filepathWithTrailingSlashes = FilePath.FromAbsolute(@"C:\foo\bar\baz\", @"C:\foo\");
@@ -17,7 +17,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(expected, filepathWithTrailingSlashes.Relative);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("FilePath")]
         public void ShouldGetRelativeWithoutTrailingSlashes()
         {
             var filepathWithoutTrailingSlashes = FilePath.FromAbsolute(@"C:\foo\bar\baz", @"C:\foo");
@@ -27,7 +27,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(expected, filepathWithoutTrailingSlashes.Relative);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("FilePath")]
         public void ShouldGetAbsoluteWithTrailingSlashes()
         {
             var filepathWithTrailingSlashes = FilePath.FromRelative(@"bar\baz\", @"C:\foo\");
@@ -37,7 +37,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(expected, filepathWithTrailingSlashes.Absolute);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("FilePath")]
         public void ShouldGetAbsoluteWithoutTrailingSlashes()
         {
             var filepathWithoutTrailingSlashes = FilePath.FromRelative(@"bar\baz", @"C:\foo");
@@ -45,6 +45,32 @@ namespace MegaMan.Common.Tests
             var expected = @"C:\foo\bar\baz";
 
             Assert.AreEqual(expected, filepathWithoutTrailingSlashes.Absolute);
+        }
+
+        [TestMethod, TestCategory("FilePath")]
+        public void ShouldFindRelativeAncestorPath()
+        {
+            var filepathWithoutTrailingSlashes = FilePath.FromAbsolute(@"C:\foo\bar.txt", @"C:\foo\baz\buzz");
+
+            var expected = @"..\..\bar.txt";
+
+            Assert.AreEqual(expected, filepathWithoutTrailingSlashes.Relative);
+        }
+
+        [TestMethod, TestCategory("FilePath"), ExpectedException(typeof(ArgumentException))]
+        public void ExceptionWhenAbsoluteNull()
+        {
+            var filepath = FilePath.FromAbsolute(null, @"C:\foo");
+
+            Assert.IsNull(filepath.Relative);
+        }
+
+        [TestMethod, TestCategory("FilePath"), ExpectedException(typeof(ArgumentException))]
+        public void ExceptionNullWhenBasePathNull()
+        {
+            var filepath = FilePath.FromAbsolute(@"C:\foo\bar.txt", null);
+
+            Assert.IsNull(filepath.Relative);
         }
     }
 }

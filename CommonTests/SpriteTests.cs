@@ -14,7 +14,7 @@ namespace MegaMan.Common.Tests
     [TestClass]
     public class SpriteTests
     {
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void FromXml_NormalInput_Created()
         {
             Sprite sprite = GetSpriteFromFile("Sprite_NormalInput.xml", @"C:\");
@@ -38,7 +38,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(4, sprite[1].Duration);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void FromXml_NormalInput_SensibleDefaults()
         {
             var sprite = GetSpriteFromFile("Sprite_Defaults.xml");
@@ -55,7 +55,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(0, sprite[0].Duration);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_Playing_Runs()
         {
             var sprite = GetEmptySprite(5);
@@ -68,7 +68,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(1, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_GreaterThanOne_SkipsFrames()
         {
             var sprite = GetEmptySprite(4);
@@ -79,7 +79,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(3, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_Stopped_DoesntRun()
         {
             var sprite = GetEmptySprite(5);
@@ -94,7 +94,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(1, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_Stop_Resets()
         {
             var sprite = GetEmptySprite(5);
@@ -106,7 +106,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(0, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_LongFrame_Stays()
         {
             var sprite = GetEmptySprite(5);
@@ -120,7 +120,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(1, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_ForwardOnce()
         {
             var sprite = GetEmptySprite(3);
@@ -140,7 +140,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(2, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_BackwardOnce()
         {
             var sprite = GetEmptySprite(3);
@@ -160,7 +160,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(0, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_ForwardRepeat()
         {
             var sprite = GetEmptySprite(3);
@@ -183,7 +183,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(1, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_BackwardRepeat()
         {
             var sprite = GetEmptySprite(3);
@@ -206,7 +206,7 @@ namespace MegaMan.Common.Tests
             Assert.AreEqual(1, sprite.CurrentIndex);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Sprite")]
         public void Update_Bounce()
         {
             var sprite = GetEmptySprite(3);
