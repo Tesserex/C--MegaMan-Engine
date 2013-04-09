@@ -1,0 +1,30 @@
+﻿<Scene name="TestScene" duration="600" canskip="true">
+  <Sprite name="TestSprite" palette="MegaMan" tilesheet="images/cutscenes/test.png" width="21" height="24" layer="3">
+    <Hotspot x="12" y="15" />
+    <Frame x="0" y="0" duration="0" />
+  </Sprite>
+  <Keyframe frame="0">
+    <PlayMusic track="21" />
+    <Entity entity="BigStar" x="196" y="155" />
+    <Entity entity="BigStar" x="307" y="-100" />
+    <Fill name="Green" color="0,96,0" x="0" y="0" width="256" height="224" layer="2" />
+    <FillMove name="Green" x="0" y="71" width="256" height="71" duration="32" />
+  </Keyframe>
+  <Keyframe frame="30">
+    <Add name="TestObject" object="TestSprite" x="122" y="104" />
+  </Keyframe>
+  <Keyframe frame="160">
+    <Effect>
+      <Palette name="MegaMan" index="8" />
+    </Effect>
+    <SpriteMove name="TestObject" duration="60" x="200" y="144" />
+  </Keyframe>
+  <Keyframe frame="232">
+    <Remove name="TestObject" />
+  </Keyframe>
+  <Keyframe frame="300">
+    <StopMusic />
+    <Text content="Some test text." x="40" y="172" speed="8" />
+  </Keyframe>
+  <Next type="Menu" name="StageSelect" fade="True" />
+</Scene>

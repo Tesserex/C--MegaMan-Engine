@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="FilePathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneTests.cs" />
     <Compile Include="SpriteTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="XmlExtensionTests.cs" />
@@ -72,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Xml_RequireAttribute.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Scene_Correct.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
