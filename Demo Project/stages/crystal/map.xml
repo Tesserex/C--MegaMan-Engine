@@ -1,7 +1,8 @@
 <Map name="crystal" tiles="tiles.xml">
 	<Music nsftrack="5" />
-	<Start screen="Tunnel" x="116" y="164" />
+	<Start screen="Start" x="116" y="148" />
 	<Screen id="Start">
+		<Next type="Scene" mode="Push" name="StageReady" />
 		<Entity entity="Seeker" state="" x="230" y="126" />
 		<Entity entity="Seeker" state="" x="164" y="54" />
 		<Entity entity="Seeker" state="" x="209" y="79" />
@@ -18,13 +19,14 @@
 	</Screen>
 	<Screen id="4">
 		<Entity entity="EnergyTank" state="" x="48" y="105" />
-		<Entity entity="ShieldGuy" state="" x="52" y="161" />
-		<Entity entity="ShieldShooter" state="" x="160" y="96" />
+		<Entity entity="ShieldGuy" state="" x="52" y="161"/>
+		<Entity entity="ShieldShooter" state="" x="160" y="80" direction="Right" />
 	</Screen>
 	<Screen id="Tunnel">
-		<Next type="Scene" mode="Push" name="StageReady" />
+
 	</Screen>
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
 	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
+	<Join type="vertical" s1="4" s2="Tunnel" offset1="8" offset2="8" size="3" direction="forward" bossdoor="CrystalDoor" />
 	<Join type="vertical" s1="Tunnel" s2="Boss" offset1="8" offset2="8" size="3" direction="forward" bossdoor="CrystalDoor" />
 </Map>
