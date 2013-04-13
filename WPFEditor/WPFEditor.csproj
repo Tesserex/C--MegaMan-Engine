@@ -235,6 +235,10 @@
     <Resource Include="Resources\ZoomHS.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{f62c2a06-3ce9-4f5b-b109-687905d14adf}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">
       <Project>{6779a7e6-ce6c-43e4-a0cb-1b0f921c8009}</Project>
       <Name>Common</Name>

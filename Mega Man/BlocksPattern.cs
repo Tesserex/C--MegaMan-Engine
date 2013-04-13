@@ -45,7 +45,7 @@ namespace MegaMan.Engine
         {
             if (!blocks.Any())
             {
-                foreach (BlockPatternInfo.BlockInfo blockinfo in info.Blocks)
+                foreach (Common.BlockInfo blockinfo in info.Blocks)
                 {
                     BlockInfo myInfo = new BlockInfo { entity = GameEntity.Get(info.Entity, container) };
                     // should always persist off screen

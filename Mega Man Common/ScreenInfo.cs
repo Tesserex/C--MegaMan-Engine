@@ -65,7 +65,7 @@ namespace MegaMan.Common
 
             foreach (BlockPatternInfo pattern in BlockPatterns)
             {
-                pattern.Save(writer);
+                //pattern.Save(writer);
             }
 
             foreach (TeleportInfo teleport in Teleports)

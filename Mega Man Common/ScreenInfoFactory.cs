@@ -46,7 +46,7 @@ namespace MegaMan.Common
 
             foreach (XElement blockNode in node.Elements("Blocks"))
             {
-                BlockPatternInfo pattern = BlockPatternInfo.FromXml(blockNode);
+                BlockPatternInfo pattern = new BlockPatternInfo();// BlockPatternInfo.FromXml(blockNode);
                 screen.BlockPatterns.Add(pattern);
             }
 

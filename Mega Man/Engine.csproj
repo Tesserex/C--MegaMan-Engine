@@ -249,6 +249,10 @@
     <Content Include="lib\ntsc.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{f62c2a06-3ce9-4f5b-b109-687905d14adf}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">
       <Project>{6779A7E6-CE6C-43E4-A0CB-1B0F921C8009}</Project>
       <Name>Common</Name>
