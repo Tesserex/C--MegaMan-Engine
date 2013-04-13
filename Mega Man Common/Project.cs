@@ -75,6 +75,23 @@ namespace MegaMan.Common
 
         #endregion
 
+        #region Loaded Resources
+
+        private List<SoundInfo> _sounds = new List<SoundInfo>();
+        public IEnumerable<SoundInfo> Sounds { get { return _sounds.AsReadOnly(); } }
+
+        public void AddSound(SoundInfo sound)
+        {
+            _sounds.Add(sound);
+        }
+
+        public void RemoveSound(SoundInfo sound)
+        {
+            _sounds.Remove(sound);
+        }
+
+        #endregion
+
         public Project()
         {
             // sensible defaults where possible

@@ -124,11 +124,16 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
+            var includeReader = new IncludeFileXmlReader(project);
+
             foreach (string includePath in project.Includes)
             {
                 string includefile = Path.Combine(BasePath, includePath);
                 IncludeXmlFile(includefile);
+                includeReader.LoadIncludedFile(includefile);
             }
+
+            Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
 
             currentPath = path;
 
@@ -198,7 +203,6 @@ namespace MegaMan.Engine
                             break;
 
                         case "Sounds":
-                            Engine.Instance.SoundSystem.LoadEffectsFromXml(element);
                             break;
 
                         case "Scenes":

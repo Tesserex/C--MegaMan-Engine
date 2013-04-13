@@ -101,11 +101,11 @@ namespace MegaMan.Engine
             AudioManager.Instance.PauseBGMPlayback();
         }
 
-        public void LoadEffectsFromXml(XElement node)
+        public void LoadEffectsFromInfo(IEnumerable<SoundInfo> sounds)
         {
-            foreach (XElement soundNode in node.Elements("Sound"))
+            foreach (var sound in sounds)
             {
-                EffectFromXml(soundNode);
+                EffectFromInfo(sound);
             }
         }
 
