@@ -4,6 +4,7 @@ using System.Linq;
 using MegaMan.Common;
 using System.IO;
 using System.Xml.Linq;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {
@@ -105,7 +106,8 @@ namespace MegaMan.Editor.Bll
         public static ProjectDocument FromFile(string path)
         {
             var p = new ProjectDocument();
-            p.Project.Load(path);
+            var projectReader = new ProjectXmlReader();
+            p.Project = projectReader.FromXml(path);
             p.LoadIncludes();
             return p;
         }
@@ -198,7 +200,8 @@ namespace MegaMan.Editor.Bll
 
         public void Save()
         {
-            Project.Save();
+            var writer = new ProjectXmlWriter(Project);
+            writer.Write();
             Dirty = false;
         }
     }

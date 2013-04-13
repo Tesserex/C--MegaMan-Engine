@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xml\BlockPatternXmlReader.cs" />
+    <Compile Include="Xml\ProjectXmlReader.cs" />
+    <Compile Include="Xml\ProjectXmlWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">

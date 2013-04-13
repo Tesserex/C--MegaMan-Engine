@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common;
 using System.Drawing;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -99,10 +100,9 @@ namespace MegaMan.Engine
 
         private void LoadFile(string path, List<string> pathArgs = null)
         {
-            if (!File.Exists(path)) throw new FileNotFoundException("The project file does not exist: " + path);
+            var projectReader = new ProjectXmlReader();
 
-            project = new Project();
-            project.Load(path);
+            project = projectReader.FromXml(path);
 
             BasePath = project.BaseDir;
 
