@@ -35,39 +35,9 @@ namespace MegaMan.Common
     {
         public string Name { get; set; }
         public bool Fade { get; set; }
-        public List<SceneCommandInfo> Commands { get; private set; }
+        public List<SceneCommandInfo> Commands { get; set; }
         public string StartOptionName { get; set; }
         public string StartOptionVar { get; set; }
-
-        public static MenuStateInfo FromXml(XElement node, string basePath)
-        {
-            var info = new MenuStateInfo();
-
-            info.Name = node.RequireAttribute("name").Value;
-
-            info.Fade = node.TryAttribute<bool>("fade");
-
-            var startNode = node.Element("SelectOption");
-            if (startNode != null)
-            {
-                var startNameAttr = startNode.Attribute("name");
-                var startVarAttr = startNode.Attribute("var");
-
-                if (startNameAttr != null)
-                {
-                    info.StartOptionName = startNameAttr.Value;
-                }
-
-                if (startVarAttr != null)
-                {
-                    info.StartOptionVar = startVarAttr.Value;
-                }
-            }
-
-            info.Commands = SceneCommandInfo.Load(node, basePath);
-
-            return info;
-        }
 
         public void Save(XmlTextWriter writer)
         {

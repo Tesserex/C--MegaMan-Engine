@@ -69,7 +69,7 @@ namespace MegaMan.IO.Xml
 
         private void AddScene(XElement node)
         {
-            var scene = LoadScene(node, _project.BaseDir);
+            var scene = SceneXmlReader.LoadScene(node, _project.BaseDir);
 
             _project.AddScene(scene);
         }
@@ -84,64 +84,9 @@ namespace MegaMan.IO.Xml
 
         private void AddMenu(XElement node)
         {
-            var info = LoadMenu(node, _project.BaseDir);
+            var info = MenuXmlReader.LoadMenu(node, _project.BaseDir);
 
             _project.AddMenu(info);
-        }
-
-        private void LoadHandlerBase(HandlerInfo handler, XElement node, string basePath)
-        {
-            handler.Name = node.RequireAttribute("name").Value;
-
-            foreach (var spriteNode in node.Elements("Sprite"))
-            {
-                var sprite = HandlerSpriteInfo.FromXml(spriteNode, basePath);
-                handler.Objects.Add(sprite.Name, sprite);
-            }
-
-            foreach (var meterNode in node.Elements("Meter"))
-            {
-                var meter = MeterInfo.FromXml(meterNode, basePath);
-                handler.Objects.Add(meter.Name, meter);
-            }
-        }
-
-        public SceneInfo LoadScene(XElement node, string basePath)
-        {
-            var scene = new SceneInfo();
-
-            LoadHandlerBase(scene, node, basePath);
-
-            scene.Duration = node.GetAttribute<int>("duration");
-
-            scene.CanSkip = node.TryAttribute<bool>("canskip");
-
-            foreach (var keyNode in node.Elements("Keyframe"))
-            {
-                scene.KeyFrames.Add(KeyFrameInfo.FromXml(keyNode, basePath));
-            }
-
-            var transferNode = node.Element("Next");
-            if (transferNode != null)
-            {
-                scene.NextHandler = HandlerTransfer.FromXml(transferNode);
-            }
-
-            return scene;
-        }
-
-        public MenuInfo LoadMenu(XElement node, string basePath)
-        {
-            var menu = new MenuInfo();
-
-            LoadHandlerBase(menu, node, basePath);
-
-            foreach (var keyNode in node.Elements("State"))
-            {
-                menu.States.Add(MenuStateInfo.FromXml(keyNode, basePath));
-            }
-
-            return menu;
         }
 
         public SoundInfo LoadSound(XElement soundNode, string basePath)

@@ -18,8 +18,7 @@ namespace MegaMan.Common.Tests
             var xmlString = TestHelpers.GetInputFile("Scene_Correct.xml");
             var xml = XElement.Parse(xmlString);
 
-            var reader = new IncludeFileXmlReader();
-            var scene = reader.LoadScene(xml, @"C:\");
+            var scene = SceneXmlReader.LoadScene(xml, @"C:\");
 
             Assert.AreEqual("TestScene", scene.Name);
         }

@@ -47,20 +47,7 @@ namespace MegaMan.Common
     {
         public int Frame { get; set; }
         public bool Fade { get; set; }
-        public List<SceneCommandInfo> Commands { get; private set; }
-
-        public static KeyFrameInfo FromXml(XElement node, string basePath)
-        {
-            var info = new KeyFrameInfo();
-
-            info.Frame = node.GetAttribute<int>("frame");
-
-            info.Fade = node.TryAttribute<bool>("fade");
-
-            info.Commands = SceneCommandInfo.Load(node, basePath);
-
-            return info;
-        }
+        public List<SceneCommandInfo> Commands { get; set; }
 
         public void Save(XmlTextWriter writer)
         {
