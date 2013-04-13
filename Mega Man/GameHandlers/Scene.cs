@@ -95,21 +95,14 @@ namespace MegaMan.Engine
 
         private static Dictionary<string, Scene> scenes = new Dictionary<string,Scene>();
 
-        public static void LoadScenes(XElement node)
+        public static void LoadScenes(IEnumerable<SceneInfo> scenesInfo)
         {
-            foreach (var sceneNode in node.Elements("Scene"))
+            foreach (var info in scenesInfo)
             {
-                LoadScene(sceneNode);
+                if (scenes.ContainsKey(info.Name)) throw new GameRunException(String.Format("You have two Scenes with the name of {0} - names must be unique.", info.Name));
+
+                scenes.Add(info.Name, new Scene(info));
             }
-        }
-
-        public static void LoadScene(XElement node)
-        {
-            var info = SceneInfo.FromXml(node, Game.CurrentGame.BasePath);
-
-            if (scenes.ContainsKey(info.Name)) throw new GameXmlException(node, String.Format("You have two Scenes with the name of {0} - names must be unique.", info.Name));
-
-            scenes.Add(info.Name, new Scene(info));
         }
 
         public static Scene Get(string name)

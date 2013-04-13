@@ -90,6 +90,19 @@ namespace MegaMan.Common
             _sounds.Remove(sound);
         }
 
+        private List<SceneInfo> _scenes = new List<SceneInfo>();
+        public IEnumerable<SceneInfo> Scenes { get { return _scenes.AsReadOnly(); } }
+
+        public void AddScene(SceneInfo scene)
+        {
+            _scenes.Add(scene);
+        }
+
+        public void RemoveScene(SceneInfo scene)
+        {
+            _scenes.Remove(scene);
+        }
+
         #endregion
 
         public Project()

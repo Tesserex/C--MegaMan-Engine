@@ -134,6 +134,7 @@ namespace MegaMan.Engine
             }
 
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
+            Scene.LoadScenes(project.Scenes);
 
             currentPath = path;
 
@@ -206,11 +207,9 @@ namespace MegaMan.Engine
                             break;
 
                         case "Scenes":
-                            Scene.LoadScenes(element);
                             break;
 
                         case "Scene":
-                            Scene.LoadScene(element);
                             break;
 
                         case "Menus":

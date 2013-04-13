@@ -28,6 +28,14 @@ namespace MegaMan.IO.Xml
                         case "Sounds":
                             LoadSounds(element);
                             break;
+
+                        case "Scenes":
+                            LoadScenes(element);
+                            break;
+
+                        case "Scene":
+                            LoadScene(element);
+                            break;
                     }
                 }
             }
@@ -44,6 +52,21 @@ namespace MegaMan.IO.Xml
             {
                 _project.AddSound(SoundInfo.FromXml(soundNode, _project.BaseDir));
             }
+        }
+
+        private void LoadScenes(XElement node)
+        {
+            foreach (var sceneNode in node.Elements("Scene"))
+            {
+                LoadScene(sceneNode);
+            }
+        }
+
+        private void LoadScene(XElement node)
+        {
+            var info = SceneInfo.FromXml(node, _project.BaseDir);
+
+            _project.AddScene(info);
         }
     }
 }
