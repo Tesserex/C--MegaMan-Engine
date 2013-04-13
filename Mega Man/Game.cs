@@ -124,13 +124,13 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
-            var includeReader = new IncludeFileXmlReader(project);
+            var includeReader = new IncludeFileXmlReader();
 
             foreach (string includePath in project.Includes)
             {
                 string includefile = Path.Combine(BasePath, includePath);
                 IncludeXmlFile(includefile);
-                includeReader.LoadIncludedFile(includefile);
+                includeReader.LoadIncludedFile(project, includefile);
             }
 
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);

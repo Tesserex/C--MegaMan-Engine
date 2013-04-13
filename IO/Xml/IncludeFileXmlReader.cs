@@ -11,13 +11,10 @@ namespace MegaMan.IO.Xml
     {
         private Project _project;
 
-        public IncludeFileXmlReader(Project project)
+        public void LoadIncludedFile(Project project, string path)
         {
             _project = project;
-        }
 
-        public void LoadIncludedFile(string path)
-        {
             try
             {
                 XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
@@ -26,23 +23,23 @@ namespace MegaMan.IO.Xml
                     switch (element.Name.LocalName)
                     {
                         case "Sounds":
-                            LoadSounds(element);
+                            AddSounds(element);
                             break;
 
                         case "Scenes":
-                            LoadScenes(element);
+                            AddScenes(element);
                             break;
 
                         case "Scene":
-                            LoadScene(element);
+                            AddScene(element);
                             break;
 
                         case "Menus":
-                            LoadMenus(element);
+                            AddMenus(element);
                             break;
 
                         case "Menu":
-                            LoadMenu(element);
+                            AddMenu(element);
                             break;
                     }
                 }
@@ -54,42 +51,130 @@ namespace MegaMan.IO.Xml
             }
         }
 
-        private void LoadSounds(XElement node)
+        private void AddSounds(XElement node)
         {
             foreach (XElement soundNode in node.Elements("Sound"))
             {
-                _project.AddSound(SoundInfo.FromXml(soundNode, _project.BaseDir));
+                _project.AddSound(LoadSound(soundNode, _project.BaseDir));
             }
         }
 
-        private void LoadScenes(XElement node)
+        private void AddScenes(XElement node)
         {
             foreach (var sceneNode in node.Elements("Scene"))
             {
-                LoadScene(sceneNode);
+                AddScene(sceneNode);
             }
         }
 
-        private void LoadScene(XElement node)
+        private void AddScene(XElement node)
         {
-            var info = SceneInfo.FromXml(node, _project.BaseDir);
+            var scene = LoadScene(node, _project.BaseDir);
 
-            _project.AddScene(info);
+            _project.AddScene(scene);
         }
 
-        private void LoadMenus(XElement node)
+        private void AddMenus(XElement node)
         {
             foreach (var menuNode in node.Elements("Menu"))
             {
-                LoadMenu(menuNode);
+                AddMenu(menuNode);
             }
         }
 
-        private void LoadMenu(XElement node)
+        private void AddMenu(XElement node)
         {
-            var info = MenuInfo.FromXml(node, _project.BaseDir);
+            var info = LoadMenu(node, _project.BaseDir);
 
             _project.AddMenu(info);
+        }
+
+        private void LoadHandlerBase(HandlerInfo handler, XElement node, string basePath)
+        {
+            handler.Name = node.RequireAttribute("name").Value;
+
+            foreach (var spriteNode in node.Elements("Sprite"))
+            {
+                var sprite = HandlerSpriteInfo.FromXml(spriteNode, basePath);
+                handler.Objects.Add(sprite.Name, sprite);
+            }
+
+            foreach (var meterNode in node.Elements("Meter"))
+            {
+                var meter = MeterInfo.FromXml(meterNode, basePath);
+                handler.Objects.Add(meter.Name, meter);
+            }
+        }
+
+        public SceneInfo LoadScene(XElement node, string basePath)
+        {
+            var scene = new SceneInfo();
+
+            LoadHandlerBase(scene, node, basePath);
+
+            scene.Duration = node.GetAttribute<int>("duration");
+
+            scene.CanSkip = node.TryAttribute<bool>("canskip");
+
+            foreach (var keyNode in node.Elements("Keyframe"))
+            {
+                scene.KeyFrames.Add(KeyFrameInfo.FromXml(keyNode, basePath));
+            }
+
+            var transferNode = node.Element("Next");
+            if (transferNode != null)
+            {
+                scene.NextHandler = HandlerTransfer.FromXml(transferNode);
+            }
+
+            return scene;
+        }
+
+        public MenuInfo LoadMenu(XElement node, string basePath)
+        {
+            var menu = new MenuInfo();
+
+            LoadHandlerBase(menu, node, basePath);
+
+            foreach (var keyNode in node.Elements("State"))
+            {
+                menu.States.Add(MenuStateInfo.FromXml(keyNode, basePath));
+            }
+
+            return menu;
+        }
+
+        public SoundInfo LoadSound(XElement soundNode, string basePath)
+        {
+            SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
+
+            sound.Loop = soundNode.TryAttribute<bool>("loop");
+
+            sound.Volume = soundNode.TryAttribute<float>("volume", 1);
+
+            XAttribute pathattr = soundNode.Attribute("path");
+            XAttribute trackAttr = soundNode.Attribute("track");
+            if (pathattr != null)
+            {
+                sound.Type = AudioType.Wav;
+                sound.Path = FilePath.FromRelative(pathattr.Value, basePath);
+            }
+            else if (trackAttr != null)
+            {
+                sound.Type = AudioType.NSF;
+
+                int track;
+                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
+                sound.NsfTrack = track;
+
+                sound.Priority = soundNode.TryAttribute<byte>("priority", 100);
+            }
+            else
+            {
+                sound.Type = AudioType.Unknown;
+            }
+
+            return sound;
         }
     }
 }

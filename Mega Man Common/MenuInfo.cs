@@ -16,25 +16,6 @@ namespace MegaMan.Common
             States = new List<MenuStateInfo>();
         }
 
-        public static MenuInfo FromXml(XElement node, string basePath)
-        {
-            var info = new MenuInfo();
-
-            info.Load(node, basePath);
-
-            return info;
-        }
-
-        protected override void Load(XElement node, string basePath)
-        {
-            base.Load(node, basePath);
-
-            foreach (var keyNode in node.Elements("State"))
-            {
-                this.States.Add(MenuStateInfo.FromXml(keyNode, basePath));
-            }
-        }
-
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Menu");

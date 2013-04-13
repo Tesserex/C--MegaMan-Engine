@@ -13,40 +13,11 @@ namespace MegaMan.Common
         public bool CanSkip { get; set; }
 
         public List<KeyFrameInfo> KeyFrames { get; private set; }
-        public HandlerTransfer NextHandler { get; private set; }
+        public HandlerTransfer NextHandler { get; set; }
 
         public SceneInfo()
         {
             KeyFrames = new List<KeyFrameInfo>();
-        }
-
-        public static SceneInfo FromXml(XElement node, string basePath)
-        {
-            var info = new SceneInfo();
-
-            info.Load(node, basePath);
-
-            return info;
-        }
-
-        protected override void Load(XElement node, string basePath)
-        {
-            base.Load(node, basePath);
-
-            this.Duration = node.GetAttribute<int>("duration");
-
-            this.CanSkip = node.TryAttribute<bool>("canskip");
-
-            foreach (var keyNode in node.Elements("Keyframe"))
-            {
-                this.KeyFrames.Add(KeyFrameInfo.FromXml(keyNode, basePath));
-            }
-
-            var transferNode = node.Element("Next");
-            if (transferNode != null)
-            {
-                this.NextHandler = HandlerTransfer.FromXml(transferNode);
-            }
         }
 
         public override void Save(XmlTextWriter writer)

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MegaMan.IO.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,9 @@ namespace MegaMan.Common.Tests
         {
             var xmlString = TestHelpers.GetInputFile("Scene_Correct.xml");
             var xml = XElement.Parse(xmlString);
-            var scene = SceneInfo.FromXml(xml, @"C:\");
+
+            var reader = new IncludeFileXmlReader();
+            var scene = reader.LoadScene(xml, @"C:\");
 
             Assert.AreEqual("TestScene", scene.Name);
         }
