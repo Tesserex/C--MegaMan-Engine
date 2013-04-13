@@ -9,12 +9,14 @@ using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common
 {
-    public enum JoinType : int {
+    public enum JoinType : int
+    {
         Horizontal = 1,
         Vertical = 2
     }
 
-    public enum JoinDirection : int {
+    public enum JoinDirection : int
+    {
         Both = 1,
         // <summary>
         // The player can only cross the join left to right, or top to bottom
@@ -26,7 +28,8 @@ namespace MegaMan.Common
         BackwardOnly = 3
     }
 
-    public class Join {
+    public class Join
+    {
         public JoinType type;
         public string screenOne, screenTwo;
         // <summary>
@@ -52,7 +55,8 @@ namespace MegaMan.Common
         public string bossEntityName;
     }
 
-    public class StageInfo : HandlerInfo {
+    public class StageInfo : HandlerInfo 
+    {
         private Dictionary<string, Point> continuePoints;
         public IDictionary<string, Point> ContinuePoints { get { return continuePoints; } }
 
@@ -74,7 +78,7 @@ namespace MegaMan.Common
 
         public FilePath MusicIntroPath { get; set; }
         public FilePath MusicLoopPath { get; set; }
-        public int MusicNsfTrack { get; private set; }
+        public int MusicNsfTrack { get; set; }
         
         #endregion Properties
 
@@ -83,131 +87,6 @@ namespace MegaMan.Common
             Screens = new Dictionary<string, ScreenInfo>();
             Joins = new List<Join>();
             continuePoints = new Dictionary<string, Point>();
-        }
-
-        public StageInfo(FilePath path) : this() 
-        {
-            LoadStageXml(path);
-        }
-
-        public void LoadStageXml(FilePath path) 
-        {
-            StagePath = path;
-
-            var mapXml = XElement.Load(Path.Combine(StagePath.Absolute, "map.xml"));
-            Name = Path.GetFileNameWithoutExtension(StagePath.Absolute);
-
-            string tilePathRel = mapXml.Attribute("tiles").Value;
-            tilePath = FilePath.FromRelative(tilePathRel, StagePath.Absolute);
-
-            Tileset = new Tileset(tilePath);
-
-            PlayerStartX = 3;
-            PlayerStartY = 3;
-
-            LoadMusicXml(mapXml);
-            LoadScreenXml(mapXml);
-
-            XElement start = mapXml.Element("Start");
-            if (start != null) 
-            {
-                int px, py;
-                var screenAttr = start.Attribute("screen");
-                if (screenAttr == null) throw new Exception("Start tag must have a screen attribute!");
-                StartScreen = screenAttr.Value;
-                if (!start.Attribute("x").Value.TryParse(out px)) throw new Exception("Start tag x is not a valid integer!");
-                PlayerStartX = px;
-                if (!start.Attribute("y").Value.TryParse(out py)) throw new Exception("Start tag y is not a valid integer!");
-                PlayerStartY = py;
-            }
-
-            foreach (XElement contPoint in mapXml.Elements("Continue")) 
-            {
-                string screen = contPoint.Attribute("screen").Value;
-                int x;
-                contPoint.Attribute("x").Value.TryParse(out x);
-                int y;
-                contPoint.Attribute("y").Value.TryParse(out y);
-                continuePoints.Add(screen, new Point(x, y));
-            }
-
-            foreach (XElement join in mapXml.Elements("Join")) 
-            {
-                string t = join.Attribute("type").Value;
-                JoinType type;
-                if (t.ToLower() == "horizontal") type = JoinType.Horizontal;
-                else if (t.ToLower() == "vertical") type = JoinType.Vertical;
-                else throw new Exception("map.xml file contains invalid join type.");
-
-                string s1 = join.Attribute("s1").Value;
-                string s2 = join.Attribute("s2").Value;
-                int offset1;
-                join.Attribute("offset1").Value.TryParse(out offset1);
-                int offset2;
-                join.Attribute("offset2").Value.TryParse(out offset2);
-                int size;
-                join.Attribute("size").Value.TryParse(out size);
-
-                JoinDirection direction;
-                XAttribute dirAttr = join.Attribute("direction");
-                if (dirAttr == null || dirAttr.Value.ToUpper() == "BOTH") direction = JoinDirection.Both;
-                else if (dirAttr.Value.ToUpper() == "FORWARD") direction = JoinDirection.ForwardOnly;
-                else if (dirAttr.Value.ToUpper() == "BACKWARD") direction = JoinDirection.BackwardOnly;
-                else throw new Exception("map.xml file contains invalid join direction.");
-
-                string bosstile = null;
-                XAttribute bossAttr = join.Attribute("bossdoor");
-                bool bossdoor = (bossAttr != null);
-                if (bossdoor) bosstile = bossAttr.Value;
-
-                Join j = new Join();
-                j.direction = direction;
-                j.screenOne = s1;
-                j.screenTwo = s2;
-                j.offsetOne = offset1;
-                j.offsetTwo = offset2;
-                j.type = type;
-                j.Size = size;
-                j.bossDoor = bossdoor;
-                j.bossEntityName = bosstile;
-
-                Joins.Add(j);
-            }
-        }
-
-        /* *
-         * LoadMusicXml - Load xml data for music
-         * */
-        public void LoadMusicXml(XElement mapXml) 
-        {
-            var music = mapXml.Element("Music");
-            if (music != null) 
-            {
-                var intro = music.Element("Intro");
-                var loop = music.Element("Loop");
-                MusicIntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, StagePath.BasePath) : null;
-                MusicLoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, StagePath.BasePath) : null;
-
-                XAttribute nsfAttr = music.Attribute("nsftrack");
-                if (nsfAttr != null)
-                {
-                    int track;
-                    if (!nsfAttr.Value.TryParse(out track)) throw new Exception("NSF track number is not a valid integer!");
-                    MusicNsfTrack = track;
-                }
-            }
-        }
-
-        /* *
-         * LoadScreenXml - Load xml data for screens
-         * */
-        public void LoadScreenXml(XElement mapXml) 
-        {
-            foreach (XElement screen in mapXml.Elements("Screen"))
-            {
-                ScreenInfo s = ScreenInfoFactory.FromXml(screen, StagePath, Tileset);
-                this.Screens.Add(s.Name, s);
-            }
         }
 
         public void RenameScreen(ScreenInfo screen, string name)
@@ -220,6 +99,11 @@ namespace MegaMan.Common
         public void RenameScreen(string oldName, string newName)
         {
             RenameScreen(this.Screens[oldName], newName);
+        }
+
+        public void AddContinuePoint(string screenName, Point point)
+        {
+            continuePoints.Add(screenName, point);
         }
 
         /// <summary>
@@ -239,80 +123,6 @@ namespace MegaMan.Common
             Screens.Clear();
             Joins.Clear();
             Tileset = null;
-        }
-
-        public void Save() { if (StagePath != null) Save(StagePath.Absolute); }
-
-        /// <summary>
-        /// Saves this stage to the specified directory.
-        /// </summary>
-        /// <param name="directory">An absolute path to the directory to save to.</param>
-        public void Save(string directory)
-        {
-            StagePath = FilePath.FromAbsolute(directory, StagePath.BasePath);
-            this.Name = Path.GetFileNameWithoutExtension(directory);
-
-            XmlTextWriter writer = new XmlTextWriter(Path.Combine(StagePath.Absolute, "map.xml"), null);
-            writer.Formatting = Formatting.Indented;
-            writer.IndentChar = '\t';
-            writer.Indentation = 1;
-
-            writer.WriteStartElement("Map");
-            writer.WriteAttributeString("name", Name);
-
-            writer.WriteAttributeString("tiles", tilePath.Relative);
-
-            if (this.MusicIntroPath != null || this.MusicLoopPath != null || this.MusicNsfTrack > 0)
-            {
-                writer.WriteStartElement("Music");
-                if (MusicNsfTrack > 0) writer.WriteAttributeString("nsftrack", MusicNsfTrack.ToString());
-                if (MusicIntroPath != null && !string.IsNullOrEmpty(MusicIntroPath.Relative)) writer.WriteElementString("Intro", MusicIntroPath.Relative);
-                if (MusicLoopPath != null && !string.IsNullOrEmpty(MusicLoopPath.Relative)) writer.WriteElementString("Loop", MusicLoopPath.Relative);
-                writer.WriteEndElement();
-            }
-
-            writer.WriteStartElement("Start");
-            writer.WriteAttributeString("screen", StartScreen);
-            writer.WriteAttributeString("x", PlayerStartX.ToString());
-            writer.WriteAttributeString("y", PlayerStartY.ToString());
-            writer.WriteEndElement();
-
-            foreach (KeyValuePair<string, Point> pair in continuePoints)
-            {
-                writer.WriteStartElement("Continue");
-                writer.WriteAttributeString("screen", pair.Key);
-                writer.WriteAttributeString("x", pair.Value.X.ToString());
-                writer.WriteAttributeString("y", pair.Value.Y.ToString());
-                writer.WriteEndElement();
-            }
-
-            foreach (var screen in Screens.Values)
-            {
-                screen.Save(writer, StagePath);
-            }
-
-            foreach (Join join in Joins)
-            {
-                writer.WriteStartElement("Join");
-                writer.WriteAttributeString("type", (join.type == JoinType.Horizontal) ? "horizontal" : "vertical");
-
-                writer.WriteAttributeString("s1", join.screenOne);
-                writer.WriteAttributeString("s2", join.screenTwo);
-                writer.WriteAttributeString("offset1", join.offsetOne.ToString());
-                writer.WriteAttributeString("offset2", join.offsetTwo.ToString());
-                writer.WriteAttributeString("size", join.Size.ToString());
-                switch (join.direction)
-                {
-                    case JoinDirection.Both: writer.WriteAttributeString("direction", "both"); break;
-                    case JoinDirection.ForwardOnly: writer.WriteAttributeString("direction", "forward"); break;
-                    case JoinDirection.BackwardOnly: writer.WriteAttributeString("direction", "backward"); break;
-                }
-
-                writer.WriteEndElement();
-            }
-
-            writer.WriteEndElement();
-            writer.Close();
         }
     }
 }

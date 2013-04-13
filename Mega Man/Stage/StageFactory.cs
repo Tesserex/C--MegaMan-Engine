@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using MegaMan.Common;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -35,7 +36,8 @@ namespace MegaMan.Engine
 
         public void TryLoad(StageLinkInfo info)
         {
-            StageInfo map = new StageInfo(info.StagePath);
+            var stageReader = new StageXmlReader();
+            StageInfo map = stageReader.LoadStageXml(info.StagePath);
 
             var handler = new StageHandler(map);
 

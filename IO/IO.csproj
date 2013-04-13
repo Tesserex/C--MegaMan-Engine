@@ -62,6 +62,8 @@
     <Compile Include="Xml\BlockPatternXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlWriter.cs" />
+    <Compile Include="Xml\StageXmlReader.cs" />
+    <Compile Include="Xml\StageXmlWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">

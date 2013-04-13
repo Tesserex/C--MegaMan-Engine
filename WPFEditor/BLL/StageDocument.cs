@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {
@@ -47,7 +48,8 @@ namespace MegaMan.Editor.Bll
         public StageDocument(ProjectDocument project, string basepath, string filepath)
         {
             Project = project;
-            map = new StageInfo(FilePath.FromAbsolute(filepath, basepath));
+            var stageReader = new StageXmlReader();
+            map = stageReader.LoadStageXml(FilePath.FromAbsolute(filepath, basepath));
 
             // wrap all map screens in screendocuments
             // this should be the only time MegaMan.Screen's are touched directly
@@ -131,7 +133,8 @@ namespace MegaMan.Editor.Bll
 
         public void Save()
         {
-            map.Save();
+            var stageWriter = new StageXmlWriter(map);
+            stageWriter.Write();
             Dirty = false;
         }
 

@@ -1,0 +1,86 @@
+﻿using MegaMan.Common;
+using MegaMan.Common.Geometry;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+namespace MegaMan.IO.Xml
+{
+    public class StageXmlWriter
+    {
+        private StageInfo _stageInfo;
+        private XmlTextWriter _writer;
+
+        public StageXmlWriter(StageInfo stageInfo)
+        {
+            this._stageInfo = stageInfo;
+            _writer = new XmlTextWriter(Path.Combine(_stageInfo.StagePath.Absolute, "map.xml"), Encoding.Default);
+            _writer.Formatting = Formatting.Indented;
+            _writer.Indentation = 1;
+            _writer.IndentChar = '\t';
+        }
+
+        public void Write()
+        {
+            _writer.WriteStartElement("Map");
+            _writer.WriteAttributeString("name", _stageInfo.Name);
+
+            _writer.WriteAttributeString("tiles", _stageInfo.Tileset.FilePath.Relative);
+
+            if (_stageInfo.MusicIntroPath != null || _stageInfo.MusicLoopPath != null || _stageInfo.MusicNsfTrack > 0)
+            {
+                _writer.WriteStartElement("Music");
+                if (_stageInfo.MusicNsfTrack > 0) _writer.WriteAttributeString("nsftrack", _stageInfo.MusicNsfTrack.ToString());
+                if (_stageInfo.MusicIntroPath != null && !string.IsNullOrEmpty(_stageInfo.MusicIntroPath.Relative)) _writer.WriteElementString("Intro", _stageInfo.MusicIntroPath.Relative);
+                if (_stageInfo.MusicLoopPath != null && !string.IsNullOrEmpty(_stageInfo.MusicLoopPath.Relative)) _writer.WriteElementString("Loop", _stageInfo.MusicLoopPath.Relative);
+                _writer.WriteEndElement();
+            }
+
+            _writer.WriteStartElement("Start");
+            _writer.WriteAttributeString("screen", _stageInfo.StartScreen);
+            _writer.WriteAttributeString("x", _stageInfo.PlayerStartX.ToString());
+            _writer.WriteAttributeString("y", _stageInfo.PlayerStartY.ToString());
+            _writer.WriteEndElement();
+
+            foreach (KeyValuePair<string, Point> pair in _stageInfo.ContinuePoints)
+            {
+                _writer.WriteStartElement("Continue");
+                _writer.WriteAttributeString("screen", pair.Key);
+                _writer.WriteAttributeString("x", pair.Value.X.ToString());
+                _writer.WriteAttributeString("y", pair.Value.Y.ToString());
+                _writer.WriteEndElement();
+            }
+
+            foreach (var screen in _stageInfo.Screens.Values)
+            {
+                screen.Save(_writer, _stageInfo.StagePath);
+            }
+
+            foreach (Join join in _stageInfo.Joins)
+            {
+                _writer.WriteStartElement("Join");
+                _writer.WriteAttributeString("type", (join.type == JoinType.Horizontal) ? "horizontal" : "vertical");
+
+                _writer.WriteAttributeString("s1", join.screenOne);
+                _writer.WriteAttributeString("s2", join.screenTwo);
+                _writer.WriteAttributeString("offset1", join.offsetOne.ToString());
+                _writer.WriteAttributeString("offset2", join.offsetTwo.ToString());
+                _writer.WriteAttributeString("size", join.Size.ToString());
+                switch (join.direction)
+                {
+                    case JoinDirection.Both: _writer.WriteAttributeString("direction", "both"); break;
+                    case JoinDirection.ForwardOnly: _writer.WriteAttributeString("direction", "forward"); break;
+                    case JoinDirection.BackwardOnly: _writer.WriteAttributeString("direction", "backward"); break;
+                }
+
+                _writer.WriteEndElement();
+            }
+
+            _writer.WriteEndElement();
+            _writer.Close();
+        }
+    }
+}
