@@ -103,6 +103,19 @@ namespace MegaMan.Common
             _scenes.Remove(scene);
         }
 
+        private List<MenuInfo> _menus = new List<MenuInfo>();
+        public IEnumerable<MenuInfo> Menus { get { return _menus.AsReadOnly(); } }
+
+        public void AddMenu(MenuInfo menu)
+        {
+            _menus.Add(menu);
+        }
+
+        public void RemoveMenu(MenuInfo menu)
+        {
+            _menus.Remove(menu);
+        }
+
         #endregion
 
         public Project()

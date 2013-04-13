@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using Microsoft.Xna.Framework;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
@@ -197,21 +196,14 @@ namespace MegaMan.Engine
 
         private static Dictionary<string, Menu> menus = new Dictionary<string, Menu>();
 
-        public static void LoadMenus(XElement node)
+        public static void LoadMenus(IEnumerable<MenuInfo> menusInfo)
         {
-            foreach (var menuNode in node.Elements("Menu"))
+            foreach (var info in menusInfo)
             {
-                LoadMenu(menuNode);
+                if (menus.ContainsKey(info.Name)) throw new GameRunException(String.Format("You have two Menus with the name of {0} - names must be unique.", info.Name));
+
+                menus.Add(info.Name, new Menu(info));
             }
-        }
-
-        public static void LoadMenu(XElement node)
-        {
-            var info = MenuInfo.FromXml(node, Game.CurrentGame.BasePath);
-
-            if (menus.ContainsKey(info.Name)) throw new GameXmlException(node, String.Format("You have two Menus with the name of {0} - names must be unique.", info.Name));
-
-            menus.Add(info.Name, new Menu(info));
         }
 
         public static Menu Get(string name)
@@ -219,7 +211,7 @@ namespace MegaMan.Engine
             if (!menus.ContainsKey(name))
             {
                 throw new GameRunException(
-                    String.Format("I tried to run the scene named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
+                    String.Format("I tried to run the menu named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
                 );
             }
 

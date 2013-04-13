@@ -36,6 +36,14 @@ namespace MegaMan.IO.Xml
                         case "Scene":
                             LoadScene(element);
                             break;
+
+                        case "Menus":
+                            LoadMenus(element);
+                            break;
+
+                        case "Menu":
+                            LoadMenu(element);
+                            break;
                     }
                 }
             }
@@ -67,6 +75,21 @@ namespace MegaMan.IO.Xml
             var info = SceneInfo.FromXml(node, _project.BaseDir);
 
             _project.AddScene(info);
+        }
+
+        private void LoadMenus(XElement node)
+        {
+            foreach (var menuNode in node.Elements("Menu"))
+            {
+                LoadMenu(menuNode);
+            }
+        }
+
+        private void LoadMenu(XElement node)
+        {
+            var info = MenuInfo.FromXml(node, _project.BaseDir);
+
+            _project.AddMenu(info);
         }
     }
 }

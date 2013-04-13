@@ -135,6 +135,7 @@ namespace MegaMan.Engine
 
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
             Scene.LoadScenes(project.Scenes);
+            Menu.LoadMenus(project.Menus);
 
             currentPath = path;
 
@@ -213,11 +214,9 @@ namespace MegaMan.Engine
                             break;
 
                         case "Menus":
-                            Menu.LoadMenus(element);
                             break;
 
                         case "Menu":
-                            Menu.LoadMenu(element);
                             break;
 
                         case "Fonts":

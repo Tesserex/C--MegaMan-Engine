@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using Microsoft.Xna.Framework;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
@@ -110,7 +109,7 @@ namespace MegaMan.Engine
             if (!scenes.ContainsKey(name))
             {
                 throw new GameRunException(
-                    String.Format("I tried to run the menu named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
+                    String.Format("I tried to run the scene named '{0}', but couldn't find it.\nPerhaps it's not being included in the main file.", name)
                 );
             }
 
