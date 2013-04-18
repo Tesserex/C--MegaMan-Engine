@@ -89,7 +89,7 @@ namespace MegaMan.IO.Xml
             _project.AddMenu(info);
         }
 
-        public SoundInfo LoadSound(XElement soundNode, string basePath)
+        public static SoundInfo LoadSound(XElement soundNode, string basePath)
         {
             SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
 

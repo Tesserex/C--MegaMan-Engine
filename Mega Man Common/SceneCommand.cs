@@ -31,86 +31,6 @@ namespace MegaMan.Common
     {
         public abstract SceneCommands Type { get; }
         public abstract void Save(XmlTextWriter writer);
-
-        public static List<SceneCommandInfo> Load(XElement node, string basePath)
-        {
-            var list = new List<SceneCommandInfo>();
-
-            foreach (var cmdNode in node.Elements())
-            {
-                switch (cmdNode.Name.LocalName)
-                {
-                    case "PlayMusic":
-                    case "Music":
-                        list.Add(ScenePlayCommandInfo.FromXml(cmdNode, basePath));
-                        break;
-
-                    case "StopMusic":
-                        list.Add(SceneStopMusicCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Sprite":
-                    case "Meter":
-                    case "Add":
-                        list.Add(SceneAddCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "SpriteMove":
-                        list.Add(SceneMoveCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Remove":
-                        list.Add(SceneRemoveCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Entity":
-                        list.Add(SceneEntityCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Text":
-                        list.Add(SceneTextCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Fill":
-                        list.Add(SceneFillCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "FillMove":
-                        list.Add(SceneFillMoveCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Option":
-                        list.Add(MenuOptionCommandInfo.FromXml(cmdNode, basePath));
-                        break;
-
-                    case "Sound":
-                        list.Add(SceneSoundCommandInfo.FromXml(cmdNode, basePath));
-                        break;
-
-                    case "Next":
-                        list.Add(SceneNextCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Call":
-                        list.Add(SceneCallCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Effect":
-                        list.Add(SceneEffectCommandInfo.FromXml(cmdNode));
-                        break;
-
-                    case "Condition":
-                        list.Add(SceneConditionCommandInfo.FromXml(cmdNode, basePath));
-                        break;
-
-                    case "WaitForInput":
-                        list.Add(new SceneWaitCommandInfo());
-                        break;
-                }
-            }
-
-            return list;
-        }
     }
 
     public class ScenePlayCommandInfo : SceneCommandInfo
@@ -119,20 +39,6 @@ namespace MegaMan.Common
         public int Track { get; set; }
         public FilePath IntroPath { get; set; }
         public FilePath LoopPath { get; set; }
-
-        public static ScenePlayCommandInfo FromXml(XElement node, string basePath)
-        {
-            var info = new ScenePlayCommandInfo();
-
-            info.Track = node.TryAttribute<int>("nsftrack", node.TryAttribute<int>("track"));
-
-            XElement intro = node.Element("Intro");
-            XElement loop = node.Element("Loop");
-            info.IntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, basePath) : null;
-            info.LoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, basePath) : null;
-
-            return info;
-        }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -146,11 +52,6 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.StopMusic; } }
         public int Track { get; set; }
-
-        public static SceneStopMusicCommandInfo FromXml(XElement node)
-        {
-            return new SceneStopMusicCommandInfo();
-        }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -166,17 +67,6 @@ namespace MegaMan.Common
         public string Object { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-
-        public static SceneAddCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneAddCommandInfo();
-            var nameAttr = node.Attribute("name");
-            if (nameAttr != null) info.Name = nameAttr.Value;
-            info.Object = node.RequireAttribute("object").Value;
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-            return info;
-        }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -194,13 +84,6 @@ namespace MegaMan.Common
         public override SceneCommands Type { get { return SceneCommands.Remove; } }
         public string Name { get; set; }
 
-        public static SceneRemoveCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneRemoveCommandInfo();
-            info.Name = node.RequireAttribute("name").Value;
-            return info;
-        }
-
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Remove");
@@ -213,13 +96,6 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.Entity; } }
         public EntityPlacement Placement { get; set; }
-
-        public static SceneEntityCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneEntityCommandInfo();
-            info.Placement = EntityPlacement.FromXml(node);
-            return info;
-        }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -237,23 +113,6 @@ namespace MegaMan.Common
         public int X { get; set; }
         public int Y { get; set; }
         public string Font { get; set; }
-
-        public static SceneTextCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneTextCommandInfo();
-            info.Content = node.TryAttribute<string>("content");
-            info.Name = node.TryAttribute<string>("name");
-            info.Speed = node.TryAttribute<int>("speed");
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-
-            var bindingNode = node.Element("Binding");
-            if (bindingNode != null) info.Binding = SceneBindingInfo.FromXml(bindingNode);
-
-            info.Font = node.TryAttribute<string>("font");
-
-            return info;
-        }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -282,25 +141,6 @@ namespace MegaMan.Common
         public int Height { get; set; }
         public int Layer { get; set; }
 
-        public static SceneFillCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneFillCommandInfo();
-            var nameAttr = node.Attribute("name");
-            if (nameAttr != null) info.Name = nameAttr.Value;
-            var colorAttr = node.RequireAttribute("color");
-            var color = colorAttr.Value;
-            var split = color.Split(',');
-            info.Red = byte.Parse(split[0]);
-            info.Green = byte.Parse(split[1]);
-            info.Blue = byte.Parse(split[2]);
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-            info.Width = node.GetAttribute<int>("width");
-            info.Height = node.GetAttribute<int>("height");
-            info.Layer = node.TryAttribute<int>("layer");
-            return info;
-        }
-
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Fill");
@@ -325,18 +165,6 @@ namespace MegaMan.Common
         public int Height { get; set; }
         public int Duration { get; set; }
 
-        public static SceneFillMoveCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneFillMoveCommandInfo();
-            info.Name = node.RequireAttribute("name").Value;
-            info.Duration = node.GetAttribute<int>("duration");
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-            info.Width = node.GetAttribute<int>("width");
-            info.Height = node.GetAttribute<int>("height");
-            return info;
-        }
-
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("FillMove");
@@ -358,18 +186,6 @@ namespace MegaMan.Common
         public int Y { get; set; }
         public int Duration { get; set; }
 
-        public static SceneMoveCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneMoveCommandInfo();
-            info.Name = node.RequireAttribute("name").Value;
-
-            info.Duration = node.TryAttribute<int>("duration");
-
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-            return info;
-        }
-
         public override void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Move");
@@ -389,43 +205,9 @@ namespace MegaMan.Common
         public int X { get; set; }
         public int Y { get; set; }
 
-        public List<SceneCommandInfo> OnEvent { get; private set; }
-        public List<SceneCommandInfo> OffEvent { get; private set; }
-        public List<SceneCommandInfo> SelectEvent { get; private set; }
-
-        public static MenuOptionCommandInfo FromXml(XElement node, string basePath)
-        {
-            var info = new MenuOptionCommandInfo();
-
-            var nameAttr = node.Attribute("name");
-            if (nameAttr != null)
-            {
-                info.Name = nameAttr.Value;
-            }
-
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-
-            var onNode = node.Element("On");
-            if (onNode != null)
-            {
-                info.OnEvent = SceneCommandInfo.Load(onNode, basePath);
-            }
-
-            var offNode = node.Element("Off");
-            if (offNode != null)
-            {
-                info.OffEvent = SceneCommandInfo.Load(offNode, basePath);
-            }
-
-            var selectNode = node.Element("Select");
-            if (selectNode != null)
-            {
-                info.SelectEvent = SceneCommandInfo.Load(selectNode, basePath);
-            }
-
-            return info;
-        }
+        public List<SceneCommandInfo> OnEvent { get; set; }
+        public List<SceneCommandInfo> OffEvent { get; set; }
+        public List<SceneCommandInfo> SelectEvent { get; set; }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -477,16 +259,7 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.Sound; } }
 
-        public SoundInfo SoundInfo { get; private set; }
-
-        public static SceneSoundCommandInfo FromXml(XElement node, string basePath)
-        {
-            var info = new SceneSoundCommandInfo();
-
-            info.SoundInfo = SoundInfo.FromXml(node, basePath);
-
-            return info;
-        }
+        public SoundInfo SoundInfo { get; set; }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -498,16 +271,7 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.Next; } }
 
-        public HandlerTransfer NextHandler { get; private set; }
-
-        public static SceneNextCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneNextCommandInfo();
-
-            info.NextHandler = HandlerTransfer.FromXml(node);
-
-            return info;
-        }
+        public HandlerTransfer NextHandler { get; set; }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -519,16 +283,7 @@ namespace MegaMan.Common
     {
         public override SceneCommands Type { get { return SceneCommands.Call; } }
 
-        public string Name { get; private set; }
-
-        public static SceneCallCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneCallCommandInfo();
-
-            info.Name = node.Value;
-
-            return info;
-        }
+        public string Name { get; set; }
 
         public override void Save(XmlTextWriter writer)
         {
@@ -540,25 +295,9 @@ namespace MegaMan.Common
 
     public class SceneEffectCommandInfo : SceneCommandInfo
     {
-        public string GeneratedName { get; private set; }
-        public string EntityId { get; private set; }
-        public XElement EffectNode { get; private set; }
-
-        public static SceneEffectCommandInfo FromXml(XElement node)
-        {
-            var info = new SceneEffectCommandInfo();
-
-            info.GeneratedName = Guid.NewGuid().ToString();
-
-            var attr = node.Attribute("entity");
-            if (attr != null)
-            {
-                info.EntityId = attr.Value;
-            }
-            info.EffectNode = node;
-
-            return info;
-        }
+        public string GeneratedName { get; set; }
+        public string EntityId { get; set; }
+        public XElement EffectNode { get; set; }
 
         public override SceneCommands Type
         {
@@ -579,26 +318,9 @@ namespace MegaMan.Common
 
     public class SceneConditionCommandInfo : SceneCommandInfo
     {
-        public string ConditionExpression { get; private set; }
-        public string ConditionEntity { get; private set; }
-        public List<SceneCommandInfo> Commands { get; private set; }
-
-        public static SceneConditionCommandInfo FromXml(XElement node, string basePath)
-        {
-            var info = new SceneConditionCommandInfo();
-
-            info.ConditionExpression = node.RequireAttribute("condition").Value;
-
-            var attr = node.Attribute("entity");
-            if (attr != null)
-            {
-                info.ConditionEntity = attr.Value;
-            }
-            
-            info.Commands = SceneCommandInfo.Load(node, basePath);
-
-            return info;
-        }
+        public string ConditionExpression { get; set; }
+        public string ConditionEntity { get; set; }
+        public List<SceneCommandInfo> Commands { get; set; }
 
         public override SceneCommands Type
         {

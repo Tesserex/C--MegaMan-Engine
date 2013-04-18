@@ -25,45 +25,6 @@ namespace MegaMan.Common
         public SoundInfo Sound { get; set; }
         public SceneBindingInfo Binding { get; set; }
 
-        public static MeterInfo FromXml(XElement meterNode, string basePath)
-        {
-            MeterInfo meter = new MeterInfo();
-
-            meter.Name = meterNode.RequireAttribute("name").Value;
-
-            meter.Position = new PointF(meterNode.GetAttribute<float>("x"), meterNode.GetAttribute<float>("y"));
-
-            XAttribute imageAttr = meterNode.RequireAttribute("image");
-            meter.TickImage = FilePath.FromRelative(imageAttr.Value, basePath);
-
-            XAttribute backAttr = meterNode.Attribute("background");
-            if (backAttr != null)
-            {
-                meter.Background = FilePath.FromRelative(backAttr.Value, basePath);
-            }
-
-            bool horiz = false;
-            XAttribute dirAttr = meterNode.Attribute("orientation");
-            if (dirAttr != null)
-            {
-                horiz = (dirAttr.Value == "horizontal");
-            }
-            meter.Orient = horiz? Orientation.Horizontal : Orientation.Vertical;
-
-            int x = meterNode.TryAttribute<int>("tickX");
-            int y = meterNode.TryAttribute<int>("tickY");
-
-            meter.TickOffset = new Point(x, y);
-
-            XElement soundNode = meterNode.Element("Sound");
-            if (soundNode != null) meter.Sound = SoundInfo.FromXml(soundNode, basePath);
-
-            XElement bindingNode = meterNode.Element("Binding");
-            if (bindingNode != null) meter.Binding = SceneBindingInfo.FromXml(bindingNode);
-
-            return meter;
-        }
-
         public void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Meter");

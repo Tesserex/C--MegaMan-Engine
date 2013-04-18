@@ -41,7 +41,7 @@ namespace MegaMan.IO.Xml
 
             info.Fade = node.TryAttribute<bool>("fade");
 
-            info.Commands = SceneCommandInfo.Load(node, basePath);
+            info.Commands = LoadCommands(node, basePath);
 
             return info;
         }

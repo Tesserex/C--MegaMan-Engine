@@ -13,6 +13,8 @@ namespace MegaMan.IO.Xml
     {
         private StageInfo _info;
 
+        private BlockPatternXmlReader _blockReader = new BlockPatternXmlReader();
+
         public StageInfo LoadStageXml(FilePath path)
         {
             _info = new StageInfo();
@@ -31,7 +33,7 @@ namespace MegaMan.IO.Xml
             _info.PlayerStartY = 3;
 
             LoadMusicXml(mapXml);
-            LoadScreenXml(mapXml);
+            LoadScreens(mapXml);
 
             XElement start = mapXml.Element("Start");
             if (start != null)
@@ -111,13 +113,104 @@ namespace MegaMan.IO.Xml
         /* *
          * LoadScreenXml - Load xml data for screens
          * */
-        public void LoadScreenXml(XElement mapXml)
+        public void LoadScreens(XElement mapXml)
         {
             foreach (XElement screen in mapXml.Elements("Screen"))
             {
-                ScreenInfo s = ScreenInfoFactory.FromXml(screen, _info.StagePath, _info.Tileset);
+                ScreenInfo s = LoadScreenXml(screen, _info.StagePath, _info.Tileset);
                 _info.Screens.Add(s.Name, s);
             }
+        }
+
+        private ScreenInfo LoadScreenXml(XElement node, FilePath stagePath, Tileset tileset)
+        {
+            string id = node.RequireAttribute("id").Value;
+
+            var screen = new ScreenInfo(id, tileset);
+
+            screen.Layers.Add(LoadScreenLayer(node, stagePath.Absolute, id, tileset, 0, 0, false));
+
+            foreach (var overlay in node.Elements("Overlay"))
+            {
+                var name = overlay.RequireAttribute("name").Value;
+                var x = overlay.GetAttribute<int>("x");
+                var y = overlay.GetAttribute<int>("y");
+                bool foreground = overlay.TryAttribute<bool>("foreground");
+
+                screen.Layers.Add(LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground));
+            }
+
+            foreach (XElement teleport in node.Elements("Teleport"))
+            {
+                TeleportInfo info;
+                int from_x = teleport.TryAttribute<int>("from_x");
+                int from_y = teleport.TryAttribute<int>("from_y");
+                int to_x = teleport.TryAttribute<int>("to_x");
+                int to_y = teleport.TryAttribute<int>("to_y");
+                info.From = new Point(from_x, from_y);
+                info.To = new Point(to_x, to_y);
+                info.TargetScreen = teleport.Attribute("to_screen").Value;
+
+                screen.Teleports.Add(info);
+            }
+
+            var blocks = new List<BlockPatternInfo>();
+
+            foreach (XElement blockNode in node.Elements("Blocks"))
+            {
+                BlockPatternInfo pattern = _blockReader.FromXml(blockNode);
+                screen.BlockPatterns.Add(pattern);
+            }
+
+            screen.Commands = HandlerXmlReader.LoadCommands(node, stagePath.BasePath);
+
+            return screen;
+        }
+
+        private ScreenLayerInfo LoadScreenLayer(XElement node, string stagePath, string name, Tileset tileset, int tileStartX, int tileStartY, bool foreground)
+        {
+            var tileFilePath = Path.Combine(stagePath, name + ".scn");
+
+            var tileArray = LoadTiles(tileFilePath);
+            var tileLayer = new TileLayer(tileArray, tileset, tileStartX, tileStartY);
+
+            var entities = new List<EntityPlacement>();
+
+            foreach (XElement entity in node.Elements("Entity"))
+            {
+                EntityPlacement info = EntityPlacement.FromXml(entity);
+                entities.Add(info);
+            }
+
+            var keyframes = new List<ScreenLayerKeyframe>();
+            foreach (var keyframeNode in node.Elements("Keyframe"))
+            {
+                var frame = ScreenLayerKeyframe.FromXml(keyframeNode);
+                keyframes.Add(frame);
+            }
+
+            return new ScreenLayerInfo(name, tileLayer, foreground, entities, keyframes);
+        }
+
+        private int[,] LoadTiles(string filepath)
+        {
+            string[] lines = File.ReadAllLines(filepath);
+            string[] firstline = lines[0].Split(' ');
+            int width = int.Parse(firstline[0]);
+            int height = int.Parse(firstline[1]);
+
+            int[,] tiles = new int[width, height];
+            for (int y = 0; y < height; y++)
+            {
+                string[] line = lines[y + 1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int x = 0; x < width; x++)
+                {
+                    int id = int.Parse(line[x]);
+                    tiles[x, y] = id;
+                }
+            }
+
+            return tiles;
         }
     }
 }

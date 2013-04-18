@@ -48,7 +48,7 @@ namespace MegaMan.IO.Xml
                 }
             }
 
-            info.Commands = SceneCommandInfo.Load(node, basePath);
+            info.Commands = LoadCommands(node, basePath);
 
             return info;
         }
