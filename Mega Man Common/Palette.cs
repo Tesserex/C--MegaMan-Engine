@@ -11,14 +11,9 @@ namespace MegaMan.Common
     {
         private static Dictionary<string, Palette> palettes = new Dictionary<string, Palette>();
 
-        public static void LoadPalettes<T>(XElement parentNode, string basePath) where T : Palette, new()
+        public static void Add(string name, Palette palette)
         {
-            foreach (var node in parentNode.Elements("Palette"))
-            {
-                var palette = FromXml<T>(node, basePath);
-
-                palettes.Add(palette.Name, palette);
-            }
+            palettes.Add(name, palette);
         }
 
         public static Palette Get(string paletteName)
@@ -29,17 +24,6 @@ namespace MegaMan.Common
             }
 
             return null;
-        }
-
-        public static Palette FromXml<T>(XElement node, string basePath) where T : Palette, new()
-        {
-            var imagePathRelative = node.RequireAttribute("image").Value;
-            var imagePath = FilePath.FromRelative(imagePathRelative, basePath);
-            var name = node.RequireAttribute("name").Value;
-
-            var palette = new T();
-            palette.Initialize(name, imagePath);
-            return palette;
         }
 
         public static void ResetAll()

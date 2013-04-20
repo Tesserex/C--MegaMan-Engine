@@ -98,14 +98,12 @@
     <Compile Include="GameXmlException.cs" />
     <Compile Include="HandlerInfo.cs" />
     <Compile Include="HandlerTransfer.cs" />
-    <Compile Include="InventoryInfo.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
     <Compile Include="Sprite\ISpriteDrawer.cs" />
     <Compile Include="StageInfo.cs" />
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />
-    <Compile Include="MusicInfo.cs" />
     <Compile Include="Palette.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

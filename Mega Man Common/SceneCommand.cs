@@ -365,14 +365,6 @@ namespace MegaMan.Common
         public string Source { get; set; }
         public string Target { get; set; }
 
-        public static SceneBindingInfo FromXml(XElement node)
-        {
-            var info = new SceneBindingInfo();
-            info.Source = node.RequireAttribute("source").Value;
-            info.Target = node.RequireAttribute("target").Value;
-            return info;
-        }
-
         public void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Bind");

@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xml\BlockPatternXmlReader.cs" />
+    <Compile Include="Xml\GameXmlReader.cs" />
     <Compile Include="Xml\HandlerXmlReader.cs" />
     <Compile Include="Xml\IncludeFileXmlReader.cs" />
     <Compile Include="Xml\MenuXmlReader.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Xml\SceneXmlReader.cs" />
     <Compile Include="Xml\StageXmlReader.cs" />
     <Compile Include="Xml\StageXmlWriter.cs" />
+    <Compile Include="Xml\TilesetXmlReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">

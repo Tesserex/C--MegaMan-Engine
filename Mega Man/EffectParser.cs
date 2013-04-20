@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using MegaMan.Common;
 using System.Linq.Expressions;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -274,7 +275,7 @@ namespace MegaMan.Engine
                     break;
 
                 case "Next":
-                    var transfer = HandlerTransfer.FromXml(node);
+                    var transfer = GameXmlReader.LoadHandlerTransfer(node);
                     effect = e => { Game.CurrentGame.ProcessHandler(transfer); };
                     break;
 

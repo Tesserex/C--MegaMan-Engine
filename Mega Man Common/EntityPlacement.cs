@@ -31,46 +31,6 @@ namespace MegaMan.Common
         public float screenX;
         public float screenY;
 
-        public static EntityPlacement FromXml(XElement entity)
-        {
-            EntityPlacement info = new EntityPlacement();
-
-            var idAttr = entity.Attribute("id");
-            if (idAttr != null)
-            {
-                info.id = idAttr.Value;
-            }
-
-            var nameAttr = entity.RequireAttribute("entity");
-            info.entity = nameAttr.Value;
-
-            string state = "Start";
-            XAttribute stateAttr = entity.Attribute("state");
-            if (stateAttr != null) state = stateAttr.Value;
-            info.state = state;
-
-            info.screenX = entity.GetAttribute<int>("x");
-            info.screenY = entity.GetAttribute<int>("y");
-
-            var dirAttr = entity.Attribute("direction");
-            if (dirAttr != null)
-            {
-                EntityDirection dir = EntityDirection.Left;
-                Enum.TryParse<EntityDirection>(dirAttr.Value, true, out dir);
-                info.direction = dir;
-            }
-
-            var respawnAttr = entity.Attribute("respawn");
-            if (respawnAttr != null)
-            {
-                RespawnBehavior respawn = RespawnBehavior.Offscreen;
-                Enum.TryParse<RespawnBehavior>(respawnAttr.Value, true, out respawn);
-                info.respawn = respawn;
-            }
-
-            return info;
-        }
-
         public void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Entity");

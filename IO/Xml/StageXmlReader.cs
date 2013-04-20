@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class StageXmlReader
+    public class StageXmlReader : GameXmlReader
     {
         private StageInfo _info;
 
@@ -27,7 +27,8 @@ namespace MegaMan.IO.Xml
             string tilePathRel = mapXml.Attribute("tiles").Value;
             var tilePath = FilePath.FromRelative(tilePathRel, _info.StagePath.Absolute);
 
-            _info.ChangeTileset(tilePath.Absolute);
+            var tileset = new TilesetXmlReader().LoadTilesetFromXml(tilePath);
+            _info.ChangeTileset(tileset);
 
             _info.PlayerStartX = 3;
             _info.PlayerStartY = 3;
@@ -178,18 +179,41 @@ namespace MegaMan.IO.Xml
 
             foreach (XElement entity in node.Elements("Entity"))
             {
-                EntityPlacement info = EntityPlacement.FromXml(entity);
+                EntityPlacement info = LoadEntityPlacement(entity);
                 entities.Add(info);
             }
 
             var keyframes = new List<ScreenLayerKeyframe>();
             foreach (var keyframeNode in node.Elements("Keyframe"))
             {
-                var frame = ScreenLayerKeyframe.FromXml(keyframeNode);
+                var frame = LoadScreenLayerKeyFrame(keyframeNode);
                 keyframes.Add(frame);
             }
 
             return new ScreenLayerInfo(name, tileLayer, foreground, entities, keyframes);
+        }
+
+        private static ScreenLayerKeyframe LoadScreenLayerKeyFrame(XElement node)
+        {
+            var frameNumber = node.GetAttribute<int>("frame");
+
+            var keyframe = new ScreenLayerKeyframe();
+            keyframe.Frame = frameNumber;
+
+            var moveNode = node.Element("Move");
+            if (moveNode != null)
+            {
+                var moveInfo = new ScreenLayerMoveCommand();
+                moveInfo.X = moveNode.GetAttribute<int>("x");
+                moveInfo.Y = moveNode.GetAttribute<int>("y");
+                moveInfo.Duration = moveNode.GetAttribute<int>("duration");
+
+                keyframe.Move = moveInfo;
+            }
+
+            keyframe.Reset = node.Elements("Reset").Any();
+
+            return keyframe;
         }
 
         private int[,] LoadTiles(string filepath)

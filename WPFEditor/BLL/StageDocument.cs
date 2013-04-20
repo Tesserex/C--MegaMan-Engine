@@ -99,7 +99,8 @@ namespace MegaMan.Editor.Bll
 
         public void ChangeTileset(string path)
         {
-            map.ChangeTileset(path);
+            var tileset = new TilesetXmlReader().LoadTilesetFromXml(FilePath.FromAbsolute(path, Project.Project.BaseDir));
+            map.ChangeTileset(tileset);
             Dirty = true;
         }
 

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class HandlerXmlReader
+    public class HandlerXmlReader : GameXmlReader
     {
         protected static void LoadHandlerBase(HandlerInfo handler, XElement node, string basePath)
         {
@@ -148,7 +148,7 @@ namespace MegaMan.IO.Xml
         public static SceneEntityCommandInfo LoadEntityCommand(XElement node)
         {
             var info = new SceneEntityCommandInfo();
-            info.Placement = EntityPlacement.FromXml(node);
+            info.Placement = LoadEntityPlacement(node);
             return info;
         }
 
@@ -162,7 +162,7 @@ namespace MegaMan.IO.Xml
             info.Y = node.GetAttribute<int>("y");
 
             var bindingNode = node.Element("Binding");
-            if (bindingNode != null) info.Binding = SceneBindingInfo.FromXml(bindingNode);
+            if (bindingNode != null) info.Binding = LoadSceneBinding(bindingNode);
 
             info.Font = node.TryAttribute<string>("font");
 
@@ -259,7 +259,7 @@ namespace MegaMan.IO.Xml
         {
             var info = new SceneNextCommandInfo();
 
-            info.NextHandler = HandlerTransfer.FromXml(node);
+            info.NextHandler = LoadHandlerTransfer(node);
 
             return info;
         }
@@ -340,9 +340,17 @@ namespace MegaMan.IO.Xml
             if (soundNode != null) meter.Sound = IncludeFileXmlReader.LoadSound(soundNode, basePath);
 
             XElement bindingNode = meterNode.Element("Binding");
-            if (bindingNode != null) meter.Binding = SceneBindingInfo.FromXml(bindingNode);
+            if (bindingNode != null) meter.Binding = LoadSceneBinding(bindingNode);
 
             return meter;
+        }
+
+        private static SceneBindingInfo LoadSceneBinding(XElement node)
+        {
+            var info = new SceneBindingInfo();
+            info.Source = node.RequireAttribute("source").Value;
+            info.Target = node.RequireAttribute("target").Value;
+            return info;
         }
     }
 }

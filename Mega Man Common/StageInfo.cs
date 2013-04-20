@@ -60,8 +60,6 @@ namespace MegaMan.Common
         private Dictionary<string, Point> continuePoints;
         public IDictionary<string, Point> ContinuePoints { get { return continuePoints; } }
 
-        private FilePath tilePath;
-
         #region Properties
         public Dictionary<string, ScreenInfo> Screens { get; private set; }
         public List<Join> Joins { get; private set; }
@@ -106,14 +104,9 @@ namespace MegaMan.Common
             continuePoints.Add(screenName, point);
         }
 
-        /// <summary>
-        /// Changes the tileset by specifying an absolute path to the new tileset XML file.
-        /// </summary>
-        /// <param name="path">If it's not absolute, I'll make it so.</param>
-        public void ChangeTileset(string path)
+        public void ChangeTileset(Tileset tileset)
         {
-            tilePath = FilePath.FromAbsolute(path, StagePath.Absolute);
-            Tileset = new Tileset(tilePath);
+            Tileset = tileset;
             
             foreach (ScreenInfo s in Screens.Values) s.Tileset = Tileset;
         }

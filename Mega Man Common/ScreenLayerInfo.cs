@@ -46,43 +46,15 @@ namespace MegaMan.Common
 
     public class ScreenLayerKeyframe
     {
-        public int Frame { get; private set; }
-        public ScreenLayerMoveCommand Move { get; private set; }
-        public bool Reset { get; private set; }
-
-        public static ScreenLayerKeyframe FromXml(XElement node)
-        {
-            var frameNumber = node.GetAttribute<int>("frame");
-
-            var keyframe = new ScreenLayerKeyframe();
-            keyframe.Frame = frameNumber;
-
-            var moveNode = node.Element("Move");
-            if (moveNode != null)
-            {
-                keyframe.Move = ScreenLayerMoveCommand.FromXml(moveNode);
-            }
-
-            keyframe.Reset = node.Elements("Reset").Any();
-
-            return keyframe;
-        }
+        public int Frame { get; set; }
+        public ScreenLayerMoveCommand Move { get; set; }
+        public bool Reset { get; set; }
     }
 
     public class ScreenLayerMoveCommand
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Duration { get; private set; }
-
-        public static ScreenLayerMoveCommand FromXml(XElement node)
-        {
-            var info = new ScreenLayerMoveCommand();
-            info.X = node.GetAttribute<int>("x");
-            info.Y = node.GetAttribute<int>("y");
-            info.Duration = node.GetAttribute<int>("duration");
-
-            return info;
-        }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Duration { get; set; }
     }
 }

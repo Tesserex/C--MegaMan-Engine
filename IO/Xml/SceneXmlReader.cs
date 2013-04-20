@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml
             var transferNode = node.Element("Next");
             if (transferNode != null)
             {
-                scene.NextHandler = HandlerTransfer.FromXml(transferNode);
+                scene.NextHandler = LoadHandlerTransfer(transferNode);
             }
 
             return scene;

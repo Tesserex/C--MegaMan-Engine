@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class ProjectXmlReader
+    public class ProjectXmlReader : GameXmlReader
     {
         private Project _project;
 
@@ -74,7 +74,7 @@ namespace MegaMan.IO.Xml
                         var winHandlerNode = winNode.Element("Next");
                         if (winHandlerNode != null)
                         {
-                            info.WinHandler = HandlerTransfer.FromXml(winHandlerNode);
+                            info.WinHandler = LoadHandlerTransfer(winHandlerNode);
                         }
                     }
 
@@ -84,7 +84,7 @@ namespace MegaMan.IO.Xml
                         var loseHandlerNode = loseNode.Element("Next");
                         if (loseHandlerNode != null)
                         {
-                            info.LoseHandler = HandlerTransfer.FromXml(loseHandlerNode);
+                            info.LoseHandler = LoadHandlerTransfer(loseHandlerNode);
                         }
                     }
 
@@ -95,7 +95,7 @@ namespace MegaMan.IO.Xml
             XElement startNode = reader.Element("Next");
             if (startNode != null)
             {
-                _project.StartHandler = HandlerTransfer.FromXml(startNode);
+                _project.StartHandler = LoadHandlerTransfer(startNode);
             }
 
             _project.AddIncludeFiles(reader.Elements("Include")
