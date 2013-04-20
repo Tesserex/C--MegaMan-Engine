@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class TilesetXmlReader
+    public class TilesetXmlReader : GameXmlReader
     {
         public Tileset LoadTilesetFromXml(FilePath path)
         {
@@ -44,7 +44,7 @@ namespace MegaMan.IO.Xml
                 var spriteNode = tileNode.Element("Sprite");
                 if (spriteNode != null)
                 {
-                    sprite = Sprite.FromXml(spriteNode);
+                    sprite = LoadSprite(spriteNode);
                 }
 
                 Tile tile = new Tile(id, sprite);

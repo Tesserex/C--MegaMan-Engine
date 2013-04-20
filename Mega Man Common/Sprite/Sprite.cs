@@ -65,9 +65,9 @@ namespace MegaMan.Common
         
         public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string PaletteName { get; private set; }
+        public string PaletteName { get; set; }
 
         /// <summary>
         /// Gets whether or not the sprite animation is currently playing.
@@ -80,7 +80,7 @@ namespace MegaMan.Common
 
         public bool Visible { get; set; }
 
-        public int Layer { get; private set; }
+        public int Layer { get; set; }
 
         public virtual FilePath SheetPath
         {
@@ -103,82 +103,6 @@ namespace MegaMan.Common
         public ISpriteDrawer Drawer { get; set; }
 
         public event Action Stopped;
-
-        public static Sprite FromXml(XElement element, string basePath)
-        {
-            XAttribute tileattr = element.RequireAttribute("tilesheet");
-            Sprite sprite;
-
-            string sheetPath = Path.Combine(basePath, tileattr.Value);
-            sprite = FromXml(element);
-            sprite.sheetPath = FilePath.FromRelative(tileattr.Value, basePath);
-            return sprite;
-        }
-
-        public static Sprite FromXml(XElement element)
-        {
-            int width = element.GetAttribute<int>("width");
-            int height = element.GetAttribute<int>("height");
-
-            Sprite sprite = new Sprite(width, height);
-
-            sprite.Name = element.TryAttribute<string>("name");
-
-            sprite.PaletteName = element.TryAttribute<string>("palette");
-
-            sprite.Reversed = element.TryAttribute<bool>("reversed");
-
-            XElement hotspot = element.Element("Hotspot");
-            if (hotspot != null)
-            {
-                int hx = hotspot.GetAttribute<int>("x");
-                int hy = hotspot.GetAttribute<int>("y");
-                sprite.HotSpot = new Point(hx, hy);
-            }
-            else
-            {
-                sprite.HotSpot = new Point(0, 0);
-            }
-
-            sprite.Layer = element.TryAttribute<int>("layer");
-
-            XElement stylenode = element.Element("AnimStyle");
-            if (stylenode != null)
-            {
-                string style = stylenode.Value;
-                switch (style)
-                {
-                    case "Bounce": sprite.AnimStyle = AnimationStyle.Bounce; break;
-                    case "PlayOnce": sprite.AnimStyle = AnimationStyle.PlayOnce; break;
-                }
-            }
-
-            XElement directionNode = element.Element("AnimDirection");
-            if (directionNode != null)
-            {
-                string direction = directionNode.Value;
-                switch (direction)
-                {
-                    case "Forward": sprite.AnimDirection = AnimationDirection.Forward; break;
-                    case "Backward": sprite.AnimDirection = AnimationDirection.Backward; break;
-                }
-            }
-
-            foreach (XElement frame in element.Elements("Frame"))
-            {
-                int duration = frame.TryAttribute<int>("duration");
-                int x = frame.GetAttribute<int>("x");
-                int y = frame.GetAttribute<int>("y");
-                sprite.AddFrame(x, y, duration);
-            }
-
-            if (sprite.frames.Count == 0)
-            {
-                sprite.AddFrame(0, 0, 0);
-            }
-
-            return sprite;
-        }
 
         /// <summary>
         /// Creates a new Sprite object with the given width and height, and no frames.

@@ -1,4 +1,5 @@
 ﻿using MegaMan.Common;
+using MegaMan.IO.Xml;
 using System.Xml.Linq;
 
 namespace MegaMan.Editor.Bll
@@ -23,12 +24,12 @@ namespace MegaMan.Editor.Bll
 
                 if (sheetNode == null)
                 {
-                    MainSprite = Sprite.FromXml(spriteNode, basePath);
+                    MainSprite = GameXmlReader.LoadSprite(spriteNode, basePath);
                 }
                 else
                 {
                     string sheetPath = System.IO.Path.Combine(basePath, sheetNode.Value);
-                    MainSprite = Sprite.FromXml(spriteNode);
+                    MainSprite = GameXmlReader.LoadSprite(spriteNode);
                 }
 
                 MainSprite.Play();

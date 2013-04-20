@@ -1,6 +1,8 @@
 ﻿using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -9,6 +11,82 @@ namespace MegaMan.IO.Xml
 {
     public class GameXmlReader
     {
+        public static Sprite LoadSprite(XElement element, string basePath)
+        {
+            XAttribute tileattr = element.RequireAttribute("tilesheet");
+            Sprite sprite;
+
+            string sheetPath = Path.Combine(basePath, tileattr.Value);
+            sprite = LoadSprite(element);
+            sprite.SheetPath = FilePath.FromRelative(tileattr.Value, basePath);
+            return sprite;
+        }
+
+        public static Sprite LoadSprite(XElement element)
+        {
+            int width = element.GetAttribute<int>("width");
+            int height = element.GetAttribute<int>("height");
+
+            Sprite sprite = new Sprite(width, height);
+
+            sprite.Name = element.TryAttribute<string>("name");
+
+            sprite.PaletteName = element.TryAttribute<string>("palette");
+
+            sprite.Reversed = element.TryAttribute<bool>("reversed");
+
+            XElement hotspot = element.Element("Hotspot");
+            if (hotspot != null)
+            {
+                int hx = hotspot.GetAttribute<int>("x");
+                int hy = hotspot.GetAttribute<int>("y");
+                sprite.HotSpot = new Point(hx, hy);
+            }
+            else
+            {
+                sprite.HotSpot = new Point(0, 0);
+            }
+
+            sprite.Layer = element.TryAttribute<int>("layer");
+
+            XElement stylenode = element.Element("AnimStyle");
+            if (stylenode != null)
+            {
+                string style = stylenode.Value;
+                switch (style)
+                {
+                    case "Bounce": sprite.AnimStyle = AnimationStyle.Bounce; break;
+                    case "PlayOnce": sprite.AnimStyle = AnimationStyle.PlayOnce; break;
+                }
+            }
+
+            XElement directionNode = element.Element("AnimDirection");
+            if (directionNode != null)
+            {
+                string direction = directionNode.Value;
+                switch (direction)
+                {
+                    case "Forward": sprite.AnimDirection = AnimationDirection.Forward; break;
+                    case "Backward": sprite.AnimDirection = AnimationDirection.Backward; break;
+                }
+            }
+
+            foreach (XElement frame in element.Elements("Frame"))
+            {
+                int duration = frame.TryAttribute<int>("duration");
+                int x = frame.GetAttribute<int>("x");
+                int y = frame.GetAttribute<int>("y");
+                sprite.AddFrame(x, y, duration);
+            }
+
+            if (sprite.Count == 0)
+            {
+                sprite.AddFrame(0, 0, 0);
+            }
+
+            return sprite;
+        }
+
         public static EntityPlacement LoadEntityPlacement(XElement entity)
         {
             EntityPlacement info = new EntityPlacement();

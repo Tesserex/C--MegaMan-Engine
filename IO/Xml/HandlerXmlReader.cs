@@ -17,7 +17,7 @@ namespace MegaMan.IO.Xml
             foreach (var spriteNode in node.Elements("Sprite"))
             {
                 var info = new HandlerSpriteInfo();
-                info.Sprite = Sprite.FromXml(spriteNode, basePath);
+                info.Sprite = LoadSprite(spriteNode, basePath);
                 handler.Objects.Add(info.Name, info);
             }
 

@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.IO;
 using System.Xml.Linq;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Common.Tests
 {
@@ -252,11 +253,11 @@ namespace MegaMan.Common.Tests
 
             if (basePath == null)
             {
-                return Sprite.FromXml(xmlNode);
+                return GameXmlReader.LoadSprite(xmlNode);
             }
             else
             {
-                return Sprite.FromXml(xmlNode, basePath);
+                return GameXmlReader.LoadSprite(xmlNode, basePath);
             }
         } 
     }

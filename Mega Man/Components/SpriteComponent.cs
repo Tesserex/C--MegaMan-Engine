@@ -5,6 +5,7 @@ using MegaMan.Common;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using System.Drawing;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -115,7 +116,7 @@ namespace MegaMan.Engine
                 _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
             }
 
-            Sprite sprite = Sprite.FromXml(xmlNode);
+            Sprite sprite = GameXmlReader.LoadSprite(xmlNode);
             Add(spriteName, sprite, partName);
         }
 
