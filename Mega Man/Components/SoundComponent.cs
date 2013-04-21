@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -12,7 +13,8 @@ namespace MegaMan.Engine
         {
             foreach (XElement soundNode in xml.Elements("Sound"))
             {
-                string name = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
+                var soundInfo = IncludeFileXmlReader.LoadSound(soundNode, Game.CurrentGame.BasePath);
+                string name = Engine.Instance.SoundSystem.EffectFromInfo(soundInfo);
                 sounds.Add(name);
             }
         }

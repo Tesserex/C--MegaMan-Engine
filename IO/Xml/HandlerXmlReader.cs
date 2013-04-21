@@ -306,11 +306,11 @@ namespace MegaMan.IO.Xml
             return info;
         }
 
-        private static MeterInfo LoadMeter(XElement meterNode, string basePath)
+        public static MeterInfo LoadMeter(XElement meterNode, string basePath)
         {
             MeterInfo meter = new MeterInfo();
 
-            meter.Name = meterNode.RequireAttribute("name").Value;
+            meter.Name = meterNode.TryAttribute<string>("name") ?? "";
 
             meter.Position = new PointF(meterNode.GetAttribute<float>("x"), meterNode.GetAttribute<float>("y"));
 

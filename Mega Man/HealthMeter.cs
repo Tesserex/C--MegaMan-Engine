@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan.Common;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -119,15 +119,6 @@ namespace MegaMan.Engine
             return meter;
         }
 
-        public static HealthMeter Create(XElement node, bool inGamePlay)
-        {
-            var meter = new HealthMeter();
-            meter.LoadXml(node);
-            meter.inGamePlay = inGamePlay;
-            if (inGamePlay) allMeters.Add(meter);
-            return meter;
-        }
-
         private HealthMeter()
         {
             value = maxvalue;
@@ -178,41 +169,6 @@ namespace MegaMan.Engine
             tickOffset = new Point(info.TickOffset.X, info.TickOffset.Y);
 
             if (info.Sound != null) sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
-        }
-
-        private void LoadXml(XElement node)
-        {
-            positionX = node.GetAttribute<float>("x");
-            positionY = node.GetAttribute<float>("y");
-            XAttribute imageAttr = node.RequireAttribute("image");
-            
-            if (tickTexture != null) tickTexture.Dispose();
-            StreamReader srTick = new StreamReader(Path.Combine(Game.CurrentGame.BasePath, Path.Combine(Game.CurrentGame.BasePath, imageAttr.Value)));
-            tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
-
-            XAttribute backAttr = node.Attribute("background");
-            if (backAttr != null)
-            {
-                StreamReader srMeter = new StreamReader(Path.Combine(Game.CurrentGame.BasePath, Path.Combine(Game.CurrentGame.BasePath, backAttr.Value)));
-                meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
-                bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
-            }
-
-            bool horiz = false;
-            XAttribute dirAttr = node.Attribute("orientation");
-            if (dirAttr != null)
-            {
-                horiz = (dirAttr.Value == "horizontal");
-            }
-            horizontal = horiz;
-
-            int x = node.TryAttribute<int>("tickX");
-            int y = node.TryAttribute<int>("tickY");
-
-            tickOffset = new Point(x, y);
-
-            XElement soundNode = node.Element("Sound");
-            if (soundNode != null) sound = Engine.Instance.SoundSystem.EffectFromXml(soundNode);
         }
 
         public void Reset()

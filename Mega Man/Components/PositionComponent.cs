@@ -129,8 +129,7 @@ namespace MegaMan.Engine
                 }
                 else
                 {
-                    float baseVal;
-                    if (!base_str.TryParse(out baseVal)) throw new GameXmlException(baseAttr, "Position base must be either \"Inherit\" or a valid decimal number.");
+                    float baseVal = prop.TryAttribute<float>("base");
                     if (axis == Axis.X) action = entity =>
                     {
                         PositionComponent pos = entity.GetComponent<PositionComponent>();

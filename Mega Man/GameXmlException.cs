@@ -13,6 +13,12 @@ namespace MegaMan.Engine
         public string Tag { get; set; }
         public string Attribute { get; set; }
 
+        public GameXmlException(string file, string message)
+            : base(message)
+        {
+            File = file;
+        }
+
         public GameXmlException(XElement element, string message)
             : base(message)
         {
@@ -25,14 +31,6 @@ namespace MegaMan.Engine
             : this(attribute.Parent, message)
         {
             this.Attribute = attribute.Name.LocalName;
-        }
-    }
-
-    public class GameEntityException : Exception
-    {
-        public GameEntityException(string message)
-            : base(message)
-        {
         }
     }
 

@@ -121,5 +121,27 @@ namespace MegaMan.IO.Xml
 
             return sound;
         }
+
+        public static FontInfo LoadFont(XElement node, string basePath)
+        {
+            var info = new FontInfo();
+
+            info.CharWidth = node.GetAttribute<int>("charwidth");
+            info.CaseSensitive = node.GetAttribute<bool>("cased");
+
+            foreach (var lineNode in node.Elements("Line"))
+            {
+                var x = lineNode.GetAttribute<int>("x");
+                var y = lineNode.GetAttribute<int>("y");
+
+                var lineText = lineNode.Value;
+
+                info.AddLine(x, y, lineText);
+            }
+
+            info.ImagePath = FilePath.FromRelative(node.RequireAttribute("image").Value, basePath);
+
+            return info;
+        }
     }
 }

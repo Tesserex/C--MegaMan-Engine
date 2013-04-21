@@ -281,11 +281,6 @@ namespace MegaMan.Engine
                 MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.FileName, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Game.CurrentGame.Unload();
             }
-            catch (GameEntityException ex)
-            {
-                MessageBox.Show("There is an error in one of the entity XML definitions:\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Game.CurrentGame.Unload();
-            }
             catch (XmlException ex)
             {
                 MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);

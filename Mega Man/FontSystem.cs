@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -13,50 +14,23 @@ namespace MegaMan.Engine
     {
         private class ImageFont : IDisposable
         {
-            private readonly int charWidth;
-            private readonly bool caseSensitive;
+            private readonly FontInfo info;
+
             private Image charImg;
             private readonly Texture2D charTex;
-            private readonly Dictionary<char, System.Drawing.Point> chars;
 
-            public ImageFont(XElement node)
+            public ImageFont(FontInfo info)
             {
-                charWidth = node.GetAttribute<int>("charwidth");
-                caseSensitive = node.GetAttribute<bool>("cased");
+                this.info = info;
 
-                chars = new Dictionary<char, System.Drawing.Point>();
-
-                foreach (var lineNode in node.Elements("Line"))
-                {
-                    var x = lineNode.GetAttribute<int>("x");
-                    var y = lineNode.GetAttribute<int>("y");
-
-                    var lineText = lineNode.Value;
-
-                    if (!caseSensitive)
-                    {
-                        lineText = lineText.ToUpper();
-                    }
-
-                    var lineChars = lineText.ToCharArray();
-
-                    for (int i = 0; i < lineChars.Length; i++)
-                    {
-                        var c = lineChars[i];
-
-                        chars.Add(c, new System.Drawing.Point(x + i * charWidth, y));
-                    }
-                }
-
-                var imagepath = System.IO.Path.Combine(Game.CurrentGame.BasePath, node.RequireAttribute("image").Value);
-                charImg = Image.FromFile(imagepath);
-                StreamReader sr = new StreamReader(imagepath);
+                charImg = Image.FromFile(info.ImagePath.Absolute);
+                StreamReader sr = new StreamReader(info.ImagePath.Absolute);
                 charTex = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
             public void Draw(SpriteBatch batch, string text, Vector2 position)
             {
-                if (!caseSensitive)
+                if (!info.CaseSensitive)
                 {
                     text = text.ToUpper();
                 }
@@ -67,17 +41,19 @@ namespace MegaMan.Engine
                 {
                     if (c == ' ')
                     {
-                        xpos += charWidth;
+                        xpos += info.CharWidth;
                         continue;
                     }
 
-                    if (!chars.ContainsKey(c)) continue;
+                    var location = info[c];
 
-                    var location = chars[c];
+                    if (location != null)
+                    {
+                        batch.Draw(charTex, new Vector2(xpos, position.Y),
+                            new Microsoft.Xna.Framework.Rectangle(location.Value.X, location.Value.Y, info.CharWidth, info.CharWidth), Engine.Instance.OpacityColor);
 
-                    batch.Draw(charTex, new Vector2(xpos, position.Y), new Microsoft.Xna.Framework.Rectangle(location.X, location.Y, charWidth, charWidth), Engine.Instance.OpacityColor);
-
-                    xpos += charWidth;
+                        xpos += info.CharWidth;
+                    }
                 }
             }
 
@@ -108,7 +84,8 @@ namespace MegaMan.Engine
             {
                 var name = fontNode.RequireAttribute("name").Value;
 
-                fonts.Add(name, new ImageFont(fontNode));
+                var fontInfo = IncludeFileXmlReader.LoadFont(fontNode, Game.CurrentGame.BasePath);
+                fonts.Add(name, new ImageFont(fontInfo));
             }
         }
 

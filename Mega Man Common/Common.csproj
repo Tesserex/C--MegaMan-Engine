@@ -94,6 +94,7 @@
     <Compile Include="Const.cs" />
     <Compile Include="EntityPlacement.cs" />
     <Compile Include="FilePath.cs" />
+    <Compile Include="FontInfo.cs" />
     <Compile Include="GameXml.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="HandlerInfo.cs" />

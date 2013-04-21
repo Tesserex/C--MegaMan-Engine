@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FMOD;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaManR.Audio;
 
@@ -126,45 +125,6 @@ namespace MegaMan.Engine
 
             loadedSounds[info.Name] = sound;
             return info.Name;
-        }
-
-        public string EffectFromXml(XElement soundNode)
-        {
-            string name = soundNode.RequireAttribute("name").Value;
-            if (loadedSounds.ContainsKey(name)) return name;
-
-            XAttribute pathattr = soundNode.Attribute("path");
-            ISoundEffect sound;
-            if (pathattr != null)
-            {
-                string path = System.IO.Path.Combine(Game.CurrentGame.BasePath, pathattr.Value);
-
-                bool loop = soundNode.TryAttribute<bool>("loop");
-
-                float vol = soundNode.TryAttribute<float>("volume", 1);
-
-                sound = new WavEffect(soundSystem, path, loop, vol);
-            }
-            else
-            {
-                XAttribute trackAttr = soundNode.Attribute("track");
-                if (trackAttr == null)
-                {
-                    // we trust that the sound they're talking about will be loaded eventually.
-                    return name;
-                }
-
-                int track;
-                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
-
-                bool loop = soundNode.TryAttribute<bool>("loop");
-
-                byte priority = soundNode.TryAttribute<byte>("priority", 100);
-
-                sound = new NsfEffect(sfx, track, priority, loop);
-            }
-            loadedSounds[name] = sound;
-            return name;
         }
 
         void updateTimer_Tick(object sender, EventArgs e)

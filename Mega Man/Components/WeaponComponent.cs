@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
 using System;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -206,7 +207,8 @@ namespace MegaMan.Engine
                 XElement meterNode = weapon.Element("Meter");
                 if (meterNode != null)
                 {
-                    meter = HealthMeter.Create(meterNode, true);
+                    var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
+                    meter = HealthMeter.Create(meterInfo, true);
 
                     meter.MaxValue = ammo;
                     meter.Reset();

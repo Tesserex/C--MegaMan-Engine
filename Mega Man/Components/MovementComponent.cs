@@ -283,14 +283,7 @@ namespace MegaMan.Engine
         {
             Effect action;
 
-            XAttribute magAttr = prop.Attribute("magnitude");
-            float? mag = null;
-            if (magAttr != null)
-            {
-                float pmag;
-                if (!magAttr.Value.TryParse(out pmag)) throw new GameXmlException(magAttr, "Movement magnitude must be a number.");
-                mag = pmag;
-            }
+            float? mag = prop.TryAttribute<float?>("magnitude");
 
             if (mag != 0)
             {

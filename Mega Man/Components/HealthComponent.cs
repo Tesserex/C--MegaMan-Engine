@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using System;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -148,7 +149,8 @@ namespace MegaMan.Engine
             XElement meterNode = node.Element("Meter");
             if (meterNode != null)
             {
-                meter = HealthMeter.Create(meterNode, true);
+                var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
+                meter = HealthMeter.Create(meterInfo, true);
                 meter.MaxValue = maxHealth;
                 meter.IsPlayer = (Parent.Name == "Player");
             }
@@ -156,7 +158,7 @@ namespace MegaMan.Engine
             XElement flashNode = node.Element("Flash");
             if (flashNode != null)
             {
-                if (!int.TryParse(flashNode.Value, out flashtime)) throw new GameXmlException(flashNode, "Health flash time was not a valid number.");
+                flashtime = node.TryValue<int>();
             }
         }
 
