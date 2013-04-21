@@ -41,6 +41,14 @@ namespace MegaMan.IO.Xml
                         case "Menu":
                             AddMenu(element);
                             break;
+
+                        case "Fonts":
+                            AddFonts(element);
+                            break;
+
+                        case "Palettes":
+                            LoadPalettes(element);
+                            break;
                     }
                 }
             }
@@ -89,6 +97,15 @@ namespace MegaMan.IO.Xml
             _project.AddMenu(info);
         }
 
+        private void AddFonts(XElement node)
+        {
+            foreach (var fontNode in node.Elements("Font"))
+            {
+                var fontInfo = LoadFont(fontNode, _project.BaseDir);
+                _project.AddFont(fontInfo);
+            }
+        }
+
         public static SoundInfo LoadSound(XElement soundNode, string basePath)
         {
             SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
@@ -122,10 +139,11 @@ namespace MegaMan.IO.Xml
             return sound;
         }
 
-        public static FontInfo LoadFont(XElement node, string basePath)
+        private FontInfo LoadFont(XElement node, string basePath)
         {
             var info = new FontInfo();
 
+            info.Name = node.RequireAttribute("name").Value;
             info.CharWidth = node.GetAttribute<int>("charwidth");
             info.CaseSensitive = node.GetAttribute<bool>("cased");
 
@@ -142,6 +160,27 @@ namespace MegaMan.IO.Xml
             info.ImagePath = FilePath.FromRelative(node.RequireAttribute("image").Value, basePath);
 
             return info;
+        }
+
+        private void LoadPalettes(XElement parentNode)
+        {
+            foreach (var node in parentNode.Elements("Palette"))
+            {
+                var palette = PaletteFromXml(node);
+
+                _project.AddPalette(palette);
+            }
+        }
+
+        private PaletteInfo PaletteFromXml(XElement node)
+        {
+            var palette = new PaletteInfo();
+
+            var imagePathRelative = node.RequireAttribute("image").Value;
+            palette.ImagePath = FilePath.FromRelative(imagePathRelative, _project.BaseDir);
+            palette.Name = node.RequireAttribute("name").Value;
+
+            return palette;
         }
     }
 }

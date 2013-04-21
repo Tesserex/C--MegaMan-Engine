@@ -10,6 +10,7 @@ namespace MegaMan.Common
     {
         private Dictionary<char, Point> chars = new Dictionary<char,Point>();
 
+        public string Name { get; set; }
         public int CharWidth { get; set; }
         public bool CaseSensitive { get; set; }
         public FilePath ImagePath { get; set; }

@@ -25,7 +25,7 @@ namespace MegaMan.Engine
 
         private Image sheet;
 
-        private XnaPalette palette;
+        private Palette palette;
 
         public XnaSpriteDrawer(Sprite info)
         {
@@ -80,7 +80,7 @@ namespace MegaMan.Engine
         {
             if (_info.PaletteName != null && this.palette == null)
             {
-                this.palette = Palette.Get(_info.PaletteName) as XnaPalette;
+                this.palette = PaletteSystem.Get(_info.PaletteName) as Palette;
             }
 
             if (this.palette != null && this._paletteSwaps.Count == 0)

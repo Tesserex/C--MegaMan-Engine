@@ -160,7 +160,7 @@ namespace MegaMan.Engine
                         int index = prop.GetAttribute<int>("index");
                         action += entity =>
                         {
-                            var palette = Palette.Get(pal);
+                            var palette = PaletteSystem.Get(pal);
                             if (palette != null)
                             {
                                 palette.CurrentIndex = index;
@@ -346,7 +346,7 @@ namespace MegaMan.Engine
             public void ChangePalette(int index)
             {
                 var paletteName = _sprites.Values.First().PaletteName;
-                var palette = Palette.Get(paletteName);
+                var palette = PaletteSystem.Get(paletteName);
                 if (palette != null)
                 {
                     palette.CurrentIndex = index;

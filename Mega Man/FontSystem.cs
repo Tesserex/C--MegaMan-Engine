@@ -4,7 +4,6 @@ using System.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
 
@@ -78,14 +77,11 @@ namespace MegaMan.Engine
 
         private static readonly Dictionary<string, ImageFont> fonts = new Dictionary<string,ImageFont>();
 
-        public static void Load(XElement node)
+        public static void Load(IEnumerable<FontInfo> fontInfos)
         {
-            foreach (var fontNode in node.Elements("Font"))
+            foreach (var fontInfo in fontInfos)
             {
-                var name = fontNode.RequireAttribute("name").Value;
-
-                var fontInfo = IncludeFileXmlReader.LoadFont(fontNode, Game.CurrentGame.BasePath);
-                fonts.Add(name, new ImageFont(fontInfo));
+                fonts.Add(fontInfo.Name, new ImageFont(fontInfo));
             }
         }
 

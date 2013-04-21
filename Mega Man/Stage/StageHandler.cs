@@ -303,7 +303,7 @@ namespace MegaMan.Engine
 
             // reset gravity and palettes
             Game.CurrentGame.GravityFlip = false;
-            Palette.ResetAll();
+            PaletteSystem.ResetAll();
 
             if (_currentScreen != null)
             {

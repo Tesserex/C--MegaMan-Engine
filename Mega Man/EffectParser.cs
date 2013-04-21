@@ -284,7 +284,7 @@ namespace MegaMan.Engine
                     var paletteIndex = node.GetAttribute<int>("index");
                     effect = e =>
                     {
-                        var palette = Palette.Get(paletteName);
+                        var palette = PaletteSystem.Get(paletteName);
                         if (palette != null)
                         {
                             palette.CurrentIndex = paletteIndex;

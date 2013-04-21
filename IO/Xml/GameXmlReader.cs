@@ -173,26 +173,5 @@ namespace MegaMan.IO.Xml
 
             return transfer;
         }
-
-        public static void LoadPalettes<T>(XElement parentNode, string basePath) where T : Palette, new()
-        {
-            foreach (var node in parentNode.Elements("Palette"))
-            {
-                var palette = PaletteFromXml<T>(node, basePath);
-
-                Palette.Add(palette.Name, palette);
-            }
-        }
-
-        private static Palette PaletteFromXml<T>(XElement node, string basePath) where T : Palette, new()
-        {
-            var imagePathRelative = node.RequireAttribute("image").Value;
-            var imagePath = FilePath.FromRelative(imagePathRelative, basePath);
-            var name = node.RequireAttribute("name").Value;
-
-            var palette = new T();
-            palette.Initialize(name, imagePath);
-            return palette;
-        }
     }
 }

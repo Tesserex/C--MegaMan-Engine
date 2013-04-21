@@ -80,7 +80,7 @@ namespace MegaMan.Engine
             HealthMeter.Unload();
             Scene.Unload();
             Menu.Unload();
-            Palette.Unload();
+            PaletteSystem.Unload();
             XnaSpriteDrawer.Unload();
             CurrentGame = null;
         }
@@ -136,6 +136,8 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
             Scene.LoadScenes(project.Scenes);
             Menu.LoadMenus(project.Menus);
+            FontSystem.Load(project.Fonts);
+            PaletteSystem.LoadPalettes(project.Palettes);
 
             currentPath = path;
 
@@ -205,26 +207,12 @@ namespace MegaMan.Engine
                             break;
 
                         case "Sounds":
-                            break;
-
                         case "Scenes":
-                            break;
-
                         case "Scene":
-                            break;
-
                         case "Menus":
-                            break;
-
                         case "Menu":
-                            break;
-
                         case "Fonts":
-                            FontSystem.Load(element);
-                            break;
-
                         case "Palettes":
-                            GameXmlReader.LoadPalettes<XnaPalette>(element, this.BasePath);
                             break;
 
                         default:

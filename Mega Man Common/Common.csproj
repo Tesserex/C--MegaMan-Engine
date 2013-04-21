@@ -105,7 +105,7 @@
     <Compile Include="StageInfo.cs" />
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />
-    <Compile Include="Palette.cs" />
+    <Compile Include="PaletteInfo.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneCommand.cs" />

@@ -116,6 +116,32 @@ namespace MegaMan.Common
             _menus.Remove(menu);
         }
 
+        private List<FontInfo> _fonts = new List<FontInfo>();
+        public IEnumerable<FontInfo> Fonts{ get { return _fonts.AsReadOnly(); } }
+
+        public void AddFont(FontInfo font)
+        {
+            _fonts.Add(font);
+        }
+
+        public void RemoveFont(FontInfo font)
+        {
+            _fonts.Remove(font);
+        }
+
+        private List<PaletteInfo> _palettes = new List<PaletteInfo>();
+        public IEnumerable<PaletteInfo> Palettes { get { return _palettes.AsReadOnly(); } }
+
+        public void AddPalette(PaletteInfo palette)
+        {
+            _palettes.Add(palette);
+        }
+
+        public void RemovePalette(PaletteInfo palette)
+        {
+            _palettes.Remove(palette);
+        }
+
         #endregion
 
         public Project()
