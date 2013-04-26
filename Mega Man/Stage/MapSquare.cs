@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using MegaMan.Common;
 using Microsoft.Xna.Framework.Graphics;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -106,11 +107,11 @@ namespace MegaMan.Engine
             ladderBoxesLoaded = true;
         }
 
-        public void Draw(SpriteBatch batch, Microsoft.Xna.Framework.Color color, float posX, float posY)
+        public void Draw(IRenderingContext context, float posX, float posY)
         {
             if (Tile.Sprite != null)
             {
-                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, posX, posY);
+                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(context, Tile.Sprite.Layer, posX, posY);
             }
         }
     }

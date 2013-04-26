@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -58,14 +59,14 @@ namespace MegaMan.Engine
     /// </summary>
     public class GameRenderEventArgs : EventArgs
     {
+        public IRenderingContext RenderContext { get; private set; }
         public GameGraphicsLayers Layers { get; private set; }
-        public GraphicsDevice Device { get; private set; }
         public Microsoft.Xna.Framework.Color OpacityColor;
 
-        public GameRenderEventArgs(GameGraphicsLayers layers, GraphicsDevice device)
+        public GameRenderEventArgs(GameGraphicsLayers layers, IRenderingContext context)
         {
             Layers = layers;
-            Device = device;
+            RenderContext = context;
         }
     }
     public delegate void GameRenderEventHandler(GameRenderEventArgs e);
@@ -164,6 +165,7 @@ namespace MegaMan.Engine
         public event GameRenderEventHandler GameRenderEnd;
 
         public GraphicsDevice GraphicsDevice { get; private set; }
+        private IRenderingContext renderContext;
 
         // This event is used to query the graphics control and grab
         // its device, so we can send it out to things for drawing.
@@ -185,6 +187,7 @@ namespace MegaMan.Engine
             DeviceEventArgs args = new DeviceEventArgs();
             if (GetDevice != null) GetDevice(this, args);
             GraphicsDevice = args.Device;
+            renderContext = new XnaRenderingContext(GraphicsDevice);
             initialized = true;
             Start();
         }
@@ -376,11 +379,14 @@ namespace MegaMan.Engine
             if (GameLogicTick != null) GameLogicTick(e);    // this one is for more basic operations
 
             // render phase
-            GameRenderEventArgs r = new GameRenderEventArgs(graphics, GraphicsDevice) {OpacityColor = opacityColor};
+            GameRenderEventArgs r = new GameRenderEventArgs(graphics, renderContext) {OpacityColor = opacityColor};
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
             
             if (GameRenderBegin != null) GameRenderBegin(r);
+
+            renderContext.SetOpacity(opacity);
+            renderContext.Begin();
 
             if (Background) r.Layers.BackgroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
             if (SpritesOne) r.Layers.SpritesBatch[0].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
@@ -390,6 +396,8 @@ namespace MegaMan.Engine
             if (Foreground) r.Layers.ForegroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
             if (GameRender != null) GameRender(r);
+
+            renderContext.End();
 
             // only draw the layers if they're enabled
             if (Background) r.Layers.BackgroundBatch.End();

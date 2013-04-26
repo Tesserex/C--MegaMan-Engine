@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using System.IO;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Rendering;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
     public static class FontSystem
     {
-        private class ImageFont : IDisposable
+        private class ImageFont
         {
             private readonly FontInfo info;
 
-            private Image charImg;
-            private readonly Texture2D charTex;
+            private int? charTex;
 
             public ImageFont(FontInfo info)
             {
                 this.info = info;
-
-                charImg = Image.FromFile(info.ImagePath.Absolute);
-                StreamReader sr = new StreamReader(info.ImagePath.Absolute);
-                charTex = Texture2D.FromStream(Engine.Instance.GraphicsDevice, sr.BaseStream);
             }
 
-            public void Draw(SpriteBatch batch, string text, Vector2 position)
+            public void Draw(IRenderingContext renderContext, int layer, string text, Point position)
             {
+                if (charTex == null)
+                    charTex = renderContext.LoadTexture(info.ImagePath);
+
                 if (!info.CaseSensitive)
                 {
                     text = text.ToUpper();
                 }
 
-                float xpos = position.X;
+                int xpos = position.X;
 
                 foreach (char c in text)
                 {
@@ -48,31 +45,13 @@ namespace MegaMan.Engine
 
                     if (location != null)
                     {
-                        batch.Draw(charTex, new Vector2(xpos, position.Y),
-                            new Microsoft.Xna.Framework.Rectangle(location.Value.X, location.Value.Y, info.CharWidth, info.CharWidth), Engine.Instance.OpacityColor);
+                        renderContext.Draw(charTex.Value, layer, new Point(xpos, position.Y),
+                            new Rectangle(location.Value.X, location.Value.Y, info.CharWidth, info.CharWidth));
 
                         xpos += info.CharWidth;
                     }
                 }
             }
-
-            #region IDisposable Members
-
-            ~ImageFont()
-            {
-                Dispose();
-            }
-
-            public void Dispose()
-            {
-                if (charImg != null)
-                {
-                    charImg.Dispose();
-                    charImg = null;
-                }
-            }
-
-            #endregion
         }
 
         private static readonly Dictionary<string, ImageFont> fonts = new Dictionary<string,ImageFont>();
@@ -85,32 +64,13 @@ namespace MegaMan.Engine
             }
         }
 
-        public static void Draw(SpriteBatch batch, string font, string text, PointF position)
+        public static void Draw(IRenderingContext renderContext, int layer, string font, string text, MegaMan.Common.Geometry.Point position)
         {
-            fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
-        }
-
-        public static void Draw(SpriteBatch batch, string font, string text, System.Drawing.Point position)
-        {
-            fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
-        }
-
-        public static void Draw(SpriteBatch batch, string font, string text, Microsoft.Xna.Framework.Point position)
-        {
-            fonts[font].Draw(batch, text, new Vector2(position.X, position.Y));
-        }
-
-        public static void Draw(SpriteBatch batch, string font, string text, Vector2 position)
-        {
-            fonts[font].Draw(batch, text, position);
+            fonts[font].Draw(renderContext, layer, text, position);
         }
 
         public static void Unload()
         {
-            foreach (ImageFont font in fonts.Values)
-            {
-                font.Dispose();
-            }
             fonts.Clear();
         }
     }

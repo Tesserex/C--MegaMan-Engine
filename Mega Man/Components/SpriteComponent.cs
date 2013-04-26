@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using System.Drawing;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -74,7 +75,6 @@ namespace MegaMan.Engine
                 {
                     var copySprite = new Sprite(spr.Value);
                     var drawer = new XnaSpriteDrawer(copySprite);
-                    drawer.SetTexture(Engine.Instance.GraphicsDevice, _sheetPath);
                     copySprite.Drawer = drawer;
                     copy.Add(group.Key, copySprite, spr.Key);
                 }
@@ -287,16 +287,16 @@ namespace MegaMan.Engine
                         bounds.Offset(PositionSrc.Position);
                         if (meter.Bounds.IntersectsWith(bounds))
                         {
-                            Draw(currentSprite, e.Layers.ForegroundBatch, e.OpacityColor);
+                            Draw(currentSprite, e.RenderContext, 5);
                             return;
                         }
                     }
                 }
-                Draw(currentSprite, e.Layers.SpritesBatch[currentSprite.Layer], e.OpacityColor);
+                Draw(currentSprite, e.RenderContext, currentSprite.Layer + 1);
             }
         }
 
-        private void Draw(Sprite sprite, SpriteBatch batch, Microsoft.Xna.Framework.Color color)
+        private void Draw(Sprite sprite, IRenderingContext context, int layer)
         {
             if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
             float off_x = Parent.Screen.OffsetX;
@@ -304,7 +304,7 @@ namespace MegaMan.Engine
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
-                (sprite.Drawer as XnaSpriteDrawer).DrawXna(batch, color, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+                (sprite.Drawer as XnaSpriteDrawer).DrawXna(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }
 

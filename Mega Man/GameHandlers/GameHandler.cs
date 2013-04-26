@@ -89,7 +89,7 @@ namespace MegaMan.Engine
         {
             foreach (var obj in objects.Values)
             {
-                obj.Draw(e.Layers, e.OpacityColor);
+                obj.Draw(e.RenderContext);
             }
 
             if (Draw != null) Draw(e);

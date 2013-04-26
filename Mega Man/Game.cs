@@ -141,41 +141,9 @@ namespace MegaMan.Engine
 
             currentPath = path;
 
-            if (pathArgs != null && pathArgs.Count > 0)
+            if (pathArgs != null && pathArgs.Any())
             {
-                var start = pathArgs[0];
-
-                var parts = start.Split('\\');
-                if (parts.Length != 2)
-                {
-                    throw new GameRunException("The starting point given by command line argument was invalid.");
-                }
-                var name = parts[1];
-                switch (parts[0].ToUpper())
-                {
-                    case "SCENE":
-                        StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
-                        break;
-
-                    case "STAGE":
-                        var screen = (pathArgs.Count > 1) ? pathArgs[1] : null;
-                        Point? startPos = null;
-                        if (pathArgs.Count > 2)
-                        {
-                            var point = pathArgs[2];
-                            var coords = point.Split(',');
-                            startPos = new Point(int.Parse(coords[0]), int.Parse(coords[1]));
-                        }
-                        StartStage(name, screen, startPos);
-                        break;
-
-                    case "MENU":
-                        StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
-                        break;
-
-                    default:
-                        throw new GameRunException("The starting point given by command line argument was invalid.");
-                }
+                ProcessCommandLineArgs(pathArgs);
             }
             else if (project.StartHandler != null)
             {
@@ -187,6 +155,43 @@ namespace MegaMan.Engine
             }
 
             Player = new Player();
+        }
+
+        private void ProcessCommandLineArgs(List<string> pathArgs)
+        {
+            var start = pathArgs[0];
+
+            var parts = start.Split('\\');
+            if (parts.Length != 2)
+            {
+                throw new GameRunException("The starting point given by command line argument was invalid.");
+            }
+            var name = parts[1];
+            switch (parts[0].ToUpper())
+            {
+                case "SCENE":
+                    StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    break;
+
+                case "STAGE":
+                    var screen = (pathArgs.Count > 1) ? pathArgs[1] : null;
+                    Point? startPos = null;
+                    if (pathArgs.Count > 2)
+                    {
+                        var point = pathArgs[2];
+                        var coords = point.Split(',');
+                        startPos = new Point(int.Parse(coords[0]), int.Parse(coords[1]));
+                    }
+                    StartStage(name, screen, startPos);
+                    break;
+
+                case "MENU":
+                    StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    break;
+
+                default:
+                    throw new GameRunException("The starting point given by command line argument was invalid.");
+            }
         }
 
         private void IncludeXmlFile(string path)

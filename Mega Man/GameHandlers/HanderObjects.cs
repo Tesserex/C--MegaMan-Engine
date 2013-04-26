@@ -5,6 +5,7 @@ using System.Text;
 using MegaMan.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -12,7 +13,7 @@ namespace MegaMan.Engine
     {
         void Start();
         void Stop();
-        void Draw(GameGraphicsLayers layers, Color opacity);
+        void Draw(IRenderingContext renderContext);
     }
 
     public class HandlerSprite : IHandlerObject
@@ -27,7 +28,6 @@ namespace MegaMan.Engine
         {
             this.sprite = new Sprite(sprite);
             var drawer = new XnaSpriteDrawer(this.sprite);
-            drawer.SetTexture(Engine.Instance.GraphicsDevice, this.sprite.SheetPath.Absolute);
             this.sprite.Drawer = drawer;
             this.x = location.X;
             this.y = location.Y;
@@ -80,9 +80,9 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(GameGraphicsLayers layers, Color opacity)
+        public void Draw(IRenderingContext renderContext)
         {
-            (sprite.Drawer as XnaSpriteDrawer).DrawXna(layers.SpritesBatch[sprite.Layer], opacity, x, y);
+            (sprite.Drawer as XnaSpriteDrawer).DrawXna(renderContext, sprite.Layer, x, y);
         }
     }
 
@@ -93,7 +93,7 @@ namespace MegaMan.Engine
         private string displayed = "";
         private int speed;
         private int frame;
-        private Vector2 position;
+        private MegaMan.Common.Geometry.Point position;
         private Binding binding;
         private string font;
 
@@ -120,7 +120,7 @@ namespace MegaMan.Engine
         {
             this.Content = info.Content ?? String.Empty;
             this.speed = info.Speed ?? 0;
-            this.position = new Vector2(info.X, info.Y);
+            this.position = new MegaMan.Common.Geometry.Point(info.X, info.Y);
             this.container = container;
             this.font = info.Font ?? "Default";
 
@@ -169,15 +169,16 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(GameGraphicsLayers layers, Color opacity)
+        public void Draw(IRenderingContext renderContext)
         {
-            FontSystem.Draw(layers.ForegroundBatch, font, displayed, position);
+            FontSystem.Draw(renderContext, 5, font, displayed, position);
         }
     }
 
     public class HandlerFill : IHandlerObject
     {
-        private Texture2D texture;
+        private int? texture;
+        private Color color;
         private float x, y, width, height;
         private float vx, vy, vw, vh, duration;
         private int stopX, stopY, stopWidth, stopHeight, moveFrame;
@@ -185,8 +186,7 @@ namespace MegaMan.Engine
 
         public HandlerFill(Color color, int x, int y, int width, int height, int layer)
         {
-            this.texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
-            this.texture.SetData(new Color[] { color });
+            this.color = color;
             this.x = x;
             this.y = y;
             this.width = width;
@@ -198,9 +198,13 @@ namespace MegaMan.Engine
 
         public void Stop() { }
 
-        public void Draw(GameGraphicsLayers layers, Color opacity)
+        public void Draw(IRenderingContext renderContext)
         {
-            layers.SpritesBatch[layer].Draw(texture, new Rectangle((int)x, (int)y, (int)width, (int)height), opacity);
+            if (texture == null)
+                texture = renderContext.CreateColorTexture(color.R, color.G, color.B);
+
+            renderContext.Draw(texture.Value, layer, new MegaMan.Common.Geometry.Point((int)x, (int)y),
+                new MegaMan.Common.Geometry.Rectangle((int)x, (int)y, (int)width, (int)height));
         }
 
         public void Move(int nx, int ny, int nwidth, int nheight, int duration)
@@ -259,9 +263,9 @@ namespace MegaMan.Engine
             Meter.Stop();
         }
 
-        public void Draw(GameGraphicsLayers layers, Color opacity)
+        public void Draw(IRenderingContext renderContext)
         {
-            Meter.Draw(layers.SpritesBatch[3]);
+            Meter.Draw(renderContext);
         }
     }
 }

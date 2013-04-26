@@ -7,8 +7,8 @@ namespace MegaMan.Engine
 {
     public class EngineGraphicsControl : WinFormsGraphicsDevice.GraphicsDeviceControl
     {
-        RenderTarget2D backing;
-        SpriteBatch sprite;
+        RenderTarget2D masterRenderingTarget;
+        SpriteBatch masterSpriteBatch;
         IntPtr ntsc;
         Texture2D ntscTexture;
         readonly ushort[] pixels = new ushort[256 * 224];
@@ -41,8 +41,8 @@ namespace MegaMan.Engine
             Margin = new System.Windows.Forms.Padding(0);
             Padding = new System.Windows.Forms.Padding(0);
 
-            sprite = new SpriteBatch(GraphicsDevice);
-            backing = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
+            masterSpriteBatch = new SpriteBatch(GraphicsDevice);
+            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
 
             ntsc = snes_ntsc_alloc();
             ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
@@ -76,12 +76,12 @@ namespace MegaMan.Engine
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            backing = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         public void SaveCap(System.IO.Stream stream)
         {
-            backing.SaveAsPng(stream, backing.Width, backing.Height);
+            masterRenderingTarget.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -95,39 +95,44 @@ namespace MegaMan.Engine
             base.OnPaint(e);
         }
 
-        void Instance_GameRenderBegin(GameRenderEventArgs e)
+        private void Instance_GameRenderBegin(GameRenderEventArgs e)
         {
             BeginDraw();
-            GraphicsDevice.SetRenderTarget(backing);
+            GraphicsDevice.SetRenderTarget(masterRenderingTarget);
             GraphicsDevice.Clear(Color.Black);
         }
 
-        void Instance_GameRenderEnd(GameRenderEventArgs e)
+        private void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
             GraphicsDevice.SetRenderTarget(null);
-            sprite.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
+            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
             GraphicsDevice.Clear(Color.Black);
+
+            DrawMasterTargetToBatch();
+
+            masterSpriteBatch.End();
+            EndDraw();
+        }
+
+        private void DrawMasterTargetToBatch()
+        {
+            Texture2D drawTexture = masterRenderingTarget;
 
             if (NTSC)
             {
-
-                backing.GetData(pixels);
+                masterRenderingTarget.GetData(pixels);
 
                 snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, filtered, 1204);
 
                 ntscTexture.SetData(filtered);
-                
-                sprite.Draw(ntscTexture, new Rectangle(0, 0, Width, Height), Color.White);
+
+                drawTexture = ntscTexture;
             }
-            else
-            {
-                sprite.Draw(backing, new Rectangle(0, 0, Width, Height), Color.White);
-            }
-            sprite.End();
-            EndDraw();
+
+            masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, Width, Height), Color.White);
         }
 
-        void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)
+        private void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)
         {
             e.Device = GraphicsDevice;
         }

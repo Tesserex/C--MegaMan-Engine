@@ -5,24 +5,26 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {
     public class HealthMeter
     {
+        private MeterInfo info;
         private Binding binding;
         private float value;
         private float maxvalue = 28;
         private float tickSize;
-        private Texture2D meterTexture;
-        private Texture2D tickTexture;
+        private int? meterTexture;
+        private int? tickTexture;
         private string sound;
         private int tickframes;
         private int stopvalue;
 
         private IGameplayContainer container;
 
-        private Point tickOffset;
+        private Common.Geometry.Point tickOffset;
 
         private bool running;
         private bool animating;
@@ -145,6 +147,7 @@ namespace MegaMan.Engine
 
         private void LoadInfo(MeterInfo info)
         {
+            this.info = info;
             positionX = info.Position.X;
             positionY = info.Position.Y;
 
@@ -154,19 +157,14 @@ namespace MegaMan.Engine
                 MaxValue = 1; // use 0 - 1 range for values
             }
 
-            if (tickTexture != null) tickTexture.Dispose();
-            StreamReader srTick = new StreamReader(info.TickImage.Absolute);
-            tickTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srTick.BaseStream);
-
             if (info.Background != null)
             {
-                StreamReader srMeter = new StreamReader(info.Background.Absolute);
-                meterTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, srMeter.BaseStream);
-                bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
+                // TODO: Initialize bounds
+                //bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
             }
 
             horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
-            tickOffset = new Point(info.TickOffset.X, info.TickOffset.Y);
+            tickOffset = new MegaMan.Common.Geometry.Point(info.TickOffset.X, info.TickOffset.Y);
 
             if (info.Sound != null) sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
         }
@@ -176,13 +174,19 @@ namespace MegaMan.Engine
             value = maxvalue;
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(IRenderingContext context)
         {
-            Draw(batch, positionX, positionY);
+            Draw(context, positionX, positionY);
         }
 
-        private void Draw(SpriteBatch batch, float positionX, float positionY)
+        private void Draw(IRenderingContext context, float positionX, float positionY)
         {
+            if (meterTexture == null)
+                meterTexture = context.LoadTexture(this.info.Background);
+
+            if (tickTexture == null)
+                tickTexture = context.LoadTexture(this.info.TickImage);
+
             if (tickTexture != null)
             {
                 int i = 0;
@@ -190,19 +194,22 @@ namespace MegaMan.Engine
                 // prevent float errors
                 if (ticks > 28) ticks = 28;
 
-                if (meterTexture != null) batch.Draw(meterTexture, new Microsoft.Xna.Framework.Vector2(positionX, positionY), Engine.Instance.OpacityColor);
+                if (meterTexture != null)
+                    context.Draw(meterTexture.Value, 4, new Common.Geometry.Point((int)positionX, (int)positionY));
+
+                // TODO: Put back using texture width and height as loop bounds
                 if (horizontal)
                 {
-                    for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
+                    for (int y = (int)positionX; i < ticks; i++, y += 2)
                     {
-                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(y, positionY), Engine.Instance.OpacityColor);
+                        context.Draw(tickTexture.Value, 4, new Common.Geometry.Point(y, (int)positionY));
                     }
                 }
                 else
                 {
-                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
+                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= 2)
                     {
-                        batch.Draw(tickTexture, new Microsoft.Xna.Framework.Vector2(positionX + tickOffset.X, y + tickOffset.Y), Engine.Instance.OpacityColor);
+                        context.Draw(tickTexture.Value, 4, new Common.Geometry.Point((int)(positionX + tickOffset.X), (int)(y + tickOffset.Y)));
                     }
                 }
             }
@@ -254,7 +261,7 @@ namespace MegaMan.Engine
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (inGamePlay && Engine.Instance.SpritesFour) Draw(e.Layers.SpritesBatch[3], positionX, positionY);
+            if (inGamePlay && Engine.Instance.SpritesFour) Draw(e.RenderContext, positionX, positionY);
         }
     }
 }
