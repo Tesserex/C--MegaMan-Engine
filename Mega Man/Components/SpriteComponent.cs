@@ -117,6 +117,7 @@ namespace MegaMan.Engine
             }
 
             Sprite sprite = GameXmlReader.LoadSprite(xmlNode);
+            sprite.SheetPath = FilePath.FromAbsolute(_sheetPath, Game.CurrentGame.BasePath);
             Add(spriteName, sprite, partName);
         }
 

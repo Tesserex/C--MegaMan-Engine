@@ -9,8 +9,8 @@ namespace MegaMan.Engine.Rendering
 {
     public interface IRenderingContext
     {
-        Int32 LoadTexture(FilePath texturePath);
-        Int32 CreateColorTexture(int red, int green, int blue);
+        IResourceImage LoadResource(FilePath texturePath, String paletteName = null);
+        IResourceImage CreateColorResource(int red, int green, int blue);
         void Begin();
         void End();
         void EnableLayer(Int32 layer);
@@ -19,6 +19,6 @@ namespace MegaMan.Engine.Rendering
         void SetOpacity(float opacity);
         float GetOpacity();
 
-        void Draw(Int32 textureId, Int32 layer, Point position, Rectangle? sourceRect = null);
+        void Draw(IResourceImage resource, Int32 layer, Point position, Rectangle? sourceRect = null, bool flipHorizontal = false, bool flipVertical = false);
     }
 }

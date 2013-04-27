@@ -81,7 +81,6 @@ namespace MegaMan.Engine
             Scene.Unload();
             Menu.Unload();
             PaletteSystem.Unload();
-            XnaSpriteDrawer.Unload();
             CurrentGame = null;
         }
 

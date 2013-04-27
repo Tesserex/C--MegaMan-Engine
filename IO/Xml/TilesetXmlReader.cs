@@ -45,6 +45,7 @@ namespace MegaMan.IO.Xml
                 if (spriteNode != null)
                 {
                     sprite = LoadSprite(spriteNode);
+                    sprite.SheetPath = tileset.SheetPath;
                 }
 
                 Tile tile = new Tile(id, sprite);

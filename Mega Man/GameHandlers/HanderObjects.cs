@@ -177,7 +177,7 @@ namespace MegaMan.Engine
 
     public class HandlerFill : IHandlerObject
     {
-        private int? texture;
+        private IResourceImage texture;
         private Color color;
         private float x, y, width, height;
         private float vx, vy, vw, vh, duration;
@@ -201,9 +201,9 @@ namespace MegaMan.Engine
         public void Draw(IRenderingContext renderContext)
         {
             if (texture == null)
-                texture = renderContext.CreateColorTexture(color.R, color.G, color.B);
+                texture = renderContext.CreateColorResource(color.R, color.G, color.B);
 
-            renderContext.Draw(texture.Value, layer, new MegaMan.Common.Geometry.Point((int)x, (int)y),
+            renderContext.Draw(texture, layer, new MegaMan.Common.Geometry.Point((int)x, (int)y),
                 new MegaMan.Common.Geometry.Rectangle((int)x, (int)y, (int)width, (int)height));
         }
 

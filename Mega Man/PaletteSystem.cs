@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using System.Drawing.Imaging;
-using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -101,36 +100,8 @@ namespace MegaMan.Engine
             }
         }
 
-        public List<Texture2D> GenerateSwappedTextures(Bitmap image, GraphicsDevice device)
+        public List<byte[]> GetSwappedPixels(byte[] pixelData, bool flip_endian)
         {
-            var swappedPixels = GetSwappedPixels(image, true);
-
-            var swappedTextures = new List<Texture2D>();
-
-            var imageRect = new Rectangle(0, 0, image.Width, image.Height);
-
-            foreach (var pixels in swappedPixels)
-            {
-                var texture = new Texture2D(device, image.Width, image.Height);
-
-                texture.SetData<byte>(pixels);
-
-                swappedTextures.Add(texture);
-            }
-
-            return swappedTextures;
-        }
-
-        private List<byte[]> GetSwappedPixels(Bitmap image, bool flip_endian)
-        {
-            var imageRect = new Rectangle(0, 0, image.Width, image.Height);
-
-            var data = image.LockBits(imageRect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-
-            byte[] pixelData = new Byte[data.Height * data.Stride];
-            Marshal.Copy(data.Scan0, pixelData, 0, data.Height * data.Stride);
-
-            // Create buffers for pixel data in other palettes
             List<byte[]> swappedPixels = new List<byte[]>();
             for (int i = 0; i < _swapColors.Count; i++)
             {
@@ -140,7 +111,12 @@ namespace MegaMan.Engine
             // fill all palette buffers simultaneously
             for (int i = 0; i < pixelData.Length; i += 4)
             {
-                uint key = (uint)((pixelData[i] << 24) + (pixelData[i + 1] << 16) + (pixelData[i + 2] << 8) + (pixelData[i + 3]));
+                uint key;
+                
+                if (flip_endian)
+                    key = (uint)((pixelData[i + 2] << 24) + (pixelData[i + 1] << 16) + (pixelData[i] << 8) + (pixelData[i + 3]));
+                else
+                    key = (uint)((pixelData[i] << 24) + (pixelData[i + 1] << 16) + (pixelData[i + 2] << 8) + (pixelData[i + 3]));
 
                 for (int swap_i = 0; swap_i < swappedPixels.Count; swap_i++)
                 {
@@ -169,8 +145,6 @@ namespace MegaMan.Engine
                     }
                 }
             }
-
-            image.UnlockBits(data);
 
             return swappedPixels;
         }

@@ -14,7 +14,7 @@ namespace MegaMan.Engine
         {
             private readonly FontInfo info;
 
-            private int? charTex;
+            private IResourceImage charTex;
 
             public ImageFont(FontInfo info)
             {
@@ -24,7 +24,7 @@ namespace MegaMan.Engine
             public void Draw(IRenderingContext renderContext, int layer, string text, Point position)
             {
                 if (charTex == null)
-                    charTex = renderContext.LoadTexture(info.ImagePath);
+                    charTex = renderContext.LoadResource(info.ImagePath);
 
                 if (!info.CaseSensitive)
                 {
@@ -45,7 +45,7 @@ namespace MegaMan.Engine
 
                     if (location != null)
                     {
-                        renderContext.Draw(charTex.Value, layer, new Point(xpos, position.Y),
+                        renderContext.Draw(charTex, layer, new Point(xpos, position.Y),
                             new Rectangle(location.Value.X, location.Value.Y, info.CharWidth, info.CharWidth));
 
                         xpos += info.CharWidth;

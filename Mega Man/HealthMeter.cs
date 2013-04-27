@@ -16,8 +16,8 @@ namespace MegaMan.Engine
         private float value;
         private float maxvalue = 28;
         private float tickSize;
-        private int? meterTexture;
-        private int? tickTexture;
+        private IResourceImage meterTexture;
+        private IResourceImage tickTexture;
         private string sound;
         private int tickframes;
         private int stopvalue;
@@ -157,12 +157,6 @@ namespace MegaMan.Engine
                 MaxValue = 1; // use 0 - 1 range for values
             }
 
-            if (info.Background != null)
-            {
-                // TODO: Initialize bounds
-                //bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
-            }
-
             horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
             tickOffset = new MegaMan.Common.Geometry.Point(info.TickOffset.X, info.TickOffset.Y);
 
@@ -182,10 +176,13 @@ namespace MegaMan.Engine
         private void Draw(IRenderingContext context, float positionX, float positionY)
         {
             if (meterTexture == null)
-                meterTexture = context.LoadTexture(this.info.Background);
+            {
+                meterTexture = context.LoadResource(this.info.Background);
+                bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
+            }
 
             if (tickTexture == null)
-                tickTexture = context.LoadTexture(this.info.TickImage);
+                tickTexture = context.LoadResource(this.info.TickImage);
 
             if (tickTexture != null)
             {
@@ -195,21 +192,20 @@ namespace MegaMan.Engine
                 if (ticks > 28) ticks = 28;
 
                 if (meterTexture != null)
-                    context.Draw(meterTexture.Value, 4, new Common.Geometry.Point((int)positionX, (int)positionY));
+                    context.Draw(meterTexture, 4, new Common.Geometry.Point((int)positionX, (int)positionY));
 
-                // TODO: Put back using texture width and height as loop bounds
                 if (horizontal)
                 {
-                    for (int y = (int)positionX; i < ticks; i++, y += 2)
+                    for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
                     {
-                        context.Draw(tickTexture.Value, 4, new Common.Geometry.Point(y, (int)positionY));
+                        context.Draw(tickTexture, 4, new Common.Geometry.Point(y, (int)positionY));
                     }
                 }
                 else
                 {
-                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= 2)
+                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
                     {
-                        context.Draw(tickTexture.Value, 4, new Common.Geometry.Point((int)(positionX + tickOffset.X), (int)(y + tickOffset.Y)));
+                        context.Draw(tickTexture, 4, new Common.Geometry.Point((int)(positionX + tickOffset.X), (int)(y + tickOffset.Y)));
                     }
                 }
             }

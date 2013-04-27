@@ -18,6 +18,8 @@ namespace MegaMan.Engine.Rendering
 
         private GraphicsDevice _graphicsDevice;
         private List<Texture2D> _loadedTextures;
+        private Dictionary<FilePath, IResourceImage> _loadedResources;
+        private Dictionary<int, List<Texture2D>> _paletteSwaps;
         private SpriteBatch[] _spriteBatchLayers;
         private bool[] _layersEnabled;
         private float _opacity;
@@ -31,6 +33,8 @@ namespace MegaMan.Engine.Rendering
             _graphicsDevice = graphicsDevice;
 
             _loadedTextures = new List<Texture2D>();
+            _loadedResources = new Dictionary<FilePath, IResourceImage>();
+            _paletteSwaps = new Dictionary<int, List<Texture2D>>();
             _spriteBatchLayers = new SpriteBatch[LAYER_COUNT];
             _layersEnabled = new bool[LAYER_COUNT];
 
@@ -107,30 +111,53 @@ namespace MegaMan.Engine.Rendering
             return _opacity;
         }
 
-        public int LoadTexture(FilePath texturePath)
+        public IResourceImage LoadResource(FilePath texturePath, string paletteName = null)
         {
-            var texture = GetTextureFromPath(texturePath);
-            return AddTexture(texture);
+            if (!_loadedResources.ContainsKey(texturePath))
+            {
+                var texture = GetTextureFromPath(texturePath);
+                var resource = AddTexture(texture, paletteName);
+                _loadedResources[texturePath] = resource;
+            }
+
+            return _loadedResources[texturePath];
         }
 
-        public int CreateColorTexture(int red, int green, int blue)
+        private Texture2D GetTextureFromPath(FilePath path)
+        {
+            StreamReader sr = new StreamReader(path.Absolute);
+            return Texture2D.FromStream(_graphicsDevice, sr.BaseStream);
+        }
+
+        public IResourceImage CreateColorResource(int red, int green, int blue)
         {
             var texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
             texture.SetData(new Color[] { new Color(red, green, blue) });
-            return AddTexture(texture);
+            return AddTexture(texture, null);
         }
 
-        private int AddTexture(Texture2D texture)
+        private IResourceImage AddTexture(Texture2D texture, string palette)
         {
             var nextIndex = _loadedTextures.Count;
             _loadedTextures.Add(texture);
-            return nextIndex;
+
+            return new XnaResourceImage(nextIndex, palette, texture.Width, texture.Height);
         }
 
-        public void Draw(int textureId, int layer, MegaMan.Common.Geometry.Point position, MegaRect? sourceRect = null)
+        public void Draw(IResourceImage resource, int layer, MegaMan.Common.Geometry.Point position, MegaRect? sourceRect = null, bool flipHorizontal = false, bool flipVertical = false)
         {
-            var texture = _loadedTextures[textureId];
+            var texture = _loadedTextures[resource.ResourceId];
             var batch = _spriteBatchLayers[layer];
+
+            if (resource.PaletteName != null)
+            {
+                var palette = PaletteSystem.Get(resource.PaletteName);
+                if (palette != null)
+                {
+                    VerifyPaletteSwaps(palette, resource.ResourceId, texture);
+                    texture = this._paletteSwaps[resource.ResourceId][palette.CurrentIndex];
+                }
+            }
 
             var destination = new Vector2(position.X, position.Y);
 
@@ -138,16 +165,43 @@ namespace MegaMan.Engine.Rendering
             if (sourceRect != null)
                 source = new XnaRect(sourceRect.Value.X, sourceRect.Value.Y, sourceRect.Value.Width, sourceRect.Value.Height);
 
+            SpriteEffects effect = SpriteEffects.None;
+            if (flipHorizontal) effect = SpriteEffects.FlipHorizontally;
+            if (flipVertical) effect |= SpriteEffects.FlipVertically;
+
             batch.Draw(texture,
                 destination, source,
                 _opacityColor, 0,
-                Vector2.Zero, 1, SpriteEffects.None, 0);
+                Vector2.Zero, 1, effect, 0);
         }
 
-        private Texture2D GetTextureFromPath(FilePath path)
+        private void VerifyPaletteSwaps(Palette palette, int id, Texture2D texture)
         {
-            StreamReader sr = new StreamReader(path.Absolute);
-            return Texture2D.FromStream(_graphicsDevice, sr.BaseStream);
+            if (!this._paletteSwaps.ContainsKey(id))
+            {
+                _paletteSwaps[id] = GenerateSwappedTextures(palette, texture);
+            }
+        }
+
+        private List<Texture2D> GenerateSwappedTextures(Palette palette, Texture2D image)
+        {
+            byte[] pixelData = new byte[image.Width * image.Height * 4];
+            image.GetData(pixelData);
+
+            var swappedPixels = palette.GetSwappedPixels(pixelData, true);
+
+            var swappedTextures = new List<Texture2D>();
+
+            foreach (var pixels in swappedPixels)
+            {
+                var texture = new Texture2D(_graphicsDevice, image.Width, image.Height);
+
+                texture.SetData(pixels);
+
+                swappedTextures.Add(texture);
+            }
+
+            return swappedTextures;
         }
     }
 }
