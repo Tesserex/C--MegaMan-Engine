@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Drawing;
+using MegaMan.Common.Geometry;
 using System.IO;
 using MegaMan.Common;
 using System.Collections.Generic;

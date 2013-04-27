@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common;
-using System.Drawing;
+using MegaMan.Common.Geometry;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine

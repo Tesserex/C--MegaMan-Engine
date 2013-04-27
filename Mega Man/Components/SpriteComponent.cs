@@ -3,9 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using MegaMan.Common;
 using System.Xml.Linq;
-using System.Drawing;
 using MegaMan.IO.Xml;
 using MegaMan.Engine.Rendering;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {

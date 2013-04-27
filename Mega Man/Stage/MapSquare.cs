@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using MegaMan.Common;
+﻿using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine

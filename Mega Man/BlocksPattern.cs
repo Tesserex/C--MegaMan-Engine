@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
+using MegaMan.Common.Geometry;
 using System.Linq;
 using MegaMan.Common;
 

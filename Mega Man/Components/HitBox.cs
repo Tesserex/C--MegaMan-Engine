@@ -1,6 +1,6 @@
-﻿using System.Drawing;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using MegaMan.Common.Geometry;
 using System.IO;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
@@ -23,7 +23,7 @@ namespace MegaMan.Engine
 
         private IGameplayContainer container;
 
-        private Common.Geometry.Point tickOffset;
+        private Point tickOffset;
 
         private bool running;
         private bool animating;

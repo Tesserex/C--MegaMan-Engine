@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
 using System.Xml.Linq;
 using MegaMan.Engine.Rendering;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {

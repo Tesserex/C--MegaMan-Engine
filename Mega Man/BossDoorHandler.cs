@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using MegaMan.Common.Geometry;
 using MegaMan.Common;
 
 namespace MegaMan.Engine
