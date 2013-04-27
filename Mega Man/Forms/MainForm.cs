@@ -316,40 +316,40 @@ namespace MegaMan.Engine
             keyform.Show();
         }
 
-        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.Instance.SpritesFour = !Engine.Instance.SpritesFour;
-            spries4ToolStripMenuItem.Checked = Engine.Instance.SpritesFour;
-        }
-
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.Background = !Engine.Instance.Background;
-            backgroundToolStripMenuItem.Checked = Engine.Instance.Background;
+            Engine.Instance.ToggleLayerVisibility(0);
+            backgroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(0);
         }
 
         private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.SpritesOne = !Engine.Instance.SpritesOne;
-            sprites1ToolStripMenuItem.Checked = Engine.Instance.SpritesOne;
+            Engine.Instance.ToggleLayerVisibility(1);
+            sprites1ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(1);
         }
 
         private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.SpritesTwo = !Engine.Instance.SpritesTwo;
-            sprites2ToolStripMenuItem.Checked = Engine.Instance.SpritesTwo;
+            Engine.Instance.ToggleLayerVisibility(2);
+            sprites2ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(2);
         }
 
         private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.SpritesThree = !Engine.Instance.SpritesThree;
-            sprites3ToolStripMenuItem.Checked = Engine.Instance.SpritesThree;
+            Engine.Instance.ToggleLayerVisibility(3);
+            sprites3ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(3);
+        }
+
+        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.ToggleLayerVisibility(4);
+            spries4ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(4);
         }
 
         private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.Foreground = !Engine.Instance.Foreground;
-            foregroundToolStripMenuItem.Checked = Engine.Instance.Foreground;
+            Engine.Instance.ToggleLayerVisibility(5);
+            foregroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(5);
         }
 
         private void screen1XMenu_Click(object sender, EventArgs e)

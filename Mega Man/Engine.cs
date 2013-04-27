@@ -4,28 +4,10 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using MegaMan.Engine.Rendering;
+using System.Linq;
 
 namespace MegaMan.Engine
 {
-    /// <summary>
-    /// The graphics layers are a set of XNA sprite batches, used as
-    /// surfaces so that things can be drawn in a layered order.
-    /// </summary>
-    public class GameGraphicsLayers
-    {
-        public SpriteBatch BackgroundBatch { get; private set; }
-        public SpriteBatch[] SpritesBatch { get; private set; }
-        public SpriteBatch ForegroundBatch { get; private set; }
-
-        public GameGraphicsLayers(GraphicsDevice device)
-        {
-            BackgroundBatch = new SpriteBatch(device);
-            ForegroundBatch = new SpriteBatch(device);
-            SpritesBatch = new SpriteBatch[4];
-            for (int i = 0; i < 4; i++) SpritesBatch[i] = new SpriteBatch(device);
-        }
-    }
-
     public class GameInputEventArgs : EventArgs
     {
         public GameInput Input { get; private set; }
@@ -60,12 +42,9 @@ namespace MegaMan.Engine
     public class GameRenderEventArgs : EventArgs
     {
         public IRenderingContext RenderContext { get; private set; }
-        public GameGraphicsLayers Layers { get; private set; }
-        public Microsoft.Xna.Framework.Color OpacityColor;
 
-        public GameRenderEventArgs(GameGraphicsLayers layers, IRenderingContext context)
+        public GameRenderEventArgs(IRenderingContext context)
         {
-            Layers = layers;
             RenderContext = context;
         }
     }
@@ -112,14 +91,7 @@ namespace MegaMan.Engine
         // they can be translated into a GameInput event.
         private readonly Dictionary<Keys, bool> inputFlags = new Dictionary<Keys, bool>();
 
-        private GameGraphicsLayers graphics;
-
-        public bool Background { get; set; }
-        public bool SpritesOne { get; set; }
-        public bool SpritesTwo { get; set; }
-        public bool SpritesThree { get; set; }
-        public bool SpritesFour { get; set; }
-        public bool Foreground { get; set; }
+        private List<bool> layerVisibility;
 
         private readonly SoundSystem soundsystem = new SoundSystem();
 
@@ -301,23 +273,34 @@ namespace MegaMan.Engine
                 inputFlags[key] = false;
             }
 
-            Game.ScreenSizeChanged += Game_ScreenSizeChanged;
-
             Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
 
             timer = new Stopwatch();
 
-            Foreground = Background = SpritesOne = SpritesTwo = SpritesThree = SpritesFour = true;
+            layerVisibility = Enumerable.Range(0, 6).Select(i => true).ToList();
 
             FilterState = SamplerState.PointClamp;
         }
 
-        // resizing the form requires us to resize the drawing layers to match.
-        // This isn't for when the user resizes the form manually, it's when a game is loaded
-        // and tells everyone how big it is in pixels.
-        void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
+        public bool GetLayerVisibility(int layer)
         {
-            graphics = new GameGraphicsLayers(GraphicsDevice);
+            if (renderContext != null)
+                return renderContext.IsLayerEnabled(layer);
+            else
+                return true;
+        }
+
+        public void ToggleLayerVisibility(int layer)
+        {
+            layerVisibility[layer] = !layerVisibility[layer];
+
+            if (renderContext != null)
+            {
+                if (layerVisibility[layer])
+                    renderContext.EnableLayer(layer);
+                else
+                    renderContext.DisableLayer(layer);
+            }
         }
 
         // This is run at the start of every step. It reads key states and checks for any changes.
@@ -370,8 +353,6 @@ namespace MegaMan.Engine
         // there either.
         private bool Step(float dt)
         {
-            if (graphics == null) return false;
-
             CheckInput();
 
             GameTickEventArgs e = new GameTickEventArgs(dt);
@@ -379,7 +360,7 @@ namespace MegaMan.Engine
             if (GameLogicTick != null) GameLogicTick(e);    // this one is for more basic operations
 
             // render phase
-            GameRenderEventArgs r = new GameRenderEventArgs(graphics, renderContext) {OpacityColor = opacityColor};
+            GameRenderEventArgs r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
             
@@ -388,24 +369,9 @@ namespace MegaMan.Engine
             renderContext.SetOpacity(opacity);
             renderContext.Begin();
 
-            if (Background) r.Layers.BackgroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            if (SpritesOne) r.Layers.SpritesBatch[0].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            if (SpritesTwo) r.Layers.SpritesBatch[1].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            if (SpritesThree) r.Layers.SpritesBatch[2].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            if (SpritesFour) r.Layers.SpritesBatch[3].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            if (Foreground) r.Layers.ForegroundBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-
             if (GameRender != null) GameRender(r);
 
             renderContext.End();
-
-            // only draw the layers if they're enabled
-            if (Background) r.Layers.BackgroundBatch.End();
-            if (SpritesOne) r.Layers.SpritesBatch[0].End();
-            if (SpritesTwo) r.Layers.SpritesBatch[1].End();
-            if (SpritesThree) r.Layers.SpritesBatch[2].End();
-            if (SpritesFour) r.Layers.SpritesBatch[3].End();
-            if (Foreground) r.Layers.ForegroundBatch.End();
 
             if (GameRenderEnd != null) GameRenderEnd(r);
             

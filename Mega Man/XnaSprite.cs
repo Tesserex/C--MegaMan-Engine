@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MegaMan.Common;
-
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
-using XnaColor = Microsoft.Xna.Framework.Color;
 using MegaMan.Engine.Rendering;
 using MegaMan.Common.Geometry;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {

@@ -257,7 +257,7 @@ namespace MegaMan.Engine
 
         public void GameRender(GameRenderEventArgs e)
         {
-            if (inGamePlay && Engine.Instance.SpritesFour) Draw(e.RenderContext, positionX, positionY);
+            if (inGamePlay) Draw(e.RenderContext, positionX, positionY);
         }
     }
 }

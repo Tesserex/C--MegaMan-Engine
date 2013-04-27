@@ -107,11 +107,11 @@ namespace MegaMan.Engine
             ladderBoxesLoaded = true;
         }
 
-        public void Draw(IRenderingContext context, float posX, float posY)
+        public void Draw(IRenderingContext context, int layer, float posX, float posY)
         {
             if (Tile.Sprite != null)
             {
-                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(context, Tile.Sprite.Layer, posX, posY);
+                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(context, layer, posX, posY);
             }
         }
     }

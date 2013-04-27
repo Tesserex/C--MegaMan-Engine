@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
-using Microsoft.Xna.Framework.Graphics;
 using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
@@ -293,22 +292,16 @@ namespace MegaMan.Engine
 
         public void Draw(GameRenderEventArgs renderArgs)
         {
-            if (_info.Foreground && Engine.Instance.Foreground)
-            {
-                this.Draw(renderArgs.RenderContext,
-                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
-            }
-            else if (!_info.Foreground && Engine.Instance.Background)
-            {
-                this.Draw(renderArgs.RenderContext,
-                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
-            }
+            this.Draw(renderArgs.RenderContext,
+                (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
         }
 
         private void Draw(IRenderingContext context, float off_x, float off_y, int width, int height)
         {
             if (this._info.Tiles.Tileset == null)
                 throw new InvalidOperationException("Screen has no tileset to draw with.");
+
+            var layer = _info.Foreground ? 5 : 0;
 
             var tileSize = this._info.Tiles.Tileset.TileSize;
 
@@ -321,7 +314,7 @@ namespace MegaMan.Engine
 
                     if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
                     if (xpos > width || ypos > height) continue;
-                    this._squares[y][x].Draw(context, xpos, ypos);
+                    this._squares[y][x].Draw(context, layer, xpos, ypos);
                 }
             }
         }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using MegaMan.Common;
-using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using System.Drawing;
 using MegaMan.IO.Xml;
@@ -270,31 +269,23 @@ namespace MegaMan.Engine
 
         private void RenderSprite(Sprite currentSprite, GameRenderEventArgs e)
         {
-            if (currentSprite.Layer < e.Layers.SpritesBatch.Length && (
-                (currentSprite.Layer == 0 && Engine.Instance.SpritesOne) ||
-                (currentSprite.Layer == 1 && Engine.Instance.SpritesTwo) ||
-                (currentSprite.Layer == 2 && Engine.Instance.SpritesThree) ||
-                (currentSprite.Layer == 3 && Engine.Instance.SpritesFour)
-                ))
+            if (evenframe)
             {
-                if (evenframe && Engine.Instance.Foreground)
+                foreach (var meter in HealthMeter.AllMeters)
                 {
-                    foreach (var meter in HealthMeter.AllMeters)
-                    {
-                        var bounds = new RectangleF(currentSprite.BoundBox.X, currentSprite.BoundBox.Y,
-                            currentSprite.BoundBox.Width, currentSprite.BoundBox.Height);
+                    var bounds = new RectangleF(currentSprite.BoundBox.X, currentSprite.BoundBox.Y,
+                        currentSprite.BoundBox.Width, currentSprite.BoundBox.Height);
 
-                        bounds.Offset(-currentSprite.HotSpot.X, -currentSprite.HotSpot.Y);
-                        bounds.Offset(PositionSrc.Position);
-                        if (meter.Bounds.IntersectsWith(bounds))
-                        {
-                            Draw(currentSprite, e.RenderContext, 5);
-                            return;
-                        }
+                    bounds.Offset(-currentSprite.HotSpot.X, -currentSprite.HotSpot.Y);
+                    bounds.Offset(PositionSrc.Position);
+                    if (meter.Bounds.IntersectsWith(bounds))
+                    {
+                        Draw(currentSprite, e.RenderContext, 5);
+                        return;
                     }
                 }
-                Draw(currentSprite, e.RenderContext, currentSprite.Layer + 1);
             }
+            Draw(currentSprite, e.RenderContext, currentSprite.Layer + 1);
         }
 
         private void Draw(Sprite sprite, IRenderingContext context, int layer)

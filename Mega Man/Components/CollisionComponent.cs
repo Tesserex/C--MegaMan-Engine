@@ -95,7 +95,13 @@ namespace MegaMan.Engine
 
                 RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
-                if (Engine.Instance.Foreground) e.Layers.ForegroundBatch.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
+
+                // TODO: Restore hitbox drawing
+                /*
+                if (Engine.Instance.Foreground)
+                {
+                    e.RenderContext.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
+                }*/
             }
         }
 

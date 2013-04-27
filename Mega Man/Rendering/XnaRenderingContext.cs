@@ -146,6 +146,8 @@ namespace MegaMan.Engine.Rendering
 
         public void Draw(IResourceImage resource, int layer, MegaMan.Common.Geometry.Point position, MegaRect? sourceRect = null, bool flipHorizontal = false, bool flipVertical = false)
         {
+            if (!IsLayerEnabled(layer)) return;
+
             var texture = _loadedTextures[resource.ResourceId];
             var batch = _spriteBatchLayers[layer];
 
