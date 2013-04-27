@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockPatternInfo.cs" />
+    <Compile Include="Color.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="EntityPlacement.cs" />
     <Compile Include="FilePath.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
-using Microsoft.Xna.Framework;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {

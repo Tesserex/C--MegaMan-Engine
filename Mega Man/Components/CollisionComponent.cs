@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
-using Microsoft.Xna.Framework.Graphics;
+using MegaMan.Engine.Rendering;
 using MegaMan.Common;
 
 namespace MegaMan.Engine
@@ -11,7 +11,7 @@ namespace MegaMan.Engine
     [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
     public class CollisionComponent : Component
     {
-        private Texture2D rectTex;
+        private IResourceImage rectTex;
 
         private class Collision
         {
@@ -75,9 +75,6 @@ namespace MegaMan.Engine
             Parent.Container.GameAct += ClearTouch;
             Parent.Container.GameReact += Update;
             Parent.Container.Draw += Instance_GameRender;
-
-            rectTex = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            rectTex.SetData(new[] { new Microsoft.Xna.Framework.Color(1, 0.6f, 0, 0.7f) });
         }
 
         private void ClearTouch()
@@ -96,12 +93,10 @@ namespace MegaMan.Engine
                 RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
 
-                // TODO: Restore hitbox drawing
-                /*
-                if (Engine.Instance.Foreground)
-                {
-                    e.RenderContext.Draw(rectTex, new Microsoft.Xna.Framework.Rectangle((int)(boundBox.X), (int)(boundBox.Y), (int)(boundBox.Width), (int)(boundBox.Height)), Microsoft.Xna.Framework.Color.White);
-                }*/
+                if (rectTex == null)
+                    rectTex = e.RenderContext.CreateColorResource(new MegaMan.Common.Color(1, 0.6f, 0, 0.7f));
+
+                e.RenderContext.Draw(rectTex, 5, new Common.Geometry.Point((int)(boundBox.X), (int)(boundBox.Y)), new Common.Geometry.Rectangle(0, 0, (int)(boundBox.Width), (int)(boundBox.Height)));
             }
         }
 

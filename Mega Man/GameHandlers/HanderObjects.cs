@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MegaMan.Engine.Rendering;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
@@ -201,7 +200,7 @@ namespace MegaMan.Engine
         public void Draw(IRenderingContext renderContext)
         {
             if (texture == null)
-                texture = renderContext.CreateColorResource(color.R, color.G, color.B);
+                texture = renderContext.CreateColorResource(color);
 
             renderContext.Draw(texture, layer, new MegaMan.Common.Geometry.Point((int)x, (int)y),
                 new MegaMan.Common.Geometry.Rectangle((int)x, (int)y, (int)width, (int)height));

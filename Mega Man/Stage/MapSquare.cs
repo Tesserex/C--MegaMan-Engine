@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using MegaMan.Common;
-using Microsoft.Xna.Framework.Graphics;
 using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine

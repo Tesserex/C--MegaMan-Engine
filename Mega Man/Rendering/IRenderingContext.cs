@@ -10,7 +10,7 @@ namespace MegaMan.Engine.Rendering
     public interface IRenderingContext
     {
         IResourceImage LoadResource(FilePath texturePath, String paletteName = null);
-        IResourceImage CreateColorResource(int red, int green, int blue);
+        IResourceImage CreateColorResource(Color color);
         void Begin();
         void End();
         void EnableLayer(Int32 layer);

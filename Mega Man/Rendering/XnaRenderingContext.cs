@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using MegaRect = MegaMan.Common.Geometry.Rectangle;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
+using XnaColor = Microsoft.Xna.Framework.Color;
 
 namespace MegaMan.Engine.Rendering
 {
@@ -23,7 +24,7 @@ namespace MegaMan.Engine.Rendering
         private SpriteBatch[] _spriteBatchLayers;
         private bool[] _layersEnabled;
         private float _opacity;
-        private Color _opacityColor;
+        private XnaColor _opacityColor;
 
         public XnaRenderingContext(GraphicsDevice graphicsDevice)
         {
@@ -103,7 +104,7 @@ namespace MegaMan.Engine.Rendering
         public void SetOpacity(float opacity)
         {
             _opacity = opacity;
-            _opacityColor = new Color(_opacity, _opacity, _opacity);
+            _opacityColor = new XnaColor(_opacity, _opacity, _opacity);
         }
 
         public float GetOpacity()
@@ -129,10 +130,10 @@ namespace MegaMan.Engine.Rendering
             return Texture2D.FromStream(_graphicsDevice, sr.BaseStream);
         }
 
-        public IResourceImage CreateColorResource(int red, int green, int blue)
+        public IResourceImage CreateColorResource(Common.Color color)
         {
             var texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
-            texture.SetData(new Color[] { new Color(red, green, blue) });
+            texture.SetData(new XnaColor[] { new XnaColor(color.R, color.G, color.B, color.A) });
             return AddTexture(texture, null);
         }
 

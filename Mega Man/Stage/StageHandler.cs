@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Drawing;
-using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using MegaMan.Common;
 using System.Collections.Generic;
