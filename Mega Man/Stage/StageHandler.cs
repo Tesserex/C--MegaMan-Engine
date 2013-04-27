@@ -55,12 +55,6 @@ namespace MegaMan.Engine
             string intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
             string looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
-
-            foreach (var tile in stage.Tileset)
-            {
-                var drawer = new XnaSpriteDrawer(tile.Sprite);
-                tile.Sprite.Drawer = drawer;
-            }
         }
 
         public void InitScreens(Dictionary<string, ScreenHandler> screens)

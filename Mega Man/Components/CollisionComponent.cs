@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 

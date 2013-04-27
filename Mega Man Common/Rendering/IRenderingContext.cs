@@ -1,11 +1,10 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
+﻿using MegaMan.Common.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MegaMan.Engine.Rendering
+namespace MegaMan.Common.Rendering
 {
     public interface IRenderingContext
     {

@@ -160,11 +160,8 @@
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\LadderComponent.cs" />
-    <Compile Include="Rendering\IRenderingContext.cs" />
-    <Compile Include="Rendering\IResourceImage.cs" />
     <Compile Include="Rendering\XnaRenderingContext.cs" />
     <Compile Include="Rendering\XnaResourceImage.cs" />
-    <Compile Include="XnaSprite.cs" />
     <Compile Include="Stage\ScreenLayer.cs" />
     <Compile Include="Stage\StageFactory.cs" />
     <Compile Include="Stage\StageHandler.cs" />

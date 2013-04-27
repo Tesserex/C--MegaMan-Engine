@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using MegaMan.Common;
 using System.Xml.Linq;
 using MegaMan.IO.Xml;
-using MegaMan.Engine.Rendering;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -73,8 +73,6 @@ namespace MegaMan.Engine
                 foreach (var spr in group.Value.NamedSprites)
                 {
                     var copySprite = new Sprite(spr.Value);
-                    var drawer = new XnaSpriteDrawer(copySprite);
-                    copySprite.Drawer = drawer;
                     copy.Add(group.Key, copySprite, spr.Key);
                 }
             }
@@ -296,7 +294,7 @@ namespace MegaMan.Engine
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
-                (sprite.Drawer as XnaSpriteDrawer).DrawXna(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+                sprite.Draw(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine

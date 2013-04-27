@@ -102,8 +102,9 @@
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="PaletteCollection.cs" />
+    <Compile Include="Rendering\IRenderingContext.cs" />
+    <Compile Include="Rendering\IResourceImage.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
-    <Compile Include="Sprite\ISpriteDrawer.cs" />
     <Compile Include="StageInfo.cs" />
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />

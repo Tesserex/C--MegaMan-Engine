@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {

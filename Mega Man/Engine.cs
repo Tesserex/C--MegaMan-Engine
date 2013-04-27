@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 using System.Linq;
+using MegaMan.Engine.Rendering;
 
 namespace MegaMan.Engine
 {

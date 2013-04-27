@@ -1,6 +1,6 @@
 ﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {
@@ -110,7 +110,7 @@ namespace MegaMan.Engine
         {
             if (Tile.Sprite != null)
             {
-                (Tile.Sprite.Drawer as XnaSpriteDrawer).DrawXna(context, layer, posX, posY);
+                Tile.Sprite.Draw(context, layer, posX, posY);
             }
         }
     }

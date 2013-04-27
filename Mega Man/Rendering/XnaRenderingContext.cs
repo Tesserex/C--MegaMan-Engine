@@ -10,6 +10,7 @@ using System.Text;
 using MegaRect = MegaMan.Common.Geometry.Rectangle;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine.Rendering
 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Common
 {
@@ -17,6 +18,8 @@ namespace MegaMan.Common
         protected int currentFrame;
         protected int lastFrameTime;
         protected FilePath sheetPath;
+
+        private IResourceImage texture;
 
         /// <summary>
         /// Gets or sets the direction in which to play the sprite animation.
@@ -99,8 +102,6 @@ namespace MegaMan.Common
         /// so we have to flip all drawing of this sprite to match proper orientation rules.
         /// </summary>
         public bool Reversed { get; set; }
-
-        public ISpriteDrawer Drawer { get; set; }
 
         public event Action Stopped;
 
@@ -299,6 +300,27 @@ namespace MegaMan.Common
                         break;
                 }
             }
+        }
+
+        public void Draw(IRenderingContext context, int layer, float positionX, float positionY)
+        {
+            if (!Visible || Count == 0 || context == null) return;
+
+            if (texture == null)
+                texture = context.LoadResource(SheetPath, PaletteName);
+
+            bool flipHorizontal = HorizontalFlip ^ Reversed;
+            bool flipVertical = VerticalFlip;
+
+            int hx = (HorizontalFlip ^ Reversed) ? Width - HotSpot.X : HotSpot.X;
+            int hy = VerticalFlip ? Height - HotSpot.Y : HotSpot.Y;
+
+            var drawTexture = this.texture;
+
+            context.Draw(drawTexture, layer,
+                new Common.Geometry.Point((int)(positionX - hx), (int)(positionY - hy)),
+                new Common.Geometry.Rectangle(CurrentFrame.SheetLocation.X, CurrentFrame.SheetLocation.Y, CurrentFrame.SheetLocation.Width, CurrentFrame.SheetLocation.Height),
+                flipHorizontal, flipVertical);
         }
 
         public void WriteTo(XmlTextWriter writer)

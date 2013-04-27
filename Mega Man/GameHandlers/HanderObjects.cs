@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
-using MegaMan.Engine.Rendering;
+using MegaMan.Common.Rendering;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
@@ -26,8 +26,6 @@ namespace MegaMan.Engine
         public HandlerSprite(Sprite sprite, Point location)
         {
             this.sprite = new Sprite(sprite);
-            var drawer = new XnaSpriteDrawer(this.sprite);
-            this.sprite.Drawer = drawer;
             this.x = location.X;
             this.y = location.Y;
             this.sprite.Play();
@@ -81,7 +79,7 @@ namespace MegaMan.Engine
 
         public void Draw(IRenderingContext renderContext)
         {
-            (sprite.Drawer as XnaSpriteDrawer).DrawXna(renderContext, sprite.Layer, x, y);
+            sprite.Draw(renderContext, sprite.Layer, x, y);
         }
     }
 
