@@ -110,7 +110,7 @@ namespace MegaMan.Engine
         {
             if (Tile.Sprite != null)
             {
-                Tile.Sprite.Draw(context, layer, posX, posY);
+                Tile.Sprite.Draw(context, Tile.Sprite.Layer, posX, posY);
             }
         }
     }

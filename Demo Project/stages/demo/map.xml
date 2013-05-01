@@ -1,6 +1,6 @@
 <Map name="demo" tiles="tiles.xml">
 	<Music nsftrack="10" />
-	<Start screen="Start" x="128" y="68" />
+	<Start screen="Water" x="128" y="68" />
 	<Continue screen="Continue" x="32" y="148" />
 	<Screen id="Start" />
 	<Screen id="Second">
@@ -43,6 +43,7 @@
 		<Entity entity="Seeker" x="192" y="80" />
 	</Screen>
 	<Screen id="Stars">
+		<Overlay name="parallax" x="0" y="0" parallax="true" />
 		<Entity entity="Moving" x="552" y="128" />
 		<Blocks left="180" right="600" length="520" entity="YokuSpike">
 			<Block x="304" y="64" on="0" off="120" />

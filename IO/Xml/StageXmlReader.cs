@@ -137,8 +137,12 @@ namespace MegaMan.IO.Xml
                 var x = overlay.GetAttribute<int>("x");
                 var y = overlay.GetAttribute<int>("y");
                 bool foreground = overlay.TryAttribute<bool>("foreground");
+                bool parallax = overlay.TryAttribute<bool>("parallax");
 
-                screen.Layers.Add(LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground));
+                var layer = LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground);
+                layer.Parallax = parallax;
+
+                screen.Layers.Add(layer);
             }
 
             foreach (XElement teleport in node.Elements("Teleport"))

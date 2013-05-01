@@ -242,7 +242,7 @@ namespace MegaMan.Engine
         {
             MapSquare square = null;
 
-            foreach (var layer in this.layers)
+            foreach (var layer in this.layers.Where(l => !l.Background))
             {
                 var s = layer.SquareAt(px, py);
                 if (s != null)
@@ -297,7 +297,7 @@ namespace MegaMan.Engine
 
             foreach (var layer in this.layers)
             {
-                layer.Draw(renderArgs);
+                layer.Draw(renderArgs, this.Screen.PixelWidth);
             }
         }
     }

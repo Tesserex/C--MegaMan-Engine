@@ -12,6 +12,7 @@ namespace MegaMan.Common
         public String Name { get; private set; }
         public TileLayer Tiles { get; private set; }
         public Boolean Foreground { get; private set; }
+        public Boolean Parallax { get; set; }
         public List<EntityPlacement> Entities { get; private set; }
         public List<ScreenLayerKeyframe> Keyframes { get; private set; }
 

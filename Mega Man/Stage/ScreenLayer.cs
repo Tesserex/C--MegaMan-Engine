@@ -34,6 +34,14 @@ namespace MegaMan.Engine
         public float LocationX { get { return this._info.Tiles.BaseX + _locationOffsetX; } }
         public float LocationY { get { return this._info.Tiles.BaseY + _locationOffsetY; } }
 
+        public bool Background
+        {
+            get
+            {
+                return _info.Parallax;
+            }
+        }
+
         public ScreenLayer(ScreenLayerInfo info, StageHandler stage)
         {
             this._info = info;
@@ -290,13 +298,30 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(GameRenderEventArgs renderArgs)
+        public void Draw(GameRenderEventArgs renderArgs, int screenPixelWidth)
         {
-            this.Draw(renderArgs.RenderContext,
-                (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), Game.CurrentGame.PixelsAcross, Game.CurrentGame.PixelsDown);
+            if (_info.Parallax)
+            {
+                float trueOffset = OffsetX;
+                
+                int maxOffset = screenPixelWidth - Game.CurrentGame.PixelsAcross;
+                if (OffsetX >= 0 && OffsetX <= maxOffset)
+                {
+                    float offsetRatio = OffsetX / maxOffset;
+                    int parallaxDistance = (_info.Tiles.Width * _info.Tiles.Tileset.TileSize) - Game.CurrentGame.PixelsAcross;
+                    trueOffset = offsetRatio * parallaxDistance;
+                }
+
+                this.Draw(renderArgs.RenderContext, -trueOffset, 0);
+            }
+            else
+            {
+                this.Draw(renderArgs.RenderContext,
+                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY));
+            }
         }
 
-        private void Draw(IRenderingContext context, float off_x, float off_y, int width, int height)
+        private void Draw(IRenderingContext context, float off_x, float off_y)
         {
             if (this._info.Tiles.Tileset == null)
                 throw new InvalidOperationException("Screen has no tileset to draw with.");
@@ -313,7 +338,7 @@ namespace MegaMan.Engine
                     float ypos = y * tileSize + off_y + this._info.Tiles.BaseY;
 
                     if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
-                    if (xpos > width || ypos > height) continue;
+                    if (xpos > Game.CurrentGame.PixelsAcross || ypos > Game.CurrentGame.PixelsDown) continue;
                     this._squares[y][x].Draw(context, layer, xpos, ypos);
                 }
             }
