@@ -1,6 +1,6 @@
 <Map name="demo" tiles="tiles.xml">
 	<Music nsftrack="10" />
-	<Start screen="Water" x="128" y="68" />
+	<Start screen="Water" x="128" y="180" />
 	<Continue screen="Continue" x="32" y="148" />
 	<Screen id="Start" />
 	<Screen id="Second">

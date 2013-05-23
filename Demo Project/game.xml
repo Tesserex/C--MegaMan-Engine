@@ -10,6 +10,7 @@
 		<Stage name="Test" path="stages\Test" />
 		<Stage name="Elec" path="stages\Elec" />
 		<Stage name="Metal" path="stages\Metal" />
+		<Stage name="Parallax" path="stages\Parallax" />
 	</Stages>
 	<Next type="Scene" name="Intro" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>

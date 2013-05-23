@@ -158,7 +158,7 @@ namespace MegaMan.Engine
             XElement flashNode = node.Element("Flash");
             if (flashNode != null)
             {
-                flashtime = node.TryValue<int>();
+                flashtime = flashNode.TryValue<int>();
             }
         }
 

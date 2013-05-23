@@ -1,6 +1,6 @@
 <Entities>
 	<Entity name="EnemyShot">
-		<Sprite tilesheet="images\weapons\enemyshot.png" width="8" height="8">
+		<Sprite layer="4" tilesheet="images\weapons\enemyshot.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -24,7 +24,7 @@
 	</Entity>
 
 	<Entity name="SeekPlayerShot">
-		<Sprite tilesheet="images\weapons\enemyshot.png" width="8" height="8">
+		<Sprite layer="4" tilesheet="images\weapons\enemyshot.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -48,7 +48,7 @@
 	</Entity>
 
 	<Entity name="MBuster" limit="3">
-		<Sprite tilesheet="images\weapons\weapons.png" width="8" height="8">
+		<Sprite layer="4" tilesheet="images\weapons\weapons.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -93,7 +93,7 @@
 	</Entity>
 
 	<Entity name="ChargeLow">
-		<Sprite tilesheet="images\weapons\chargelow.png" width="16" height="16">
+		<Sprite layer="4" tilesheet="images\weapons\chargelow.png" width="16" height="16">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="16" y="0" duration="4" />
@@ -140,7 +140,7 @@
 	</Entity>
 
 	<Entity name="ChargeFull">
-		<Sprite tilesheet="images\weapons\chargefull.png" width="31" height="30">
+		<Sprite layer="4" tilesheet="images\weapons\chargefull.png" width="31" height="30">
 			<Hotspot x="15" y="15" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="31" y="0" duration="4" />
@@ -190,7 +190,7 @@
 	</Entity>
 
 	<Entity name="Gyro" limit="1">
-		<Sprite tilesheet="images\weapons\weapons.png" width="21" height="10">
+		<Sprite layer="4" tilesheet="images\weapons\weapons.png" width="21" height="10">
 			<Hotspot x="11" y="5" />
 			<Frame x="0" y="16" duration="2" />
 			<Frame x="21" y="16" duration="2" />
@@ -268,7 +268,7 @@
 	</Entity>
 
 	<Entity name="Crystal" group="Weapon">
-		<Sprite name="Big" tilesheet="images\weapons\crystal.png" width="16" height="16">
+		<Sprite layer="4" name="Big" tilesheet="images\weapons\crystal.png" width="16" height="16">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
@@ -349,7 +349,7 @@
 	</Entity>
 
 	<Entity name="SmallCrystal">
-		<Sprite tilesheet="images\weapons\crystal.png" width="8" height="8">
+		<Sprite layer="4" tilesheet="images\weapons\crystal.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="80" y="0" duration="8" />
 			<Frame x="88" y="0" duration="8" />
@@ -424,14 +424,14 @@
 
 	<Entity name="Napalm">
 		<Tilesheet>images\weapons\napalm.png</Tilesheet>
-		<Sprite name="Right" width="14" height="14">
+		<Sprite layer="4" name="Right" width="14" height="14">
 			<Hotspot x="7" y="7" />
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="14" y="0" duration="8" />
 			<Frame x="28" y="0" duration="8" />
 			<Frame x="42" y="0" duration="8" />
 		</Sprite>
-		<Sprite name="Left" width="14" height="14">
+		<Sprite layer="4" name="Left" width="14" height="14">
 			<Hotspot x="7" y="7" />
 			<Frame x="42" y="0" duration="8" />
 			<Frame x="28" y="0" duration="8" />
@@ -514,24 +514,24 @@
 
 	<Entity name="RushCoil">
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
-			<Sprite name="Warp" width="24" height="32">
+			<Sprite layer="4" name="Warp" width="24" height="32">
 			<Hotspot x="12" y="32" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
 		</Sprite>
-		<Sprite name="WarpStart" width="24" height="32">
+		<Sprite layer="4" name="WarpStart" width="24" height="32">
 			<Hotspot x="12" y="32" />
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
 		</Sprite>
-		<Sprite name="Stand" width="27" height="24">
+		<Sprite layer="4" name="Stand" width="27" height="24">
 			<Hotspot x="15" y="24" />
 			<Frame x="72" y="8" duration="8" />
       <Frame x="8" y="40" duration="8" />
 		</Sprite>
-		<Sprite name="Fire" width="27" height="24">
+		<Sprite layer="4" name="Fire" width="27" height="24">
 			<Hotspot x="15" y="24" />
 			<Frame x="101" y="8" duration="0" />
 		</Sprite>
@@ -625,21 +625,21 @@
 
 	<Entity name="RushJet">
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
-			<Sprite name="Warp" width="24" height="32">
+			<Sprite layer="4" name="Warp" width="24" height="32">
 			<Hotspot x="12" y="24" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="48" y="0" duration="10" />
 		</Sprite>
-		<Sprite name="WarpStart" width="24" height="32">
+		<Sprite layer="4" name="WarpStart" width="24" height="32">
 			<Hotspot x="12" y="24" />
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="0" y="0" duration="10" />
 		</Sprite>
-		<Sprite name="Down" width="32" height="13">
+		<Sprite layer="4" name="Down" width="32" height="13">
 			<Hotspot x="16" y="5" />
 			<Frame x="160" y="19" duration="6" />
 			<Frame x="192" y="19" duration="6" />

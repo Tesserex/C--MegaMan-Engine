@@ -1,0 +1,87 @@
+<Scene name="ParallaxDemo" duration="10000" canskip="false">
+	<Keyframe frame="60">
+		<Text name="1" content="Welcome to" x="88" y="160" />
+	</Keyframe>
+	<Keyframe frame="180">
+		<Remove name="1" />
+		<Text name="2" content="C# Mega Man Engine" x="60" y="160" />
+		<Text name="3" content="Parallax Demo" x="80" y="184" />
+	</Keyframe>
+	<Keyframe frame="480">
+		<Remove name="2" />
+		<Remove name="3" />
+		<Text name="4" content="Parallax is accomplished using" x="8" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="600">
+		<Text name="5" content="a special type of overlay." x="24" y="184" speed="4" />
+	</Keyframe>
+	<Keyframe frame="900">
+		<Remove name="4" />
+		<Remove name="5" />
+		<Text name="6" content="There are three parallax" x="28" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1000">
+		<Text name="7" content="layers shown here." x="52" y="184" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1300">
+		<Remove name="6" />
+		<Remove name="7" />
+		<Text name="8" content="Simply create an overlay" x="32" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1400">
+		<Text name="9" content="narrower than the room," x="40" y="184" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1700">
+		<Remove name="8" />
+		<Remove name="9" />
+		<Text name="10" content="and mark its inclusion" x="40" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1800">
+		<Text name="11" content="with the parallax attribute" x="20" y="176" speed="4" />
+	</Keyframe>
+	<Keyframe frame="1920">
+		<Text name="12" content="in the XML." x="84" y="192" speed="4" />
+	</Keyframe>
+	<Keyframe frame="2220">
+		<Remove name="10" />
+		<Remove name="11" />
+		<Remove name="12" />
+		<Text name="13" content="The engine will automatically" x="12" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="2340">
+		<Text name="14" content="draw the overlay to span" x="32" y="176" speed="4" />
+	</Keyframe>
+	<Keyframe frame="2440">
+		<Text name="15" content="the entire room." x="64" y="192" speed="4" />
+	</Keyframe>
+	<Keyframe frame="2740">
+		<Remove name="13" />
+		<Remove name="14" />
+		<Remove name="15" />
+		<Text name="16" content="The narrower the overlay," x="28" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="2840">
+		<Text name="17" content="the slower the scroll effect." x="12" y="184" speed="4" />
+	</Keyframe>
+	<Keyframe frame="3140">
+		<Remove name="16" />
+		<Remove name="17" />
+		<Text name="18" content="The sun layer is the same" x="28" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="3240">
+		<Text name="19" content="width as the screen, 16 tiles," x="8" y="176" speed="4" />
+	</Keyframe>
+	<Keyframe frame="3360">
+		<Text name="20" content="so it is stationary." x="48" y="192" speed="4" />
+	</Keyframe>
+	<Keyframe frame="3660">
+		<Remove name="18" />
+		<Remove name="19" />
+		<Remove name="20" />
+		<Text name="21" content="Thanks for watching!" x="48" y="160" speed="4" />
+	</Keyframe>
+	<Keyframe frame="3800">
+		<Text name="22" content="PRESENTED BY TESSEREX" x="44" y="184" speed="4" />
+	</Keyframe>
+	<Next mode="Pop" />
+</Scene>
