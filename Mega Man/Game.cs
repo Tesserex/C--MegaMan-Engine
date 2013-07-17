@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -34,6 +35,8 @@ namespace MegaMan.Engine
 
         private string currentPath;
         private Stack<IGameplayContainer> handlerStack;
+
+        private GameEntitySource _entitySource;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -74,7 +77,7 @@ namespace MegaMan.Engine
             {
                 handlerStack.Pop().StopHandler();
             }
-            GameEntity.UnloadAll();
+            _entitySource.Unload();
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
             HealthMeter.Unload();
@@ -95,6 +98,7 @@ namespace MegaMan.Engine
             Gravity = 0.25f;
             GravityFlip = false;
             handlerStack = new Stack<IGameplayContainer>();
+            _entitySource = new GameEntitySource();
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -203,7 +207,7 @@ namespace MegaMan.Engine
                     switch (element.Name.LocalName)
                     {
                         case "Entities":
-                            GameEntity.LoadEntities(element);
+                            _entitySource.LoadEntities(element);
                             break;
 
                         case "Functions":

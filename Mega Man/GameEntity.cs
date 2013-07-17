@@ -7,20 +7,19 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}, {numAlive} Alive")]
+    [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}")]
     public class GameEntity
     {
         private readonly Dictionary<Type, Component> components;
         public IGameplayContainer Container { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public IEntityContainer Screen { get { return Container.Entities; } }
         public GameEntity Parent { get; private set; }
 
         private bool running;
 
-        private int maxAlive = 50;
-        private int numAlive;
-        public bool GravityFlip { get; private set; }   // whether to react to gravity flipping (collision and sprite)
+        public int MaxAlive { get; set; }
+        public bool GravityFlip { get; set; }   // whether to react to gravity flipping (collision and sprite)
         public bool Paused { get; set; }
 
         // I know this defeats good component based design but its just so much easier
@@ -44,15 +43,17 @@ namespace MegaMan.Engine
         // by the game xml, and Death is used for actual enemy kills,
         // with effects and explosions and such.
 
-        private Effect OnDeath = entity => { };
+        public Effect OnDeath = entity => { };
+        public event Action Started;
         public event Action Stopped;
         public event Action Removed;
         public event Action Death;
 
-        private GameEntity(IGameplayContainer container = null)
+        public GameEntity(IGameplayContainer container = null)
         {
             components = new Dictionary<Type, Component>();
             this.Container = container;
+            MaxAlive = 50;
         }
 
         public T GetComponent<T>() where T : Component
@@ -63,23 +64,19 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            if (entities[Name].numAlive >= entities[Name].maxAlive) return;
-            entities[Name].numAlive++;
             foreach (Component c in components.Values) c.Start();
-            RegisterEntity(this);
+            if (Started != null) Started();
             running = true;
         }
 
         public void Stop() { Stop(true); }
 
-        private void Stop(bool remove)
+        public void Stop(bool remove)
         {
             if (!running) return;
 
-            entities[Name].numAlive--;
             foreach (Component c in components.Values) c.Stop();
             if (Stopped != null) Stopped();
-            if (remove) RemoveEntity(this);
             running = false;
         }
 
@@ -96,7 +93,7 @@ namespace MegaMan.Engine
             Remove();
         }
 
-        private void AddComponent(Component component)
+        public void AddComponent(Component component)
         {
             if (components.ContainsKey(component.GetType())) return;
 
@@ -155,223 +152,6 @@ namespace MegaMan.Engine
             if (componentType == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
             var method = componentType.GetMethod("ParseEffect");
             return (Effect)method.Invoke(null, new[] {effectNode});
-        }
-
-        private static readonly Dictionary<string, GameEntity> entities = new Dictionary<string,GameEntity>();
-        private static readonly Dictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
-
-        static GameEntity()
-        {
-            entityProperties["Default"] = TileProperties.Default;
-        }
-
-        public static void LoadEntities(XElement doc)
-        {
-            // properties
-            XElement propHead = doc.Element("Properties");
-            if (propHead != null)
-            {
-                foreach (XElement propNode in propHead.Elements("Properties"))
-                {
-                    TileProperties p = new TileProperties(propNode);
-                    entityProperties[p.Name] = p;
-                }
-            }
-
-            foreach (XElement entity in doc.Elements("Entity"))
-            {
-                LoadEntity(entity);
-            }
-        }
-
-        private static void LoadEntity(XElement xml)
-        {
-            GameEntity entity = new GameEntity();
-            string name = xml.RequireAttribute("name").Value;
-
-            if (entities.ContainsKey(name)) throw new GameXmlException(xml, "You have defined two entities both named \"" + name + "\".");
-
-            entity.Name = name;
-            entity.maxAlive = xml.TryAttribute<int>("limit", 50);
-
-            SpriteComponent spritecomp = null;
-            PositionComponent poscomp = null;
-            StateComponent statecomp = new StateComponent();
-            entity.AddComponent(statecomp);
-
-            try
-            {
-                foreach (XElement xmlComp in xml.Elements())
-                {
-                    switch (xmlComp.Name.LocalName)
-                    {
-                        case "Tilesheet":
-                            if (spritecomp == null)
-                            {
-                                spritecomp = new SpriteComponent();
-                                entity.AddComponent(spritecomp);
-                            }
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            spritecomp.LoadTilesheet(xmlComp);
-                            break;
-
-                        case "Trigger":
-                            statecomp.LoadStateTrigger(xmlComp);
-                            break;
-
-                        case "Sprite":
-                            if (spritecomp == null)
-                            {
-                                spritecomp = new SpriteComponent();
-                                entity.AddComponent(spritecomp);
-                            }
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            spritecomp.LoadXml(xmlComp);
-                            break;
-
-                        case "Position":
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            poscomp.LoadXml(xmlComp);
-                            break;
-
-                        case "Death":
-                            entity.OnDeath += EffectParser.LoadTriggerEffect(xmlComp);
-                            break;
-
-                        case "GravityFlip":
-                            entity.GravityFlip = xmlComp.GetValue<bool>();
-                            break;
-
-                        default:
-                            entity.GetOrCreateComponent(xmlComp.Name.LocalName).LoadXml(xmlComp);
-                            break;
-                    }
-                }
-            }
-            catch (GameXmlException ex)
-            {
-                ex.Entity = name;
-                throw;
-            }
-
-            entities.Add(name, entity);
-        }
-
-        public static int NumAlive(string name)
-        {
-            return entities[name].numAlive;
-        }
-
-        public static GameEntity Get(string name, IGameplayContainer container)
-        {
-            if (!entities.ContainsKey(name)) throw new GameRunException("Someone requested an entity named \"" + name + "\", but I couldn't find it!\n" +
-                "You need to make sure it's defined in one of the included XML files.");
-
-            // look in the pool
-            if (deadEntityPool.ContainsKey(name))
-            {
-                if (deadEntityPool[name].Any())
-                {
-                    return deadEntityPool[name].Pop();
-                }
-            }
-
-            // clone it
-            GameEntity entity = new GameEntity(container);
-            GameEntity source = entities[name];
-
-            if (source.numAlive >= source.maxAlive) return null;
-
-            foreach (Component c in source.components.Values)
-            {
-                entity.AddComponent(c.Clone());
-            }
-            entity.Name = source.Name;
-            entity.OnDeath = source.OnDeath;
-            entity.GravityFlip = source.GravityFlip;
-            return entity;
-        }
-
-        private static List<Tuple<string, string, int>> neverRespawnable = new List<Tuple<string, string, int>>();
-
-        public static void NeverRespawnAgain(string stage, string screen, int index)
-        {
-            neverRespawnable.Add(new Tuple<string, string, int>(stage, screen, index));
-        }
-
-        public static bool Respawnable(string stage, string screen, int index)
-        {
-            return !neverRespawnable.Contains(new Tuple<string, string, int>(stage, screen, index));
-        }
-
-        public static TileProperties GetProperties(string name)
-        {
-            if (entityProperties.ContainsKey(name)) return entityProperties[name];
-            return TileProperties.Default;
-        }
-
-        private static readonly List<GameEntity> actives = new List<GameEntity>();
-        private static readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
-
-        public static int ActiveCount { get { return actives.Count; } }
-
-        private static void RegisterEntity(GameEntity entity)
-        {
-            actives.Add(entity);
-        }
-
-        private static void RemoveEntity(GameEntity entity)
-        {
-            actives.Remove(entity);
-
-            if (!deadEntityPool.ContainsKey(entity.Name))
-            {
-                deadEntityPool[entity.Name] = new Stack<GameEntity>();
-            }
-
-            deadEntityPool[entity.Name].Push(entity);
-        }
-
-        public static IEnumerable<GameEntity> GetAll()
-        {
-            return actives;
-        }
-
-        public static void StopAll()
-        {
-            foreach (GameEntity entity in actives) entity.Stop(false);
-            actives.Clear();
-        }
-
-        public static void UnloadAll()
-        {
-            // stop all the real ones in play
-            StopAll();
-
-            // now destroy the originals
-            foreach (GameEntity entity in entities.Values)
-            {
-                entity.Stop(false);
-            }
-            entities.Clear();
-
-            deadEntityPool.Clear();
-
-            neverRespawnable.Clear();
-
-            EffectParser.Unload();
         }
     }
 }

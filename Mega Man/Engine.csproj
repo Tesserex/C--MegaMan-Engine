@@ -126,6 +126,10 @@
     <Compile Include="Components\CollisionBox.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\VarsComponent.cs" />
+    <Compile Include="Entities\GameEntityPool.cs" />
+    <Compile Include="Entities\GameEntitySource.cs" />
+    <Compile Include="Entities\IEntityPool.cs" />
+    <Compile Include="Entities\IEntitySource.cs" />
     <Compile Include="Forms\CustomNtscForm.cs">
       <SubType>Form</SubType>
     </Compile>
