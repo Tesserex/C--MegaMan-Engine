@@ -20,7 +20,7 @@ namespace MegaMan.Engine.Entities
             _entitySource = entitySource;
         }
 
-        public GameEntity CreateEntity(string name, IGameplayContainer container)
+        public GameEntity CreateEntity(string name)
         {
             // look in the pool
             if (deadEntityPool.ContainsKey(name))
@@ -32,12 +32,12 @@ namespace MegaMan.Engine.Entities
             }
 
             // clone it
-            GameEntity entity = new GameEntity(container);
+            GameEntity entity = new GameEntity(this);
             GameEntity source = _entitySource.GetOriginalEntity(name);
 
             if (GetNumberAlive(name) >= source.MaxAlive) return null;
 
-            foreach (Component c in source.components.Values)
+            foreach (Component c in source.Components)
             {
                 entity.AddComponent(c.Clone());
             }

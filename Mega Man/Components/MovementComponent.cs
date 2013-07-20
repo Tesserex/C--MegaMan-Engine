@@ -63,14 +63,14 @@ namespace MegaMan.Engine
             return newone;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             if (Direction == Direction.Unknown)
             {
                 Direction = Direction.Right;
             }
 
-            Parent.Container.GameAct += Update;
+            container.GameAct += Update;
 
             pushX = pushY = 0;
             dragX = dragY = resistX = resistY = 1;
@@ -81,9 +81,9 @@ namespace MegaMan.Engine
             }
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
-            Parent.Container.GameAct -= Update;
+            container.GameAct -= Update;
         }
 
         public override void Message(IGameMessage msg)

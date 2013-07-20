@@ -26,12 +26,12 @@ namespace MegaMan.Engine
             return new VarsComponent();
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             _vars.Clear();
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             _vars.Clear();
         }

@@ -24,12 +24,12 @@ namespace MegaMan.Engine
             return this;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             foreach (string sound in sounds) Engine.Instance.SoundSystem.StopSfxIfLooping(sound);
         }

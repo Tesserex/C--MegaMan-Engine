@@ -2,6 +2,7 @@
 using MegaMan.Common.Geometry;
 using System.Linq;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -28,8 +29,9 @@ namespace MegaMan.Engine
         private bool stopped;
         private PositionComponent playerPos;
         private IGameplayContainer container;
+        private IEntityPool _entityPool;
 
-        public BlocksPattern(BlockPatternInfo info, IGameplayContainer container)
+        public BlocksPattern(BlockPatternInfo info, IGameplayContainer container, IEntityPool entityPool)
         {
             this.info = info;
             length = info.Length;
@@ -39,6 +41,7 @@ namespace MegaMan.Engine
             running = false;
             frame = 0;
             this.container = container;
+            this._entityPool = entityPool;
         }
 
         public void Start()
@@ -47,7 +50,7 @@ namespace MegaMan.Engine
             {
                 foreach (Common.BlockInfo blockinfo in info.Blocks)
                 {
-                    BlockInfo myInfo = new BlockInfo { entity = GameEntity.Get(info.Entity, container) };
+                    BlockInfo myInfo = new BlockInfo { entity = _entityPool.CreateEntity(info.Entity) };
                     // should always persist off screen
                     PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
                     pos.PersistOffScreen = true;
@@ -109,7 +112,7 @@ namespace MegaMan.Engine
             foreach (BlockInfo info in blocks)
             {
                 info.entity.SendMessage(new StateMessage(null, "Start"));
-                info.entity.Start();
+                info.entity.Start(container);
                 PositionComponent pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);

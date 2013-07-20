@@ -13,16 +13,16 @@ namespace MegaMan.Engine
             return new TimerComponent();
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             timers.Clear();
-            Parent.Container.GameThink += Update;
+            container.GameThink += Update;
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             timers.Clear();
-            Parent.Container.GameThink -= Update;
+            container.GameThink -= Update;
         }
 
         public override void Message(IGameMessage msg)

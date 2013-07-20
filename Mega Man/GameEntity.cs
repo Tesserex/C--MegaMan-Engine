@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Diagnostics;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -11,9 +12,10 @@ namespace MegaMan.Engine
     public class GameEntity
     {
         private readonly Dictionary<Type, Component> components;
-        public IGameplayContainer Container { get; private set; }
+        private IGameplayContainer container;
+
         public string Name { get; set; }
-        public IEntityContainer Screen { get { return Container.Entities; } }
+        public IEntityContainer Screen { get { return container.Entities; } }
         public GameEntity Parent { get; private set; }
 
         private bool running;
@@ -21,6 +23,8 @@ namespace MegaMan.Engine
         public int MaxAlive { get; set; }
         public bool GravityFlip { get; set; }   // whether to react to gravity flipping (collision and sprite)
         public bool Paused { get; set; }
+
+        public IEntityPool EntityPool { get; private set; }
 
         // I know this defeats good component based design but its just so much easier
         public Direction Direction
@@ -49,11 +53,19 @@ namespace MegaMan.Engine
         public event Action Removed;
         public event Action Death;
 
-        public GameEntity(IGameplayContainer container = null)
+        public GameEntity(IEntityPool entityPool = null)
         {
             components = new Dictionary<Type, Component>();
-            this.Container = container;
             MaxAlive = 50;
+            EntityPool = entityPool;
+        }
+
+        public IEnumerable<Component> Components
+        {
+            get
+            {
+                return components.Values;
+            }
         }
 
         public T GetComponent<T>() where T : Component
@@ -62,20 +74,24 @@ namespace MegaMan.Engine
             return null;
         }
 
-        public void Start()
+        public void Start(IGameplayContainer container)
         {
-            foreach (Component c in components.Values) c.Start();
-            if (Started != null) Started();
+            this.container = container;
+
+            foreach (Component c in components.Values)
+                c.Start(container);
+
+            if (Started != null)
+                Started();
+
             running = true;
         }
 
-        public void Stop() { Stop(true); }
-
-        public void Stop(bool remove)
+        public void Stop()
         {
             if (!running) return;
 
-            foreach (Component c in components.Values) c.Stop();
+            foreach (Component c in components.Values) c.Stop(container);
             if (Stopped != null) Stopped();
             running = false;
         }
@@ -116,11 +132,11 @@ namespace MegaMan.Engine
 
         public GameEntity Spawn(string entityName)
         {
-            GameEntity spawn = Get(entityName, Container);
+            GameEntity spawn = EntityPool.CreateEntity(entityName);
             if (spawn != null)
             {
                 spawn.Parent = this;
-                spawn.Start();
+                spawn.Start(container);
                 Screen.AddEntity(Guid.NewGuid().ToString(), spawn);
             }
 

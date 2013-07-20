@@ -49,9 +49,9 @@ namespace MegaMan.Engine
 
         public abstract Component Clone();
 
-        public abstract void Start();
+        public abstract void Start(IGameplayContainer container);
 
-        public abstract void Stop();
+        public abstract void Stop(IGameplayContainer container);
 
         public abstract void Message(IGameMessage msg);
 

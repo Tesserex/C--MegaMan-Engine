@@ -39,21 +39,21 @@ namespace MegaMan.Engine
             return newone;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             currentState = "Start";
             stateChanged = false;
             StateFrames = 0;
             Lifetime = 0;
-            Parent.Container.GameThink += Update;
+            container.GameThink += Update;
             if (states.ContainsKey(currentState)) states[currentState].Initialize(Parent);
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             StateFrames = 0;
             Lifetime = 0;
-            Parent.Container.GameThink -= Update;
+            container.GameThink -= Update;
         }
 
         public override void Message(IGameMessage msg)

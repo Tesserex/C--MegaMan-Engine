@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MegaMan.Engine.Entities
 {
-    interface IEntitySource
+    public interface IEntitySource
     {
         GameEntity GetOriginalEntity(string name);
         TileProperties GetProperties(string name);

@@ -5,10 +5,11 @@ using System.Text;
 
 namespace MegaMan.Engine.Entities
 {
-    interface IEntityPool
+    public interface IEntityPool
     {
-        GameEntity CreateEntity(string name, IGameplayContainer container);
+        GameEntity CreateEntity(string name);
         Int32 GetNumberAlive(string name);
         Int32 GetTotalAlive();
+        IEnumerable<GameEntity> GetAll();
     }
 }

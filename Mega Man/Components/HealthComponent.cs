@@ -69,15 +69,15 @@ namespace MegaMan.Engine
             return copy;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
-            Parent.Container.GameThink += Update;
-            Parent.Container.GameCleanup += Instance_GameCleanup;
+            container.GameThink += Update;
+            container.GameCleanup += Instance_GameCleanup;
             Health = StartHealth;
 
             if (meter != null)
             {
-                meter.Start(Parent.Container);
+                meter.Start(container);
             }
         }
 
@@ -86,10 +86,10 @@ namespace MegaMan.Engine
             if (meter != null) meter.DelayedFill(frames);
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
-            Parent.Container.GameThink -= Update;
-            Parent.Container.GameCleanup -= Instance_GameCleanup;
+            container.GameThink -= Update;
+            container.GameCleanup -= Instance_GameCleanup;
             if (meter != null)
             {
                 meter.Stop();

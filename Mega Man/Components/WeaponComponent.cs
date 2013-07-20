@@ -25,6 +25,7 @@ namespace MegaMan.Engine
         private int current;
 
         public event Action<string, int, int> AmmoChanged;
+        private IGameplayContainer _container;
 
         public string CurrentWeapon { get { return weapons[current].Name; } }
 
@@ -71,12 +72,12 @@ namespace MegaMan.Engine
             return copy;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
-            
+            _container = container;
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             
         }
@@ -135,7 +136,7 @@ namespace MegaMan.Engine
 
             if (weapons[current].Meter != null)
             {
-                weapons[current].Meter.Start(Parent.Container);
+                weapons[current].Meter.Start(_container);
             }
         }
 

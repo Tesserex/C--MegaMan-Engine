@@ -57,17 +57,17 @@ namespace MegaMan.Engine
             return new InputComponent();
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             Reset();
-            Parent.Container.GameThink += Update;
+            container.GameThink += Update;
             Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
             Reset();
-            Parent.Container.GameThink -= Update;
+            container.GameThink -= Update;
             Engine.Instance.GameInputReceived -= Instance_GameInputReceived;
         }
 

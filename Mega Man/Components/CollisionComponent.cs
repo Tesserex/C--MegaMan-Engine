@@ -69,12 +69,12 @@ namespace MegaMan.Engine
             return copy;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
             Enabled = true;
-            Parent.Container.GameAct += ClearTouch;
-            Parent.Container.GameReact += Update;
-            Parent.Container.Draw += Instance_GameRender;
+            container.GameAct += ClearTouch;
+            container.GameReact += Update;
+            container.Draw += Instance_GameRender;
         }
 
         private void ClearTouch()
@@ -100,11 +100,11 @@ namespace MegaMan.Engine
             }
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
-            Parent.Container.GameAct -= ClearTouch;
-            Parent.Container.GameReact -= Update;
-            Parent.Container.Draw -= Instance_GameRender;
+            container.GameAct -= ClearTouch;
+            container.GameReact -= Update;
+            container.Draw -= Instance_GameRender;
             Enabled = false;
             ClearTouch();
             enabledBoxes.Clear();
@@ -256,7 +256,7 @@ namespace MegaMan.Engine
 
             // but for entities, we can go ahead and be active aggressors -
             // inflict our effects on the target entity, not the other way around
-            foreach (GameEntity entity in GameEntity.GetAll())
+            foreach (GameEntity entity in Parent.EntityPool.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();
@@ -337,7 +337,7 @@ namespace MegaMan.Engine
 
         private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)
         {
-            foreach (GameEntity entity in GameEntity.GetAll())
+            foreach (GameEntity entity in Parent.EntityPool.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();

@@ -81,7 +81,7 @@ namespace MegaMan.Engine
 
         private void BeginPlay()
         {
-            Player.Start();
+            Player.Start(this);
             Player.GetComponent<SpriteComponent>().Visible = true;
 
             StateMessage msg = new StateMessage(null, "Teleport");

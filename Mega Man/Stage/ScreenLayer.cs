@@ -181,7 +181,7 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity enemy = GameEntity.Get(info.entity, _stage);
+                GameEntity enemy = GameEntity.Get(info.entity);
                 if (enemy == null) continue;
 
                 PositionComponent pos = enemy.GetComponent<PositionComponent>();
@@ -250,7 +250,7 @@ namespace MegaMan.Engine
             // eventually these will use the same enum, once the main Direction enum moves to common
             enemy.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
 
-            enemy.Start();
+            enemy.Start(_stage);
 
             enemy.GetComponent<PositionComponent>().SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")

@@ -82,16 +82,16 @@ namespace MegaMan.Engine
             return copy;
         }
 
-        public override void Start()
+        public override void Start(IGameplayContainer container)
         {
-            Parent.Container.GameThink += Update;
-            Parent.Container.Draw += Instance_GameRender;
+            container.GameThink += Update;
+            container.Draw += Instance_GameRender;
         }
 
-        public override void Stop()
+        public override void Stop(IGameplayContainer container)
         {
-            Parent.Container.GameThink -= Update;
-            Parent.Container.Draw -= Instance_GameRender;
+            container.GameThink -= Update;
+            container.Draw -= Instance_GameRender;
         }
 
         public override void Message(IGameMessage msg)

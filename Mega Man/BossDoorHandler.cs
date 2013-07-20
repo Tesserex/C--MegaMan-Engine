@@ -1,11 +1,14 @@
 ﻿using MegaMan.Common.Geometry;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
     public class BossDoorHandler : JoinHandler
     {
-        private IGameplayContainer container;
+        private readonly IGameplayContainer container;
+        private readonly IEntityPool _entityPool;
+
         private GameEntity doorOne;
         private GameEntity doorTwo;
         private bool open;
@@ -16,10 +19,11 @@ namespace MegaMan.Engine
         private int doorTwoX;
         private int doorTwoY;
 
-        public BossDoorHandler(Join join, IGameplayContainer container, int tileSize, int height, int width, string name)
+        public BossDoorHandler(Join join, IGameplayContainer container, IEntityPool entityPool, int tileSize, int height, int width, string name)
             : base(join, tileSize, height, width, name)
         {
             this.container = container;
+            _entityPool = entityPool;
 
             if (direction == Direction.Down)
             {
@@ -59,14 +63,14 @@ namespace MegaMan.Engine
         {
             base.Start(screen);
 
-            doorOne = GameEntity.Get(JoinInfo.bossEntityName, container);
-            doorTwo = GameEntity.Get(JoinInfo.bossEntityName, container);
+            doorOne = _entityPool.CreateEntity(JoinInfo.bossEntityName);
+            doorTwo = _entityPool.CreateEntity(JoinInfo.bossEntityName);
 
             doorOne.GetComponent<PositionComponent>().SetPosition(new PointF(doorOneX, doorOneY));
             doorTwo.GetComponent<PositionComponent>().SetPosition(new PointF(doorTwoX, doorTwoY));
 
-            doorOne.Start();
-            doorTwo.Start();
+            doorOne.Start(container);
+            doorTwo.Start(container);
 
             doorOne.GetComponent<StateComponent>().StateChanged += s =>
             {
