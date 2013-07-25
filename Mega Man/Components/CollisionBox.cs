@@ -68,7 +68,7 @@ namespace MegaMan.Engine
             PushAway = xmlNode.TryAttribute<bool>("pushaway", true);
 
             XAttribute propAttr = xmlNode.Attribute("properties");
-            if (propAttr != null) Properties = GameEntity.GetProperties(propAttr.Value);
+            if (propAttr != null) Properties = Game.CurrentGame.TileProperties.GetProperties(propAttr.Value);
         }
 
         public void SetParent(CollisionComponent parent) { parentComponent = parent; }

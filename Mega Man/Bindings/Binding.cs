@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -59,7 +60,7 @@ namespace MegaMan.Engine
             this.targetProperty = targetProperty;
         }
 
-        public abstract void Start(IEntityContainer container);
+        public abstract void Start(IEntityPool entityPool);
         public abstract void Stop();
     }
 }

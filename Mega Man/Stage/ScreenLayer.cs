@@ -181,7 +181,7 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity enemy = GameEntity.Get(info.entity);
+                GameEntity enemy = _stage.Entities.CreateEntity(info.entity);
                 if (enemy == null) continue;
 
                 PositionComponent pos = enemy.GetComponent<PositionComponent>();
@@ -260,7 +260,7 @@ namespace MegaMan.Engine
             }
 
             _entities[index] = enemy;
-            enemy.Stopped += () => _entities[index] = null;
+            enemy.Removed += () => _entities[index] = null;
         }
 
         public GameEntity GetEntity(string id)

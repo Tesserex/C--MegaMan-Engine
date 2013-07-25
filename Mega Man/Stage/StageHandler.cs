@@ -4,6 +4,7 @@ using MegaMan.Common.Geometry;
 using System.IO;
 using MegaMan.Common;
 using System.Collections.Generic;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -38,7 +39,7 @@ namespace MegaMan.Engine
 
         public GameEntity Player { get; private set; }
 
-        public override IEntityContainer Entities { get { return _currentScreen; } }
+        public override ITiledScreen Screen { get { return _currentScreen; } }
 
         #endregion
 
@@ -132,7 +133,7 @@ namespace MegaMan.Engine
                     screen.Reset();
                 }
 
-                StartHandler();
+                StartHandler(Entities);
             }
         }
 
@@ -258,9 +259,9 @@ namespace MegaMan.Engine
 
         #region IHandleGameEvents Members
 
-        public override void StartHandler()
+        public override void StartHandler(IEntityPool entityPool)
         {
-            Player = GameEntity.Get("Player", this);
+            Player = Entities.CreateEntityWithId("Player", "Player");
             PlayerPos = Player.GetComponent<PositionComponent>();
 
             Player.Death += Player_Death;
@@ -280,8 +281,7 @@ namespace MegaMan.Engine
             // updateFunc isn't set until BeginPlay
             drawFunc = DrawScreen;
 
-            ResumeHandler();
-            StartDrawing();
+            base.StartHandler(entityPool);
 
             BeginPlay();
 
@@ -309,7 +309,7 @@ namespace MegaMan.Engine
             PauseHandler();
             StopDrawing();
 
-            GameEntity.StopAll();
+            Entities.RemoveAll();
         }
 
         private int pauseCount = 1; // starts paused

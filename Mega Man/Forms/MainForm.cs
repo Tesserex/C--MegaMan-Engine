@@ -237,7 +237,7 @@ namespace MegaMan.Engine
             float fps = 1 / e.TimeElapsed;
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
             thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
-            entityLabel.Text = "Entities: " + GameEntity.ActiveCount;
+            entityLabel.Text = "Entities: " + Game.DebugEntitiesAlive();
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 

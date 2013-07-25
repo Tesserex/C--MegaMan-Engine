@@ -58,7 +58,7 @@ namespace MegaMan.Engine
         {
             if (!PersistOffScreen && IsOffScreen && Parent.Name != "Player")
             {
-                Parent.Stop();
+                Parent.Remove();
                 return;
             }
         }

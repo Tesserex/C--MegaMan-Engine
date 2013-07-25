@@ -128,8 +128,10 @@
     <Compile Include="Components\VarsComponent.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
     <Compile Include="Entities\GameEntitySource.cs" />
+    <Compile Include="Entities\GameTilePropertiesSource.cs" />
     <Compile Include="Entities\IEntityPool.cs" />
     <Compile Include="Entities\IEntitySource.cs" />
+    <Compile Include="Entities\ITilePropertiesSource.cs" />
     <Compile Include="Forms\CustomNtscForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,7 +145,7 @@
     </Compile>
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
-    <Compile Include="GameHandlers\SceneEntities.cs" />
+    <Compile Include="GameHandlers\NullTiledScreen.cs" />
     <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />

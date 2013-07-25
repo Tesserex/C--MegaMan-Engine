@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -12,16 +13,20 @@ namespace MegaMan.Engine
         private int frame = 0;
         private bool waiting = false;
 
+        private ITiledScreen _screen;
+        public override ITiledScreen Screen { get { return _screen; } }
+
         private Scene(SceneInfo info)
         {
             this.info = info;
             Info = info;
+            _screen = new NullTiledScreen();
         }
 
-        public override void StartHandler()
+        public override void StartHandler(IEntityPool entityPool)
         {
             frame = 0;
-            base.StartHandler();
+            base.StartHandler(entityPool);
         }
 
         protected override void RunCommand(SceneCommandInfo cmd)

@@ -61,7 +61,7 @@ namespace MegaMan.Engine
                 }
             }
 
-            this.playerPos = container.Entities.GetEntity("Player").GetComponent<PositionComponent>();
+            this.playerPos = container.Entities.GetEntityById("Player").GetComponent<PositionComponent>();
             container.GameThink += Update;
             stopped = false;
         }

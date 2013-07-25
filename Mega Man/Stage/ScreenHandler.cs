@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
-    public class ScreenHandler : IEntityContainer
+    public class ScreenHandler : ITiledScreen
     {
         private StageHandler stage;
         public ScreenInfo Screen { get; private set; }
@@ -218,7 +218,7 @@ namespace MegaMan.Engine
 
             foreach (GameEntity entity in spawnedEntities)
             {
-                entity.Stop();
+                entity.Remove();
             }
             spawnedEntities.Clear();
 

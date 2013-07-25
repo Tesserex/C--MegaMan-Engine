@@ -8,8 +8,7 @@ namespace MegaMan.Engine.Entities
     class GameEntityPool : IEntityPool
     {
         private readonly IEntitySource _entitySource;
-        private readonly Dictionary<string, Int32> entityCounts = new Dictionary<string, Int32>();
-        private readonly List<GameEntity> actives = new List<GameEntity>();
+        private readonly Dictionary<string, GameEntity> entitiesInUse = new Dictionary<string, GameEntity>();
         private readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
         private readonly List<Tuple<string, string, int>> neverRespawnable = new List<Tuple<string, string, int>>();
 
@@ -22,59 +21,56 @@ namespace MegaMan.Engine.Entities
 
         public GameEntity CreateEntity(string name)
         {
-            // look in the pool
-            if (deadEntityPool.ContainsKey(name))
-            {
-                if (deadEntityPool[name].Any())
-                {
-                    return deadEntityPool[name].Pop();
-                }
-            }
-
-            // clone it
-            GameEntity entity = new GameEntity(this);
-            GameEntity source = _entitySource.GetOriginalEntity(name);
-
-            if (GetNumberAlive(name) >= source.MaxAlive) return null;
-
-            foreach (Component c in source.Components)
-            {
-                entity.AddComponent(c.Clone());
-            }
-            entity.Name = source.Name;
-            entity.OnDeath = source.OnDeath;
-            entity.GravityFlip = source.GravityFlip;
-
-            BindEntityStartAndStopRegistration(entity);
-
-            return entity;
+            return CreateEntityWithId(Guid.NewGuid().ToString(), name);
         }
 
-        private void BindEntityStartAndStopRegistration(GameEntity entity)
+        public GameEntity CreateEntityWithId(string id, string name)
         {
-            entity.Started += () => RegisterEntity(entity);
-            entity.Stopped += () => RemoveEntity(entity);
+            // look in the pool
+            if (deadEntityPool.ContainsKey(name) && deadEntityPool[name].Any())
+            {
+                var entity = deadEntityPool[name].Pop();
+                BindEntityEventRegistration(id, entity);
+                return entity;
+            }
+            else
+            {
+                // clone it
+                GameEntity entity = new GameEntity(this);
+                GameEntity source = _entitySource.GetOriginalEntity(name);
+
+                if (GetNumberAlive(name) >= source.MaxAlive) return null;
+
+                foreach (Component c in source.Components)
+                {
+                    entity.AddComponent(c.Clone());
+                }
+                entity.Name = source.Name;
+                entity.OnDeath = source.OnDeath;
+                entity.GravityFlip = source.GravityFlip;
+
+                BindEntityEventRegistration(id, entity);
+
+                entitiesInUse.Add(id, entity);
+
+                return entity;
+            }
+        }
+
+        private void BindEntityEventRegistration(string id, GameEntity entity)
+        {
+            entitiesInUse.Add(id, entity);
+            entity.Removed += () => RemoveEntity(id, entity);
         }
 
         public int GetNumberAlive(string name)
         {
-            if (!entityCounts.ContainsKey(name))
-                entityCounts[name] = 0;
-
-            return entityCounts[name];
-        }
-
-        private void AdjustNumberAlive(string name, Int32 change)
-        {
-            if (!entityCounts.ContainsKey(name))
-                entityCounts[name] = 0;
-
-            entityCounts[name] += change;
+            return entitiesInUse.Values.Count(e => e.Name == name && e.Running);
         }
 
         public int GetTotalAlive()
         {
-            return actives.Count;
+            return entitiesInUse.Values.Count(e => e.Running);
         }
 
         public void NeverRespawnAgain(string stage, string screen, int index)
@@ -87,18 +83,10 @@ namespace MegaMan.Engine.Entities
             return !neverRespawnable.Contains(new Tuple<string, string, int>(stage, screen, index));
         }
 
-        private void RegisterEntity(GameEntity entity)
-        {
-            actives.Add(entity);
-            AdjustNumberAlive(entity.Name, 1);
-        }
-
-        private void RemoveEntity(GameEntity entity)
+        private void RemoveEntity(string id, GameEntity entity)
         {
             if (_enumeratingActives == false)
-                actives.Remove(entity);
-
-            AdjustNumberAlive(entity.Name, -1);
+                entitiesInUse.Remove(id);
 
             if (!deadEntityPool.ContainsKey(entity.Name))
             {
@@ -110,28 +98,36 @@ namespace MegaMan.Engine.Entities
 
         public IEnumerable<GameEntity> GetAll()
         {
-            return actives;
+            return entitiesInUse.Values;
         }
 
-        public void StopAll()
+        public void RemoveAll()
         {
             _enumeratingActives = true;
 
-            foreach (GameEntity entity in actives) entity.Stop();
-            actives.Clear();
+            foreach (GameEntity entity in entitiesInUse.Values)
+                entity.Remove();
+
+            entitiesInUse.Clear();
 
             _enumeratingActives = false;
         }
 
         public void UnloadAll()
         {
-            StopAll();
+            RemoveAll();
 
             deadEntityPool.Clear();
 
             neverRespawnable.Clear();
 
             EffectParser.Unload();
+        }
+
+
+        public GameEntity GetEntityById(string id)
+        {
+            return entitiesInUse[id];
         }
     }
 }

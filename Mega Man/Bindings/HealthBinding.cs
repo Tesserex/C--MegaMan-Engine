@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -17,9 +18,9 @@ namespace MegaMan.Engine
             this._entityId = entity;
         }
 
-        public override void Start(IEntityContainer container)
+        public override void Start(IEntityPool entityPool)
         {
-            var entity = container.GetEntity(_entityId);
+            var entity = entityPool.GetEntityById(_entityId);
             if (entity == null) return;
 
             _health = entity.GetComponent<HealthComponent>();

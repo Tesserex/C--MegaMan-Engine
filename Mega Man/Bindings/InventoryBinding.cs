@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -21,7 +22,7 @@ namespace MegaMan.Engine
             this.itemName = sourceParts[1];
         }
 
-        public override void Start(IEntityContainer container)
+        public override void Start(IEntityPool container)
         {
             var value = Game.CurrentGame.Player.ItemQuantity(itemName);
             Set(value);

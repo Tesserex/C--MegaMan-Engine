@@ -5,6 +5,7 @@ using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Rendering;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -85,7 +86,7 @@ namespace MegaMan.Engine
 
     public class HandlerText : IHandlerObject
     {
-        private IEntityContainer container;
+        private IEntityPool entityPool;
 
         private string displayed = "";
         private int speed;
@@ -113,12 +114,12 @@ namespace MegaMan.Engine
             }
         }
 
-        public HandlerText(SceneTextCommandInfo info, IEntityContainer container)
+        public HandlerText(SceneTextCommandInfo info, IEntityPool entityPool)
         {
             this.Content = info.Content ?? String.Empty;
             this.speed = info.Speed ?? 0;
             this.position = new MegaMan.Common.Geometry.Point(info.X, info.Y);
-            this.container = container;
+            this.entityPool = entityPool;
             this.font = info.Font ?? "Default";
 
             if (info.Binding != null)
@@ -131,7 +132,7 @@ namespace MegaMan.Engine
         {
             if (this.binding != null)
             {
-                this.binding.Start(container);
+                this.binding.Start(entityPool);
             }
 
             if (speed != 0)

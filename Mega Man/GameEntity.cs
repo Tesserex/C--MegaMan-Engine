@@ -15,11 +15,10 @@ namespace MegaMan.Engine
         private IGameplayContainer container;
 
         public string Name { get; set; }
-        public IEntityContainer Screen { get { return container.Entities; } }
+        public ITiledScreen Screen { get { return container.Screen; } }
+        public IEntityPool Entities { get { return container.Entities; } }
         public GameEntity Parent { get; private set; }
-
-        private bool running;
-
+        public bool Running { get; private set; }
         public int MaxAlive { get; set; }
         public bool GravityFlip { get; set; }   // whether to react to gravity flipping (collision and sprite)
         public bool Paused { get; set; }
@@ -84,16 +83,16 @@ namespace MegaMan.Engine
             if (Started != null)
                 Started();
 
-            running = true;
+            Running = true;
         }
 
         public void Stop()
         {
-            if (!running) return;
+            if (!Running) return;
 
             foreach (Component c in components.Values) c.Stop(container);
             if (Stopped != null) Stopped();
-            running = false;
+            Running = false;
         }
 
         public void Remove()
@@ -137,7 +136,6 @@ namespace MegaMan.Engine
             {
                 spawn.Parent = this;
                 spawn.Start(container);
-                Screen.AddEntity(Guid.NewGuid().ToString(), spawn);
             }
 
             return spawn;
@@ -150,7 +148,7 @@ namespace MegaMan.Engine
             if (name == "Weapons") name = "Weapon";
 
             string typename = name + "Component";
-            Type comptype = Type.GetType("MegaMan.Engine." + typename, false, true);
+            Type comptype = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().SingleOrDefault(t => t.Name == typename);
             if (comptype == null) return null;
             Component comp;
             if (components.ContainsKey(comptype)) comp = components[comptype];

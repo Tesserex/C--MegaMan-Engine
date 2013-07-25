@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
-    public interface IEntityContainer
+    public interface ITiledScreen
     {
         int TileSize { get; }
         float OffsetX { get; }
@@ -12,16 +13,14 @@ namespace MegaMan.Engine
         MapSquare SquareAt(float px, float py);
         IEnumerable<MapSquare> Tiles { get; }
         MegaMan.Common.Tile TileAt(float px, float py);
-        void AddEntity(string id, GameEntity entity);
-        GameEntity GetEntity(string id);
-        IEnumerable<GameEntity> GetEntities(string name);
-        void ClearEntities();
         bool IsOnScreen(float x, float y);
     }
 
     public interface IGameplayContainer
     {
-        IEntityContainer Entities { get; }
+        IEntityPool Entities { get; }
+
+        ITiledScreen Screen { get; }
 
         event Action GameThink;
 
@@ -35,7 +34,7 @@ namespace MegaMan.Engine
 
         event Action<HandlerTransfer> End;
 
-        void StartHandler();
+        void StartHandler(IEntityPool entityPool);
         void StopHandler();
         void PauseHandler();
         void ResumeHandler();

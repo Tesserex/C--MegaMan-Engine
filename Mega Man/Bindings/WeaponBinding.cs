@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
     public class WeaponBinding : Binding
     {
         private string weaponName;
-        private IEntityContainer container;
+        private IEntityPool _entityPool;
 
         public WeaponBinding(object target, PropertyInfo targetProperty, string weaponName)
             : base(target, targetProperty)
@@ -17,11 +18,11 @@ namespace MegaMan.Engine
             this.weaponName = weaponName;
         }
 
-        public override void Start(IEntityContainer container)
+        public override void Start(IEntityPool entityPool)
         {
-            this.container = container;
+            this._entityPool = entityPool;
 
-            var player = container.GetEntity("Player");
+            var player = entityPool.GetEntityById("Player");
             if (player == null) return;
 
             var component = player.GetComponent<WeaponComponent>();
@@ -34,7 +35,7 @@ namespace MegaMan.Engine
 
         public override void Stop()
         {
-            var player = container.GetEntity("Player");
+            var player = _entityPool.GetEntityById("Player");
             if (player == null) return;
             player.GetComponent<WeaponComponent>().AmmoChanged -= WeaponAmmo_Changed;
         }

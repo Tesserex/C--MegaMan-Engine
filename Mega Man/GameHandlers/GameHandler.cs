@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -13,7 +14,9 @@ namespace MegaMan.Engine
 
         protected Dictionary<string, IHandlerObject> objects = new Dictionary<string, IHandlerObject>();
 
-        public virtual IEntityContainer Entities { get; set; }
+        public virtual IEntityPool Entities { get; private set; }
+
+        public abstract ITiledScreen Screen { get; }
 
         public event Action GameThink;
         public event Action GameAct;
@@ -24,13 +27,9 @@ namespace MegaMan.Engine
 
         private bool running;
 
-        public virtual void StartHandler()
+        public virtual void StartHandler(IEntityPool entityPool)
         {
-            if (Entities == null)
-            {
-                Entities = new SceneEntities();
-            }
-
+            Entities = entityPool;
             ResumeHandler();
             StartDrawing();
         }
@@ -56,7 +55,7 @@ namespace MegaMan.Engine
             PauseHandler();
             StopDrawing();
 
-            Entities.ClearEntities();
+            Entities.RemoveAll();
 
             foreach (var obj in objects.Values)
             {
@@ -231,14 +230,14 @@ namespace MegaMan.Engine
 
         private void EntityCommand(SceneEntityCommandInfo command)
         {
-            var entity = GameEntity.Get(command.Placement.entity, this);
+            var entityId = command.Placement.id ?? Guid.NewGuid().ToString();
+            var entity = Entities.CreateEntityWithId(entityId, command.Placement.entity);
             entity.GetComponent<PositionComponent>().SetPosition(command.Placement.screenX, command.Placement.screenY);
             if (!string.IsNullOrEmpty(command.Placement.state))
             {
                 entity.SendMessage(new StateMessage(null, command.Placement.state));
             }
-            Entities.AddEntity(command.Placement.id ?? Guid.NewGuid().ToString(), entity);
-            entity.Start();
+            entity.Start(this);
         }
 
         private void FillCommand(SceneFillCommandInfo command)
@@ -253,7 +252,7 @@ namespace MegaMan.Engine
 
         private void CallCommand(SceneCallCommandInfo command)
         {
-            var player = Entities.GetEntity("Player");
+            var player = Entities.GetEntityById("Player");
 
             if (player != null)
             {
@@ -292,7 +291,7 @@ namespace MegaMan.Engine
 
         private void EffectCommand(SceneEffectCommandInfo command)
         {
-            var entity = Entities.GetEntity(command.EntityId);
+            var entity = Entities.GetEntityById(command.EntityId);
 
             var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
             effect(entity);
@@ -301,7 +300,7 @@ namespace MegaMan.Engine
         private void ConditionCommand(SceneConditionCommandInfo command)
         {
             var condition = EffectParser.ParseCondition(command.ConditionExpression);
-            var entity = this.Entities.GetEntities(command.ConditionEntity).FirstOrDefault();
+            var entity = Entities.GetAll().FirstOrDefault(e => e.Name == command.ConditionEntity);
 
             if (condition(entity))
             {

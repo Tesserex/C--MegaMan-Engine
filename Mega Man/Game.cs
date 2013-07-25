@@ -37,11 +37,15 @@ namespace MegaMan.Engine
         private Stack<IGameplayContainer> handlerStack;
 
         private GameEntitySource _entitySource;
+        private GameEntityPool _entityPool;
+        private GameTilePropertiesSource _tileProperties;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
         public float Gravity { get; private set; }
         public bool GravityFlip { get; set; }
+
+        public ITilePropertiesSource TileProperties { get { return _tileProperties; } }
 
         public string Name
         {
@@ -99,6 +103,8 @@ namespace MegaMan.Engine
             GravityFlip = false;
             handlerStack = new Stack<IGameplayContainer>();
             _entitySource = new GameEntitySource();
+            _entityPool = new GameEntityPool(_entitySource);
+            _tileProperties = new GameTilePropertiesSource();
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -208,6 +214,7 @@ namespace MegaMan.Engine
                     {
                         case "Entities":
                             _entitySource.LoadEntities(element);
+                            _tileProperties.LoadProperties(element);
                             break;
 
                         case "Functions":
@@ -374,13 +381,7 @@ namespace MegaMan.Engine
         {
             var menu = Menu.Get(handler.Name);
             menu.End += ProcessHandler;
-
-            if (handler.Mode == HandlerMode.Push && handlerStack.Count > 0 && handlerStack.Peek() is IGameplayContainer)
-            {
-                menu.Entities = (handlerStack.Peek() as IGameplayContainer).Entities;
-            }
-
-            menu.StartHandler();
+            menu.StartHandler(_entityPool);
             handlerStack.Push(menu);
         }
 
@@ -388,13 +389,7 @@ namespace MegaMan.Engine
         {
             var scene = Scene.Get(handler.Name);
             scene.End += ProcessHandler;
-
-            if (handler.Mode == HandlerMode.Push && handlerStack.Count > 0 && handlerStack.Peek() is IGameplayContainer)
-            {
-                scene.Entities = (handlerStack.Peek() as IGameplayContainer).Entities;
-            }
-
-            scene.StartHandler();
+            scene.StartHandler(_entityPool);
             handlerStack.Push(scene);
         }
 
@@ -410,7 +405,7 @@ namespace MegaMan.Engine
             handlerStack.Push(stage);
             stage.End += ProcessHandler;
 
-            stage.StartHandler();
+            stage.StartHandler(_entityPool);
         }
 
         #region Debug Menu
@@ -467,6 +462,13 @@ namespace MegaMan.Engine
             }
         }
 
+        public static int DebugEntitiesAlive()
+        {
+            if (CurrentGame != null)
+                return CurrentGame._entityPool.GetTotalAlive();
+            else
+                return 0;
+        }
         #endregion
     }
 }

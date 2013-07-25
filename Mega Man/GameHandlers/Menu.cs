@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -15,11 +16,15 @@ namespace MegaMan.Engine
         private int selectedId;
         private Point currentPos;
 
+        private ITiledScreen _screen;
+        public override ITiledScreen Screen { get { return _screen; } }
+
         private Menu(MenuInfo info)
         {
             this.info = info;
             Info = info;
             this.options = new List<MenuOptionCommandInfo>();
+            _screen = new NullTiledScreen();
         }
 
         private void ResetState()
@@ -53,9 +58,9 @@ namespace MegaMan.Engine
             this.currentPos = new Point(option.X, option.Y);
         }
 
-        public override void StartHandler()
+        public override void StartHandler(IEntityPool entityPool)
         {
-            base.StartHandler();
+            base.StartHandler(entityPool);
 
             this.state = this.info.States[0];
             RunCommands(this.state.Commands);

@@ -10,12 +10,6 @@ namespace MegaMan.Engine.Entities
     class GameEntitySource : IEntitySource
     {
         private readonly Dictionary<string, GameEntity> entities = new Dictionary<string, GameEntity>();
-        private readonly Dictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
-
-        public GameEntitySource()
-        {
-            entityProperties["Default"] = TileProperties.Default;
-        }
 
         public GameEntity GetOriginalEntity(string name)
         {
@@ -25,25 +19,8 @@ namespace MegaMan.Engine.Entities
             return entities[name];
         }
 
-        public TileProperties GetProperties(string name)
-        {
-            if (entityProperties.ContainsKey(name)) return entityProperties[name];
-            return TileProperties.Default;
-        }
-
         public void LoadEntities(XElement doc)
         {
-            // properties
-            XElement propHead = doc.Element("Properties");
-            if (propHead != null)
-            {
-                foreach (XElement propNode in propHead.Elements("Properties"))
-                {
-                    TileProperties p = new TileProperties(propNode);
-                    entityProperties[p.Name] = p;
-                }
-            }
-
             foreach (XElement entity in doc.Elements("Entity"))
             {
                 LoadEntity(entity);
