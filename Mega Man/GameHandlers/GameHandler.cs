@@ -230,7 +230,7 @@ namespace MegaMan.Engine
 
         private void EntityCommand(SceneEntityCommandInfo command)
         {
-            var entityId = command.Placement.id ?? Guid.NewGuid().ToString();
+            var entityId = command.Placement.Id ?? Guid.NewGuid().ToString();
             var entity = Entities.CreateEntityWithId(entityId, command.Placement.entity);
             entity.GetComponent<PositionComponent>().SetPosition(command.Placement.screenX, command.Placement.screenY);
             if (!string.IsNullOrEmpty(command.Placement.state))

@@ -39,6 +39,7 @@ namespace MegaMan.Engine
         private GameEntitySource _entitySource;
         private GameEntityPool _entityPool;
         private GameTilePropertiesSource _tileProperties;
+        private IEntityRespawnTracker _respawnTracker;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -105,6 +106,7 @@ namespace MegaMan.Engine
             _entitySource = new GameEntitySource();
             _entityPool = new GameEntityPool(_entitySource);
             _tileProperties = new GameTilePropertiesSource();
+            _respawnTracker = new GameEntityRespawnTracker();
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -127,7 +129,7 @@ namespace MegaMan.Engine
             if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
             if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
 
-            stageFactory = new StageFactory();
+            stageFactory = new StageFactory(_entityPool, _respawnTracker);
             foreach (var stageInfo in project.Stages)
             {
                 stageFactory.Load(stageInfo);

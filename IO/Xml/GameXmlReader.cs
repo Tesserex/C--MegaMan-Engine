@@ -91,11 +91,7 @@ namespace MegaMan.IO.Xml
         {
             EntityPlacement info = new EntityPlacement();
 
-            var idAttr = entity.Attribute("id");
-            if (idAttr != null)
-            {
-                info.id = idAttr.Value;
-            }
+            info.Id = entity.TryAttribute<string>("id", Guid.NewGuid().ToString());
 
             var nameAttr = entity.RequireAttribute("entity");
             info.entity = nameAttr.Value;

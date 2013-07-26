@@ -5,12 +5,21 @@ using System.Text;
 using System.Xml;
 using MegaMan.Common;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
     public class StageFactory
     {
         private Dictionary<string, StageHandler> _loadedStages = new Dictionary<string, StageHandler>();
+        private readonly IEntityPool _entityPool;
+        private readonly IEntityRespawnTracker _respawnTracker;
+
+        public StageFactory(IEntityPool entityPool, IEntityRespawnTracker respawnTracker)
+        {
+            _entityPool = entityPool;
+            _respawnTracker = respawnTracker;
+        }
 
         public StageHandler Get(string name)
         {
@@ -91,14 +100,14 @@ namespace MegaMan.Engine
 
             foreach (BlockPatternInfo info in screen.BlockPatterns)
             {
-                BlocksPattern pattern = new BlocksPattern(info, stage);
+                BlocksPattern pattern = new BlocksPattern(info, stage, _entityPool);
                 patterns.Add(pattern);
             }
 
             var layers = new List<ScreenLayer>();
             foreach (var layerInfo in screen.Layers)
             {
-                layers.Add(new ScreenLayer(layerInfo, stage));
+                layers.Add(new ScreenLayer(layerInfo, stage, _respawnTracker));
             }
 
             return new ScreenHandler(screen, layers, joins, patterns, stage);
@@ -108,7 +117,7 @@ namespace MegaMan.Engine
         {
             if (join.bossDoor)
             {
-                return new BossDoorHandler(join, stage, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);
+                return new BossDoorHandler(join, stage, _entityPool, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);
             }
 
             return new JoinHandler(join, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);

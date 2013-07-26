@@ -127,9 +127,11 @@
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\VarsComponent.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
+    <Compile Include="Entities\GameEntityRespawnTracker.cs" />
     <Compile Include="Entities\GameEntitySource.cs" />
     <Compile Include="Entities\GameTilePropertiesSource.cs" />
     <Compile Include="Entities\IEntityPool.cs" />
+    <Compile Include="Entities\IEntityRespawnTracker.cs" />
     <Compile Include="Entities\IEntitySource.cs" />
     <Compile Include="Entities\ITilePropertiesSource.cs" />
     <Compile Include="Forms\CustomNtscForm.cs">

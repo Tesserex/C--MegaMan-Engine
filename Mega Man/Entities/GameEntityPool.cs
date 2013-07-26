@@ -10,7 +10,6 @@ namespace MegaMan.Engine.Entities
         private readonly IEntitySource _entitySource;
         private readonly Dictionary<string, GameEntity> entitiesInUse = new Dictionary<string, GameEntity>();
         private readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
-        private readonly List<Tuple<string, string, int>> neverRespawnable = new List<Tuple<string, string, int>>();
 
         private bool _enumeratingActives = false;
 
@@ -73,16 +72,6 @@ namespace MegaMan.Engine.Entities
             return entitiesInUse.Values.Count(e => e.Running);
         }
 
-        public void NeverRespawnAgain(string stage, string screen, int index)
-        {
-            neverRespawnable.Add(new Tuple<string, string, int>(stage, screen, index));
-        }
-
-        public bool Respawnable(string stage, string screen, int index)
-        {
-            return !neverRespawnable.Contains(new Tuple<string, string, int>(stage, screen, index));
-        }
-
         private void RemoveEntity(string id, GameEntity entity)
         {
             if (_enumeratingActives == false)
@@ -118,8 +107,6 @@ namespace MegaMan.Engine.Entities
             RemoveAll();
 
             deadEntityPool.Clear();
-
-            neverRespawnable.Clear();
 
             EffectParser.Unload();
         }

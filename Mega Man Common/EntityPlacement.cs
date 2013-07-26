@@ -23,7 +23,27 @@ namespace MegaMan.Common
 
     public class EntityPlacement
     {
-        public string id;
+        private string _fixedId;
+        private string _guidId;
+
+        public string Id
+        {
+            get
+            {
+                if (_fixedId != null)
+                    return _fixedId;
+
+                if (_guidId == null)
+                    _guidId = Guid.NewGuid().ToString();
+
+                return _guidId;
+            }
+            set
+            {
+                _fixedId = value;
+            }
+        }
+
         public string entity;
         public string state;
         public EntityDirection direction;
@@ -34,9 +54,9 @@ namespace MegaMan.Common
         public void Save(XmlTextWriter writer)
         {
             writer.WriteStartElement("Entity");
-            if (id != null)
+            if (Id != null)
             {
-                writer.WriteAttributeString("id", id);
+                writer.WriteAttributeString("id", Id);
             }
             writer.WriteAttributeString("name", entity);
             if (state != "Start") writer.WriteAttributeString("state", state);
@@ -45,6 +65,19 @@ namespace MegaMan.Common
             writer.WriteAttributeString("direction", direction.ToString());
             writer.WriteAttributeString("respawn", respawn.ToString());
             writer.WriteEndElement();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is EntityPlacement)
+                return ((EntityPlacement)obj).Id == this.Id;
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

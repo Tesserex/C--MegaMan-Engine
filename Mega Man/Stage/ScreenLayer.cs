@@ -5,6 +5,7 @@ using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -13,6 +14,8 @@ namespace MegaMan.Engine
         private readonly ScreenLayerInfo _info;
         private readonly StageHandler _stage;
         private readonly MapSquare[][] _squares;
+
+        private readonly IEntityRespawnTracker _respawnTracker;
 
         private float _locationOffsetX;
         private float _locationOffsetY;
@@ -25,7 +28,7 @@ namespace MegaMan.Engine
         private int _stopFrame;
 
         private GameEntity[] _entities;
-        private bool[] _spawnable; // just for tracking whether the respawn point is off screen
+        private bool[] _spawnable;
         private bool[] _respawnable;
 
         public float OffsetX { get; set; }
@@ -42,10 +45,11 @@ namespace MegaMan.Engine
             }
         }
 
-        public ScreenLayer(ScreenLayerInfo info, StageHandler stage)
+        public ScreenLayer(ScreenLayerInfo info, StageHandler stage, IEntityRespawnTracker respawnTracker)
         {
             this._info = info;
             this._stage = stage;
+            this._respawnTracker = respawnTracker;
 
             this._squares = new MapSquare[info.Tiles.Height][];
             for (int y = 0; y < info.Tiles.Height; y++)
@@ -194,78 +198,39 @@ namespace MegaMan.Engine
 
                 var spawnable = (onScreen || pos.PersistOffScreen) && _spawnable[i];
 
-                switch (info.respawn)
-                {
-                    case RespawnBehavior.Offscreen:
-                        if (spawnable)
-                        {
-                            PlaceEntity(i, enemy);
-                        }
-                        break;
-
-                    case RespawnBehavior.Death:
-                    case RespawnBehavior.Stage:
-                        if (spawnable && _respawnable[i])
-                        {
-                            PlaceEntity(i, enemy);
-                        }
-                        break;
-
-                    case RespawnBehavior.Never:
-                        if (GameEntity.Respawnable(this._stage.Info.Name, this._info.Name, i))
-                        {
-                            PlaceEntity(i, enemy);
-                        }
-                        break;
-                }
+                if (spawnable && _respawnTracker.IsRespawnable(info))
+                    PlaceEntity(i, enemy);
             }
         }
 
-        private void PlaceEntity(int index, GameEntity enemy)
+        private void PlaceEntity(int index, GameEntity entity)
         {
             EntityPlacement info = _info.Entities[index];
 
             // can't respawn until the spawn point goes off screen
             _spawnable[index] = false;
 
-            switch (info.respawn)
-            {
-                case RespawnBehavior.Death:
-                case RespawnBehavior.Stage:
-                    // don't disable when it goes offscreen, just when the game asks for it to be gone
-                    enemy.Removed += () =>
-                    {
-                        this._respawnable[index] = false;
-                    };
-                    break;
+            _respawnTracker.Track(info, entity);
 
-                case RespawnBehavior.Never:
-                    enemy.Removed += () =>
-                    {
-                        GameEntity.NeverRespawnAgain(this._stage.Info.Name, this._info.Name, index);
-                    };
-                    break;
-            }
+            // TODO: eventually these will use the same enum, once the main Direction enum moves to common
+            entity.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
 
-            // eventually these will use the same enum, once the main Direction enum moves to common
-            enemy.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
+            entity.Start(_stage);
 
-            enemy.Start(_stage);
-
-            enemy.GetComponent<PositionComponent>().SetPosition(new PointF(info.screenX, info.screenY));
+            entity.GetComponent<PositionComponent>().SetPosition(new PointF(info.screenX, info.screenY));
             if (info.state != "Start")
             {
                 StateMessage msg = new StateMessage(null, info.state);
-                enemy.SendMessage(msg);
+                entity.SendMessage(msg);
             }
 
-            _entities[index] = enemy;
-            enemy.Removed += () => _entities[index] = null;
+            _entities[index] = entity;
+            entity.Removed += () => _entities[index] = null;
         }
 
         public GameEntity GetEntity(string id)
         {
-            var placementIndex = _info.Entities.FindIndex(p => p.id == id);
+            var placementIndex = _info.Entities.FindIndex(p => p.Id == id);
 
             if (placementIndex < 0) return null;
 
