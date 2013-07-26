@@ -131,7 +131,7 @@
 		<Effect><State>ShootAir</State></Effect>
 	</Trigger>
 	<Trigger>
-		<States>Standing, BeginWalk, Walking, ShootStanding, ShootWalking</States>
+		<States>Standing, BeginWalk, Walking, ShootStanding, ShootWalking, RushJet</States>
 		<Condition>(GravityFlip? Input.Up : Input.Down) And Input.Jump</Condition>
 		<Effect>
 			<State>Sliding</State>
@@ -139,13 +139,13 @@
 		</Effect>
 	</Trigger>
 	<Trigger>
-		<States>Standing, BeginWalk, Walking, RushJet</States>
-		<Condition>GravityFlip==False And Input.Jump==True</Condition>
+		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
+		<Condition>!GravityFlip And Input.Jump</Condition>
 		<Effect><Movement><Y magnitude="5.1" direction="Up" /></Movement><State>Air</State></Effect>
 	</Trigger>
 	<Trigger>
-		<States>Standing, BeginWalk, Walking, RushJet</States>
-		<Condition>GravityFlip==True And Input.Jump==True</Condition>
+		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
+		<Condition>GravityFlip And Input.Jump</Condition>
 		<Effect><Movement><Y magnitude="5.1" direction="Down" /></Movement><State>Air</State></Effect>
 	</Trigger>
 	<Trigger>
