@@ -167,5 +167,11 @@ namespace MegaMan.Engine
             var method = componentType.GetMethod("ParseEffect");
             return (Effect)method.Invoke(null, new[] {effectNode});
         }
+
+        // this is for the XML to use
+        public static int NumAlive(string name)
+        {
+            return Game.XmlNumAlive(name);
+        }
     }
 }

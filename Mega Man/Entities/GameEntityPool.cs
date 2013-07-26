@@ -50,8 +50,6 @@ namespace MegaMan.Engine.Entities
 
                 BindEntityEventRegistration(id, entity);
 
-                entitiesInUse.Add(id, entity);
-
                 return entity;
             }
         }
@@ -59,7 +57,14 @@ namespace MegaMan.Engine.Entities
         private void BindEntityEventRegistration(string id, GameEntity entity)
         {
             entitiesInUse.Add(id, entity);
-            entity.Removed += () => RemoveEntity(id, entity);
+
+            Action removalAction = () => { };
+            removalAction = () =>
+            {
+                RemoveEntity(id, entity);
+                entity.Removed -= removalAction;
+            };
+            entity.Removed += removalAction;
         }
 
         public int GetNumberAlive(string name)
@@ -114,7 +119,10 @@ namespace MegaMan.Engine.Entities
 
         public GameEntity GetEntityById(string id)
         {
-            return entitiesInUse[id];
+            if (id != null && entitiesInUse.ContainsKey(id))
+                return entitiesInUse[id];
+            else
+                return null;
         }
     }
 }

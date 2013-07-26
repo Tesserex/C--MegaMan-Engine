@@ -259,7 +259,7 @@ namespace MegaMan.Engine
 
         #region IHandleGameEvents Members
 
-        public override void StartHandler(IEntityPool entityPool)
+        protected override void BeforeStart()
         {
             Player = Entities.CreateEntityWithId("Player", "Player");
             PlayerPos = Player.GetComponent<PositionComponent>();
@@ -280,8 +280,6 @@ namespace MegaMan.Engine
 
             // updateFunc isn't set until BeginPlay
             drawFunc = DrawScreen;
-
-            base.StartHandler(entityPool);
 
             BeginPlay();
 

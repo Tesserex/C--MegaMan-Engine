@@ -89,6 +89,7 @@ namespace MegaMan.Engine
             Scene.Unload();
             Menu.Unload();
             PaletteSystem.Unload();
+            EffectParser.Unload();
             CurrentGame = null;
         }
 
@@ -468,6 +469,14 @@ namespace MegaMan.Engine
         {
             if (CurrentGame != null)
                 return CurrentGame._entityPool.GetTotalAlive();
+            else
+                return 0;
+        }
+
+        public static int XmlNumAlive(string name)
+        {
+            if (CurrentGame != null)
+                return CurrentGame._entityPool.GetNumberAlive(name);
             else
                 return 0;
         }

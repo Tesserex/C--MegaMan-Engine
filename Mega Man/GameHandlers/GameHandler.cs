@@ -30,9 +30,13 @@ namespace MegaMan.Engine
         public virtual void StartHandler(IEntityPool entityPool)
         {
             Entities = entityPool;
+
+            BeforeStart();
             ResumeHandler();
             StartDrawing();
         }
+
+        protected virtual void BeforeStart() { }
 
         public virtual void PauseHandler()
         {
