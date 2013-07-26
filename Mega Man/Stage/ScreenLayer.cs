@@ -185,10 +185,10 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity enemy = _stage.Entities.CreateEntity(info.entity);
-                if (enemy == null) continue;
+                GameEntity entity = _stage.Entities.CreateEntity(info.entity);
+                if (entity == null) continue;
 
-                PositionComponent pos = enemy.GetComponent<PositionComponent>();
+                PositionComponent pos = entity.GetComponent<PositionComponent>();
                 var onScreen = IsOnScreen(info.screenX, info.screenY);
 
                 if (!onScreen)
@@ -199,7 +199,9 @@ namespace MegaMan.Engine
                 var spawnable = (onScreen || pos.PersistOffScreen) && _spawnable[i];
 
                 if (spawnable && _respawnTracker.IsRespawnable(info))
-                    PlaceEntity(i, enemy);
+                    PlaceEntity(i, entity);
+                else
+                    entity.Remove();
             }
         }
 
