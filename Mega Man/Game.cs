@@ -384,7 +384,17 @@ namespace MegaMan.Engine
         {
             var menu = Menu.Get(handler.Name);
             menu.End += ProcessHandler;
-            menu.StartHandler(_entityPool);
+
+            if (handlerStack.Any())
+            {
+                var entityPool = new SceneEntityPoolDecorator(handlerStack.Peek().Entities);
+                menu.StartHandler(entityPool);
+            }
+            else
+            {
+                menu.StartHandler(_entityPool);
+            }
+
             handlerStack.Push(menu);
         }
 
@@ -392,7 +402,17 @@ namespace MegaMan.Engine
         {
             var scene = Scene.Get(handler.Name);
             scene.End += ProcessHandler;
-            scene.StartHandler(_entityPool);
+
+            if (handlerStack.Any())
+            {
+                var entityPool = new SceneEntityPoolDecorator(handlerStack.Peek().Entities);
+                scene.StartHandler(entityPool);
+            }
+            else
+            {
+                scene.StartHandler(_entityPool);
+            }
+
             handlerStack.Push(scene);
         }
 

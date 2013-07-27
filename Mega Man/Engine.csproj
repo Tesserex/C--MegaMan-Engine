@@ -134,6 +134,7 @@
     <Compile Include="Entities\IEntityRespawnTracker.cs" />
     <Compile Include="Entities\IEntitySource.cs" />
     <Compile Include="Entities\ITilePropertiesSource.cs" />
+    <Compile Include="Entities\SceneEntityPoolDecorator.cs" />
     <Compile Include="Forms\CustomNtscForm.cs">
       <SubType>Form</SubType>
     </Compile>
