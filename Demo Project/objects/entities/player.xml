@@ -140,12 +140,12 @@
 	</Trigger>
 	<Trigger>
 		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
-		<Condition>!GravityFlip And Input.Jump</Condition>
+		<Condition>!GravityFlip And Input.Jump And !Input.Down</Condition>
 		<Effect><Movement><Y magnitude="5.1" direction="Up" /></Movement><State>Air</State></Effect>
 	</Trigger>
 	<Trigger>
 		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
-		<Condition>GravityFlip And Input.Jump</Condition>
+		<Condition>GravityFlip And Input.Jump And !Input.Up</Condition>
 		<Effect><Movement><Y magnitude="5.1" direction="Down" /></Movement><State>Air</State></Effect>
 	</Trigger>
 	<Trigger>
