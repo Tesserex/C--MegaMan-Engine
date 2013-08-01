@@ -258,7 +258,11 @@ namespace MegaMan.LevelEditor
 
         private void sourceImage_Click(object sender, EventArgs e)
         {
-            if (tileSheet != null && Sprite.Count > 0 && Sprite.Count >= currentFrame.Value) Sprite[(int)currentFrame.Value - 1].SetSheetPosition(new Rectangle(highlight, new Size(spriteWidth, spriteHeight)));
+            if (tileSheet != null && Sprite.Count > 0 && Sprite.Count >= currentFrame.Value)
+            {
+                var tempRec = new Common.Geometry.Rectangle(highlight.X, highlight.Y, spriteWidth, spriteHeight);
+                Sprite[(int)currentFrame.Value - 1].SetSheetPosition(tempRec);
+            }
         }
 
         private void buttonAddFrame_Click(object sender, EventArgs e)
