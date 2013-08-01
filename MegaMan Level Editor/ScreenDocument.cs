@@ -139,7 +139,7 @@ namespace MegaMan.LevelEditor
             }
             else
             {
-                bounds = entity.MainSprite.BoundBox;
+                bounds = new RectangleF(entity.MainSprite.BoundBox.X, entity.MainSprite.BoundBox.Y, entity.MainSprite.BoundBox.Height, entity.MainSprite.BoundBox.Width);
                 bounds.Offset(-entity.MainSprite.HotSpot.X, -entity.MainSprite.HotSpot.Y);
             }
 

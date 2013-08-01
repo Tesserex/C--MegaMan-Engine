@@ -26,14 +26,14 @@ namespace MegaMan.LevelEditor
             Clear();
             Tileset = tileset;
             if (tileset == null) brushes = null;
-            else if (brushSets.ContainsKey(tileset.FilePath))
+            else if (brushSets.ContainsKey(tileset.FilePath.ToString()))
             {
-                brushes = brushSets[tileset.FilePath];
+                brushes = brushSets[tileset.FilePath.ToString()];
             }
             else
             {
                 brushes = new List<ITileBrush>();
-                brushSets.Add(tileset.FilePath, brushes);
+                brushSets.Add(tileset.FilePath.ToString(), brushes);
                 LoadBrushes();
             }
 
@@ -54,8 +54,8 @@ namespace MegaMan.LevelEditor
 
         private void SaveBrushes()
         {
-            string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath);
-            string file = System.IO.Path.GetFileNameWithoutExtension(Tileset.FilePath);
+            string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath.ToString());
+            string file = System.IO.Path.GetFileNameWithoutExtension(Tileset.FilePath.ToString());
             string path = System.IO.Path.Combine(dir, file + "_brushes.xml");
 
             using (var stream = new System.IO.StreamWriter(path, false))
@@ -78,8 +78,8 @@ namespace MegaMan.LevelEditor
 
         private void LoadBrushes()
         {
-            string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath);
-            string file = System.IO.Path.GetFileNameWithoutExtension(Tileset.FilePath);
+            string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath.ToString());
+            string file = System.IO.Path.GetFileNameWithoutExtension(Tileset.FilePath.ToString());
             string path = System.IO.Path.Combine(dir, file + "_brushes.xml");
 
             if (!System.IO.File.Exists(path)) return;

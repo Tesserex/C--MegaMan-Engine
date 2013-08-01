@@ -41,7 +41,7 @@ namespace MegaMan.LevelEditor
             this.stage = stage;
             this.Text = stage.Name + " Properties";
             nameField.Text = stage.Name;
-            tilesetField.Text = stage.Tileset.FilePath;
+            tilesetField.Text = stage.Tileset.FilePath.ToString();
             if (stage.MusicIntro != null) introField.Text = stage.MusicIntro.Absolute;
             if (stage.MusicLoop != null) loopField.Text = stage.MusicLoop.Absolute;
         }

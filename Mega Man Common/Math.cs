@@ -98,6 +98,13 @@ namespace MegaMan.Common.Geometry
             Height = height;
         }
 
+        public Rectangle(System.Drawing.Rectangle rect)
+        {
+            X = rect.X;
+            Y = rect.Y;
+            Width = rect.Width;
+            Height = rect.Height;
+        }
         public static explicit operator Rectangle(RectangleF p)
         {
             return new Rectangle((int)p.X, (int)p.Y, (int)p.Width, (int)p.Height);
@@ -112,6 +119,13 @@ namespace MegaMan.Common.Geometry
         public float Y;
         public float Width;
         public float Height;
+        public RectangleF(System.Drawing.RectangleF rect)
+        {
+            X = rect.X;
+            Y = rect.Y;
+            Width = rect.Width;
+            Height = rect.Height;
+        }
 
         public RectangleF(float x, float y, float width, float height)
         {
