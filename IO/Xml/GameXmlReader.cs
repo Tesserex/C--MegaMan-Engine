@@ -107,8 +107,8 @@ namespace MegaMan.IO.Xml
             var dirAttr = entity.Attribute("direction");
             if (dirAttr != null)
             {
-                EntityDirection dir = EntityDirection.Left;
-                Enum.TryParse<EntityDirection>(dirAttr.Value, true, out dir);
+                Direction dir = Direction.Left;
+                Enum.TryParse<Direction>(dirAttr.Value, true, out dir);
                 info.direction = dir;
             }
 

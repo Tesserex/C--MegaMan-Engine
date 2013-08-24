@@ -94,6 +94,8 @@
     <Compile Include="Color.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="EntityPlacement.cs" />
+    <Compile Include="Enums\Axis.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="FilePath.cs" />
     <Compile Include="FontInfo.cs" />
     <Compile Include="GameXml.cs" />

@@ -214,8 +214,7 @@ namespace MegaMan.Engine
 
             _respawnTracker.Track(info, entity);
 
-            // TODO: eventually these will use the same enum, once the main Direction enum moves to common
-            entity.Direction = (info.direction == EntityDirection.Left) ? Direction.Left : Direction.Right;
+            entity.Direction = info.direction;
 
             entity.Start(_stage);
 

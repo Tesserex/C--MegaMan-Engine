@@ -49,22 +49,6 @@ namespace MegaMan.Engine
         public const float TerminalVel = 12;
     }
 
-    public enum Direction
-    {
-        Unknown,
-        Down,
-        Up,
-        Left,
-        Right
-    }
-
-    public enum Axis
-    {
-        X = 1,
-        Y = 2,
-        Both = 3
-    }
-
     public enum GameInput
     {
         Up,

@@ -8,6 +8,7 @@ using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.IO.Xml;
 using MegaMan.Engine.Entities;
+using MegaMan.Engine.StateMachine;
 
 namespace MegaMan.Engine
 {
@@ -34,12 +35,13 @@ namespace MegaMan.Engine
         private StageFactory stageFactory;
 
         private string currentPath;
-        private Stack<IGameplayContainer> handlerStack;
 
         private GameEntitySource _entitySource;
         private GameEntityPool _entityPool;
         private GameTilePropertiesSource _tileProperties;
         private IEntityRespawnTracker _respawnTracker;
+
+        private readonly GameStateMachine _stateMachine;
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
@@ -78,10 +80,7 @@ namespace MegaMan.Engine
         public void Unload()
         {
             Engine.Instance.Stop();
-            while (handlerStack.Count > 0)
-            {
-                handlerStack.Pop().StopHandler();
-            }
+            _stateMachine.Unload();
             _entitySource.Unload();
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();
@@ -103,11 +102,12 @@ namespace MegaMan.Engine
         {
             Gravity = 0.25f;
             GravityFlip = false;
-            handlerStack = new Stack<IGameplayContainer>();
             _entitySource = new GameEntitySource();
             _entityPool = new GameEntityPool(_entitySource);
             _tileProperties = new GameTilePropertiesSource();
             _respawnTracker = new GameEntityRespawnTracker();
+            stageFactory = new StageFactory(_entityPool, _respawnTracker);
+            _stateMachine = new GameStateMachine(_entityPool, stageFactory);
         }
 
         private void LoadFile(string path, List<string> pathArgs = null)
@@ -130,7 +130,6 @@ namespace MegaMan.Engine
             if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
             if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
 
-            stageFactory = new StageFactory(_entityPool, _respawnTracker);
             foreach (var stageInfo in project.Stages)
             {
                 stageFactory.Load(stageInfo);
@@ -159,7 +158,7 @@ namespace MegaMan.Engine
             }
             else if (project.StartHandler != null)
             {
-                StartHandler(project.StartHandler);
+                _stateMachine.ProcessHandler(project.StartHandler);
             }
             else
             {
@@ -182,7 +181,7 @@ namespace MegaMan.Engine
             switch (parts[0].ToUpper())
             {
                 case "SCENE":
-                    StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    _stateMachine.StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
                     break;
 
                 case "STAGE":
@@ -194,11 +193,11 @@ namespace MegaMan.Engine
                         var coords = point.Split(',');
                         startPos = new Point(int.Parse(coords[0]), int.Parse(coords[1]));
                     }
-                    StartStage(name, screen, startPos);
+                    _stateMachine.StartStage(name, screen, startPos);
                     break;
 
                 case "MENU":
-                    StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    _stateMachine.StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
                     break;
 
                 default:
@@ -247,242 +246,29 @@ namespace MegaMan.Engine
 
         public void ProcessHandler(HandlerTransfer handler)
         {
-            switch (handler.Mode)
-            {
-                case HandlerMode.Next:
-                    EndHandler(handler);
-                    break;
-
-                case HandlerMode.Push:
-                    if (handler.Fade)
-                    {
-                        if (handlerStack.Count > 0 && handler.Pause)
-                        {
-                            var top = handlerStack.Peek();
-                            top.PauseHandler();
-                        }
-
-                        Engine.Instance.FadeTransition(() =>
-                        {
-                            if (handlerStack.Count > 0 && handler.Pause)
-                            {
-                                var top = handlerStack.Peek();
-                                top.StopDrawing();
-                            }
-                            StartHandler(handler);
-                            handlerStack.Peek().PauseHandler();
-                        },
-                        () => {
-                            handlerStack.Peek().ResumeHandler();
-                        });
-                    }
-                    else
-                    {
-                        if (handlerStack.Count > 0 && handler.Pause)
-                        {
-                            var top = handlerStack.Peek();
-                            top.PauseHandler();
-                            top.StopDrawing();
-                        }
-                        StartHandler(handler);
-                    }
-                    break;
-
-                case HandlerMode.Pop:
-                    if (handler.Fade)
-                    {
-                        IGameplayContainer top = null;
-                        if (handlerStack.Count > 0)
-                        {
-                            top = handlerStack.Pop();
-                            top.PauseHandler();
-                            top.End -= ProcessHandler;
-                        }
-                        Engine.Instance.FadeTransition(() =>
-                        {
-                            if (top != null) top.StopHandler();
-                            if (handlerStack.Count > 0)
-                            {
-                                handlerStack.Peek().StartDrawing();
-                            }
-                        },
-                        () =>
-                        {
-                            if (handlerStack.Count > 0)
-                            {
-                                handlerStack.Peek().ResumeHandler();
-                            }
-                        });
-                    }
-                    else
-                    {
-                        if (handlerStack.Count > 0)
-                        {
-                            var top = handlerStack.Pop();
-                            top.StopHandler();
-                            top.End -= ProcessHandler;
-                            if (handlerStack.Count > 0)
-                            {
-                                handlerStack.Peek().ResumeHandler();
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-
-        private void EndHandler(HandlerTransfer nextHandler)
-        {
-            foreach (var handler in handlerStack)
-            {
-                handler.End -= ProcessHandler;
-            }
-
-            if (nextHandler.Fade)
-            {
-                Engine.Instance.FadeTransition(() =>
-                {
-                    while (handlerStack.Count > 0)
-                    {
-                        handlerStack.Pop().StopHandler();
-                    }
-                    StartHandler(nextHandler);
-                });
-            }
-            else
-            {
-                while (handlerStack.Count > 0)
-                {
-                    handlerStack.Pop().StopHandler();
-                }
-                StartHandler(nextHandler);
-            }
-        }
-
-        private void StartHandler(HandlerTransfer handler)
-        {
-            if (handler != null)
-            {
-                switch (handler.Type)
-                {
-                    case HandlerType.Scene:
-                        StartScene(handler);
-                        break;
-
-                    case HandlerType.Stage:
-                        StartStage(handler.Name);
-                        break;
-
-                    case HandlerType.Menu:
-                        StartMenu(handler);
-                        break;
-                }
-            }
-        }
-
-        private void StartMenu(HandlerTransfer handler)
-        {
-            var menu = Menu.Get(handler.Name);
-            menu.End += ProcessHandler;
-
-            if (handlerStack.Any())
-            {
-                var entityPool = new SceneEntityPoolDecorator(handlerStack.Peek().Entities);
-                menu.StartHandler(entityPool);
-            }
-            else
-            {
-                menu.StartHandler(_entityPool);
-            }
-
-            handlerStack.Push(menu);
-        }
-
-        private void StartScene(HandlerTransfer handler)
-        {
-            var scene = Scene.Get(handler.Name);
-            scene.End += ProcessHandler;
-
-            if (handlerStack.Any())
-            {
-                var entityPool = new SceneEntityPoolDecorator(handlerStack.Peek().Entities);
-                scene.StartHandler(entityPool);
-            }
-            else
-            {
-                scene.StartHandler(_entityPool);
-            }
-
-            handlerStack.Push(scene);
-        }
-
-        private void StartStage(string name, string screen = null, Point? startPosition = null)
-        {
-            var stage = stageFactory.Get(name);
-
-            if (screen != null && startPosition != null)
-            {
-                stage.SetTestingStartPosition(screen, startPosition.Value);
-            }
-
-            handlerStack.Push(stage);
-            stage.End += ProcessHandler;
-
-            stage.StartHandler(_entityPool);
+            _stateMachine.ProcessHandler(handler);
         }
 
         #region Debug Menu
 
         public void DebugEmptyHealth()
         {
-            if (handlerStack.Count == 0) return;
-
-            var map = handlerStack.Peek() as StageHandler;
-            if (map != null)
-            {
-                map.Player.SendMessage(new DamageMessage(null, float.PositiveInfinity));
-            }
+            _stateMachine.DebugEmptyHealth();
         }
 
         public void DebugFillHealth()
         {
-            if (handlerStack.Count == 0) return;
-
-            var map = handlerStack.Peek() as StageHandler;
-            if (map != null)
-            {
-                map.Player.SendMessage(new HealMessage(null, float.PositiveInfinity));
-            }
+            _stateMachine.DebugFillHealth();
         }
 
         public void DebugEmptyWeapon()
         {
-            if (handlerStack.Count == 0) return;
-
-            var map = handlerStack.Peek() as StageHandler;
-            if (map != null)
-            {
-                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
-                if (weaponComponent != null)
-                {
-                    weaponComponent.AddAmmo(-1 * weaponComponent.Ammo(weaponComponent.CurrentWeapon));
-                }
-            }
+            _stateMachine.DebugEmptyWeapon();
         }
 
         public void DebugFillWeapon()
         {
-            if (handlerStack.Count == 0) return;
-
-            var map = handlerStack.Peek() as StageHandler;
-            if (map != null)
-            {
-                var weaponComponent = map.Player.GetComponent<WeaponComponent>();
-                if (weaponComponent != null)
-                {
-                    weaponComponent.AddAmmo(weaponComponent.MaxAmmo(weaponComponent.CurrentWeapon));
-                }
-            }
+            _stateMachine.DebugFillWeapon();
         }
 
         public static int DebugEntitiesAlive()

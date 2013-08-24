@@ -7,12 +7,6 @@ using System.Xml;
 
 namespace MegaMan.Common
 {
-    public enum EntityDirection
-    {
-        Left,
-        Right
-    }
-
     public enum RespawnBehavior
     {
         Offscreen,
@@ -46,7 +40,7 @@ namespace MegaMan.Common
 
         public string entity;
         public string state;
-        public EntityDirection direction;
+        public Direction direction;
         public RespawnBehavior respawn;
         public float screenX;
         public float screenY;
