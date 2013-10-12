@@ -193,8 +193,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PaletteSystem.cs" />
+    <Compile Include="StateMachine\EndStateTransition.cs" />
     <Compile Include="StateMachine\GameStateMachine.cs" />
-    <Compile Include="StateMachine\GameStateTransition.cs" />
+    <Compile Include="StateMachine\IStateMachineCommand.cs" />
+    <Compile Include="StateMachine\IStateMachine.cs" />
+    <Compile Include="StateMachine\PopStateTransition.cs" />
+    <Compile Include="StateMachine\PushStateTransition.cs" />
     <EmbeddedResource Include="Forms\CustomNtscForm.resx">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
       <SubType>Designer</SubType>

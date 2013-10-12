@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MegaMan.Engine.StateMachine
 {
-    public class GameStateMachine
+    public class GameStateMachine : IStateMachine
     {
         private readonly Stack<IGameplayContainer> _handlerStack;
         private readonly IEntityPool _entityPool;
@@ -26,111 +26,42 @@ namespace MegaMan.Engine.StateMachine
             switch (handler.Mode)
             {
                 case HandlerMode.Next:
-                    EndHandler(handler);
+                    new EndStateTransition(handler).Apply(this);
                     break;
 
                 case HandlerMode.Push:
-                    if (handler.Fade)
-                    {
-                        if (_handlerStack.Any() && handler.Pause)
-                        {
-                            var top = _handlerStack.Peek();
-                            top.PauseHandler();
-                        }
-
-                        Engine.Instance.FadeTransition(() =>
-                        {
-                            if (_handlerStack.Any() && handler.Pause)
-                            {
-                                var top = _handlerStack.Peek();
-                                top.StopDrawing();
-                            }
-                            StartHandler(handler);
-                            _handlerStack.Peek().PauseHandler();
-                        },
-                        () =>
-                        {
-                            _handlerStack.Peek().ResumeHandler();
-                        });
-                    }
-                    else
-                    {
-                        if (_handlerStack.Any() && handler.Pause)
-                        {
-                            var top = _handlerStack.Peek();
-                            top.PauseHandler();
-                            top.StopDrawing();
-                        }
-                        StartHandler(handler);
-                    }
+                    new PushStateTransition(handler).Apply(this);
                     break;
 
                 case HandlerMode.Pop:
-                    if (handler.Fade)
-                    {
-                        IGameplayContainer top = null;
-                        if (_handlerStack.Any())
-                        {
-                            top = _handlerStack.Pop();
-                            top.PauseHandler();
-                            top.End -= ProcessHandler;
-                        }
-                        Engine.Instance.FadeTransition(() =>
-                        {
-                            if (top != null) top.StopHandler();
-                            if (_handlerStack.Any())
-                            {
-                                _handlerStack.Peek().StartDrawing();
-                            }
-                        },
-                        () =>
-                        {
-                            if (_handlerStack.Any())
-                            {
-                                _handlerStack.Peek().ResumeHandler();
-                            }
-                        });
-                    }
-                    else
-                    {
-                        if (_handlerStack.Any())
-                        {
-                            var top = _handlerStack.Pop();
-                            top.StopHandler();
-                            top.End -= ProcessHandler;
-                            if (_handlerStack.Any())
-                            {
-                                _handlerStack.Peek().ResumeHandler();
-                            }
-                        }
-                    }
+                    new PopStateTransition(handler).Apply(this);
                     break;
             }
         }
 
-        private void EndHandler(HandlerTransfer nextHandler)
+        public void PauseTopOfStack()
         {
-            foreach (var handler in _handlerStack)
+            if (_handlerStack.Any())
             {
-                handler.End -= ProcessHandler;
+                _handlerStack.Peek().PauseHandler();
             }
-
-            if (nextHandler.Fade)
-                Engine.Instance.FadeTransition(() => EmptyStackAndStart(nextHandler));
-            else
-                EmptyStackAndStart(nextHandler);
         }
 
-        private void EmptyStackAndStart(HandlerTransfer nextHandler)
+        public void ResumeTopOfStack()
+        {
+            if (_handlerStack.Any())
+                _handlerStack.Peek().ResumeHandler();
+        }
+
+        public void StopAllHandlers()
         {
             while (_handlerStack.Any())
             {
                 _handlerStack.Pop().StopHandler();
             }
-            StartHandler(nextHandler);
         }
 
-        private void StartHandler(HandlerTransfer handler)
+        public void StartHandler(HandlerTransfer handler)
         {
             if (handler != null)
             {
@@ -182,9 +113,9 @@ namespace MegaMan.Engine.StateMachine
             if (_handlerStack.Any())
                 entityPool = new SceneEntityPoolDecorator(_handlerStack.Peek().Entities);
 
-            handler.StartHandler(entityPool);
-
             _handlerStack.Push(handler);
+
+            handler.StartHandler(entityPool);
         }
 
         public void Unload()
@@ -250,5 +181,54 @@ namespace MegaMan.Engine.StateMachine
         }
 #endif
         #endregion
+
+        public void RemoveAllEndHandlers()
+        {
+            foreach (var handler in _handlerStack)
+            {
+                handler.End -= ProcessHandler;
+            }
+        }
+
+        public void Push(IGameplayContainer handler)
+        {
+            _handlerStack.Push(handler);
+        }
+
+        public void PauseDrawingTopOfStack()
+        {
+            if (_handlerStack.Any())
+            {
+                _handlerStack.Peek().StopDrawing();
+            }
+        }
+
+        public void ResumeDrawingTopOfStack()
+        {
+            if (_handlerStack.Any())
+            {
+                _handlerStack.Peek().StartDrawing();
+            }
+        }
+
+        public void FinalizeTopHandler()
+        {
+            if (_handlerStack.Any())
+            {
+                var top = _handlerStack.Peek();
+                top.PauseHandler();
+                top.End -= ProcessHandler;
+            }
+        }
+
+        public void RemoveTopHandler()
+        {
+            if (_handlerStack.Any())
+            {
+                var top = _handlerStack.Pop();
+                top.StopHandler();
+                top.End -= ProcessHandler;
+            }
+        }
     }
 }
