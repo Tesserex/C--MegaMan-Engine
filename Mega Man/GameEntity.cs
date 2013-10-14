@@ -9,7 +9,7 @@ using MegaMan.Engine.Entities;
 namespace MegaMan.Engine
 {
     [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}")]
-    public class GameEntity
+    public class GameEntity : IEntity
     {
         private readonly Dictionary<Type, Component> components;
         private IGameplayContainer container;
@@ -17,13 +17,11 @@ namespace MegaMan.Engine
         public string Name { get; set; }
         public ITiledScreen Screen { get { return container.Screen; } }
         public IEntityPool Entities { get { return container.Entities; } }
-        public GameEntity Parent { get; private set; }
+        public IEntity Parent { get; private set; }
         public bool Running { get; private set; }
         public int MaxAlive { get; set; }
         public bool GravityFlip { get; set; }   // whether to react to gravity flipping (collision and sprite)
         public bool Paused { get; set; }
-
-        public IEntityPool EntityPool { get; private set; }
 
         // I know this defeats good component based design but its just so much easier
         public Direction Direction
@@ -52,11 +50,10 @@ namespace MegaMan.Engine
         public event Action Removed;
         public event Action Death;
 
-        public GameEntity(IEntityPool entityPool = null)
+        public GameEntity()
         {
             components = new Dictionary<Type, Component>();
             MaxAlive = 50;
-            EntityPool = entityPool;
         }
 
         public IEnumerable<Component> Components
@@ -131,7 +128,7 @@ namespace MegaMan.Engine
 
         public GameEntity Spawn(string entityName)
         {
-            GameEntity spawn = EntityPool.CreateEntity(entityName);
+            GameEntity spawn = Entities.CreateEntity(entityName);
             if (spawn != null)
             {
                 spawn.Parent = this;

@@ -35,7 +35,7 @@ namespace MegaMan.Engine.Entities
             else
             {
                 // clone it
-                GameEntity entity = new GameEntity(this);
+                GameEntity entity = new GameEntity();
                 GameEntity source = _entitySource.GetOriginalEntity(name);
 
                 if (GetNumberAlive(name) >= source.MaxAlive) return null;

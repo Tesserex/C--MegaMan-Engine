@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using System.Linq.Expressions;
 using MegaMan.IO.Xml;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -42,8 +43,8 @@ namespace MegaMan.Engine
         Player player
     );
 
-    public delegate bool Condition(GameEntity entity);
-    public delegate void Effect(GameEntity entity);
+    public delegate bool Condition(IEntity entity);
+    public delegate void Effect(IEntity entity);
 
     public static class EffectParser
     {

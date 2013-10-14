@@ -256,7 +256,7 @@ namespace MegaMan.Engine
 
             // but for entities, we can go ahead and be active aggressors -
             // inflict our effects on the target entity, not the other way around
-            foreach (GameEntity entity in Parent.EntityPool.GetAll())
+            foreach (GameEntity entity in Parent.Entities.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();
@@ -337,7 +337,7 @@ namespace MegaMan.Engine
 
         private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)
         {
-            foreach (GameEntity entity in Parent.EntityPool.GetAll())
+            foreach (GameEntity entity in Parent.Entities.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();

@@ -44,7 +44,7 @@ namespace MegaMan.Engine
 
     public abstract class Component
     {
-        public GameEntity Parent { get; set; }
+        public IEntity Parent { get; set; }
 
         public abstract Component Clone();
 

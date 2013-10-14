@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -220,12 +221,12 @@ namespace MegaMan.Engine
             private Effect initializer = entity => { };
             private Effect logic = entity => { };
 
-            public void Initialize(GameEntity entity)
+            public void Initialize(IEntity entity)
             {
                 initializer(entity);
             }
 
-            public void RunLogic(GameEntity entity)
+            public void RunLogic(IEntity entity)
             {
                 logic(entity);
             }
@@ -245,7 +246,7 @@ namespace MegaMan.Engine
                 triggers.Add(trigger);
             }
 
-            public void CheckTriggers(StateComponent statecomp, GameEntity entity)
+            public void CheckTriggers(StateComponent statecomp, IEntity entity)
             {
                 string state = statecomp.currentState;
                 foreach (Trigger trigger in triggers)
