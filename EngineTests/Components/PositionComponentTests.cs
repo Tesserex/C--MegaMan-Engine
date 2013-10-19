@@ -5,7 +5,7 @@ using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 using Moq;
 
-namespace MegaMan.Engine.Tests
+namespace MegaMan.Engine.Tests.Components
 {
     [TestClass]
     public class PositionComponentTests

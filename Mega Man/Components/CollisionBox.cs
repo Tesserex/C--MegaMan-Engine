@@ -107,8 +107,8 @@ namespace MegaMan.Engine
                 if (boundBox.Right - tileBox.Left + Const.PixelEpsilon <= 0) return false;
             }
 
-            bool down = (!Game.CurrentGame.GravityFlip && tile.Properties.Climbable);
-            bool up = (Game.CurrentGame.GravityFlip && tile.Properties.Climbable);
+            bool down = (!parentComponent.Parent.Container.IsGravityFlipped && tile.Properties.Climbable);
+            bool up = (parentComponent.Parent.Container.IsGravityFlipped && tile.Properties.Climbable);
 
             if (parentComponent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
             else offset = CheckTileOffset(tileBox, boundBox, 0, 0, up, down);
@@ -119,7 +119,7 @@ namespace MegaMan.Engine
                 // don't clip left or right at all
                 offset.X = 0;
 
-                if (Game.CurrentGame.GravityFlip)
+                if (parentComponent.Parent.Container.IsGravityFlipped)
                 {
                     // don't clip them downward out of the collision
                     if (offset.Y > 0)
@@ -211,7 +211,7 @@ namespace MegaMan.Engine
         {
             float x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
-            if (parentComponent.Parent.GravityFlip && Game.CurrentGame.GravityFlip) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            if (parentComponent.Parent.IsGravitySensitive && parentComponent.Parent.Container.IsGravityFlipped) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
             return new RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
         }
 

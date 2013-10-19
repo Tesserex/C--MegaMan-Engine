@@ -48,7 +48,7 @@ namespace MegaMan.Engine
                         LoadLadderBoxes();
                     }
 
-                    if (Game.CurrentGame.GravityFlip)
+                    if (layer.Stage.IsGravityFlipped)
                     {
                         box = flipLadderBox;
                     }

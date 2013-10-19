@@ -104,7 +104,7 @@ namespace MegaMan.Engine
         {
             if (position != null && aboveTile != null)
             {
-                position.SetPosition(new PointF(aboveTile.ScreenX + aboveTile.Tile.Width / 2, (Parent.GravityFlip && Game.CurrentGame.GravityFlip)? aboveTile.ScreenY + aboveTile.BoundBox.Height + 9 : aboveTile.ScreenY - 9));
+                position.SetPosition(new PointF(aboveTile.ScreenX + aboveTile.Tile.Width / 2, (Parent.IsGravitySensitive && Parent.Container.IsGravityFlipped) ? aboveTile.ScreenY + aboveTile.BoundBox.Height + 9 : aboveTile.ScreenY - 9));
             }
         }
 
@@ -112,7 +112,7 @@ namespace MegaMan.Engine
         {
             if (position != null && aboveTile != null)
             {
-                position.SetPosition(new PointF(aboveTile.ScreenX + aboveTile.Tile.Width / 2, (Parent.GravityFlip && Game.CurrentGame.GravityFlip) ? aboveTile.ScreenY + aboveTile.BoundBox.Height + 2 : aboveTile.ScreenY - 2));
+                position.SetPosition(new PointF(aboveTile.ScreenX + aboveTile.Tile.Width / 2, (Parent.IsGravitySensitive && Parent.Container.IsGravityFlipped) ? aboveTile.ScreenY + aboveTile.BoundBox.Height + 2 : aboveTile.ScreenY - 2));
             }
         }
 
@@ -132,7 +132,7 @@ namespace MegaMan.Engine
                 {
                     if (tile.Tile.Properties.Climbable)
                     {
-                        RectangleF myBox = hitbox.BoxAt(position.Position, Parent.GravityFlip ? Game.CurrentGame.GravityFlip : false);
+                        RectangleF myBox = hitbox.BoxAt(position.Position, Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : false);
                         RectangleF intersection = RectangleF.Intersect(tile.BoundBox, myBox);
                         if (!intersection.IsEmpty)
                         {
@@ -153,7 +153,7 @@ namespace MegaMan.Engine
             if (!InReach) return;
 
             Tile above;
-            if (Parent.GravityFlip && Game.CurrentGame.GravityFlip)
+            if (Parent.IsGravitySensitive && Parent.Container.IsGravityFlipped)
             {
                 above = Parent.Screen.TileAt(inReachTile.X * Parent.Screen.TileSize, (inReachTile.Y + 1) * Parent.Screen.TileSize);
                 if (above != null && !above.Properties.Climbable)
@@ -187,7 +187,7 @@ namespace MegaMan.Engine
             var py = position.Position.Y;
 
             MapSquare below;
-            if (Parent.GravityFlip && Game.CurrentGame.GravityFlip)
+            if (Parent.IsGravitySensitive && Parent.Container.IsGravityFlipped)
             {
                 below = Parent.Screen.SquareAt(px, py - Parent.Screen.TileSize);
             }

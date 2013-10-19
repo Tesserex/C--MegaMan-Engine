@@ -293,7 +293,7 @@ namespace MegaMan.Engine
             float off_y = Parent.Screen.OffsetY;
             if (sprite != null && Visible)
             {
-                sprite.VerticalFlip = Parent.GravityFlip ? Game.CurrentGame.GravityFlip : verticalFlip;
+                sprite.VerticalFlip = Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : verticalFlip;
                 sprite.Draw(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
             }
         }

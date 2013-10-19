@@ -18,6 +18,8 @@ namespace MegaMan.Engine
 
         public abstract ITiledScreen Screen { get; }
 
+        public bool IsGravityFlipped { get; set; }
+
         public event Action GameThink;
         public event Action GameAct;
         public event Action GameReact;

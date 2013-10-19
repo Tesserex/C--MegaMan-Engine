@@ -9,9 +9,10 @@ namespace MegaMan.Engine.Entities
     public interface IEntity
     {
         string Name { get; }
+        IGameplayContainer Container { get; }
         ITiledScreen Screen { get; }
         IEntityPool Entities { get; }
-        bool GravityFlip { get; }
+        bool IsGravitySensitive { get; }
         bool Paused { get; set; }
         IEntity Parent { get; }
         Direction Direction { get; }

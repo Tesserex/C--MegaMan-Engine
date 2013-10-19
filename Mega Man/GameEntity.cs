@@ -15,12 +15,13 @@ namespace MegaMan.Engine
         private IGameplayContainer container;
 
         public string Name { get; set; }
+        public IGameplayContainer Container { get { return container; } }
         public ITiledScreen Screen { get { return container.Screen; } }
         public IEntityPool Entities { get { return container.Entities; } }
         public IEntity Parent { get; private set; }
         public bool Running { get; private set; }
         public int MaxAlive { get; set; }
-        public bool GravityFlip { get; set; }   // whether to react to gravity flipping (collision and sprite)
+        public bool IsGravitySensitive { get; set; }   // whether to react to gravity flipping (collision and sprite)
         public bool Paused { get; set; }
 
         // I know this defeats good component based design but its just so much easier

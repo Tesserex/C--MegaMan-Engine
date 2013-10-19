@@ -151,7 +151,7 @@ namespace MegaMan.Engine
                 }
                 else if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
                 {
-                    if (!Game.CurrentGame.GravityFlip && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
+                    if (!container.IsGravityFlipped && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
                     {
                         // bottomless pit death!
                         playerPos.Parent.Die();
@@ -159,7 +159,7 @@ namespace MegaMan.Engine
                 }
                 else if (playerPos.Position.Y < Const.PlayerScrollTrigger)
                 {
-                    if (Game.CurrentGame.GravityFlip && playerPos.Position.Y < -32)
+                    if (container.IsGravityFlipped && playerPos.Position.Y < -32)
                     {
                         playerPos.Parent.Die();
                     }

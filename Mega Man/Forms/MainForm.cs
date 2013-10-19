@@ -501,8 +501,7 @@ namespace MegaMan.Engine
         private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame == null) return;
-            Game.CurrentGame.GravityFlip = !Game.CurrentGame.GravityFlip;
-            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GravityFlip;
+            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.DebugFlipGravity();
         }
 
         private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)

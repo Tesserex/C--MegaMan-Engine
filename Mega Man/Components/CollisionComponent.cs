@@ -242,8 +242,8 @@ namespace MegaMan.Engine
                 foreach (MapSquare tile in hitSquares)
                 {
                     RectangleF tileBox = tile.BlockBox;
-                    bool downonly = (!Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
-                    bool uponly = (Game.CurrentGame.GravityFlip && tile.Tile.Properties.Climbable);
+                    bool downonly = (!Parent.Container.IsGravityFlipped && tile.Tile.Properties.Climbable);
+                    bool uponly = (Parent.Container.IsGravityFlipped && tile.Tile.Properties.Climbable);
 
                     bool hit = (tile.BlockBox != RectangleF.Empty) ? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
 
@@ -472,7 +472,7 @@ namespace MegaMan.Engine
 
                 if (properties.Sinking > 0)
                 {
-                    if (Game.CurrentGame.GravityFlip)
+                    if (Parent.Container.IsGravityFlipped)
                     {
                         if (MovementSrc.VelocityY <= 0)
                         {

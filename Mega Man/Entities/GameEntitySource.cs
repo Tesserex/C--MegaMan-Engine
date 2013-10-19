@@ -94,7 +94,7 @@ namespace MegaMan.Engine.Entities
                             break;
 
                         case "GravityFlip":
-                            entity.GravityFlip = xmlComp.GetValue<bool>();
+                            entity.IsGravitySensitive = xmlComp.GetValue<bool>();
                             break;
 
                         default:

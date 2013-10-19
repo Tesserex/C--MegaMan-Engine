@@ -19,6 +19,8 @@ namespace MegaMan.Engine.Tests
             set;
         }
 
+        public bool IsGravityFlipped { get; set; }
+
         public event Action GameThink;
 
         public event Action GameAct;

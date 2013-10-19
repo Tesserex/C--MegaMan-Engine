@@ -46,7 +46,6 @@ namespace MegaMan.Engine
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
         public float Gravity { get; private set; }
-        public bool GravityFlip { get; set; }
 
         public ITilePropertiesSource TileProperties { get { return _tileProperties; } }
 
@@ -101,7 +100,6 @@ namespace MegaMan.Engine
         private Game()
         {
             Gravity = 0.25f;
-            GravityFlip = false;
             _entitySource = new GameEntitySource();
             _entityPool = new GameEntityPool(_entitySource);
             _tileProperties = new GameTilePropertiesSource();
@@ -277,6 +275,11 @@ namespace MegaMan.Engine
                 return CurrentGame._entityPool.GetTotalAlive();
             else
                 return 0;
+        }
+
+        public bool DebugFlipGravity()
+        {
+            return _stateMachine.DebugFlipGravity();
         }
 
         public static int XmlNumAlive(string name)

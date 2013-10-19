@@ -236,7 +236,7 @@ namespace MegaMan.Engine
 
                 case "GravityFlip":
                     bool flip = node.GetValue<bool>();
-                    effect = entity => { Game.CurrentGame.GravityFlip = flip; };
+                    effect = entity => { entity.Parent.Container.IsGravityFlipped = flip; };
                     break;
 
                 case "Func":
@@ -352,7 +352,7 @@ namespace MegaMan.Engine
                 {
                     return split(
                         null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
-                        Game.CurrentGame.GravityFlip,
+                        entity.Parent.Container.IsGravityFlipped,
                         0,
                         Game.CurrentGame.Player
                     );
@@ -387,7 +387,7 @@ namespace MegaMan.Engine
                     (entity.GetComponent<StateComponent>()).Lifetime,
                     pdx,
                     pdy,
-                    Game.CurrentGame.GravityFlip,
+                    entity.Parent.Container.IsGravityFlipped,
                     (entity.GetComponent<StateComponent>()).FrameRand,
                     Game.CurrentGame.Player
                 );

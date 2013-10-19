@@ -37,6 +37,8 @@ namespace MegaMan.Engine
         public float LocationX { get { return this._info.Tiles.BaseX + _locationOffsetX; } }
         public float LocationY { get { return this._info.Tiles.BaseY + _locationOffsetY; } }
 
+        public IGameplayContainer Stage { get { return _stage; } }
+
         public bool Background
         {
             get

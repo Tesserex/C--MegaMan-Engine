@@ -46,7 +46,7 @@ namespace MegaMan.Engine.Entities
                 }
                 entity.Name = source.Name;
                 entity.OnDeath = source.OnDeath;
-                entity.GravityFlip = source.GravityFlip;
+                entity.IsGravitySensitive = source.IsGravitySensitive;
 
                 BindEntityEventRegistration(id, entity);
 

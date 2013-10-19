@@ -54,8 +54,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Components\MovementComponentTests.cs" />
     <Compile Include="FakeGameplayContainer.cs" />
-    <Compile Include="PositionComponentTests.cs" />
+    <Compile Include="Components\PositionComponentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

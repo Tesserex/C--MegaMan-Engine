@@ -75,7 +75,7 @@ namespace MegaMan.Engine
             pushX = pushY = 0;
             dragX = dragY = resistX = resistY = 1;
 
-            if (Parent.Screen != null)
+            if (Parent.Screen != null && position != null)
             {
                 overTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
             }
@@ -103,15 +103,18 @@ namespace MegaMan.Engine
             if (!Flying)
             {
                 float gmult = (overTile != null) ? overTile.Properties.GravityMult : 1;
-                if (Game.CurrentGame.GravityFlip)
+                if (Game.CurrentGame != null)
                 {
-                    vy -= Game.CurrentGame.Gravity * gmult;
-                    if (vy < -Const.TerminalVel) vy = -Const.TerminalVel;
-                }
-                else
-                {
-                    vy += Game.CurrentGame.Gravity * gmult;
-                    if (vy > Const.TerminalVel) vy = Const.TerminalVel;
+                    if (Parent.Container.IsGravityFlipped)
+                    {
+                        vy -= Game.CurrentGame.Gravity * gmult;
+                        if (vy < -Const.TerminalVel) vy = -Const.TerminalVel;
+                    }
+                    else
+                    {
+                        vy += Game.CurrentGame.Gravity * gmult;
+                        if (vy > Const.TerminalVel) vy = Const.TerminalVel;
+                    }
                 }
             }
 
@@ -120,6 +123,8 @@ namespace MegaMan.Engine
                 SpriteComponent sprite = Parent.GetComponent<SpriteComponent>();
                 if (sprite != null) sprite.HorizontalFlip = (Direction == Direction.Left);
             }
+
+            Tile nextOverTile = null;
 
             if (position != null)
             {
@@ -138,9 +143,9 @@ namespace MegaMan.Engine
                     if ((!collision.BlockTop && deltaY < 0) || (!collision.BlockBottom && deltaY > 0)) pos.Y += deltaY;
                 }
                 position.SetPosition(pos);
-            }
 
-            Tile nextOverTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
+                nextOverTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
+            }
 
             if (Parent.Name == "Player")
             {

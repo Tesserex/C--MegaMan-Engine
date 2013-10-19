@@ -292,7 +292,7 @@ namespace MegaMan.Engine
             Player.Death -= Player_Death;
 
             // reset gravity and palettes
-            Game.CurrentGame.GravityFlip = false;
+            IsGravityFlipped = false;
             PaletteSystem.ResetAll();
 
             if (_currentScreen != null)

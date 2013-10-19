@@ -179,6 +179,17 @@ namespace MegaMan.Engine.StateMachine
                 }
             }
         }
+
+        public bool DebugFlipGravity()
+        {
+            if (_handlerStack.Any())
+            {
+                var top = _handlerStack.Peek();
+                top.IsGravityFlipped = !top.IsGravityFlipped;
+                return top.IsGravityFlipped;
+            }
+            return false;
+        }
 #endif
         #endregion
 
