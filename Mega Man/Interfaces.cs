@@ -22,6 +22,8 @@ namespace MegaMan.Engine
 
         ITiledScreen Screen { get; }
 
+        float Gravity { get; }
+
         bool IsGravityFlipped { get; set; }
 
         event Action GameThink;

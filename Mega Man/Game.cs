@@ -45,7 +45,6 @@ namespace MegaMan.Engine
 
         public int PixelsAcross { get; private set; }
         public int PixelsDown { get; private set; }
-        public float Gravity { get; private set; }
 
         public ITilePropertiesSource TileProperties { get { return _tileProperties; } }
 
@@ -99,7 +98,6 @@ namespace MegaMan.Engine
 
         private Game()
         {
-            Gravity = 0.25f;
             _entitySource = new GameEntitySource();
             _entityPool = new GameEntityPool(_entitySource);
             _tileProperties = new GameTilePropertiesSource();

@@ -19,6 +19,8 @@ namespace MegaMan.Engine.Tests
             set;
         }
 
+        public float Gravity { get { return 0.25f; } }
+
         public bool IsGravityFlipped { get; set; }
 
         public event Action GameThink;

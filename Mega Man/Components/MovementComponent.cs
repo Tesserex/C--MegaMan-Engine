@@ -45,7 +45,8 @@ namespace MegaMan.Engine
 
         public string TileType
         {
-            get {
+            get
+            {
                 if (overTile != null) return overTile.Properties.Name;
                 return "";
             }
@@ -103,18 +104,16 @@ namespace MegaMan.Engine
             if (!Flying)
             {
                 float gmult = (overTile != null) ? overTile.Properties.GravityMult : 1;
-                if (Game.CurrentGame != null)
+
+                if (Parent.Container.IsGravityFlipped)
                 {
-                    if (Parent.Container.IsGravityFlipped)
-                    {
-                        vy -= Game.CurrentGame.Gravity * gmult;
-                        if (vy < -Const.TerminalVel) vy = -Const.TerminalVel;
-                    }
-                    else
-                    {
-                        vy += Game.CurrentGame.Gravity * gmult;
-                        if (vy > Const.TerminalVel) vy = Const.TerminalVel;
-                    }
+                    vy -= Parent.Container.Gravity * gmult;
+                    if (vy < -Const.TerminalVel) vy = -Const.TerminalVel;
+                }
+                else
+                {
+                    vy += Parent.Container.Gravity * gmult;
+                    if (vy > Const.TerminalVel) vy = Const.TerminalVel;
                 }
             }
 
