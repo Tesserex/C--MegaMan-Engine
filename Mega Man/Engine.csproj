@@ -104,6 +104,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -112,7 +113,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -172,6 +172,7 @@
     <Compile Include="Components\LadderComponent.cs" />
     <Compile Include="Rendering\XnaRenderingContext.cs" />
     <Compile Include="Rendering\XnaResourceImage.cs" />
+    <Compile Include="Stage\IMapSquare.cs" />
     <Compile Include="Stage\ScreenLayer.cs" />
     <Compile Include="Stage\StageFactory.cs" />
     <Compile Include="Stage\StageHandler.cs" />

@@ -370,7 +370,7 @@ namespace MegaMan.Engine
                                 vy -= mov.VelocityY;
                             }
 
-                            PointF offset = hitbox.CheckTileOffset(rect, boundbox, vx, vy, false, false);
+                            PointF offset = hitbox.GetIntersectionOffset(rect, boundbox, vx, vy, false, false);
                             if (offset.X != 0 || offset.Y != 0)
                             {
                                 PositionSrc.Offset(offset.X, offset.Y);

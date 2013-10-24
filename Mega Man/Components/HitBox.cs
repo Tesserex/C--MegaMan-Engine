@@ -8,6 +8,11 @@ namespace MegaMan.Engine
     {
         protected RectangleF box;
 
+        public HitBox(float x, float y, float width, float height)
+        {
+            box = new RectangleF(x, y, width, height);
+        }
+
         public HitBox(XElement xmlNode)
         {
             float width = xmlNode.GetAttribute<float>("width");

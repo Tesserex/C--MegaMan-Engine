@@ -28,6 +28,11 @@ namespace MegaMan.Engine
 
         private static int nextID = 0;
 
+        public CollisionBox(float x, float y, float width, float height)
+            : base(x, y, width, height)
+        {
+        }
+
         public CollisionBox(XElement xmlNode)
             : base(xmlNode)
         {
@@ -73,7 +78,7 @@ namespace MegaMan.Engine
 
         public void SetParent(CollisionComponent parent) { parentComponent = parent; }
 
-        public bool EnvironmentCollisions(PointF position, MapSquare square, ref PointF offset)
+        public bool EnvironmentCollisions(PointF position, IMapSquare square, ref PointF offset)
         {
             offset.X = 0;
             offset.Y = 0;
@@ -83,10 +88,10 @@ namespace MegaMan.Engine
             if (box.Left + position.X > tileBox.Right) return false;
             RectangleF boundBox = BoxAt(position);
 
-            return EnvironmentContact(square.Tile, tileBox, boundBox, out offset);
+            return EnvironmentContact(square, tileBox, boundBox, out offset);
         }
 
-        private bool EnvironmentContact(Tile tile, RectangleF tileBox, RectangleF boundBox, out PointF offset)
+        private bool EnvironmentContact(IMapSquare square, RectangleF tileBox, RectangleF boundBox, out PointF offset)
         {
             // can't use intersection, use epsilon
             offset = PointF.Empty;
@@ -107,14 +112,14 @@ namespace MegaMan.Engine
                 if (boundBox.Right - tileBox.Left + Const.PixelEpsilon <= 0) return false;
             }
 
-            bool down = (!parentComponent.Parent.Container.IsGravityFlipped && tile.Properties.Climbable);
-            bool up = (parentComponent.Parent.Container.IsGravityFlipped && tile.Properties.Climbable);
+            bool down = (!parentComponent.Parent.Container.IsGravityFlipped && square.Properties.Climbable);
+            bool up = (parentComponent.Parent.Container.IsGravityFlipped && square.Properties.Climbable);
 
-            if (parentComponent.MovementSrc != null) offset = CheckTileOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
-            else offset = CheckTileOffset(tileBox, boundBox, 0, 0, up, down);
+            if (parentComponent.MovementSrc != null) offset = GetIntersectionOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
+            else offset = GetIntersectionOffset(tileBox, boundBox, 0, 0, up, down);
 
             // Quicksand sinking property tells us not to push the hitbox outward
-            if (tile.Properties.Sinking > 0)
+            if (square.Properties.Sinking > 0)
             {
                 // don't clip left or right at all
                 offset.X = 0;
@@ -141,7 +146,7 @@ namespace MegaMan.Engine
         }
 
         // change those last bools into an enum or something else!
-        public PointF CheckTileOffset(RectangleF tileBox, RectangleF boundBox, float approach_vx, float approach_vy, bool uponly, bool downonly)
+        public PointF GetIntersectionOffset(RectangleF tileBox, RectangleF boundBox, float approach_vx, float approach_vy, bool uponly, bool downonly)
         {
             float top = -1, bottom = -1, left = -1, right = -1;
             RectangleF intersection = RectangleF.Intersect(boundBox, tileBox);

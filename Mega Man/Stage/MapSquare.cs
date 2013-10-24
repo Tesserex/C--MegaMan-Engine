@@ -4,7 +4,7 @@ using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {
-    public class MapSquare
+    public class MapSquare : IMapSquare
     {
         public Tile Tile { get; private set; }
         public int X { get; private set; }
@@ -112,6 +112,11 @@ namespace MegaMan.Engine
             {
                 Tile.Sprite.Draw(context, Tile.Sprite.Layer, posX, posY);
             }
+        }
+
+        public TileProperties Properties
+        {
+            get { return Tile.Properties; }
         }
     }
 }
