@@ -51,6 +51,8 @@ namespace MegaMan.Editor.Controls
 
         protected override void OnRender(DrawingContext dc)
         {
+            var bitmap = new WriteableBitmap(Screen.PixelWidth, Screen.PixelHeight, 96, 96, PixelFormats.Pbgra32, null);
+
             base.OnRender(dc);
 
             var size = Screen.Tileset.TileSize;
@@ -65,15 +67,17 @@ namespace MegaMan.Editor.Controls
                     if (_grayscale)
                     {
                         var image = SpriteBitmapCache.GetOrLoadFrameGrayscale(Screen.Tileset.SheetPath.Absolute, location);
-                        dc.DrawImage(image, new Rect(x * size, y * size, size, size));
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, new Rect(0, 0, image.PixelWidth, image.PixelHeight));
                     }
                     else
                     {
                         var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
-                        dc.DrawImage(image, new Rect(x * size, y * size, size, size));
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, new Rect(0, 0, image.PixelWidth, image.PixelHeight));
                     }
                 }
             }
+
+            dc.DrawImage(bitmap, new Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight));
         }
     }
 }
