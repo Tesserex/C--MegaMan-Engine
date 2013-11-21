@@ -202,6 +202,10 @@ namespace MegaMan.Editor.Bll
         {
             var writer = new ProjectXmlWriter(Project);
             writer.Write();
+
+            foreach (var stage in openStages.Values)
+                stage.Save();
+
             Dirty = false;
         }
     }
