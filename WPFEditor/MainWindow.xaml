@@ -21,9 +21,30 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
+
+        <Ribbon Grid.Row="0">
+            <!-- Application Menu, located at the left-hand side (down arrow) -->
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu KeyTip="F" Label="File">
+                    <RibbonApplicationMenuItem Header="Options1" />
+                    <RibbonApplicationMenuItem Header="Exit2" />
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            
+            <RibbonTab Header="Home">
+                <RibbonGroup>
+                    <RibbonButton Width="50" Height="50" Label="Test"></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Stages"></RibbonTab>
+            <RibbonTab Header="Tiling"></RibbonTab>
+            <RibbonTab Header="Entities"></RibbonTab>
+        </Ribbon>
+
+        <Menu Grid.Row="1">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="New">
                     <MenuItem.Icon>
@@ -108,7 +129,7 @@
             </MenuItem>
         </Menu>
 
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1" Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}">
+        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="2" Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}">
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="200">
