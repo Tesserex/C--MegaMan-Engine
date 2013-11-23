@@ -33,7 +33,10 @@ namespace MegaMan.Editor.Bll
 
         private string BaseDir
         {
-            get { return Project.BaseDir; }
+            get
+            {
+                return Project.BaseDir;
+            }
         }
 
         public string Name
@@ -97,9 +100,10 @@ namespace MegaMan.Editor.Bll
 
         public event Action<StageDocument> StageAdded;
 
-        public static ProjectDocument CreateNew()
+        public static ProjectDocument CreateNew(string directory)
         {
             var p = new ProjectDocument();
+            p.Project.GameFile = FilePath.FromRelative("game.xml", directory);
             return p;
         }
 

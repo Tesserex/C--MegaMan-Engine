@@ -1,6 +1,7 @@
 ﻿using MegaMan.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -15,15 +16,15 @@ namespace MegaMan.IO.Xml
         public ProjectXmlWriter(Project project)
         {
             this._project = project;
-            _writer = new XmlTextWriter(project.GameFile, Encoding.Default);
-            _writer.Formatting = Formatting.Indented;
-            _writer.Indentation = 1;
-            _writer.IndentChar = '\t';
         }
 
         public void Write()
         {
-            if (string.IsNullOrEmpty(_project.GameFile)) return;
+            Directory.CreateDirectory(_project.GameFile.BasePath);
+            _writer = new XmlTextWriter(_project.GameFile.Absolute, Encoding.Default);
+            _writer.Formatting = Formatting.Indented;
+            _writer.Indentation = 1;
+            _writer.IndentChar = '\t';
 
             _writer.WriteStartElement("Game");
             if (!string.IsNullOrEmpty(_project.Name)) _writer.WriteAttributeString("name", _project.Name);
@@ -88,7 +89,7 @@ namespace MegaMan.IO.Xml
             _writer.Close();
         }
 
-        public void WriteHandlerTransfer(HandlerTransfer handlerTransfer)
+        private void WriteHandlerTransfer(HandlerTransfer handlerTransfer)
         {
             _writer.WriteStartElement("Next");
 

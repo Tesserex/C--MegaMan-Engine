@@ -62,8 +62,14 @@ namespace MegaMan.Common
             set;
         }
 
-        public string GameFile { get; set; }
-        public string BaseDir { get; set; }
+        public FilePath GameFile { get; set; }
+        public string BaseDir
+        {
+            get
+            {
+                return GameFile.BasePath;
+            }
+        }
 
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }

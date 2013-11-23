@@ -50,5 +50,10 @@ namespace MegaMan.Editor.Controls
                 _viewModel.DirectoryPath = dialog.FileName;
             }
         }
+
+        private void CreateClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Create();
+        }
     }
 }

@@ -28,7 +28,7 @@
         <Fluent:Ribbon Grid.Row="0">
             
             <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Tab">
+            <Fluent:RibbonTabItem Header="Home">
                 
             </Fluent:RibbonTabItem>
 
@@ -36,7 +36,7 @@
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage>
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="Open" />
+                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="Open" CommandTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <Fluent:BackstageTabItem Header="New Project">
                             <c:NewProjectDialog />
                         </Fluent:BackstageTabItem>

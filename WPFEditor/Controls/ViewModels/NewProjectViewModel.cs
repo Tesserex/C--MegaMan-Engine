@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegaMan.Editor.Bll;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -42,7 +43,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public bool CreateProjectDirectory { get; set; }
+        private bool _createDirectory;
+        public bool CreateProjectDirectory
+        {
+            get { return _createDirectory; }
+            set
+            {
+                _createDirectory = value;
+                OnPropertyChanged("CreateProjectDirectory");
+            }
+        }
 
         public NewProjectViewModel()
         {
@@ -76,6 +86,25 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 handler(this, new PropertyChangedEventArgs(property));
             }
+        }
+
+        public void Create()
+        {
+            var path = DirectoryPath;
+            if (CreateProjectDirectory)
+            {
+                var invalidChars = System.IO.Path.GetInvalidPathChars();
+                var nameFolder = new String(Name
+                    .Where(x => !invalidChars.Contains(x))
+                    .ToArray());
+                path = System.IO.Path.Combine(path, nameFolder);
+            }
+
+            var document = ProjectDocument.CreateNew(path);
+
+            document.Name = Name;
+            document.Author = Author;
+            document.Save();
         }
     }
 }

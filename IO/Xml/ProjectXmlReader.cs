@@ -19,8 +19,7 @@ namespace MegaMan.IO.Xml
 
             _project = new Project();
 
-            _project.GameFile = path;
-            _project.BaseDir = Path.GetDirectoryName(path);
+            _project.GameFile = FilePath.FromAbsolute(path, Path.GetDirectoryName(path));
 
             XElement reader = XElement.Load(path);
 

@@ -17,6 +17,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.Resources>
                 <Style TargetType="{x:Type TextBox}">
@@ -42,7 +43,14 @@
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=DirectoryPath}"></TextBox>
             <Button Grid.Column="2" Grid.Row="2" Height="24" Width="70" Click="BrowseClick">Browse...</Button>
             
-            <CheckBox Grid.Column="1" Grid.Row="3">Create Project Directory</CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding Path=CreateProjectDirectory}">Create Project Directory</CheckBox>
+            
+            <Button Grid.Column="1" Grid.Row="4" Width="100" Height="60" HorizontalAlignment="Left" Margin="0,15" Click="CreateClick">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="/Resources/metool.png" Stretch="None"></Image>
+                    <TextBlock>Create Project</TextBlock>
+                </StackPanel>
+            </Button>
         </Grid>
     </DockPanel>
 </UserControl>
