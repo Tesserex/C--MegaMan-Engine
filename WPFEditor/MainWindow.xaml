@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MegaMan.Editor.MainWindow"
         xmlns:avalonDock="http://avalondock.codeplex.com"
+        xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:c="clr-namespace:MegaMan.Editor.Controls"
         Title="Mega Man Project Editor" Height="700" Width="1100">
     <Window.Resources>
@@ -21,115 +22,30 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Ribbon Grid.Row="0">
-            <!-- Application Menu, located at the left-hand side (down arrow) -->
-            <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu KeyTip="F" Label="File">
-                    <RibbonApplicationMenuItem Header="Options1" />
-                    <RibbonApplicationMenuItem Header="Exit2" />
-                </RibbonApplicationMenu>
-            </Ribbon.ApplicationMenu>
+        <Fluent:Ribbon Grid.Row="0">
             
-            <RibbonTab Header="Home">
-                <RibbonGroup>
-                    <RibbonButton Width="50" Height="50" Label="Test"></RibbonButton>
-                </RibbonGroup>
-            </RibbonTab>
-            <RibbonTab Header="Stages"></RibbonTab>
-            <RibbonTab Header="Tiling"></RibbonTab>
-            <RibbonTab Header="Entities"></RibbonTab>
-        </Ribbon>
+            <!--Tabs-->
+            <Fluent:RibbonTabItem Header="Tab">
+                
+            </Fluent:RibbonTabItem>
 
-        <Menu Grid.Row="1">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" Command="New">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/NewDocumentHS.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Open" Command="Open">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/openHS.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Recent"/>
-                <Separator />
-                <MenuItem Header="_Save" Command="Save">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/saveHS.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="_Close" Command="Close"/>
-                <MenuItem Header="_Quit"/>
-            </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Header="Undo" Command="Undo">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/Undo.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Redo" Command="Redo">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/Redo.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="Copy" Command="Copy">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/CopyHS.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Paste" Command="Paste">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/PasteHS.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                    
-                </MenuItem>
-                <MenuItem Header="Paste as Brush">
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/PasteBrush.png" SnapsToDevicePixels="True" Stretch="Uniform" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="_View">
-                <MenuItem Header="Tiles"/>
-                <MenuItem Header="Blocking"/>
-                <MenuItem Header="Entities"/>
-                <MenuItem Header="Grid"/>
-                <MenuItem Header="Animate"/>
-                <MenuItem Header="Joins"/>
-            </MenuItem>
-            <MenuItem Header="_Stage">
-                <MenuItem Header="New Stage"/>
-                <MenuItem Header="Properties"/>
-                <MenuItem Header="Stage Select..."/>
-            </MenuItem>
-            <MenuItem Header="_Screen">
-                <MenuItem Header="Split Screen"/>
-                <MenuItem Header="Merge Screen"/>
-                <Separator />
-                <MenuItem Header="Clear Screen"/>
-            </MenuItem>
-            <MenuItem Header="_Windows">
-                <MenuItem Header="Brushes"/>
-                <MenuItem Header="Project"/>
-                <MenuItem Header="History"/>
-                <MenuItem Header="Entities"/>
-            </MenuItem>
-            <MenuItem Header="_Test">
-                <MenuItem Header="Run Project"/>
-                <MenuItem Header="Run Stage"/>
-                <Separator />
-                <MenuItem Header="Set Engine Path"/>
-            </MenuItem>
-        </Menu>
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                    <Fluent:BackstageTabControl>
+                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="Open" />
+                        <Fluent:BackstageTabItem Header="New Project">
+                            <c:NewProjectDialog />
+                        </Fluent:BackstageTabItem>
+                    </Fluent:BackstageTabControl>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
+        </Fluent:Ribbon>
 
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="2" Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}">
+        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1" Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}">
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="200">
