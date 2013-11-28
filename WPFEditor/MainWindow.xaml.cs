@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MegaMan.Editor.Bll;
 using Microsoft.Win32;
 using MegaMan.Editor.Controls.ViewModels;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor
 {
@@ -44,6 +45,8 @@ namespace MegaMan.Editor
             layoutToolbar.DataContext = layoutEditor;
             stageLayoutControl.ToolProvider = layoutEditor;
             stageLayoutControl.StageProvider = _projectViewModel;
+
+            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -68,9 +71,11 @@ namespace MegaMan.Editor
 
             if (result == true)
             {
+                ProjectDocument project = null;
+
                 try
                 {
-                    _openProject = ProjectDocument.FromFile(dialog.FileName);
+                    project = ProjectDocument.FromFile(dialog.FileName);
                 }
                 catch (MegaMan.Common.GameXmlException)
                 {
@@ -87,15 +92,22 @@ namespace MegaMan.Editor
                     return;
                 }
 
-                if (_openProject != null)
+                if (project != null)
                 {
-                    SetupProjectDependencies(_openProject);
+                    var args = new ProjectOpenedEventArgs() { Project = project };
+                    ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
                 }
             }
         }
 
+        private void ProjectOpened(object sender, ProjectOpenedEventArgs args)
+        {
+            SetupProjectDependencies(args.Project);
+        }
+
         private void SetupProjectDependencies(ProjectDocument project)
         {
+            _openProject = project;
             _projectViewModel.Project = project;
         }
 

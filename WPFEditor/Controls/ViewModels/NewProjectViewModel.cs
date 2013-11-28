@@ -1,4 +1,5 @@
 ﻿using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -105,6 +106,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             document.Name = Name;
             document.Author = Author;
             document.Save();
+
+            var args = new ProjectOpenedEventArgs() { Project = document };
+            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
         }
     }
 }

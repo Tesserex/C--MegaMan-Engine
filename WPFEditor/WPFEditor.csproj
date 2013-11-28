@@ -128,6 +128,9 @@
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\NewProjectViewModel.cs" />
     <Compile Include="Controls\ViewModels\RelayCommand.cs" />
+    <Compile Include="Mediator\MediatedEvent.cs" />
+    <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
+    <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
