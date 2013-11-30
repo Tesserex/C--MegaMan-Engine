@@ -16,37 +16,42 @@ using MegaMan.Editor.Bll;
 using Microsoft.Win32;
 using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Mediator;
+using Fluent;
+using MegaMan.Editor.AppData;
 
 namespace MegaMan.Editor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private ProjectDocument _openProject;
-        private ProjectViewModel _projectViewModel;
+        private MainWindowViewModel _viewModel;
+
+        public ICommand OpenRecentCommand { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            _viewModel = new MainWindowViewModel();
+            this.DataContext = _viewModel;
+
             UseLayoutRounding = true;
 
-            _projectViewModel = new ProjectViewModel();
-            projectTree.Update(_projectViewModel);
+            projectTree.Update(_viewModel.ProjectViewModel);
 
-            var tilesetModel = new TilesetViewModel(_projectViewModel);
+            var tilesetModel = new TilesetViewModel(_viewModel.ProjectViewModel);
             tileStrip.Update(tilesetModel);
             stageTileControl.ToolProvider = tilesetModel;
-            stageTileControl.StageProvider = _projectViewModel;
+            stageTileControl.StageProvider = _viewModel.ProjectViewModel;
 
-            var layoutEditor = new LayoutEditingViewModel(_projectViewModel);
+            var layoutEditor = new LayoutEditingViewModel(_viewModel.ProjectViewModel);
             layoutToolbar.DataContext = layoutEditor;
             stageLayoutControl.ToolProvider = layoutEditor;
-            stageLayoutControl.StageProvider = _projectViewModel;
+            stageLayoutControl.StageProvider = _viewModel.ProjectViewModel;
 
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
+            OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -71,71 +76,52 @@ namespace MegaMan.Editor
 
             if (result == true)
             {
-                ProjectDocument project = null;
-
-                try
-                {
-                    project = ProjectDocument.FromFile(dialog.FileName);
-                }
-                catch (MegaMan.Common.GameXmlException)
-                {
-                    MessageBox.Show(this, "The selected project could not be loaded. Perhaps it was created with a different version of this editor.",
-                        "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    return;
-                }
-                catch
-                {
-                    MessageBox.Show(this, "The selected file could not be loaded due to an unknown error.",
-                        "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    return;
-                }
-
-                if (project != null)
-                {
-                    var args = new ProjectOpenedEventArgs() { Project = project };
-                    ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
-                }
+                TryOpenProject(dialog.FileName);
             }
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs args)
+        private void TryOpenProject(string filename)
         {
-            SetupProjectDependencies(args.Project);
-        }
-
-        private void SetupProjectDependencies(ProjectDocument project)
-        {
-            _openProject = project;
-            _projectViewModel.Project = project;
-        }
-
-        private void DestroyProjectDependencies()
-        {
-            _projectViewModel.Project = null;
+            try
+            {
+                _viewModel.OpenProject(filename);
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show(this, "The project file could not be found at the specified location.",
+                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (MegaMan.Common.GameXmlException)
+            {
+                MessageBox.Show(this, "The selected project could not be loaded. There was an error while parsing the project files.",
+                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch
+            {
+                MessageBox.Show(this, "The selected file could not be loaded due to an unknown error.",
+                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void SaveProject(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_openProject != null)
-            {
-                _openProject.Save();
-            }
+            _viewModel.SaveProject();
         }
 
         private void IsProjectOpen(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (_openProject != null);
+            e.CanExecute = (_viewModel.ProjectViewModel.Project != null);
         }
 
         private void CloseProject(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_openProject != null)
-            {
-                DestroyProjectDependencies();
-                _openProject = null;
-            }
+            _viewModel.CloseProject();
+        }
+
+        private void OpenRecentProject(object param)
+        {
+            TryOpenProject(param.ToString());
+            ribbonBackstage.IsOpen = false;
         }
     }
 }
