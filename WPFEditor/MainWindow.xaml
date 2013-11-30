@@ -80,6 +80,8 @@
                         <Fluent:BackstageTabItem Header="New Project">
                             <c:NewProjectDialog />
                         </Fluent:BackstageTabItem>
+                        <Fluent:Button Header="Save" Icon="Resources/saveHS.png" Command="Save" CommandTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                        <Fluent:Button Header="Close" Icon="Resources/remove.png" Command="Close" CommandTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>

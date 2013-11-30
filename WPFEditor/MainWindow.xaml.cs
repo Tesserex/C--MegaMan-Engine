@@ -32,12 +32,12 @@ namespace MegaMan.Editor
 
         public MainWindow()
         {
-            InitializeComponent();
-
             _viewModel = new MainWindowViewModel();
             this.DataContext = _viewModel;
 
             UseLayoutRounding = true;
+
+            InitializeComponent();
 
             projectTree.Update(_viewModel.ProjectViewModel);
 
@@ -89,17 +89,17 @@ namespace MegaMan.Editor
             catch (System.IO.FileNotFoundException)
             {
                 MessageBox.Show(this, "The project file could not be found at the specified location.",
-                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (MegaMan.Common.GameXmlException)
             {
                 MessageBox.Show(this, "The selected project could not be loaded. There was an error while parsing the project files.",
-                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch
             {
                 MessageBox.Show(this, "The selected file could not be loaded due to an unknown error.",
-                    "MegaMan Project Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

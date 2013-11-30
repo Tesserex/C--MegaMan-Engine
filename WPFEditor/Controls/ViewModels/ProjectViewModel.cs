@@ -28,7 +28,9 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _project = value;
 
                 _children.Clear();
-                _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
+
+                if (_project != null)
+                    _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
 
                 if (StageChanged != null)
                 {

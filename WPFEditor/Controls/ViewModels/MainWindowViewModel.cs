@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +16,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private ProjectDocument _openProject;
+
+        public string ApplicationName { get; private set; }
 
         public StoredAppData AppData { get; private set; }
 
@@ -42,7 +45,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             AppData = StoredAppData.Load();
 
-            WindowTitle = "Mega Man Project Editor";
+            var attr = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyProductAttribute)).Single() as AssemblyProductAttribute;
+            ApplicationName = attr.Product;
+            WindowTitle = attr.Product;
         }
 
         public void OpenProject(string filename)
@@ -68,12 +73,13 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _openProject = project;
             ProjectViewModel.Project = project;
-            WindowTitle = project.Name + " - Mega Man Project Editor";
+            WindowTitle = project.Name + " - " + ApplicationName;
         }
 
         private void DestroyProjectDependencies()
         {
             ProjectViewModel.Project = null;
+            WindowTitle = ApplicationName;
         }
 
         public void SaveProject()
