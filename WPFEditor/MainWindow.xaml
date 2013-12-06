@@ -32,14 +32,16 @@
             </Fluent:Ribbon.QuickAccessItems>
             <!--Tabs-->
             <Fluent:RibbonTabItem Header="Home">
-                
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Project Settings" Command="{Binding ElementName=MainWindow1, Path=OpenProjectSettingsCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
             <!--Backstage-->
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage x:Name="ribbonBackstage" IsOpen="True">
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="Open" CommandTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="Open" CommandTarget="{Binding ElementName=MainWindow1}" />
                         <Fluent:BackstageTabItem Header="Recent Projects" Background="White">
                             <StackPanel Orientation="Vertical" Margin="30">
                                 <TextBlock FontSize="20">Recent Projects</TextBlock>
@@ -96,8 +98,8 @@
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPane>
-                        <avalonDock:LayoutDocument>
-                            <TabControl>
+                        <avalonDock:LayoutDocument x:Name="mainDocumentPane">
+                            <TabControl x:Name="editingTabWindow">
                                 <TabControl.Resources>
                                     <Style TargetType="{x:Type TabPanel}">
                                         <Setter Property="HorizontalAlignment" Value="Right" />

@@ -18,6 +18,7 @@ using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Mediator;
 using Fluent;
 using MegaMan.Editor.AppData;
+using MegaMan.Editor.Controls;
 
 namespace MegaMan.Editor
 {
@@ -29,6 +30,7 @@ namespace MegaMan.Editor
         private MainWindowViewModel _viewModel;
 
         public ICommand OpenRecentCommand { get; private set; }
+        public ICommand OpenProjectSettingsCommand { get; private set; }
 
         public MainWindow()
         {
@@ -52,6 +54,7 @@ namespace MegaMan.Editor
             stageLayoutControl.StageProvider = _viewModel.ProjectViewModel;
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
+            OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -88,18 +91,16 @@ namespace MegaMan.Editor
             }
             catch (System.IO.FileNotFoundException)
             {
-                MessageBox.Show(this, "The project file could not be found at the specified location.",
-                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.ShowError("The project file could not be found at the specified location.", _viewModel.ApplicationName);
+                
             }
             catch (MegaMan.Common.GameXmlException)
             {
-                MessageBox.Show(this, "The selected project could not be loaded. There was an error while parsing the project files.",
-                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", _viewModel.ApplicationName);
             }
             catch
             {
-                MessageBox.Show(this, "The selected file could not be loaded due to an unknown error.",
-                    _viewModel.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.ShowError("The selected file could not be loaded due to an unknown error.", _viewModel.ApplicationName);
             }
         }
 
@@ -110,7 +111,12 @@ namespace MegaMan.Editor
 
         private void IsProjectOpen(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (_viewModel.ProjectViewModel.Project != null);
+            e.CanExecute = IsProjectOpen();
+        }
+
+        private bool IsProjectOpen()
+        {
+            return (_viewModel.ProjectViewModel.Project != null);
         }
 
         private void CloseProject(object sender, ExecutedRoutedEventArgs e)
@@ -122,6 +128,11 @@ namespace MegaMan.Editor
         {
             TryOpenProject(param.ToString());
             ribbonBackstage.IsOpen = false;
+        }
+
+        private void OpenProjectSettings(object param)
+        {
+            
         }
     }
 }
