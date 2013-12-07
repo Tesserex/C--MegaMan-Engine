@@ -132,7 +132,8 @@ namespace MegaMan.Editor
 
         private void OpenProjectSettings(object param)
         {
-            
+            this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.ProjectViewModel.Project);
+            this.projectSettingsPane.IsActive = true;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegaMan.Editor.Controls.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace MegaMan.Editor.Controls
         public ProjectSettingsControl()
         {
             InitializeComponent();
+        }
+
+        private void BrowseMusicClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

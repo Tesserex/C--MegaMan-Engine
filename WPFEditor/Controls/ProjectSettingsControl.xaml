@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="600">
     <DockPanel Background="White" Width="auto" Height="auto">
         <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -23,6 +23,13 @@
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="Margin" Value="8,6" />
                     <Setter Property="FontSize" Value="14" />
+                    <Setter Property="MinWidth" Value="300" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="Margin" Value="8,6" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
                 </Style>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="VerticalAlignment" Value="Center" />
@@ -44,11 +51,15 @@
             <Label Grid.Column="0" Grid.Row="1">Author</Label>
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Author}"></TextBox>
 
-            <Button Grid.Column="1" Grid.Row="4" Padding="10,3" HorizontalAlignment="Left" Margin="0,15">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock>Save</TextBlock>
-                </StackPanel>
-            </Button>
+            <Label Grid.Column="0" Grid.Row="2">Music NSF Path</Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=MusicNsf}"></TextBox>
+            <Button Grid.Column="2" Grid.Row="2" Height="24" Width="70" Click="BrowseMusicClick">Browse...</Button>
+            
+            <Label Grid.Column="0" Grid.Row="3">Start Point</Label>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                <ComboBox SelectedItem="{Binding StartType}" ItemsSource="{Binding HandlerTypes}"></ComboBox>
+                <ComboBox SelectedItem="{Binding StartName}" ItemsSource="{Binding StartHandlers}"></ComboBox>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </UserControl>

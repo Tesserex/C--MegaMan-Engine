@@ -98,7 +98,10 @@
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPane>
-                        <avalonDock:LayoutDocument x:Name="mainDocumentPane">
+                        <avalonDock:LayoutDocument x:Name="projectSettingsPane">
+                            <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
+                        </avalonDock:LayoutDocument>
+                        <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
                             <TabControl x:Name="editingTabWindow">
                                 <TabControl.Resources>
                                     <Style TargetType="{x:Type TabPanel}">

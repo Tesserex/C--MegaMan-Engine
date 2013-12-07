@@ -82,6 +82,68 @@ namespace MegaMan.Editor.Bll
             }
         }
 
+        public string MusicNsf
+        {
+            get { return Project.MusicNSF.Absolute; }
+            set
+            {
+                if (Project.MusicNSF.Absolute == value) return;
+                Project.MusicNSF = FilePath.FromAbsolute(value, BaseDir);
+                Dirty = true;
+            }
+        }
+
+        public string EffectsNsf
+        {
+            get { return Project.EffectsNSF.Absolute; }
+            set
+            {
+                if (Project.EffectsNSF.Absolute == value) return;
+                Project.EffectsNSF = FilePath.FromAbsolute(value, BaseDir);
+                Dirty = true;
+            }
+        }
+
+        public HandlerType StartHandlerType
+        {
+            get
+            {
+                if (Project.StartHandler == null)
+                    return HandlerType.Scene;
+
+                return Project.StartHandler.Type;
+            }
+            set
+            {
+                if (Project.StartHandler == null)
+                {
+                    Project.StartHandler = new HandlerTransfer() { Type = StartHandlerType };
+                }
+
+                Project.StartHandler.Type = value;
+            }
+        }
+
+        public string StartHandlerName
+        {
+            get
+            {
+                if (Project.StartHandler == null)
+                    return null;
+
+                return Project.StartHandler.Name;
+            }
+            set
+            {
+                if (Project.StartHandler == null)
+                {
+                    Project.StartHandler = new HandlerTransfer() { Type = StartHandlerType };
+                }
+
+                Project.StartHandler.Name = value;
+            }
+        }
+
         #endregion
 
         #region GUI Editor Stuff
