@@ -72,5 +72,15 @@ namespace MegaMan.Common.Tests
 
             Assert.IsNull(filepath.Relative);
         }
+
+        [TestMethod, TestCategory("FilePath")]
+        public void AbsolutePathShouldNotContainBackDots()
+        {
+            var filepath = FilePath.FromRelative(@"..\..\bar\baz", @"C:\foo\stuff");
+
+            var expected = @"C:\bar\baz";
+
+            Assert.AreEqual(expected, filepath.Absolute);
+        }
     }
 }

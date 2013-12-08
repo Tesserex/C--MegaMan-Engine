@@ -61,7 +61,7 @@ namespace MegaMan.Common
             {
                 basepath = Path.GetFullPath(basepath),
                 relative = relative,
-                absolute = Path.Combine(basepath, relative)
+                absolute = Path.GetFullPath(Path.Combine(basepath, relative))
             };
             return fp;
         }
