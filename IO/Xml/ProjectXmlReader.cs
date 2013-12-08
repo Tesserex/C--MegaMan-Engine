@@ -105,6 +105,14 @@ namespace MegaMan.IO.Xml
                 .Select(e => e.Value)
                 .Where(v => !string.IsNullOrEmpty(v.Trim())));
 
+            var includeReader = new IncludeFileXmlReader();
+
+            foreach (string includePath in _project.Includes)
+            {
+                string includefile = Path.Combine(_project.BaseDir, includePath);
+                includeReader.LoadIncludedFile(_project, includefile);
+            }
+
             return _project;
         }
 

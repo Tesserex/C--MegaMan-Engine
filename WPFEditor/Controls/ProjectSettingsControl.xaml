@@ -23,7 +23,8 @@
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="Margin" Value="8,6" />
                     <Setter Property="FontSize" Value="14" />
-                    <Setter Property="MinWidth" Value="300" />
+                    <Setter Property="Width" Value="300" />
+                    <Setter Property="Width" Value="300" />
                     <Setter Property="HorizontalAlignment" Value="Left" />
                 </Style>
                 <Style TargetType="{x:Type ComboBox}">

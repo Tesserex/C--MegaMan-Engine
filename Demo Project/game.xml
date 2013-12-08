@@ -1,7 +1,7 @@
-<Game name="Engine Demo" author="Tesserex" version="1.2.0.0">
+<Game name="Engine Demo" author="Tesserex" version="1.0.0.0">
 	<Size x="256" y="224" />
 	<NSF>
-		<Music>music\mm5.nsf</Music>
+		<Music>..\..\..\Megaman Omega\music.nsf</Music>
 		<SFX>music\mm5.nsf</SFX>
 	</NSF>
 	<Stages>

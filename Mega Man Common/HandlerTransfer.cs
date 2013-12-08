@@ -11,7 +11,6 @@ namespace MegaMan.Common
     {
         Stage,
         Scene,
-        StageSelect,
         Menu
     }
 

@@ -78,6 +78,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (StartType == Common.HandlerType.Stage)
                     return _project.StageNames;
+                if (StartType == Common.HandlerType.Scene)
+                    return _project.SceneNames;
+                if (StartType == Common.HandlerType.Menu)
+                    return _project.MenuNames;
 
                 return Enumerable.Empty<string>();
             }

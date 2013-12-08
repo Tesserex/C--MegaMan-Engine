@@ -149,10 +149,6 @@ namespace MegaMan.IO.Xml
                         transfer.Type = HandlerType.Stage;
                         break;
 
-                    case "stageselect":
-                        transfer.Type = HandlerType.StageSelect;
-                        break;
-
                     case "scene":
                         transfer.Type = HandlerType.Scene;
                         break;

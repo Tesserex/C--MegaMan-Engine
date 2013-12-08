@@ -158,6 +158,22 @@ namespace MegaMan.Editor.Bll
             }
         }
 
+        public IEnumerable<string> SceneNames
+        {
+            get
+            {
+                return Project.Scenes.Select(info => info.Name);
+            }
+        }
+
+        public IEnumerable<string> MenuNames
+        {
+            get
+            {
+                return Project.Menus.Select(info => info.Name);
+            }
+        }
+
         #endregion
 
         public event Action<StageDocument> StageAdded;
