@@ -57,7 +57,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Enum.GetValues(typeof(Common.HandlerType)).Cast<Common.HandlerType>();
+                return Enum.GetValues(typeof(Common.HandlerType))
+                    .Cast<Common.HandlerType>()
+                    .OrderBy(t => t.ToString());
             }
         }
 
@@ -69,6 +71,8 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _project.StartHandlerType = value;
                 OnPropertyChanged("StartType");
                 OnPropertyChanged("StartHandlers");
+
+                StartName = StartHandlers.FirstOrDefault();
             }
         }
 
@@ -76,14 +80,16 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                if (StartType == Common.HandlerType.Stage)
-                    return _project.StageNames;
-                if (StartType == Common.HandlerType.Scene)
-                    return _project.SceneNames;
-                if (StartType == Common.HandlerType.Menu)
-                    return _project.MenuNames;
+                var items = Enumerable.Empty<string>();
 
-                return Enumerable.Empty<string>();
+                if (StartType == Common.HandlerType.Stage)
+                    items = _project.StageNames;
+                else if (StartType == Common.HandlerType.Scene)
+                    items = _project.SceneNames;
+                else if (StartType == Common.HandlerType.Menu)
+                    items = _project.MenuNames;
+
+                return items.OrderBy(x => x);
             }
         }
 
