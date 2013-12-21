@@ -11,13 +11,16 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
-            <Canvas x:Name="previewCanvas" DockPanel.Dock="Top" Height="{Binding PreviewWidth}" Width="{Binding PreviewHeight}"/>
+            <Image x:Name="previewImage" Source="{Binding PreviewImage}" DockPanel.Dock="Top" Height="{Binding PreviewWidth}" Width="{Binding PreviewHeight}" />
             <StackPanel Orientation="Horizontal">
                 
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
-            <Canvas x:Name="sheetCanvas" DockPanel.Dock="Top" />
+            <Canvas DockPanel.Dock="Top">
+                <Image Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" />
+                <Canvas Canvas.Top="0" Canvas.Left="0" x:Name="sheetCanvasOverlay" />
+            </Canvas>
         </DockPanel>
     </Grid>
 </UserControl>

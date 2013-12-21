@@ -132,12 +132,20 @@
       <DependentUpon>ProjectSettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ScreenResizeAdorner.cs" />
+    <Compile Include="Controls\SpriteEditor.xaml.cs">
+      <DependentUpon>SpriteEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TilesetEditor.xaml.cs">
+      <DependentUpon>TilesetEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Controls\ViewModels\NewProjectViewModel.cs" />
     <Compile Include="Controls\ViewModels\ProjectSettingsViewModel.cs" />
     <Compile Include="Controls\ViewModels\RelayCommand.cs" />
+    <Compile Include="Controls\ViewModels\SpriteEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
@@ -177,6 +185,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ProjectTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpriteEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TilesetEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,6 +333,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\wily.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tiles.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

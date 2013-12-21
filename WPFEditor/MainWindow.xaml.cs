@@ -31,6 +31,7 @@ namespace MegaMan.Editor
 
         public ICommand OpenRecentCommand { get; private set; }
         public ICommand OpenProjectSettingsCommand { get; private set; }
+        public ICommand EditTilesetCommand { get; private set; }
 
         public MainWindow()
         {
@@ -55,6 +56,7 @@ namespace MegaMan.Editor
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
             OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
+            EditTilesetCommand = new RelayCommand(EditTileset, p => CanEditTileset());
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -134,6 +136,18 @@ namespace MegaMan.Editor
         {
             this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.ProjectViewModel.Project);
             this.projectSettingsPane.IsActive = true;
+        }
+
+        private bool CanEditTileset()
+        {
+            return IsProjectOpen() && _viewModel.ProjectViewModel.CurrentStage != null;
+        }
+
+        private void EditTileset(object param)
+        {
+            var tileset = _viewModel.ProjectViewModel.CurrentStage.Tileset;
+            this.tilesetEditorControl.DataContext = new TilesetEditorViewModel(tileset);
+            this.tilesetEditorPane.IsActive = true;
         }
     }
 }

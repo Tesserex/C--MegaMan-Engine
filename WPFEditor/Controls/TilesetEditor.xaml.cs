@@ -1,5 +1,4 @@
-﻿using MegaMan.Editor.Controls.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,24 +16,13 @@ using System.Windows.Shapes;
 namespace MegaMan.Editor.Controls
 {
     /// <summary>
-    /// Interaction logic for SpriteEditor.xaml
+    /// Interaction logic for TilesetEditor.xaml
     /// </summary>
-    public partial class SpriteEditor : UserControl
+    public partial class TilesetEditor : UserControl
     {
-        private SpriteEditorViewModel _viewModel;
-
-        public SpriteEditor()
+        public TilesetEditor()
         {
             InitializeComponent();
-        }
-
-        public SpriteEditor(Common.Sprite sprite)
-        {
-            _viewModel = new SpriteEditorViewModel(sprite);
-
-            InitializeComponent();
-
-            this.DataContext = _viewModel;
         }
     }
 }

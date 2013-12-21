@@ -36,6 +36,12 @@
                     <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Project Settings" Command="{Binding ElementName=MainWindow1, Path=OpenProjectSettingsCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+            
+            <Fluent:RibbonTabItem Header="Stage">
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Edit Tiles" Icon="/Resources/tiles.png" LargeIcon="/Resources/tiles.png" Command="{Binding ElementName=MainWindow1, Path=EditTilesetCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
 
             <!--Backstage-->
             <Fluent:Ribbon.Menu>
@@ -100,6 +106,9 @@
                     <avalonDock:LayoutDocumentPane>
                         <avalonDock:LayoutDocument x:Name="projectSettingsPane">
                             <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
+                        </avalonDock:LayoutDocument>
+                        <avalonDock:LayoutDocument x:Name="tilesetEditorPane">
+                            <c:TilesetEditor x:Name="tilesetEditorControl"></c:TilesetEditor>
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
                             <TabControl x:Name="editingTabWindow">
