@@ -6,7 +6,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -14,7 +16,14 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private Sprite _sprite;
 
+        private int _zoomFactor = 1;
+
+        private const int MAXZOOM = 16;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
 
         private void OnPropertyChanged(string property)
         {
@@ -31,14 +40,40 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             ((App)App.Current).Tick -= Update;
             ((App)App.Current).Tick += Update;
+
+            ZoomInCommand = new RelayCommand(ZoomIn, CanZoomIn);
+            ZoomOutCommand = new RelayCommand(ZoomOut, CanZoomOut);
         }
 
-        public ImageSource SheetImageSource
+        private bool CanZoomOut(object obj)
+        {
+            return _zoomFactor > 1;
+        }
+
+        private bool CanZoomIn(object obj)
+        {
+            return _zoomFactor < MAXZOOM;
+        }
+
+        private void ZoomOut(object obj)
+        {
+            _zoomFactor = Math.Max(1, _zoomFactor / 2);
+            OnPropertyChanged("PreviewWidth");
+            OnPropertyChanged("PreviewHeight");
+        }
+
+        private void ZoomIn(object obj)
+        {
+            _zoomFactor = Math.Min(MAXZOOM, _zoomFactor * 2);
+            OnPropertyChanged("PreviewWidth");
+            OnPropertyChanged("PreviewHeight");
+        }
+
+        public BitmapSource SheetImageSource
         {
             get
             {
-                var rect = new Rectangle(0, 0, _sprite.Width, _sprite.Height);
-                return SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, rect);
+                return SpriteBitmapCache.GetOrLoadImage(_sprite.SheetPath.Absolute);
             }
         }
 
@@ -46,7 +81,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Width;
+                return _sprite.Width * _zoomFactor;
             }
         }
 
@@ -54,7 +89,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Height;
+                return _sprite.Height * _zoomFactor;
             }
         }
 

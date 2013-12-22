@@ -44,19 +44,27 @@ namespace MegaMan.Editor
 
             projectTree.Update(_viewModel.ProjectViewModel);
 
-            var tilesetModel = new TilesetViewModel(_viewModel.ProjectViewModel);
+            var tilesetModel = new TilesetViewModel();
             tileStrip.Update(tilesetModel);
             stageTileControl.ToolProvider = tilesetModel;
-            stageTileControl.StageProvider = _viewModel.ProjectViewModel;
 
-            var layoutEditor = new LayoutEditingViewModel(_viewModel.ProjectViewModel);
+            var layoutEditor = new LayoutEditingViewModel();
             layoutToolbar.DataContext = layoutEditor;
             stageLayoutControl.ToolProvider = layoutEditor;
-            stageLayoutControl.StageProvider = _viewModel.ProjectViewModel;
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
             OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
             EditTilesetCommand = new RelayCommand(EditTileset, p => CanEditTileset());
+
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
+        }
+
+        private void StageSelected(object sender, StageChangedEventArgs e)
+        {
+            if (e.Stage != null)
+                ribbonStage.IsSelected = true;
+
+            this.editorPane.IsActive = true;
         }
 
         private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
@@ -135,7 +143,7 @@ namespace MegaMan.Editor
         private void OpenProjectSettings(object param)
         {
             this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.ProjectViewModel.Project);
-            this.projectSettingsPane.IsActive = true;
+            this.projectSettingsPane.IsSelected = true;
         }
 
         private bool CanEditTileset()
@@ -147,7 +155,13 @@ namespace MegaMan.Editor
         {
             var tileset = _viewModel.ProjectViewModel.CurrentStage.Tileset;
             this.tilesetEditorControl.DataContext = new TilesetEditorViewModel(tileset);
-            this.tilesetEditorPane.IsActive = true;
+            this.tilesetEditorPane.IsSelected = true;
+        }
+
+        private void RibbonTabChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Contains(ribbonStage))
+                editorPane.IsSelected = true;
         }
     }
 }

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using MegaMan.Editor.Bll;
 using MegaMan.Common;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class ProjectViewModel : TreeViewItemViewModel, IStageProvider
+    public class ProjectViewModel : TreeViewItemViewModel
     {
         private ProjectDocument _project;
 
@@ -32,10 +33,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (_project != null)
                     _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
 
-                if (StageChanged != null)
-                {
-                    StageChanged(this, new StageChangedEventArgs(null));
-                }
+                ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(null));
             }
         }
 
@@ -49,18 +47,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         public void ChangeStage(string stageName)
         {
             var nextStage = _project.StageByName(stageName);
-            if (nextStage != _stage)
-            {
-                _stage = nextStage;
 
-                if (StageChanged != null)
-                {
-                    StageChanged(this, new StageChangedEventArgs(_stage));
-                }
-            }
+            _stage = nextStage;
+
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(_stage));
         }
-
-        public event EventHandler<StageChangedEventArgs> StageChanged;
     }
 
     public class StagesRootViewModel : TreeViewItemViewModel

@@ -4,21 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
-            <Image x:Name="previewImage" Source="{Binding PreviewImage}" DockPanel.Dock="Top" Height="{Binding PreviewWidth}" Width="{Binding PreviewHeight}" />
-            <StackPanel Orientation="Horizontal">
-                
+            <Grid DockPanel.Dock="Top" MinHeight="256">
+                <Image x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewWidth}" Width="{Binding PreviewHeight}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+            </Grid>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="24" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                <Button Command="{Binding ZoomOutCommand}">
+                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Command="{Binding ZoomInCommand}">
+                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
-            <Canvas DockPanel.Dock="Top">
-                <Image Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" />
+            <Canvas DockPanel.Dock="Top" Background="Transparent">
+                <Image Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Width="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelWidth}" Height="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelHeight}" />
                 <Canvas Canvas.Top="0" Canvas.Left="0" x:Name="sheetCanvasOverlay" />
             </Canvas>
         </DockPanel>

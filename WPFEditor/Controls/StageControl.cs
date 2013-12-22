@@ -12,6 +12,7 @@ using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Tools;
 using System.Windows.Input;
 using System.Reflection;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
 {
@@ -33,22 +34,7 @@ namespace MegaMan.Editor.Controls
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
-        private IStageProvider _stageProvider;
-
         private StageDocument _stage;
-
-        public IStageProvider StageProvider
-        {
-            get
-            {
-                return _stageProvider;
-            }
-            set
-            {
-                _stageProvider = value;
-                _stageProvider.StageChanged += StageChanged;
-            }
-        }
 
         public StageDocument Stage
         {
@@ -107,6 +93,8 @@ namespace MegaMan.Editor.Controls
             _screensPlaced = new HashSet<string>();
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
+
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
         }
 
         public void InitializeComponent()

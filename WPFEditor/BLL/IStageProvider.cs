@@ -16,13 +16,4 @@ namespace MegaMan.Editor.Bll
             Stage = stage;
         }
     }
-
-    public interface IStageProvider
-    {
-        StageDocument CurrentStage { get; }
-
-        void ChangeStage(string stageName);
-
-        event EventHandler<StageChangedEventArgs> StageChanged;
-    }
 }

@@ -17,7 +17,7 @@ namespace MegaMan.Editor
 
         private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>> croppedImagesGrayscale = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>>();
 
-        private static BitmapImage GetOrLoadImage(string absolutePath)
+        public static BitmapImage GetOrLoadImage(string absolutePath)
         {
             if (!images.ContainsKey(absolutePath))
             {

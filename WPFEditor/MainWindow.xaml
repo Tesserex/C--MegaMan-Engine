@@ -26,18 +26,18 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Fluent:Ribbon Grid.Row="0" >
+        <Fluent:Ribbon Grid.Row="0" SelectedTabChanged="RibbonTabChanged">
             <Fluent:Ribbon.QuickAccessItems>
                 
             </Fluent:Ribbon.QuickAccessItems>
             <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Home">
+            <Fluent:RibbonTabItem Header="Home" x:Name="ribbonHome">
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Project Settings" Command="{Binding ElementName=MainWindow1, Path=OpenProjectSettingsCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             
-            <Fluent:RibbonTabItem Header="Stage">
+            <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Header="Edit Tiles" Icon="/Resources/tiles.png" LargeIcon="/Resources/tiles.png" Command="{Binding ElementName=MainWindow1, Path=EditTilesetCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>

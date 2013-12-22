@@ -7,42 +7,38 @@ using System.ComponentModel;
 using MegaMan.Editor.Bll;
 using System.Windows.Input;
 using MegaMan.Editor.Bll.Tools;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class LayoutEditingViewModel : IToolProvider, INotifyPropertyChanged
     {
-        private IStageProvider _stageProvider;
-
         private IToolCursor _toolCursor;
 
         private IToolBehavior _toolBehavior;
+
+        private StageDocument _currentStage;
 
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public LayoutEditingViewModel(IStageProvider stageProvider)
+        public LayoutEditingViewModel()
         {
-            _stageProvider = stageProvider;
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
-            _stageProvider.StageChanged += StageChanged;
+            AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage());
 
-            AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage);
-
-            ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage);
+            ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage());
         }
 
         public ICommand AddScreenCommand { get; private set; }
 
         public ICommand ChangeToolCommand { get; private set; }
 
-        public bool HasStage
+        private bool HasStage()
         {
-            get
-            {
-                return (_stageProvider.CurrentStage != null);
-            }
+            return (_currentStage != null);
         }
 
         public IToolBehavior Tool
@@ -69,7 +65,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void AddScreen()
         {
-            var stage = _stageProvider.CurrentStage;
+            var stage = _currentStage;
 
             if (stage != null)
             {
@@ -105,6 +101,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
+            _currentStage = e.Stage;
+
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("HasStage"));

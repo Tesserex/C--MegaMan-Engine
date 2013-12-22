@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MegaMan.Editor.Tools;
 using MegaMan.Editor.Bll.Tools;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -16,7 +17,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private Tileset _tileset;
         private IToolBehavior _currentTool;
         private IToolCursor _currentCursor;
-        private IStageProvider _stageProvider;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
@@ -75,11 +75,35 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public Tile SelectedTile { get; private set; }
 
-        public TilesetViewModel(IStageProvider stageProvider)
+        public void ChangeTile(Tile tile)
         {
-            _stageProvider = stageProvider;
+            if (tile != null)
+            {
+                Tool = new TileBrushToolBehavior(new SingleTileBrush(tile));
+                ToolCursor = new SingleTileCursor(_tileset, tile);
+            }
+            else
+            {
+                Tool = null;
+                ToolCursor = null;
+            }
 
-            _stageProvider.StageChanged += StageChanged;
+            SelectedTile = tile;
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(_currentTool));
+            }
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
+            }
+        }   
+
+        public TilesetViewModel()
+        {
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
             ((App)App.Current).Tick += Animate;
         }
@@ -126,31 +150,5 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
             }
         }
-
-        public void ChangeTile(Tile tile)
-        {
-            if (tile != null)
-            {
-                Tool = new TileBrushToolBehavior(new SingleTileBrush(tile));
-                ToolCursor = new SingleTileCursor(_tileset, tile);
-            }
-            else
-            {
-                Tool = null;
-                ToolCursor = null;
-            }
-
-            SelectedTile = tile;
-
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(_currentTool));
-            }
-
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
-            }
-        }   
     }
 }

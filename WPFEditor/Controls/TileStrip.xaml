@@ -9,16 +9,14 @@
     <ToolBar ItemsSource="{Binding Path=Tiles}" Name="tilesToolbar">
         <ToolBar.ItemTemplate>
             <DataTemplate>
-                <Grid>
-                    <c:TileImage Margin="0" Width="16" Height="16" DataContext="{Binding}" SelectedTile="{Binding DataContext.SelectedTile, RelativeSource={RelativeSource AncestorType=ToolBar}}" SheetPath="{Binding DataContext.SheetPath, RelativeSource={RelativeSource AncestorType=ToolBar}}">
-                        <c:TileImage.CommandBindings>
-                            <CommandBinding Command="c:TileStrip.clickCommand" Executed="TileClick" />
-                        </c:TileImage.CommandBindings>
-                        <c:TileImage.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="c:TileStrip.clickCommand" CommandParameter="{Binding}" />
-                        </c:TileImage.InputBindings>
-                    </c:TileImage>
-                </Grid>
+                <c:TileImage Margin="0" Width="16" Height="16" DataContext="{Binding}" SelectedTile="{Binding DataContext.SelectedTile, RelativeSource={RelativeSource AncestorType=ToolBar}}" SheetPath="{Binding DataContext.SheetPath, RelativeSource={RelativeSource AncestorType=ToolBar}}">
+                    <c:TileImage.CommandBindings>
+                        <CommandBinding Command="c:TileStrip.clickCommand" Executed="TileClick" />
+                    </c:TileImage.CommandBindings>
+                    <c:TileImage.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="c:TileStrip.clickCommand" CommandParameter="{Binding}" />
+                    </c:TileImage.InputBindings>
+                </c:TileImage>
             </DataTemplate>
         </ToolBar.ItemTemplate>
     </ToolBar>
