@@ -12,7 +12,15 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
             <Grid DockPanel.Dock="Top" MinHeight="256">
-                <Image x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewWidth}" Width="{Binding PreviewHeight}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                <Border BorderThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border.BorderBrush>
+                        <RadialGradientBrush>
+                            <GradientStop Color="Black" Offset="0.0" />
+                            <GradientStop Color="White" Offset="1" />
+                        </RadialGradientBrush>
+                    </Border.BorderBrush>
+                    <Image x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                </Border>
             </Grid>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="24" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Button Command="{Binding ZoomOutCommand}">

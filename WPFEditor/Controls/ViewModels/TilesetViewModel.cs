@@ -12,9 +12,8 @@ using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TilesetViewModel : IToolProvider, INotifyPropertyChanged
+    public class TilesetViewModel : TilesetViewModelBase, IToolProvider, INotifyPropertyChanged
     {
-        private Tileset _tileset;
         private IToolBehavior _currentTool;
         private IToolCursor _currentCursor;
 
@@ -48,34 +47,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 _currentCursor = value;
             }
-        }
+        }        
 
-        public string SheetPath
-        {
-            get
-            {
-                if (_tileset != null)
-                {
-                    return _tileset.SheetPath.Absolute;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public IEnumerable<Tile> Tiles
-        {
-            get
-            {
-                return _tileset;
-            }
-        }
-
-        public Tile SelectedTile { get; private set; }
-
-        public void ChangeTile(Tile tile)
+        public override void ChangeTile(Tile tile)
         {
             if (tile != null)
             {

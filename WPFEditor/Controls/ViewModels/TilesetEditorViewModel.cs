@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TilesetEditorViewModel : INotifyPropertyChanged
+    public class TilesetEditorViewModel : TilesetViewModelBase, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -21,8 +21,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        private Tileset _tileset;
-
         public SpriteEditorViewModel Sprite { get; private set; }
 
         public TilesetEditorViewModel(Tileset tileset)
@@ -31,6 +29,17 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             Sprite = new SpriteEditorViewModel(_tileset.First().Sprite);
             OnPropertyChanged("Sprite");
+        }
+
+        public override void ChangeTile(Tile tile)
+        {
+            SelectedTile = tile;
+            Sprite.ChangeSprite(tile.Sprite);
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
+            }
         }
     }
 }

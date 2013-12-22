@@ -139,6 +139,7 @@
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
+    <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Controls\ViewModels\NewProjectViewModel.cs" />

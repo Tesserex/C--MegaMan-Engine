@@ -23,23 +23,20 @@ namespace MegaMan.Editor.Controls
     {
         public static readonly RoutedUICommand clickCommand = new RoutedUICommand("TileClick", "TileClick", typeof(TileStrip));
 
-        private TilesetViewModel _viewModel;
-
         public TileStrip()
         {
             InitializeComponent();
         }
 
-        public void Update(TilesetViewModel viewModel)
+        public void Update(TilesetViewModelBase viewModel)
         {
-            _viewModel = viewModel;
             DataContext = viewModel;
         }
 
         private void TileClick(object sender, ExecutedRoutedEventArgs e)
         {
             var tile = (Tile)e.Parameter;
-            _viewModel.ChangeTile(tile);
+            (DataContext as TilesetViewModelBase).ChangeTile(tile);
         }
     }
 }

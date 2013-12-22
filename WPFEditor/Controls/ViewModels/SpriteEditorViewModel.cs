@@ -45,6 +45,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             ZoomOutCommand = new RelayCommand(ZoomOut, CanZoomOut);
         }
 
+        public void ChangeSprite(Sprite sprite)
+        {
+            _sprite = sprite;
+
+            OnPropertyChanged("PreviewWidth");
+            OnPropertyChanged("PreviewHeight");
+            OnPropertyChanged("SheetImageSource");
+            OnPropertyChanged("PreviewImage");
+        }
+
         private bool CanZoomOut(object obj)
         {
             return _zoomFactor > 1;
