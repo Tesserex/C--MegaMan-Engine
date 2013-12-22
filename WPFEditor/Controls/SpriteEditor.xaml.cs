@@ -21,8 +21,6 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class SpriteEditor : UserControl
     {
-        private SpriteEditorViewModel _viewModel;
-
         public SpriteEditor()
         {
             InitializeComponent();
@@ -30,11 +28,36 @@ namespace MegaMan.Editor.Controls
 
         public SpriteEditor(Common.Sprite sprite)
         {
-            _viewModel = new SpriteEditorViewModel(sprite);
+            var viewModel = new SpriteEditorViewModel(sprite);
 
             InitializeComponent();
 
-            this.DataContext = _viewModel;
+            this.DataContext = viewModel;
+        }
+
+        private void SheetMouseMove(object sender, MouseEventArgs e)
+        {
+            var viewModel = DataContext as SpriteEditorViewModel;
+
+            var pos = e.GetPosition(sheetImage);
+
+            if (snapSheet.IsChecked == true)
+            {
+                pos = new Point(Math.Floor(pos.X / viewModel.Sprite.Width) * viewModel.Sprite.Width, Math.Floor(pos.Y / viewModel.Sprite.Height) * viewModel.Sprite.Height);
+            }
+
+            Canvas.SetTop(sheetHighlight, pos.Y);
+            Canvas.SetLeft(sheetHighlight, pos.X);
+        }
+
+        private void SheetMouseEnter(object sender, MouseEventArgs e)
+        {
+            sheetHighlight.Visibility = Visibility.Visible;
+        }
+
+        private void SheetMouseLeave(object sender, MouseEventArgs e)
+        {
+            sheetHighlight.Visibility = Visibility.Hidden;
         }
     }
 }

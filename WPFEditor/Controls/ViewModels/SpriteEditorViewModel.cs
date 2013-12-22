@@ -53,6 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("PreviewHeight");
             OnPropertyChanged("SheetImageSource");
             OnPropertyChanged("PreviewImage");
+            OnPropertyChanged("Sprite");
         }
 
         private bool CanZoomOut(object obj)
@@ -77,6 +78,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             _zoomFactor = Math.Min(MAXZOOM, _zoomFactor * 2);
             OnPropertyChanged("PreviewWidth");
             OnPropertyChanged("PreviewHeight");
+        }
+
+        public Sprite Sprite
+        {
+            get
+            {
+                return _sprite;
+            }
         }
 
         public BitmapSource SheetImageSource
