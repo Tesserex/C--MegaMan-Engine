@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MegaMan.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -24,6 +25,20 @@ namespace MegaMan.Editor
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
             timer.Tick += (s, ev) => { if (Tick != null) Tick(); };
             timer.Start();
+        }
+
+        public void AnimateTileset(Tileset tileset)
+        {
+            foreach (var tile in tileset)
+            {
+                AnimateSprite(tile.Sprite);
+            }
+        }
+
+        public void AnimateSprite(Sprite sprite)
+        {
+            Tick -= sprite.Update;
+            Tick += sprite.Update;
         }
     }
 }

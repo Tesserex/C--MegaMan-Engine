@@ -11,97 +11,115 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
-            <Grid DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="10" />
-                </Grid.RowDefinitions>
-                <Rectangle Grid.Row="0" Grid.Column="0">
-                    <Rectangle.Fill>
-                        <RadialGradientBrush Center="1,1" GradientOrigin="1,1" RadiusX="1" RadiusY="1">
-                            <GradientStop Color="#A0404040" Offset="0" />
-                            <GradientStop Color="Transparent" Offset="1" />
-                        </RadialGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="0" Grid.Column="1">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="#A0404040" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="0" Grid.Column="2">
-                    <Rectangle.Fill>
-                        <RadialGradientBrush Center="0,1" GradientOrigin="0,1" RadiusX="1" RadiusY="1">
-                            <GradientStop Color="#A0404040" Offset="0" />
-                            <GradientStop Color="Transparent" Offset="1" />
-                        </RadialGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="1" Grid.Column="0">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="#A0404040" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                <Rectangle Grid.Row="1" Grid.Column="2">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="#A0404040" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="2" Grid.Column="0">
-                    <Rectangle.Fill>
-                        <RadialGradientBrush Center="1,0" GradientOrigin="1,0" RadiusX="1" RadiusY="1">
-                            <GradientStop Color="#A0404040" Offset="0" />
-                            <GradientStop Color="Transparent" Offset="1" />
-                        </RadialGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="2" Grid.Column="1">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="#A0404040" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Grid.Row="2" Grid.Column="2">
-                    <Rectangle.Fill>
-                        <RadialGradientBrush Center="0,0" GradientOrigin="0,0" RadiusX="1" RadiusY="1">
-                            <GradientStop Color="#A0404040" Offset="0" />
-                            <GradientStop Color="Transparent" Offset="1" />
-                        </RadialGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
+            <Grid DockPanel.Dock="Top" MinHeight="256" Margin="20">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+                    <Rectangle Grid.Row="0" Grid.Column="0">
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="1,1" GradientOrigin="1,1" RadiusX="1" RadiusY="1">
+                                <GradientStop Color="#A0404040" Offset="0" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="0" Grid.Column="1">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="#A0404040" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="0" Grid.Column="2">
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="0,1" GradientOrigin="0,1" RadiusX="1" RadiusY="1">
+                                <GradientStop Color="#A0404040" Offset="0" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="1" Grid.Column="0">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="#A0404040" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <Rectangle Grid.Row="1" Grid.Column="2">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="#A0404040" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="2" Grid.Column="0">
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="1,0" GradientOrigin="1,0" RadiusX="1" RadiusY="1">
+                                <GradientStop Color="#A0404040" Offset="0" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="2" Grid.Column="1">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="#A0404040" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="2" Grid.Column="2">
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="0,0" GradientOrigin="0,0" RadiusX="1" RadiusY="1">
+                                <GradientStop Color="#A0404040" Offset="0" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
             </Grid>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="24" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
+                <Label FontWeight="Bold" FontSize="13" Margin="10,0">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0">Frame:</TextBlock>
+                        <TextBlock Text="{Binding FrameNumber}" />
+                    </WrapPanel>
+                </Label>
+                <Button Command="{Binding NextFrameCommand}">Next</Button>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Button Command="{Binding ZoomOutCommand}">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button Command="{Binding ZoomInCommand}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
+                <Button Height="24" Width="24" Padding="0" Command="{Binding PauseCommand}">
+                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Command="{Binding PlayCommand}">
+                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <CheckBox x:Name="snapSheet">Snap</CheckBox>
             </StackPanel>
-            <Canvas DockPanel.Dock="Top" Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove">
+            <Canvas DockPanel.Dock="Top" Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}">
                 <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Width="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelWidth}" Height="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelHeight}" />
                 <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding Sprite.Width}" Height="{Binding Sprite.Height}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
             </Canvas>

@@ -78,8 +78,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         public TilesetViewModel()
         {
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
-
-            ((App)App.Current).Tick += Animate;
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
@@ -93,6 +91,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void SetStage(StageDocument stage)
         {
             _tileset = stage.Tileset;
+            ((App)App.Current).AnimateTileset(_tileset);
 
             ChangeTile(_tileset.FirstOrDefault());
 
@@ -111,17 +110,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
-            }
-        }
-
-        private void Animate()
-        {
-            if (_tileset != null)
-            {
-                foreach (var tile in _tileset)
-                {
-                    tile.Sprite.Update();
-                }
             }
         }
     }

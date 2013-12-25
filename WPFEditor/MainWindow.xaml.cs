@@ -72,11 +72,6 @@ namespace MegaMan.Editor
             e.CanExecute = true;
         }
 
-        private void NewProject(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
         private void OpenProject(object sender, ExecutedRoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();

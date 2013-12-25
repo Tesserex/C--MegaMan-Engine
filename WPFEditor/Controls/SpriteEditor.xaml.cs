@@ -52,12 +52,22 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseEnter(object sender, MouseEventArgs e)
         {
-            sheetHighlight.Visibility = Visibility.Visible;
+            var viewModel = DataContext as SpriteEditorViewModel;
+            if (viewModel.Sprite.Playing == false)
+                sheetHighlight.Visibility = Visibility.Visible;
         }
 
         private void SheetMouseLeave(object sender, MouseEventArgs e)
         {
             sheetHighlight.Visibility = Visibility.Hidden;
+        }
+
+        private void SheetMouseClick(object sender, MouseButtonEventArgs e)
+        {
+            var viewModel = DataContext as SpriteEditorViewModel;
+            var x = (int)Canvas.GetLeft(sheetHighlight);
+            var y = (int)Canvas.GetTop(sheetHighlight);
+            viewModel.SetFrameLocation(x, y);
         }
     }
 }

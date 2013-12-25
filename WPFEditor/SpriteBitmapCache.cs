@@ -13,11 +13,13 @@ namespace MegaMan.Editor
     {
         private static Dictionary<string, BitmapImage> images = new Dictionary<string, BitmapImage>();
 
+        private static Dictionary<string, WriteableBitmap> imagesGrayscale = new Dictionary<string, WriteableBitmap>();
+
         private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>> croppedImages = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>>();
 
         private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>> croppedImagesGrayscale = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>>();
 
-        public static BitmapImage GetOrLoadImage(string absolutePath)
+        public static BitmapSource GetOrLoadImage(string absolutePath)
         {
             if (!images.ContainsKey(absolutePath))
             {
@@ -26,6 +28,19 @@ namespace MegaMan.Editor
             }
 
             return images[absolutePath];
+        }
+
+        public static BitmapSource GetOrLoadImageGrayscale(string absolutePath)
+        {
+            if (!imagesGrayscale.ContainsKey(absolutePath))
+            {
+                var image = new BitmapImage(new Uri(absolutePath));
+                var grayscale = new FormatConvertedBitmap(image, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
+                var bmp = BitmapFactory.ConvertToPbgra32Format(grayscale);
+                imagesGrayscale[absolutePath] = bmp;
+            }
+
+            return imagesGrayscale[absolutePath];
         }
 
         public static WriteableBitmap GetOrLoadFrame(string imagePath, Rectangle srcRect)
@@ -40,12 +55,9 @@ namespace MegaMan.Editor
             if (!croppedImages[imagePath].ContainsKey(tuple))
             {
                 var source = GetOrLoadImage(imagePath);
-                var crop = new CroppedBitmap(source, new Int32Rect(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
-                crop.Freeze();
+                var frame = CropFrame(ref srcRect, source);
 
-                var bmp = BitmapFactory.ConvertToPbgra32Format(crop);
-
-                croppedImages[imagePath][tuple] = bmp;
+                croppedImages[imagePath][tuple] = frame;
             }
 
             return croppedImages[imagePath][tuple];
@@ -62,14 +74,23 @@ namespace MegaMan.Editor
 
             if (!croppedImagesGrayscale[imagePath].ContainsKey(tuple))
             {
-                var source = GetOrLoadFrame(imagePath, srcRect);
-                var grayscale = new FormatConvertedBitmap((BitmapSource)source, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
+                var grayscale = GetOrLoadImageGrayscale(imagePath);
+                var frame = CropFrame(ref srcRect, grayscale);
 
-                var bmp = BitmapFactory.ConvertToPbgra32Format(grayscale);
-                croppedImagesGrayscale[imagePath][tuple] = bmp;
+                croppedImagesGrayscale[imagePath][tuple] = frame;
             }
 
             return croppedImagesGrayscale[imagePath][tuple];
         }
+
+        private static WriteableBitmap CropFrame(ref Rectangle srcRect, BitmapSource source)
+        {
+            var crop = new CroppedBitmap(source, new Int32Rect(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
+            crop.Freeze();
+
+            var bmp = BitmapFactory.ConvertToPbgra32Format(crop);
+            return bmp;
+        }
+
     }
 }

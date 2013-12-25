@@ -432,6 +432,11 @@ namespace MegaMan.Common
             this.Duration = duration;
             this.SheetLocation = sheetRect;
         }
+
+        public void SetSheetPosition(int x, int y)
+        {
+            SheetLocation = new Rectangle(x, y, sprite.Width, sprite.Height);
+        }
     }
 
     /// <summary>

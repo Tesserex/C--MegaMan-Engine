@@ -344,6 +344,12 @@
   <ItemGroup>
     <Resource Include="Resources\zoomout.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\play.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

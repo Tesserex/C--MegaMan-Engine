@@ -14,7 +14,6 @@
     </Window.Resources>
     
     <Window.CommandBindings>
-        <CommandBinding Command="New" Executed="NewProject" CanExecute="CanExecuteTrue" />
         <CommandBinding Command="Open" Executed="OpenProject" CanExecute="CanExecuteTrue" />
         <CommandBinding Command="Save" Executed="SaveProject" CanExecute="IsProjectOpen" />
         <CommandBinding Command="Close" Executed="CloseProject" CanExecute="IsProjectOpen" />
