@@ -37,13 +37,11 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseMove(object sender, MouseEventArgs e)
         {
-            var viewModel = DataContext as SpriteEditorViewModel;
-
             var pos = e.GetPosition(sheetImage);
 
             if (snapSheet.IsChecked == true)
             {
-                pos = new Point(Math.Floor(pos.X / viewModel.Sprite.Width) * viewModel.Sprite.Width, Math.Floor(pos.Y / viewModel.Sprite.Height) * viewModel.Sprite.Height);
+                pos = new Point(Math.Floor(pos.X / sheetHighlight.Width) * sheetHighlight.Width, Math.Floor(pos.Y / sheetHighlight.Height) * sheetHighlight.Height);
             }
 
             Canvas.SetTop(sheetHighlight, pos.Y);

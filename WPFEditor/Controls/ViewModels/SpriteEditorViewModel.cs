@@ -16,7 +16,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private Sprite _sprite;
 
-        private int _zoomFactor = 1;
+        private int _previewZoom = 1;
+        private int _sheetZoom = 1;
 
         private const int MAXZOOM = 16;
 
@@ -24,6 +25,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
+        public ICommand ZoomInSheetCommand { get; private set; }
+        public ICommand ZoomOutSheetCommand { get; private set; }
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
         public ICommand PreviousFrameCommand { get; private set; }
@@ -47,6 +50,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             ZoomInCommand = new RelayCommand(ZoomIn, CanZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut, CanZoomOut);
+            ZoomInSheetCommand = new RelayCommand(ZoomInSheet, CanZoomInSheet);
+            ZoomOutSheetCommand = new RelayCommand(ZoomOutSheet, CanZoomOutSheet);
             PlayCommand = new RelayCommand(p => PlayPreview(), p => !Sprite.Playing);
             PauseCommand = new RelayCommand(p => PausePreview(), p => Sprite.Playing);
             PreviousFrameCommand = new RelayCommand(p => PreviousFrame(), p => !Sprite.Playing);
@@ -86,26 +91,54 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private bool CanZoomOut(object obj)
         {
-            return _zoomFactor > 1;
+            return _previewZoom > 1;
         }
 
         private bool CanZoomIn(object obj)
         {
-            return _zoomFactor < MAXZOOM;
+            return _previewZoom < MAXZOOM;
         }
 
         private void ZoomOut(object obj)
         {
-            _zoomFactor = Math.Max(1, _zoomFactor / 2);
+            _previewZoom = Math.Max(1, _previewZoom / 2);
             OnPropertyChanged("PreviewWidth");
             OnPropertyChanged("PreviewHeight");
         }
 
         private void ZoomIn(object obj)
         {
-            _zoomFactor = Math.Min(MAXZOOM, _zoomFactor * 2);
+            _previewZoom = Math.Min(MAXZOOM, _previewZoom * 2);
             OnPropertyChanged("PreviewWidth");
             OnPropertyChanged("PreviewHeight");
+        }
+
+        private bool CanZoomOutSheet(object obj)
+        {
+            return _sheetZoom > 1;
+        }
+
+        private bool CanZoomInSheet(object obj)
+        {
+            return _sheetZoom < MAXZOOM;
+        }
+
+        private void ZoomOutSheet(object obj)
+        {
+            _sheetZoom = Math.Max(1, _sheetZoom / 2);
+            OnPropertyChanged("SheetWidth");
+            OnPropertyChanged("SheetHeight");
+            OnPropertyChanged("HighlightWidth");
+            OnPropertyChanged("HighlightHeight");
+        }
+
+        private void ZoomInSheet(object obj)
+        {
+            _sheetZoom = Math.Min(MAXZOOM, _sheetZoom * 2);
+            OnPropertyChanged("SheetWidth");
+            OnPropertyChanged("SheetHeight");
+            OnPropertyChanged("HighlightWidth");
+            OnPropertyChanged("HighlightHeight");
         }
 
         public Sprite Sprite
@@ -139,7 +172,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Width * _zoomFactor;
+                return _sprite.Width * _previewZoom;
             }
         }
 
@@ -147,7 +180,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Height * _zoomFactor;
+                return _sprite.Height * _previewZoom;
             }
         }
 
@@ -168,6 +201,38 @@ namespace MegaMan.Editor.Controls.ViewModels
                     return Cursors.Arrow;
                 else
                     return Cursors.None;
+            }
+        }
+
+        public double SheetWidth
+        {
+            get
+            {
+                return SheetImageSource.PixelWidth * _sheetZoom;
+            }
+        }
+
+        public double SheetHeight
+        {
+            get
+            {
+                return SheetImageSource.PixelHeight * _sheetZoom;
+            }
+        }
+
+        public int HighlightWidth
+        {
+            get
+            {
+                return _sprite.Width * _sheetZoom;
+            }
+        }
+
+        public int HighlightHeight
+        {
+            get
+            {
+                return _sprite.Height * _sheetZoom;
             }
         }
 
@@ -193,6 +258,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void SetFrameLocation(int x, int y)
         {
+            x /= _sheetZoom;
+            y /= _sheetZoom;
+
             _sprite.CurrentFrame.SetSheetPosition(x, y);
             OnPropertyChanged("PreviewImage");
         }

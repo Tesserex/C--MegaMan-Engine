@@ -118,10 +118,16 @@
         <DockPanel Grid.Column="1" Grid.Row="0">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <CheckBox x:Name="snapSheet">Snap</CheckBox>
+                <Button Command="{Binding ZoomOutSheetCommand}">
+                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Command="{Binding ZoomInSheetCommand}">
+                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
             </StackPanel>
             <Canvas DockPanel.Dock="Top" Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}">
-                <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Width="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelWidth}" Height="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelHeight}" />
-                <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding Sprite.Width}" Height="{Binding Sprite.Height}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
+                <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
             </Canvas>
         </DockPanel>
     </Grid>
