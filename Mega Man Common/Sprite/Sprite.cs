@@ -164,7 +164,7 @@ namespace MegaMan.Common
         }
 
         /// <summary>
-        /// Adds a frame to the collection from a given Image.
+        /// Adds a frame to the sprite with the given coordinates and duration.
         /// </summary>
         /// <param name="tilesheet">The image from which to retreive the frame.</param>
         /// <param name="x">The x-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
@@ -173,6 +173,30 @@ namespace MegaMan.Common
         public void AddFrame(int x, int y, int duration)
         {
             this.frames.Add(new SpriteFrame(this, duration, new Rectangle(x, y, this.Width, this.Height)));
+            CheckTickable();
+        }
+
+        /// <summary>
+        /// Inserts a frame with no image or duration at the specified index.
+        /// </summary>
+        /// <param name="index">The index at which to insert the frame.</param>
+        public void InsertFrame(int index)
+        {
+            frames.Insert(index, new SpriteFrame(this, 0, Rectangle.Empty));
+            CheckTickable();
+        }
+
+        /// <summary>
+        /// Inserts a frame with the given coordinates and duration at the specified index.
+        /// </summary>
+        /// <param name="index">The index at which to insert the frame.</param>
+        /// <param name="tilesheet">The image from which to retreive the frame.</param>
+        /// <param name="x">The x-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
+        /// <param name="y">The y-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
+        /// <param name="duration">The duration of the frame, in game ticks.</param>
+        public void InsertFrame(int index, int x, int y, int duration)
+        {
+            this.frames.Insert(index, new SpriteFrame(this, duration, new Rectangle(x, y, this.Width, this.Height)));
             CheckTickable();
         }
 

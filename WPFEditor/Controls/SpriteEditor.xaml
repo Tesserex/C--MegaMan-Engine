@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
@@ -11,7 +12,37 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
-            <Grid DockPanel.Dock="Top" MinHeight="256" Margin="20">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                <Button Command="{Binding DeleteFrameCommand}">Delete Frame</Button>
+                <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
+                <Label FontWeight="Bold" FontSize="13" Margin="10,0">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0">Frame:</TextBlock>
+                        <TextBlock Text="{Binding FrameNumber}" />
+                    </WrapPanel>
+                </Label>
+                <Button Command="{Binding NextFrameCommand}">Next</Button>
+                <Button Command="{Binding AddFrameCommand}">Add Frame</Button>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                <Label FontWeight="Bold" FontSize="13" Margin="10,0">Frame Duration:</Label>
+                <xctk:IntegerUpDown Value="{Binding FrameDuration}"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                <Button Command="{Binding ZoomOutCommand}">
+                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Command="{Binding ZoomInCommand}">
+                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Height="24" Width="24" Padding="0" Command="{Binding PauseCommand}">
+                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Command="{Binding PlayCommand}">
+                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </StackPanel>
+            <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
@@ -89,31 +120,7 @@
                         </Rectangle.Fill>
                     </Rectangle>
                 </Grid>
-            </Grid>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
-                <Label FontWeight="Bold" FontSize="13" Margin="10,0">
-                    <WrapPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,10,0">Frame:</TextBlock>
-                        <TextBlock Text="{Binding FrameNumber}" />
-                    </WrapPanel>
-                </Label>
-                <Button Command="{Binding NextFrameCommand}">Next</Button>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding ZoomOutCommand}">
-                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding ZoomInCommand}">
-                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Height="24" Width="24" Padding="0" Command="{Binding PauseCommand}">
-                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding PlayCommand}">
-                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-            </StackPanel>
+            </ScrollViewer>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -125,10 +132,12 @@
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
-            <Canvas DockPanel.Dock="Top" Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}">
-                <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
-            </Canvas>
+            <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
+                    <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
+                </Canvas>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </UserControl>

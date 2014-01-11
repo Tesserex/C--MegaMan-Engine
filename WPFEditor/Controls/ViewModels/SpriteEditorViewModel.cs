@@ -31,6 +31,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand PauseCommand { get; private set; }
         public ICommand PreviousFrameCommand { get; private set; }
         public ICommand NextFrameCommand { get; private set; }
+        public ICommand AddFrameCommand { get; private set; }
+        public ICommand DeleteFrameCommand { get; private set; }
 
         private void OnPropertyChanged(string property)
         {
@@ -56,6 +58,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             PauseCommand = new RelayCommand(p => PausePreview(), p => Sprite.Playing);
             PreviousFrameCommand = new RelayCommand(p => PreviousFrame(), p => !Sprite.Playing);
             NextFrameCommand = new RelayCommand(p => NextFrame(), p => !Sprite.Playing);
+            AddFrameCommand = new RelayCommand(p => AddFrame(), p => !Sprite.Playing);
+            DeleteFrameCommand = new RelayCommand(p => DeleteFrame(), p => !Sprite.Playing && Sprite.Count > 1);
         }
 
         private void NextFrame()
@@ -76,6 +80,18 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _sprite.CurrentIndex--;
 
             Update();
+        }
+
+        private void AddFrame()
+        {
+            _sprite.InsertFrame(_sprite.CurrentIndex + 1);
+
+            Update();
+        }
+
+        private void DeleteFrame()
+        {
+            _sprite.Remove(_sprite.CurrentFrame);
         }
 
         public void ChangeSprite(Sprite sprite)
@@ -154,6 +170,18 @@ namespace MegaMan.Editor.Controls.ViewModels
             get
             {
                 return _sprite.CurrentIndex;
+            }
+        }
+
+        public int FrameDuration
+        {
+            get
+            {
+                return _sprite.CurrentFrame.Duration;
+            }
+            set
+            {
+                _sprite.CurrentFrame.Duration = value;
             }
         }
 
@@ -254,6 +282,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             OnPropertyChanged("PreviewImage");
             OnPropertyChanged("FrameNumber");
+            OnPropertyChanged("FrameDuration");
         }
 
         public void SetFrameLocation(int x, int y)
