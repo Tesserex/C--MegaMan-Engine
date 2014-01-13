@@ -387,7 +387,7 @@ namespace MegaMan.Engine
                     (entity.GetComponent<StateComponent>()).Lifetime,
                     pdx,
                     pdy,
-                    entity.Parent.Container.IsGravityFlipped,
+                    entity.Container.IsGravityFlipped,
                     (entity.GetComponent<StateComponent>()).FrameRand,
                     Game.CurrentGame.Player
                 );
