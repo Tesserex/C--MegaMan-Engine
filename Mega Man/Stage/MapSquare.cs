@@ -10,7 +10,7 @@ namespace MegaMan.Engine
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        private ScreenLayer layer;
+        private IScreenLayer layer;
         private float screenX;
         private float screenY;
         public float ScreenX { get { return screenX + layer.LocationX; } }
@@ -67,7 +67,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public MapSquare(ScreenLayer layer, Tile tile, int x, int y, int tilesize)
+        public MapSquare(IScreenLayer layer, Tile tile, int x, int y, int tilesize)
         {
             this.layer = layer;
             Tile = tile;

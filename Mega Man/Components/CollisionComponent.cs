@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using MegaMan.Common.Rendering;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
@@ -148,7 +149,7 @@ namespace MegaMan.Engine
             Enabled = xml.TryAttribute<bool>("Enabled");
         }
 
-        private void AddBox(CollisionBox box)
+        public void AddBox(CollisionBox box)
         {
             hitboxes.Add(box);
             if (box.Name != null) boxIDsByName.Add(box.Name, box.ID);
@@ -256,7 +257,7 @@ namespace MegaMan.Engine
 
             // but for entities, we can go ahead and be active aggressors -
             // inflict our effects on the target entity, not the other way around
-            foreach (GameEntity entity in Parent.Entities.GetAll())
+            foreach (var entity in Parent.Entities.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();
@@ -269,7 +270,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private RectangleF CheckTargetBox(CollisionBox hitbox, RectangleF boundBox, GameEntity entity, CollisionComponent coll, CollisionBox targetBox)
+        private RectangleF CheckTargetBox(CollisionBox hitbox, RectangleF boundBox, IEntity entity, CollisionComponent coll, CollisionBox targetBox)
         {
             RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
             if (boundBox.IntersectsWith(rect))
@@ -337,7 +338,7 @@ namespace MegaMan.Engine
 
         private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)
         {
-            foreach (GameEntity entity in Parent.Entities.GetAll())
+            foreach (var entity in Parent.Entities.GetAll())
             {
                 if (entity == Parent) continue;
                 CollisionComponent coll = entity.GetComponent<CollisionComponent>();
@@ -558,7 +559,7 @@ namespace MegaMan.Engine
             return ret;
         }
 
-        private void CollideWith(GameEntity entity, CollisionBox myBox, CollisionBox targetBox)
+        private void CollideWith(IEntity entity, CollisionBox myBox, CollisionBox targetBox)
         {
             float mult = targetBox.DamageMultiplier(Parent.Name);
 

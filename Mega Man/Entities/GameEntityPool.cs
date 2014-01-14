@@ -90,7 +90,7 @@ namespace MegaMan.Engine.Entities
             deadEntityPool[entity.Name].Push(entity);
         }
 
-        public IEnumerable<GameEntity> GetAll()
+        public IEnumerable<IEntity> GetAll()
         {
             return entitiesInUse.Values;
         }
