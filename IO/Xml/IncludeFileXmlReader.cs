@@ -11,6 +11,8 @@ namespace MegaMan.IO.Xml
     {
         private Project _project;
 
+        private Dictionary<string, IGameObjectXmlReader> _readers = new Dictionary<string, IGameObjectXmlReader>();
+
         public void LoadIncludedFile(Project project, string path)
         {
             _project = project;
@@ -20,36 +22,7 @@ namespace MegaMan.IO.Xml
                 XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
                 foreach (XElement element in document.Elements())
                 {
-                    switch (element.Name.LocalName)
-                    {
-                        case "Sounds":
-                            AddSounds(element);
-                            break;
-
-                        case "Scenes":
-                            AddScenes(element);
-                            break;
-
-                        case "Scene":
-                            AddScene(element);
-                            break;
-
-                        case "Menus":
-                            AddMenus(element);
-                            break;
-
-                        case "Menu":
-                            AddMenu(element);
-                            break;
-
-                        case "Fonts":
-                            AddFonts(element);
-                            break;
-
-                        case "Palettes":
-                            LoadPalettes(element);
-                            break;
-                    }
+                    _readers[element.Name.LocalName].Load(project, element);
                 }
             }
             catch (GameXmlException ex)
@@ -57,130 +30,6 @@ namespace MegaMan.IO.Xml
                 ex.File = path;
                 throw;
             }
-        }
-
-        private void AddSounds(XElement node)
-        {
-            foreach (XElement soundNode in node.Elements("Sound"))
-            {
-                _project.AddSound(LoadSound(soundNode, _project.BaseDir));
-            }
-        }
-
-        private void AddScenes(XElement node)
-        {
-            foreach (var sceneNode in node.Elements("Scene"))
-            {
-                AddScene(sceneNode);
-            }
-        }
-
-        private void AddScene(XElement node)
-        {
-            var scene = SceneXmlReader.LoadScene(node, _project.BaseDir);
-
-            _project.AddScene(scene);
-        }
-
-        private void AddMenus(XElement node)
-        {
-            foreach (var menuNode in node.Elements("Menu"))
-            {
-                AddMenu(menuNode);
-            }
-        }
-
-        private void AddMenu(XElement node)
-        {
-            var info = MenuXmlReader.LoadMenu(node, _project.BaseDir);
-
-            _project.AddMenu(info);
-        }
-
-        private void AddFonts(XElement node)
-        {
-            foreach (var fontNode in node.Elements("Font"))
-            {
-                var fontInfo = LoadFont(fontNode, _project.BaseDir);
-                _project.AddFont(fontInfo);
-            }
-        }
-
-        public static SoundInfo LoadSound(XElement soundNode, string basePath)
-        {
-            SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
-
-            sound.Loop = soundNode.TryAttribute<bool>("loop");
-
-            sound.Volume = soundNode.TryAttribute<float>("volume", 1);
-
-            XAttribute pathattr = soundNode.Attribute("path");
-            XAttribute trackAttr = soundNode.Attribute("track");
-            if (pathattr != null)
-            {
-                sound.Type = AudioType.Wav;
-                sound.Path = FilePath.FromRelative(pathattr.Value, basePath);
-            }
-            else if (trackAttr != null)
-            {
-                sound.Type = AudioType.NSF;
-
-                int track;
-                if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");
-                sound.NsfTrack = track;
-
-                sound.Priority = soundNode.TryAttribute<byte>("priority", 100);
-            }
-            else
-            {
-                sound.Type = AudioType.Unknown;
-            }
-
-            return sound;
-        }
-
-        private FontInfo LoadFont(XElement node, string basePath)
-        {
-            var info = new FontInfo();
-
-            info.Name = node.RequireAttribute("name").Value;
-            info.CharWidth = node.GetAttribute<int>("charwidth");
-            info.CaseSensitive = node.GetAttribute<bool>("cased");
-
-            foreach (var lineNode in node.Elements("Line"))
-            {
-                var x = lineNode.GetAttribute<int>("x");
-                var y = lineNode.GetAttribute<int>("y");
-
-                var lineText = lineNode.Value;
-
-                info.AddLine(x, y, lineText);
-            }
-
-            info.ImagePath = FilePath.FromRelative(node.RequireAttribute("image").Value, basePath);
-
-            return info;
-        }
-
-        private void LoadPalettes(XElement parentNode)
-        {
-            foreach (var node in parentNode.Elements("Palette"))
-            {
-                var palette = PaletteFromXml(node);
-
-                _project.AddPalette(palette);
-            }
-        }
-
-        private PaletteInfo PaletteFromXml(XElement node)
-        {
-            var palette = new PaletteInfo();
-
-            var imagePathRelative = node.RequireAttribute("image").Value;
-            palette.ImagePath = FilePath.FromRelative(imagePathRelative, _project.BaseDir);
-            palette.Name = node.RequireAttribute("name").Value;
-
-            return palette;
         }
     }
 }

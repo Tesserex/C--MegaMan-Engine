@@ -7,13 +7,24 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class SceneXmlReader : HandlerXmlReader
+    public class SceneGroupXmlReader : IGameObjectXmlReader
     {
-        public static SceneInfo LoadScene(XElement node, string basePath)
+        public void Load(Project project, XElement node)
+        {
+            foreach (var sceneNode in node.Elements("Scene"))
+            {
+                //AddScene(project, sceneNode);
+            }
+        }
+    }
+
+    public class SceneXmlReader : HandlerXmlReader, IGameObjectXmlReader
+    {
+        public void Load(Project project, XElement node)
         {
             var scene = new SceneInfo();
 
-            LoadHandlerBase(scene, node, basePath);
+            LoadHandlerBase(scene, node, project.BaseDir);
 
             scene.Duration = node.GetAttribute<int>("duration");
 
@@ -21,7 +32,7 @@ namespace MegaMan.IO.Xml
 
             foreach (var keyNode in node.Elements("Keyframe"))
             {
-                scene.KeyFrames.Add(LoadKeyFrame(keyNode, basePath));
+                scene.KeyFrames.Add(LoadKeyFrame(keyNode, project.BaseDir));
             }
 
             var transferNode = node.Element("Next");
@@ -30,7 +41,7 @@ namespace MegaMan.IO.Xml
                 scene.NextHandler = LoadHandlerTransfer(transferNode);
             }
 
-            return scene;
+            project.AddScene(scene);
         }
 
         private static KeyFrameInfo LoadKeyFrame(XElement node, string basePath)
