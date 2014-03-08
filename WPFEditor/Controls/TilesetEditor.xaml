@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Content="{Binding RelSheetPath}"></Label>
+            <Button Command="{Binding ChangeSheetCommand}">Select Sheet Image</Button>
+        </StackPanel>
         <c:TileStrip DockPanel.Dock="Top" DataContext="{Binding}"></c:TileStrip>
         <c:SpriteEditor DockPanel.Dock="Top" DataContext="{Binding Sprite}"></c:SpriteEditor>
     </DockPanel>

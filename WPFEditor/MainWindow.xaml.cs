@@ -32,6 +32,7 @@ namespace MegaMan.Editor
         public ICommand OpenRecentCommand { get; private set; }
         public ICommand OpenProjectSettingsCommand { get; private set; }
         public ICommand EditTilesetCommand { get; private set; }
+        public ICommand AddStageCommand { get; private set; }
 
         public MainWindow()
         {
@@ -54,6 +55,7 @@ namespace MegaMan.Editor
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
             OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
+            AddStageCommand = new RelayCommand(AddStage, p => IsProjectOpen());
             EditTilesetCommand = new RelayCommand(EditTileset, p => CanEditTileset());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
@@ -149,8 +151,13 @@ namespace MegaMan.Editor
         private void EditTileset(object param)
         {
             var tileset = _viewModel.ProjectViewModel.CurrentStage.Tileset;
-            this.tilesetEditorControl.DataContext = new TilesetEditorViewModel(tileset);
+            this.tilesetEditorControl.DataContext = new TilesetEditorViewModel(tileset, _viewModel.ProjectViewModel.Project);
             this.tilesetEditorPane.IsSelected = true;
+        }
+
+        private void AddStage(object param)
+        {
+            this.addStagePane.IsSelected = true;
         }
 
         private void RibbonTabChanged(object sender, SelectionChangedEventArgs e)

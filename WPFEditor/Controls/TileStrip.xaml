@@ -9,7 +9,7 @@
     <ToolBar ItemsSource="{Binding Path=Tiles}" Name="tilesToolbar">
         <ToolBar.ItemTemplate>
             <DataTemplate>
-                <c:TileImage Margin="0" Width="16" Height="16" DataContext="{Binding}" SelectedTile="{Binding DataContext.SelectedTile, RelativeSource={RelativeSource AncestorType=ToolBar}}" SheetPath="{Binding DataContext.SheetPath, RelativeSource={RelativeSource AncestorType=ToolBar}}">
+                <c:TileImage Margin="0" Width="16" Height="16" DataContext="{Binding}" SelectedTile="{Binding DataContext.SelectedTile, RelativeSource={RelativeSource AncestorType=ToolBar}}">
                     <c:TileImage.CommandBindings>
                         <CommandBinding Command="c:TileStrip.clickCommand" Executed="TileClick" />
                     </c:TileImage.CommandBindings>

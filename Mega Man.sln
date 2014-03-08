@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Mega Man\Engine.csproj", "{2B1E4B31-FF73-483C-9C32-8742B0951916}"
 EndProject
@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BC4BF8
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfEditorTests", "WpfEditorTests\WpfEditorTests.csproj", "{5F45BAD1-C26C-4750-868B-ED1879921062}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,6 +104,14 @@ Global
 		{DCC299DC-79C1-4437-8D44-418110AE8E21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCC299DC-79C1-4437-8D44-418110AE8E21}.Release|x64.ActiveCfg = Release|Any CPU
 		{DCC299DC-79C1-4437-8D44-418110AE8E21}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F45BAD1-C26C-4750-868B-ED1879921062}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

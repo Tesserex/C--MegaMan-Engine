@@ -7,12 +7,6 @@ using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {
-    // ========= What this IS, and IS NOT ===============
-    // This class controls a single stage. NOT the whole damn project!
-    // There should be no way to touch the stage, except through
-    // one of these objects! All form updates should be event
-    // driven, coming from this class!
-
     public class StageDocument
     {
         private readonly StageInfo map;
@@ -45,11 +39,11 @@ namespace MegaMan.Editor.Bll
             history = new History();
         }
 
-        public StageDocument(ProjectDocument project, string basepath, string filepath)
+        public StageDocument(ProjectDocument project, FilePath path)
         {
             Project = project;
             var stageReader = new StageXmlReader();
-            map = stageReader.LoadStageXml(FilePath.FromAbsolute(filepath, basepath));
+            map = stageReader.LoadStageXml(path);
 
             // wrap all map screens in screendocuments
             // this should be the only time MegaMan.Screen's are touched directly
@@ -97,11 +91,25 @@ namespace MegaMan.Editor.Bll
             get { return map.Tileset; }
         }
 
-        public void ChangeTileset(string path)
+        public void ChangeTileset(FilePath path)
         {
-            var tileset = new TilesetXmlReader().LoadTilesetFromXml(FilePath.FromAbsolute(path, Project.Project.BaseDir));
-            map.ChangeTileset(tileset);
+            if (path == null)
+                throw new ArgumentNullException("path");
+            
+            var tileset = new TilesetXmlReader().LoadTilesetFromXml(path);
+            map.ChangeTileset(tileset);    
+            
             Dirty = true;
+        }
+
+        public void CreateTileset()
+        {
+            var tilesetPath = FilePath.FromRelative("tiles.xml", map.StagePath.BasePath);
+            var tileset = new Tileset();
+            tileset.FilePath = tilesetPath;
+            map.ChangeTileset(tileset);
+            tileset.Save();
+            Save();
         }
 
         public FilePath MusicIntro

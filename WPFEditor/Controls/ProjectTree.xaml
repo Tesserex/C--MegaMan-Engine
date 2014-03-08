@@ -7,13 +7,7 @@
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>
-        <StackPanel Orientation="Horizontal" Height="Auto" DockPanel.Dock="Top">
-            <Button>New</Button>
-            <Button>Delete</Button>
-            <Button>Properties</Button>
-        </StackPanel>
-        
+    <DockPanel>        
         <TreeView ItemsSource="{Binding Root}">
             <TreeView.ItemContainerStyle>
                 <!-- 

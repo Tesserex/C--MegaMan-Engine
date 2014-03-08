@@ -20,8 +20,9 @@ namespace MegaMan.IO.Xml
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
 
-            tileset.SheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
-
+            var sheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
+            tileset.ChangeSheetPath(sheetPath.Absolute);
+                
             int size;
             if (!int.TryParse(reader.Attribute("tilesize").Value, out size)) 
                 throw new Exception("The tileset definition does not contain a valid tilesize attribute.");

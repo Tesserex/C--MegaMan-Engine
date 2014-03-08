@@ -60,6 +60,13 @@ namespace MegaMan.Editor.Controls.ViewModels
             : base(parent)
         {
             _children = new ObservableCollection<TreeViewItemViewModel>(stages.Select(s => new StageTreeItemViewModel(this, s)));
+
+            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Subscribe(StageAdded);
+        }
+
+        private void StageAdded(object sender, StageAddedEventArgs e)
+        {
+            _children.Add(new StageTreeItemViewModel(this, e.Stage));
         }
     }
 

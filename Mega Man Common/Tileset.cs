@@ -13,7 +13,7 @@ namespace MegaMan.Common
         private Dictionary<string, TileProperties> properties;
         public IEnumerable<TileProperties> Properties { get { return properties.Values; } }
 
-        public FilePath SheetPath { get; set; }
+        public FilePath SheetPath { get; private set; }
 
         public FilePath FilePath { get; set; }
 
@@ -23,6 +23,17 @@ namespace MegaMan.Common
         {
             properties = new Dictionary<string, TileProperties>();
             properties["Default"] = TileProperties.Default;
+        }
+
+        public void ChangeSheetPath(string path)
+        {
+            var fileDirectory = System.IO.Path.GetDirectoryName(FilePath.Absolute);
+            SheetPath = FilePath.FromAbsolute(path, fileDirectory);
+
+            foreach (var tile in this)
+            {
+                tile.Sprite.SheetPath = SheetPath;
+            }
         }
 
         public void AddTile()

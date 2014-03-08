@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MegaMan.Editor.Controls.NewProjectDialog"
+﻿<UserControl x:Class="MegaMan.Editor.Controls.AddStageDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,6 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -38,21 +37,23 @@
                 </Style>
             </Grid.Resources>
 
-            <Label Grid.Column="0" Grid.Row="0">Project Title</Label>
+            <Label Grid.Column="0" Grid.Row="0">Stage Name</Label>
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
 
-            <Label Grid.Column="0" Grid.Row="1">Author</Label>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Author}"></TextBox>
+            <Label Grid.Column="0" Grid.Row="1">Tileset</Label>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                <RadioButton IsChecked="{Binding CreateTileset, Mode=OneWay}" Click="ClickCreateTileset" Margin="10,2">Create New Tileset</RadioButton>
+                <RadioButton IsChecked="{Binding ExistingTileset, Mode=OneWay}" Click="ClickExistingTileset" Margin="10,2">Use Existing Tileset</RadioButton>
+                <DockPanel>
+                    <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=ExistingTileset}">Browse...</Button>
+                    <TextBox Text="{Binding Path=TilesetPath}" IsEnabled="{Binding Path=ExistingTileset}"></TextBox>
+                </DockPanel>
+            </StackPanel>
 
-            <Label Grid.Column="0" Grid.Row="2">Location</Label>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=DirectoryPath}"></TextBox>
-            <Button Grid.Column="2" Grid.Row="2" Height="24" Width="70" Click="BrowseClick">Browse...</Button>
-            
-            <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding Path=CreateProjectDirectory}">Create Project Directory</CheckBox>
 
-            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                <Image Source="/Resources/metool.png" Stretch="None" Margin="0,0,15,0"></Image>
-                <Button Width="100" Height="24" HorizontalAlignment="Right" Click="CreateClick">Create Project</Button>
+            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+                <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0,0,15,0" Command="{Binding AddStageCommand}">Ok</Button>
+                <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0" Click="CancelClick">Cancel</Button>
             </StackPanel>
         </Grid>
     </DockPanel>

@@ -1,0 +1,140 @@
+﻿using MegaMan.Common;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+namespace MegaMan.Editor.Controls.ViewModels
+{
+    public class AddStageViewModel : INotifyPropertyChanged
+    {
+        private ProjectDocument _project;
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        private string _tilesetPath;
+        public string TilesetPath
+        {
+            get { return _tilesetPath; }
+            set
+            {
+                _tilesetPath = value;
+                OnPropertyChanged("TilesetPath");
+            }
+        }
+
+        private bool _createTileset;
+        public bool CreateTileset
+        {
+            get { return _createTileset; }
+            set
+            {
+                _createTileset = value;
+                _existingTileset = !value;
+                OnPropertyChanged("CreateTileset");
+                OnPropertyChanged("ExistingTileset");
+            }
+        }
+
+        private bool _existingTileset;
+        public bool ExistingTileset
+        {
+            get { return _existingTileset; }
+            set
+            {
+                _existingTileset = value;
+                _createTileset = !value;
+                OnPropertyChanged("ExistingTileset");
+                OnPropertyChanged("CreateTileset");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand AddStageCommand { get; set; }
+        public ICommand BrowseTilesetCommand { get; set; }
+
+        private void OnPropertyChanged(string property)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
+        public AddStageViewModel()
+        {
+            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectChanged);
+
+            AddStageCommand = new RelayCommand(AddStage);
+            BrowseTilesetCommand = new RelayCommand(BrowseTileset);
+
+            CreateTileset = true;
+        }
+
+        private void BrowseTileset(object obj)
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.Filters.Add(new CommonFileDialogFilter("Tilesets (*.xml)", "xml"));
+
+            if (TilesetPath != null)
+                dialog.InitialDirectory = TilesetPath;
+            else
+                dialog.InitialDirectory = _project.Project.BaseDir;
+
+            dialog.Title = "Choose Tileset";
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureReadOnly = false;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = false;
+            dialog.ShowPlacesList = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                TilesetPath = dialog.FileName;
+            }
+        }
+
+        private void AddStage(object obj)
+        {
+            if (ExistingTileset)
+            {
+                if (!System.IO.File.Exists(TilesetPath))
+                    CustomMessageBox.ShowError("That tileset file does not exist.", "Foild!");
+
+                var stage = _project.AddStage(Name);
+
+                var tileFilePath = FilePath.FromAbsolute(TilesetPath, _project.Project.BaseDir);
+                stage.ChangeTileset(tileFilePath);
+                stage.Save();
+            }
+            else
+            {
+                var stage = _project.AddStage(Name);
+                stage.CreateTileset();
+            }
+        }
+
+        private void ProjectChanged(object sender, ProjectOpenedEventArgs e)
+        {
+            _project = e.Project;
+        }
+    }
+}

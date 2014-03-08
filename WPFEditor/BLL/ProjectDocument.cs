@@ -5,6 +5,7 @@ using MegaMan.Common;
 using System.IO;
 using System.Xml.Linq;
 using MegaMan.IO.Xml;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Bll
 {
@@ -176,8 +177,6 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
-        public event Action<StageDocument> StageAdded;
-
         public static ProjectDocument CreateNew(string directory)
         {
             var p = new ProjectDocument();
@@ -201,7 +200,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (info.Name == name)
                 {
-                    StageDocument stage = new StageDocument(this, BaseDir, info.StagePath.Absolute);
+                    StageDocument stage = new StageDocument(this, info.StagePath);
                     openStages.Add(name, stage);
                     return stage;
                 }
@@ -246,7 +245,7 @@ namespace MegaMan.Editor.Bll
             }
         }
 
-        public StageDocument AddStage(string name, string tilesetPath)
+        public StageDocument AddStage(string name)
         {
             string stageDir = Path.Combine(BaseDir, "stages");
             if (!Directory.Exists(stageDir))
@@ -264,7 +263,6 @@ namespace MegaMan.Editor.Bll
                 Path = FilePath.FromAbsolute(stagePath, this.BaseDir),
                 Name = name
             };
-            stage.ChangeTileset(tilesetPath);
 
             stage.Save();
             
@@ -273,9 +271,9 @@ namespace MegaMan.Editor.Bll
             var info = new StageLinkInfo {Name = name, StagePath = FilePath.FromAbsolute(stagePath, BaseDir)};
             Project.AddStage(info);
 
-            Save(); // need to save the reference to the new stage
+            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = info });
 
-            if (StageAdded != null) StageAdded(stage);
+            Save(); // need to save the reference to the new stage
 
             return stage;
         }

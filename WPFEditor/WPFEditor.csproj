@@ -136,7 +136,12 @@
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
+    <Compile Include="Bll\IProjectFileStructure.cs" />
+    <Compile Include="Bll\ProjectFileStructure.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
+    <Compile Include="Controls\AddStageDialog.xaml.cs">
+      <DependentUpon>AddStageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
@@ -157,6 +162,7 @@
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
+    <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -167,11 +173,12 @@
     <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
+    <Compile Include="Mediator\StageAddedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
-    <Compile Include="Bll\IStageProvider.cs" />
+    <Compile Include="Mediator\StageChangedEventArgs.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
     <Compile Include="Controls\LayoutScreenCanvas.cs" />
@@ -187,6 +194,10 @@
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
+    <Page Include="Controls\AddStageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CustomMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -12,18 +12,10 @@ namespace MegaMan.Editor.Controls
 {
     public class TileImage : Grid
     {
-        public static readonly DependencyProperty SheetPathProperty = DependencyProperty.Register("SheetPath", typeof(string), typeof(TileImage));
-
         public static readonly DependencyProperty SelectedTileProperty = DependencyProperty.Register("SelectedTile", typeof(Tile), typeof(TileImage), new PropertyMetadata(new PropertyChangedCallback(SelectedTileChanged)));
 
         private Image _image;
         private Border _highlight;
-
-        public string SheetPath
-        {
-            get { return (string)GetValue(SheetPathProperty); }
-            set { SetValue(SheetPathProperty, value); }
-        }
 
         public Tile SelectedTile
         {
@@ -63,19 +55,16 @@ namespace MegaMan.Editor.Controls
 
         private void TileImage_Tick()
         {
-            if (SheetPath != null)
-            {
-                var tile = (Tile)DataContext;
+            var tile = (Tile)DataContext;
 
-                var size = tile.Width;
+            var size = tile.Width;
 
-                var location = tile.Sprite.CurrentFrame.SheetLocation;
+            var location = tile.Sprite.CurrentFrame.SheetLocation;
 
-                var image = SpriteBitmapCache.GetOrLoadFrame(SheetPath, location);
+            var image = SpriteBitmapCache.GetOrLoadFrame(tile.Sprite.SheetPath.Absolute, location);
 
-                _image.Source = image;
-                _image.InvalidateVisual();
-            }
+            _image.Source = image;
+            _image.InvalidateVisual();
         }
     }
 }
