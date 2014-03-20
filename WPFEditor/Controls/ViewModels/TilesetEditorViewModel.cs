@@ -44,8 +44,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             _tileset = tileset;
             _project = project;
 
-            Sprite = new SpriteEditorViewModel(_tileset.First().Sprite);
-            OnPropertyChanged("Sprite");
+            if (_tileset.Any())
+                ChangeTile(_tileset.First());
 
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
 
@@ -79,14 +79,17 @@ namespace MegaMan.Editor.Controls.ViewModels
                 OnPropertyChanged("SheetPath");
                 OnPropertyChanged("RelSheetPath");
 
-                Sprite.ChangeSprite(_tileset.First().Sprite);
+                if (_tileset.Any())
+                    ChangeTile(_tileset.First());
             }
         }
 
         public override void ChangeTile(Tile tile)
         {
             SelectedTile = tile;
-            Sprite.ChangeSprite(tile.Sprite);
+
+            Sprite = new SpriteEditorViewModel(tile.Sprite);
+            OnPropertyChanged("Sprite");
 
             if (PropertyChanged != null)
             {

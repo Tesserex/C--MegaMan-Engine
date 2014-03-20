@@ -31,8 +31,9 @@
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="FontSize" Value="14" />
                 </Style>
-                <Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="Margin" Value="8,6" />
+                <Style TargetType="{x:Type RadioButton}">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Width" Value="130" />
                     <Setter Property="VerticalAlignment" Value="Center" />
                 </Style>
             </Grid.Resources>
@@ -42,9 +43,13 @@
 
             <Label Grid.Column="0" Grid.Row="1">Tileset</Label>
             <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-                <RadioButton IsChecked="{Binding CreateTileset, Mode=OneWay}" Click="ClickCreateTileset" Margin="10,2">Create New Tileset</RadioButton>
-                <RadioButton IsChecked="{Binding ExistingTileset, Mode=OneWay}" Click="ClickExistingTileset" Margin="10,2">Use Existing Tileset</RadioButton>
                 <DockPanel>
+                    <RadioButton IsChecked="{Binding CreateTileset, Mode=OneWay}" Click="ClickCreateTileset" Margin="10,2">Create New Tileset</RadioButton>
+                    <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesheetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=CreateTileset}">Browse...</Button>
+                    <TextBox Text="{Binding Path=TilesheetPath}" IsEnabled="{Binding Path=CreateTileset}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <RadioButton IsChecked="{Binding ExistingTileset, Mode=OneWay}" Click="ClickExistingTileset" Margin="10,2">Use Existing Tileset</RadioButton>
                     <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=ExistingTileset}">Browse...</Button>
                     <TextBox Text="{Binding Path=TilesetPath}" IsEnabled="{Binding Path=ExistingTileset}"></TextBox>
                 </DockPanel>

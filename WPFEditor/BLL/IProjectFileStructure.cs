@@ -9,6 +9,6 @@ namespace MegaMan.Editor.Bll
 {
     public interface IProjectFileStructure
     {
-        FilePath Get();
+        FilePath CreateStagePath(string stageName);
     }
 }

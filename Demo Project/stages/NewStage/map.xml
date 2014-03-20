@@ -1,0 +1,3 @@
+<Map name="NewStage" tiles="tiles.xml">
+	<Start screen="" x="0" y="0" />
+</Map>

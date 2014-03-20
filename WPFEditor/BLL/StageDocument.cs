@@ -91,25 +91,30 @@ namespace MegaMan.Editor.Bll
             get { return map.Tileset; }
         }
 
-        public void ChangeTileset(FilePath path)
+        public void ChangeTileset(string path)
         {
             if (path == null)
                 throw new ArgumentNullException("path");
-            
-            var tileset = new TilesetXmlReader().LoadTilesetFromXml(path);
-            map.ChangeTileset(tileset);    
+
+            var tileFilePath = FilePath.FromAbsolute(path, map.StagePath.BasePath);
+            var tileset = new TilesetXmlReader().LoadTilesetFromXml(tileFilePath);
+            map.ChangeTileset(tileset);
             
             Dirty = true;
         }
 
-        public void CreateTileset()
+        public void CreateTileset(string sheetPath)
         {
+            if (sheetPath == null)
+                throw new ArgumentNullException("sheetPath");
+
             var tilesetPath = FilePath.FromRelative("tiles.xml", map.StagePath.BasePath);
+            var sheetFilePath = FilePath.FromAbsolute(sheetPath, map.StagePath.BasePath);
             var tileset = new Tileset();
             tileset.FilePath = tilesetPath;
+            tileset.SheetPath = sheetFilePath;
             map.ChangeTileset(tileset);
             tileset.Save();
-            Save();
         }
 
         public FilePath MusicIntro

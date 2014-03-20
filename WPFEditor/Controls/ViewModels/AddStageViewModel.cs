@@ -38,6 +38,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        private string _tilesheetPath;
+        public string TilesheetPath
+        {
+            get { return _tilesheetPath; }
+            set
+            {
+                _tilesheetPath = value;
+                OnPropertyChanged("TilesheetPath");
+            }
+        }
+
         private bool _createTileset;
         public bool CreateTileset
         {
@@ -68,6 +79,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand AddStageCommand { get; set; }
         public ICommand BrowseTilesetCommand { get; set; }
+        public ICommand BrowseTilesheetCommand { get; set; }
 
         private void OnPropertyChanged(string property)
         {
@@ -84,6 +96,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             AddStageCommand = new RelayCommand(AddStage);
             BrowseTilesetCommand = new RelayCommand(BrowseTileset);
+            BrowseTilesheetCommand = new RelayCommand(BrowseTilesheet);
 
             CreateTileset = true;
         }
@@ -112,23 +125,55 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        private void BrowseTilesheet(object obj)
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.Filters.Add(new CommonFileDialogFilter("Images (*.png, *.gif, *.bmp)", "png,gif,bmp"));
+
+            if (TilesheetPath != null)
+                dialog.InitialDirectory = TilesheetPath;
+            else
+                dialog.InitialDirectory = _project.Project.BaseDir;
+
+            dialog.Title = "Choose Tilesheet Image";
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureReadOnly = false;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = false;
+            dialog.ShowPlacesList = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                TilesheetPath = dialog.FileName;
+            }
+        }
+
         private void AddStage(object obj)
         {
             if (ExistingTileset)
             {
                 if (!System.IO.File.Exists(TilesetPath))
+                {
                     CustomMessageBox.ShowError("That tileset file does not exist.", "Foild!");
+                    return;
+                }
 
                 var stage = _project.AddStage(Name);
-
-                var tileFilePath = FilePath.FromAbsolute(TilesetPath, _project.Project.BaseDir);
-                stage.ChangeTileset(tileFilePath);
-                stage.Save();
+                stage.ChangeTileset(TilesetPath);
+                _project.Save();
             }
             else
             {
+                if (!System.IO.File.Exists(TilesheetPath))
+                {
+                    CustomMessageBox.ShowError("That image file does not exist.", "Foild!");
+                    return;
+                }
+
                 var stage = _project.AddStage(Name);
-                stage.CreateTileset();
+                stage.CreateTileset(TilesheetPath);
+                _project.Save();
             }
         }
 

@@ -13,7 +13,7 @@ namespace MegaMan.Common
         private Dictionary<string, TileProperties> properties;
         public IEnumerable<TileProperties> Properties { get { return properties.Values; } }
 
-        public FilePath SheetPath { get; private set; }
+        public FilePath SheetPath { get; set; }
 
         public FilePath FilePath { get; set; }
 
@@ -74,7 +74,10 @@ namespace MegaMan.Common
             writer.IndentChar = '\t';
 
             writer.WriteStartElement("Tileset");
-            writer.WriteAttributeString("tilesheet", SheetPath.Relative);
+
+            if (SheetPath != null)
+                writer.WriteAttributeString("tilesheet", SheetPath.Relative);
+
             writer.WriteAttributeString("tilesize", TileSize.ToString());
 
             writer.WriteStartElement("TileProperties");

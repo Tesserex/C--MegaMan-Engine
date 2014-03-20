@@ -50,6 +50,9 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseEnter(object sender, MouseEventArgs e)
         {
+            if (DataContext == null)
+                return;
+
             var viewModel = DataContext as SpriteEditorViewModel;
             if (viewModel.Sprite.Playing == false)
                 sheetHighlight.Visibility = Visibility.Visible;
@@ -62,6 +65,9 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseClick(object sender, MouseButtonEventArgs e)
         {
+            if (DataContext == null)
+                return;
+
             var viewModel = DataContext as SpriteEditorViewModel;
             var x = (int)Canvas.GetLeft(sheetHighlight);
             var y = (int)Canvas.GetTop(sheetHighlight);

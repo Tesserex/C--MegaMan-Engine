@@ -45,9 +45,11 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public SpriteEditorViewModel(Sprite sprite)
         {
+            if (sprite == null)
+                throw new ArgumentNullException("sprite");
+
             _sprite = sprite;
 
-            ((App)App.Current).AnimateSprite(sprite);
             ((App)App.Current).Tick += Update;
 
             ZoomInCommand = new RelayCommand(ZoomIn, CanZoomIn);
@@ -92,17 +94,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void DeleteFrame()
         {
             _sprite.Remove(_sprite.CurrentFrame);
-        }
-
-        public void ChangeSprite(Sprite sprite)
-        {
-            _sprite = sprite;
-
-            OnPropertyChanged("PreviewWidth");
-            OnPropertyChanged("PreviewHeight");
-            OnPropertyChanged("SheetImageSource");
-            OnPropertyChanged("PreviewImage");
-            OnPropertyChanged("Sprite");
         }
 
         private bool CanZoomOut(object obj)

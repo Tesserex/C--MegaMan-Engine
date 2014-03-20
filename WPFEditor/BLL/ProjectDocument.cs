@@ -11,6 +11,7 @@ namespace MegaMan.Editor.Bll
 {
     public class ProjectDocument
     {
+        private IProjectFileStructure _fileStructure;
         public Project Project { get; private set; }
 
         private bool dirty;
@@ -179,16 +180,21 @@ namespace MegaMan.Editor.Bll
 
         public static ProjectDocument CreateNew(string directory)
         {
-            var p = new ProjectDocument();
-            p.Project.GameFile = FilePath.FromRelative("game.xml", directory);
+            var project = new Project()
+            {
+                GameFile = FilePath.FromRelative("game.xml", directory)
+            };
+
+            var p = new ProjectDocument(new ProjectFileStructure(project), project);
             return p;
         }
 
         public static ProjectDocument FromFile(string path)
         {
-            var p = new ProjectDocument();
             var projectReader = new ProjectXmlReader();
-            p.Project = projectReader.FromXml(path);
+            var project = projectReader.FromXml(path);
+            var structure = new ProjectFileStructure(project);
+            var p = new ProjectDocument(structure, project);
             p.LoadIncludes();
             return p;
         }
@@ -213,9 +219,10 @@ namespace MegaMan.Editor.Bll
             return entities[name];
         }
 
-        private ProjectDocument()
+        private ProjectDocument(IProjectFileStructure fileStructure, Project project)
         {
-            Project = new Project();
+            Project = project;
+            _fileStructure = fileStructure;
         }
 
         private void LoadIncludes()
@@ -247,33 +254,22 @@ namespace MegaMan.Editor.Bll
 
         public StageDocument AddStage(string name)
         {
-            string stageDir = Path.Combine(BaseDir, "stages");
-            if (!Directory.Exists(stageDir))
-            {
-                Directory.CreateDirectory(stageDir);
-            }
-            string stagePath = Path.Combine(stageDir, name);
-            if (!Directory.Exists(stagePath))
-            {
-                Directory.CreateDirectory(stagePath);
-            }
+            var stagePath = _fileStructure.CreateStagePath(name);
 
             var stage = new StageDocument(this)
             {
-                Path = FilePath.FromAbsolute(stagePath, this.BaseDir),
+                Path = stagePath,
                 Name = name
             };
-
-            stage.Save();
             
             openStages.Add(name, stage);
 
-            var info = new StageLinkInfo {Name = name, StagePath = FilePath.FromAbsolute(stagePath, BaseDir)};
+            var info = new StageLinkInfo { Name = name, StagePath = stagePath };
             Project.AddStage(info);
 
             ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = info });
 
-            Save(); // need to save the reference to the new stage
+            Dirty = true;
 
             return stage;
         }

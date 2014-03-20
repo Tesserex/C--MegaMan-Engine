@@ -1,7 +1,7 @@
 <Game name="Engine Demo" author="Tesserex" version="1.0.0.0">
 	<Size x="256" y="224" />
 	<NSF>
-		<Music>..\..\..\Megaman Omega\music.nsf</Music>
+		<Music>music\mm5.nsf</Music>
 		<SFX>music\mm5.nsf</SFX>
 	</NSF>
 	<Stages>
@@ -11,6 +11,7 @@
 		<Stage name="Elec" path="stages\Elec" />
 		<Stage name="Metal" path="stages\Metal" />
 		<Stage name="Parallax" path="stages\Parallax" />
+		<Stage name="NewStage" path="stages\NewStage" />
 	</Stages>
 	<Next type="Scene" name="Intro" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>
