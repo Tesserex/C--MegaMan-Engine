@@ -22,6 +22,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             _parent = parent;
 
             _children = new ObservableCollection<TreeViewItemViewModel>();
+
+            _isExpanded = true;
         }
 
         public IEnumerable<TreeViewItemViewModel> Root

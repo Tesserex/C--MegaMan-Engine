@@ -27,19 +27,16 @@ namespace MegaMan.Common
 
         public void ChangeSheetPath(string path)
         {
-            var fileDirectory = System.IO.Path.GetDirectoryName(FilePath.Absolute);
-            SheetPath = FilePath.FromAbsolute(path, fileDirectory);
-
-            foreach (var tile in this)
-            {
-                tile.Sprite.SheetPath = SheetPath;
-            }
+            SheetPath = FilePath.FromAbsolute(path, FilePath.BasePath);
         }
 
-        public void AddTile()
+        public Tile AddTile()
         {
-            Sprite sprite = new Sprite(this.TileSize, this.TileSize);
-            base.Add(new Tile(this.Count, sprite));
+            var sprite = new TileSprite(this);
+            sprite.SheetPath = SheetPath;
+            var tile = new Tile(this.Count, sprite);
+            base.Add(tile);
+            return tile;
         }
 
         public TileProperties GetProperties(string name)

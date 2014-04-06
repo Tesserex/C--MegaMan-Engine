@@ -1,4 +1,4 @@
-<Map name="Test" tiles="..\test\tiles.xml">
+<Map name="Test" tiles="stages\test\tiles.xml">
     <Music nsftrack="10" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">

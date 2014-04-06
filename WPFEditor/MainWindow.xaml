@@ -42,6 +42,7 @@
             
             <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">
                 <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Edit Stage" Command="{Binding ElementName=MainWindow1, Path=EditStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                     <Fluent:Button Header="Edit Tiles" Icon="/Resources/tiles.png" LargeIcon="/Resources/tiles.png" Command="{Binding ElementName=MainWindow1, Path=EditTilesetCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

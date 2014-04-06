@@ -1,10 +1,10 @@
-<Map name="Parallax" tiles="tiles.xml">
+<Map name="Parallax" tiles="stages\parallax\tiles.xml">
 	<Music nsftrack="13" />
 	<Start screen="1" x="48" y="116" />
 	<Screen id="1">
-		<Next type="Scene" mode="Push" name="ParallaxDemo" />
-		<Overlay name="sun" x="0" y="0" parallax="true" />
-		<Overlay name="mountains" x="0" y="0" parallax="true" />
-		<Overlay name="corn" x="0" y="96" parallax="true" />
+		<Next mode="Push" pause="False" type="Scene" name="ParallaxDemo" fade="False" />
+		<Overlay name="sun" />
+		<Overlay name="mountains" />
+		<Overlay name="corn" />
 	</Screen>
 </Map>

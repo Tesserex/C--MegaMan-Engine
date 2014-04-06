@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="28" d:DesignWidth="500">
     <ToolBarTray Orientation="Horizontal">
-        <ToolBar Band="1" BandIndex="1">
+        <ToolBar Band="1" BandIndex="1" Visibility="Collapsed">
             <RadioButton Padding="0" Margin="0" Width="28" Height="24" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
                 <Image Source="/Resources/hand.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </RadioButton>
@@ -20,7 +20,7 @@
         </ToolBar>
         <ToolBar Band="1" BandIndex="2">
             <Button Command="{Binding AddScreenCommand}">
-                AddScreen
+                Add Screen
             </Button>
         </ToolBar>
     </ToolBarTray>

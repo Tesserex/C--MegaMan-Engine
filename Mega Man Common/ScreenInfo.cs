@@ -19,7 +19,6 @@ namespace MegaMan.Common
     {
         #region Properties
         public List<SceneCommandInfo> Commands { get; set; }
-
         public List<ScreenLayerInfo> Layers { get; private set; }
         public List<BlockPatternInfo> BlockPatterns { get; private set; }
         public List<TeleportInfo> Teleports { get; private set; } 
@@ -41,6 +40,7 @@ namespace MegaMan.Common
             BlockPatterns = new List<BlockPatternInfo>();
             Teleports = new List<TeleportInfo>();
             Layers = new List<ScreenLayerInfo>();
+            Commands = new List<SceneCommandInfo>();
         }
 
         public void Save(XmlTextWriter writer, FilePath stagePath)

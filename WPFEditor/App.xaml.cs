@@ -23,7 +23,10 @@ namespace MegaMan.Editor
 
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
-            timer.Tick += (s, ev) => { if (Tick != null) Tick(); };
+            timer.Tick += (s, ev) =>
+            {
+                if (Tick != null) Tick();
+            };
             timer.Start();
         }
 

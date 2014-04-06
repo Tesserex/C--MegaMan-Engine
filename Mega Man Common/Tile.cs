@@ -146,7 +146,7 @@ namespace MegaMan.Common
     {
         public int Id { get; private set; }
         public string Name { get; set; }
-        public Sprite Sprite { get; protected set; }
+        public TileSprite Sprite { get; protected set; }
         public float Width { get { return Sprite.Width; } }
         public float Height 
         { 
@@ -158,7 +158,7 @@ namespace MegaMan.Common
 
         public TileProperties Properties { get; set; }
 
-        public Tile(int id, Sprite sprite)
+        public Tile(int id, TileSprite sprite)
         {
             Id = id;
             Sprite = sprite;

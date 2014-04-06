@@ -107,6 +107,7 @@
     <Compile Include="Rendering\IRenderingContext.cs" />
     <Compile Include="Rendering\IResourceImage.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
+    <Compile Include="Sprite\TileSprite.cs" />
     <Compile Include="StageInfo.cs" />
     <Compile Include="MenuInfo.cs" />
     <Compile Include="MeterInfo.cs" />

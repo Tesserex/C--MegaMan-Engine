@@ -14,10 +14,10 @@ namespace MegaMan.Common
     /// </summary>
     public class Sprite : ICollection<SpriteFrame>
     {
-        protected List<SpriteFrame> frames;
-        protected int currentFrame;
-        protected int lastFrameTime;
-        protected FilePath sheetPath;
+        private List<SpriteFrame> frames;
+        private int currentFrame;
+        private int lastFrameTime;
+        private FilePath sheetPath;
 
         private IResourceImage texture;
 
@@ -44,12 +44,12 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets the height of the sprite.
         /// </summary>
-        public int Height { get; private set; }
+        public virtual int Height { get; private set; }
 
         /// <summary>
         /// Gets the width of the sprite.
         /// </summary>
-        public int Width { get; private set; }
+        public virtual int Width { get; private set; }
 
         /// <summary>
         /// Gets the number of frames in the sprite animation.
@@ -117,7 +117,7 @@ namespace MegaMan.Common
             this.currentFrame = 0;
             this.lastFrameTime = 0;
             this.HotSpot = new Point(0, 0);
-            this.BoundBox = new RectangleF(0, 0, Width, Height);
+            this.BoundBox = new RectangleF(0, 0, width, height);
             this.Playing = false;
             this.Visible = true;
             this.AnimDirection = AnimationDirection.Forward;
@@ -159,8 +159,7 @@ namespace MegaMan.Common
         /// </summary>
         public void AddFrame()
         {
-            frames.Add(new SpriteFrame(this, 0, Rectangle.Empty));
-            CheckTickable();
+            AddFrame(0, 0, 0);
         }
 
         /// <summary>
@@ -182,8 +181,7 @@ namespace MegaMan.Common
         /// <param name="index">The index at which to insert the frame.</param>
         public void InsertFrame(int index)
         {
-            frames.Insert(index, new SpriteFrame(this, 0, Rectangle.Empty));
-            CheckTickable();
+            InsertFrame(index, 0, 0, 0);
         }
 
         /// <summary>

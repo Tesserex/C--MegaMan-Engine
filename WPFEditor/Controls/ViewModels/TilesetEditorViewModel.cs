@@ -3,6 +3,7 @@ using MegaMan.Editor.Bll;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class TilesetEditorViewModel : TilesetViewModelBase, INotifyPropertyChanged
     {
         private ProjectDocument _project;
+        private ObservableCollection<Tile> _observedTiles;
+        private ObservableCollection<TileProperties> _observedProperties;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,6 +31,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         public ICommand ChangeSheetCommand { get; private set; }
+        public ICommand AddTileCommand { get; private set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
 
@@ -39,20 +43,48 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public override IEnumerable<Tile> Tiles
+        {
+            get
+            {
+                return _observedTiles;
+            }
+        }
+
+        public IEnumerable<TileProperties> TileProperties
+        {
+            get
+            {
+                return _tileset.Properties;
+            }
+        }
+
         public TilesetEditorViewModel(Tileset tileset, ProjectDocument project)
         {
             _tileset = tileset;
             _project = project;
+            _observedTiles = new ObservableCollection<Tile>(_tileset);
+            _observedProperties = new ObservableCollection<TileProperties>(_tileset.Properties);
 
             if (_tileset.Any())
                 ChangeTile(_tileset.First());
 
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
+            AddTileCommand = new RelayCommand(o => AddTile());
 
             if (!File.Exists(_tileset.SheetPath.Absolute))
             {
                 ChangeSheet();
             }
+
+            ((App)App.Current).AnimateTileset(_tileset);
+        }
+
+        private void AddTile()
+        {
+            var tile = _tileset.AddTile();
+            _observedTiles.Add(tile);
+            ((App)App.Current).AnimateSprite(tile.Sprite);
         }
 
         private void ChangeSheet()

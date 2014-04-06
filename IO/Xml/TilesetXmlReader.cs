@@ -40,16 +40,15 @@ namespace MegaMan.IO.Xml
             {
                 int id = int.Parse(tileNode.Attribute("id").Value);
                 string name = tileNode.Attribute("name").Value;
-                var sprite = Sprite.Empty;
 
                 var spriteNode = tileNode.Element("Sprite");
-                if (spriteNode != null)
-                {
-                    sprite = LoadSprite(spriteNode);
-                    sprite.SheetPath = tileset.SheetPath;
-                }
+                if (spriteNode == null)
+                    throw new GameXmlException(tileNode, "All Tile tags must contain a Sprite tag.");
+                
+                var sprite = LoadSprite(spriteNode);
+                var tileSprite = new TileSprite(tileset, sprite);
 
-                Tile tile = new Tile(id, sprite);
+                Tile tile = new Tile(id, tileSprite);
 
                 string propName = "Default";
                 XAttribute propAttr = tileNode.Attribute("properties");

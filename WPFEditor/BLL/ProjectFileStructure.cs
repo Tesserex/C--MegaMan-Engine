@@ -19,7 +19,22 @@ namespace MegaMan.Editor.Bll
 
         public FilePath CreateStagePath(string stageName)
         {
-            string stageDir = Path.Combine(_basePath, "stages");
+            string stagePath = EnsureDirectory("stages", stageName);
+
+            return FilePath.FromAbsolute(stagePath, this._basePath);
+        }
+
+        public FilePath CreateTilesetPath(string tilesetName)
+        {
+            var tilesetPath = EnsureDirectory("tilesets", tilesetName);
+
+            var tilesetFile = Path.Combine(tilesetPath, "tiles.xml");
+            return FilePath.FromAbsolute(tilesetFile, this._basePath);
+        }
+
+        private string EnsureDirectory(string root, string stageName)
+        {
+            string stageDir = Path.Combine(_basePath, root);
             if (!Directory.Exists(stageDir))
             {
                 Directory.CreateDirectory(stageDir);
@@ -29,8 +44,7 @@ namespace MegaMan.Editor.Bll
             {
                 Directory.CreateDirectory(stagePath);
             }
-
-            return FilePath.FromAbsolute(stagePath, this._basePath);
+            return stagePath;
         }
     }
 }

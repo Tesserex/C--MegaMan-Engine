@@ -16,8 +16,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private Sprite _sprite;
 
-        private int _previewZoom = 1;
-        private int _sheetZoom = 1;
+        private static int _previewZoom = 1;
+        private static int _sheetZoom = 1;
 
         private const int MAXZOOM = 16;
 

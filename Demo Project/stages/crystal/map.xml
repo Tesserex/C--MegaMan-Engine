@@ -1,32 +1,39 @@
-<Map name="crystal" tiles="tiles.xml">
+<Map name="crystal" tiles="stages\crystal\tiles.xml">
 	<Music nsftrack="5" />
 	<Start screen="Start" x="116" y="148" />
 	<Screen id="Start">
-		<Next type="Scene" mode="Push" name="StageReady" />
-		<Entity entity="Seeker" state="" x="230" y="126" />
-		<Entity entity="Seeker" state="" x="164" y="54" />
-		<Entity entity="Seeker" state="" x="209" y="79" />
+		<Next mode="Push" pause="False" type="Scene" name="StageReady" fade="False" />
+		<Entity id="c6966e29-83d8-4ce4-bdb8-1c5f198219d4" name="Seeker" state="" x="230" y="126" direction="Unknown" respawn="Offscreen" />
+		<Entity id="77e78eb2-4501-405c-b73b-43fc0d58a22f" name="Seeker" state="" x="164" y="54" direction="Unknown" respawn="Offscreen" />
+		<Entity id="7daa355a-aa98-4a32-afc2-5f1439bafc11" name="Seeker" state="" x="209" y="79" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a9a3ac76-f82b-42c7-98b8-0ce8f872b9e8" name="Seeker" state="" x="230" y="126" direction="Unknown" respawn="Offscreen" />
+		<Entity id="3d86e73c-4e35-49cb-b065-e01c8ea17e55" name="Seeker" state="" x="164" y="54" direction="Unknown" respawn="Offscreen" />
+		<Entity id="f29a635b-ed37-46a5-8295-89500300ac06" name="Seeker" state="" x="209" y="79" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Boss">
 		<Condition condition="Game.IsBossDefeated(&quot;Crystal&quot;)">
-			<Next type="Scene" mode="Push" name="LeaveStage" />
+			<Next mode="Push" pause="False" type="Scene" name="LeaveStage" fade="False" />
 		</Condition>
-		<Entity id="CrystalMan" entity="CrystalMan" x="200" y="-48" respawn="Never" />
+		<Entity id="CrystalMan" name="CrystalMan" x="200" y="-48" direction="Unknown" respawn="Never" />
+		<Entity id="CrystalMan" name="CrystalMan" x="200" y="-48" direction="Unknown" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">
-		<Entity entity="Collapser" state="" x="138" y="128" />
-		<Entity entity="Collapser" state="" x="176" y="96" />
+		<Entity id="16b0d92b-d5fc-4287-9d3c-8ee6dab2fa65" name="Collapser" state="" x="138" y="128" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a5388619-cb2c-4cf7-bbb0-e1004776068b" name="Collapser" state="" x="176" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="6c4d01b5-8f9d-4598-bf14-41adc617dbeb" name="Collapser" state="" x="138" y="128" direction="Unknown" respawn="Offscreen" />
+		<Entity id="4b4f60ec-fcef-418e-907a-4f0a26dcc306" name="Collapser" state="" x="176" y="96" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="4">
-		<Entity entity="EnergyTank" state="" x="48" y="105" />
-		<Entity entity="ShieldGuy" state="" x="52" y="161"/>
-		<Entity entity="ShieldShooter" state="" x="160" y="80" direction="Right" />
+		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" name="EnergyTank" state="" x="48" y="105" direction="Unknown" respawn="Offscreen" />
+		<Entity id="bf372b36-c2df-46da-bb45-166ef9f747f8" name="ShieldGuy" state="" x="52" y="161" direction="Unknown" respawn="Offscreen" />
+		<Entity id="fe638d02-7b5f-40fd-9e1f-82b23d9eb7d4" name="ShieldShooter" state="" x="160" y="80" direction="Right" respawn="Offscreen" />
+		<Entity id="63b8db37-9c37-4eef-a597-b2b0b41ef66a" name="EnergyTank" state="" x="48" y="105" direction="Unknown" respawn="Offscreen" />
+		<Entity id="d3bce28f-215c-4dd0-8e4a-e2e78e1c50ad" name="ShieldGuy" state="" x="52" y="161" direction="Unknown" respawn="Offscreen" />
+		<Entity id="10d3be8f-155e-42b8-86a9-80d7e78eadb0" name="ShieldShooter" state="" x="160" y="80" direction="Right" respawn="Offscreen" />
 	</Screen>
-	<Screen id="Tunnel">
-
-	</Screen>
+	<Screen id="Tunnel" />
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
 	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
-	<Join type="vertical" s1="4" s2="Tunnel" offset1="8" offset2="8" size="3" direction="forward" bossdoor="CrystalDoor" />
-	<Join type="vertical" s1="Tunnel" s2="Boss" offset1="8" offset2="8" size="3" direction="forward" bossdoor="CrystalDoor" />
+	<Join type="vertical" s1="4" s2="Tunnel" offset1="8" offset2="8" size="3" direction="forward" />
+	<Join type="vertical" s1="Tunnel" s2="Boss" offset1="8" offset2="8" size="3" direction="forward" />
 </Map>

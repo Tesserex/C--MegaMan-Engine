@@ -108,9 +108,10 @@ namespace MegaMan.Editor.Bll
             if (sheetPath == null)
                 throw new ArgumentNullException("sheetPath");
 
-            var tilesetPath = FilePath.FromRelative("tiles.xml", map.StagePath.BasePath);
+            var tilesetPath = new ProjectFileStructure(this.Project.Project).CreateTilesetPath(this.Name);
             var sheetFilePath = FilePath.FromAbsolute(sheetPath, map.StagePath.BasePath);
             var tileset = new Tileset();
+            tileset.TileSize = 16;
             tileset.FilePath = tilesetPath;
             tileset.SheetPath = sheetFilePath;
             map.ChangeTileset(tileset);
@@ -149,6 +150,7 @@ namespace MegaMan.Editor.Bll
         {
             var stageWriter = new StageXmlWriter(map);
             stageWriter.Write();
+            Tileset.Save();
             Dirty = false;
         }
 

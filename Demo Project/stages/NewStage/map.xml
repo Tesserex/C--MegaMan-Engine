@@ -1,3 +1,4 @@
-<Map name="NewStage" tiles="tiles.xml">
+<Map name="NewStage" tiles="stages\NewStage\tiles.xml">
 	<Start screen="" x="0" y="0" />
+	<Screen id="1" />
 </Map>

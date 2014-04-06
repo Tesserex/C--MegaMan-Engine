@@ -69,6 +69,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (stage != null)
             {
+                if (!stage.Tileset.Any())
+                {
+                    CustomMessageBox.ShowError("You need to create some tiles before you can start creating your stage.", "Tiles Needed");
+                    return;
+                }
+
                 int nextScreenId = stage.FindNextScreenId();
 
                 stage.AddScreen(nextScreenId.ToString(), 16, 14);

@@ -5,13 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label Content="{Binding RelSheetPath}"></Label>
-            <Button Command="{Binding ChangeSheetCommand}">Select Sheet Image</Button>
-        </StackPanel>
+             d:DesignHeight="300" d:DesignWidth="800">
+    <DockPanel Background="WhiteSmoke">
+        <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label FontWeight="Bold">Image:</Label>
+                <Label Content="{Binding RelSheetPath}"></Label>
+                <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,10,0">Change...</Button>
+                <Button Command="{Binding AddTileCommand}" Padding="6,2">Add Tile</Button>
+            </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="5">
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="100">
+                <Label FontWeight="Bold" HorizontalAlignment="Center" HorizontalContentAlignment="Center">Tile Properties</Label>
+                <ListView ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedTile.Properties}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}"></Label>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Border>
         <c:TileStrip DockPanel.Dock="Top" DataContext="{Binding}"></c:TileStrip>
-        <c:SpriteEditor DockPanel.Dock="Top" DataContext="{Binding Sprite}"></c:SpriteEditor>
+        <c:SpriteEditor Background="White" DockPanel.Dock="Top" DataContext="{Binding Sprite}"></c:SpriteEditor>
     </DockPanel>
 </UserControl>

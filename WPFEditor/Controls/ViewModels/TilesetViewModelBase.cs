@@ -26,7 +26,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public IEnumerable<Tile> Tiles
+        public virtual IEnumerable<Tile> Tiles
         {
             get
             {

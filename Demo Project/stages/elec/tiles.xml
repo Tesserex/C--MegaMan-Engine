@@ -1,4 +1,4 @@
-<Tileset tilesheet="tiles.png" tilesize="16">
+<Tileset tilesheet="stages\elec\tiles.png" tilesize="16">
 	<TileProperties>
 		<Properties name="block" blocking="true" resistX="0.85" />
 		<Properties name="ladder" climbable="true" resistX="0.85" />

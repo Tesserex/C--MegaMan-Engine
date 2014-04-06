@@ -1,4 +1,4 @@
-<Tileset tilesheet="tiles.png" tilesize="16">
+<Tileset tilesheet="stages\test\tiles.png" tilesize="16">
 	<TileProperties>
 		<Properties name="Wind" pushX="0" />
 		<Properties name="Block" blocking="true" resistX="0.5" dragX="0" />

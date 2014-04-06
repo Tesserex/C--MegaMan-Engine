@@ -1,4 +1,4 @@
-<Map name="Elec" tiles="..\elec\tiles.xml">
+<Map name="Elec" tiles="stages\elec\tiles.xml">
 	<Start screen="1" x="112" y="180" />
 	<Screen id="1">
 		<Entity entity="FloorBlade" state="" x="101" y="136" />
