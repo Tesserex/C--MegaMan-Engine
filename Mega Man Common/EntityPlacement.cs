@@ -52,7 +52,7 @@ namespace MegaMan.Common
             {
                 writer.WriteAttributeString("id", Id);
             }
-            writer.WriteAttributeString("name", entity);
+            writer.WriteAttributeString("entity", entity);
             if (state != "Start") writer.WriteAttributeString("state", state);
             writer.WriteAttributeString("x", screenX.ToString());
             writer.WriteAttributeString("y", screenY.ToString());

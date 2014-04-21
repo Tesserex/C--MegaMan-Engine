@@ -56,7 +56,7 @@ namespace MegaMan.IO.Xml
 
             foreach (var screen in _stageInfo.Screens.Values)
             {
-                screen.Save(_writer, _stageInfo.StagePath);
+                SaveScreen(screen);
             }
 
             foreach (Join join in _stageInfo.Joins)
@@ -81,6 +81,50 @@ namespace MegaMan.IO.Xml
 
             _writer.WriteEndElement();
             _writer.Close();
+        }
+
+        public void SaveScreen(ScreenInfo screen)
+        {
+            _writer.WriteStartElement("Screen");
+            _writer.WriteAttributeString("id", screen.Name);
+
+            foreach (var command in screen.Commands)
+            {
+                command.Save(_writer);
+            }
+
+            foreach (var info in screen.Layers[0].Entities)
+            {
+                info.Save(_writer);
+            }
+
+            foreach (var layer in screen.Layers.Skip(1))
+            {
+                layer.Save(_writer);
+            }
+
+            foreach (BlockPatternInfo pattern in screen.BlockPatterns)
+            {
+                //pattern.Save(writer);
+            }
+
+            foreach (TeleportInfo teleport in screen.Teleports)
+            {
+                _writer.WriteStartElement("Teleport");
+                _writer.WriteAttributeString("from_x", teleport.From.X.ToString());
+                _writer.WriteAttributeString("from_y", teleport.From.Y.ToString());
+                _writer.WriteAttributeString("to_screen", teleport.TargetScreen);
+                _writer.WriteAttributeString("to_x", teleport.To.X.ToString());
+                _writer.WriteAttributeString("to_y", teleport.To.Y.ToString());
+                _writer.WriteEndElement();
+            }
+
+            _writer.WriteEndElement();
+
+            foreach (var layer in screen.Layers)
+            {
+                layer.Tiles.Save(Path.Combine(_stageInfo.StagePath.Absolute, screen.Name + ".scn"));
+            }
         }
     }
 }

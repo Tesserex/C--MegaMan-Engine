@@ -43,48 +43,6 @@ namespace MegaMan.Common
             Commands = new List<SceneCommandInfo>();
         }
 
-        public void Save(XmlTextWriter writer, FilePath stagePath)
-        {
-            writer.WriteStartElement("Screen");
-            writer.WriteAttributeString("id", Name);
-
-            foreach (var command in Commands)
-            {
-                command.Save(writer);
-            }
-
-            foreach (var info in Layers[0].Entities)
-            {
-                info.Save(writer);
-            }
-
-            foreach (var layer in Layers.Skip(1))
-            {
-                layer.Save(writer);
-            }
-
-            foreach (BlockPatternInfo pattern in BlockPatterns)
-            {
-                //pattern.Save(writer);
-            }
-
-            foreach (TeleportInfo teleport in Teleports)
-            {
-                writer.WriteStartElement("Teleport");
-                writer.WriteAttributeString("from_x", teleport.From.X.ToString());
-                writer.WriteAttributeString("from_y", teleport.From.Y.ToString());
-                writer.WriteAttributeString("to_screen", teleport.TargetScreen);
-                writer.WriteAttributeString("to_x", teleport.To.X.ToString());
-                writer.WriteAttributeString("to_y", teleport.To.Y.ToString());
-                writer.WriteEndElement();
-            }
-
-            writer.WriteEndElement();
-
-            foreach (var layer in Layers)
-            {
-                layer.Tiles.Save(Path.Combine(stagePath.Absolute, Name + ".scn"));
-            }
-        }
+        
     }
 }

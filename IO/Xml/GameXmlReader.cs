@@ -93,7 +93,10 @@ namespace MegaMan.IO.Xml
 
             info.Id = entity.TryAttribute<string>("id", Guid.NewGuid().ToString());
 
-            var nameAttr = entity.RequireAttribute("entity");
+            var nameAttr = entity.Attribute("name");
+            if (nameAttr == null)
+                nameAttr = entity.RequireAttribute("entity");
+
             info.entity = nameAttr.Value;
 
             string state = "Start";

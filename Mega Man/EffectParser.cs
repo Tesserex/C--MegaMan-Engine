@@ -352,7 +352,7 @@ namespace MegaMan.Engine
                 {
                     return split(
                         null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
-                        entity.Parent.Container.IsGravityFlipped,
+                        entity != null ? entity.Container.IsGravityFlipped : false,
                         0,
                         Game.CurrentGame.Player
                     );

@@ -134,8 +134,8 @@ namespace MegaMan.IO.Xml
             foreach (var overlay in node.Elements("Overlay"))
             {
                 var name = overlay.RequireAttribute("name").Value;
-                var x = overlay.GetAttribute<int>("x");
-                var y = overlay.GetAttribute<int>("y");
+                var x = overlay.TryAttribute<int>("x");
+                var y = overlay.TryAttribute<int>("y");
                 bool foreground = overlay.TryAttribute<bool>("foreground");
                 bool parallax = overlay.TryAttribute<bool>("parallax");
 
