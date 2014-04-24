@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Ninject;
+using Ninject.Extensions.Conventions;
 
 namespace MegaMan.Editor
 {
@@ -15,6 +17,8 @@ namespace MegaMan.Editor
     /// </summary>
     public partial class App : Application
     {
+        public static IKernel Container { get; private set; }
+
         public event Action Tick;
 
         protected override void OnStartup(StartupEventArgs e)
@@ -28,6 +32,11 @@ namespace MegaMan.Editor
                 if (Tick != null) Tick();
             };
             timer.Start();
+
+            Container = new StandardKernel();
+            Container.Load(System.Reflection.Assembly.GetExecutingAssembly());
+            Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
+            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.Xml.GameXmlReader)).SelectAllClasses().BindDefaultInterface());
         }
 
         public void AnimateTileset(Tileset tileset)
