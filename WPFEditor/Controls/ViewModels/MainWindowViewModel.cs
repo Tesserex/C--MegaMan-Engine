@@ -1,20 +1,16 @@
 ﻿using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        private IProjectDocumentFactory _projectFactory;
         private ProjectDocument _openProject;
 
         public string ApplicationName { get; private set; }
@@ -37,8 +33,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IProjectDocumentFactory projectFactory)
         {
+            _projectFactory = projectFactory;
+
             ProjectViewModel = new ProjectViewModel();
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
@@ -52,7 +50,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void OpenProject(string filename)
         {
-            var project = ProjectDocument.FromFile(filename);
+            var project = _projectFactory.Load(filename);
 
             if (project != null)
             {

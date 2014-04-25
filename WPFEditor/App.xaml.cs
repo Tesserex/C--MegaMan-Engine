@@ -36,7 +36,7 @@ namespace MegaMan.Editor
             Container = new StandardKernel();
             Container.Load(System.Reflection.Assembly.GetExecutingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.Xml.GameXmlReader)).SelectAllClasses().BindDefaultInterface());
+            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.Xml.GameXmlReader)).SelectAllClasses().BindAllInterfaces());
         }
 
         public void AnimateTileset(Tileset tileset)

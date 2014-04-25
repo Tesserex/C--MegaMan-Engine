@@ -142,6 +142,8 @@
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
+    <Compile Include="Bll\Factories\IProjectDocumentFactory.cs" />
+    <Compile Include="Bll\Factories\ProjectDocumentFactory.cs" />
     <Compile Include="Bll\IProjectFileStructure.cs" />
     <Compile Include="Bll\ProjectFileStructure.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />

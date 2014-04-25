@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IIncludeReader.cs" />
+    <Compile Include="IProjectReader.cs" />
+    <Compile Include="ISoundReader.cs" />
+    <Compile Include="IStageReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xml\BlockPatternXmlReader.cs" />
     <Compile Include="Xml\GameXmlReader.cs" />
@@ -76,6 +80,9 @@
       <Project>{6779a7e6-ce6c-43e4-a0cb-1b0f921c8009}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xml\Includes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

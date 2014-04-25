@@ -1,11 +1,8 @@
-﻿using System;
+﻿using MegaMan.Common;
+using MegaMan.Editor.Mediator;
+using MegaMan.IO.Xml;
 using System.Collections.Generic;
 using System.Linq;
-using MegaMan.Common;
-using System.IO;
-using System.Xml.Linq;
-using MegaMan.IO.Xml;
-using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Bll
 {
@@ -26,7 +23,7 @@ namespace MegaMan.Editor.Bll
 
         #region Game XML File Stuff
 
-        private readonly Dictionary<string, Entity> entities = new Dictionary<string,Entity>();
+        private readonly Dictionary<string, Entity> entities = new Dictionary<string, Entity>();
 
         public IEnumerable<Entity> Entities
         {
@@ -150,7 +147,7 @@ namespace MegaMan.Editor.Bll
 
         #region GUI Editor Stuff
 
-        private readonly Dictionary<string, StageDocument> openStages = new Dictionary<string,StageDocument>();
+        private readonly Dictionary<string, StageDocument> openStages = new Dictionary<string, StageDocument>();
 
         public IEnumerable<string> StageNames
         {
@@ -178,27 +175,6 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
-        public static ProjectDocument CreateNew(string directory)
-        {
-            var project = new Project()
-            {
-                GameFile = FilePath.FromRelative("game.xml", directory)
-            };
-
-            var p = new ProjectDocument(new ProjectFileStructure(project), project);
-            return p;
-        }
-
-        public static ProjectDocument FromFile(string path)
-        {
-            var projectReader = new ProjectXmlReader();
-            var project = projectReader.FromXml(path);
-            var structure = new ProjectFileStructure(project);
-            var p = new ProjectDocument(structure, project);
-            p.LoadIncludes();
-            return p;
-        }
-
         public StageDocument StageByName(string name)
         {
             if (openStages.ContainsKey(name)) return openStages[name];
@@ -219,37 +195,10 @@ namespace MegaMan.Editor.Bll
             return entities[name];
         }
 
-        private ProjectDocument(IProjectFileStructure fileStructure, Project project)
+        public ProjectDocument(IProjectFileStructure fileStructure, Project project)
         {
             Project = project;
             _fileStructure = fileStructure;
-        }
-
-        private void LoadIncludes()
-        {
-            foreach (string path in Project.Includes)
-            {
-                string fullpath = Path.Combine(BaseDir, path);
-                XDocument document = XDocument.Load(fullpath, LoadOptions.SetLineInfo);
-                foreach (XElement element in document.Elements())
-                {
-                    switch (element.Name.LocalName)
-                    {
-                        case "Entities":
-                            LoadEntities(element);
-                            break;
-                    }
-                }
-            }
-        }
-
-        private void LoadEntities(XElement entitiesNode)
-        {
-            foreach (XElement entityNode in entitiesNode.Elements("Entity"))
-            {
-                var entity = new Entity(entityNode, BaseDir);
-                entities.Add(entity.Name, entity);
-            }
         }
 
         public StageDocument AddStage(string name)
@@ -261,7 +210,7 @@ namespace MegaMan.Editor.Bll
                 Path = stagePath,
                 Name = name
             };
-            
+
             openStages.Add(name, stage);
 
             var info = new StageLinkInfo { Name = name, StagePath = stagePath };

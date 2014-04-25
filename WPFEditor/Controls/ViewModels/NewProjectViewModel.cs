@@ -1,4 +1,5 @@
 ﻿using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using System;
 using System.Collections.Generic;
@@ -55,8 +56,12 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public NewProjectViewModel()
+        private IProjectDocumentFactory _projectFactory;
+
+        public NewProjectViewModel(IProjectDocumentFactory projectFactory)
         {
+            _projectFactory = projectFactory;
+
             Name = GetDefaultProjectName();
             Author = GetMostRecentAuthor();
             DirectoryPath = GetMostRecentDirectory();
@@ -101,7 +106,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 path = System.IO.Path.Combine(path, nameFolder);
             }
 
-            var document = ProjectDocument.CreateNew(path);
+            var document = _projectFactory.CreateNew(path);
 
             document.Name = Name;
             document.Author = Author;

@@ -110,7 +110,7 @@ namespace MegaMan.Engine
         {
             var projectReader = new ProjectXmlReader();
 
-            project = projectReader.FromXml(path);
+            project = projectReader.Load(path);
 
             BasePath = project.BaseDir;
 

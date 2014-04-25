@@ -1,27 +1,23 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class ProjectXmlReader : GameXmlReader
+    public class ProjectXmlReader : GameXmlReader, IProjectReader
     {
         private Project _project;
 
-        public Project FromXml(string path)
+        public Project Load(string filePath)
         {
-            if (!File.Exists(path)) throw new FileNotFoundException("The project file does not exist: " + path);
+            if (!File.Exists(filePath)) throw new FileNotFoundException("The project file does not exist: " + filePath);
 
             _project = new Project();
 
-            _project.GameFile = FilePath.FromAbsolute(path, Path.GetDirectoryName(path));
+            _project.GameFile = FilePath.FromAbsolute(filePath, Path.GetDirectoryName(filePath));
 
-            XElement reader = XElement.Load(path);
+            XElement reader = XElement.Load(filePath);
 
             XAttribute nameAttr = reader.Attribute("name");
             if (nameAttr != null) _project.Name = nameAttr.Value;
@@ -32,24 +28,8 @@ namespace MegaMan.IO.Xml
             XElement sizeNode = reader.Element("Size");
             if (sizeNode != null)
             {
-                int across, down;
-                if (int.TryParse(sizeNode.Attribute("x").Value, out across))
-                {
-                    _project.ScreenWidth = across;
-                }
-                else
-                {
-                    _project.ScreenWidth = 0;
-                }
-
-                if (int.TryParse(sizeNode.Attribute("y").Value, out down))
-                {
-                    _project.ScreenHeight = down;
-                }
-                else
-                {
-                    _project.ScreenHeight = 0;
-                }
+                _project.ScreenWidth = sizeNode.TryAttribute<int>("x");
+                _project.ScreenHeight = sizeNode.TryAttribute<int>("y");
             }
 
             XElement nsfNode = reader.Element("NSF");
