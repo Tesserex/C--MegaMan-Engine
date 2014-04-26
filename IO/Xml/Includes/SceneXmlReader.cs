@@ -7,8 +7,13 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class SceneXmlReader : HandlerXmlReader
+    public class SceneXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
+        public void Load(Project project, XElement xmlNode)
+        {
+            project.AddScene(LoadScene(xmlNode, project.BaseDir));
+        }
+
         public static SceneInfo LoadScene(XElement node, string basePath)
         {
             var scene = new SceneInfo();

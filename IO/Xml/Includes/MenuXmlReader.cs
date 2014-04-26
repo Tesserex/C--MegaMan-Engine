@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class MenuXmlReader : HandlerXmlReader
+    public class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
         public static MenuInfo LoadMenu(XElement node, string basePath)
         {
@@ -51,6 +51,11 @@ namespace MegaMan.IO.Xml
             info.Commands = LoadCommands(node, basePath);
 
             return info;
+        }
+
+        public void Load(Project project, XElement xmlNode)
+        {
+            project.AddMenu(LoadMenu(xmlNode, project.BaseDir));
         }
     }
 }

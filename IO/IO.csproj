@@ -58,7 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IIncludeReader.cs" />
+    <Compile Include="Xml\Includes\FontsXmlReader.cs" />
+    <Compile Include="Xml\Includes\FontXmlReader.cs" />
+    <Compile Include="Xml\Includes\IIncludeXmlReader.cs" />
     <Compile Include="IProjectReader.cs" />
     <Compile Include="ISoundReader.cs" />
     <Compile Include="IStageReader.cs" />
@@ -67,10 +69,13 @@
     <Compile Include="Xml\GameXmlReader.cs" />
     <Compile Include="Xml\HandlerXmlReader.cs" />
     <Compile Include="Xml\IncludeFileXmlReader.cs" />
-    <Compile Include="Xml\MenuXmlReader.cs" />
+    <Compile Include="Xml\Includes\MenusXmlReader.cs" />
+    <Compile Include="Xml\Includes\ScenesXmlReader.cs" />
+    <Compile Include="Xml\Includes\SoundXmlReader.cs" />
+    <Compile Include="Xml\Includes\MenuXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlWriter.cs" />
-    <Compile Include="Xml\SceneXmlReader.cs" />
+    <Compile Include="Xml\Includes\SceneXmlReader.cs" />
     <Compile Include="Xml\StageXmlReader.cs" />
     <Compile Include="Xml\StageXmlWriter.cs" />
     <Compile Include="Xml\TilesetXmlReader.cs" />
@@ -81,9 +86,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Xml\Includes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

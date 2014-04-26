@@ -1,4 +1,5 @@
 ﻿using MegaMan.Common;
+using MegaMan.IO.Xml.Includes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,41 +12,35 @@ namespace MegaMan.IO.Xml
     {
         private Project _project;
 
-        public void LoadIncludedFile(Project project, string path)
+        private Dictionary<string, IIncludeXmlReader> _readers = new Dictionary<string, IIncludeXmlReader>();
+
+        public IncludeFileXmlReader()
+        {
+            _readers["Sounds"] = new SoundXmlReader();
+            _readers["Scene"] = new SceneXmlReader();
+            _readers["Scenes"] = new ScenesXmlReader(new SceneXmlReader());
+            _readers["Menu"] = new MenuXmlReader();
+            _readers["Menus"] = new MenusXmlReader(new MenuXmlReader());
+            _readers["Font"] = new FontXmlReader();
+            _readers["Fonts"] = new FontsXmlReader(new FontXmlReader());
+        }
+
+        public void LoadIncludedFile(Project project, string filePath)
         {
             _project = project;
 
             try
             {
-                XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
+                XDocument document = XDocument.Load(filePath, LoadOptions.SetLineInfo);
                 foreach (XElement element in document.Elements())
                 {
+                    if (_readers.ContainsKey(element.Name.LocalName))
+                    {
+                        _readers[element.Name.LocalName].Load(project, element);
+                    }
+
                     switch (element.Name.LocalName)
                     {
-                        case "Sounds":
-                            AddSounds(element);
-                            break;
-
-                        case "Scenes":
-                            AddScenes(element);
-                            break;
-
-                        case "Scene":
-                            AddScene(element);
-                            break;
-
-                        case "Menus":
-                            AddMenus(element);
-                            break;
-
-                        case "Menu":
-                            AddMenu(element);
-                            break;
-
-                        case "Fonts":
-                            AddFonts(element);
-                            break;
-
                         case "Palettes":
                             LoadPalettes(element);
                             break;
@@ -54,55 +49,8 @@ namespace MegaMan.IO.Xml
             }
             catch (GameXmlException ex)
             {
-                ex.File = path;
+                ex.File = filePath;
                 throw;
-            }
-        }
-
-        private void AddSounds(XElement node)
-        {
-            foreach (XElement soundNode in node.Elements("Sound"))
-            {
-                _project.AddSound(LoadSound(soundNode, _project.BaseDir));
-            }
-        }
-
-        private void AddScenes(XElement node)
-        {
-            foreach (var sceneNode in node.Elements("Scene"))
-            {
-                AddScene(sceneNode);
-            }
-        }
-
-        private void AddScene(XElement node)
-        {
-            var scene = SceneXmlReader.LoadScene(node, _project.BaseDir);
-
-            _project.AddScene(scene);
-        }
-
-        private void AddMenus(XElement node)
-        {
-            foreach (var menuNode in node.Elements("Menu"))
-            {
-                AddMenu(menuNode);
-            }
-        }
-
-        private void AddMenu(XElement node)
-        {
-            var info = MenuXmlReader.LoadMenu(node, _project.BaseDir);
-
-            _project.AddMenu(info);
-        }
-
-        private void AddFonts(XElement node)
-        {
-            foreach (var fontNode in node.Elements("Font"))
-            {
-                var fontInfo = LoadFont(fontNode, _project.BaseDir);
-                _project.AddFont(fontInfo);
             }
         }
 
@@ -137,29 +85,6 @@ namespace MegaMan.IO.Xml
             }
 
             return sound;
-        }
-
-        private FontInfo LoadFont(XElement node, string basePath)
-        {
-            var info = new FontInfo();
-
-            info.Name = node.RequireAttribute("name").Value;
-            info.CharWidth = node.GetAttribute<int>("charwidth");
-            info.CaseSensitive = node.GetAttribute<bool>("cased");
-
-            foreach (var lineNode in node.Elements("Line"))
-            {
-                var x = lineNode.GetAttribute<int>("x");
-                var y = lineNode.GetAttribute<int>("y");
-
-                var lineText = lineNode.Value;
-
-                info.AddLine(x, y, lineText);
-            }
-
-            info.ImagePath = FilePath.FromRelative(node.RequireAttribute("image").Value, basePath);
-
-            return info;
         }
 
         private void LoadPalettes(XElement parentNode)

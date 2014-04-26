@@ -11,14 +11,10 @@ namespace MegaMan.Editor.Bll
         private IProjectFileStructure _fileStructure;
         public Project Project { get; private set; }
 
-        private bool dirty;
         private bool Dirty
         {
-            get { return dirty; }
-            set
-            {
-                dirty = value;
-            }
+            get;
+            set;
         }
 
         #region Game XML File Stuff

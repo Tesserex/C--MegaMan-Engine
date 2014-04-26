@@ -1,9 +1,9 @@
 ﻿using MegaMan.Common;
 using System.Xml.Linq;
 
-namespace MegaMan.IO
+namespace MegaMan.IO.Xml
 {
-    public interface IIncludeReader
+    internal interface IIncludeXmlReader
     {
         void Load(Project project, XElement xmlNode);
     }
