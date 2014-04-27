@@ -28,5 +28,10 @@ namespace MegaMan.IO.Xml.Includes
         {
             _menuReader.Load(project, node);
         }
+
+        public string NodeName
+        {
+            get { return "Menus"; }
+        }
     }
 }

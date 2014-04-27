@@ -1,10 +1,10 @@
 ﻿using MegaMan.Common;
-using MegaMan.IO.Xml.Includes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Xml.Linq;
+using Ninject;
 
 namespace MegaMan.IO.Xml
 {
@@ -12,17 +12,16 @@ namespace MegaMan.IO.Xml
     {
         private Project _project;
 
-        private Dictionary<string, IIncludeXmlReader> _readers = new Dictionary<string, IIncludeXmlReader>();
+        private Dictionary<string, IIncludeXmlReader> _readers;
 
         public IncludeFileXmlReader()
         {
-            _readers["Sounds"] = new SoundXmlReader();
-            _readers["Scene"] = new SceneXmlReader();
-            _readers["Scenes"] = new ScenesXmlReader(new SceneXmlReader());
-            _readers["Menu"] = new MenuXmlReader();
-            _readers["Menus"] = new MenusXmlReader(new MenuXmlReader());
-            _readers["Font"] = new FontXmlReader();
-            _readers["Fonts"] = new FontsXmlReader(new FontXmlReader());
+            _readers = Assembly.GetAssembly(typeof(IIncludeXmlReader))
+                .GetTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(IIncludeXmlReader)))
+                .Select(t => Injector.Container.Get(t))
+                .Cast<IIncludeXmlReader>()
+                .ToDictionary(r => r.NodeName);
         }
 
         public void LoadIncludedFile(Project project, string filePath)
@@ -37,13 +36,6 @@ namespace MegaMan.IO.Xml
                     if (_readers.ContainsKey(element.Name.LocalName))
                     {
                         _readers[element.Name.LocalName].Load(project, element);
-                    }
-
-                    switch (element.Name.LocalName)
-                    {
-                        case "Palettes":
-                            LoadPalettes(element);
-                            break;
                     }
                 }
             }
@@ -85,27 +77,6 @@ namespace MegaMan.IO.Xml
             }
 
             return sound;
-        }
-
-        private void LoadPalettes(XElement parentNode)
-        {
-            foreach (var node in parentNode.Elements("Palette"))
-            {
-                var palette = PaletteFromXml(node);
-
-                _project.AddPalette(palette);
-            }
-        }
-
-        private PaletteInfo PaletteFromXml(XElement node)
-        {
-            var palette = new PaletteInfo();
-
-            var imagePathRelative = node.RequireAttribute("image").Value;
-            palette.ImagePath = FilePath.FromRelative(imagePathRelative, _project.BaseDir);
-            palette.Name = node.RequireAttribute("name").Value;
-
-            return palette;
         }
     }
 }

@@ -23,5 +23,10 @@ namespace MegaMan.IO.Xml.Includes
                 _sceneReader.Load(project, sceneNode);
             }
         }
+
+        public string NodeName
+        {
+            get { return "Scenes"; }
+        }
     }
 }

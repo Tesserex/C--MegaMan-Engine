@@ -57,5 +57,10 @@ namespace MegaMan.IO.Xml
         {
             project.AddMenu(LoadMenu(xmlNode, project.BaseDir));
         }
+
+        public string NodeName
+        {
+            get { return "Menu"; }
+        }
     }
 }

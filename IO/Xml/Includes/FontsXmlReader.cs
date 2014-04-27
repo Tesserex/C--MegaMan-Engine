@@ -23,5 +23,10 @@ namespace MegaMan.IO.Xml.Includes
                 _fontReader.Load(project, fontNode);
             }
         }
+
+        public string NodeName
+        {
+            get { return "Fonts"; }
+        }
     }
 }

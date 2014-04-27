@@ -31,5 +31,10 @@ namespace MegaMan.IO.Xml.Includes
 
             project.AddFont(info);
         }
+
+        public string NodeName
+        {
+            get { return "Font"; }
+        }
     }
 }

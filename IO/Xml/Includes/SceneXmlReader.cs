@@ -50,5 +50,10 @@ namespace MegaMan.IO.Xml
 
             return info;
         }
+
+        public string NodeName
+        {
+            get { return "Scene"; }
+        }
     }
 }

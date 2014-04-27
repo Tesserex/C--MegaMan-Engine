@@ -1,8 +1,4 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml.Includes
@@ -11,10 +7,7 @@ namespace MegaMan.IO.Xml.Includes
     {
         public void Load(Project project, XElement xmlNode)
         {
-            foreach (XElement soundNode in xmlNode.Elements("Sound"))
-            {
-                project.AddSound(LoadSound(soundNode, project.BaseDir));
-            }
+            project.AddSound(LoadSound(xmlNode, project.BaseDir));
         }
 
         private SoundInfo LoadSound(XElement soundNode, string basePath)
@@ -48,6 +41,11 @@ namespace MegaMan.IO.Xml.Includes
             }
 
             return sound;
+        }
+
+        public string NodeName
+        {
+            get { return "Sound"; }
         }
     }
 }
