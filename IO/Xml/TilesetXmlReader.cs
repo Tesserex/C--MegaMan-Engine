@@ -1,42 +1,43 @@
 ﻿using MegaMan.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class TilesetXmlReader : GameXmlReader
+    public class TilesetXmlReader : GameXmlReader, ITilesetReader
     {
-        public Tileset LoadTilesetFromXml(FilePath path)
+        public Tileset Load(string filePath, Project project)
         {
             var tileset = new Tileset();
 
+            var path = FilePath.FromAbsolute(filePath, project.BaseDir);
+
             tileset.FilePath = path;
 
-            var doc = XDocument.Load(path.Absolute);
+            var doc = XDocument.Load(filePath);
             var reader = doc.Element("Tileset");
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
 
             var sheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
             tileset.ChangeSheetPath(sheetPath.Absolute);
-                
+
             int size;
-            if (!int.TryParse(reader.Attribute("tilesize").Value, out size)) 
+            if (!int.TryParse(reader.Attribute("tilesize").Value, out size))
                 throw new Exception("The tileset definition does not contain a valid tilesize attribute.");
             tileset.TileSize = size;
 
             var propParent = reader.Element("TileProperties");
-            if (propParent != null) {
-                foreach (XElement propNode in propParent.Elements("Properties")) {
+            if (propParent != null)
+            {
+                foreach (XElement propNode in propParent.Elements("Properties"))
+                {
                     var prop = new TileProperties(propNode);
                     tileset.AddProperties(prop);
                 }
             }
 
-            foreach (XElement tileNode in reader.Elements("Tile")) 
+            foreach (XElement tileNode in reader.Elements("Tile"))
             {
                 int id = int.Parse(tileNode.Attribute("id").Value);
                 string name = tileNode.Attribute("name").Value;
@@ -44,7 +45,7 @@ namespace MegaMan.IO.Xml
                 var spriteNode = tileNode.Element("Sprite");
                 if (spriteNode == null)
                     throw new GameXmlException(tileNode, "All Tile tags must contain a Sprite tag.");
-                
+
                 var sprite = LoadSprite(spriteNode);
                 var tileSprite = new TileSprite(tileset, sprite);
 
@@ -52,7 +53,7 @@ namespace MegaMan.IO.Xml
 
                 string propName = "Default";
                 XAttribute propAttr = tileNode.Attribute("properties");
-                if (propAttr != null) 
+                if (propAttr != null)
                     propName = propAttr.Value;
 
                 tile.Properties = tileset.GetProperties(propName);
