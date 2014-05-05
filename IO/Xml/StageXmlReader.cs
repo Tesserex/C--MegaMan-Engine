@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml
             string tilePathRel = mapXml.Attribute("tiles").Value;
             var tilePath = FilePath.FromRelative(tilePathRel, _info.StagePath.BasePath);
 
-            var tileset = new TilesetXmlReader().Load(tilePath);
+            var tileset = new TilesetXmlReader().Load(tilePath.Absolute);
             _info.ChangeTileset(tileset);
 
             _info.PlayerStartX = 3;

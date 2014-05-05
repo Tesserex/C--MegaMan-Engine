@@ -96,8 +96,7 @@ namespace MegaMan.Editor.Bll
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            var tileFilePath = FilePath.FromAbsolute(path, map.StagePath.BasePath);
-            var tileset = new TilesetXmlReader().Load(tileFilePath);
+            var tileset = new TilesetXmlReader().Load(path);
             map.ChangeTileset(tileset);
             
             Dirty = true;
@@ -108,14 +107,19 @@ namespace MegaMan.Editor.Bll
             if (sheetPath == null)
                 throw new ArgumentNullException("sheetPath");
 
-            var tilesetPath = new ProjectFileStructure(this.Project.Project).CreateTilesetPath(this.Name);
             var sheetFilePath = FilePath.FromAbsolute(sheetPath, map.StagePath.BasePath);
             var tileset = new Tileset();
             tileset.TileSize = 16;
-            tileset.FilePath = tilesetPath;
             tileset.SheetPath = sheetFilePath;
             map.ChangeTileset(tileset);
-            tileset.Save();
+            SaveTileset();
+        }
+
+        private void SaveTileset()
+        {
+            var tilesetPath = new ProjectFileStructure(this.Project.Project).CreateTilesetPath(this.Name);
+            map.Tileset.FilePath = tilesetPath;
+            map.Tileset.Save(tilesetPath.Absolute);
         }
 
         public FilePath MusicIntro
@@ -150,7 +154,7 @@ namespace MegaMan.Editor.Bll
         {
             var stageWriter = new StageXmlWriter(map);
             stageWriter.Write();
-            Tileset.Save();
+            SaveTileset();
             Dirty = false;
         }
 

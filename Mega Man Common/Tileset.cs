@@ -60,11 +60,7 @@ namespace MegaMan.Common
             {
                 FilePath = FilePath.FromAbsolute(path, FilePath.BasePath);
             }
-            Save();
-        }
-
-        public void Save()
-        {
+            
             XmlTextWriter writer = new XmlTextWriter(FilePath.Absolute, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 1;
