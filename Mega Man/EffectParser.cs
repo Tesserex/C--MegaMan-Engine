@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MegaMan.Common;
+using MegaMan.Engine.Entities;
+using MegaMan.IO.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using MegaMan.Common;
 using System.Linq.Expressions;
-using MegaMan.IO.Xml;
-using MegaMan.Engine.Entities;
+using System.Xml.Linq;
 
 namespace MegaMan.Engine
 {
@@ -187,7 +186,7 @@ namespace MegaMan.Engine
                 case "Die":
                     effect = entity => { entity.Die(); };
                     break;
-                
+
                 case "AddInventory":
                     string itemName = node.RequireAttribute("item").Value;
                     int quantity = node.TryAttribute<int>("quantity", 1);
@@ -210,7 +209,7 @@ namespace MegaMan.Engine
 
                 case "UnlockWeapon":
                     string weaponName = node.RequireAttribute("name").Value;
-                    
+
                     effect = entity =>
                     {
                         Game.CurrentGame.Player.UnlockWeapon(weaponName);
@@ -236,7 +235,7 @@ namespace MegaMan.Engine
 
                 case "GravityFlip":
                     bool flip = node.GetValue<bool>();
-                    effect = entity => { entity.Parent.Container.IsGravityFlipped = flip; };
+                    effect = entity => { entity.Container.IsGravityFlipped = flip; };
                     break;
 
                 case "Func":
@@ -359,7 +358,7 @@ namespace MegaMan.Engine
                 }
 
                 PositionComponent pos = entity.GetComponent<PositionComponent>();
-                
+
                 float pdx = 0;
                 float pdy = 0;
                 GameEntity player = entity.Entities.GetEntityById("Player");
