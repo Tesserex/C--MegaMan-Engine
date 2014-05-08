@@ -17,7 +17,6 @@ namespace MegaMan.Common
         private List<SpriteFrame> frames;
         private int currentFrame;
         private int lastFrameTime;
-        private FilePath sheetPath;
 
         private IResourceImage texture;
 
@@ -85,17 +84,8 @@ namespace MegaMan.Common
 
         public int Layer { get; set; }
 
-        public virtual FilePath SheetPath
-        {
-            get
-            {
-                return this.sheetPath;
-            }
-            set
-            {
-                this.sheetPath = value;
-            }
-        }
+        public virtual FilePath SheetPath { get; set; }
+        public virtual string SheetPathRelative { get { return SheetPath != null ? SheetPath.Relative : null; } }
 
         /// <summary>
         /// If this is true, it means the sprite sheet is backwards - it's facing left instead of right,
@@ -350,7 +340,7 @@ namespace MegaMan.Common
             writer.WriteStartElement("Sprite");
             writer.WriteAttributeString("width", this.Width.ToString());
             writer.WriteAttributeString("height", this.Height.ToString());
-            if (this.sheetPath != null) writer.WriteAttributeString("tilesheet", this.sheetPath.Relative);
+            if (this.SheetPathRelative != null) writer.WriteAttributeString("tilesheet", this.SheetPathRelative);
 
             writer.WriteStartElement("Hotspot");
             writer.WriteAttributeString("x", this.HotSpot.X.ToString());

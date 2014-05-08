@@ -272,7 +272,7 @@
       <Name>IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">
-      <Project>{6779A7E6-CE6C-43E4-A0CB-1B0F921C8009}</Project>
+      <Project>{6779a7e6-ce6c-43e4-a0cb-1b0f921c8009}</Project>
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>

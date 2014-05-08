@@ -96,7 +96,8 @@ namespace MegaMan.Editor.Bll
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            var tileset = new TilesetXmlReader().Load(path);
+            var tilesetPath = FilePath.FromRelative(path, Project.Project.BaseDir);
+            var tileset = new TilesetXmlReader().Load(tilesetPath);
             map.ChangeTileset(tileset);
             
             Dirty = true;

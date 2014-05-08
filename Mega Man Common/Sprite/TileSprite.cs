@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MegaMan.Common
 {
     public class TileSprite : Sprite
     {
         private Tileset _tileset;
 
-        public TileSprite(Tileset tileset) : base(tileset.TileSize, tileset.TileSize)
+        public TileSprite(Tileset tileset)
+            : base(tileset.TileSize, tileset.TileSize)
         {
             _tileset = tileset;
         }
@@ -29,6 +26,14 @@ namespace MegaMan.Common
             set
             {
                 _tileset.SheetPath = value;
+            }
+        }
+
+        public override string SheetPathRelative
+        {
+            get
+            {
+                return _tileset.SheetPath.Relative;
             }
         }
 

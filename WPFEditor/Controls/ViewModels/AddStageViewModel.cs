@@ -1,13 +1,7 @@
-﻿using MegaMan.Common;
-using MegaMan.Editor.Bll;
+﻿using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls.ViewModels

@@ -85,22 +85,22 @@ namespace MegaMan.LevelEditor
             string sheetpath = null;
             if (Sprite != null && Sprite.SheetPath != null) sheetpath = Sprite.SheetPath.Absolute;
 
-            sprite = new Sprite(width, height);
+            Sprite = new Sprite(width, height);
             spriteWidth = width;
             spriteHeight = height;
-            if (sheetpath != null) sprite.SheetPath = FilePath.FromAbsolute(sheetpath, project.BaseDir);
+            if (sheetpath != null) Sprite.SheetPath = FilePath.FromAbsolute(sheetpath, project.BaseDir);
 
-            frameTotalLabel.Text = "of " + sprite.Count.ToString();
+            frameTotalLabel.Text = "of " + Sprite.Count.ToString();
             currentFrame.Minimum = 1;
-            currentFrame.Maximum = sprite.Count;
+            currentFrame.Maximum = Sprite.Count;
             duration.Value = 0;
 
-            textWidth.Text = sprite.Width.ToString();
-            textHeight.Text = sprite.Height.ToString();
+            textWidth.Text = Sprite.Width.ToString();
+            textHeight.Text = Sprite.Height.ToString();
 
             InitPreview();
 
-            sprite.Play();
+            Sprite.Play();
 
             if (SpriteChange != null) SpriteChange();
         }

@@ -4,6 +4,6 @@ namespace MegaMan.IO
 {
     public interface ITilesetReader
     {
-        Tileset Load(string filePath);
+        Tileset Load(FilePath path);
     }
 }

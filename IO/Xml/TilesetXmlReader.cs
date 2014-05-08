@@ -6,21 +6,19 @@ namespace MegaMan.IO.Xml
 {
     public class TilesetXmlReader : GameXmlReader, ITilesetReader
     {
-        public Tileset Load(string filePath)
+        public Tileset Load(FilePath path)
         {
             var tileset = new Tileset();
 
-            //var path = FilePath.FromAbsolute(filePath, project.BaseDir);
+            tileset.FilePath = path;
 
-            //tileset.FilePath = path;
-
-            var doc = XDocument.Load(filePath);
+            var doc = XDocument.Load(path.Absolute);
             var reader = doc.Element("Tileset");
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
 
-            //var sheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
-            //tileset.ChangeSheetPath(sheetPath.Absolute);
+            var sheetPath = FilePath.FromRelative(reader.Attribute("tilesheet").Value, path.BasePath);
+            tileset.ChangeSheetPath(sheetPath.Absolute);
 
             int size;
             if (!int.TryParse(reader.Attribute("tilesize").Value, out size))

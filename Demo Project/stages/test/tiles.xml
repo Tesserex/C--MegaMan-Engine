@@ -1,7 +1,8 @@
 <Tileset tilesheet="stages\test\tiles.png" tilesize="16">
 	<TileProperties>
 		<Properties name="Wind" pushX="0" />
-		<Properties name="Block" blocking="true" resistX="0.5" dragX="0" />
+		<Properties name="Glue" blocking="true" resistX="0" dragX="0" />
+		<Properties name="Block" blocking="true" resistX="0.5" />
 		<Properties name="Lethal" blocking="true" lethal="true" />
 		<Properties name="Water" gravitymult="0.4" onenter="Splash" onleave="Splash" onover="Bubble" />
 		<Properties name="GravUp" onenter="GravityUp" />

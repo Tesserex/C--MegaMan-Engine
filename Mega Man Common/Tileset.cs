@@ -33,7 +33,6 @@ namespace MegaMan.Common
         public Tile AddTile()
         {
             var sprite = new TileSprite(this);
-            sprite.SheetPath = SheetPath;
             var tile = new Tile(this.Count, sprite);
             base.Add(tile);
             return tile;

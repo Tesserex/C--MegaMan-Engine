@@ -21,7 +21,7 @@ namespace MegaMan.Common.Tests
             Sprite sprite = GetSpriteFromFile("Sprite_NormalInput.xml", @"C:\");
 
             Assert.AreEqual("MyTestSprite", sprite.Name);
-            Assert.AreEqual("foo.png", sprite.SheetPath.Relative);
+            Assert.AreEqual("foo.png", sprite.SheetPathRelative);
             Assert.AreEqual(48, sprite.Width);
             Assert.AreEqual(24, sprite.Height);
 
