@@ -4,7 +4,7 @@ namespace MegaMan.Editor.Bll.Factories
 {
     public interface ITilesetDocumentFactory
     {
-        TilesetDocument CreateNew(string directory);
+        TilesetDocument CreateNew(FilePath filePath);
         TilesetDocument Load(FilePath filePath);
     }
 }

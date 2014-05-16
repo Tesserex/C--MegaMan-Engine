@@ -1,0 +1,3 @@
+<Map name="TilesetTest" tiles="tilesets\TilesetTest\tiles.xml">
+	<Start screen="" x="0" y="0" />
+</Map>

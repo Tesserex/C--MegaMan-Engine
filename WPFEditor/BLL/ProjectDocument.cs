@@ -8,7 +8,7 @@ namespace MegaMan.Editor.Bll
 {
     public class ProjectDocument
     {
-        private IProjectFileStructure _fileStructure;
+        public IProjectFileStructure FileStructure { get; private set; }
         public Project Project { get; private set; }
 
         private bool Dirty
@@ -194,12 +194,12 @@ namespace MegaMan.Editor.Bll
         public ProjectDocument(IProjectFileStructure fileStructure, Project project)
         {
             Project = project;
-            _fileStructure = fileStructure;
+            FileStructure = fileStructure;
         }
 
         public StageDocument AddStage(string name)
         {
-            var stagePath = _fileStructure.CreateStagePath(name);
+            var stagePath = FileStructure.CreateStagePath(name);
 
             var stage = new StageDocument(this)
             {

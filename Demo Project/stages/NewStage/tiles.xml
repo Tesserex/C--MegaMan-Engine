@@ -1,14 +1,14 @@
 <Tileset tilesheet="stages\test\tiles.png" tilesize="16">
 	<TileProperties />
 	<Tile id="0" name="" properties="Default">
-		<Sprite width="16" height="16">
+		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="0" duration="2" />
 			<Frame x="80" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="1" name="" properties="Default">
-		<Sprite width="16" height="16">
+		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>

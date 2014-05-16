@@ -4,16 +4,16 @@ namespace MegaMan.Editor.Bll
 {
     public class TilesetDocument
     {
-        private Tileset _tileset;
+        public Tileset Tileset { get; private set; }
 
         public TilesetDocument(Tileset tileset)
         {
-            _tileset = tileset;
+            Tileset = tileset;
         }
 
         public void AddBlockProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Block",
                 Blocking = true,
@@ -23,7 +23,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddSpikeProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Spike",
                 Blocking = true,
@@ -33,7 +33,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddLadderProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Ladder",
                 ResistX = 0.5f,
@@ -43,7 +43,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddWaterProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Water",
                 GravityMult = 0.4f
@@ -52,7 +52,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddConveyorRightProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Right Conveyor",
                 ResistX = 0.5f,
@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddConveyorLeftProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Left Conveyor",
                 ResistX = 0.5f,
@@ -72,7 +72,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddIceProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Ice",
                 ResistX = 0.95f,
@@ -82,7 +82,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddSandProperty()
         {
-            _tileset.AddProperties(new TileProperties()
+            Tileset.AddProperties(new TileProperties()
             {
                 Name = "Quicksand",
                 ResistX = 0.2f,

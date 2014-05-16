@@ -1,4 +1,6 @@
-﻿using MegaMan.Editor.Bll;
+﻿using MegaMan.Common;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
@@ -9,6 +11,7 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class AddStageViewModel : INotifyPropertyChanged
     {
         private ProjectDocument _project;
+        private ITilesetDocumentFactory _tilesetFactory;
 
         private string _name;
         public string Name
@@ -84,8 +87,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public AddStageViewModel()
+        public AddStageViewModel(ITilesetDocumentFactory tilesetFactory)
         {
+            _tilesetFactory = tilesetFactory;
+
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectChanged);
 
             AddStageCommand = new RelayCommand(AddStage);
@@ -154,7 +159,9 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
 
                 var stage = _project.AddStage(Name);
-                stage.ChangeTileset(TilesetPath);
+                var path = FilePath.FromAbsolute(TilesetPath, _project.Project.BaseDir);
+                var tileset = _tilesetFactory.Load(path);
+                stage.ChangeTileset(tileset);
                 _project.Save();
             }
             else
@@ -166,7 +173,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
 
                 var stage = _project.AddStage(Name);
-                stage.CreateTileset(TilesheetPath);
+                var tilesetFilePath = _project.FileStructure.CreateTilesetPath(Name);
+                var tileset = _tilesetFactory.CreateNew(tilesetFilePath);
+                tileset.Tileset.ChangeSheetPath(TilesheetPath);
+                stage.ChangeTileset(tileset);
                 _project.Save();
             }
         }

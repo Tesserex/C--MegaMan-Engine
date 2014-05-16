@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ninject;
 
 namespace MegaMan.Editor.Controls
 {
@@ -26,7 +27,7 @@ namespace MegaMan.Editor.Controls
         public AddStageDialog()
         {
             InitializeComponent();
-            _viewModel = new AddStageViewModel();
+            _viewModel = App.Container.Get<AddStageViewModel>();
             this.DataContext = _viewModel;
         }
 

@@ -12,6 +12,7 @@
 		<Stage name="Metal" path="stages\Metal" />
 		<Stage name="Parallax" path="stages\Parallax" />
 		<Stage name="NewStage" path="stages\NewStage" />
+		<Stage name="TilesetTest" path="stages\TilesetTest" />
 	</Stages>
 	<Next type="Scene" name="Intro" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>

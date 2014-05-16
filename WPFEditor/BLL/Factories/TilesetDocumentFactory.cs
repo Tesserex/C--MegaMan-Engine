@@ -19,11 +19,11 @@ namespace MegaMan.Editor.Bll.Factories
             return tilesetDocument;
         }
 
-        public TilesetDocument CreateNew(string directory)
+        public TilesetDocument CreateNew(FilePath filePath)
         {
             var tileset = new Tileset()
             {
-                FilePath = FilePath.FromRelative("tiles.xml", directory),
+                FilePath = filePath,
                 TileSize = 16
             };
 
