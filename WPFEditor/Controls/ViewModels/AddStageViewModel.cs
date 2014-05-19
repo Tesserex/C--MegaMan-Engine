@@ -158,11 +158,9 @@ namespace MegaMan.Editor.Controls.ViewModels
                     return;
                 }
 
-                var stage = _project.AddStage(Name);
                 var path = FilePath.FromAbsolute(TilesetPath, _project.Project.BaseDir);
                 var tileset = _tilesetFactory.Load(path);
-                stage.ChangeTileset(tileset);
-                _project.Save();
+                AddStageToProject(tileset);
             }
             else
             {
@@ -172,13 +170,21 @@ namespace MegaMan.Editor.Controls.ViewModels
                     return;
                 }
 
-                var stage = _project.AddStage(Name);
                 var tilesetFilePath = _project.FileStructure.CreateTilesetPath(Name);
                 var tileset = _tilesetFactory.CreateNew(tilesetFilePath);
                 tileset.Tileset.ChangeSheetPath(TilesheetPath);
-                stage.ChangeTileset(tileset);
-                _project.Save();
+                AddStageToProject(tileset);
             }
+        }
+
+        private void AddStageToProject(TilesetDocument tileset)
+        {
+            var stage = _project.AddStage(Name);
+            stage.ChangeTileset(tileset);
+            _project.Save();
+
+            var args = new StageChangedEventArgs(stage);
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, args);
         }
 
         private void ProjectChanged(object sender, ProjectOpenedEventArgs e)
