@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using MegaMan.Editor.Bll;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
@@ -46,11 +45,18 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void ChangeStage(string stageName)
         {
-            var nextStage = _project.StageByName(stageName);
+            try
+            {
+                var nextStage = _project.StageByName(stageName);
 
-            _stage = nextStage;
+                _stage = nextStage;
 
-            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(_stage));
+                ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(_stage));
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.ShowError(ex.Message, this.Project.Name);
+            }
         }
     }
 
