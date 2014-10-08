@@ -1,15 +1,13 @@
-﻿using MegaMan.Common;
-using MegaMan.Editor.Bll;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using MegaMan.Common;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -39,7 +37,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _tileset.SheetPath.Relative;
+                if (_tileset == null)
+                    return null;
+                else
+                    return _tileset.SheetPath.Relative;
             }
         }
 
@@ -55,29 +56,65 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _tileset.Properties;
+                if (_tileset == null)
+                    return Enumerable.Empty<TileProperties>();
+                else
+                    return _tileset.Properties;
             }
         }
 
-        public TilesetEditorViewModel(Tileset tileset, ProjectDocument project)
+        public TilesetEditorViewModel()
         {
-            _tileset = tileset;
-            _project = project;
-            _observedTiles = new ObservableCollection<Tile>(_tileset);
-            _observedProperties = new ObservableCollection<TileProperties>(_tileset.Properties);
-
-            if (_tileset.Any())
-                ChangeTile(_tileset.First());
-
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
             AddTileCommand = new RelayCommand(o => AddTile());
 
-            if (!File.Exists(_tileset.SheetPath.Absolute))
+            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
+            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+        }
+
+        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        {
+            _project = e.Project;
+        }
+
+        private void StageChanged(object sender, StageChangedEventArgs e)
+        {
+            if (e.Stage != null)
+                SetTileset(e.Stage.Tileset);
+            else
+                SetTileset(null);
+        }
+
+        private void SetTileset(Tileset tileset)
+        {
+            _tileset = tileset;
+
+            if (_tileset != null)
             {
-                ChangeSheet();
+                _observedTiles = new ObservableCollection<Tile>(_tileset);
+                _observedProperties = new ObservableCollection<TileProperties>(_tileset.Properties);
+
+                if (_tileset.Any())
+                    ChangeTile(_tileset.First());
+                else
+                    ChangeTile(null);
+
+                if (!File.Exists(_tileset.SheetPath.Absolute))
+                {
+                    ChangeSheet();
+                }
+
+                ((App)App.Current).AnimateTileset(_tileset);
+            }
+            else
+            {
+                _observedTiles = new ObservableCollection<Tile>();
+                _observedProperties = new ObservableCollection<TileProperties>();
+                ChangeTile(null);
             }
 
-            ((App)App.Current).AnimateTileset(_tileset);
+            OnPropertyChanged("Tiles");
+            OnPropertyChanged("TileProperties");
         }
 
         private void AddTile()
@@ -120,7 +157,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             SelectedTile = tile;
 
-            Sprite = new SpriteEditorViewModel(tile.Sprite);
+            if (tile != null)
+                Sprite = new SpriteEditorViewModel(tile.Sprite);
+            else
+                Sprite = null;
+
             OnPropertyChanged("Sprite");
 
             if (PropertyChanged != null)

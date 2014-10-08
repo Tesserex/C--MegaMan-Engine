@@ -93,10 +93,6 @@ namespace MegaMan.Editor
             {
                 CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", _viewModel.ApplicationName);
             }
-            catch
-            {
-                CustomMessageBox.ShowError("The selected file could not be loaded due to an unknown error.", _viewModel.ApplicationName);
-            }
         }
 
         private void SaveProject(object sender, ExecutedRoutedEventArgs e)
@@ -138,8 +134,6 @@ namespace MegaMan.Editor
 
         private void EditTileset(object param)
         {
-            var tileset = _viewModel.ProjectViewModel.CurrentStage.Tileset;
-            this.tilesetEditorControl.DataContext = new TilesetEditorViewModel(tileset, _viewModel.ProjectViewModel.Project);
             this.tilesetEditorPane.IsSelected = true;
         }
 
