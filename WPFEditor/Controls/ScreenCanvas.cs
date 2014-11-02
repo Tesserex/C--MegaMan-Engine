@@ -42,8 +42,12 @@ namespace MegaMan.Editor.Controls
                 _tiles.Screen = value;
 
                 _screen.Resized += Resized;
+
+                ScreenChanged();
             }
         }
+
+        protected virtual void ScreenChanged() { }
 
         private void Resized(int width, int height)
         {

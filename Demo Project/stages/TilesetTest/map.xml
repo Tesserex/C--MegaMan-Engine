@@ -1,3 +1,8 @@
 <Map name="TilesetTest" tiles="tilesets\TilesetTest\tiles.xml">
-	<Start screen="" x="0" y="0" />
+	<Start screen="1" x="0" y="0" />
+	<Screen id="1" />
+	<Screen id="2" />
+	<Screen id="3" />
+	<Join type="vertical" s1="1" s2="2" offset1="0" offset2="0" size="14" direction="both" />
+	<Join type="horizontal" s1="2" s2="3" offset1="0" offset2="0" size="16" direction="both" />
 </Map>

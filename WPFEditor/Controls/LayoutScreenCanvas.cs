@@ -1,11 +1,8 @@
-﻿using MegaMan.Editor.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {
@@ -13,10 +10,12 @@ namespace MegaMan.Editor.Controls
     {
         private bool _dragging;
         private Vector _dragAnchorOffset;
+        private ScreenResizeAdorner _adorner;
 
         public event EventHandler ScreenDropped;
 
-        public LayoutScreenCanvas(IToolProvider toolProvider) : base(toolProvider)
+        public LayoutScreenCanvas(IToolProvider toolProvider)
+            : base(toolProvider)
         {
             this.Loaded += AddAdorners;
 
@@ -26,8 +25,15 @@ namespace MegaMan.Editor.Controls
         private void AddAdorners(object sender, RoutedEventArgs e)
         {
             var adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            _adorner = new ScreenResizeAdorner(this, this.Screen);
+            adornerLayer.Add(_adorner);
+        }
 
-            adornerLayer.Add(new ScreenResizeAdorner(this, this.Screen));
+        protected override void ScreenChanged()
+        {
+            base.ScreenChanged();
+            if (_adorner != null)
+                _adorner.Screen = this.Screen;
         }
 
         public double RightDistanceTo(ScreenCanvas second)
@@ -136,7 +142,7 @@ namespace MegaMan.Editor.Controls
 
             if (_dragging)
             {
-                var mousePosition = e.GetPosition((IInputElement)this.Parent);  
+                var mousePosition = e.GetPosition((IInputElement)this.Parent);
 
                 this.Margin = new Thickness(mousePosition.X - _dragAnchorOffset.X, mousePosition.Y - _dragAnchorOffset.Y, 0, 0);
             }

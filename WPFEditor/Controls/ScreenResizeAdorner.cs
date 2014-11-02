@@ -1,19 +1,16 @@
-﻿using MegaMan.Editor.Bll;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls
 {
     public class ScreenResizeAdorner : Adorner
     {
-        private ScreenDocument _screen;
+        public ScreenDocument Screen { get; set; }
 
         private int _originalWidthTiles, _originalHeightTiles;
 
@@ -30,7 +27,7 @@ namespace MegaMan.Editor.Controls
         public ScreenResizeAdorner(UIElement adornedElement, ScreenDocument screen)
             : base(adornedElement)
         {
-            _screen = screen;
+            Screen = screen;
 
             visualChildren = new VisualCollection(this);
 
@@ -80,8 +77,8 @@ namespace MegaMan.Editor.Controls
 
         private void DragStarted(object sender, DragStartedEventArgs e)
         {
-            _originalWidthTiles = _screen.Width;
-            _originalHeightTiles = _screen.Height;
+            _originalWidthTiles = Screen.Width;
+            _originalHeightTiles = Screen.Height;
 
             _widthChangePixels = 0;
             _heightChangePixels = 0;
@@ -101,12 +98,12 @@ namespace MegaMan.Editor.Controls
 
             var heightChangePixels = args.VerticalChange;
 
-            var tileChange = (int)(heightChangePixels / _screen.Tileset.TileSize);
-            var newHeight = _screen.Height + tileChange;
+            var tileChange = (int)(heightChangePixels / Screen.Tileset.TileSize);
+            var newHeight = Screen.Height + tileChange;
 
-            if (newHeight != _screen.Height && newHeight > 0)
+            if (newHeight != Screen.Height && newHeight > 0)
             {
-                _screen.Resize(_screen.Width, newHeight);
+                Screen.Resize(Screen.Width, newHeight);
                 InvalidateMeasure();
                 InvalidateVisual();
             }
@@ -125,12 +122,12 @@ namespace MegaMan.Editor.Controls
 
             var widthChangePixels = -args.HorizontalChange;
 
-            var tileChange = (int)(widthChangePixels / _screen.Tileset.TileSize);
-            var newWidth = _screen.Width + tileChange;
+            var tileChange = (int)(widthChangePixels / Screen.Tileset.TileSize);
+            var newWidth = Screen.Width + tileChange;
 
-            if (newWidth != _screen.Width && newWidth > 0)
+            if (newWidth != Screen.Width && newWidth > 0)
             {
-                _screen.ResizeTopLeft(newWidth, _screen.Height);
+                Screen.ResizeTopLeft(newWidth, Screen.Height);
                 InvalidateMeasure();
                 InvalidateVisual();
             }
@@ -150,12 +147,12 @@ namespace MegaMan.Editor.Controls
 
             var widthChangePixels = args.HorizontalChange;
 
-            var tileChange = (int)(widthChangePixels / _screen.Tileset.TileSize);
-            var newWidth = _screen.Width + tileChange;
+            var tileChange = (int)(widthChangePixels / Screen.Tileset.TileSize);
+            var newWidth = Screen.Width + tileChange;
 
-            if (newWidth != _screen.Width && newWidth > 0)
+            if (newWidth != Screen.Width && newWidth > 0)
             {
-                _screen.Resize(newWidth, _screen.Height);
+                Screen.Resize(newWidth, Screen.Height);
                 InvalidateMeasure();
                 InvalidateVisual();
             }
@@ -174,12 +171,12 @@ namespace MegaMan.Editor.Controls
 
             var heightChangePixels = -args.VerticalChange;
 
-            var tileChange = (int)(heightChangePixels / _screen.Tileset.TileSize);
-            var newHeight = _screen.Height + tileChange;
+            var tileChange = (int)(heightChangePixels / Screen.Tileset.TileSize);
+            var newHeight = Screen.Height + tileChange;
 
-            if (newHeight != _screen.Height && newHeight > 0)
+            if (newHeight != Screen.Height && newHeight > 0)
             {
-                _screen.ResizeTopLeft(_screen.Width, newHeight);
+                Screen.ResizeTopLeft(Screen.Width, newHeight);
                 InvalidateMeasure();
                 InvalidateVisual();
             }
@@ -192,6 +189,13 @@ namespace MegaMan.Editor.Controls
             // These will be used to place the ResizingAdorner at the corners of the adorned element.  
             double desiredWidth = AdornedElement.RenderSize.Width;
             double desiredHeight = AdornedElement.RenderSize.Height;
+
+            if (AdornedElement is ScreenCanvas)
+            {
+                var sc = (ScreenCanvas)AdornedElement;
+                desiredWidth = sc.Screen.PixelWidth;
+                desiredHeight = sc.Screen.PixelHeight;
+            }
 
             top.Arrange(new Rect(0, -desiredHeight / 2, desiredWidth, desiredHeight));
             right.Arrange(new Rect(desiredWidth / 2, 0, desiredWidth, desiredHeight));
