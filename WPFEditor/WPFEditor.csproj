@@ -183,10 +183,12 @@
     <Compile Include="Controls\ViewModels\RelayCommand.cs" />
     <Compile Include="Controls\ViewModels\SpriteEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\ZoomLevel.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
+    <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />

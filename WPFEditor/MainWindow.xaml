@@ -118,7 +118,11 @@
                             <c:TilesetEditor x:Name="tilesetEditorControl"></c:TilesetEditor>
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
-                            <TabControl x:Name="editingTabWindow">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Bottom">
+                                    <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
+                                </StackPanel>   
+                            <TabControl DockPanel.Dock="Top" x:Name="editingTabWindow">
                                 <TabControl.Resources>
                                     <Style TargetType="{x:Type TabPanel}">
                                         <Setter Property="HorizontalAlignment" Value="Right" />
@@ -175,6 +179,7 @@
                                     </TabItem.Header>
                                 </TabItem>
                             </TabControl>
+                            </DockPanel>
                         </avalonDock:LayoutDocument>
                     </avalonDock:LayoutDocumentPane>
                 </avalonDock:LayoutPanel>

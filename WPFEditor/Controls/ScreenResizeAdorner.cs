@@ -14,8 +14,6 @@ namespace MegaMan.Editor.Controls
 
         private int _originalWidthTiles, _originalHeightTiles;
 
-        private double _widthChangePixels, _heightChangePixels;
-
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
         private Thumb top, right, left, bottom;
@@ -79,9 +77,6 @@ namespace MegaMan.Editor.Controls
         {
             _originalWidthTiles = Screen.Width;
             _originalHeightTiles = Screen.Height;
-
-            _widthChangePixels = 0;
-            _heightChangePixels = 0;
         }
 
         // Handler for resizing from the bottom-right.
@@ -190,12 +185,13 @@ namespace MegaMan.Editor.Controls
             double desiredWidth = AdornedElement.RenderSize.Width;
             double desiredHeight = AdornedElement.RenderSize.Height;
 
+            /*
             if (AdornedElement is ScreenCanvas)
             {
                 var sc = (ScreenCanvas)AdornedElement;
                 desiredWidth = sc.Screen.PixelWidth;
                 desiredHeight = sc.Screen.PixelHeight;
-            }
+            }*/
 
             top.Arrange(new Rect(0, -desiredHeight / 2, desiredWidth, desiredHeight));
             right.Arrange(new Rect(desiredWidth / 2, 0, desiredWidth, desiredHeight));

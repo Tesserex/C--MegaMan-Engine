@@ -51,11 +51,11 @@ namespace MegaMan.Editor.Controls
 
         protected override void OnRender(DrawingContext dc)
         {
-            var bitmap = new WriteableBitmap(Screen.PixelWidth, Screen.PixelHeight, 96, 96, PixelFormats.Pbgra32, null);
+            var bitmap = new WriteableBitmap((int)(Screen.PixelWidth * this.Zoom), (int)(Screen.PixelHeight * this.Zoom), 96, 96, PixelFormats.Pbgra32, null);
 
             base.OnRender(dc);
 
-            var size = Screen.Tileset.TileSize;
+            var size = Screen.Tileset.TileSize * this.Zoom;
 
             for (int y = 0; y < Screen.Height; y++)
             {

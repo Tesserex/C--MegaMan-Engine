@@ -34,6 +34,8 @@ namespace MegaMan.Editor.Controls
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
+        private double _zoom;
+
         private StageDocument _stage;
 
         public StageDocument Stage
@@ -91,10 +93,12 @@ namespace MegaMan.Editor.Controls
 
             _screens = new Dictionary<string, ScreenCanvas>();
             _screensPlaced = new HashSet<string>();
+            _zoom = 1;
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
         }
 
         public void InitializeComponent()
@@ -132,6 +136,12 @@ namespace MegaMan.Editor.Controls
                 Stage = e.Stage;
             else
                 UnsetStage();
+        }
+
+        private void ZoomChanged(object sender, ZoomChangedEventArgs e)
+        {
+            _zoom = e.Zoom;
+            LayoutScreens();
         }
 
         public void UnsetStage()
@@ -284,7 +294,10 @@ namespace MegaMan.Editor.Controls
             {
                 var surface = _screens[screenPointPair.Key];
 
-                SetCanvasLocation(surface, new Common.Geometry.Point(screenPointPair.Value.X * surface.Screen.Tileset.TileSize, screenPointPair.Value.Y * surface.Screen.Tileset.TileSize));
+                var cx = (int)(screenPointPair.Value.X * surface.Screen.Tileset.TileSize * _zoom);
+                var cy = (int)(screenPointPair.Value.Y * surface.Screen.Tileset.TileSize * _zoom);
+
+                SetCanvasLocation(surface, new Common.Geometry.Point(cx, cy));
             }
 
             foreach (var surface in _screens.Values)

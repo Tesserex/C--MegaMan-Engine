@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
@@ -47,12 +37,14 @@ namespace MegaMan.Editor.Controls
             }
         }
 
+        protected double Zoom { get; private set; }
+
         protected virtual void ScreenChanged() { }
 
         private void Resized(int width, int height)
         {
-            Width = MaxWidth = MinWidth = _screen.PixelWidth;
-            Height = MaxHeight = MinHeight = _screen.PixelHeight;
+            Width = MaxWidth = MinWidth = _screen.PixelWidth * this.Zoom;
+            Height = MaxHeight = MinHeight = _screen.PixelHeight * this.Zoom;
             InvalidateMeasure();
         }
 
@@ -64,14 +56,23 @@ namespace MegaMan.Editor.Controls
 
             HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             VerticalAlignment = System.Windows.VerticalAlignment.Top;
-            
+
             this.Children.Add(_tiles);
+
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+            this.Zoom = 1;
+        }
+
+        private void ZoomChanged(object sender, ZoomChangedEventArgs e)
+        {
+            Zoom = e.Zoom;
+            Resized(_screen.Width, _screen.Height);
         }
 
         protected override Size MeasureOverride(Size constraint)
         {
-            _tiles.Measure(new Size(_screen.PixelWidth, _screen.PixelHeight));
-            return new Size(_screen.PixelWidth, _screen.PixelHeight);
+            _tiles.Measure(new Size(_screen.PixelWidth * this.Zoom, _screen.PixelHeight * this.Zoom));
+            return new Size(_screen.PixelWidth * this.Zoom, _screen.PixelHeight * this.Zoom);
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
@@ -85,7 +86,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Click(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+            _toolProvider.Tool.Click(this.Screen, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -99,7 +100,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Release(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+            _toolProvider.Tool.Release(this.Screen, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -113,7 +114,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.RightClick(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+            _toolProvider.Tool.RightClick(this.Screen, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
@@ -127,7 +128,12 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Move(this.Screen, new Common.Geometry.Point((int)mousePoint.X, (int)mousePoint.Y));
+            _toolProvider.Tool.Move(this.Screen, MouseLocation(mousePoint));
+        }
+
+        private Common.Geometry.Point MouseLocation(Point mousePoint)
+        {
+            return new Common.Geometry.Point((int)(mousePoint.X / this.Zoom), (int)(mousePoint.Y / this.Zoom));
         }
 
         static ScreenCanvas()

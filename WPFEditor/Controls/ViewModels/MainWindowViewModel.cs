@@ -1,10 +1,11 @@
-﻿using MegaMan.Editor.AppData;
-using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Factories;
-using MegaMan.Editor.Mediator;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using MegaMan.Editor.AppData;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Factories;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -30,6 +31,29 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _windowTitle = value;
                 OnPropertyChanged("WindowTitle");
+            }
+        }
+
+        public IEnumerable<ZoomLevel> ZoomLevels
+        {
+            get
+            {
+                yield return ZoomLevel.Half;
+                yield return ZoomLevel.Full;
+                yield return ZoomLevel.Double;
+                yield return ZoomLevel.Triple;
+            }
+        }
+
+        private ZoomLevel _currentZoom = ZoomLevel.Full;
+        public ZoomLevel CurrentZoom
+        {
+            get { return _currentZoom; }
+            set
+            {
+                _currentZoom = value;
+                OnPropertyChanged("CurrentZoom");
+                ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Raise(this, new ZoomChangedEventArgs() { Zoom = _currentZoom.Zoom });
             }
         }
 

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
 {
@@ -43,6 +33,8 @@ namespace MegaMan.Editor.Controls
             }
         }
 
+        protected double Zoom { get; private set; }
+
         protected abstract void UnbindScreen(ScreenDocument oldScreen);
         protected abstract void BindScreen(ScreenDocument newScreen);
 
@@ -51,6 +43,13 @@ namespace MegaMan.Editor.Controls
         public ScreenLayer()
         {
             ((App)App.Current).Tick += ScreenLayer_Tick;
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+            this.Zoom = 1;
+        }
+
+        private void ZoomChanged(object sender, ZoomChangedEventArgs e)
+        {
+            Zoom = e.Zoom;
         }
 
         protected override Size MeasureOverride(Size constraint)
