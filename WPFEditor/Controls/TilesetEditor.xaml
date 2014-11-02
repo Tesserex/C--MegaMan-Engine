@@ -17,24 +17,24 @@
         </Border>
         <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="0">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="150">
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label FontWeight="Bold" HorizontalAlignment="Center" HorizontalContentAlignment="Center">Tile Properties</Label>
-                    <Button Command="{Binding AddTilePropertiesCommand}" Margin="10,0,0,0">
-                        <Image Source="/Resources/add_brush.png"></Image>
+                <DockPanel Margin="5">
+                    <Button Command="{Binding AddTilePropertiesCommand}" Margin="10,0,0,0" DockPanel.Dock="Right" Width="24" Height="24">
+                        <Image Source="/Resources/add_brush.png" Width="16" Height="16"></Image>
                     </Button>
-                </StackPanel>
-                <ListView ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedTile.Properties}" Margin="0" BorderThickness="0">
+                    <Label DockPanel.Dock="Left" FontWeight="Bold" HorizontalAlignment="Left" HorizontalContentAlignment="Center">Tile Properties</Label>
+                </DockPanel>
+                <ListView ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedTile.Properties}" Margin="0" BorderThickness="0" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="{Binding Name}"></Label>
-                                <Button Command="{Binding EditTilePropertiesCommand}" CommandParameter="{Binding}" Margin="10,0,0,0">
-                                    <Image Source="/Resources/edit.png"></Image>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="20" Height="20" Command="{Binding DeleteTilePropertiesCommand}" CommandParameter="{Binding}">
+                                    <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
                                 </Button>
-                                <Button Command="{Binding DeleteTilePropertiesCommand}" CommandParameter="{Binding}">
-                                    <Image Source="/Resources/Remove.png"></Image>
+                                <Button DockPanel.Dock="Right" Width="20" Height="20" Command="{Binding EditTilePropertiesCommand}" CommandParameter="{Binding}">
+                                    <Image Source="/Resources/edit.png" Width="16" Height="16"></Image>
                                 </Button>
-                            </StackPanel>
+                                <Label DockPanel.Dock="Left" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="{Binding Name}"></Label>
+                            </DockPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

@@ -123,7 +123,7 @@ namespace MegaMan.IO.Xml
 
             foreach (var layer in screen.Layers)
             {
-                layer.Tiles.Save(Path.Combine(_stageInfo.StagePath.Absolute, screen.Name + ".scn"));
+                layer.Tiles.Save(Path.Combine(_stageInfo.StagePath.Absolute, layer.Name + ".scn"));
             }
         }
     }
