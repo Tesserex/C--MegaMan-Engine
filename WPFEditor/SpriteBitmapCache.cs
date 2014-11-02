@@ -1,11 +1,11 @@
-﻿using MegaMan.Common.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Editor
 {
@@ -23,7 +23,13 @@ namespace MegaMan.Editor
         {
             if (!images.ContainsKey(absolutePath))
             {
-                var image = new BitmapImage(new Uri(absolutePath));
+                BitmapImage image;
+
+                if (File.Exists(absolutePath))
+                    image = new BitmapImage(new Uri(absolutePath));
+                else
+                    image = new BitmapImage(new Uri("pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/tile_unknown.png"));
+
                 images[absolutePath] = image;
             }
 
@@ -34,7 +40,7 @@ namespace MegaMan.Editor
         {
             if (!imagesGrayscale.ContainsKey(absolutePath))
             {
-                var image = new BitmapImage(new Uri(absolutePath));
+                var image = GetOrLoadImage(absolutePath);
                 var grayscale = new FormatConvertedBitmap(image, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
                 var bmp = BitmapFactory.ConvertToPbgra32Format(grayscale);
                 imagesGrayscale[absolutePath] = bmp;
@@ -85,7 +91,9 @@ namespace MegaMan.Editor
 
         private static WriteableBitmap CropFrame(ref Rectangle srcRect, BitmapSource source)
         {
-            var crop = new CroppedBitmap(source, new Int32Rect(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
+            var x = Math.Min(srcRect.X, source.PixelWidth - srcRect.Width);
+            var y = Math.Min(srcRect.Y, source.PixelHeight - srcRect.Height);
+            var crop = new CroppedBitmap(source, new Int32Rect(x, y, srcRect.Width, srcRect.Height));
             crop.Freeze();
 
             var bmp = BitmapFactory.ConvertToPbgra32Format(crop);
