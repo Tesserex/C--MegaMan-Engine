@@ -1,10 +1,10 @@
-﻿using MegaMan.Editor.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
+using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Mediator;
 using Microsoft.Win32;
 using Ninject;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace MegaMan.Editor
 {
@@ -31,14 +31,6 @@ namespace MegaMan.Editor
             InitializeComponent();
 
             projectTree.Update(_viewModel.ProjectViewModel);
-
-            var tilesetModel = new TilesetViewModel();
-            tileStrip.Update(tilesetModel);
-            stageTileControl.ToolProvider = tilesetModel;
-
-            var layoutEditor = new LayoutEditingViewModel();
-            layoutToolbar.DataContext = layoutEditor;
-            stageLayoutControl.ToolProvider = layoutEditor;
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
             OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());

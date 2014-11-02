@@ -121,64 +121,8 @@
                             <DockPanel>
                                 <StackPanel DockPanel.Dock="Bottom">
                                     <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
-                                </StackPanel>   
-                            <TabControl DockPanel.Dock="Top" x:Name="editingTabWindow">
-                                <TabControl.Resources>
-                                    <Style TargetType="{x:Type TabPanel}">
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
-                                    </Style>
-                                    <Style TargetType="{x:Type TabItem}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type TabItem}">
-                                                    <ContentPresenter x:Name="ContentSite"
-                                                     VerticalAlignment="Center"
-                                                     HorizontalAlignment="Center"
-                                                     ContentSource="Header"
-                                                     Margin="30,10,30,10"
-                                                     TextBlock.FontSize="18"
-                                                     TextBlock.FontFamily="Megaman 2" />
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsSelected" Value="True">
-                                                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="DarkGoldenrod"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsSelected" Value="False">
-                                                            <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="Black"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-
-                                    </Style>
-                                    <Style TargetType="TabControl">
-                                        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-                                    </Style>
-                                </TabControl.Resources>
-                                <TabItem>
-                                    <TabItem.Header>
-                                        Layout
-                                    </TabItem.Header>
-                                    <DockPanel>
-                                        <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
-                                        <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
-                                    </DockPanel>
-                                </TabItem>
-                                <TabItem>
-                                    <TabItem.Header>
-                                        Tiling
-                                    </TabItem.Header>
-                                    <DockPanel>
-                                        <c:TileStrip x:Name="tileStrip" DockPanel.Dock="Top"></c:TileStrip>
-                                        <c:StageTileControl x:Name="stageTileControl"></c:StageTileControl>
-                                    </DockPanel>
-                                </TabItem>
-                                <TabItem>
-                                    <TabItem.Header>
-                                        Entities
-                                    </TabItem.Header>
-                                </TabItem>
-                            </TabControl>
+                                </StackPanel>
+                                <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
                             </DockPanel>
                         </avalonDock:LayoutDocument>
                     </avalonDock:LayoutDocumentPane>
