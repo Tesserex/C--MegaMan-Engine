@@ -39,7 +39,10 @@ namespace MegaMan.Editor.Controls
 
         protected double Zoom { get; private set; }
 
-        protected virtual void ScreenChanged() { }
+        protected virtual void ScreenChanged()
+        {
+            Resized(_screen.Width, _screen.Height);
+        }
 
         private void Resized(int width, int height)
         {
@@ -86,7 +89,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Click(this.Screen, MouseLocation(mousePoint));
+            _toolProvider.Tool.Click(this, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -100,7 +103,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Release(this.Screen, MouseLocation(mousePoint));
+            _toolProvider.Tool.Release(this, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -114,7 +117,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.RightClick(this.Screen, MouseLocation(mousePoint));
+            _toolProvider.Tool.RightClick(this, MouseLocation(mousePoint));
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
@@ -128,7 +131,7 @@ namespace MegaMan.Editor.Controls
 
             var mousePoint = e.GetPosition(this);
 
-            _toolProvider.Tool.Move(this.Screen, MouseLocation(mousePoint));
+            _toolProvider.Tool.Move(this, MouseLocation(mousePoint));
         }
 
         private Common.Geometry.Point MouseLocation(Point mousePoint)

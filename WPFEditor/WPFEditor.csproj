@@ -151,6 +151,7 @@
     <Compile Include="Bll\ProjectFileStructure.cs" />
     <Compile Include="Bll\TilesetDocument.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
+    <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Controls\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -187,6 +188,7 @@
     <Compile Include="Controls\ViewModels\SpriteEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\ZoomLevel.cs" />
+    <Compile Include="Mediator\LayoutScreenDroppedEventArgs.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />

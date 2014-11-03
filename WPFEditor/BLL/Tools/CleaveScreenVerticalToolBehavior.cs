@@ -1,23 +1,20 @@
 ﻿using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MegaMan.Editor.Controls;
 
 namespace MegaMan.Editor.Bll.Tools
 {
     public class CleaveScreenVerticalToolBehavior : IToolBehavior
     {
-        public void Click(ScreenDocument screen, Point location) { }
+        public void Click(ScreenCanvas canvas, Point location) { }
 
-        public void Move(ScreenDocument screen, Point location) { }
+        public void Move(ScreenCanvas canvas, Point location) { }
 
-        public void Release(ScreenDocument screen, Point location)
+        public void Release(ScreenCanvas canvas, Point location)
         {
-            int tilePosX = location.X / screen.Tileset.TileSize;
-            screen.CleaveVertically(tilePosX);
+            int tilePosX = location.X / canvas.Screen.Tileset.TileSize;
+            canvas.Screen.CleaveVertically(tilePosX);
         }
 
-        public void RightClick(ScreenDocument screen, Point location) { }
+        public void RightClick(ScreenCanvas canvas, Point location) { }
     }
 }

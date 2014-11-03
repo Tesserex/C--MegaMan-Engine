@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MegaMan.Editor.Tools;
 using System.ComponentModel;
-using MegaMan.Editor.Bll;
+using System.Linq;
 using System.Windows.Input;
+using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -83,7 +81,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void DeleteScreen(ScreenDocument screen)
         {
-            
+
         }
 
         private void ChangeTool(object toolParam)
@@ -92,10 +90,12 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Hand":
                     ToolCursor = new StandardToolCursor("hand.cur");
+                    _toolBehavior = new LayoutToolBehavior();
                     break;
 
                 case "VSplit":
                     ToolCursor = new StandardToolCursor("vsplit.cur");
+                    _toolBehavior = new CleaveScreenVerticalToolBehavior();
                     break;
             }
 

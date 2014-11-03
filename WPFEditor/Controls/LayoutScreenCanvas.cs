@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using MegaMan.Editor.Tools;
 
@@ -62,8 +61,8 @@ namespace MegaMan.Editor.Controls
 
         public void JoinRightwardTo(ScreenCanvas canvas)
         {
-            var tileTopOne = (int)(this.Margin.Top / Screen.Tileset.TileSize);
-            var tileTopTwo = (int)(canvas.Margin.Top / Screen.Tileset.TileSize);
+            var tileTopOne = (int)Math.Round(this.Margin.Top / Screen.Tileset.TileSize);
+            var tileTopTwo = (int)Math.Round(canvas.Margin.Top / Screen.Tileset.TileSize);
 
             var startPoint = Math.Max(tileTopOne, tileTopTwo);
             var endPoint = Math.Min(tileTopOne + Screen.Height, tileTopTwo + canvas.Screen.Height);
@@ -86,8 +85,8 @@ namespace MegaMan.Editor.Controls
 
         public void JoinDownwardTo(ScreenCanvas canvas)
         {
-            var tileLeftOne = (int)(this.Margin.Left / Screen.Tileset.TileSize);
-            var tileLeftTwo = (int)(canvas.Margin.Left / Screen.Tileset.TileSize);
+            var tileLeftOne = (int)Math.Round(this.Margin.Left / Screen.Tileset.TileSize);
+            var tileLeftTwo = (int)Math.Round(canvas.Margin.Left / Screen.Tileset.TileSize);
 
             var startPoint = Math.Max(tileLeftOne, tileLeftTwo);
             var endPoint = Math.Min(tileLeftOne + Screen.Width, tileLeftTwo + canvas.Screen.Width);
@@ -120,56 +119,6 @@ namespace MegaMan.Editor.Controls
             base.OnMouseLeave(e);
 
             _tiles.RenderGrayscale();
-        }
-
-        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-
-            BeginLayoutDrag(e.GetPosition(this));
-        }
-
-        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-
-            EndLayoutDrag();
-        }
-
-        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-
-            if (_dragging)
-            {
-                var mousePosition = e.GetPosition((IInputElement)this.Parent);
-
-                this.Margin = new Thickness(mousePosition.X - _dragAnchorOffset.X, mousePosition.Y - _dragAnchorOffset.Y, 0, 0);
-            }
-        }
-
-        private void BeginLayoutDrag(Point anchor)
-        {
-            _dragging = true;
-            _dragAnchorOffset = new Vector(anchor.X, anchor.Y);
-
-            CaptureMouse();
-
-            Canvas.SetZIndex(this, 100);
-        }
-
-        private void EndLayoutDrag()
-        {
-            _dragging = false;
-
-            ReleaseMouseCapture();
-
-            Canvas.SetZIndex(this, 1);
-
-            if (ScreenDropped != null)
-            {
-                ScreenDropped(this, EventArgs.Empty);
-            }
         }
     }
 }

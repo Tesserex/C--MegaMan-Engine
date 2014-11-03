@@ -1,10 +1,7 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows.Input;
+using MegaMan.Common.Geometry;
+using MegaMan.Editor.Controls;
 
 namespace MegaMan.Editor.Bll.Tools
 {
@@ -21,8 +18,10 @@ namespace MegaMan.Editor.Bll.Tools
             _brush = brush;
         }
 
-        public void Click(ScreenDocument screen, Point location)
+        public void Click(ScreenCanvas canvas, Point location)
         {
+            var screen = canvas.Screen;
+
             Point tilePos = new Point(location.X / screen.Tileset.TileSize, location.Y / screen.Tileset.TileSize);
 
             var selection = screen.Selection;
@@ -59,7 +58,7 @@ namespace MegaMan.Editor.Bll.Tools
                 {
                     var min = Math.Min(currentTilePos.Y, tilePos.Y);
                     var max = Math.Max(currentTilePos.Y, tilePos.Y);
-                    for (int i = min; i <= max; i ++)
+                    for (int i = min; i <= max; i++)
                     {
                         Draw(screen, currentTilePos.X, i);
                     }
@@ -74,8 +73,10 @@ namespace MegaMan.Editor.Bll.Tools
             currentTilePos = tilePos;
         }
 
-        public void Move(ScreenDocument screen, Point location)
+        public void Move(ScreenCanvas canvas, Point location)
         {
+            var screen = canvas.Screen;
+
             if (!held) return;
 
             Point pos = new Point(location.X / screen.Tileset.TileSize, location.Y / screen.Tileset.TileSize);
@@ -84,14 +85,14 @@ namespace MegaMan.Editor.Bll.Tools
             Draw(screen, pos.X, pos.Y);
         }
 
-        public void Release(ScreenDocument surface, Point location)
+        public void Release(ScreenCanvas canvas, Point location)
         {
             if (startTiles == null) return;
 
             held = false;
         }
 
-        public void RightClick(ScreenDocument surface, Point location)
+        public void RightClick(ScreenCanvas canvas, Point location)
         {
             throw new NotImplementedException();
         }

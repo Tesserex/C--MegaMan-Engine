@@ -13,7 +13,7 @@ namespace MegaMan.Editor.Bll
 
         private History history;
 
-        private readonly Dictionary<string, ScreenDocument> screens = new Dictionary<string,ScreenDocument>();
+        private readonly Dictionary<string, ScreenDocument> screens = new Dictionary<string, ScreenDocument>();
 
         public ProjectDocument Project { get; private set; }
 
@@ -28,6 +28,7 @@ namespace MegaMan.Editor.Bll
         }
 
         public event Action<ScreenDocument> ScreenAdded;
+        public event Action<ScreenDocument> ScreenRemoved;
         public event Action<ScreenDocument, int, int> ScreenResized;
         public event Action<Join> JoinChanged;
         public event Action<bool> DirtyChanged;
@@ -178,6 +179,8 @@ namespace MegaMan.Editor.Bll
             screen.Resized -= (w, h) => OnScreenResized(screen, w, h);
 
             screens.Remove(screen.Name);
+
+            if (ScreenRemoved != null) ScreenRemoved(screen);
         }
 
         public void AddJoin(Join join)

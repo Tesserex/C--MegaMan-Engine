@@ -112,6 +112,11 @@ namespace MegaMan.Editor.Bll
                 leftScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, leftSide);
                 rightScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, rightSide);
 
+                foreach (var join in this.Joins.ToArray())
+                {
+                    Stage.RemoveJoin(join);
+                }
+
                 Stage.RemoveScreen(this);
 
                 Stage.AddJoin(new Join()

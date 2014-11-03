@@ -2,29 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
 {
     public class StageLayoutControl : StageControl
     {
+        public StageLayoutControl()
+            : base()
+        {
+            ViewModelMediator.Current.GetEvent<LayoutScreenDroppedEventArgs>().Subscribe(screenDropped);
+        }
+
         protected override ScreenCanvas CreateScreenCanvas(Bll.ScreenDocument screen)
         {
             var canvas = new LayoutScreenCanvas(ToolProvider);
             canvas.Screen = screen;
-
-            canvas.ScreenDropped += screenDropped;
 
             return canvas;
         }
 
         protected override void DestroyScreenCanvas(ScreenCanvas canvas)
         {
-            ((LayoutScreenCanvas)canvas).ScreenDropped -= screenDropped;
+            
         }
 
-        private void screenDropped(object sender, EventArgs e)
+        private void screenDropped(object sender, LayoutScreenDroppedEventArgs e)
         {
-            var screen = (LayoutScreenCanvas)sender;
+            var screen = (LayoutScreenCanvas)e.Canvas;
 
             SnapScreenJoin(screen);
         }
