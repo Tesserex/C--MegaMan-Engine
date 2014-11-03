@@ -115,6 +115,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("Tiles");
             OnPropertyChanged("TileProperties");
+            OnPropertyChanged("SheetPath");
+            OnPropertyChanged("RelSheetPath");
         }
 
         private void AddTile()
