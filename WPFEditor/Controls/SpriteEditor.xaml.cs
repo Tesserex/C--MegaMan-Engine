@@ -1,18 +1,8 @@
-﻿using MegaMan.Editor.Controls.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
 {
@@ -41,7 +31,9 @@ namespace MegaMan.Editor.Controls
 
             if (snapSheet.IsChecked == true)
             {
-                pos = new Point(Math.Floor(pos.X / sheetHighlight.Width) * sheetHighlight.Width, Math.Floor(pos.Y / sheetHighlight.Height) * sheetHighlight.Height);
+                var viewModel = DataContext as SpriteEditorViewModel;
+                var spacing = sheetHighlight.Width + (snapGap.Value.Value * viewModel.SheetZoom);
+                pos = new Point(Math.Floor(pos.X / spacing) * spacing, Math.Floor(pos.Y / spacing) * spacing);
             }
 
             Canvas.SetTop(sheetHighlight, pos.Y);

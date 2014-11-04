@@ -26,7 +26,7 @@
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0">Frame Duration:</Label>
-                <xctk:IntegerUpDown Value="{Binding FrameDuration}"></xctk:IntegerUpDown>
+                <xctk:IntegerUpDown Value="{Binding FrameDuration}" Height="20" Minimum="0"></xctk:IntegerUpDown>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Button Command="{Binding ZoomOutCommand}">
@@ -123,12 +123,16 @@
             </ScrollViewer>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <CheckBox x:Name="snapSheet">Snap</CheckBox>
-                <Button Command="{Binding ZoomOutSheetCommand}">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10" HorizontalAlignment="Center">
+                <DockPanel Margin="0,0,20,0">
+                    <CheckBox x:Name="snapSheet" Margin="5" DockPanel.Dock="Top" HorizontalAlignment="Left">Snap</CheckBox>
+                    <Label>Spacing</Label>
+                    <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
+                </DockPanel>
+                <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Command="{Binding ZoomInSheetCommand}">
+                <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>

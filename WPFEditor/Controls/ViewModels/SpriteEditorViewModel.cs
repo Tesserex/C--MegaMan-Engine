@@ -1,14 +1,9 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -18,6 +13,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private static int _previewZoom = 1;
         private static int _sheetZoom = 1;
+
+        public int SheetZoom { get { return _sheetZoom; } }
 
         private const int MAXZOOM = 16;
 
