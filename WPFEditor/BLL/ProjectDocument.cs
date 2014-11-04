@@ -1,8 +1,8 @@
-﻿using MegaMan.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MegaMan.Common;
 using MegaMan.Editor.Mediator;
 using MegaMan.IO.Xml;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MegaMan.Editor.Bll
 {
@@ -11,10 +11,17 @@ namespace MegaMan.Editor.Bll
         public IProjectFileStructure FileStructure { get; private set; }
         public Project Project { get; private set; }
 
-        private bool Dirty
+        private bool _dirty;
+        public bool Dirty
         {
-            get;
-            set;
+            get
+            {
+                return _dirty || openStages.Any(s => s.Value.Dirty);
+            }
+            private set
+            {
+                _dirty = value;
+            }
         }
 
         #region Game XML File Stuff
@@ -201,8 +208,7 @@ namespace MegaMan.Editor.Bll
         {
             var stagePath = FileStructure.CreateStagePath(name);
 
-            var stage = new StageDocument(this)
-            {
+            var stage = new StageDocument(this) {
                 Path = stagePath,
                 Name = name
             };

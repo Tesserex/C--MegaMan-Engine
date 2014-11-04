@@ -39,6 +39,24 @@ namespace MegaMan.Editor
             EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
+
+            this.Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_viewModel.ProjectViewModel.Project != null && _viewModel.ProjectViewModel.Project.Dirty)
+            {
+                var result = CustomMessageBox.ShowSavePrompt();
+                if (result == System.Windows.MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else if (result == System.Windows.MessageBoxResult.Yes)
+                {
+                    _viewModel.ProjectViewModel.Project.Save();
+                }
+            }
         }
 
         private void StageSelected(object sender, StageChangedEventArgs e)
