@@ -8,11 +8,11 @@
              d:DesignHeight="28" d:DesignWidth="500">
     <ToolBarTray Orientation="Horizontal">
         <ToolBar Band="1" BandIndex="1">
-            <RadioButton Padding="0" Margin="0,0,4,0" Width="24" Height="24" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
-                <Image Source="/Resources/hand.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <RadioButton Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
+                <Image Source="{Binding CursorIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </RadioButton>
-            <RadioButton Padding="0" Margin="0,0,4,0" Width="24" Height="24" Command="{Binding ChangeToolCommand}" CommandParameter="VSplit">
-                <Image Source="/Resources/vsplit.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="VSplit">
+                <Image Source="{Binding CleaveIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
         </ToolBar>
         <ToolBar Band="1" BandIndex="2">

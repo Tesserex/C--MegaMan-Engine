@@ -150,6 +150,7 @@
     <Compile Include="Bll\IProjectFileStructure.cs" />
     <Compile Include="Bll\ProjectFileStructure.cs" />
     <Compile Include="Bll\TilesetDocument.cs" />
+    <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Controls\AddStageDialog.xaml.cs">
@@ -318,7 +319,6 @@
   <ItemGroup>
     <Resource Include="Resources\add_brush.png" />
     <Resource Include="Resources\brush.png" />
-    <Resource Include="Resources\bucket.png" />
     <Resource Include="Resources\continue_full.png" />
     <Resource Include="Resources\continue_icon.png" />
     <Resource Include="Resources\CopyHS.png" />
@@ -404,6 +404,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\tile_unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bucket_off.png" />
+    <Resource Include="Resources\bucket_on.png" />
+    <Resource Include="Resources\cleave_off.png" />
+    <Resource Include="Resources\cleave_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cursor_off.png" />
+    <Resource Include="Resources\cursor_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dropper_off.png" />
+    <Resource Include="Resources\dropper_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\brush_off.png" />
+    <Resource Include="Resources\brush_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -17,6 +17,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private StageDocument _currentStage;
 
+        private string _activeIcon;
+
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,6 +63,24 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public string CursorIcon { get { return IconFor("cursor"); } }
+        public string CleaveIcon { get { return IconFor("cleave"); } }
+        private string ActiveIcon
+        {
+            get { return _activeIcon; }
+            set
+            {
+                _activeIcon = value;
+                OnPropertyChanged("CursorIcon");
+                OnPropertyChanged("CleaveIcon");
+            }
+        }
+
+        private string IconFor(string icon)
+        {
+            return String.Format("/Resources/{0}_{1}.png", icon, (_activeIcon == icon) ? "on" : "off");
+        }
+
         private void AddScreen()
         {
             var stage = _currentStage;
@@ -91,11 +111,13 @@ namespace MegaMan.Editor.Controls.ViewModels
                 case "Hand":
                     ToolCursor = new StandardToolCursor("hand.cur");
                     _toolBehavior = new LayoutToolBehavior();
+                    ActiveIcon = "cursor";
                     break;
 
                 case "VSplit":
                     ToolCursor = new StandardToolCursor("vsplit.cur");
                     _toolBehavior = new CleaveScreenVerticalToolBehavior();
+                    ActiveIcon = "cleave";
                     break;
             }
 
@@ -109,9 +131,14 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _currentStage = e.Stage;
 
+            OnPropertyChanged("HasStage");
+        }
+
+        private void OnPropertyChanged(string name)
+        {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs("HasStage"));
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }

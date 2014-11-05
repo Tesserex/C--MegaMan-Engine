@@ -1,14 +1,11 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Editor.Bll.Tools
 {
     public interface ITileBrush
     {
         ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y);
+        TileBrushCell[][] Cells { get; }
     }
 
     public struct TileBrushCell
@@ -28,6 +25,7 @@ namespace MegaMan.Editor.Bll.Tools
     public class SingleTileBrush : ITileBrush
     {
         private readonly Tile _tile;
+        private readonly TileBrushCell[][] _cells;
 
         public int Height { get { return 1; } }
         public int Width { get { return 1; } }
@@ -35,12 +33,26 @@ namespace MegaMan.Editor.Bll.Tools
         public SingleTileBrush(Tile tile)
         {
             this._tile = tile;
+            _cells = new TileBrushCell[][]
+            {
+                new TileBrushCell[]
+                {
+                    new TileBrushCell()
+                    {
+                        tile = _tile,
+                        x = 0,
+                        y = 0
+                    }
+                }
+            };
         }
+
+        public TileBrushCell[][] Cells { get { return _cells; } }
 
         public virtual ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y)
         {
             var old = screen.TileAt(tile_x, tile_y);
-            
+
             if (old == null)
             {
                 return null;
@@ -75,6 +87,8 @@ namespace MegaMan.Editor.Bll.Tools
             Reset(width, height);
         }
 
+        public TileBrushCell[][] Cells { get { return _cells; } }
+
         public void Reset(int width, int height)
         {
             TileBrushCell[][] newcells = new TileBrushCell[width][];
@@ -97,7 +111,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void AddTile(Tile tile, int x, int y)
         {
-            TileBrushCell cell = new TileBrushCell {x = x, y = y, tile = tile};
+            TileBrushCell cell = new TileBrushCell { x = x, y = y, tile = tile };
             _cells[x][y] = cell;
         }
 
