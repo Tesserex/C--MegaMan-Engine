@@ -21,7 +21,7 @@
                                                      ContentSource="Header"
                                                      Margin="30,10,30,10"
                                                      TextBlock.FontSize="18"
-                                                     TextBlock.FontFamily="Megaman 2" />
+                                                     TextBlock.FontFamily="../Resources/#MegaMan 2" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="DarkGoldenrod"/>
