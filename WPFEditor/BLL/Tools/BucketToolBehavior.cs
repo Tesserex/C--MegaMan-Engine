@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Controls;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Bll.Tools
 {
@@ -79,14 +80,13 @@ namespace MegaMan.Editor.Bll.Tools
         {
         }
 
-        // behaves as eyedropper
         public void RightClick(ScreenCanvas surface, Point location)
         {
             int tile_x = location.X / surface.Screen.Tileset.TileSize;
             int tile_y = location.Y / surface.Screen.Tileset.TileSize;
 
             var tile = surface.Screen.TileAt(tile_x, tile_y);
-            //MainForm.Instance.TileStrip.SelectTile(tile);
+            ViewModelMediator.Current.GetEvent<TileSelectedEventArgs>().Raise(this, new TileSelectedEventArgs() { Tile = tile });
         }
     }
 }

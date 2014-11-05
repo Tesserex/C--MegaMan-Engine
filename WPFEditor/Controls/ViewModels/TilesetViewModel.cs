@@ -113,6 +113,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public TilesetViewModel()
         {
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
+            ViewModelMediator.Current.GetEvent<TileSelectedEventArgs>().Subscribe((s, e) => ChangeTile(e.Tile));
 
             ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage());
             ChangeTool("Brush");

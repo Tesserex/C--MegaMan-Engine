@@ -1,13 +1,9 @@
-﻿using MegaMan.Common;
-using MegaMan.Editor.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using MegaMan.Common;
+using MegaMan.Editor.Controls;
 
 namespace MegaMan.Editor.Tools
 {
@@ -16,7 +12,7 @@ namespace MegaMan.Editor.Tools
         private Tileset _tileset;
         private Tile _tile;
 
-        private ToolCursorAdorner _cursorAdorner;
+        private static ToolCursorAdorner _cursorAdorner;
 
         private FrameworkElement _element;
 
@@ -35,14 +31,21 @@ namespace MegaMan.Editor.Tools
         {
             _element = element;
 
+            var layer = AdornerLayer.GetAdornerLayer(element);
+            var hideCursor = (_cursorAdorner == null || _cursorAdorner.Visibility == Visibility.Hidden);
+
+            if (_cursorAdorner != null)
+                layer.Remove(_cursorAdorner);
+
             _cursorAdorner = new ToolCursorAdorner(element, Render);
-            AdornerLayer.GetAdornerLayer(element).Add(_cursorAdorner);
+            layer.Add(_cursorAdorner);
 
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseEnter", MouseEnter);
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseLeave", MouseLeave);
 
             element.Cursor = Cursors.None;
-            _cursorAdorner.Visibility = Visibility.Hidden;
+            if (hideCursor)
+                _cursorAdorner.Visibility = Visibility.Hidden;
         }
 
         private void MouseEnter(object sender, MouseEventArgs args)
