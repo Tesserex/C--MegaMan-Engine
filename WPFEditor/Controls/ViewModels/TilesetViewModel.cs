@@ -52,6 +52,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public string BrushIcon { get { return IconFor("Brush"); } }
         public string BucketIcon { get { return IconFor("Bucket"); } }
+        public string SelectionIcon { get { return IconFor("Selection"); } }
         private string ActiveIcon
         {
             get { return _activeIcon; }
@@ -60,6 +61,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _activeIcon = value;
                 OnPropertyChanged("BrushIcon");
                 OnPropertyChanged("BucketIcon");
+                OnPropertyChanged("SelectionIcon");
             }
         }
 
@@ -72,20 +74,14 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             SelectedTile = tile;
 
-            if (tile != null)
+            if (SelectedTile != null)
             {
                 ConstructTool();
-                ToolCursor = new SingleTileCursor(_tileset, tile);
             }
             else
             {
                 Tool = null;
                 ToolCursor = null;
-            }
-
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(_currentTool));
             }
 
             if (PropertyChanged != null)
@@ -102,11 +98,23 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Brush":
                     Tool = new TileBrushToolBehavior(brush);
+                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
                     break;
 
                 case "Bucket":
                     Tool = new BucketToolBehavior(brush);
+                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
                     break;
+
+                case "Selection":
+                    Tool = new SelectionToolBehavior();
+                    ToolCursor = null;
+                    break;
+            }
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(_currentTool));
             }
         }
 

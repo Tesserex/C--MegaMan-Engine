@@ -338,6 +338,7 @@ namespace MegaMan.Editor.Controls
             else
             {
                 this.Cursor = Cursors.Arrow;
+                this.scrollContainer.Cursor = this.Cursor;
             }
         }
     }

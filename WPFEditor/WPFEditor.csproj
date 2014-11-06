@@ -153,6 +153,8 @@
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
+    <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
+    <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
     <Compile Include="Controls\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -168,6 +170,7 @@
     <Compile Include="Controls\NewProjectDialog.xaml.cs">
       <DependentUpon>NewProjectDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OverlayScreenLayer.cs" />
     <Compile Include="Controls\ProjectSettingsControl.xaml.cs">
       <DependentUpon>ProjectSettingsControl.xaml</DependentUpon>
     </Compile>
@@ -423,6 +426,10 @@
   <ItemGroup>
     <Resource Include="Resources\brush_off.png" />
     <Resource Include="Resources\brush_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\selection_off.png" />
+    <Resource Include="Resources\selection_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

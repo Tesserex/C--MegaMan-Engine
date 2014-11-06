@@ -26,16 +26,6 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void Click(ScreenCanvas canvas, Point location)
         {
-            var selection = canvas.Screen.Selection;
-            if (selection != null)
-            {
-                // only paint inside selection
-                if (!selection.Value.Contains(location))
-                {
-                    return;
-                }
-            }
-
             int tile_x = location.X / canvas.Screen.Tileset.TileSize;
             int tile_y = location.Y / canvas.Screen.Tileset.TileSize;
 
