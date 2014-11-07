@@ -53,6 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public string BrushIcon { get { return IconFor("Brush"); } }
         public string BucketIcon { get { return IconFor("Bucket"); } }
         public string SelectionIcon { get { return IconFor("Selection"); } }
+        public string RectangleIcon { get { return IconFor("Rectangle"); } }
         private string ActiveIcon
         {
             get { return _activeIcon; }
@@ -62,6 +63,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 OnPropertyChanged("BrushIcon");
                 OnPropertyChanged("BucketIcon");
                 OnPropertyChanged("SelectionIcon");
+                OnPropertyChanged("RectangleIcon");
             }
         }
 
@@ -109,6 +111,11 @@ namespace MegaMan.Editor.Controls.ViewModels
                 case "Selection":
                     Tool = new SelectionToolBehavior();
                     ToolCursor = null;
+                    break;
+
+                case "Rectangle":
+                    Tool = new RectangleToolBehavior(brush);
+                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
                     break;
             }
 

@@ -71,10 +71,13 @@ namespace MegaMan.Editor.Tools
         {
             var cursorPosition = Mouse.GetPosition(_element);
 
+            var snapX = (int)(cursorPosition.X / _tile.Width) * _tile.Width;
+            var snapY = (int)(cursorPosition.Y / _tile.Height) * _tile.Height;
+
             drawingContext.DrawImage(this.CursorImage,
                 new Rect(
-                    cursorPosition.X - (_tile.Width / 2),
-                    cursorPosition.Y - (_tile.Height / 2),
+                    snapX,
+                    snapY,
                     _tile.Width,
                     _tile.Height)
                 );

@@ -18,6 +18,9 @@
                 <RadioButton ToolTip="Selection" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Selection">
                     <Image Source="{Binding SelectionIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </RadioButton>
+                <RadioButton ToolTip="Rectangle" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Rectangle">
+                    <Image Source="{Binding RectangleIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </RadioButton>
             </ToolBar>
             <ToolBar Band="1" BandIndex="2" ItemsSource="{Binding Path=Tiles}" Name="tilesToolbar">
                 <ToolBar.ItemTemplate>

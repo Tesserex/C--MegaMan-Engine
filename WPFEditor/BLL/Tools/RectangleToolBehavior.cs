@@ -20,39 +20,39 @@ namespace MegaMan.Editor.Bll.Tools
             held = false;
         }
 
-        public void Click(ScreenCanvas canvas, Point location)
+        public void Click(ScreenCanvas surface, Point location)
         {
-            tx1 = location.X / canvas.Screen.Tileset.TileSize;
-            ty1 = location.Y / canvas.Screen.Tileset.TileSize;
+            tx1 = location.X / surface.Screen.Tileset.TileSize;
+            ty1 = location.Y / surface.Screen.Tileset.TileSize;
+            tx2 = tx1;
+            ty2 = ty1;
             held = true;
         }
 
-        public void Move(ScreenCanvas canvas, Point location)
+        public void Move(ScreenCanvas surface, Point location)
         {
             if (held)
             {
-                // draw rectangle preview
-                int x_start = Math.Min(tx1, tx2);
-                int x_end = Math.Max(tx1, tx2) - 1;
-                int y_start = Math.Min(ty1, ty2);
-                int y_end = Math.Max(ty1, ty2) - 1;
+                tx2 = (int)Math.Round(location.X / (float)surface.Screen.Tileset.TileSize);
+                ty2 = (int)Math.Round(location.Y / (float)surface.Screen.Tileset.TileSize);
 
-                for (int y = y_start; y <= y_end; y += brush.Cells[0].Length)
-                {
-                    for (int x = x_start; x <= x_end; x += brush.Cells.Length)
-                    {
-                        brush.DrawOn(canvas.Screen, x, y);
-                    }
-                }
+                SetSelection(surface);
             }
+        }
+
+        private void SetSelection(ScreenCanvas surface)
+        {
+            surface.Screen.SetSelection(
+                Math.Min(tx1, tx2),
+                Math.Min(ty1, ty2),
+                Math.Abs(tx2 - tx1),
+                Math.Abs(ty2 - ty1)
+            );
         }
 
         public void Release(ScreenCanvas canvas, Point location)
         {
             held = false;
-
-            tx2 = location.X / canvas.Screen.Tileset.TileSize;
-            ty2 = location.Y / canvas.Screen.Tileset.TileSize;
 
             int x_start = Math.Min(tx1, tx2);
             int x_end = Math.Max(tx1, tx2) - 1;
@@ -83,7 +83,7 @@ namespace MegaMan.Editor.Bll.Tools
                 }
             }
 
-            //if (changes.Count > 0) canvas.EditedWithAction(new DrawAction("Rectangle", changes, canvas));
+            canvas.Screen.SetSelection(0, 0, 0, 0);
         }
 
         private void Draw(ScreenCanvas surface, int tile_x, int tile_y)

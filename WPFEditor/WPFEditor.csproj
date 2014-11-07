@@ -344,12 +344,10 @@
     <Resource Include="Resources\PlayHS.png" />
     <Resource Include="Resources\point.png" />
     <Resource Include="Resources\protoman.png" />
-    <Resource Include="Resources\rectangle.png" />
     <Resource Include="Resources\Redo.png" />
     <Resource Include="Resources\Remove.png" />
     <Resource Include="Resources\saveHS.png" />
     <Resource Include="Resources\screen.png" />
-    <Resource Include="Resources\selection.png" />
     <Resource Include="Resources\Settings.png" />
     <Resource Include="Resources\stage.png" />
     <Resource Include="Resources\start_full.png" />
@@ -430,6 +428,10 @@
   <ItemGroup>
     <Resource Include="Resources\selection_off.png" />
     <Resource Include="Resources\selection_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rectangle_off.png" />
+    <Resource Include="Resources\rectangle_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

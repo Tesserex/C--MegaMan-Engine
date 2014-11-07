@@ -9,12 +9,8 @@ namespace MegaMan.Editor.Bll.Tools
         private int tx1, ty1, tx2, ty2;
         private bool held;
 
-        private ScreenCanvas currentSurface;
-
         public void Click(ScreenCanvas surface, Point location)
         {
-            currentSurface = surface;
-
             tx1 = location.X / surface.Screen.Tileset.TileSize;
             ty1 = location.Y / surface.Screen.Tileset.TileSize;
             tx2 = tx1;
