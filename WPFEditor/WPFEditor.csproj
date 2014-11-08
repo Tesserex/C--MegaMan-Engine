@@ -181,6 +181,9 @@
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TilesToolbar.xaml.cs">
+      <DependentUpon>TilesToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
@@ -251,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TilesetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

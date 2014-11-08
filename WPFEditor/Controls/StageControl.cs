@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using MegaMan.Editor.Bll;
-using System.Windows.Media;
 using System.Windows.Documents;
-using MegaMan.Editor.Bll.Algorithms;
-using MegaMan.Editor.Tools;
 using System.Windows.Input;
-using System.Reflection;
+using System.Windows.Media;
+using MegaMan.Common;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {
@@ -34,7 +32,7 @@ namespace MegaMan.Editor.Controls
         private HashSet<string> _screensPlaced;
         private Size _stageSize;
 
-        private double _zoom;
+        public double Zoom { get; private set; }
 
         private StageDocument _stage;
 
@@ -93,7 +91,7 @@ namespace MegaMan.Editor.Controls
 
             _screens = new Dictionary<string, ScreenCanvas>();
             _screensPlaced = new HashSet<string>();
-            _zoom = 1;
+            Zoom = 1;
 
             this.SizeChanged += StageLayoutControl_SizeChanged;
 
@@ -107,15 +105,13 @@ namespace MegaMan.Editor.Controls
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;
 
-            scrollContainer = new ScrollViewer()
-            {
+            scrollContainer = new ScrollViewer() {
                 CanContentScroll = true,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto
             };
 
-            canvas = new GridCanvas()
-            {
+            canvas = new GridCanvas() {
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
                 VerticalAlignment = System.Windows.VerticalAlignment.Top
             };
@@ -140,7 +136,7 @@ namespace MegaMan.Editor.Controls
 
         private void ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
-            _zoom = e.Zoom;
+            Zoom = e.Zoom;
             LayoutScreens();
         }
 
@@ -296,8 +292,8 @@ namespace MegaMan.Editor.Controls
             {
                 var surface = _screens[screenPointPair.Key];
 
-                var cx = (int)(screenPointPair.Value.X * surface.Screen.Tileset.TileSize * _zoom);
-                var cy = (int)(screenPointPair.Value.Y * surface.Screen.Tileset.TileSize * _zoom);
+                var cx = (int)(screenPointPair.Value.X * surface.Screen.Tileset.TileSize * Zoom);
+                var cy = (int)(screenPointPair.Value.Y * surface.Screen.Tileset.TileSize * Zoom);
 
                 SetCanvasLocation(surface, new Common.Geometry.Point(cx, cy));
             }

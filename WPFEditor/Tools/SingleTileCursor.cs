@@ -72,21 +72,30 @@ namespace MegaMan.Editor.Tools
 
         private void Render(DrawingContext drawingContext)
         {
+            var zoom = 1d;
+            if (((FrameworkElement)_element.Parent).Parent is StageControl)
+            {
+                zoom = (((FrameworkElement)_element.Parent).Parent as StageControl).Zoom;
+            }
+
             var cursorPosition = Mouse.GetPosition(_element);
 
-            var snapX = (int)(cursorPosition.X / _tile.Width) * _tile.Width;
-            var snapY = (int)(cursorPosition.Y / _tile.Height) * _tile.Height;
+            var width = _tile.Width * zoom;
+            var height = _tile.Height * zoom;
+
+            var snapX = (int)(cursorPosition.X / width) * width;
+            var snapY = (int)(cursorPosition.Y / height) * height;
 
             drawingContext.DrawImage(this.CursorImage,
                 new Rect(
                     snapX,
                     snapY,
-                    _tile.Width,
-                    _tile.Height)
+                    width,
+                    height)
                 );
 
-            drawingContext.DrawRectangle(null, outlinePen, new Rect(snapX, snapY, _tile.Width, _tile.Height));
-            drawingContext.DrawRoundedRectangle(null, shadowPen, new Rect(snapX - 1, snapY - 1, _tile.Width + 2, _tile.Height + 2), 2, 2);
+            drawingContext.DrawRectangle(null, outlinePen, new Rect(snapX, snapY, width, height));
+            drawingContext.DrawRoundedRectangle(null, shadowPen, new Rect(snapX - 1, snapY - 1, width + 2, height + 2), 2, 2);
         }
     }
 }

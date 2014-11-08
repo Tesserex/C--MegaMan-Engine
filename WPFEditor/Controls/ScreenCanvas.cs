@@ -39,7 +39,7 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        protected double Zoom { get; private set; }
+        public double Zoom { get; private set; }
 
         protected virtual void ScreenChanged()
         {

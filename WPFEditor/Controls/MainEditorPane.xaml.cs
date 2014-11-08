@@ -13,7 +13,7 @@ namespace MegaMan.Editor.Controls
             InitializeComponent();
 
             var tilesetModel = new TilesetViewModel();
-            tileStrip.Update(tilesetModel);
+            tileStrip.DataContext = tilesetModel;
             stageTileControl.ToolProvider = tilesetModel;
 
             var layoutEditor = new LayoutEditingViewModel();

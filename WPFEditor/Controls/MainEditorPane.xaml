@@ -53,7 +53,7 @@
                 Tiling
             </TabItem.Header>
             <DockPanel>
-                <c:TileStrip x:Name="tileStrip" DockPanel.Dock="Top"></c:TileStrip>
+                <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
                 <c:StageTileControl x:Name="stageTileControl"></c:StageTileControl>
             </DockPanel>
         </TabItem>
