@@ -16,6 +16,9 @@ namespace MegaMan.Editor.Tools
 
         private FrameworkElement _element;
 
+        private static Pen outlinePen = new Pen(new SolidColorBrush(Colors.Silver) { Opacity = 0.5 }, 2);
+        private static Pen shadowPen = new Pen(new SolidColorBrush(Colors.Black) { Opacity = 0.5 }, 2);
+
         public SingleTileCursor(Tileset tileset, Tile tile)
         {
             _tileset = tileset;
@@ -81,6 +84,9 @@ namespace MegaMan.Editor.Tools
                     _tile.Width,
                     _tile.Height)
                 );
+
+            drawingContext.DrawRectangle(null, outlinePen, new Rect(snapX, snapY, _tile.Width, _tile.Height));
+            drawingContext.DrawRoundedRectangle(null, shadowPen, new Rect(snapX - 1, snapY - 1, _tile.Width + 2, _tile.Height + 2), 2, 2);
         }
     }
 }
