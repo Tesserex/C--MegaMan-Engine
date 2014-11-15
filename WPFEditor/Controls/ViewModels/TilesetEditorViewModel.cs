@@ -30,6 +30,10 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand ChangeSheetCommand { get; private set; }
         public ICommand AddTileCommand { get; private set; }
+        public ICommand AddTilePropertiesCommand { get; private set; }
+        public ICommand EditTilePropertiesCommand { get; private set; }
+        public ICommand DeleteTilePropertiesCommand { get; private set; }
+        public ICommand HidePropertiesEditorCommand { get; set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
 
@@ -59,17 +63,28 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (_tileset == null)
                     return Enumerable.Empty<TileProperties>();
                 else
-                    return _tileset.Properties;
+                    return _observedProperties;
             }
         }
+
+        public TileProperties EditingProperties { get; private set; }
+        public System.Windows.Visibility ShowPropEditor { get; private set; }
+        public System.Windows.Visibility ShowSpriteEditor { get; private set; }
 
         public TilesetEditorViewModel()
         {
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
             AddTileCommand = new RelayCommand(o => AddTile());
+            AddTilePropertiesCommand = new RelayCommand(o => AddProperties());
+            EditTilePropertiesCommand = new RelayCommand(EditProperties);
+            DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
+            HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+
+            ShowSpriteEditor = System.Windows.Visibility.Visible;
+            ShowPropEditor = System.Windows.Visibility.Collapsed;
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
@@ -124,6 +139,40 @@ namespace MegaMan.Editor.Controls.ViewModels
             var tile = _tileset.AddTile();
             _observedTiles.Add(tile);
             ((App)App.Current).AnimateSprite(tile.Sprite);
+        }
+
+        private void AddProperties()
+        {
+            var properties = new TileProperties() { Name = "New Properties" };
+            _tileset.AddProperties(properties);
+            _observedProperties.Add(properties);
+            OnPropertyChanged("TileProperties");
+        }
+
+        private void EditProperties(object obj)
+        {
+            EditingProperties = (TileProperties)obj;
+            ShowPropEditor = System.Windows.Visibility.Visible;
+            ShowSpriteEditor = System.Windows.Visibility.Collapsed;
+            OnPropertyChanged("EditingProperties");
+            OnPropertyChanged("ShowPropEditor");
+            OnPropertyChanged("ShowSpriteEditor");
+        }
+
+        private void DeleteProperties(object obj)
+        {
+            var props = (TileProperties)obj;
+            _tileset.DeleteProperties(props);
+            _observedProperties.Remove(props);
+            OnPropertyChanged("TileProperties");
+        }
+
+        private void HidePropertiesEditor()
+        {
+            ShowPropEditor = System.Windows.Visibility.Collapsed;
+            ShowSpriteEditor = System.Windows.Visibility.Visible;
+            OnPropertyChanged("ShowPropEditor");
+            OnPropertyChanged("ShowSpriteEditor");
         }
 
         private void ChangeSheet()

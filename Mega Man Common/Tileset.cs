@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace MegaMan.Common
@@ -49,6 +46,16 @@ namespace MegaMan.Common
             this.properties[properties.Name] = properties;
         }
 
+        public void DeleteProperties(TileProperties properties)
+        {
+            foreach (var tile in this.Where(t => t.Properties == properties))
+            {
+                tile.Properties = TileProperties.Default;
+            }
+
+            this.properties.Remove(properties.Name);
+        }
+
         public void Save(string path)
         {
             if (FilePath == null)
@@ -59,7 +66,7 @@ namespace MegaMan.Common
             {
                 FilePath = FilePath.FromAbsolute(path, FilePath.BasePath);
             }
-            
+
             XmlTextWriter writer = new XmlTextWriter(FilePath.Absolute, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 1;
@@ -75,7 +82,7 @@ namespace MegaMan.Common
             writer.WriteStartElement("TileProperties");
             foreach (TileProperties properties in this.properties.Values)
             {
-                if (properties.Name == "Default" && properties == TileProperties.Default) 
+                if (properties.Name == "Default" && properties == TileProperties.Default)
                     continue;
                 properties.Save(writer);
             }

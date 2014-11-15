@@ -14,7 +14,7 @@
 		<Stage name="NewStage" path="stages\NewStage" />
 		<Stage name="TilesetTest" path="stages\TilesetTest" />
 	</Stages>
-	<Next type="Stage" name="TilesetTest" fade="False" />
+	<Next type="Menu" name="Title" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>
 	<Include>sounds\sounds.xml</Include>
 	<Include>images\fonts\fonts.xml</Include>

@@ -1,20 +1,11 @@
 <Map name="Test" tiles="stages\test\tiles.xml">
-    <Music nsftrack="10" />
+	<Music nsftrack="10" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
-        <Entity entity="Lightswitch" x="864" y="96" />
-		<Overlay name="floor" x="64" y="176" foreground="true" />
-        <Overlay name="floor" x="320" y="0" foreground="true" />
-        <Overlay name="overlay" x="560" y="-48">
-            <Keyframe frame="0">
-               <Move x="560" y="-48" duration="176" />
-            </Keyframe>
-            <Keyframe frame="176">
-               <Move x="560" y="-128" duration="176" />
-            </Keyframe>
-            <Keyframe frame="348">
-               <Reset/>
-            </Keyframe>
-        </Overlay>
+		<Entity id="1e2bb92a-043e-4ce6-b50d-c348a0f1cb1f" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="02063c51-1d7e-4b5f-a83a-4e1972446819" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
+		<Overlay name="floor" foreground="True" />
+		<Overlay name="floor" foreground="True" />
+		<Overlay name="overlay" />
 	</Screen>
 </Map>
