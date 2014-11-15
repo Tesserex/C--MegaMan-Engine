@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace MegaMan.Common
 {
@@ -31,15 +28,20 @@ namespace MegaMan.Common
 
             writer.WriteAttributeString("name", Name);
 
+            writer.WriteAttributeString("x", Tiles.BaseX.ToString());
+            writer.WriteAttributeString("y", Tiles.BaseY.ToString());
+
             if (Foreground)
-            {
                 writer.WriteAttributeString("foreground", Foreground.ToString());
-            }
+
+            if (Parallax)
+                writer.WriteAttributeString("parallax", Parallax.ToString());
 
             foreach (var entity in Entities)
-            {
                 entity.Save(writer);
-            }
+
+            foreach (var keyframe in Keyframes)
+                keyframe.Save(writer);
 
             writer.WriteEndElement();
         }
@@ -50,6 +52,27 @@ namespace MegaMan.Common
         public int Frame { get; set; }
         public ScreenLayerMoveCommand Move { get; set; }
         public bool Reset { get; set; }
+
+        public void Save(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Keyframe");
+
+            writer.WriteAttributeString("frame", Frame.ToString());
+
+            if (Move != null)
+            {
+                writer.WriteStartElement("Move");
+                writer.WriteAttributeString("x", Move.X.ToString());
+                writer.WriteAttributeString("y", Move.Y.ToString());
+                writer.WriteAttributeString("duration", Move.Duration.ToString());
+                writer.WriteEndElement();
+            }
+
+            if (Reset)
+                writer.WriteElementString("Reset", "");
+
+            writer.WriteEndElement();
+        }
     }
 
     public class ScreenLayerMoveCommand

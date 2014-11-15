@@ -2,10 +2,20 @@
 	<Music nsftrack="10" />
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
-		<Entity id="1e2bb92a-043e-4ce6-b50d-c348a0f1cb1f" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
-		<Entity id="02063c51-1d7e-4b5f-a83a-4e1972446819" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
-		<Overlay name="floor" foreground="True" />
-		<Overlay name="floor" foreground="True" />
-		<Overlay name="overlay" />
+		<Entity id="2f79c18c-a29d-40fb-b4e5-4eab61091dfb" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="dca5d108-c69f-4e0a-93b1-614df8553153" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
+		<Overlay name="floor" x="64" y="176" foreground="True" />
+		<Overlay name="floor" x="320" y="0" foreground="True" />
+		<Overlay name="overlay" x="560" y="-48">
+			<Keyframe frame="0">
+				<Move x="560" y="-48" duration="176" />
+			</Keyframe>
+			<Keyframe frame="176">
+				<Move x="560" y="-128" duration="176" />
+			</Keyframe>
+			<Keyframe frame="348">
+				<Reset />
+			</Keyframe>
+		</Overlay>
 	</Screen>
 </Map>
