@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
 
@@ -64,7 +62,7 @@ namespace MegaMan.Common
                 return frames[currentFrame];
             }
         }
-        
+
         public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
 
         public string Name { get; set; }
@@ -129,13 +127,13 @@ namespace MegaMan.Common
             this.AnimDirection = copy.AnimDirection;
             this.AnimStyle = copy.AnimStyle;
             this.Layer = copy.Layer;
-            
+
             this.Reversed = copy.Reversed;
             if (copy.SheetPath != null)
             {
                 this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
             }
-            
+
             this.PaletteName = copy.PaletteName;
         }
 
@@ -218,7 +216,7 @@ namespace MegaMan.Common
         internal void CheckTickable()
         {
             tickable = false;
-            if (frames.Count <= 1) 
+            if (frames.Count <= 1)
                 return;
             else if (frames.Any(frame => frame.Duration > 0))
             {
@@ -338,9 +336,15 @@ namespace MegaMan.Common
         public void WriteTo(XmlTextWriter writer)
         {
             writer.WriteStartElement("Sprite");
+
+            if (this.PaletteName != null)
+                writer.WriteAttributeString("palette", this.PaletteName);
+
             writer.WriteAttributeString("width", this.Width.ToString());
             writer.WriteAttributeString("height", this.Height.ToString());
-            if (this.SheetPathRelative != null) writer.WriteAttributeString("tilesheet", this.SheetPathRelative);
+
+            if (this.SheetPathRelative != null)
+                writer.WriteAttributeString("tilesheet", this.SheetPathRelative);
 
             writer.WriteStartElement("Hotspot");
             writer.WriteAttributeString("x", this.HotSpot.X.ToString());

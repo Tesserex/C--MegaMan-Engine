@@ -10,32 +10,32 @@
 		<Properties name="Sand" gravitymult="3" resistX="0.2" dragX="0.4" sinking="0.2" />
 	</TileProperties>
 	<Tile id="0" name="" properties="Wind">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="1" name="" properties="Block">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="2" name="" properties="Lethal">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="3" name="" properties="Water">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="4" name="" properties="GravUp">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="16" duration="6" />
 			<Frame x="16" y="16" duration="6" />
@@ -44,7 +44,7 @@
 		</Sprite>
 	</Tile>
 	<Tile id="5" name="" properties="GravDown">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="32" duration="6" />
 			<Frame x="16" y="32" duration="6" />
@@ -53,7 +53,7 @@
 		</Sprite>
 	</Tile>
 	<Tile id="6" name="" properties="Water">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="0" duration="12" />
 			<Frame x="64" y="16" duration="12" />
@@ -61,7 +61,7 @@
 		</Sprite>
 	</Tile>
 	<Tile id="7" name="" properties="Water">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="0" duration="12" />
 			<Frame x="80" y="16" duration="12" />
@@ -69,7 +69,7 @@
 		</Sprite>
 	</Tile>
 	<Tile id="8" name="" properties="Sand">
-		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
+		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="0" duration="12" />
 			<Frame x="96" y="16" duration="12" />
