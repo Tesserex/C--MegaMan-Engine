@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Editor.Mediator;
 using MegaMan.IO.Xml;
 
@@ -26,9 +27,9 @@ namespace MegaMan.Editor.Bll
 
         #region Game XML File Stuff
 
-        private readonly Dictionary<string, Entity> entities = new Dictionary<string, Entity>();
+        private readonly Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
 
-        public IEnumerable<Entity> Entities
+        public IEnumerable<EntityInfo> Entities
         {
             get { return entities.Values; }
         }
@@ -193,15 +194,20 @@ namespace MegaMan.Editor.Bll
             return null;
         }
 
-        public Entity EntityByName(string name)
+        public EntityInfo EntityByName(string name)
         {
-            return entities[name];
+            if (entities.ContainsKey(name))
+                return entities[name];
+            else
+                return null;
         }
 
         public ProjectDocument(IProjectFileStructure fileStructure, Project project)
         {
             Project = project;
             FileStructure = fileStructure;
+
+            entities = project.Entities.ToDictionary(e => e.Name, e => e);
         }
 
         public StageDocument AddStage(string name)

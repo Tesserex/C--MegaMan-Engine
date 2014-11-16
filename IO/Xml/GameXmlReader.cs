@@ -1,11 +1,7 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml
 {
@@ -13,12 +9,11 @@ namespace MegaMan.IO.Xml
     {
         public static Sprite LoadSprite(XElement element, string basePath)
         {
-            XAttribute tileattr = element.RequireAttribute("tilesheet");
-            Sprite sprite;
+            var sprite = LoadSprite(element);
 
-            string sheetPath = Path.Combine(basePath, tileattr.Value);
-            sprite = LoadSprite(element);
+            var tileattr = element.RequireAttribute("tilesheet");
             sprite.SheetPath = FilePath.FromRelative(tileattr.Value, basePath);
+
             return sprite;
         }
 

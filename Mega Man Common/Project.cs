@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using System.Xml;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Common
 {
@@ -123,7 +121,7 @@ namespace MegaMan.Common
         }
 
         private List<FontInfo> _fonts = new List<FontInfo>();
-        public IEnumerable<FontInfo> Fonts{ get { return _fonts.AsReadOnly(); } }
+        public IEnumerable<FontInfo> Fonts { get { return _fonts.AsReadOnly(); } }
 
         public void AddFont(FontInfo font)
         {
@@ -146,6 +144,19 @@ namespace MegaMan.Common
         public void RemovePalette(PaletteInfo palette)
         {
             _palettes.Remove(palette);
+        }
+
+        private List<EntityInfo> _entities = new List<EntityInfo>();
+        public IEnumerable<EntityInfo> Entities { get { return _entities.AsReadOnly(); } }
+
+        public void AddEntity(EntityInfo entity)
+        {
+            _entities.Add(entity);
+        }
+
+        public void RemoveEntity(EntityInfo entity)
+        {
+            _entities.Remove(entity);
         }
 
         #endregion

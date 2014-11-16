@@ -86,10 +86,8 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseLeftButtonDown(e);
 
-            if (_toolProvider.Tool == null)
-            {
+            if (_toolProvider == null || _toolProvider.Tool == null)
                 return;
-            }
 
             var mousePoint = e.GetPosition(this);
 
@@ -100,10 +98,8 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseLeftButtonUp(e);
 
-            if (_toolProvider.Tool == null)
-            {
+            if (_toolProvider == null || _toolProvider.Tool == null)
                 return;
-            }
 
             var mousePoint = e.GetPosition(this);
 
@@ -114,10 +110,8 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseRightButtonUp(e);
 
-            if (_toolProvider.Tool == null)
-            {
+            if (_toolProvider == null || _toolProvider.Tool == null)
                 return;
-            }
 
             var mousePoint = e.GetPosition(this);
 
@@ -128,10 +122,8 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseMove(e);
 
-            if (_toolProvider.Tool == null)
-            {
+            if (_toolProvider == null || _toolProvider.Tool == null)
                 return;
-            }
 
             var mousePoint = e.GetPosition(this);
 

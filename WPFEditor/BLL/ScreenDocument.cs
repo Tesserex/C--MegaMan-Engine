@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
-using System.Collections.Generic;
 
 namespace MegaMan.Editor.Bll
 {
@@ -65,6 +66,14 @@ namespace MegaMan.Editor.Bll
             }
         }
 
+        public IEnumerable<EntityPlacement> Entities
+        {
+            get
+            {
+                return this.screen.Layers[0].Entities.AsReadOnly();
+            }
+        }
+
         public event Action<string, string> Renamed;
 
         public ScreenDocument(ScreenInfo screen, StageDocument stage)
@@ -119,8 +128,7 @@ namespace MegaMan.Editor.Bll
 
                 Stage.RemoveScreen(this);
 
-                Stage.AddJoin(new Join()
-                {
+                Stage.AddJoin(new Join() {
                     direction = JoinDirection.Both,
                     type = JoinType.Vertical,
                     screenOne = leftScreen.Name,
@@ -142,14 +150,13 @@ namespace MegaMan.Editor.Bll
             }
         }
 
-        public EntityPlacement AddEntity(Entity entity, Point location)
+        public EntityPlacement AddEntity(EntityInfo entity, Point location)
         {
-            var info = new EntityPlacement
-                {
-                    entity = entity.Name,
-                    screenX = location.X,
-                    screenY = location.Y,
-                };
+            var info = new EntityPlacement {
+                entity = entity.Name,
+                screenX = location.X,
+                screenY = location.Y,
+            };
 
             screen.Layers[0].Entities.Add(info);
 
@@ -158,8 +165,6 @@ namespace MegaMan.Editor.Bll
             return info;
         }
 
-        // TODO: subscribe to EntitiesChanged event from the window to redraw entities
-
         public void AddEntity(EntityPlacement info)
         {
             screen.Layers[0].Entities.Add(info);
@@ -167,7 +172,7 @@ namespace MegaMan.Editor.Bll
             if (EntitiesChanged != null) EntitiesChanged();
         }
 
-        public void RemoveEntity(Entity entity, Point location)
+        public void RemoveEntity(EntityInfo entity, Point location)
         {
             screen.Layers[0].Entities.RemoveAll(i =>
                 i.entity == entity.Name && i.screenX == location.X && i.screenY == location.Y
@@ -199,17 +204,18 @@ namespace MegaMan.Editor.Bll
 
         private bool EntityBounded(EntityPlacement entityInfo, Point location)
         {
-            Entity entity = Stage.Project.EntityByName(entityInfo.entity);
+            var entity = Stage.Project.EntityByName(entityInfo.entity);
             RectangleF bounds;
 
-            if (entity.MainSprite == null)
+            if (entity.DefaultSprite == null)
             {
                 bounds = new RectangleF(-8, -8, 16, 16);
             }
             else
             {
-                bounds = entity.MainSprite.BoundBox;
-                bounds.Offset(-entity.MainSprite.HotSpot.X, -entity.MainSprite.HotSpot.Y);
+                var sprite = entity.DefaultSprite;
+                bounds = sprite.BoundBox;
+                bounds.Offset(-sprite.HotSpot.X, -sprite.HotSpot.Y);
             }
 
             bounds.Offset(entityInfo.screenX, entityInfo.screenY);

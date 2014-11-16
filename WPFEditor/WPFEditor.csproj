@@ -164,6 +164,8 @@
     <Compile Include="Controls\CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EntitiesScreenCanvas.cs" />
+    <Compile Include="Controls\EntityScreenLayer.cs" />
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
     </Compile>
@@ -181,6 +183,7 @@
     <Compile Include="Controls\SpriteEditor.xaml.cs">
       <DependentUpon>SpriteEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StageEntitiesControl.cs" />
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
@@ -281,7 +284,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Const.cs" />
-    <Compile Include="Bll\Entity.cs" />
     <Compile Include="Bll\History.cs" />
     <Compile Include="Bll\HistoryAction.cs" />
     <Compile Include="Bll\Tools\IToolBehavior.cs" />

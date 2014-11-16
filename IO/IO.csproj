@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Injector.cs" />
     <Compile Include="ITilesetReader.cs" />
+    <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\FontsXmlReader.cs" />
     <Compile Include="Xml\Includes\FontXmlReader.cs" />
     <Compile Include="Xml\Includes\IIncludeXmlReader.cs" />

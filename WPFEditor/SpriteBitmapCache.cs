@@ -91,9 +91,20 @@ namespace MegaMan.Editor
 
         private static WriteableBitmap CropFrame(ref Rectangle srcRect, BitmapSource source)
         {
-            var x = Math.Min(srcRect.X, source.PixelWidth - srcRect.Width);
-            var y = Math.Min(srcRect.Y, source.PixelHeight - srcRect.Height);
-            var crop = new CroppedBitmap(source, new Int32Rect(x, y, srcRect.Width, srcRect.Height));
+            var x = Math.Min(srcRect.X, source.PixelWidth - 1);
+            var y = Math.Min(srcRect.Y, source.PixelHeight - 1);
+            x = Math.Max(x, 0);
+            y = Math.Max(y, 0);
+
+            var right = srcRect.X + srcRect.Width;
+            right = Math.Min(right, source.PixelWidth);
+            right = Math.Max(right, 0);
+
+            var bottom = srcRect.Y + srcRect.Height;
+            bottom = Math.Min(bottom, source.PixelHeight);
+            bottom = Math.Max(bottom, 0);
+
+            var crop = new CroppedBitmap(source, new Int32Rect(x, y, right - x, bottom - y));
             crop.Freeze();
 
             var bmp = BitmapFactory.ConvertToPbgra32Format(crop);
