@@ -48,6 +48,9 @@ namespace MegaMan.Engine.Entities
                 {
                     switch (xmlComp.Name.LocalName)
                     {
+                        case "EditorData":
+                            break;
+
                         case "Tilesheet":
                             if (spritecomp == null)
                             {
