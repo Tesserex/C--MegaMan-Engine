@@ -297,6 +297,7 @@
 	</Entity>
 
 	<Entity name="BossDoor">
+		<EditorData hide="true" />
 		<Tilesheet>images\blocks\door.png</Tilesheet>
 		<Sprite name="Closed" width="16" height="64">
 			<Hotspot x="0" y="0" />
@@ -345,6 +346,7 @@
 	</Entity>
 
 	<Entity name="CrystalDoor">
+		<EditorData hide="true" />
 		<Tilesheet>images\blocks\crystaldoor.png</Tilesheet>
 		<Sprite name="Closed" width="16" height="48">
 			<Hotspot x="0" y="0" />
@@ -391,6 +393,7 @@
 	</Entity>
 
 	<Entity name="BossDoorH">
+		<EditorData hide="true" />
 		<Tilesheet>images\blocks\hdoor.png</Tilesheet>
 		<Sprite name="Closed" width="64" height="16">
 			<Hotspot x="0" y="0" />

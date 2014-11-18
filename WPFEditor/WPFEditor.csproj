@@ -155,6 +155,7 @@
     <Compile Include="Bll\TilesetDocument.cs" />
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
+    <Compile Include="Bll\Tools\EntityToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
@@ -166,6 +167,9 @@
     </Compile>
     <Compile Include="Controls\EntitiesScreenCanvas.cs" />
     <Compile Include="Controls\EntityScreenLayer.cs" />
+    <Compile Include="Controls\EntityTray.xaml.cs">
+      <DependentUpon>EntityTray.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
     </Compile>
@@ -183,6 +187,7 @@
     <Compile Include="Controls\SpriteEditor.xaml.cs">
       <DependentUpon>SpriteEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SpriteImage.cs" />
     <Compile Include="Controls\StageEntitiesControl.cs" />
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
@@ -192,6 +197,7 @@
     </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
+    <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -208,6 +214,7 @@
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
+    <Compile Include="Tools\SpriteCursor.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
     <Compile Include="Tools\IToolProvider.cs" />
@@ -232,6 +239,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EntityTray.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

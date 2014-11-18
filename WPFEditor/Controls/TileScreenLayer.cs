@@ -53,16 +53,17 @@ namespace MegaMan.Editor.Controls
                 {
                     var tile = Screen.TileAt(x, y);
                     var location = tile.Sprite.CurrentFrame.SheetLocation;
+                    var rect = new Rect(0, 0, location.Width, location.Height);
 
                     if (_grayscale)
                     {
                         var image = SpriteBitmapCache.GetOrLoadFrameGrayscale(Screen.Tileset.SheetPath.Absolute, location);
-                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, new Rect(0, 0, image.PixelWidth, image.PixelHeight));
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, rect);
                     }
                     else
                     {
                         var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
-                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, new Rect(0, 0, image.PixelWidth, image.PixelHeight));
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, rect);
                     }
                 }
             }

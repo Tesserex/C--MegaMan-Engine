@@ -1,5 +1,6 @@
 <Entities>
 	<Entity name="BigStar">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/boss/big.png" width="2" height="2">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -21,6 +22,7 @@
 		</State>
 	</Entity>
 	<Entity name="SmallStar">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/boss/small.png" width="1" height="1">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -43,6 +45,7 @@
 		</State>
 	</Entity>
 	<Entity name="TopBorder">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
 			<Frame x="0" y="0" duration="10" />
 			<Frame x="256" y="0" duration="10" />
@@ -63,6 +66,7 @@
 		</State>
 	</Entity>
 	<Entity name="BottomBorder">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
 			<Frame x="0" y="24" duration="10" />
 			<Frame x="256" y="24" duration="10" />
@@ -83,6 +87,7 @@
 		</State>
 	</Entity>
 	<Entity name="TopWeaponBorder">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -103,6 +108,7 @@
 		</State>
 	</Entity>
 	<Entity name="BottomWeaponBorder">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
 			<Frame x="0" y="23" duration="0" />
 		</Sprite>

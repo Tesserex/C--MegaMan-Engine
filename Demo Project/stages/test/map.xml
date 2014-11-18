@@ -3,7 +3,7 @@
 	<Start screen="Start" x="48" y="164" />
 	<Screen id="Start">
 		<Entity id="2f79c18c-a29d-40fb-b4e5-4eab61091dfb" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
-		<Entity id="dca5d108-c69f-4e0a-93b1-614df8553153" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732db" entity="ShieldShooter" state="" x="203" y="144" direction="Unknown" respawn="Offscreen" />
 		<Overlay name="floor" x="64" y="176" foreground="True" />
 		<Overlay name="floor" x="320" y="0" foreground="True" />
 		<Overlay name="overlay" x="560" y="-48">

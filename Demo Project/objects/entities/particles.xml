@@ -1,5 +1,6 @@
 <Entities>
 	<Entity name="DeathPop">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images\particles\enemy_death.png" width="24" height="24">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="2" />
@@ -24,6 +25,7 @@
 	</Entity>
 
   <Entity name="DeathPopBig">
+  	<EditorData hide="true" />
     <Sprite tilesheet="images\particles\enemy_death_large.png" width="56" height="56">
       <Hotspot x="28" y="28" />
       <Frame x="0" y="0" duration="2" />
@@ -64,6 +66,7 @@
   </Entity>
 
 	<Entity name="MegaManDeath">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="4" />
@@ -146,6 +149,7 @@
 	</Entity>
 
     <Entity name="Splash">
+		<EditorData hide="true" />
         <Sprite tilesheet="images\particles\splash.png" width="30" height="16">
 			<Hotspot x="15" y="14" />
 			<Frame x="-1" y="0" duration="6" />
@@ -163,6 +167,7 @@
     </Entity>
 
     <Entity name="Bubble">
+		<EditorData hide="true" />
         <Sprite tilesheet="images\particles\bubble.png" width="4" height="4">
 			<Hotspot x="2" y="2" />
 			<Frame x="0" y="0" duration="0" />
@@ -193,6 +198,7 @@
     </Entity>
 
 	<Entity name="PowerAbsorb">
+		<EditorData hide="true" />
 		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
 			<Hotspot x="12" y="12" />
 			<Frame x="96" y="0" duration="4" />

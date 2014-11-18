@@ -208,6 +208,11 @@ namespace MegaMan.Editor.Bll
             FileStructure = fileStructure;
 
             entities = project.Entities.ToDictionary(e => e.Name, e => e);
+            foreach (var entity in project.Entities)
+            {
+                ((App)App.Current).AnimateSprite(entity.DefaultSprite);
+                entity.DefaultSprite.Play();
+            }
         }
 
         public StageDocument AddStage(string name)

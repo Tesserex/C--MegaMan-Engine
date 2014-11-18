@@ -1,8 +1,8 @@
-﻿using MegaMan.Common;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls
 {

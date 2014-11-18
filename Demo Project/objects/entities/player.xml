@@ -1,5 +1,6 @@
 <Entities>
 <Entity name="Player">
+	<EditorData hide="true" defaultSprite="Standing" />
 	<GravityFlip>True</GravityFlip>
     <Tilesheet>images\megaman.png</Tilesheet>
 	<Sprite name="Teleport" palette="MegaMan" layer="2" width="24" height="32">

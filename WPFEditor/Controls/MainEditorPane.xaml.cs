@@ -19,6 +19,10 @@ namespace MegaMan.Editor.Controls
             var layoutEditor = new LayoutEditingViewModel();
             layoutToolbar.DataContext = layoutEditor;
             stageLayoutControl.ToolProvider = layoutEditor;
+
+            var entityModel = new EntityTrayViewModel();
+            stageEntitiesControl.ToolProvider = entityModel;
+            entityTray.DataContext = entityModel;
         }
     }
 }

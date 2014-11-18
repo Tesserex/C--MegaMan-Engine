@@ -30,6 +30,7 @@ namespace MegaMan.Editor
                 else
                     image = new BitmapImage(new Uri("pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/tile_unknown.png"));
 
+                image.Freeze();
                 images[absolutePath] = image;
             }
 
@@ -43,6 +44,7 @@ namespace MegaMan.Editor
                 var image = GetOrLoadImage(absolutePath);
                 var grayscale = new FormatConvertedBitmap(image, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
                 var bmp = BitmapFactory.ConvertToPbgra32Format(grayscale);
+                bmp.Freeze();
                 imagesGrayscale[absolutePath] = bmp;
             }
 

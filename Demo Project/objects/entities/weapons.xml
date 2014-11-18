@@ -1,5 +1,6 @@
 <Entities>
 	<Entity name="EnemyShot">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\enemyshot.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
@@ -24,6 +25,7 @@
 	</Entity>
 
 	<Entity name="SeekPlayerShot">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\enemyshot.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
@@ -48,6 +50,7 @@
 	</Entity>
 
 	<Entity name="MBuster" limit="3">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\weapons.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="0" />
@@ -93,6 +96,7 @@
 	</Entity>
 
 	<Entity name="ChargeLow">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\chargelow.png" width="16" height="16">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="4" />
@@ -140,6 +144,7 @@
 	</Entity>
 
 	<Entity name="ChargeFull">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\chargefull.png" width="31" height="30">
 			<Hotspot x="15" y="15" />
 			<Frame x="0" y="0" duration="4" />
@@ -190,6 +195,7 @@
 	</Entity>
 
 	<Entity name="Gyro" limit="1">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\weapons.png" width="21" height="10">
 			<Hotspot x="11" y="5" />
 			<Frame x="0" y="16" duration="2" />
@@ -268,6 +274,7 @@
 	</Entity>
 
 	<Entity name="Crystal" group="Weapon">
+		<EditorData hide="true" />
 		<Sprite layer="4" name="Big" tilesheet="images\weapons\crystal.png" width="16" height="16">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="8" />
@@ -349,6 +356,7 @@
 	</Entity>
 
 	<Entity name="SmallCrystal">
+		<EditorData hide="true" />
 		<Sprite layer="4" tilesheet="images\weapons\crystal.png" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="80" y="0" duration="8" />
@@ -423,6 +431,7 @@
 	</Entity>
 
 	<Entity name="Napalm">
+		<EditorData hide="true" />
 		<Tilesheet>images\weapons\napalm.png</Tilesheet>
 		<Sprite layer="4" name="Right" width="14" height="14">
 			<Hotspot x="7" y="7" />
@@ -513,6 +522,7 @@
 	</Entity>
 
 	<Entity name="RushCoil">
+		<EditorData hide="true" />
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 			<Sprite layer="4" name="Warp" width="24" height="32">
 			<Hotspot x="12" y="32" />
@@ -624,6 +634,7 @@
 	</Entity>
 
 	<Entity name="RushJet">
+		<EditorData hide="true" />
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 			<Sprite layer="4" name="Warp" width="24" height="32">
 			<Hotspot x="12" y="24" />

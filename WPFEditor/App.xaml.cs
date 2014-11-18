@@ -29,7 +29,11 @@ namespace MegaMan.Editor
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
             timer.Tick += (s, ev) =>
             {
-                if (Tick != null) Tick();
+                if (Tick != null)
+                {
+                    Tick();
+                    Tick();
+                }
             };
             timer.Start();
 

@@ -61,9 +61,16 @@
             <TabItem.Header>
                 Entities
             </TabItem.Header>
-            <DockPanel>
-                <c:StageEntitiesControl></c:StageEntitiesControl>
-            </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <c:StageEntitiesControl x:Name="stageEntitiesControl" Grid.Column="0"></c:StageEntitiesControl>
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
+                <c:EntityTray x:Name="entityTray" Grid.Column="2"></c:EntityTray>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>
