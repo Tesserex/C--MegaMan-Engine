@@ -1,11 +1,10 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml
 {
@@ -91,11 +90,6 @@ namespace MegaMan.IO.Xml
             foreach (var command in screen.Commands)
             {
                 command.Save(_writer);
-            }
-
-            foreach (var info in screen.Layers[0].Entities)
-            {
-                info.Save(_writer);
             }
 
             foreach (var layer in screen.Layers.Skip(1))
