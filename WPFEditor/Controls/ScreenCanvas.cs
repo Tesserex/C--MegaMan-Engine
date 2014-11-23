@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
@@ -39,7 +40,7 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        public double Zoom { get; private set; }
+        public double Zoom { get { return Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1); } }
 
         protected virtual void ScreenChanged()
         {
@@ -67,12 +68,10 @@ namespace MegaMan.Editor.Controls
             this.Children.Add(_overlay);
 
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
-            this.Zoom = 1;
         }
 
         private void ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
-            Zoom = e.Zoom;
             Resized(_screen.Width, _screen.Height);
         }
 

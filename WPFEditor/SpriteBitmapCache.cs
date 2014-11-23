@@ -19,6 +19,8 @@ namespace MegaMan.Editor
 
         private static Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>> croppedImagesGrayscale = new Dictionary<string, Dictionary<Tuple<int, int, int, int>, WriteableBitmap>>();
 
+        private static Dictionary<WriteableBitmap, Dictionary<double, WriteableBitmap>> _resizes = new Dictionary<WriteableBitmap, Dictionary<double, WriteableBitmap>>();
+
         public static BitmapSource GetOrLoadImage(string absolutePath)
         {
             if (!images.ContainsKey(absolutePath))
@@ -113,5 +115,18 @@ namespace MegaMan.Editor
             return bmp;
         }
 
+        public static WriteableBitmap Scale(WriteableBitmap image, double scale)
+        {
+            if (scale == 1)
+                return image;
+
+            if (!_resizes.ContainsKey(image))
+                _resizes[image] = new Dictionary<double, WriteableBitmap>();
+
+            if (!_resizes[image].ContainsKey(scale))
+                _resizes[image][scale] = image.Resize((int)(image.PixelWidth * scale), (int)(image.PixelHeight * scale), WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+
+            return _resizes[image][scale];
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(_stage));
             }
-            catch (Exception ex)
+            catch (GameXmlException ex)
             {
                 CustomMessageBox.ShowError(ex.Message, this.Project.Name);
             }

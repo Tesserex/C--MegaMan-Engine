@@ -39,13 +39,13 @@ namespace MegaMan.Editor.Controls
                         var flip = (placement.direction == Common.Direction.Left) ^ sprite.Reversed;
                         int hx = flip ? sprite.Width - sprite.HotSpot.X : sprite.HotSpot.X;
 
-                        dc.DrawImage(frame, new Rect(placement.screenX - hx, placement.screenY - sprite.HotSpot.Y, frame.PixelWidth, frame.PixelHeight));
+                        dc.DrawImage(frame, new Rect(this.Zoom * (placement.screenX - hx), this.Zoom * (placement.screenY - sprite.HotSpot.Y), this.Zoom * frame.PixelWidth, this.Zoom * frame.PixelHeight));
 
                         continue;
                     }
                 }
 
-                dc.DrawEllipse(Brushes.Orange, null, new System.Windows.Point(placement.screenX, placement.screenY), 10, 10);
+                dc.DrawEllipse(Brushes.Orange, null, new System.Windows.Point(this.Zoom * placement.screenX, this.Zoom * placement.screenY), 10 * Zoom, 10 * Zoom);
             }
         }
     }
