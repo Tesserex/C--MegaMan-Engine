@@ -38,6 +38,14 @@
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Add Stage" Command="{Binding ElementName=MainWindow1, Path=AddStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox>
+                    <Fluent:DropDownButton Icon="/Resources/protoman.png" LargeIcon="/Resources/protoman.png" Header="Test">
+                        <Fluent:MenuItem Command="{Binding TestCommand}" Header="Project" />
+                        <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
+                        <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
+                    </Fluent:DropDownButton>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             
             <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Input;
 using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
@@ -19,6 +20,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         public StoredAppData AppData { get; private set; }
 
         public ProjectViewModel ProjectViewModel { get; private set; }
+
+        public ICommand TestCommand { get; private set; }
+        public ICommand TestStageCommand { get; private set; }
+        public ICommand TestLocationCommand { get; private set; }
 
         private string _windowTitle;
         public string WindowTitle
@@ -71,6 +76,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             var attr = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyProductAttribute)).Single() as AssemblyProductAttribute;
             ApplicationName = attr.Product;
             WindowTitle = attr.Product;
+
+            TestCommand = new RelayCommand(TestProject, o => _openProject != null);
+            TestStageCommand = new RelayCommand(TestStage, o => _openProject != null);
+            TestLocationCommand = new RelayCommand(TestLocation, o => _openProject != null);
         }
 
         public void OpenProject(string filename)
@@ -119,6 +128,30 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 DestroyProjectDependencies();
                 _openProject = null;
+            }
+        }
+
+        public void TestProject(object arg)
+        {
+            if (_openProject != null)
+            {
+
+            }
+        }
+
+        public void TestStage(object arg)
+        {
+            if (_openProject != null)
+            {
+
+            }
+        }
+
+        public void TestLocation(object arg)
+        {
+            if (_openProject != null)
+            {
+
             }
         }
 
