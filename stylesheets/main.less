@@ -36,11 +36,14 @@ nav.navbar {
   li > a {
     color: @white;
 
-    &:hover {
+    &:hover, &:focus {
       background: @gray;
-      color: @black;
     }
   }
+}
+
+.container {
+  max-width: 900px;
 }
 
 #main.container {
@@ -61,8 +64,14 @@ div.logo {
 }
 
 .section {
-  margin-top: 2em;
-  margin-bottom: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-top: 2px solid @darkgray;
+  border-bottom: 2px solid @darkgray;
+
+  p {
+    margin: 2em;
+  }
 
   img {
     margin: 1em auto;
