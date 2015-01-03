@@ -1,12 +1,10 @@
-﻿using MegaMan.Editor.Bll;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.AppData
 {
@@ -14,6 +12,7 @@ namespace MegaMan.Editor.AppData
     public class StoredAppData
     {
         public List<RecentProject> RecentProjects { get; set; }
+        public string EngineAbsolutePath { get; set; }
 
         public StoredAppData()
         {
@@ -55,8 +54,7 @@ namespace MegaMan.Editor.AppData
         public void Save()
         {
             var file = GetFilePath();
-            var settings = new XmlWriterSettings()
-            {
+            var settings = new XmlWriterSettings() {
                 Indent = true,
                 NewLineChars = "\t",
                 OmitXmlDeclaration = true

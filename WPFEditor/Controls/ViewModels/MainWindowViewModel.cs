@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -7,6 +9,7 @@ using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -135,7 +138,16 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (_openProject != null)
             {
+                var enginePath = GetOrFindEnginePath();
 
+                var startInfo = new ProcessStartInfo();
+                startInfo.FileName = enginePath;
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+                startInfo.UseShellExecute = false;
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                startInfo.Arguments = string.Format("\"{0}\"", projectPath);
+
+                Process.Start(startInfo);
             }
         }
 
@@ -153,6 +165,31 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
 
             }
+        }
+
+        private string GetOrFindEnginePath()
+        {
+            if (string.IsNullOrWhiteSpace(AppData.EngineAbsolutePath) || !File.Exists(AppData.EngineAbsolutePath))
+            {
+                AppData.EngineAbsolutePath = null; // ensure no garbage
+
+                var dialog = new CommonOpenFileDialog();
+                dialog.Filters.Add(new CommonFileDialogFilter("Executable Files (*.exe)", "exe"));
+
+                dialog.Title = "Please Locate Engine Executable";
+                dialog.EnsureFileExists = true;
+                dialog.EnsurePathExists = true;
+                dialog.EnsureValidNames = true;
+                dialog.Multiselect = false;
+                dialog.ShowPlacesList = true;
+
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    AppData.EngineAbsolutePath = dialog.FileName;
+                }
+            }
+
+            return AppData.EngineAbsolutePath;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
