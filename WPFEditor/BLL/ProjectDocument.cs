@@ -186,7 +186,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (info.Name == name)
                 {
-                    StageDocument stage = new StageDocument(this, info.StagePath);
+                    StageDocument stage = new StageDocument(this, info);
                     openStages.Add(name, stage);
                     return stage;
                 }

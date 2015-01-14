@@ -40,11 +40,12 @@ namespace MegaMan.Editor.Bll
             history = new History();
         }
 
-        public StageDocument(ProjectDocument project, FilePath path)
+        public StageDocument(ProjectDocument project, StageLinkInfo linkInfo)
         {
             Project = project;
             var stageReader = new StageXmlReader();
-            map = stageReader.LoadStageXml(path);
+            map = stageReader.LoadStageXml(linkInfo.StagePath);
+            LinkName = linkInfo.Name;
 
             // wrap all map screens in screendocuments
             // this should be the only time MegaMan.Screen's are touched directly
@@ -80,6 +81,8 @@ namespace MegaMan.Editor.Bll
                 Dirty = true;
             }
         }
+
+        public string LinkName { get; private set; }
 
         public FilePath Path
         {

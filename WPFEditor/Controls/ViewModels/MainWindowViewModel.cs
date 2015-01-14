@@ -138,12 +138,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (_openProject != null)
             {
-                var enginePath = GetOrFindEnginePath();
-
-                var startInfo = new ProcessStartInfo();
-                startInfo.FileName = enginePath;
-                startInfo.WindowStyle = ProcessWindowStyle.Normal;
-                startInfo.UseShellExecute = false;
+                var startInfo = GetEngineStartInfo();
                 var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
                 startInfo.Arguments = string.Format("\"{0}\"", projectPath);
 
@@ -151,11 +146,28 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        private ProcessStartInfo GetEngineStartInfo()
+        {
+            var enginePath = GetOrFindEnginePath();
+
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = enginePath;
+            startInfo.WindowStyle = ProcessWindowStyle.Normal;
+            startInfo.UseShellExecute = false;
+            return startInfo;
+        }
+
         public void TestStage(object arg)
         {
-            if (_openProject != null)
+            if (_openProject != null && ProjectViewModel.CurrentStage != null)
             {
+                var startInfo = GetEngineStartInfo();
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var stage = ProjectViewModel.CurrentStage.LinkName;
 
+                startInfo.Arguments = string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage);
+
+                Process.Start(startInfo);
             }
         }
 
@@ -186,6 +198,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     AppData.EngineAbsolutePath = dialog.FileName;
+                    AppData.Save();
                 }
             }
 
