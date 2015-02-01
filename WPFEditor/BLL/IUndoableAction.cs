@@ -4,10 +4,10 @@ using MegaMan.Common;
 
 namespace MegaMan.Editor.Bll
 {
-    public interface HistoryAction
+    public interface IUndoableAction
     {
-        void Run();
-        HistoryAction Reverse();
+        void Execute();
+        IUndoableAction Reverse();
     }
 
     public class TileChange
@@ -36,7 +36,7 @@ namespace MegaMan.Editor.Bll
         }
     }
 
-    public class DrawAction : HistoryAction
+    public class DrawAction : IUndoableAction
     {
         private readonly List<TileChange> changes;
         private readonly ScreenDocument screen;
@@ -54,7 +54,7 @@ namespace MegaMan.Editor.Bll
             return name;
         }
 
-        public void Run()
+        public void Execute()
         {
             foreach (TileChange change in changes)
             {
@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Bll
             }
         }
 
-        public HistoryAction Reverse()
+        public IUndoableAction Reverse()
         {
             List<TileChange> ch = new List<TileChange>(changes.Count);
             ch.AddRange(changes.Select(change => change.Reverse()));
@@ -70,7 +70,7 @@ namespace MegaMan.Editor.Bll
         }
     }
 
-    public class AddEntityAction : HistoryAction
+    public class AddEntityAction : IUndoableAction
     {
         private readonly EntityPlacement entity;
         private readonly ScreenDocument screen;
@@ -81,18 +81,18 @@ namespace MegaMan.Editor.Bll
             this.screen = screen;
         }
 
-        public void Run()
+        public void Execute()
         {
             screen.AddEntity(entity);
         }
 
-        public HistoryAction Reverse()
+        public IUndoableAction Reverse()
         {
             return new RemoveEntityAction(entity, screen);
         }
     }
 
-    public class RemoveEntityAction : HistoryAction
+    public class RemoveEntityAction : IUndoableAction
     {
         private readonly EntityPlacement entity;
         private readonly ScreenDocument screen;
@@ -103,12 +103,12 @@ namespace MegaMan.Editor.Bll
             this.screen = screen;
         }
 
-        public void Run()
+        public void Execute()
         {
             screen.RemoveEntity(entity);
         }
 
-        public HistoryAction Reverse()
+        public IUndoableAction Reverse()
         {
             return new AddEntityAction(entity, screen);
         }

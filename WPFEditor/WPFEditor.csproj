@@ -296,7 +296,7 @@
     </Compile>
     <Compile Include="Bll\Const.cs" />
     <Compile Include="Bll\History.cs" />
-    <Compile Include="Bll\HistoryAction.cs" />
+    <Compile Include="Bll\IUndoableAction.cs" />
     <Compile Include="Bll\Tools\IToolBehavior.cs" />
     <Compile Include="Bll\ProjectDocument.cs" />
     <Compile Include="Bll\ScreenDocument.cs" />

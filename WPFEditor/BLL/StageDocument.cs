@@ -43,6 +43,7 @@ namespace MegaMan.Editor.Bll
         public StageDocument(ProjectDocument project, StageLinkInfo linkInfo)
         {
             Project = project;
+            history = new History();
             var stageReader = new StageXmlReader();
             map = stageReader.LoadStageXml(linkInfo.StagePath);
             LinkName = linkInfo.Name;
@@ -198,6 +199,11 @@ namespace MegaMan.Editor.Bll
             map.Joins.Remove(join);
             Dirty = true;
             if (JoinChanged != null) JoinChanged(join);
+        }
+
+        public void PushHistoryAction(IUndoableAction action)
+        {
+            history.Push(action);
         }
 
         public void Undo()

@@ -1,10 +1,12 @@
-﻿using MegaMan.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.Editor.Bll.Tools
 {
     public interface ITileBrush
     {
-        ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y);
+        IEnumerable<TileChange> DrawOn(ScreenDocument screen, int tile_x, int tile_y);
         TileBrushCell[][] Cells { get; }
     }
 
@@ -49,18 +51,18 @@ namespace MegaMan.Editor.Bll.Tools
 
         public TileBrushCell[][] Cells { get { return _cells; } }
 
-        public virtual ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y)
+        public virtual IEnumerable<TileChange> DrawOn(ScreenDocument screen, int tile_x, int tile_y)
         {
             var old = screen.TileAt(tile_x, tile_y);
 
             if (old == null)
             {
-                return null;
+                return Enumerable.Empty<TileChange>();
             }
 
             if (old.Id == _tile.Id)
             {
-                return null;
+                return Enumerable.Empty<TileChange>();
             }
 
             var selection = screen.Selection;
@@ -72,7 +74,7 @@ namespace MegaMan.Editor.Bll.Tools
 
             screen.ChangeTile(tile_x, tile_y, _tile.Id);
 
-            return new SingleTileBrush(old);
+            return new[] { new TileChange(tile_x, tile_y, old.Id, _tile.Id) };
         }
     }
 
@@ -117,12 +119,10 @@ namespace MegaMan.Editor.Bll.Tools
 
         /// <summary>
         /// Draws the brush onto the given screen at the given tile location.
-        /// Returns an "undo brush" - a brush of all tiles that were overwritten.
-        /// Returns null if no tiles were changed.
         /// </summary>
-        public ITileBrush DrawOn(ScreenDocument screen, int tile_x, int tile_y)
+        public IEnumerable<TileChange> DrawOn(ScreenDocument screen, int tile_x, int tile_y)
         {
-            MultiTileBrush undo = new MultiTileBrush(_width, _height);
+            List<TileChange> undo = new List<TileChange>();
             bool changed = false;
             foreach (TileBrushCell[] col in _cells)
             {
@@ -132,7 +132,7 @@ namespace MegaMan.Editor.Bll.Tools
 
                     if (old == null) continue;
 
-                    undo.AddTile(old, cell.x, cell.y);
+                    undo.Add(new TileChange(cell.x, cell.y, old.Id, cell.tile.Id));
                     if (old.Id != cell.tile.Id)
                     {
                         changed = true;
@@ -146,7 +146,7 @@ namespace MegaMan.Editor.Bll.Tools
                 return undo;
             }
 
-            return null;
+            return Enumerable.Empty<TileChange>();
         }
     }
 }

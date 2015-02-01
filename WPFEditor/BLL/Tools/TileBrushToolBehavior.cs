@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Controls;
@@ -14,6 +15,8 @@ namespace MegaMan.Editor.Bll.Tools
         private int?[,] startTiles;
         private int?[,] endTiles;
 
+        private List<TileChange> changes;
+
         public TileBrushToolBehavior(ITileBrush brush)
         {
             _brush = brush;
@@ -22,6 +25,7 @@ namespace MegaMan.Editor.Bll.Tools
         public void Click(ScreenCanvas canvas, Point location)
         {
             var screen = canvas.Screen;
+            changes = new List<TileChange>();
 
             Point tilePos = new Point(location.X / screen.Tileset.TileSize, location.Y / screen.Tileset.TileSize);
 
@@ -91,6 +95,8 @@ namespace MegaMan.Editor.Bll.Tools
             if (startTiles == null) return;
 
             held = false;
+
+            canvas.Screen.Stage.PushHistoryAction(new DrawAction("Brush", changes, canvas.Screen));
         }
 
         public void RightClick(ScreenCanvas surface, Point location)
@@ -104,7 +110,8 @@ namespace MegaMan.Editor.Bll.Tools
 
         private void Draw(ScreenDocument screen, int tile_x, int tile_y)
         {
-            _brush.DrawOn(screen, tile_x, tile_y);
+            var changed = _brush.DrawOn(screen, tile_x, tile_y);
+            changes.AddRange(changed);
         }
     }
 }

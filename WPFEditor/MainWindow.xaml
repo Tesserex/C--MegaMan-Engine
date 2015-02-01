@@ -53,6 +53,10 @@
                     <Fluent:Button Header="Edit Stage" Command="{Binding ElementName=MainWindow1, Path=EditStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                     <Fluent:Button Header="Edit Tiles" Icon="/Resources/tiles.png" LargeIcon="/Resources/tiles.png" Command="{Binding ElementName=MainWindow1, Path=EditTilesetCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Undo" Command="{Binding UndoCommand}" />
+                    <Fluent:Button Header="Redo" Command="{Binding RedoCommand}" />
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
             <!--Backstage-->
@@ -111,8 +115,11 @@
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="200">
-                        <avalonDock:LayoutAnchorable Title="Project">
+                        <avalonDock:LayoutAnchorable Title="Project" IsActive="True">
                             <c:ProjectTree x:Name="projectTree"></c:ProjectTree>
+                        </avalonDock:LayoutAnchorable>
+                        <avalonDock:LayoutAnchorable Title="History">
+                            
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPane>

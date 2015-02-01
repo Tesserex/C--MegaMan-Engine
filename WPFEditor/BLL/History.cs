@@ -7,76 +7,39 @@ namespace MegaMan.Editor.Bll
     * */
     public class History
     {
-        public readonly List<HistoryAction> stack;
-        public int currentAction;
+        private readonly List<IUndoableAction> stack;
+        private int currentAction;
 
         public History()
         {
             currentAction = -1;
-            stack = new List<HistoryAction>();
+            stack = new List<IUndoableAction>();
         }
 
-        /*
-         * push - Adds a new action to the stack. If the stack already has actions after the current,
-         * why not insert them? Even better than photoshop!
-         * 
-         * Ex: 
-         * 
-         * Suppose the current history looks like this:
-         * 
-         *   (1,4,Wall) <- currentAction
-         *   (1,3,Wall)
-         *   (1,2,Wall)
-         *   (1,1,Wall)
-         *   
-         * Then we execute two undos to get
-         * 
-         *   (1,4,Wall)
-         *   (1,3,Wall)
-         *   (1,2,Wall) <- currentAction
-         *   (1,1,Wall)
-         *   
-         * So what happens if we push another onto the stack? Try inserting!
-         *
-         *   (1,4,Wall)
-         *   (1,3,Wall)
-         *   (1,3,Enemy) <- currentAction
-         *   (1,2,Wall)  
-         *   (1,1,Wall)
-         *   
-         * The only current issue with this is that the action ahead of current doesn't have the correct
-         * "previous" brush, so undoing it won't result in the correct state, you have to undo twice
-         * and then redo to get back to it. This can be corrected.
-         * 
-         * */
-        public void Push(HistoryAction action)
+        public void Push(IUndoableAction action)
         {
             currentAction += 1;
             stack.Insert(currentAction, action);
         }
 
-        public HistoryAction Undo()
+        public void Undo()
         {
             if (currentAction >= 0)
             {
                 var action = stack[currentAction];
                 currentAction -= 1;
-                return action.Reverse();
+                action.Reverse().Execute();
             }
-            
-            return null;
         }
 
-        public HistoryAction Redo()
+        public void Redo()
         {
             if (currentAction < stack.Count - 1)
             {
                 currentAction += 1;
                 var action = stack[currentAction];
-                return action;
+                action.Execute();
             }
-            
-            return null;
         }
     }
 }

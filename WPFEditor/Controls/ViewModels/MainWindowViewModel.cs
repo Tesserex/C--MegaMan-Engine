@@ -27,6 +27,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand TestCommand { get; private set; }
         public ICommand TestStageCommand { get; private set; }
         public ICommand TestLocationCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
 
         private string _windowTitle;
         public string WindowTitle
@@ -83,6 +85,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             TestCommand = new RelayCommand(TestProject, o => _openProject != null);
             TestStageCommand = new RelayCommand(TestStage, o => _openProject != null);
             TestLocationCommand = new RelayCommand(TestLocation, o => _openProject != null);
+            UndoCommand = new RelayCommand(Undo, p => ProjectViewModel.CurrentStage != null);
+            RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
         }
 
         public void OpenProject(string filename)
@@ -177,6 +181,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
 
             }
+        }
+
+        private void Undo(object param)
+        {
+            ProjectViewModel.CurrentStage.Undo();
+        }
+
+        private void Redo(object param)
+        {
+            ProjectViewModel.CurrentStage.Redo();
         }
 
         private string GetOrFindEnginePath()
