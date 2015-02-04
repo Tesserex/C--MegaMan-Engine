@@ -12,25 +12,27 @@ namespace MegaMan.Editor.Bll
 
     public class TileChange
     {
+        private ScreenDocument screen;
         private readonly int tileX;
         private readonly int tileY;
         private readonly int oldTileId;
         private readonly int newTileId;
 
-        public TileChange(int tx, int ty, int oldId, int newId)
+        public TileChange(ScreenDocument screen, int tx, int ty, int oldId, int newId)
         {
-            tileX = tx;
-            tileY = ty;
-            oldTileId = oldId;
-            newTileId = newId;
+            this.screen = screen;
+            this.tileX = tx;
+            this.tileY = ty;
+            this.oldTileId = oldId;
+            this.newTileId = newId;
         }
 
         public TileChange Reverse()
         {
-            return new TileChange(tileX, tileY, newTileId, oldTileId);
+            return new TileChange(screen, tileX, tileY, newTileId, oldTileId);
         }
 
-        public void ApplyToScreen(ScreenDocument screen)
+        public void Apply()
         {
             screen.ChangeTile(tileX, tileY, newTileId);
         }
@@ -39,14 +41,12 @@ namespace MegaMan.Editor.Bll
     public class DrawAction : IUndoableAction
     {
         private readonly List<TileChange> changes;
-        private readonly ScreenDocument screen;
         private readonly string name;
 
-        public DrawAction(string name, IEnumerable<TileChange> changes, ScreenDocument screen)
+        public DrawAction(string name, IEnumerable<TileChange> changes)
         {
             this.name = name;
             this.changes = new List<TileChange>(changes);
-            this.screen = screen;
         }
 
         public override string ToString()
@@ -58,7 +58,7 @@ namespace MegaMan.Editor.Bll
         {
             foreach (TileChange change in changes)
             {
-                change.ApplyToScreen(screen);
+                change.Apply();
             }
         }
 
@@ -66,7 +66,7 @@ namespace MegaMan.Editor.Bll
         {
             List<TileChange> ch = new List<TileChange>(changes.Count);
             ch.AddRange(changes.Select(change => change.Reverse()));
-            return new DrawAction(name, ch, screen);
+            return new DrawAction(name, ch);
         }
     }
 

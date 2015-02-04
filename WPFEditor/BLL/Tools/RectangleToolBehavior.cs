@@ -78,7 +78,7 @@ namespace MegaMan.Editor.Bll.Tools
                 {
                     if (startTiles[x, y].HasValue && endTiles[x, y].HasValue && startTiles[x, y].Value != endTiles[x, y].Value)
                     {
-                        changes.Add(new TileChange(x, y, startTiles[x, y].Value, endTiles[x, y].Value));
+                        changes.Add(new TileChange(canvas.Screen, x, y, startTiles[x, y].Value, endTiles[x, y].Value));
                     }
                 }
             }

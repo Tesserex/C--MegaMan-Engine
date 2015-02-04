@@ -74,7 +74,7 @@ namespace MegaMan.Editor.Bll.Tools
 
             screen.ChangeTile(tile_x, tile_y, _tile.Id);
 
-            return new[] { new TileChange(tile_x, tile_y, old.Id, _tile.Id) };
+            return new[] { new TileChange(screen, tile_x, tile_y, old.Id, _tile.Id) };
         }
     }
 
@@ -132,7 +132,7 @@ namespace MegaMan.Editor.Bll.Tools
 
                     if (old == null) continue;
 
-                    undo.Add(new TileChange(cell.x, cell.y, old.Id, cell.tile.Id));
+                    undo.Add(new TileChange(screen, cell.x, cell.y, old.Id, cell.tile.Id));
                     if (old.Id != cell.tile.Id)
                     {
                         changed = true;

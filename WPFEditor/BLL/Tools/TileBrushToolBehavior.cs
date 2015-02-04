@@ -96,7 +96,7 @@ namespace MegaMan.Editor.Bll.Tools
 
             held = false;
 
-            canvas.Screen.Stage.PushHistoryAction(new DrawAction("Brush", changes, canvas.Screen));
+            canvas.Screen.Stage.PushHistoryAction(new DrawAction("Brush", changes));
         }
 
         public void RightClick(ScreenCanvas surface, Point location)

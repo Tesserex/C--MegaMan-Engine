@@ -54,7 +54,7 @@ namespace MegaMan.Editor.Bll.Tools
             if (old == null || old.Id != tile_id || old.Id == _brush.Cells[brush_x][brush_y].tile.Id) return;
 
             _brush.DrawOn(canvas.Screen, tile_x, tile_y);
-            changes.Add(new TileChange(tile_x, tile_y, tile_id, _brush.Cells[brush_x][brush_y].tile.Id));
+            changes.Add(new TileChange(canvas.Screen, tile_x, tile_y, tile_id, _brush.Cells[brush_x][brush_y].tile.Id));
 
             Flood(canvas, tile_x - 1, tile_y, tile_id, (brush_x == 0) ? width - 1 : brush_x - 1, brush_y);
             Flood(canvas, tile_x + 1, tile_y, tile_id, (brush_x == width - 1) ? 0 : brush_x + 1, brush_y);
