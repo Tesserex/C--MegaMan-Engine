@@ -15,12 +15,16 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void Click(ScreenCanvas canvas, Point location)
         {
-            canvas.Screen.AddEntity(new Common.EntityPlacement() {
+            var placement = new Common.EntityPlacement() {
                 entity = _entity.Name,
                 direction = Common.Direction.Unknown,
                 screenX = location.X,
                 screenY = location.Y
-            });
+            };
+
+            canvas.Screen.AddEntity(placement);
+
+            canvas.Screen.Stage.PushHistoryAction(new AddEntityAction(placement, canvas.Screen));
         }
 
         public void Move(ScreenCanvas canvas, Point location)
@@ -40,6 +44,7 @@ namespace MegaMan.Editor.Bll.Tools
             {
                 var e = canvas.Screen.GetEntity(i);
                 canvas.Screen.RemoveEntity(e);
+                canvas.Screen.Stage.PushHistoryAction(new RemoveEntityAction(e, canvas.Screen));
             }
         }
     }
