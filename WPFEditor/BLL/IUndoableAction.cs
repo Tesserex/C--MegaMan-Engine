@@ -6,6 +6,8 @@ namespace MegaMan.Editor.Bll
 {
     public interface IUndoableAction
     {
+        string Name { get; }
+
         void Execute();
         IUndoableAction Reverse();
     }
@@ -41,17 +43,21 @@ namespace MegaMan.Editor.Bll
     public class DrawAction : IUndoableAction
     {
         private readonly List<TileChange> changes;
-        private readonly string name;
+        public string Name
+        {
+            get;
+            private set;
+        }
 
         public DrawAction(string name, IEnumerable<TileChange> changes)
         {
-            this.name = name;
+            this.Name = name;
             this.changes = new List<TileChange>(changes);
         }
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
 
         public void Execute()
@@ -66,7 +72,7 @@ namespace MegaMan.Editor.Bll
         {
             List<TileChange> ch = new List<TileChange>(changes.Count);
             ch.AddRange(changes.Select(change => change.Reverse()));
-            return new DrawAction(name, ch);
+            return new DrawAction(Name, ch);
         }
     }
 
@@ -74,6 +80,8 @@ namespace MegaMan.Editor.Bll
     {
         private readonly EntityPlacement entity;
         private readonly ScreenDocument screen;
+
+        public string Name { get { return "Add Entity"; } }
 
         public AddEntityAction(EntityPlacement entity, ScreenDocument screen)
         {
@@ -96,6 +104,8 @@ namespace MegaMan.Editor.Bll
     {
         private readonly EntityPlacement entity;
         private readonly ScreenDocument screen;
+
+        public string Name { get { return "Remove Entity"; } }
 
         public RemoveEntityAction(EntityPlacement entity, ScreenDocument screen)
         {

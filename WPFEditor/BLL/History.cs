@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace MegaMan.Editor.Bll
 {
@@ -7,13 +7,15 @@ namespace MegaMan.Editor.Bll
     * */
     public class History
     {
-        private readonly List<IUndoableAction> stack;
+        private readonly ObservableCollection<IUndoableAction> stack;
+        public ReadOnlyObservableCollection<IUndoableAction> Actions { get; private set; }
         private int currentAction;
 
         public History()
         {
             currentAction = -1;
-            stack = new List<IUndoableAction>();
+            stack = new ObservableCollection<IUndoableAction>();
+            Actions = new ReadOnlyObservableCollection<IUndoableAction>(stack);
         }
 
         public void Push(IUndoableAction action)

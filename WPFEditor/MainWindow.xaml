@@ -119,7 +119,7 @@
                             <c:ProjectTree x:Name="projectTree"></c:ProjectTree>
                         </avalonDock:LayoutAnchorable>
                         <avalonDock:LayoutAnchorable Title="History">
-                            
+                            <c:HistoryControl x:Name="historyControl"></c:HistoryControl>
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPane>

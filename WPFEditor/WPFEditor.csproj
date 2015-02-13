@@ -170,6 +170,9 @@
     <Compile Include="Controls\EntityTray.xaml.cs">
       <DependentUpon>EntityTray.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HistoryControl.xaml.cs">
+      <DependentUpon>HistoryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,7 @@
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
+    <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -243,6 +247,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EntityTray.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

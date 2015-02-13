@@ -11,7 +11,7 @@ namespace MegaMan.Editor.Bll
     {
         private readonly StageInfo map;
 
-        private History history;
+        public History History { get; private set; }
 
         private readonly Dictionary<string, ScreenDocument> screens = new Dictionary<string, ScreenDocument>();
 
@@ -37,13 +37,13 @@ namespace MegaMan.Editor.Bll
         {
             Project = project;
             map = new StageInfo();
-            history = new History();
+            History = new History();
         }
 
         public StageDocument(ProjectDocument project, StageLinkInfo linkInfo)
         {
             Project = project;
-            history = new History();
+            History = new History();
             var stageReader = new StageXmlReader();
             map = stageReader.LoadStageXml(linkInfo.StagePath);
             LinkName = linkInfo.Name;
@@ -203,17 +203,17 @@ namespace MegaMan.Editor.Bll
 
         public void PushHistoryAction(IUndoableAction action)
         {
-            history.Push(action);
+            History.Push(action);
         }
 
         public void Undo()
         {
-            history.Undo();
+            History.Undo();
         }
 
         public void Redo()
         {
-            history.Redo();
+            History.Redo();
         }
 
         private ScreenDocument WrapScreen(MegaMan.Common.ScreenInfo screen)
