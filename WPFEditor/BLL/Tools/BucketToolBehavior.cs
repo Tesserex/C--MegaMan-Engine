@@ -33,6 +33,8 @@ namespace MegaMan.Editor.Bll.Tools
 
             Flood(canvas, tile_x, tile_y, old.Id, 0, 0);
 
+            canvas.Screen.Stage.PushHistoryAction(new DrawAction("Fill", changes));
+
             changes.Clear();
         }
 
