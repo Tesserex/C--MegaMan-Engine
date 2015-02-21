@@ -30,6 +30,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand ChangeSheetCommand { get; private set; }
         public ICommand AddTileCommand { get; private set; }
+        public ICommand DeleteTileCommand { get; private set; }
         public ICommand AddTilePropertiesCommand { get; private set; }
         public ICommand EditTilePropertiesCommand { get; private set; }
         public ICommand DeleteTilePropertiesCommand { get; private set; }
@@ -75,6 +76,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
             AddTileCommand = new RelayCommand(o => AddTile());
+            DeleteTileCommand = new RelayCommand(o => DeleteTile());
             AddTilePropertiesCommand = new RelayCommand(o => AddProperties());
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
@@ -139,6 +141,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             var tile = _tileset.AddTile();
             _observedTiles.Add(tile);
             ((App)App.Current).AnimateSprite(tile.Sprite);
+        }
+
+        private void DeleteTile()
+        {
+            if (SelectedTile != null)
+            {
+                _tileset.Remove(SelectedTile);
+                _observedTiles.Remove(SelectedTile);
+                ChangeTile(null);
+            }
         }
 
         private void AddProperties()

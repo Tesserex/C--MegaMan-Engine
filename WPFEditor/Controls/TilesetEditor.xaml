@@ -14,7 +14,8 @@
                 <Label FontWeight="Bold">Image:</Label>
                 <Label Content="{Binding RelSheetPath}"></Label>
                 <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,10,0">Change...</Button>
-                <Button Command="{Binding AddTileCommand}" Padding="6,2">Add Tile</Button>
+                <Button Command="{Binding AddTileCommand}" Padding="6,2" Margin="0,0,10,0">Add Tile</Button>
+                <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Tile</Button>
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="0">
