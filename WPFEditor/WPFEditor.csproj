@@ -179,6 +179,7 @@
     <Compile Include="Controls\MainEditorPane.xaml.cs">
       <DependentUpon>MainEditorPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MultiTileBrushImage.cs" />
     <Compile Include="Controls\NewProjectDialog.xaml.cs">
       <DependentUpon>NewProjectDialog.xaml</DependentUpon>
     </Compile>
@@ -192,6 +193,9 @@
     </Compile>
     <Compile Include="Controls\SpriteImage.cs" />
     <Compile Include="Controls\StageEntitiesControl.cs" />
+    <Compile Include="Controls\TileBrushControl.xaml.cs">
+      <DependentUpon>TileBrushControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
@@ -202,6 +206,7 @@
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TileBrushControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -275,6 +280,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SpriteEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TileBrushControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

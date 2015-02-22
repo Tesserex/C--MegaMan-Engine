@@ -81,8 +81,9 @@ namespace MegaMan.Editor.Bll.Tools
     public class MultiTileBrush : ITileBrush
     {
         private TileBrushCell[][] _cells;
-        private int _width;
-        private int _height;
+
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         public MultiTileBrush(int width, int height)
         {
@@ -97,18 +98,18 @@ namespace MegaMan.Editor.Bll.Tools
             for (int i = 0; i < width; i++)
             {
                 newcells[i] = new TileBrushCell[height];
-                if (_cells != null && i < _width) // old width
+                if (_cells != null && i < Width) // old width
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        if (j < _height) newcells[i][j] = new TileBrushCell(i, j, _cells[i][j].tile);
+                        if (j < Height) newcells[i][j] = new TileBrushCell(i, j, _cells[i][j].tile);
                     }
                 }
             }
 
             _cells = newcells;
-            _width = width;
-            _height = height;
+            Width = width;
+            Height = height;
         }
 
         public void AddTile(Tile tile, int x, int y)

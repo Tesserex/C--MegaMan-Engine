@@ -97,7 +97,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
             if (e.Stage != null)
-                SetTileset(e.Stage.Tileset);
+                SetTileset(e.Stage.Tileset.Tileset);
             else
                 SetTileset(null);
         }

@@ -46,6 +46,7 @@ namespace MegaMan.Editor.Bll
             History = new History();
             var stageReader = new StageXmlReader();
             map = stageReader.LoadStageXml(linkInfo.StagePath);
+            Tileset = new TilesetDocument(map.Tileset);
             LinkName = linkInfo.Name;
 
             // wrap all map screens in screendocuments
@@ -91,13 +92,11 @@ namespace MegaMan.Editor.Bll
             set { map.StagePath = value; Dirty = true; }
         }
 
-        public Tileset Tileset
-        {
-            get { return map.Tileset; }
-        }
+        public TilesetDocument Tileset { get; private set; }
 
         public void ChangeTileset(TilesetDocument tileset)
         {
+            Tileset = tileset;
             map.ChangeTileset(tileset.Tileset);
             Dirty = true;
         }
@@ -158,11 +157,11 @@ namespace MegaMan.Editor.Bll
 
         public ScreenDocument AddScreen(string name, int tile_width, int tile_height)
         {
-            var screen = new MegaMan.Common.ScreenInfo(name, Tileset);
+            var screen = new MegaMan.Common.ScreenInfo(name, Tileset.Tileset);
 
             int[,] tiles = new int[tile_width, tile_height];
 
-            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset, 0, 0), false, new List<EntityPlacement>(), new List<ScreenLayerKeyframe>()));
+            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<EntityPlacement>(), new List<ScreenLayerKeyframe>()));
 
             map.Screens.Add(name, screen);
 

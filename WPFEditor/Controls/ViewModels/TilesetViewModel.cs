@@ -155,7 +155,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void SetStage(StageDocument stage)
         {
-            _tileset = stage.Tileset;
+            _tileset = stage.Tileset.Tileset;
             ((App)App.Current).AnimateTileset(_tileset);
 
             ChangeTile(_tileset.FirstOrDefault());

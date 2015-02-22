@@ -10,8 +10,9 @@ namespace MegaMan.Editor.Controls
     {
         public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register("Highlight", typeof(bool), typeof(SpriteImage), new PropertyMetadata(new PropertyChangedCallback(HighlightChanged)));
 
-        private Image _image;
-        private Border _highlight;
+        protected Image _image;
+        protected Border _highlight;
+        private Sprite _sprite;
 
         public bool Highlight
         {
@@ -34,15 +35,19 @@ namespace MegaMan.Editor.Controls
             Children.Add(_highlight);
         }
 
-        void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        protected virtual void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(e.NewValue is Sprite))
                 return;
 
-            var sprite = (Sprite)e.NewValue;
+            SetSprite((Sprite)e.NewValue);
+        }
 
-            _image.Width = sprite.Width;
-            _image.Height = sprite.Height;
+        protected void SetSprite(Sprite s)
+        {
+            _sprite = s;
+            _image.Width = _sprite.Width;
+            _image.Height = _sprite.Height;
         }
 
         private static void HighlightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -52,15 +57,14 @@ namespace MegaMan.Editor.Controls
             image._highlight.Visibility = image.Highlight ? Visibility.Visible : Visibility.Hidden;
         }
 
-        private void Tick()
+        protected virtual void Tick()
         {
-            var sprite = (Sprite)DataContext;
+            if (_sprite == null)
+                return;
 
-            var size = sprite.Width;
+            var location = _sprite.CurrentFrame.SheetLocation;
 
-            var location = sprite.CurrentFrame.SheetLocation;
-
-            var image = SpriteBitmapCache.GetOrLoadFrame(sprite.SheetPath.Absolute, location);
+            var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
 
             _image.Source = image;
             _image.InvalidateVisual();

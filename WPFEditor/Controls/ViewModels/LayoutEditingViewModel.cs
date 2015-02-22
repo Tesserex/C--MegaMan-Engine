@@ -87,7 +87,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (stage != null)
             {
-                if (!stage.Tileset.Any())
+                if (!stage.Tileset.Tileset.Any())
                 {
                     CustomMessageBox.ShowError("You need to create some tiles before you can start creating your stage.", "Tiles Needed");
                     return;
