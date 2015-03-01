@@ -5,10 +5,11 @@ using System.Windows.Input;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TileBrushControlViewModel : INotifyPropertyChanged
+    public class TileBrushControlViewModel : INotifyPropertyChanged, IToolProvider
     {
         private TilesetDocument _tileset;
 
@@ -62,5 +63,30 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("Brushes");
         }
+
+        internal void SelectBrush(MultiTileBrush multiTileBrush)
+        {
+            Tool = new TileBrushToolBehavior(multiTileBrush);
+            ToolCursor = new MultiTileCursor(multiTileBrush);
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(Tool));
+            }
+        }
+
+        public IToolBehavior Tool
+        {
+            get;
+            private set;
+        }
+
+        public IToolCursor ToolCursor
+        {
+            get;
+            private set;
+        }
+
+        public event System.EventHandler<ToolChangedEventArgs> ToolChanged;
     }
 }

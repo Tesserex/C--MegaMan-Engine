@@ -18,7 +18,14 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <c:MultiTileBrushImage Margin="0" DataContext="{Binding}"></c:MultiTileBrushImage>
+                    <c:MultiTileBrushImage Margin="0" DataContext="{Binding}">
+                        <c:MultiTileBrushImage.CommandBindings>
+                            <CommandBinding Command="c:TileBrushControl.clickCommand" Executed="BrushClick" />
+                        </c:MultiTileBrushImage.CommandBindings>
+                        <c:MultiTileBrushImage.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="c:TileBrushControl.clickCommand" CommandParameter="{Binding}" />
+                        </c:MultiTileBrushImage.InputBindings>
+                    </c:MultiTileBrushImage>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

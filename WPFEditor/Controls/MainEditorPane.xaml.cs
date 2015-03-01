@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
 using MegaMan.Editor.Controls.ViewModels;
+using MegaMan.Editor.Tools;
+using Ninject;
 
 namespace MegaMan.Editor.Controls
 {
@@ -14,7 +16,12 @@ namespace MegaMan.Editor.Controls
 
             var tilesetModel = new TilesetViewModel();
             tileStrip.DataContext = tilesetModel;
-            stageTileControl.ToolProvider = tilesetModel;
+
+            var brushViewModel = App.Container.Get<TileBrushControlViewModel>();
+            brushTray.DataContext = brushViewModel;
+
+            var tilingToolProvider = new CombinedToolProvider(tilesetModel, brushViewModel);
+            stageTileControl.ToolProvider = tilingToolProvider;
 
             var layoutEditor = new LayoutEditingViewModel();
             layoutToolbar.DataContext = layoutEditor;

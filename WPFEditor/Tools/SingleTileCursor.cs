@@ -23,7 +23,9 @@ namespace MegaMan.Editor.Tools
             _tile = tile;
         }
 
-        private ImageSource CursorImage
+        protected SingleTileCursor() { }
+
+        protected virtual ImageSource CursorImage
         {
             get { return SpriteBitmapCache.GetOrLoadFrame(_tile.Sprite.SheetPath.Absolute, _tile.Sprite.CurrentFrame.SheetLocation); }
         }
@@ -68,6 +70,11 @@ namespace MegaMan.Editor.Tools
             }
         }
 
+        protected virtual float Width { get { return _tile.Width; } }
+        protected virtual float Height { get { return _tile.Height; } }
+        protected virtual float SnapWidth { get { return _tile.Width; } }
+        protected virtual float SnapHeight { get { return _tile.Height; } }
+
         private void Render(DrawingContext drawingContext)
         {
             var zoom = 1d;
@@ -78,11 +85,13 @@ namespace MegaMan.Editor.Tools
 
             var cursorPosition = Mouse.GetPosition(_element);
 
-            var width = _tile.Width * zoom;
-            var height = _tile.Height * zoom;
+            var width = this.Width * zoom;
+            var height = this.Height * zoom;
+            var snapWidth = this.SnapWidth * zoom;
+            var snapHeight = this.SnapHeight * zoom;
 
-            var snapX = (int)(cursorPosition.X / width) * width;
-            var snapY = (int)(cursorPosition.Y / height) * height;
+            var snapX = (int)(cursorPosition.X / snapWidth) * snapWidth;
+            var snapY = (int)(cursorPosition.Y / snapHeight) * snapHeight;
 
             drawingContext.DrawImage(this.CursorImage,
                 new Rect(

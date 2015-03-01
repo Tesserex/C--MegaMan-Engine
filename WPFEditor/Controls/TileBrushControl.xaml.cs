@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
+using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Controls.ViewModels;
-using Ninject;
 
 namespace MegaMan.Editor.Controls
 {
@@ -9,10 +10,16 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class TileBrushControl : UserControl
     {
+        public static readonly RoutedUICommand clickCommand = new RoutedUICommand("BrushClick", "BrushClick", typeof(TileBrushControl));
+
         public TileBrushControl()
         {
             InitializeComponent();
-            this.DataContext = App.Container.Get<TileBrushControlViewModel>();
+        }
+
+        private void BrushClick(object sender, ExecutedRoutedEventArgs e)
+        {
+            ((TileBrushControlViewModel)this.DataContext).SelectBrush((MultiTileBrush)e.Parameter);
         }
     }
 }

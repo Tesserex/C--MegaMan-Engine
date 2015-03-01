@@ -223,6 +223,8 @@
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
+    <Compile Include="Tools\CombinedToolProvider.cs" />
+    <Compile Include="Tools\MultiTileCursor.cs" />
     <Compile Include="Tools\SpriteCursor.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
