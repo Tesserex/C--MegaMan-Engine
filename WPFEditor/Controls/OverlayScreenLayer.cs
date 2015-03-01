@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
 
@@ -43,11 +44,13 @@ namespace MegaMan.Editor.Controls
 
             if (_selectionBounds.HasValue)
             {
+                var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
+
                 var x = _selectionBounds.Value.X * Screen.Tileset.TileSize;
                 var y = _selectionBounds.Value.Y * Screen.Tileset.TileSize;
                 var w = _selectionBounds.Value.Width * Screen.Tileset.TileSize;
                 var h = _selectionBounds.Value.Height * Screen.Tileset.TileSize;
-                dc.DrawRectangle(null, _selectionPen, new System.Windows.Rect(x, y, w, h));
+                dc.DrawRectangle(null, _selectionPen, new System.Windows.Rect(x * zoom, y * zoom, w * zoom, h * zoom));
             }
         }
     }

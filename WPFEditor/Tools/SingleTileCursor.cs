@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -77,11 +78,7 @@ namespace MegaMan.Editor.Tools
 
         private void Render(DrawingContext drawingContext)
         {
-            var zoom = 1d;
-            if (((FrameworkElement)_element.Parent).Parent is StageControl)
-            {
-                zoom = (((FrameworkElement)_element.Parent).Parent as StageControl).Zoom;
-            }
+            var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
 
             var cursorPosition = Mouse.GetPosition(_element);
 
