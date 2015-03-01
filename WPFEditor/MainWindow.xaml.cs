@@ -152,7 +152,7 @@ namespace MegaMan.Editor
             this.addStagePane.IsSelected = true;
         }
 
-        private void RibbonTabChanged(object sender, SelectionChangedEventArgs e)
+        private void RibbonTabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Contains(ribbonStage))
                 editorPane.IsSelected = true;

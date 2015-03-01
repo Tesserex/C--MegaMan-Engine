@@ -4,6 +4,7 @@ using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Bll
 {
@@ -264,6 +265,8 @@ namespace MegaMan.Editor.Bll
             {
                 SelectionChanged(Selection);
             }
+
+            ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Raise(this, new SelectionChangedEventArgs() { Screen = this, Selection = Selection });
         }
     }
 }

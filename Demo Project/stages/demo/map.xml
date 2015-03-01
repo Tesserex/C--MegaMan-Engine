@@ -4,59 +4,37 @@
 	<Continue screen="Continue" x="32" y="148" />
 	<Screen id="Start" />
 	<Screen id="Second">
-		<Entity entity="ShieldShooter" x="128" y="80" />
-		<Entity entity="Metool" x="220" y="236" />
-		<Entity entity="GroundCannon" x="112" y="320" />
+		<Entity id="ad0548b8-331e-4fd8-8a7a-1424836eed42" entity="ShieldShooter" x="128" y="80" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a15f79a2-257e-48c7-8ff2-08c19a66c594" entity="Metool" x="220" y="236" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a44d9fff-c7c5-43e6-b4c9-b06c81d84a77" entity="GroundCannon" x="112" y="320" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Third">
-		<Entity entity="Collapser" x="128" y="128" />
-		<Entity entity="Collapser" x="128" y="192" />
+		<Entity id="9c6361a0-0611-4cc7-aceb-4b02f749f23b" entity="Collapser" x="128" y="128" direction="Unknown" respawn="Offscreen" />
+		<Entity id="1f58bba7-fb6e-40ce-897a-7182f5d53286" entity="Collapser" x="128" y="192" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="BottomLeft">
-		<Entity entity="FloorBlade" x="60" y="168" />
-		<Entity entity="SpikeBlock" x="220" y="120" />
-		<Entity entity="SpikeBlock" state="Vert" x="280" y="104" />
-		<Entity entity="SpikeBlock" x="330" y="120" />
-		<Entity entity="SpikeBlock" state="Vert" x="400" y="104" />
-		<Blocks left="440" right="800" length="240" entity="Disappear">
-			<Block x="512" y="160" on="0" off="60" />
-			<Block x="560" y="160" on="60" off="120" />
-			<Block x="560" y="120" on="120" off="180" />
-			<Block x="608" y="160" on="180" off="240" />
-		</Blocks>
+		<Entity id="0da585e2-56b8-4674-bd23-1f8d0a74c217" entity="FloorBlade" x="60" y="168" direction="Unknown" respawn="Offscreen" />
+		<Entity id="6779f117-b89b-47ff-996e-db258f2d8cfc" entity="SpikeBlock" x="220" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="e268279b-925e-4e83-84fb-246b92de15e2" entity="SpikeBlock" state="Vert" x="280" y="104" direction="Unknown" respawn="Offscreen" />
+		<Entity id="5440d20c-0b88-4ac9-a25d-4ad4f3492ff8" entity="SpikeBlock" x="330" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="fd15e4ec-71fe-4f7d-819a-41c898fdf044" entity="SpikeBlock" state="Vert" x="400" y="104" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Slide" />
 	<Screen id="Continue">
-		<Entity entity="Wheel" x="144" y="180" />
-		<Entity entity="WallSpike" x="148" y="174" />
-		<Blocks left="0" right="256" length="240" entity="YokuWheel">
-			<Block x="88" y="180" on="0" off="90" />
-			<Block x="196" y="136" on="90" off="180" />
-		</Blocks>
+		<Entity id="789f4f11-7f5b-447e-9d43-10d35d35235a" entity="Wheel" x="144" y="180" direction="Unknown" respawn="Offscreen" />
+		<Entity id="c18c2e1c-a3db-4170-bddf-5f548e996259" entity="WallSpike" x="148" y="174" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Water">
-		<Entity entity="PropFollower" x="32" y="64" />
-		<Entity entity="PropFollower" x="212" y="48" />
-		<Entity entity="PropFollower" x="80" y="128" />
-		<Entity entity="Seeker" x="128" y="40" />
-		<Entity entity="Seeker" x="48" y="172" />
-		<Entity entity="Seeker" x="192" y="80" />
+		<Entity id="fbc3d2e2-b8ec-4fac-858a-763effc4e281" entity="PropFollower" x="32" y="64" direction="Unknown" respawn="Offscreen" />
+		<Entity id="646a0e4b-411b-4183-88bc-f1925c5ea9a4" entity="PropFollower" x="212" y="48" direction="Unknown" respawn="Offscreen" />
+		<Entity id="e241696e-53d7-41a5-95ef-1e1a19266df2" entity="PropFollower" x="80" y="128" direction="Unknown" respawn="Offscreen" />
+		<Entity id="e06b5624-c5ca-4048-86e1-8b21b1aa1f63" entity="Seeker" x="128" y="40" direction="Unknown" respawn="Offscreen" />
+		<Entity id="3a089a3e-7fe2-4e72-8371-e672559b37ff" entity="Seeker" x="48" y="172" direction="Unknown" respawn="Offscreen" />
+		<Entity id="8715c915-fc67-43e2-8a92-b5d002a35ae9" entity="Seeker" x="192" y="80" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Stars">
-		<Overlay name="parallax" x="0" y="0" parallax="true" />
-		<Entity entity="Moving" x="552" y="128" />
-		<Blocks left="180" right="600" length="520" entity="YokuSpike">
-			<Block x="304" y="64" on="0" off="120" />
-			<Block x="320" y="64" on="40" off="160" />
-			<Block x="336" y="64" on="80" off="200" />
-			<Block x="352" y="64" on="120" off="240" />
-			<Block x="368" y="64" on="160" off="280" />
-			<Block x="384" y="64" on="200" off="320" />
-			<Block x="400" y="64" on="240" off="360" />
-			<Block x="416" y="64" on="280" off="400" />
-			<Block x="432" y="64" on="320" off="440" />
-			<Block x="448" y="64" on="360" off="480" />
-		</Blocks>
+		<Entity id="4d5209fc-2bf9-4953-b325-dbda42ceef8b" entity="Moving" x="552" y="128" direction="Unknown" respawn="Offscreen" />
+		<Overlay name="parallax" x="0" y="0" parallax="True" />
 	</Screen>
 	<Join type="horizontal" s1="Start" s2="Second" offset1="0" offset2="0" size="16" direction="both" />
 	<Join type="horizontal" s1="Second" s2="Third" offset1="0" offset2="0" size="16" direction="both" />

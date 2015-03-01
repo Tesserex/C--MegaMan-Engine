@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
         <StackPanel Height="24" DockPanel.Dock="Top" Orientation="Horizontal">
-            <Button Command="{Binding AddTileBrushCommand}" Padding="6,0">Add Brush</Button>
+            <Button Command="{Binding CreateBrushSelectionCommand}" Padding="6,0">Create From Selection</Button>
         </StackPanel>
         <ListView DockPanel.Dock="Top" ItemsSource="{Binding Path=Brushes}" SelectedItem="{Binding SelectedBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemsPanel>
