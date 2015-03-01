@@ -9,12 +9,19 @@ namespace MegaMan.Editor.Bll
     {
         public Tileset Tileset { get; private set; }
 
-        public List<MultiTileBrush> Brushes { get; private set; }
+        private List<MultiTileBrush> _brushes;
+        public IEnumerable<MultiTileBrush> Brushes
+        {
+            get
+            {
+                return _brushes.AsReadOnly();
+            }
+        }
 
         public TilesetDocument(Tileset tileset)
         {
             Tileset = tileset;
-            Brushes = new List<MultiTileBrush>();
+            _brushes = new List<MultiTileBrush>();
             LoadBrushes();
         }
 
@@ -91,6 +98,17 @@ namespace MegaMan.Editor.Bll
             });
         }
 
+        public void AddBrush(MultiTileBrush brush)
+        {
+            _brushes.Add(brush);
+        }
+
+        public void Save()
+        {
+            this.Tileset.Save(this.Tileset.FilePath.Absolute);
+            SaveBrushes();
+        }
+
         private void SaveBrushes()
         {
             string path = GetBrushFilePath();
@@ -152,7 +170,7 @@ namespace MegaMan.Editor.Bll
                         }
                     }
 
-                    Brushes.Add(brush);
+                    _brushes.Add(brush);
                 }
             }
         }

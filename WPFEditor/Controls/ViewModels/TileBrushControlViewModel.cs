@@ -66,7 +66,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
             }
 
-            _tileset.Brushes.Add(brush);
+            _tileset.AddBrush(brush);
             _observedBrushes.Add(brush);
         }
 

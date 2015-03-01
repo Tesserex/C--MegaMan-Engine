@@ -103,7 +103,7 @@ namespace MegaMan.Editor.Bll
 
         private void SaveTileset()
         {
-            map.Tileset.Save(map.Tileset.FilePath.Absolute);
+            Tileset.Save();
         }
 
         public FilePath MusicIntro
