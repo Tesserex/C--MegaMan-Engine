@@ -89,8 +89,12 @@ namespace MegaMan.IO.Xml
 
             foreach (var command in screen.Commands)
             {
-                command.Save(_writer);
+                if (!(command is SceneEntityCommandInfo))
+                    command.Save(_writer);
             }
+
+            foreach (var entity in screen.Layers[0].Entities)
+                entity.Save(_writer);
 
             foreach (var layer in screen.Layers.Skip(1))
             {

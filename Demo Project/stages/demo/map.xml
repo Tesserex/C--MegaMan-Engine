@@ -2,7 +2,9 @@
 	<Music nsftrack="10" />
 	<Start screen="Start" x="128" y="60" />
 	<Continue screen="Continue" x="32" y="148" />
-	<Screen id="Start" />
+	<Screen id="Start">
+		<Entity id="4e234ce2-a508-4d1b-812b-74fbdfd11d0b" entity="ExtraLife" state="" x="110" y="161" direction="Unknown" respawn="Offscreen" />
+	</Screen>
 	<Screen id="Second">
 		<Entity id="ad0548b8-331e-4fd8-8a7a-1424836eed42" entity="ShieldShooter" x="128" y="80" direction="Unknown" respawn="Offscreen" />
 		<Entity id="a15f79a2-257e-48c7-8ff2-08c19a66c594" entity="Metool" x="220" y="236" direction="Unknown" respawn="Offscreen" />
