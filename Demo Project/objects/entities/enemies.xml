@@ -406,6 +406,7 @@
 			<Frame x="0" y="0" duration="5" />
 			<Hotspot x="8" y="8" />
 		</Sprite>
+		<Position persistoffscreen="true" />
 		<Collision>
 			<Hitbox name="H" damage="6" x="-6" y="-6" width="12" height="12">
 				<Hits>Player</Hits><Group>Enemy</Group><Group>Deflect</Group>

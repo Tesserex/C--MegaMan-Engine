@@ -2,5 +2,12 @@
 	<Start screen="" x="128" y="160" />
 	<Screen id="1">
 		<Autoscroll speed="0.5" startX="130" />
+		<Entity id="8c50561c-f2e6-4f87-b038-666a9f260ebc" entity="WallSpike" state="" x="327" y="138" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a3936baf-02db-4608-8b15-1e2ec8a5048b" entity="WallSpike" state="" x="521" y="76" direction="Unknown" respawn="Offscreen" />
+		<Entity id="96c8b221-3241-4703-b776-4a4db78636c9" entity="WallSpike" state="" x="685" y="141" direction="Unknown" respawn="Offscreen" />
+		<Entity id="885724a4-04ac-4999-a517-cc7578f04b4e" entity="WallSpike" state="" x="751" y="156" direction="Unknown" respawn="Offscreen" />
+		<Entity id="ae463570-a759-4e4b-b7a8-ae447bc4fb0c" entity="WallSpike" state="" x="785" y="60" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a0bb4898-a0e6-4835-92c4-164c050674f4" entity="WallSpike" state="" x="814" y="139" direction="Unknown" respawn="Offscreen" />
+		<Entity id="9821bb2a-c36f-43ca-980c-cf4dc69905df" entity="ShieldShooter" state="" x="847" y="33" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 </Map>
