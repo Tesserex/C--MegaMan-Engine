@@ -1,4 +1,6 @@
 <Map name="NewStage" tiles="stages\NewStage\tiles.xml">
-	<Start screen="" x="0" y="0" />
-	<Screen id="1" />
+	<Start screen="" x="128" y="160" />
+	<Screen id="1">
+		<Autoscroll speed="0.5" startX="130" />
+	</Screen>
 </Map>

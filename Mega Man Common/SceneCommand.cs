@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace MegaMan.Common
 {
@@ -24,7 +21,8 @@ namespace MegaMan.Common
         Call,
         Effect,
         Condition,
-        WaitForInput
+        WaitForInput,
+        Autoscroll
     }
 
     public abstract class SceneCommandInfo
@@ -370,6 +368,27 @@ namespace MegaMan.Common
             writer.WriteStartElement("Bind");
             writer.WriteAttributeString("source", Source);
             writer.WriteAttributeString("target", Target);
+        }
+    }
+
+    public class SceneAutoscrollCommandInfo : SceneCommandInfo
+    {
+        public double Speed { get; set; }
+        public int StartX { get; set; }
+
+        public override SceneCommands Type
+        {
+            get { return SceneCommands.Autoscroll; }
+        }
+
+        public override void Save(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Autoscroll");
+
+            writer.WriteAttributeString("speed", Speed.ToString());
+            writer.WriteAttributeString("startX", StartX.ToString());
+
+            writer.WriteEndElement();
         }
     }
 }

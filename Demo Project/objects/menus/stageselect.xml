@@ -77,7 +77,8 @@
 				<SpriteMove name="RightEye" x="129" y="110" />
 			</On>
 			<Select>
-				<Sound name="Deny" />
+				<Sound name="Select" />
+				<Next type="Stage" name="NewStage" />
 			</Select>
 		</Option>
 

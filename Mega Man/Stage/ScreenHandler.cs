@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MegaMan.Common.Geometry;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
@@ -19,6 +19,10 @@ namespace MegaMan.Engine
         private readonly IGameplayContainer container;
         private GameEntity player;
         private PositionComponent playerPos;
+
+        private int? autoscrollX;
+        private bool isAutoscrolling;
+        private float autoscrollSpeed;
 
         private float centerX, centerY;
 
@@ -80,6 +84,8 @@ namespace MegaMan.Engine
             this.player = player;
             playerPos = player.GetComponent<PositionComponent>();
 
+            isAutoscrolling = false;
+
             foreach (var layer in layers)
             {
                 layer.Start();
@@ -93,6 +99,13 @@ namespace MegaMan.Engine
             foreach (BlocksPattern pattern in patterns)
             {
                 pattern.Start();
+            }
+
+            var autoscroll = (SceneAutoscrollCommandInfo)this.Screen.Commands.FirstOrDefault(c => c.Type == SceneCommands.Autoscroll);
+            if (autoscroll != null)
+            {
+                autoscrollX = autoscroll.StartX;
+                autoscrollSpeed = (float)autoscroll.Speed;
             }
 
             container.GameThink += Instance_GameThink;
@@ -137,19 +150,53 @@ namespace MegaMan.Engine
                 }
             }
 
+            if (isAutoscrolling)
+            {
+                if (OffsetX >= Screen.PixelWidth - Game.CurrentGame.PixelsAcross)
+                {
+                    OffsetX = Screen.PixelWidth - Game.CurrentGame.PixelsAcross;
+                }
+                else
+                {
+                    OffsetX += autoscrollSpeed;
+                }
+            }
+            else if (autoscrollX.HasValue)
+            {
+                if (playerPos.Position.X >= autoscrollX.Value)
+                {
+                    isAutoscrolling = true;
+                }
+            }
+
+            EnforcePlayerBounds();
+        }
+
+        private void EnforcePlayerBounds()
+        {
             // if the player is not colliding, they'll be allowed to pass through the walls (e.g. teleporting)
             if ((player.GetComponent<CollisionComponent>()).Enabled)
             {
+                float leftBound = (float)Const.PlayerScrollTrigger;
+                float rightBound = Screen.PixelWidth - Const.PlayerScrollTrigger;
+
+                if (isAutoscrolling)
+                {
+                    leftBound += OffsetX;
+                    rightBound = OffsetX + Game.CurrentGame.PixelsAcross;
+                }
+
                 // now if we aren't scrolling, hold the player at the screen borders
-                if (playerPos.Position.X >= Screen.PixelWidth - Const.PlayerScrollTrigger)
+                if (playerPos.Position.X >= rightBound)
                 {
-                    playerPos.SetPosition(new PointF(Screen.PixelWidth - Const.PlayerScrollTrigger, playerPos.Position.Y));
+                    playerPos.SetPosition(new PointF(rightBound, playerPos.Position.Y));
                 }
-                else if (playerPos.Position.X <= Const.PlayerScrollTrigger)
+                else if (playerPos.Position.X <= leftBound)
                 {
-                    playerPos.SetPosition(new PointF(Const.PlayerScrollTrigger, playerPos.Position.Y));
+                    playerPos.SetPosition(new PointF(leftBound, playerPos.Position.Y));
                 }
-                else if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
+
+                if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
                 {
                     if (!container.IsGravityFlipped && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
                     {
@@ -263,7 +310,7 @@ namespace MegaMan.Engine
 
         public IEnumerable<MapSquare> Tiles
         {
-            get 
+            get
             {
                 return this.layers.SelectMany(l => l.Tiles);
             }
@@ -274,26 +321,31 @@ namespace MegaMan.Engine
             int width = Screen.PixelWidth;
             int height = Screen.PixelHeight;
 
-            OffsetX = OffsetY = 0;
-
-            centerX = playerPos.X + adj_x;
-            centerY = playerPos.Y + adj_y;
-
-            if (centerX > Game.CurrentGame.PixelsAcross / 2)
+            if (!isAutoscrolling)
             {
-                OffsetX = centerX - Game.CurrentGame.PixelsAcross / 2;
-                if (OffsetX > width - Game.CurrentGame.PixelsAcross) OffsetX = width - Game.CurrentGame.PixelsAcross;
-            }
+                OffsetX = OffsetY = 0;
 
-            if (centerY > Game.CurrentGame.PixelsDown / 2)
-            {
-                OffsetY = centerY - Game.CurrentGame.PixelsDown / 2;
-                if (OffsetY > height - Game.CurrentGame.PixelsDown) OffsetY = height - Game.CurrentGame.PixelsDown;
-                if (OffsetY < 0) OffsetY = 0;
-            }
+                centerX = playerPos.X + adj_x;
+                centerY = playerPos.Y + adj_y;
 
-            OffsetX += off_x;
-            OffsetY += off_y;
+                if (centerX > Game.CurrentGame.PixelsAcross / 2)
+                {
+                    OffsetX = centerX - Game.CurrentGame.PixelsAcross / 2;
+                    if (OffsetX > width - Game.CurrentGame.PixelsAcross)
+                        OffsetX = width - Game.CurrentGame.PixelsAcross;
+                }
+
+                if (centerY > Game.CurrentGame.PixelsDown / 2)
+                {
+                    OffsetY = centerY - Game.CurrentGame.PixelsDown / 2;
+                    if (OffsetY > height - Game.CurrentGame.PixelsDown)
+                        OffsetY = height - Game.CurrentGame.PixelsDown;
+                    if (OffsetY < 0) OffsetY = 0;
+                }
+
+                OffsetX += off_x;
+                OffsetY += off_y;
+            }
 
             foreach (var layer in this.layers)
             {

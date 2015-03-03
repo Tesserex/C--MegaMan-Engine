@@ -1,10 +1,8 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml
 {
@@ -101,6 +99,10 @@ namespace MegaMan.IO.Xml
 
                     case "WaitForInput":
                         list.Add(new SceneWaitCommandInfo());
+                        break;
+
+                    case "Autoscroll":
+                        list.Add(LoadAutoscrollCommand(cmdNode));
                         break;
                 }
             }
@@ -350,6 +352,16 @@ namespace MegaMan.IO.Xml
             var info = new SceneBindingInfo();
             info.Source = node.RequireAttribute("source").Value;
             info.Target = node.RequireAttribute("target").Value;
+            return info;
+        }
+
+        public static SceneAutoscrollCommandInfo LoadAutoscrollCommand(XElement node)
+        {
+            var info = new SceneAutoscrollCommandInfo();
+
+            info.Speed = node.TryAttribute<double>("speed", 1);
+            info.StartX = node.TryAttribute<int>("startX", 128);
+
             return info;
         }
     }
