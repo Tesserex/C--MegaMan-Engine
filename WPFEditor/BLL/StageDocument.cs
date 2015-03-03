@@ -118,6 +118,16 @@ namespace MegaMan.Editor.Bll
             set { map.MusicLoopPath = value; Dirty = true; }
         }
 
+        public int MusicTrack
+        {
+            get { return map.MusicNsfTrack; }
+            set
+            {
+                map.MusicNsfTrack = value;
+                Dirty = true;
+            }
+        }
+
         public string StartScreen
         {
             get { return map.StartScreen; }

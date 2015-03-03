@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Mediator;
@@ -20,6 +19,7 @@ namespace MegaMan.Editor
         public ICommand EditTilesetCommand { get; private set; }
         public ICommand EditStageCommand { get; private set; }
         public ICommand AddStageCommand { get; private set; }
+        public ICommand StagePropertiesCommand { get; private set; }
 
         public MainWindow()
         {
@@ -37,6 +37,7 @@ namespace MegaMan.Editor
             AddStageCommand = new RelayCommand(AddStage, p => IsProjectOpen());
             EditTilesetCommand = new RelayCommand(EditTileset, p => IsStageOpen());
             EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
+            StagePropertiesCommand = new RelayCommand(ShowStageProperties, p => IsStageOpen());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
 
@@ -135,6 +136,11 @@ namespace MegaMan.Editor
         {
             this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.ProjectViewModel.Project);
             this.projectSettingsPane.IsSelected = true;
+        }
+
+        private void ShowStageProperties(object obj)
+        {
+            this.stagePropertiesPane.IsSelected = true;
         }
 
         private bool IsStageOpen()

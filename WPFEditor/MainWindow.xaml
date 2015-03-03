@@ -56,6 +56,7 @@
             
             <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">
                 <Fluent:RibbonGroupBox>
+                    <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Stage Properties" Command="{Binding ElementName=MainWindow1,Path=StagePropertiesCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                     <Fluent:Button Header="Edit Stage" Command="{Binding ElementName=MainWindow1, Path=EditStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                     <Fluent:Button Header="Edit Tiles" Icon="/Resources/tiles.png" LargeIcon="/Resources/tiles.png" Command="{Binding ElementName=MainWindow1, Path=EditTilesetCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
@@ -134,6 +135,9 @@
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="addStagePane">
                             <c:AddStageDialog x:Name="addStageControl"></c:AddStageDialog>
+                        </avalonDock:LayoutDocument>
+                        <avalonDock:LayoutDocument x:Name="stagePropertiesPane">
+                            <c:StagePropertiesControl x:Name="stagePropertiesControl"></c:StagePropertiesControl>
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="tilesetEditorPane">
                             <c:TilesetEditor x:Name="tilesetEditorControl"></c:TilesetEditor>
