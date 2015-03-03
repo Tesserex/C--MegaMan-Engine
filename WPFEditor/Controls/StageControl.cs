@@ -325,10 +325,17 @@ namespace MegaMan.Editor.Controls
             surface.Margin = new Thickness(location.X, location.Y, 0, 0);
         }
 
+        private IToolCursor _currentCursor;
         private void UpdateCursor()
         {
+            if (_currentCursor != null)
+            {
+                _currentCursor.Dispose();
+            }
+
             if (ToolProvider != null && ToolProvider.ToolCursor != null)
             {
+                _currentCursor = ToolProvider.ToolCursor;
                 ToolProvider.ToolCursor.ApplyCursorTo(this.scrollContainer);
             }
             else

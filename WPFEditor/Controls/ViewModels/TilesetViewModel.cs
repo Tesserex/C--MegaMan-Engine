@@ -41,11 +41,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
             private set
             {
-                if (_currentCursor != null)
-                {
-                    _currentCursor.Dispose();
-                }
-
                 _currentCursor = value;
             }
         }
