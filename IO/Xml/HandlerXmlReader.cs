@@ -339,7 +339,7 @@ namespace MegaMan.IO.Xml
             meter.TickOffset = new Point(x, y);
 
             XElement soundNode = meterNode.Element("Sound");
-            if (soundNode != null) meter.Sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
+            if (soundNode != null) meter.Sound = IncludeFileXmlReader.LoadSound(soundNode, basePath);
 
             XElement bindingNode = meterNode.Element("Binding");
             if (bindingNode != null) meter.Binding = LoadSceneBinding(bindingNode);

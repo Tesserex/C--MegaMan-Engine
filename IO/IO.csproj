@@ -91,12 +91,7 @@
     <Compile Include="Xml\Includes\MenuXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlReader.cs" />
     <Compile Include="Xml\ProjectXmlWriter.cs" />
-    <Compile Include="Xml\Includes\MenuXmlReader.cs" />
     <Compile Include="Xml\PaletteXmlReader.cs" />
-    <Compile Include="Xml\ProjectXmlReader.cs" />
-    <Compile Include="Xml\ProjectXmlWriter.cs" />
-    <Compile Include="Xml\Includes\SceneXmlReader.cs" />
-    <Compile Include="Xml\SoundXmlReader.cs" />
     <Compile Include="Xml\StageXmlReader.cs" />
     <Compile Include="Xml\StageXmlWriter.cs" />
     <Compile Include="Xml\TilesetXmlReader.cs" />

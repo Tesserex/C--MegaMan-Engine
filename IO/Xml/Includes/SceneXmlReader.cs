@@ -1,24 +1,9 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
-    public class SceneGroupXmlReader : IGameObjectXmlReader
-    {
-        public void Load(Project project, XElement node)
-        {
-            foreach (var sceneNode in node.Elements("Scene"))
-            {
-                project.AddScene(LoadScene(xmlNode, project.BaseDir));
-            }
-        }
-    }
-
-    public class SceneXmlReader : HandlerXmlReader, IGameObjectXmlReader
+    public class SceneXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
         public void Load(Project project, XElement node)
         {

@@ -1,24 +1,9 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
-    public class MenuGroupXmlReader : IGameObjectXmlReader
-    {
-        public void Load(Project project, XElement node)
-        {
-            foreach (var menuNode in node.Elements("Menu"))
-            {
-                //AddMenu(project, menuNode);
-            }
-        }
-    }
-
-    public class MenuXmlReader : HandlerXmlReader, IGameObjectXmlReader
+    public class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
         public void Load(Project project, XElement node)
         {
@@ -62,11 +47,6 @@ namespace MegaMan.IO.Xml
             info.Commands = LoadCommands(node, basePath);
 
             return info;
-        }
-
-        public void Load(Project project, XElement xmlNode)
-        {
-            project.AddMenu(LoadMenu(xmlNode, project.BaseDir));
         }
 
         public string NodeName

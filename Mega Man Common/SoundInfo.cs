@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using System.Xml;
+﻿using System.Xml;
 
 namespace MegaMan.Common
 {

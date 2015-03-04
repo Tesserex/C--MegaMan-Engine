@@ -1,10 +1,6 @@
-﻿using MegaMan.Engine.Entities;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.Tests.Components
 {
@@ -50,13 +46,14 @@ namespace MegaMan.Engine.Tests.Components
             var layer = new Mock<IScreenLayer>();
             layer.SetupGet(l => l.Stage).Returns(Container);
 
-            var backTile = new Common.Tile(1, new Common.Sprite(16, 16));
+            var tileset = new Common.Tileset() { TileSize = 16 };
+            var backTile = new Common.Tile(1, new Common.TileSprite(tileset));
             var blankSquare = new MapSquare(layer.Object, backTile, 0, 0, 16);
 
             Screen.Setup(s => s.SquareAt(It.IsAny<float>(), It.IsAny<float>())).Returns(blankSquare);
 
 
-            var blockTile = new Common.Tile(2, new Common.Sprite(16, 16));
+            var blockTile = new Common.Tile(2, new Common.TileSprite(tileset));
             blockTile.Properties = new Common.TileProperties() { Blocking = true };
             var blockSquare = new MapSquare(layer.Object, blockTile, 0, 8, 16);
 
