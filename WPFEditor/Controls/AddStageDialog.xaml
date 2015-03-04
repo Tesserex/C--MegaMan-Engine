@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <DockPanel Background="White" Width="auto" Height="auto">
-        <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15">
+        <c:StagePropertiesControl DockPanel.Dock="Top" DataContext="{Binding}"></c:StagePropertiesControl>
+        <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
@@ -28,9 +28,6 @@
                     <Setter Property="Margin" Value="8,0,0,0" />
                     <Setter Property="FontSize" Value="14" />
                 </Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="FontSize" Value="14" />
-                </Style>
                 <Style TargetType="{x:Type RadioButton}">
                     <Setter Property="Margin" Value="0" />
                     <Setter Property="Width" Value="130" />
@@ -38,11 +35,8 @@
                 </Style>
             </Grid.Resources>
 
-            <Label Grid.Column="0" Grid.Row="0">Stage Name</Label>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
-
-            <Label Grid.Column="0" Grid.Row="1">Tileset</Label>
-            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+            <Label Grid.Column="0" Grid.Row="0">Tileset</Label>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                 <DockPanel>
                     <RadioButton IsChecked="{Binding CreateTileset, Mode=OneWay}" Click="ClickCreateTileset" Margin="10,2">Create New Tileset</RadioButton>
                     <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesheetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=CreateTileset}">Browse...</Button>
@@ -56,7 +50,7 @@
             </StackPanel>
 
 
-            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
                 <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0,0,15,0" Command="{Binding AddStageCommand}">Ok</Button>
                 <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0" Click="CancelClick">Cancel</Button>
             </StackPanel>

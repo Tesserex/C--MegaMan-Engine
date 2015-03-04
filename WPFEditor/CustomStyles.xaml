@@ -111,7 +111,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Border" CornerRadius="4" BorderBrush="#80a0f0" BorderThickness="1" >
+                    <Border x:Name="Border" CornerRadius="4" BorderBrush="#80a0f0" BorderThickness="1" Padding="8,1" Margin="0,0,6,0">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#d0eaff" Offset="0"></GradientStop>

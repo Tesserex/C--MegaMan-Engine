@@ -1,4 +1,5 @@
 <Map name="NewStage" tiles="stages\NewStage\tiles.xml">
+	<Music nsftrack="7" />
 	<Start screen="" x="128" y="160" />
 	<Screen id="1">
 		<Autoscroll speed="0.5" startX="130" />

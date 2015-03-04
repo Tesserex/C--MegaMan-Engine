@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <DockPanel Background="White" Width="auto" Height="auto">
-        <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15">
+        <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15,15,15,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -34,19 +34,16 @@
                     <Setter Property="Margin" Value="8,0,0,0" />
                     <Setter Property="FontSize" Value="14" />
                 </Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="FontSize" Value="14" />
-                </Style>
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="Margin" Value="8,6" />
                     <Setter Property="VerticalAlignment" Value="Center" />
                 </Style>
             </Grid.Resources>
 
-            <Label Grid.Column="0" Grid.Row="0">Stage Title</Label>
+            <Label Grid.Column="0" Grid.Row="0">Stage Name</Label>
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
 
-            <Label Grid.Column="0" Grid.Row="1">Music</Label>
+            <Label Grid.Column="0" Grid.Row="1">Music Track</Label>
             <DockPanel Grid.Column="1" Grid.Row="1">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="24" Margin="8">
                     <xctk:IntegerUpDown Value="{Binding Track}" Minimum="1" Maximum="{Binding MaxTrack}" Increment="1"></xctk:IntegerUpDown>

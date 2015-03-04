@@ -1,28 +1,16 @@
-﻿using MegaMan.Common;
+﻿using System.Windows.Input;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.ComponentModel;
-using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class AddStageViewModel : INotifyPropertyChanged
+    public class AddStageViewModel : StagePropertiesViewModel
     {
         private ProjectDocument _project;
         private ITilesetDocumentFactory _tilesetFactory;
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
 
         private string _tilesetPath;
         public string TilesetPath
@@ -72,20 +60,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand AddStageCommand { get; set; }
         public ICommand BrowseTilesetCommand { get; set; }
         public ICommand BrowseTilesheetCommand { get; set; }
-
-        private void OnPropertyChanged(string property)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
-        }
 
         public AddStageViewModel(ITilesetDocumentFactory tilesetFactory)
         {

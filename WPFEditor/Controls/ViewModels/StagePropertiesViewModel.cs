@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
@@ -11,29 +12,34 @@ namespace MegaMan.Editor.Controls.ViewModels
         private StageDocument _stage;
         private BackgroundMusic bgm;
 
+        private string _name;
         public string Name
         {
-            get { return _stage != null ? _stage.Name : null; }
+            get { return _name; }
             set
             {
-                if (_stage != null)
+                _name = value;
+                if (_stage != null && _stage.Name != value)
                 {
                     _stage.Name = value;
-                    OnPropertyChanged("Name");
                 }
+                OnPropertyChanged("Name");
             }
         }
 
-        public int Track
+        private uint _track;
+        public uint Track
         {
-            get { return _stage != null ? _stage.MusicTrack : 0; }
+            get { return _track; }
             set
             {
-                if (_stage != null)
+                _track = value;
+                if (_stage != null && _stage.MusicTrack != value)
                 {
-                    _stage.MusicTrack = value;
-                    OnPropertyChanged("Track");
+                    _stage.MusicTrack = (int)value;
+                    bgm.CurrentTrack = value - 1;
                 }
+                OnPropertyChanged("Track");
             }
         }
 
@@ -49,15 +55,20 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public StagePropertiesViewModel()
         {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                return;
+
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
-            PlayCommand = new RelayCommand(Play, o => _stage != null);
-            PauseCommand = new RelayCommand(Pause, o => _stage != null);
-            StopCommand = new RelayCommand(Stop, o => _stage != null);
+            PlayCommand = new RelayCommand(Play, o => _stage != null && (!AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
+            PauseCommand = new RelayCommand(Pause, o => _stage != null && AudioManager.Instance.IsBGMPlaying);
+            StopCommand = new RelayCommand(Stop, o => _stage != null && (AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
 
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
+
+            Track = 1;
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
@@ -71,6 +82,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void Stop(object obj)
         {
             AudioManager.Instance.StopBGMPlayback();
+            AudioManager.Instance.ResumeBGMPlayback();
         }
 
         private void Pause(object obj)
@@ -85,16 +97,22 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             bgm.CurrentTrack = (uint)Track - 1;
             AudioManager.Instance.PlayBackgroundMusic(bgm);
+            AudioManager.Instance.ResumeBGMPlayback();
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
             _stage = e.Stage;
+            if (_stage != null)
+            {
+                Name = _stage.Name;
+                Track = (uint)_stage.MusicTrack;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string property)
+        protected void OnPropertyChanged(string property)
         {
             var handler = PropertyChanged;
             if (handler != null)
