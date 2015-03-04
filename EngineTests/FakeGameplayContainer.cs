@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MegaMan.Engine.Tests
 {
-    class FakeGameplayContainer : IGameplayContainer
+    public class FakeGameplayContainer : IGameplayContainer
     {
         public Entities.IEntityPool Entities
         {

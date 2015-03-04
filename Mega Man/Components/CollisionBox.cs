@@ -11,7 +11,7 @@ namespace MegaMan.Engine
         private CollisionComponent parentComponent;
 
         public int ID { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public List<string> Hits { get; private set; }
         public List<string> Groups { get; private set; }
         private readonly Dictionary<string, float> resistance;
@@ -20,9 +20,9 @@ namespace MegaMan.Engine
         /// <summary>
         /// Do I block MYSELF when I hit an environment tile?
         /// </summary>
-        public bool Environment { get; private set; }
+        public bool Environment { get; set; }
 
-        public bool PushAway { get; private set; }
+        public bool PushAway { get; set; }
 
         public TileProperties Properties { get; private set; }
 

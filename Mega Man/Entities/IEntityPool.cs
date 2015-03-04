@@ -12,7 +12,7 @@ namespace MegaMan.Engine.Entities
         GameEntity GetEntityById(string id);
         Int32 GetNumberAlive(string name);
         Int32 GetTotalAlive();
-        IEnumerable<GameEntity> GetAll();
+        IEnumerable<IEntity> GetAll();
         void RemoveAll();
     }
 }

@@ -51,6 +51,9 @@ namespace MegaMan.Engine
 
         public void SetPosition(PointF pos)
         {
+            // fix float errors by rounding
+            pos.X = (float)Math.Round(pos.X, 3);
+            pos.Y = (float)Math.Round(pos.Y, 3);
             Position = pos;
         }
 

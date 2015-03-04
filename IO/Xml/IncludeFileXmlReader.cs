@@ -13,6 +13,7 @@ namespace MegaMan.IO.Xml
         private Project _project;
 
         private Dictionary<string, IIncludeXmlReader> _readers;
+        private Dictionary<string, IGameObjectXmlReader> _readers = new Dictionary<string, IGameObjectXmlReader>();
 
         public IncludeFileXmlReader()
         {
@@ -45,7 +46,7 @@ namespace MegaMan.IO.Xml
                 throw;
             }
         }
-
+        
         public static SoundInfo LoadSound(XElement soundNode, string basePath)
         {
             SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };

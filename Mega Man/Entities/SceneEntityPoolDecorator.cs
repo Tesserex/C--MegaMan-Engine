@@ -46,7 +46,7 @@ namespace MegaMan.Engine.Entities
             return _basePool.GetTotalAlive();
         }
 
-        public IEnumerable<GameEntity> GetAll()
+        public IEnumerable<IEntity> GetAll()
         {
             return _basePool.GetAll();
         }

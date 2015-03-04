@@ -7,20 +7,31 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
+    public class MenuGroupXmlReader : IGameObjectXmlReader
     {
-        public static MenuInfo LoadMenu(XElement node, string basePath)
+        public void Load(Project project, XElement node)
+        {
+            foreach (var menuNode in node.Elements("Menu"))
+            {
+                //AddMenu(project, menuNode);
+            }
+        }
+    }
+
+    public class MenuXmlReader : HandlerXmlReader, IGameObjectXmlReader
+    {
+        public void Load(Project project, XElement node)
         {
             var menu = new MenuInfo();
 
-            LoadHandlerBase(menu, node, basePath);
+            LoadHandlerBase(menu, node, project.BaseDir);
 
             foreach (var keyNode in node.Elements("State"))
             {
-                menu.States.Add(LoadMenuState(keyNode, basePath));
+                menu.States.Add(LoadMenuState(keyNode, project.BaseDir));
             }
 
-            return menu;
+            project.AddMenu(menu);
         }
 
         private static MenuStateInfo LoadMenuState(XElement node, string basePath)

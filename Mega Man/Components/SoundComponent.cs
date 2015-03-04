@@ -11,12 +11,12 @@ namespace MegaMan.Engine
 
         public override void LoadXml(XElement xml)
         {
-            foreach (XElement soundNode in xml.Elements("Sound"))
-            {
-                var soundInfo = IncludeFileXmlReader.LoadSound(soundNode, Game.CurrentGame.BasePath);
-                string name = Engine.Instance.SoundSystem.EffectFromInfo(soundInfo);
-                sounds.Add(name);
-            }
+            //foreach (XElement soundNode in xml.Elements("Sound"))
+            //{
+            //    var soundInfo = IncludeFileXmlReader.LoadSound(soundNode, Game.CurrentGame.BasePath);
+            //    string name = Engine.Instance.SoundSystem.EffectFromInfo(soundInfo);
+            //    sounds.Add(name);
+            //}
         }
 
         public override Component Clone()

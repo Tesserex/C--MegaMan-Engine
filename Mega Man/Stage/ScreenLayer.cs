@@ -9,7 +9,7 @@ using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
-    public class ScreenLayer
+    public class ScreenLayer : IScreenLayer
     {
         private readonly ScreenLayerInfo _info;
         private readonly StageHandler _stage;
