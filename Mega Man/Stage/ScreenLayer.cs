@@ -187,7 +187,7 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity entity = _stage.Entities.CreateEntity(info.entity);
+                GameEntity entity = _stage.Entities.CreateEntityWithId(info.Id, info.entity);
                 if (entity == null) continue;
 
                 PositionComponent pos = entity.GetComponent<PositionComponent>();
