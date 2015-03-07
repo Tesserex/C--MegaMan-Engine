@@ -87,10 +87,12 @@ namespace MegaMan.Editor.Bll
 
         public string MusicNsf
         {
-            get { return Project.MusicNSF.Absolute; }
+            get { return Project.MusicNSF != null ? Project.MusicNSF.Absolute : null; }
             set
             {
-                if (Project.MusicNSF.Absolute == value) return;
+                if (Project.MusicNSF != null && Project.MusicNSF.Absolute == value)
+                    return;
+
                 Project.MusicNSF = FilePath.FromAbsolute(value, BaseDir);
                 Dirty = true;
             }
@@ -98,10 +100,12 @@ namespace MegaMan.Editor.Bll
 
         public string EffectsNsf
         {
-            get { return Project.EffectsNSF.Absolute; }
+            get { return Project.EffectsNSF != null ? Project.EffectsNSF.Absolute : null; }
             set
             {
-                if (Project.EffectsNSF.Absolute == value) return;
+                if (Project.EffectsNSF != null && Project.EffectsNSF.Absolute == value)
+                    return;
+
                 Project.EffectsNSF = FilePath.FromAbsolute(value, BaseDir);
                 Dirty = true;
             }

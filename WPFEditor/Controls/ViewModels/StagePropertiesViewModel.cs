@@ -73,9 +73,15 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
         {
-            bgm = new BackgroundMusic(AudioContainer.LoadContainer(e.Project.MusicNsf));
-            AudioManager.Instance.LoadBackgroundMusic(bgm);
-            MaxTrack = bgm.AudioContainer.TrackCount;
+            MaxTrack = 0;
+
+            if (e.Project.MusicNsf != null)
+            {
+                bgm = new BackgroundMusic(AudioContainer.LoadContainer(e.Project.MusicNsf));
+                AudioManager.Instance.LoadBackgroundMusic(bgm);
+                MaxTrack = bgm.AudioContainer.TrackCount;
+            }
+
             OnPropertyChanged("MaxTrack");
         }
 
