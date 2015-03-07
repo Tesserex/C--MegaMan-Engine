@@ -19,9 +19,9 @@ namespace MegaMan.Common
 
         private List<StageLinkInfo> stages = new List<StageLinkInfo>();
 
-        private List<string> includeFolders = new List<string>();
-        private List<string> includeFilesFromFolders = new List<string>();
-        private List<string> includeFiles = new List<string>();
+        private List<FilePath> includeFolders = new List<FilePath>();
+        private List<FilePath> includeFilesFromFolders = new List<FilePath>();
+        private List<FilePath> includeFiles = new List<FilePath>();
 
         public IEnumerable<StageLinkInfo> Stages
         {
@@ -33,19 +33,19 @@ namespace MegaMan.Common
             this.stages.Add(stage);
         }
 
-        public IEnumerable<string> IncludeFiles
+        public IEnumerable<FilePath> IncludeFiles
         {
             get { return includeFiles.AsReadOnly(); }
         }
 
-        public IEnumerable<string> IncludeFolders
+        public IEnumerable<FilePath> IncludeFolders
         {
             get { return includeFolders.AsReadOnly(); }
         }
 
-        public IEnumerable<string> Includes
+        public IEnumerable<FilePath> Includes
         {
-            get { return includeFiles.Concat(includeFilesFromFolders); }
+            get { return includeFiles.Concat(includeFilesFromFolders).Distinct(); }
         }
 
         public string Name
@@ -170,12 +170,12 @@ namespace MegaMan.Common
 
         public void AddIncludeFile(string includePath)
         {
-            includeFiles.Add(includePath);
+            includeFiles.Add(FilePath.FromRelative(includePath, this.BaseDir));
         }
 
         public void AddIncludeFiles(IEnumerable<string> includePaths)
         {
-            includeFiles.AddRange(includePaths);
+            includeFiles.AddRange(includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir)));
         }
 
         public void AddIncludeFolder(string includePath)
@@ -185,12 +185,19 @@ namespace MegaMan.Common
 
         public void AddIncludeFolders(IEnumerable<string> includePaths)
         {
-            includeFolders.AddRange(includePaths);
+            var folderPaths = includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir));
+            includeFolders.AddRange(folderPaths);
 
-            includeFilesFromFolders.AddRange(includePaths
+            includeFilesFromFolders.AddRange(folderPaths
                 .SelectMany(f => Directory.EnumerateFiles(
-                    Path.Combine(BaseDir, f), "*.xml", SearchOption.AllDirectories)
-                ));
+                    f.Absolute, "*.xml", SearchOption.AllDirectories)
+                ).Select(p => FilePath.FromRelative(p, this.BaseDir)));
+        }
+
+        public void RemoveInclude(string includePath)
+        {
+            includeFolders.RemoveAll(f => f.Absolute == includePath);
+            includeFiles.RemoveAll(f => f.Absolute == includePath);
         }
     }
 }

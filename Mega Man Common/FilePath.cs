@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace MegaMan.Common
 {
@@ -57,8 +57,7 @@ namespace MegaMan.Common
                 throw new ArgumentException("Path cannot be null or empty.", "basepath");
             }
 
-            FilePath fp = new FilePath
-            {
+            FilePath fp = new FilePath {
                 basepath = Path.GetFullPath(basepath),
                 relative = relative,
                 absolute = Path.GetFullPath(Path.Combine(basepath, relative))
@@ -107,6 +106,16 @@ namespace MegaMan.Common
             relativePath.Append(pathdirs[pathdirs.Length - 1]);
 
             relative = relativePath.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (obj is FilePath) && ((FilePath)obj).Absolute == this.Absolute;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Absolute.GetHashCode();
         }
     }
 }

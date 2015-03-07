@@ -1,7 +1,7 @@
-﻿using MegaMan.Common;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
@@ -87,9 +87,9 @@ namespace MegaMan.IO.Xml
 
             var includeReader = new IncludeFileXmlReader();
 
-            foreach (string includePath in _project.Includes)
+            foreach (var includePath in _project.Includes)
             {
-                string includefile = Path.Combine(_project.BaseDir, includePath);
+                string includefile = includePath.Absolute;
                 includeReader.LoadIncludedFile(_project, includefile);
             }
 

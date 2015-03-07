@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml;
+using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.IO.Xml;
 using MegaMan.Engine.Entities;
 using MegaMan.Engine.StateMachine;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -131,9 +129,9 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
-            foreach (string includePath in project.Includes)
+            foreach (var includePath in project.Includes)
             {
-                string includefile = Path.Combine(BasePath, includePath);
+                string includefile = includePath.Absolute;
                 IncludeXmlFile(includefile);
             }
 

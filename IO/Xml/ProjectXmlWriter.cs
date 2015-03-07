@@ -1,10 +1,8 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
+using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
@@ -74,14 +72,14 @@ namespace MegaMan.IO.Xml
                 WriteHandlerTransfer(_project.StartHandler);
             }
 
-            foreach (string folder in _project.IncludeFolders)
+            foreach (var folder in _project.IncludeFolders)
             {
-                _writer.WriteElementString("IncludeFolder", folder);
+                _writer.WriteElementString("IncludeFolder", folder.Relative);
             }
 
-            foreach (string file in _project.IncludeFiles)
+            foreach (var file in _project.IncludeFiles)
             {
-                _writer.WriteElementString("Include", file);
+                _writer.WriteElementString("Include", file.Relative);
             }
 
             _writer.WriteEndElement(); // Game
