@@ -71,7 +71,7 @@
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\FontsXmlReader.cs" />
     <Compile Include="Xml\Includes\FontXmlReader.cs" />
-    <Compile Include="Xml\Includes\IIncludeXmlReader.cs" />
+    <Compile Include="Xml\IIncludeXmlReader.cs" />
     <Compile Include="IProjectReader.cs" />
     <Compile Include="ISoundReader.cs" />
     <Compile Include="IStageReader.cs" />
