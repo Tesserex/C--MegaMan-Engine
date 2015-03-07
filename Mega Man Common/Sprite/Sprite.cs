@@ -395,7 +395,9 @@ namespace MegaMan.Common
 
         public bool Remove(SpriteFrame item)
         {
-            return frames.Remove(item);
+            var result = frames.Remove(item);
+            currentFrame = Math.Max(Math.Min(frames.Count - 1, currentFrame), 0);
+            return result;
         }
 
         #endregion
