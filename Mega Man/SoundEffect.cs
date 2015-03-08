@@ -128,6 +128,9 @@ namespace MegaMan.Engine
 
         public void Play()
         {
+            if (!AudioManager.Instance.Initialized)
+                return;
+
             if (priority > SoundSystem.CurrentSfxPriority) return;
 
             if (loop && !playing) AudioManager.Instance.SFXPlaybackStopped += PlayOnce;
@@ -151,6 +154,9 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
+            if (!AudioManager.Instance.Initialized || sfx == null)
+                return;
+
             if (sfx.CurrentTrack == track) AudioManager.Instance.StopSFXPlayback();
             if (loop) AudioManager.Instance.SFXPlaybackStopped -= PlayOnce;
             playing = false;
