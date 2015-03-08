@@ -52,5 +52,45 @@ namespace MegaMan.Common
                 return _tileset.TileSize;
             }
         }
+
+        public override void Play()
+        {
+            if (this.Playing)
+                return;
+
+            foreach (var t in _tileset)
+            {
+                t.Sprite.Playing = true;
+                t.Sprite.Reset();
+            }
+        }
+
+        public override void Stop()
+        {
+            if (!this.Playing)
+                return;
+
+            foreach (var t in _tileset)
+            {
+                t.Sprite.Playing = false;
+                t.Sprite.Reset();
+            }
+        }
+
+        public override void Pause()
+        {
+            foreach (var t in _tileset)
+            {
+                t.Sprite.Playing = false;
+            }
+        }
+
+        public override void Resume()
+        {
+            foreach (var t in _tileset)
+            {
+                t.Sprite.Playing = true;
+            }
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets whether or not the sprite animation is currently playing.
         /// </summary>
-        public bool Playing { get; private set; }
+        public bool Playing { get; protected set; }
 
         public bool HorizontalFlip { get; set; }
 
@@ -227,7 +227,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Begins playing the animation from the beginning.
         /// </summary>
-        public void Play()
+        public virtual void Play()
         {
             Playing = true;
             Reset();
@@ -236,7 +236,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Stops and resets the animation.
         /// </summary>
-        public void Stop()
+        public virtual void Stop()
         {
             this.Playing = false;
             this.Reset();
@@ -246,12 +246,12 @@ namespace MegaMan.Common
         /// <summary>
         /// Resumes playing the animation from the current frame.
         /// </summary>
-        public void Resume() { this.Playing = true; }
+        public virtual void Resume() { this.Playing = true; }
 
         /// <summary>
         /// Pauses the animation at the current frame.
         /// </summary>
-        public void Pause() { this.Playing = false; }
+        public virtual void Pause() { this.Playing = false; }
 
         /// <summary>
         /// Restarts the animation to the first frame or the last, based on the value of AnimDirection.
