@@ -64,8 +64,8 @@
             <ListView Margin="0,10,0,10" ItemsSource="{Binding IncludeFiles}" FontSize="14" SelectedItem="{Binding SelectedFile}" HorizontalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             </ListView>
             <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding AddIncludeFolderCommand}">Add Folder</Button>
-                <Button Command="{Binding AddIncludeFileCommand}">Add File</Button>
+                <Button Command="{Binding AddIncludeFolderCommand}" Margin="0,0,10,0">Add Folder</Button>
+                <Button Command="{Binding AddIncludeFileCommand}" Margin="0,0,10,0">Add File</Button>
                 <Button Command="{Binding RemoveIncludeCommand}">Remove</Button>
             </StackPanel>
         </StackPanel>

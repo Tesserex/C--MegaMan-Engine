@@ -38,7 +38,7 @@
             <!--Tabs-->
             <Fluent:RibbonTabItem Header="Home" x:Name="ribbonHome">
                 <Fluent:RibbonGroupBox>
-                    <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Project Settings" Command="{Binding ElementName=MainWindow1, Path=OpenProjectSettingsCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
+                    <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Project Properties" Command="{Binding ElementName=MainWindow1, Path=OpenProjectSettingsCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
                 
                 <Fluent:RibbonGroupBox>

@@ -111,7 +111,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Border" CornerRadius="4" BorderBrush="#80a0f0" BorderThickness="1" Padding="8,1" Margin="0,0,6,0">
+                    <Border x:Name="Border" CornerRadius="4" BorderBrush="#80a0f0" BorderThickness="1" Padding="8,1">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#d0eaff" Offset="0"></GradientStop>
@@ -122,7 +122,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#dadada" Offset="0"></GradientStop>
+                                        <GradientStop Color="#c4c4c4" Offset="1"></GradientStop>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#a0a0a0"></Setter>
+                            <Setter Property="Foreground" Value="#666"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

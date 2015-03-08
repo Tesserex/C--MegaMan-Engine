@@ -84,7 +84,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddFrame()
         {
             _sprite.InsertFrame(_sprite.CurrentIndex + 1);
-
+            _sprite.CurrentIndex = _sprite.Count - 1;
             Update();
         }
 
