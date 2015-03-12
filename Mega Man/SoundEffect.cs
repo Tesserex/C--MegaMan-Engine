@@ -128,7 +128,7 @@ namespace MegaMan.Engine
 
         public void Play()
         {
-            if (!AudioManager.Instance.Initialized)
+            if (!AudioManager.Instance.IsBGMLoaded)
                 return;
 
             if (priority > SoundSystem.CurrentSfxPriority) return;
