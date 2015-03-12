@@ -170,15 +170,15 @@
     <Compile Include="Controls\CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EntitiesScreenCanvas.cs" />
-    <Compile Include="Controls\EntityScreenLayer.cs" />
+    <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
+    <Compile Include="Controls\Layers\EntityScreenLayer.cs" />
     <Compile Include="Controls\EntityTray.xaml.cs">
       <DependentUpon>EntityTray.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LayoutObjectsLayer.cs" />
+    <Compile Include="Controls\Layers\LayoutObjectsLayer.cs" />
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
     </Compile>
@@ -189,7 +189,7 @@
     <Compile Include="Controls\NewProjectDialog.xaml.cs">
       <DependentUpon>NewProjectDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OverlayScreenLayer.cs" />
+    <Compile Include="Controls\Layers\OverlayScreenLayer.cs" />
     <Compile Include="Controls\ProjectSettingsControl.xaml.cs">
       <DependentUpon>ProjectSettingsControl.xaml</DependentUpon>
     </Compile>
@@ -245,12 +245,12 @@
     <Compile Include="Mediator\StageChangedEventArgs.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
-    <Compile Include="Controls\LayoutScreenCanvas.cs" />
+    <Compile Include="Controls\Canvases\LayoutScreenCanvas.cs" />
     <Compile Include="Controls\StageControl.cs" />
     <Compile Include="Controls\StageLayoutControl.cs" />
     <Compile Include="Controls\StageTileControl.cs" />
     <Compile Include="Controls\TileImage.cs" />
-    <Compile Include="Controls\TileScreenCanvas.cs" />
+    <Compile Include="Controls\Canvases\TileScreenCanvas.cs" />
     <Compile Include="Controls\TileStrip.xaml.cs">
       <DependentUpon>TileStrip.xaml</DependentUpon>
     </Compile>
@@ -341,9 +341,9 @@
     <Compile Include="Controls\ProjectTree.xaml.cs">
       <DependentUpon>ProjectTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ScreenCanvas.cs" />
-    <Compile Include="Controls\ScreenLayer.cs" />
-    <Compile Include="Controls\TileScreenLayer.cs" />
+    <Compile Include="Controls\Canvases\ScreenCanvas.cs" />
+    <Compile Include="Controls\Layers\ScreenLayer.cs" />
+    <Compile Include="Controls\Layers\TileScreenLayer.cs" />
     <Compile Include="Controls\ViewModels\ProjectViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
