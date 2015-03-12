@@ -20,17 +20,13 @@ namespace MegaMan.Editor.Bll
         public Point StartPoint
         {
             get { return new Point(map.PlayerStartX, map.PlayerStartY); }
-            set
-            {
-                map.PlayerStartX = value.X;
-                map.PlayerStartY = value.Y;
-            }
         }
 
         public event Action<ScreenDocument> ScreenAdded;
         public event Action<ScreenDocument> ScreenRemoved;
         public event Action<ScreenDocument, int, int> ScreenResized;
         public event Action<Join> JoinChanged;
+        public event Action EntryPointsChanged;
         public event Action<bool> DirtyChanged;
 
         public StageDocument(ProjectDocument project)
@@ -131,7 +127,11 @@ namespace MegaMan.Editor.Bll
         public string StartScreen
         {
             get { return map.StartScreen; }
-            set { map.StartScreen = value; Dirty = true; }
+        }
+
+        public IDictionary<string, Point> ContinuePoints
+        {
+            get { return map.ContinuePoints; }
         }
 
         public IEnumerable<ScreenDocument> Screens
@@ -175,7 +175,11 @@ namespace MegaMan.Editor.Bll
 
             map.Screens.Add(name, screen);
 
-            if (StartScreen == null) StartScreen = map.Screens.Keys.First();
+            if (StartScreen == null)
+            {
+                map.StartScreen = map.Screens.Keys.First();
+                Dirty = true;
+            }
 
             ScreenDocument doc = WrapScreen(screen);
 
@@ -256,6 +260,32 @@ namespace MegaMan.Editor.Bll
                 if (join.screenTwo == oldName) join.screenTwo = newName;
             }
             Dirty = true;
+        }
+
+        public void SetStartPoint(ScreenDocument screenDocument, Point location)
+        {
+            map.StartScreen = screenDocument.Name;
+            map.PlayerStartX = location.X;
+            map.PlayerStartY = location.Y;
+            Dirty = true;
+            if (EntryPointsChanged != null)
+                EntryPointsChanged();
+        }
+
+        public void AddContinuePoint(ScreenDocument screenDocument, Point location)
+        {
+            if (map.ContinuePoints.ContainsKey(screenDocument.Name))
+            {
+                map.ContinuePoints[screenDocument.Name] = location;
+            }
+            else
+            {
+                map.AddContinuePoint(screenDocument.Name, location);
+            }
+
+            Dirty = true;
+            if (EntryPointsChanged != null)
+                EntryPointsChanged();
         }
     }
 }

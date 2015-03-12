@@ -65,6 +65,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public string CursorIcon { get { return IconFor("cursor"); } }
         public string CleaveIcon { get { return IconFor("cleave"); } }
+        public string StartIcon { get { return IconFor("start"); } }
+        public string ContinueIcon { get { return IconFor("continue"); } }
+
         private string ActiveIcon
         {
             get { return _activeIcon; }
@@ -73,6 +76,8 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _activeIcon = value;
                 OnPropertyChanged("CursorIcon");
                 OnPropertyChanged("CleaveIcon");
+                OnPropertyChanged("StartIcon");
+                OnPropertyChanged("ContinueIcon");
             }
         }
 
@@ -118,6 +123,18 @@ namespace MegaMan.Editor.Controls.ViewModels
                     ToolCursor = new StandardToolCursor("vsplit.cur");
                     _toolBehavior = new CleaveScreenVerticalToolBehavior();
                     ActiveIcon = "cleave";
+                    break;
+
+                case "Start":
+                    ToolCursor = new ResourceCursor("start_full.png");
+                    _toolBehavior = new StartPointToolBehavior();
+                    ActiveIcon = "start";
+                    break;
+
+                case "Continue":
+                    ToolCursor = new ResourceCursor("continue_full.png");
+                    _toolBehavior = new ContinuePointToolBehavior();
+                    ActiveIcon = "continue";
                     break;
             }
 

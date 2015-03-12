@@ -7,15 +7,15 @@ namespace MegaMan.Editor.Controls
 {
     public class LayoutScreenCanvas : ScreenCanvas
     {
-        private bool _dragging;
-        private Vector _dragAnchorOffset;
         private ScreenResizeAdorner _adorner;
-
-        public event EventHandler ScreenDropped;
+        private LayoutObjectsLayer _objectsLayer;
 
         public LayoutScreenCanvas(IToolProvider toolProvider)
             : base(toolProvider)
         {
+            _objectsLayer = new LayoutObjectsLayer();
+            this.Children.Insert(1, _objectsLayer);
+
             this.Loaded += AddAdorners;
 
             _tiles.RenderGrayscale();
@@ -31,6 +31,7 @@ namespace MegaMan.Editor.Controls
         protected override void ScreenChanged()
         {
             base.ScreenChanged();
+            _objectsLayer.Screen = this.Screen;
             if (_adorner != null)
                 _adorner.Screen = this.Screen;
         }

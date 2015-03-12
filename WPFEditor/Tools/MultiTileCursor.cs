@@ -5,7 +5,7 @@ using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Tools
 {
-    public class MultiTileCursor : SingleTileCursor
+    public class MultiTileCursor : ImageCursor
     {
         private MultiTileBrush _brush;
 

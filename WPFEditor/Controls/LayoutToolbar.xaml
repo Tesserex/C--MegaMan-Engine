@@ -14,6 +14,12 @@
             <RadioButton ToolTip="Split Screen" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="VSplit">
                 <Image Source="{Binding CleaveIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
+            <RadioButton ToolTip="Start Point" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Start">
+                <Image Source="{Binding StartIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </RadioButton>
+            <RadioButton ToolTip="Continue Point" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Continue">
+                <Image Source="{Binding ContinueIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </RadioButton>
         </ToolBar>
         <ToolBar Band="1" BandIndex="2">
             <Button Command="{Binding AddScreenCommand}">

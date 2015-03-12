@@ -1,6 +1,6 @@
 <Map name="NewStage" tiles="stages\NewStage\tiles.xml">
 	<Music nsftrack="7" />
-	<Start screen="" x="128" y="160" />
+	<Start screen="1" x="61" y="144" />
 	<Screen id="1">
 		<Autoscroll speed="0.5" startX="130" />
 		<Entity id="8c50561c-f2e6-4f87-b038-666a9f260ebc" entity="WallSpike" state="" x="327" y="138" direction="Unknown" respawn="Offscreen" />

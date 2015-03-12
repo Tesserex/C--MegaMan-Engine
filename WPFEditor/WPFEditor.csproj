@@ -158,10 +158,12 @@
     <Compile Include="Bll\TilesetDocument.cs" />
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
+    <Compile Include="Bll\Tools\ContinuePointToolBehavior.cs" />
     <Compile Include="Bll\Tools\EntityToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
+    <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
     <Compile Include="Controls\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -176,6 +178,7 @@
     <Compile Include="Controls\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LayoutObjectsLayer.cs" />
     <Compile Include="Controls\LayoutToolbar.xaml.cs">
       <DependentUpon>LayoutToolbar.xaml</DependentUpon>
     </Compile>
@@ -232,7 +235,9 @@
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
+    <Compile Include="Tools\ImageCursor.cs" />
     <Compile Include="Tools\MultiTileCursor.cs" />
+    <Compile Include="Tools\ResourceCursor.cs" />
     <Compile Include="Tools\SpriteCursor.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
     <Compile Include="Tools\IToolCursor.cs" />
@@ -515,6 +520,10 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\start_on.png" />
+    <Resource Include="Resources\start_off.png" />
+    <Resource Include="Resources\continue_on.png" />
+    <Resource Include="Resources\continue_off.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

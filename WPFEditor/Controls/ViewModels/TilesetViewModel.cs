@@ -95,12 +95,12 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Brush":
                     Tool = new TileBrushToolBehavior(brush);
-                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
+                    ToolCursor = new SingleTileCursor(SelectedTile);
                     break;
 
                 case "Bucket":
                     Tool = new BucketToolBehavior(brush);
-                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
+                    ToolCursor = new SingleTileCursor(SelectedTile);
                     break;
 
                 case "Selection":
@@ -110,7 +110,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 case "Rectangle":
                     Tool = new RectangleToolBehavior(brush);
-                    ToolCursor = new SingleTileCursor(_tileset, SelectedTile);
+                    ToolCursor = new SingleTileCursor(SelectedTile);
                     break;
             }
 
