@@ -301,8 +301,8 @@ namespace MegaMan.Editor.Controls
             foreach (var surface in _screens.Values)
             {
                 var location = GetCanvasLocation(surface);
-                var right = location.X + surface.Screen.PixelWidth;
-                var bottom = location.Y + surface.Screen.PixelHeight;
+                var right = (int)(location.X + surface.Screen.PixelWidth * Zoom);
+                var bottom = (int)(location.Y + surface.Screen.PixelHeight * Zoom);
 
                 maxX = Math.Max(maxX, right);
                 maxY = Math.Max(maxY, bottom);
