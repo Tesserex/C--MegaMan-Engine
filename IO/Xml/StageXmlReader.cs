@@ -178,14 +178,6 @@ namespace MegaMan.IO.Xml
             var tileArray = LoadTiles(tileFilePath);
             var tileLayer = new TileLayer(tileArray, tileset, tileStartX, tileStartY);
 
-            var entities = new List<EntityPlacement>();
-
-            foreach (XElement entity in node.Elements("Entity"))
-            {
-                EntityPlacement info = LoadEntityPlacement(entity);
-                entities.Add(info);
-            }
-
             var keyframes = new List<ScreenLayerKeyframe>();
             foreach (var keyframeNode in node.Elements("Keyframe"))
             {
@@ -193,7 +185,15 @@ namespace MegaMan.IO.Xml
                 keyframes.Add(frame);
             }
 
-            return new ScreenLayerInfo(name, tileLayer, foreground, entities, keyframes);
+            var layer = new ScreenLayerInfo(name, tileLayer, foreground, keyframes);
+
+            foreach (XElement entity in node.Elements("Entity"))
+            {
+                EntityPlacement info = LoadEntityPlacement(entity);
+                layer.AddEntity(info);
+            }
+
+            return layer;
         }
 
         private static ScreenLayerKeyframe LoadScreenLayerKeyFrame(XElement node)

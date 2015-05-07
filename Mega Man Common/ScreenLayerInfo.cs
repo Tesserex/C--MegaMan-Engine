@@ -13,13 +13,18 @@ namespace MegaMan.Common
         public List<EntityPlacement> Entities { get; private set; }
         public List<ScreenLayerKeyframe> Keyframes { get; private set; }
 
-        public ScreenLayerInfo(string name, TileLayer tiles, bool foreground, List<EntityPlacement> entities, List<ScreenLayerKeyframe> keyframes)
+        public ScreenLayerInfo(string name, TileLayer tiles, bool foreground, List<ScreenLayerKeyframe> keyframes)
         {
             this.Name = name;
             this.Tiles = tiles;
             this.Foreground = foreground;
-            this.Entities = entities;
+            this.Entities = new List<EntityPlacement>();
             this.Keyframes = keyframes;
+        }
+
+        public void AddEntity(EntityPlacement entity)
+        {
+            this.Entities.Add(entity);
         }
 
         public void Save(XmlTextWriter writer)

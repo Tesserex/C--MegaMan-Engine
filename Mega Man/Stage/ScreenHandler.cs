@@ -13,7 +13,6 @@ namespace MegaMan.Engine
 
         private readonly IEnumerable<ScreenLayer> layers;
         private readonly List<BlocksPattern> patterns;
-        private readonly List<GameEntity> spawnedEntities;
         private readonly IEnumerable<JoinHandler> joins;
         private readonly List<bool> teleportEnabled;
         private readonly IGameplayContainer container;
@@ -64,7 +63,6 @@ namespace MegaMan.Engine
         {
             Screen = screen;
             patterns = new List<BlocksPattern>();
-            spawnedEntities = new List<GameEntity>();
 
             this.layers = layers;
 
@@ -214,11 +212,6 @@ namespace MegaMan.Engine
             }
         }
 
-        public void AddEntity(string id, GameEntity entity)
-        {
-            spawnedEntities.Add(entity);
-        }
-
         public GameEntity GetEntity(string id)
         {
             if (id == null) return null;
@@ -231,9 +224,7 @@ namespace MegaMan.Engine
 
         public IEnumerable<GameEntity> GetEntities(string name)
         {
-            return layers.SelectMany(l => l.GetEntities(name))
-                .Concat(spawnedEntities
-                    .Where(e => e != null && e.Name == name));
+            return layers.SelectMany(l => l.GetEntities(name));
         }
 
         public void ClearEntities()
@@ -262,12 +253,6 @@ namespace MegaMan.Engine
             {
                 layer.Stop();
             }
-
-            foreach (GameEntity entity in spawnedEntities)
-            {
-                entity.Remove();
-            }
-            spawnedEntities.Clear();
 
             foreach (BlocksPattern pattern in patterns)
             {

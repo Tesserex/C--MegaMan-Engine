@@ -171,7 +171,7 @@ namespace MegaMan.Editor.Bll
 
             int[,] tiles = new int[tile_width, tile_height];
 
-            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<EntityPlacement>(), new List<ScreenLayerKeyframe>()));
+            screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<ScreenLayerKeyframe>()));
 
             map.Screens.Add(name, screen);
 
