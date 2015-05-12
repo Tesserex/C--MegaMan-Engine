@@ -4,12 +4,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteEditorViewModel : INotifyPropertyChanged
     {
         private Sprite _sprite;
+        private ProjectDocument _project;
 
         private static int _previewZoom = 1;
         private static int _sheetZoom = 1;
@@ -40,12 +42,13 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public SpriteEditorViewModel(Sprite sprite)
+        public SpriteEditorViewModel(Sprite sprite, ProjectDocument project = null)
         {
             if (sprite == null)
                 throw new ArgumentNullException("sprite");
 
             _sprite = sprite;
+            _project = project;
 
             ((App)App.Current).Tick += Update;
 
@@ -85,12 +88,19 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _sprite.InsertFrame(_sprite.CurrentIndex + 1);
             _sprite.CurrentIndex = _sprite.Count - 1;
+
+            if (_project != null)
+                _project.Dirty = true;
+
             Update();
         }
 
         private void DeleteFrame()
         {
             _sprite.Remove(_sprite.CurrentFrame);
+
+            if (_project != null)
+                _project.Dirty = true;
         }
 
         private bool CanZoomOut(object obj)
@@ -170,6 +180,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _sprite.CurrentFrame.Duration = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
             }
         }
 
@@ -279,6 +292,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             y /= _sheetZoom;
 
             _sprite.CurrentFrame.SetSheetPosition(x, y);
+
+            if (_project != null)
+                _project.Dirty = true;
+
             OnPropertyChanged("PreviewImage");
         }
     }

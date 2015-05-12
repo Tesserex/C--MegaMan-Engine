@@ -1,5 +1,5 @@
 <Map name="TilesetTest" tiles="tilesets\TilesetTest\tiles.xml">
-	<Start screen="1" x="0" y="0" />
+	<Start screen="1" x="38" y="170" />
 	<Screen id="1" />
 	<Screen id="2" />
 	<Screen id="3" />

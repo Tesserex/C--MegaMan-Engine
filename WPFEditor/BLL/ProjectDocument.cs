@@ -19,7 +19,7 @@ namespace MegaMan.Editor.Bll
             {
                 return _dirty || openStages.Any(s => s.Value.Dirty);
             }
-            private set
+            set
             {
                 _dirty = value;
             }
