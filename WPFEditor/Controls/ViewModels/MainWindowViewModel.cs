@@ -29,6 +29,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand TestLocationCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
+        public ICommand EnginePathCommand { get; private set; }
 
         private string _windowTitle;
         public string WindowTitle
@@ -87,6 +88,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             TestLocationCommand = new RelayCommand(TestLocation, o => _openProject != null);
             UndoCommand = new RelayCommand(Undo, p => ProjectViewModel.CurrentStage != null);
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
+            EnginePathCommand = new RelayCommand(ChangeEnginePath);
         }
 
         public void OpenProject(string filename)
@@ -143,16 +145,21 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (_openProject != null)
             {
                 var startInfo = GetEngineStartInfo();
-                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
-                startInfo.Arguments = string.Format("\"{0}\"", projectPath);
+                if (startInfo != null)
+                {
+                    var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                    startInfo.Arguments = string.Format("\"{0}\"", projectPath);
 
-                Process.Start(startInfo);
+                    Process.Start(startInfo);
+                }
             }
         }
 
         private ProcessStartInfo GetEngineStartInfo()
         {
             var enginePath = GetOrFindEnginePath();
+            if (enginePath == null)
+                return null;
 
             var startInfo = new ProcessStartInfo();
             startInfo.FileName = enginePath;
@@ -166,12 +173,15 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (_openProject != null && ProjectViewModel.CurrentStage != null)
             {
                 var startInfo = GetEngineStartInfo();
-                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
-                var stage = ProjectViewModel.CurrentStage.LinkName;
+                if (startInfo != null)
+                {
+                    var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                    var stage = ProjectViewModel.CurrentStage.LinkName;
 
-                startInfo.Arguments = string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage);
+                    startInfo.Arguments = string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage);
 
-                Process.Start(startInfo);
+                    Process.Start(startInfo);
+                }
             }
         }
 
@@ -181,6 +191,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
 
             }
+        }
+
+        public void ChangeEnginePath(object arg)
+        {
+            PromptForEnginePath();
         }
 
         private void Undo(object param)
@@ -196,27 +211,28 @@ namespace MegaMan.Editor.Controls.ViewModels
         private string GetOrFindEnginePath()
         {
             if (string.IsNullOrWhiteSpace(AppData.EngineAbsolutePath) || !File.Exists(AppData.EngineAbsolutePath))
-            {
-                AppData.EngineAbsolutePath = null; // ensure no garbage
-
-                var dialog = new CommonOpenFileDialog();
-                dialog.Filters.Add(new CommonFileDialogFilter("Executable Files (*.exe)", "exe"));
-
-                dialog.Title = "Please Locate Engine Executable";
-                dialog.EnsureFileExists = true;
-                dialog.EnsurePathExists = true;
-                dialog.EnsureValidNames = true;
-                dialog.Multiselect = false;
-                dialog.ShowPlacesList = true;
-
-                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-                {
-                    AppData.EngineAbsolutePath = dialog.FileName;
-                    AppData.Save();
-                }
-            }
+                PromptForEnginePath();
 
             return AppData.EngineAbsolutePath;
+        }
+
+        private void PromptForEnginePath()
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.Filters.Add(new CommonFileDialogFilter("Executable Files (*.exe)", "exe"));
+
+            dialog.Title = "Please Locate Engine Executable";
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = false;
+            dialog.ShowPlacesList = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                AppData.EngineAbsolutePath = dialog.FileName;
+                AppData.Save();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

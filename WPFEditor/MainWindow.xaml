@@ -51,6 +51,10 @@
                         <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
                         <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
                     </Fluent:DropDownButton>
+
+                    <Fluent:DropDownButton Icon="/Resources/roll.png" LargeIcon="/Resources/roll.png" Header="Preferences">
+                        <Fluent:MenuItem Command="{Binding EnginePathCommand}" Header="Engine Path..." />
+                    </Fluent:DropDownButton>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             
