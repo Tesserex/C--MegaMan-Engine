@@ -119,27 +119,6 @@ namespace MegaMan.Common
                 }
             }
         }
-
-        public void Save(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Properties");
-            writer.WriteAttributeString("name", this.Name);
-            if (this.Blocking) writer.WriteAttributeString("blocking", "true");
-            if (this.Climbable) writer.WriteAttributeString("climbable", "true");
-            if (this.Lethal) writer.WriteAttributeString("lethal", "true");
-            if (this.GravityMult != 1) writer.WriteAttributeString("gravitymult", this.GravityMult.ToString());
-            if (this.PushX != 0) writer.WriteAttributeString("pushX", this.PushX.ToString());
-            if (this.PushY != 0) writer.WriteAttributeString("pushY", this.PushY.ToString());
-            if (this.ResistX != 1) writer.WriteAttributeString("resistX", this.ResistX.ToString());
-            if (this.ResistY != 1) writer.WriteAttributeString("resistY", this.ResistY.ToString());
-            if (this.DragX != 1) writer.WriteAttributeString("dragX", this.DragX.ToString());
-            if (this.DragY != 1) writer.WriteAttributeString("dragY", this.DragY.ToString());
-            if (this.Sinking != 0) writer.WriteAttributeString("sinking", this.Sinking.ToString());
-            if (this.OnEnter != null) writer.WriteAttributeString("onenter", this.OnEnter);
-            if (this.OnLeave != null) writer.WriteAttributeString("onleave", this.OnLeave);
-            if (this.OnOver != null) writer.WriteAttributeString("onover", this.OnOver);
-            writer.WriteEndElement();
-        }
     }
 
     public class Tile

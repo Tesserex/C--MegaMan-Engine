@@ -105,7 +105,8 @@ namespace MegaMan.Editor.Bll
 
         public void Save()
         {
-            this.Tileset.Save(this.Tileset.FilePath.Absolute);
+            var writer = new MegaMan.IO.Xml.TilesetXmlWriter();
+            writer.Save(this.Tileset);
             SaveBrushes();
         }
 
