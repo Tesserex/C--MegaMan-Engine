@@ -1,6 +1,6 @@
-﻿using MegaMan.Common;
-using System;
+﻿using System;
 using System.Xml.Linq;
+using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
@@ -30,7 +30,7 @@ namespace MegaMan.IO.Xml
             {
                 foreach (XElement propNode in propParent.Elements("Properties"))
                 {
-                    var prop = new TileProperties(propNode);
+                    var prop = LoadProperties(propNode);
                     tileset.AddProperties(prop);
                 }
             }
@@ -61,6 +61,92 @@ namespace MegaMan.IO.Xml
             }
 
             return tileset;
+        }
+
+        public TileProperties LoadProperties(XElement node)
+        {
+            var properties = new TileProperties();
+            properties.Name = "Default";
+            foreach (XAttribute attr in node.Attributes())
+            {
+                bool b;
+                float f;
+                switch (attr.Name.LocalName.ToLower())
+                {
+                    case "name":
+                        properties.Name = attr.Value;
+                        break;
+
+                    case "blocking":
+                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property blocking attribute was not a valid bool.");
+                        properties.Blocking = b;
+                        break;
+
+                    case "climbable":
+                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property climbable attribute was not a valid bool.");
+                        properties.Climbable = b;
+                        break;
+
+                    case "lethal":
+                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property lethal attribute was not a valid bool.");
+                        properties.Lethal = b;
+                        break;
+
+                    case "pushx":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushX attribute was not a valid number.");
+                        properties.PushX = f;
+                        break;
+
+                    case "pushy":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushY attribute was not a valid number.");
+                        properties.PushY = f;
+                        break;
+
+                    case "resistx":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistX attribute was not a valid number.");
+                        properties.ResistX = f;
+                        break;
+
+                    case "resisty":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistY attribute was not a valid number.");
+                        properties.ResistY = f;
+                        break;
+
+                    case "dragx":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragX attribute was not a valid number.");
+                        properties.DragX = f;
+                        break;
+
+                    case "dragy":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragY attribute was not a valid number.");
+                        properties.DragY = f;
+                        break;
+
+                    case "sinking":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property sinking attribute was not a valid number.");
+                        properties.Sinking = f;
+                        break;
+
+                    case "gravitymult":
+                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property gravitymult attribute was not a valid number.");
+                        properties.GravityMult = f;
+                        break;
+
+                    case "onenter":
+                        properties.OnEnter = attr.Value;
+                        break;
+
+                    case "onleave":
+                        properties.OnLeave = attr.Value;
+                        break;
+
+                    case "onover":
+                        properties.OnOver = attr.Value;
+                        break;
+                }
+            }
+
+            return properties;
         }
     }
 }

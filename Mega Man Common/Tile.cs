@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml;
 
 namespace MegaMan.Common
 {
@@ -36,89 +30,6 @@ namespace MegaMan.Common
             this.ResistY = 1;
             this.GravityMult = 1;
         }
-
-        public TileProperties(XElement xmlNode) : this()
-        {
-            this.Name = "Default";
-            foreach (XAttribute attr in xmlNode.Attributes())
-            {
-                bool b;
-                float f;
-                switch (attr.Name.LocalName.ToLower())
-                {
-                    case "name":
-                        this.Name = attr.Value;
-                        break;
-
-                    case "blocking":
-                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property blocking attribute was not a valid bool.");
-                        Blocking = b;
-                        break;
-
-                    case "climbable":
-                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property climbable attribute was not a valid bool.");
-                        Climbable = b;
-                        break;
-
-                    case "lethal":
-                        if (!bool.TryParse(attr.Value, out b)) throw new Exception("Tile property lethal attribute was not a valid bool.");
-                        Lethal = b;
-                        break;
-
-                    case "pushx":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushX attribute was not a valid number.");
-                        PushX = f;
-                        break;
-
-                    case "pushy":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property pushY attribute was not a valid number.");
-                        PushY = f;
-                        break;
-
-                    case "resistx":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistX attribute was not a valid number.");
-                        ResistX = f;
-                        break;
-
-                    case "resisty":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property resistY attribute was not a valid number.");
-                        ResistY = f;
-                        break;
-
-                    case "dragx":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragX attribute was not a valid number.");
-                        DragX = f;
-                        break;
-
-                    case "dragy":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property dragY attribute was not a valid number.");
-                        DragY = f;
-                        break;
-
-                    case "sinking":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property sinking attribute was not a valid number.");
-                        Sinking = f;
-                        break;
-
-                    case "gravitymult":
-                        if (!attr.Value.TryParse(out f)) throw new Exception("Tile property gravitymult attribute was not a valid number.");
-                        GravityMult = f;
-                        break;
-
-                    case "onenter":
-                        this.OnEnter = attr.Value;
-                        break;
-
-                    case "onleave":
-                        this.OnLeave = attr.Value;
-                        break;
-
-                    case "onover":
-                        this.OnOver = attr.Value;
-                        break;
-                }
-            }
-        }
     }
 
     public class Tile
@@ -127,12 +38,12 @@ namespace MegaMan.Common
         public string Name { get; set; }
         public TileSprite Sprite { get; protected set; }
         public float Width { get { return Sprite.Width; } }
-        public float Height 
-        { 
-            get 
-            { 
-                return Sprite.Height; 
-            } 
+        public float Height
+        {
+            get
+            {
+                return Sprite.Height;
+            }
         }
 
         public TileProperties Properties { get; set; }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine.Entities
 {
@@ -18,13 +19,13 @@ namespace MegaMan.Engine.Entities
 
         public void LoadProperties(XElement doc)
         {
-            // properties
+            var reader = new TilesetXmlReader();
             XElement propHead = doc.Element("Properties");
             if (propHead != null)
             {
                 foreach (XElement propNode in propHead.Elements("Properties"))
                 {
-                    TileProperties p = new TileProperties(propNode);
+                    TileProperties p = reader.LoadProperties(propNode);
                     entityProperties[p.Name] = p;
                 }
             }
