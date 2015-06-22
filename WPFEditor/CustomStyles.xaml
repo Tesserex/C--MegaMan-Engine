@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:avalonDock="http://avalondock.codeplex.com"
-                    xmlns:avalonDockLayout="http://avalondock.codeplex.com"
-                    xmlns:avalonDockControls="http://avalondock.codeplex.com"
-                    xmlns:avalonDockConverters="http://avalondock.codeplex.com"
-                    xmlns:avalonDockProperties="http://avalondock.codeplex.com">
+                    xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:avalonDockLayout="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:avalonDockControls="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:avalonDockConverters="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:avalonDockProperties="http://schemas.xceed.com/wpf/xaml/avalondock">
 
     <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <avalonDockConverters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>

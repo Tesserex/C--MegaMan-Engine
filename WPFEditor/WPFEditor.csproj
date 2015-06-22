@@ -59,23 +59,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AvalonDock, Version=2.0.1746.0, Culture=neutral, PublicKeyToken=96637cf0d3eefdfb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.1746\lib\net40\AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonDock.Themes.Aero">
-      <HintPath>..\packages\AvalonDock.2.0.1746\lib\net40\AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonDock.Themes.Expression">
-      <HintPath>..\packages\AvalonDock.2.0.1746\lib\net40\AvalonDock.Themes.Expression.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonDock.Themes.Metro">
-      <HintPath>..\packages\AvalonDock.2.0.1746\lib\net40\AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonDock.Themes.VS2010, Version=2.0.1746.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.1746\lib\net40\AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
     <Reference Include="Fluent, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fluent.Ribbon.2.0.2\lib\net45\Fluent.dll</HintPath>
@@ -120,17 +103,24 @@
     <Reference Include="WriteableBitmapEx.Wpf">
       <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.DataGrid">
       <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
@@ -167,6 +157,7 @@
     <Compile Include="Controls\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AvalonDockLayoutSerializer.cs" />
     <Compile Include="Controls\CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
@@ -213,6 +204,7 @@
     </Compile>
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
+    <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />

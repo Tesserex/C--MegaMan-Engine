@@ -69,6 +69,18 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        private AvalonDockLayoutViewModel mAVLayout;
+        public AvalonDockLayoutViewModel ADLayout
+        {
+            get
+            {
+                if (this.mAVLayout == null)
+                    this.mAVLayout = new AvalonDockLayoutViewModel();
+
+                return this.mAVLayout;
+            }
+        }
+
         public MainWindowViewModel(IProjectDocumentFactory projectFactory)
         {
             _projectFactory = projectFactory;

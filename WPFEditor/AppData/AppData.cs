@@ -69,9 +69,17 @@ namespace MegaMan.Editor.AppData
 
         private static string GetFilePath()
         {
-            var directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var file = Path.Combine(directory, "settings.xml");
+            var file = Path.Combine(GetDirectory(), "settings.xml");
             return file;
+        }
+
+        public static string GetDirectory()
+        {
+            var data = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var directory = Path.Combine(data, "MegaManEngine");
+
+            Directory.CreateDirectory(directory);
+            return directory;
         }
     }
 }
