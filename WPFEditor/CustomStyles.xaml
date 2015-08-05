@@ -50,7 +50,6 @@
                                         </avalonDockControls:ContextMenuEx.ItemContainerStyle>
                                     </avalonDockControls:ContextMenuEx>
                                 </avalonDockControls:DropDownButton.DropDownContextMenu>
-                                <Image Source="/AvalonDock;component/Images/PinDocMenu.png"/>
                             </avalonDockControls:DropDownButton>
                         </Grid>
                         <Border x:Name="ContentPanel" 

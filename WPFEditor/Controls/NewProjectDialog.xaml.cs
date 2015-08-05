@@ -3,6 +3,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Ninject;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace MegaMan.Editor.Controls
 {
@@ -17,8 +18,11 @@ namespace MegaMan.Editor.Controls
         {
             InitializeComponent();
 
-            _viewModel = App.Container.Get<NewProjectViewModel>();
-            this.DataContext = _viewModel;
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                _viewModel = App.Container.Get<NewProjectViewModel>();
+                this.DataContext = _viewModel;
+            }
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)

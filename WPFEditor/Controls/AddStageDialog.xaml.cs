@@ -27,8 +27,12 @@ namespace MegaMan.Editor.Controls
         public AddStageDialog()
         {
             InitializeComponent();
-            _viewModel = App.Container.Get<AddStageViewModel>();
-            this.DataContext = _viewModel;
+
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                _viewModel = App.Container.Get<AddStageViewModel>();
+                this.DataContext = _viewModel;
+            }
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)

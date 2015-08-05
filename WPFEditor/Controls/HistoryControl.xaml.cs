@@ -11,7 +11,9 @@ namespace MegaMan.Editor.Controls
         public HistoryControl()
         {
             InitializeComponent();
-            this.DataContext = new HistoryControlViewModel();
+
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+                this.DataContext = new HistoryControlViewModel();
         }
     }
 }
