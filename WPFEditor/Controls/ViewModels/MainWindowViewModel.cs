@@ -9,6 +9,7 @@ using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
+using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
@@ -24,12 +25,26 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ProjectViewModel ProjectViewModel { get; private set; }
 
+        public ICommand OpenRecentCommand { get; private set; }
+        public ICommand SaveProjectCommand { get; private set; }
+        public ICommand CloseProjectCommand { get; private set; }
         public ICommand TestCommand { get; private set; }
         public ICommand TestStageCommand { get; private set; }
         public ICommand TestLocationCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
         public ICommand EnginePathCommand { get; private set; }
+
+        private bool _showBackstage;
+        public bool ShowBackstage
+        {
+            get { return _showBackstage; }
+            set
+            {
+                _showBackstage = value;
+                OnPropertyChanged("ShowBackstage");
+            }
+        }
 
         private string _windowTitle;
         public string WindowTitle
@@ -95,12 +110,56 @@ namespace MegaMan.Editor.Controls.ViewModels
             ApplicationName = attr.Product;
             WindowTitle = attr.Product;
 
+            OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
+            SaveProjectCommand = new RelayCommand(SaveProject, o => _openProject != null);
+            CloseProjectCommand = new RelayCommand(CloseProject, o => _openProject != null);
             TestCommand = new RelayCommand(TestProject, o => _openProject != null);
             TestStageCommand = new RelayCommand(TestStage, o => _openProject != null);
             TestLocationCommand = new RelayCommand(TestLocation, o => _openProject != null);
             UndoCommand = new RelayCommand(Undo, p => ProjectViewModel.CurrentStage != null);
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
+
+            ShowBackstage = true;
+        }
+
+        private void OpenProjectDialog(object sender, ExecutedRoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Open Project File";
+            dialog.FileName = "game";
+            dialog.DefaultExt = ".xml";
+            dialog.Filter = "XML Files|*.xml";
+
+            var result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                TryOpenProject(dialog.FileName);
+            }
+        }
+
+        private void OpenRecentProject(object param)
+        {
+            TryOpenProject(param.ToString());
+            ShowBackstage = false;
+        }
+
+        private void TryOpenProject(string filename)
+        {
+            try
+            {
+                OpenProject(filename);
+            }
+            catch (FileNotFoundException)
+            {
+                CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
+
+            }
+            catch (MegaMan.Common.GameXmlException)
+            {
+                CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", ApplicationName);
+            }
         }
 
         public void OpenProject(string filename)
@@ -135,7 +194,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             WindowTitle = ApplicationName;
         }
 
-        public void SaveProject()
+        public void SaveProject(object arg)
         {
             if (_openProject != null)
             {
@@ -143,7 +202,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void CloseProject()
+        public void CloseProject(object arg)
         {
             if (_openProject != null)
             {

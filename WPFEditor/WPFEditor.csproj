@@ -512,6 +512,10 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\EntityList.png" />
+    <Resource Include="Resources\NewEntity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\roll.png" />
     <Resource Include="Resources\start_on.png" />
     <Resource Include="Resources\start_off.png" />

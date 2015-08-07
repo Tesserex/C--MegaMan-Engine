@@ -14,7 +14,6 @@ namespace MegaMan.Editor
     {
         private MainWindowViewModel _viewModel;
 
-        public ICommand OpenRecentCommand { get; private set; }
         public ICommand OpenProjectSettingsCommand { get; private set; }
         public ICommand EditTilesetCommand { get; private set; }
         public ICommand EditStageCommand { get; private set; }
@@ -23,25 +22,30 @@ namespace MegaMan.Editor
 
         public MainWindow()
         {
-            _viewModel = App.Container.Get<MainWindowViewModel>();
-            this.DataContext = _viewModel;
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                _viewModel = App.Container.Get<MainWindowViewModel>();
+                this.DataContext = _viewModel;
+            }
 
             UseLayoutRounding = true;
 
             InitializeComponent();
 
-            projectTree.Update(_viewModel.ProjectViewModel);
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                projectTree.Update(_viewModel.ProjectViewModel);
 
-            OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
-            OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
-            AddStageCommand = new RelayCommand(AddStage, p => IsProjectOpen());
-            EditTilesetCommand = new RelayCommand(EditTileset, p => IsStageOpen());
-            EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
-            StagePropertiesCommand = new RelayCommand(ShowStageProperties, p => IsStageOpen());
+                OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
+                AddStageCommand = new RelayCommand(AddStage, p => IsProjectOpen());
+                EditTilesetCommand = new RelayCommand(EditTileset, p => IsStageOpen());
+                EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
+                StagePropertiesCommand = new RelayCommand(ShowStageProperties, p => IsStageOpen());
 
-            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
+                ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
 
-            this.Closing += MainWindow_Closing;
+                this.Closing += MainWindow_Closing;
+            }
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -68,68 +72,9 @@ namespace MegaMan.Editor
             this.editorPane.IsActive = true;
         }
 
-        private void CanExecuteTrue(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void OpenProject(object sender, ExecutedRoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "Open Project File";
-            dialog.FileName = "game";
-            dialog.DefaultExt = ".xml";
-            dialog.Filter = "XML Files|*.xml";
-
-            var result = dialog.ShowDialog(this);
-
-            if (result == true)
-            {
-                TryOpenProject(dialog.FileName);
-            }
-        }
-
-        private void TryOpenProject(string filename)
-        {
-            try
-            {
-                _viewModel.OpenProject(filename);
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                CustomMessageBox.ShowError("The project file could not be found at the specified location.", _viewModel.ApplicationName);
-
-            }
-            catch (MegaMan.Common.GameXmlException)
-            {
-                CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", _viewModel.ApplicationName);
-            }
-        }
-
-        private void SaveProject(object sender, ExecutedRoutedEventArgs e)
-        {
-            _viewModel.SaveProject();
-        }
-
-        private void IsProjectOpen(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = IsProjectOpen();
-        }
-
         private bool IsProjectOpen()
         {
             return (_viewModel.ProjectViewModel.Project != null);
-        }
-
-        private void CloseProject(object sender, ExecutedRoutedEventArgs e)
-        {
-            _viewModel.CloseProject();
-        }
-
-        private void OpenRecentProject(object param)
-        {
-            TryOpenProject(param.ToString());
-            ribbonBackstage.IsOpen = false;
         }
 
         private void OpenProjectSettings(object param)
