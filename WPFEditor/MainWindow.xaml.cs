@@ -107,6 +107,8 @@ namespace MegaMan.Editor
         {
             if (e.AddedItems.Contains(ribbonStage))
                 editorPane.IsSelected = true;
+            else if (e.AddedItems.Contains(ribbonEntities))
+                entityEditorPane.IsSelected = true;
         }
 
         private void EditStage(object param)

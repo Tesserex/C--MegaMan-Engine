@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -22,9 +23,12 @@ namespace MegaMan.Editor.Controls
 
         public SpriteImage()
         {
-            ((App)App.Current).Tick += Tick;
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                ((App)App.Current).Tick += Tick;
 
-            this.DataContextChanged += SpriteImage_DataContextChanged;
+                this.DataContextChanged += SpriteImage_DataContextChanged;
+            }
 
             _image = new Image();
             Children.Add(_image);

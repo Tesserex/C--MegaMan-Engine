@@ -162,6 +162,9 @@
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
+    <Compile Include="Controls\EntityEditor.xaml.cs">
+      <DependentUpon>EntityEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Layers\EntityScreenLayer.cs" />
     <Compile Include="Controls\EntityTray.xaml.cs">
       <DependentUpon>EntityTray.xaml</DependentUpon>
@@ -205,6 +208,7 @@
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
@@ -255,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EntityEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
