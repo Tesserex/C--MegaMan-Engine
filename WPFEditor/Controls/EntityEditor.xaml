@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:vm="clr-namespace:MegaMan.Editor.Controls.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
@@ -16,44 +17,70 @@
             <Setter Property="Margin" Value="15,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
         <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}">
             <Setter Property="FontSize" Value="20"></Setter>
         </Style>
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+
+        <DataTemplate DataType="{x:Type vm:SpriteEditorViewModel}">
+            <DockPanel>
+                <Button DockPanel.Dock="Top" Command="{Binding DataContext.GoBackCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}">Back to Entity</Button>
+                <local:SpriteEditor></local:SpriteEditor>
+            </DockPanel>
+        </DataTemplate>
+        
     </UserControl.Resources>
-    <DockPanel Margin="5" VerticalAlignment="Stretch">
-        <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding EntityList}" DisplayMemberPath="Name" SelectedValue="{Binding CurrentEntity, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"></ComboBox>
-        <DockPanel DockPanel.Dock="Top">
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
-                <Label>Entity Information</Label>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock>Name</TextBlock>
-                    <TextBox Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="WhiteSmoke">
+        <DockPanel Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
+            <ComboBox Text="Select Entity" DockPanel.Dock="Top" ItemsSource="{Binding EntityList}" DisplayMemberPath="Name" SelectedValue="{Binding CurrentEntity, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"></ComboBox>
+            <DockPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
+                    <Label>Entity Information</Label>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock>Name</TextBlock>
+                        <TextBox Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock>Max Alive</TextBlock>
+                        <xctk:IntegerUpDown Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
+                    </StackPanel>
+                    <Label>Editor Preferences</Label>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock>Default Sprite</TextBlock>
+                        <ComboBox ItemsSource="{Binding CurrentEntity.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock>Show in Entity Placement Panel</TextBlock>
+                        <CheckBox IsChecked="{Binding ShowPlacement}"></CheckBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock>Max Alive</TextBlock>
-                    <xctk:IntegerUpDown Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
-                </StackPanel>
-                <Label>Editor Preferences</Label>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock>Default Sprite</TextBlock>
-                    <ComboBox ItemsSource="{Binding CurrentEntity.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock>Show in Entity Placement Panel</TextBlock>
-                    <CheckBox IsChecked="{Binding ShowPlacement}"></CheckBox>
-                </StackPanel>
-            </StackPanel>
-            <local:SpriteImage DataContext="{Binding DefaultSprite}" HorizontalAlignment="Stretch" Background="Magenta"></local:SpriteImage>
+                <local:SpriteImage DataContext="{Binding DefaultSprite}" HorizontalAlignment="Stretch" Background="Magenta"></local:SpriteImage>
+            </DockPanel>
+            <DockPanel Background="WhiteSmoke" VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" DockPanel.Dock="Top">
+                <Label DockPanel.Dock="Top">Components</Label>
+                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+                    <TabItem Header="Sprites" Visibility="{Binding SpriteTabVisibility}">
+                        <ListView ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding Items.Count, RelativeSource={RelativeSource AncestorType=ListView}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="WhiteSmoke" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <Label DockPanel.Dock="Top" FontSize="16" Content="{Binding Name}" HorizontalAlignment="Center"></Label>
+                                        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}">Edit</Button>
+                                        <local:SpriteImage DataContext="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"></local:SpriteImage>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
         </DockPanel>
-        <DockPanel Background="WhiteSmoke" VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0">
-            <Label DockPanel.Dock="Top">Components</Label>
-            <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-                <TabItem Header="Sprites"></TabItem>
-                <TabItem Header="Movement"></TabItem>
-            </TabControl>
-        </DockPanel>
-    </DockPanel>
+        <ContentControl Content="{Binding ComponentViewModel}" Panel.ZIndex="1" />
+    </Grid>
 </UserControl>

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
@@ -14,6 +16,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
     public class EntityEditorViewModel : INotifyPropertyChanged
     {
         private ProjectDocument _project;
+
+        public ICommand GoBackCommand { get; private set; }
+        public ICommand EditSpriteCommand { get; private set; }
+
+        public INotifyPropertyChanged ComponentViewModel { get; private set; }
 
         public IEnumerable<EntityInfo> EntityList { get; private set; }
 
@@ -28,12 +35,22 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 if (_currentEntity.EditorData == null)
                     _currentEntity.EditorData = new EntityEditorData();
 
+                foreach (var sprite in _currentEntity.Sprites.Values)
+                {
+                    sprite.Play();
+                    ((App)App.Current).AnimateSprite(sprite);
+                }
+
                 OnPropertyChanged("CurrentEntity");
                 OnPropertyChanged("DefaultSpriteName");
                 OnPropertyChanged("DefaultSprite");
                 OnPropertyChanged("ShowPlacement");
+                OnPropertyChanged("SpriteTabVisibility");
+                OnPropertyChanged("Sprites");
             }
         }
+
+        public IEnumerable<Sprite> Sprites {  get { return _currentEntity != null ? _currentEntity.Sprites.Values : null; } }
 
         public Sprite DefaultSprite
         {
@@ -61,7 +78,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 {
                     _currentEntity.EditorData.DefaultSpriteName = value;
                     _currentEntity.DefaultSprite.Play();
-                    ((App)App.Current).AnimateSprite(_currentEntity.DefaultSprite);
                     OnPropertyChanged("DefaultSpriteName");
                     OnPropertyChanged("DefaultSprite");
                 }
@@ -81,9 +97,31 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
+        public Visibility SpriteTabVisibility
+        {
+            get
+            {
+                return (_currentEntity != null && _currentEntity.Sprites.Any()) ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public EntityEditorViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            EditSpriteCommand = new RelayCommand(x => EditSprite((Sprite)x), arg => _currentEntity != null);
+            GoBackCommand = new RelayCommand(x => GoBack(), null);
+        }
+
+        public void EditSprite(Sprite sprite)
+        {
+            ComponentViewModel = new SpriteEditorViewModel(sprite);
+            OnPropertyChanged("ComponentViewModel");
+        }
+
+        public void GoBack()
+        {
+            ComponentViewModel = null;
+            OnPropertyChanged("ComponentViewModel");
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
