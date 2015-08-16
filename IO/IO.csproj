@@ -70,6 +70,8 @@
     <Compile Include="ITilesetReader.cs" />
     <Compile Include="ITilesetWriter.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
+    <Compile Include="Xml\Includes\EntityXmlReader.cs" />
+    <Compile Include="Xml\Includes\EntityXmlWriter.cs" />
     <Compile Include="Xml\Includes\FontsXmlReader.cs" />
     <Compile Include="Xml\Includes\FontXmlReader.cs" />
     <Compile Include="Xml\IIncludeXmlReader.cs" />

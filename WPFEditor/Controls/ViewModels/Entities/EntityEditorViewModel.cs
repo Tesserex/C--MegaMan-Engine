@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MegaMan.Common;
@@ -35,10 +33,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 if (_currentEntity.EditorData == null)
                     _currentEntity.EditorData = new EntityEditorData();
 
-                foreach (var sprite in _currentEntity.Sprites.Values)
+                if (_currentEntity.SpriteComponent != null)
                 {
-                    sprite.Play();
-                    ((App)App.Current).AnimateSprite(sprite);
+                    foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
+                    {
+                        sprite.Play();
+                        ((App)App.Current).AnimateSprite(sprite);
+                    }
                 }
 
                 OnPropertyChanged("CurrentEntity");
@@ -50,7 +51,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public IEnumerable<Sprite> Sprites {  get { return _currentEntity != null ? _currentEntity.Sprites.Values : null; } }
+        public IEnumerable<Sprite> Sprites { get { return (_currentEntity != null && _currentEntity.SpriteComponent != null) ? _currentEntity.SpriteComponent.Sprites.Values : null; } }
 
         public Sprite DefaultSprite
         {
@@ -101,7 +102,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             get
             {
-                return (_currentEntity != null && _currentEntity.Sprites.Any()) ? Visibility.Visible : Visibility.Collapsed;
+                return (_currentEntity != null && _currentEntity.SpriteComponent != null && _currentEntity.SpriteComponent.Sprites.Any()) ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

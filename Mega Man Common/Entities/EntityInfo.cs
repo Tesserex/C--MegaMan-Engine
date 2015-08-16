@@ -7,25 +7,21 @@ namespace MegaMan.Common.Entities
     {
         public string Name { get; set; }
         public int MaxAlive { get; set; }
-        public Dictionary<string, Sprite> Sprites { get; private set; }
         public EntityEditorData EditorData { get; set; }
 
-        public EntityInfo()
-        {
-            Sprites = new Dictionary<string, Sprite>();
-        }
+        public SpriteComponentInfo SpriteComponent { get; set; }
 
         public Sprite DefaultSprite
         {
             get
             {
-                if (!Sprites.Any())
+                if (SpriteComponent == null || !SpriteComponent.Sprites.Any())
                     return null;
 
                 if (EditorData != null && EditorData.DefaultSpriteName != null)
-                    return Sprites[EditorData.DefaultSpriteName];
+                    return SpriteComponent.Sprites[EditorData.DefaultSpriteName];
                 else
-                    return Sprites.Values.First();
+                    return SpriteComponent.Sprites.Values.First();
             }
         }
     }
