@@ -158,10 +158,13 @@
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\AvalonDockLayoutSerializer.cs" />
-    <Compile Include="Controls\CustomMessageBox.xaml.cs">
+    <Compile Include="Controls\Dialogs\CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
+    <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
+      <DependentUpon>NewEntityDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
     </Compile>
@@ -180,7 +183,7 @@
       <DependentUpon>MainEditorPane.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MultiTileBrushImage.cs" />
-    <Compile Include="Controls\NewProjectDialog.xaml.cs">
+    <Compile Include="Controls\Dialogs\NewProjectDialog.xaml.cs">
       <DependentUpon>NewProjectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Layers\OverlayScreenLayer.cs" />
@@ -208,6 +211,7 @@
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
@@ -224,12 +228,15 @@
     <Compile Include="Controls\ViewModels\ZoomLevel.cs" />
     <Compile Include="Mediator\LayoutScreenDroppedEventArgs.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
+    <Compile Include="Mediator\NewEntityEventArgs.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
     <Compile Include="Tools\ImageCursor.cs" />
     <Compile Include="Tools\MultiTileCursor.cs" />
@@ -258,7 +265,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CustomMessageBox.xaml">
+    <Page Include="Controls\Dialogs\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\NewEntityDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,7 +293,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\NewProjectDialog.xaml">
+    <Page Include="Controls\Dialogs\NewProjectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -530,6 +541,7 @@
     <Resource Include="Resources\continue_on.png" />
     <Resource Include="Resources\continue_off.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -32,19 +32,27 @@ namespace MegaMan.Editor.Bll
             return FilePath.FromAbsolute(tilesetFile, this._basePath);
         }
 
-        private string EnsureDirectory(string root, string stageName)
+        public FilePath CreateEntityPath(string entityName)
         {
-            string stageDir = Path.Combine(_basePath, root);
-            if (!Directory.Exists(stageDir))
+            var entityDir = EnsureDirectory("entities");
+            var entityFile = Path.Combine(entityDir, entityName + ".xml");
+            return FilePath.FromAbsolute(entityFile, _basePath);
+        }
+
+        private string EnsureDirectory(params string[] dirs)
+        {
+            var root = _basePath;
+
+            foreach (var dir in dirs)
             {
-                Directory.CreateDirectory(stageDir);
+                root = Path.Combine(root, dir);
+                if (!Directory.Exists(root))
+                {
+                    Directory.CreateDirectory(root);
+                }
             }
-            string stagePath = Path.Combine(stageDir, stageName);
-            if (!Directory.Exists(stagePath))
-            {
-                Directory.CreateDirectory(stagePath);
-            }
-            return stagePath;
+            
+            return root;
         }
     }
 }

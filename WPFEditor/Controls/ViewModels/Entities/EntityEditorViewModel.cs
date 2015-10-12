@@ -109,8 +109,16 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         public EntityEditorViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             EditSpriteCommand = new RelayCommand(x => EditSprite((Sprite)x), arg => _currentEntity != null);
             GoBackCommand = new RelayCommand(x => GoBack(), null);
+        }
+
+        private void NewEntity(object sender, NewEntityEventArgs e)
+        {
+            CurrentEntity = new EntityInfo() {
+                Name = e.Name
+            };
         }
 
         public void EditSprite(Sprite sprite)
@@ -133,6 +141,14 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 .OrderBy(x => x.Name)
                 .ToList();
             OnPropertyChanged("EntityList");
+        }
+        
+        private void Save()
+        {
+            if (CurrentEntity == null)
+                return;
+
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

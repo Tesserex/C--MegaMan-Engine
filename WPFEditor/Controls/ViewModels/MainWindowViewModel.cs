@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -9,6 +10,7 @@ using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Services;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -17,6 +19,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private IProjectDocumentFactory _projectFactory;
+        private IDialogService _dialogService;
+
         private ProjectDocument _openProject;
 
         public string ApplicationName { get; private set; }
@@ -34,6 +38,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
         public ICommand EnginePathCommand { get; private set; }
+        public ICommand NewEntityCommand { get; private set; }
 
         private bool _showBackstage;
         public bool ShowBackstage
@@ -96,9 +101,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public MainWindowViewModel(IProjectDocumentFactory projectFactory)
+        public MainWindowViewModel(IProjectDocumentFactory projectFactory, IDialogService dialogService)
         {
             _projectFactory = projectFactory;
+            _dialogService = dialogService;
 
             ProjectViewModel = new ProjectViewModel();
 
@@ -119,8 +125,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             UndoCommand = new RelayCommand(Undo, p => ProjectViewModel.CurrentStage != null);
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
+            NewEntityCommand = new RelayCommand(NewEntity);
 
             ShowBackstage = true;
+        }
+
+        private void NewEntity(object obj)
+        {
+            _dialogService.ShowNewEntityDialog();
         }
 
         private void OpenProjectDialog(object sender, ExecutedRoutedEventArgs e)
