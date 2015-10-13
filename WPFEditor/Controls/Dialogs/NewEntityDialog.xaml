@@ -9,29 +9,27 @@
         WindowStyle="SingleBorderWindow"
         Title="New Entity" ShowInTaskbar="False" Topmost="True"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight"
-        MinHeight="155" MaxWidth="470" MinWidth="154"
+        MinHeight="155" MaxWidth="470" MinWidth="300"
         Icon="/Resources/metool.png"
         TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" UseLayoutRounding="True">
     <Border Background="#040404" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="36" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0" Background="#f0f0f0">
-                <Image Source="/Resources/metool.png" Stretch="None" HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="8,0,0,0"/>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">New Entity</Label>
-            </DockPanel>
-            <Grid Grid.Row="1" Background="White" MinHeight="69">
+            <Grid Style="{StaticResource InputForm}" Grid.Row="0" Background="White" MinHeight="69">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0">Name</Label>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
             </Grid>
-            <Grid Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MinHeight="49">
+            <Grid Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MinHeight="49">
                 <DockPanel Margin="5,0">
 
                     <!-- Cancel Button -->

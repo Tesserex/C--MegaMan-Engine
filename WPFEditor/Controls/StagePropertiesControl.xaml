@@ -7,38 +7,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <DockPanel Background="White" Width="auto" Height="auto">
-        <Grid MaxWidth="600px" DockPanel.Dock="Left" Margin="15,15,15,0">
+        <Grid Style="{StaticResource InputForm}" MaxWidth="600px" DockPanel.Dock="Left" Margin="15,15,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Margin" Value="8,6" />
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Width" Value="300" />
-                    <Setter Property="Width" Value="300" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                </Style>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="Margin" Value="8,6" />
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                </Style>
-                <Style TargetType="{x:Type Label}">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Margin" Value="8,0,0,0" />
-                    <Setter Property="FontSize" Value="14" />
-                </Style>
-                <Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="Margin" Value="8,6" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                </Style>
-            </Grid.Resources>
 
             <Label Grid.Column="0" Grid.Row="0">Stage Name</Label>
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
