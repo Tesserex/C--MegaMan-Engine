@@ -119,6 +119,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             CurrentEntity = new EntityInfo() {
                 Name = e.Name
             };
+
+            _project.AddEntity(CurrentEntity);
         }
 
         public void EditSprite(Sprite sprite)

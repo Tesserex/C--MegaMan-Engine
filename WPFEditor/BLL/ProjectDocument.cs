@@ -240,6 +240,12 @@ namespace MegaMan.Editor.Bll
             return stage;
         }
 
+        public void AddEntity(EntityInfo entity)
+        {
+            this.Project.AddEntity(entity);
+            Dirty = true;
+        }
+
         public void Save()
         {
             var writer = new ProjectXmlWriter(Project);
