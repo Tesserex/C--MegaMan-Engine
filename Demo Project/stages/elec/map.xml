@@ -1,83 +1,70 @@
 <Map name="Elec" tiles="stages\elec\tiles.xml">
 	<Start screen="1" x="112" y="180" />
 	<Screen id="1">
-		<Entity entity="FloorBlade" state="" x="101" y="136" />
-		<Entity entity="FloorBlade" state="" x="170" y="104" />
-		<Entity entity="FloorBlade" state="" x="56" y="72" />
+		<Entity id="d671d8c1-2a03-41f8-a196-af3606875c5f" entity="FloorBlade" state="" x="101" y="136" direction="Unknown" respawn="Offscreen" />
+		<Entity id="b73966a6-b9b3-4c46-bcf8-73161e772831" entity="FloorBlade" state="" x="170" y="104" direction="Unknown" respawn="Offscreen" />
+		<Entity id="cce72c9f-3a24-4d30-9307-6476a8c70b36" entity="FloorBlade" state="" x="56" y="72" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="2">
-		<Entity entity="FloorBlade" state="" x="137" y="136" />
-		<Entity entity="FloorBlade" state="" x="91" y="104" />
+		<Entity id="7c6f9ba8-e472-4963-918f-45535f0964ac" entity="FloorBlade" state="" x="137" y="136" direction="Unknown" respawn="Offscreen" />
+		<Entity id="b21ad759-0c91-4dee-8574-49a4fe7a9ea1" entity="FloorBlade" state="" x="91" y="104" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="3">
-		<Entity entity="BoltOne" state="" x="160" y="144" />
-		<Entity entity="BoltTwo" state="" x="112" y="111" />
+		<Entity id="808cdf65-7d5e-4628-a391-0ec133e72b03" entity="BoltOne" state="" x="160" y="144" direction="Unknown" respawn="Offscreen" />
+		<Entity id="45831a10-eec9-4ccb-8f13-0325f3f449e7" entity="BoltTwo" state="" x="112" y="111" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="4" />
 	<Screen id="5" />
-	<Screen id="6">
-		<Blocks left="0" right="256" length="240" entity="ElecYoku">
-			<Block x="144" y="96" on="0" off="105" />
-			<Block x="96" y="96" on="60" off="165" />
-			<Block x="176" y="64" on="120" off="225" />
-			<Block x="64" y="64" on="180" off="285" />
-		</Blocks>
-	</Screen>
+	<Screen id="6" />
 	<Screen id="7">
-		<Entity entity="SmallWeapon" state="" x="114" y="188" />
-		<Entity entity="SmallWeapon" state="" x="97" y="188" />
-		<Entity entity="SmallWeapon" state="" x="79" y="188" />
-		<Blocks left="0" right="256" length="240" entity="ElecYoku">
-			<Block x="192" y="176" on="0" off="105" />
-			<Block x="176" y="176" on="60" off="165" />
-			<Block x="160" y="176" on="120" off="225" />
-			<Block x="144" y="176" on="180" off="285" />
-		</Blocks>
+		<Entity id="1cc4b4ba-f504-4c39-9367-e6872776ea9e" entity="SmallWeapon" state="" x="114" y="188" direction="Unknown" respawn="Offscreen" />
+		<Entity id="622bbddd-e5d8-4dd1-aab6-b354122bee28" entity="SmallWeapon" state="" x="97" y="188" direction="Unknown" respawn="Offscreen" />
+		<Entity id="d6f263aa-6d76-44c7-8b71-1d3546abdfbf" entity="SmallWeapon" state="" x="79" y="188" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="8">
-		<Entity entity="BigHealth" state="" x="241" y="184" />
+		<Entity id="5ad50912-4e5c-4e80-9995-a406d7b586d2" entity="BigHealth" state="" x="241" y="184" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="9" />
 	<Screen id="10">
-		<Entity entity="FloorBlade" state="" x="42" y="120" />
-		<Entity entity="FloorBlade" state="" x="48" y="56" />
-		<Entity entity="FloorBlade" state="" x="117" y="88" />
-		<Entity entity="BoltOne" x="160" y="112" />
-		<Entity entity="BoltTwo" x="160" y="48" />
+		<Entity id="84053f09-9566-46ce-951c-9f37626bbbc5" entity="FloorBlade" state="" x="42" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="5526d3ed-2a54-42a6-b2aa-c926c4118090" entity="FloorBlade" state="" x="48" y="56" direction="Unknown" respawn="Offscreen" />
+		<Entity id="db6e58b6-bddf-4667-ba85-38d92d86be7f" entity="FloorBlade" state="" x="117" y="88" direction="Unknown" respawn="Offscreen" />
+		<Entity id="59774289-2060-43ef-953f-526c4cf5ea17" entity="BoltOne" x="160" y="112" direction="Unknown" respawn="Offscreen" />
+		<Entity id="96046106-8af0-4aa8-8e85-50dbaa04d92c" entity="BoltTwo" x="160" y="48" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="11" />
 	<Screen id="12">
-		<Entity entity="LargeBolt" state="" x="208" y="122" />
+		<Entity id="1d697804-969e-4a22-85d0-960a455cc448" entity="LargeBolt" state="" x="208" y="122" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="13">
-		<Entity entity="BoltTwo" state="" x="160" y="80" />
-		<Entity entity="BoltOne" state="" x="160" y="144" />
+		<Entity id="9374e97b-e631-4e9a-9164-bea5001e59ff" entity="BoltTwo" state="" x="160" y="80" direction="Unknown" respawn="Offscreen" />
+		<Entity id="27b86126-7441-4a67-b6cb-2d055893d7e7" entity="BoltOne" state="" x="160" y="144" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="14">
-		<Entity entity="BoltOne" state="" x="16" y="144" />
-		<Entity entity="BoltTwo" state="" x="16" y="80" />
-		<Entity entity="BoltTwo" state="" x="160" y="48" />
+		<Entity id="0cc3a884-8203-431e-ae57-73ec48b38aba" entity="BoltOne" state="" x="16" y="144" direction="Unknown" respawn="Offscreen" />
+		<Entity id="790a8023-6ad2-4c37-92cd-fb3562a4b387" entity="BoltTwo" state="" x="16" y="80" direction="Unknown" respawn="Offscreen" />
+		<Entity id="9ca1d09c-dc3e-43cb-b8d0-d0fd724d0212" entity="BoltTwo" state="" x="160" y="48" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="15">
-		<Entity entity="BoltTwo" state="" x="32" y="112" />
-		<Entity entity="BoltOne" state="" x="32" y="176" />
+		<Entity id="1d3d54d1-2450-4973-92e3-d972bf156cdc" entity="BoltTwo" state="" x="32" y="112" direction="Unknown" respawn="Offscreen" />
+		<Entity id="9fbbfc22-4e91-4554-8b30-687d2341b64d" entity="BoltOne" state="" x="32" y="176" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="16" />
 	<Screen id="17">
-		<Entity entity="BoltOne" state="" x="96" y="143" />
-		<Entity entity="BoltTwo" state="" x="64" y="111" />
+		<Entity id="666bf4e1-fc59-496a-9e20-60c848e8ba9d" entity="BoltOne" state="" x="96" y="143" direction="Unknown" respawn="Offscreen" />
+		<Entity id="4803289a-bfe0-4b0e-9614-dfdf2d51d327" entity="BoltTwo" state="" x="64" y="111" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="18" />
 	<Screen id="19" />
 	<Screen id="20">
-		<Entity entity="BoltTwo" state="" x="96" y="176" />
-		<Entity entity="BoltTwo" state="" x="96" y="48" />
-		<Entity entity="BoltOne" state="" x="96" y="112" />
+		<Entity id="ff63de2b-df6d-4e63-8cc5-c6befdd142f4" entity="BoltTwo" state="" x="96" y="176" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a7675da8-5fe2-4f6e-9d1d-43f4f36bb383" entity="BoltTwo" state="" x="96" y="48" direction="Unknown" respawn="Offscreen" />
+		<Entity id="bbbce3c3-732d-4254-b623-8aee7258deee" entity="BoltOne" state="" x="96" y="112" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="21">
-		<Entity entity="BoltOne" state="" x="96" y="112" />
-		<Entity entity="BoltTwo" state="" x="96" y="48" />
-		<Entity entity="BoltTwo" state="" x="96" y="176" />
+		<Entity id="6ef882ef-9882-47f6-a9f6-ea0bd49e604a" entity="BoltOne" state="" x="96" y="112" direction="Unknown" respawn="Offscreen" />
+		<Entity id="dcbbf1bf-0859-4f43-a1eb-88c2d23379ce" entity="BoltTwo" state="" x="96" y="48" direction="Unknown" respawn="Offscreen" />
+		<Entity id="7a8f3da7-f3dc-4594-a736-e35e6821fdbb" entity="BoltTwo" state="" x="96" y="176" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="22" />
 	<Join type="horizontal" s1="2" s2="1" offset1="2" offset2="2" size="12" direction="both" />

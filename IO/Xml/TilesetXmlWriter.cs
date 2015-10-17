@@ -3,7 +3,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
-    public class TilesetXmlWriter : ITilesetWriter
+    internal class TilesetXmlWriter : ITilesetWriter
     {
         public void Save(Tileset tileset)
         {

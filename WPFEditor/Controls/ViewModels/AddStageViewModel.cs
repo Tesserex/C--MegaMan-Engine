@@ -1,8 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Services;
+using MegaMan.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
@@ -11,6 +14,7 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private ProjectDocument _project;
         private ITilesetDocumentFactory _tilesetFactory;
+        private IDataAccessService _dataService;
 
         private string _tilesetPath;
         public string TilesetPath
@@ -64,9 +68,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand BrowseTilesetCommand { get; set; }
         public ICommand BrowseTilesheetCommand { get; set; }
 
-        public AddStageViewModel(ITilesetDocumentFactory tilesetFactory)
+        public AddStageViewModel(ITilesetDocumentFactory tilesetFactory, IDataAccessService dataService)
         {
             _tilesetFactory = tilesetFactory;
+            _dataService = dataService;
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectChanged);
 
@@ -158,7 +163,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             var stage = _project.AddStage(Name);
             stage.ChangeTileset(tileset);
-            _project.Save();
+            _dataService.SaveProject(_project);
 
             var args = new StageChangedEventArgs(stage);
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, args);

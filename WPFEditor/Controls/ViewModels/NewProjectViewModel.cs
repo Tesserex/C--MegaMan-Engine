@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MegaMan.IO;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -57,10 +59,12 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         private IProjectDocumentFactory _projectFactory;
+        private IDataAccessService _dataService;
 
-        public NewProjectViewModel(IProjectDocumentFactory projectFactory)
+        public NewProjectViewModel(IProjectDocumentFactory projectFactory, IDataAccessService dataService)
         {
             _projectFactory = projectFactory;
+            _dataService = dataService;
 
             Name = GetDefaultProjectName();
             Author = GetMostRecentAuthor();
@@ -110,7 +114,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             document.Name = Name;
             document.Author = Author;
-            document.Save();
+
+            _dataService.SaveProject(document);
 
             var args = new ProjectOpenedEventArgs() { Project = document };
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);

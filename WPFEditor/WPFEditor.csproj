@@ -235,7 +235,9 @@
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
+    <Compile Include="Services\DataAccessService.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IDataAccessService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
     <Compile Include="Tools\ImageCursor.cs" />

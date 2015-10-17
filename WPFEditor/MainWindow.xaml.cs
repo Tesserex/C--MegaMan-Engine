@@ -59,7 +59,7 @@ namespace MegaMan.Editor
                 }
                 else if (result == System.Windows.MessageBoxResult.Yes)
                 {
-                    _viewModel.ProjectViewModel.Project.Save();
+                    _viewModel.SaveProject();
                 }
             }
         }

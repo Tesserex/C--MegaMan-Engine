@@ -3,6 +3,7 @@ using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Mediator;
+using MegaMan.IO;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
@@ -183,6 +184,19 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
+        public ProjectDocument(IProjectFileStructure fileStructure, Project project)
+        {
+            Project = project;
+            FileStructure = fileStructure;
+
+            entities = project.Entities.ToDictionary(e => e.Name, e => e);
+            foreach (var entity in project.Entities)
+            {
+                ((App)App.Current).AnimateSprite(entity.DefaultSprite);
+                entity.DefaultSprite.Play();
+            }
+        }
+
         public StageDocument StageByName(string name)
         {
             if (openStages.ContainsKey(name)) return openStages[name];
@@ -204,19 +218,6 @@ namespace MegaMan.Editor.Bll
                 return entities[name];
             else
                 return null;
-        }
-
-        public ProjectDocument(IProjectFileStructure fileStructure, Project project)
-        {
-            Project = project;
-            FileStructure = fileStructure;
-
-            entities = project.Entities.ToDictionary(e => e.Name, e => e);
-            foreach (var entity in project.Entities)
-            {
-                ((App)App.Current).AnimateSprite(entity.DefaultSprite);
-                entity.DefaultSprite.Play();
-            }
         }
 
         public StageDocument AddStage(string name)
@@ -244,17 +245,6 @@ namespace MegaMan.Editor.Bll
         {
             this.Project.AddEntity(entity);
             Dirty = true;
-        }
-
-        public void Save()
-        {
-            var writer = new ProjectXmlWriter(Project);
-            writer.Write();
-
-            foreach (var stage in openStages.Values)
-                stage.Save();
-
-            Dirty = false;
         }
     }
 }

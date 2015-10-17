@@ -8,22 +8,23 @@ using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml
 {
-    public class StageXmlWriter
+    public class StageXmlWriter : IStageWriter
     {
         private StageInfo _stageInfo;
         private XmlTextWriter _writer;
 
-        public StageXmlWriter(StageInfo stageInfo)
+        public StageXmlWriter()
         {
-            this._stageInfo = stageInfo;
+        }
+
+        public void Save(StageInfo stage)
+        {
+            this._stageInfo = stage;
             _writer = new XmlTextWriter(Path.Combine(_stageInfo.StagePath.Absolute, "map.xml"), Encoding.Default);
             _writer.Formatting = Formatting.Indented;
             _writer.Indentation = 1;
             _writer.IndentChar = '\t';
-        }
 
-        public void Write()
-        {
             _writer.WriteStartElement("Map");
             _writer.WriteAttributeString("name", _stageInfo.Name);
 

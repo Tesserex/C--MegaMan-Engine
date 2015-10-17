@@ -3,8 +3,8 @@
 	<Start screen="1" x="48" y="116" />
 	<Screen id="1">
 		<Next mode="Push" pause="False" type="Scene" name="ParallaxDemo" fade="False" />
-		<Overlay name="sun" />
-		<Overlay name="mountains" />
-		<Overlay name="corn" />
+		<Overlay name="sun" x="0" y="0" />
+		<Overlay name="mountains" x="0" y="0" />
+		<Overlay name="corn" x="0" y="0" />
 	</Screen>
 </Map>

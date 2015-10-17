@@ -67,8 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Injector.cs" />
+    <Compile Include="IProjectWriter.cs" />
+    <Compile Include="IReaderProvider.cs" />
+    <Compile Include="IStageWriter.cs" />
     <Compile Include="ITilesetReader.cs" />
     <Compile Include="ITilesetWriter.cs" />
+    <Compile Include="IWriterProvider.cs" />
+    <Compile Include="ReaderProvider.cs" />
+    <Compile Include="WriterProvider.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlWriter.cs" />

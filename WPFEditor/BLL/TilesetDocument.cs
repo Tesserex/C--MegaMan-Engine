@@ -103,35 +103,6 @@ namespace MegaMan.Editor.Bll
             _brushes.Add(brush);
         }
 
-        public void Save()
-        {
-            var writer = new MegaMan.IO.Xml.TilesetXmlWriter();
-            writer.Save(this.Tileset);
-            SaveBrushes();
-        }
-
-        private void SaveBrushes()
-        {
-            string path = GetBrushFilePath();
-
-            using (var stream = new System.IO.StreamWriter(path, false))
-            {
-                foreach (var brush in Brushes)
-                {
-                    stream.Write(brush.Width);
-                    stream.Write(' ');
-                    stream.Write(brush.Height);
-                    foreach (var cell in brush.Cells.SelectMany(a => a))
-                    {
-                        stream.Write(' ');
-                        if (cell.tile == null) stream.Write(-1);
-                        else stream.Write(cell.tile.Id);
-                    }
-                    stream.WriteLine();
-                }
-            }
-        }
-
         private string GetBrushFilePath()
         {
             string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath.Absolute);

@@ -6,44 +6,42 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.Xml
 {
-    public class ProjectXmlWriter
+    internal class ProjectXmlWriter : IProjectWriter
     {
-        private Project _project;
         private XmlTextWriter _writer;
 
-        public ProjectXmlWriter(Project project)
+        public ProjectXmlWriter()
         {
-            this._project = project;
         }
 
-        public void Write()
+        public void Save(Project project)
         {
-            Directory.CreateDirectory(_project.GameFile.BasePath);
-            _writer = new XmlTextWriter(_project.GameFile.Absolute, Encoding.Default);
+            Directory.CreateDirectory(project.GameFile.BasePath);
+            _writer = new XmlTextWriter(project.GameFile.Absolute, Encoding.Default);
             _writer.Formatting = Formatting.Indented;
             _writer.Indentation = 1;
             _writer.IndentChar = '\t';
 
             _writer.WriteStartElement("Game");
-            if (!string.IsNullOrEmpty(_project.Name)) _writer.WriteAttributeString("name", _project.Name);
-            if (!string.IsNullOrEmpty(_project.Author)) _writer.WriteAttributeString("author", _project.Author);
+            if (!string.IsNullOrEmpty(project.Name)) _writer.WriteAttributeString("name", project.Name);
+            if (!string.IsNullOrEmpty(project.Author)) _writer.WriteAttributeString("author", project.Author);
             _writer.WriteAttributeString("version", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             _writer.WriteStartElement("Size");
-            _writer.WriteAttributeString("x", _project.ScreenWidth.ToString());
-            _writer.WriteAttributeString("y", _project.ScreenHeight.ToString());
+            _writer.WriteAttributeString("x", project.ScreenWidth.ToString());
+            _writer.WriteAttributeString("y", project.ScreenHeight.ToString());
             _writer.WriteEndElement();
 
-            if (_project.MusicNSF != null || _project.EffectsNSF != null)
+            if (project.MusicNSF != null || project.EffectsNSF != null)
             {
                 _writer.WriteStartElement("NSF");
-                if (_project.MusicNSF != null) _writer.WriteElementString("Music", _project.MusicNSF.Relative);
-                if (_project.EffectsNSF != null) _writer.WriteElementString("SFX", _project.EffectsNSF.Relative);
+                if (project.MusicNSF != null) _writer.WriteElementString("Music", project.MusicNSF.Relative);
+                if (project.EffectsNSF != null) _writer.WriteElementString("SFX", project.EffectsNSF.Relative);
                 _writer.WriteEndElement();
             }
 
             _writer.WriteStartElement("Stages");
-            foreach (var info in _project.Stages)
+            foreach (var info in project.Stages)
             {
                 _writer.WriteStartElement("Stage");
                 _writer.WriteAttributeString("name", info.Name);
@@ -67,17 +65,17 @@ namespace MegaMan.IO.Xml
             }
             _writer.WriteEndElement(); // Stages
 
-            if (_project.StartHandler != null)
+            if (project.StartHandler != null)
             {
-                WriteHandlerTransfer(_project.StartHandler);
+                WriteHandlerTransfer(project.StartHandler);
             }
 
-            foreach (var folder in _project.IncludeFolders)
+            foreach (var folder in project.IncludeFolders)
             {
                 _writer.WriteElementString("IncludeFolder", folder.Relative);
             }
 
-            foreach (var file in _project.IncludeFiles)
+            foreach (var file in project.IncludeFiles)
             {
                 _writer.WriteElementString("Include", file.Relative);
             }

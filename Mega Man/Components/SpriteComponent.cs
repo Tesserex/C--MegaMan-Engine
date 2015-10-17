@@ -101,10 +101,7 @@ namespace MegaMan.Engine
 
         public override void LoadXml(XElement xmlNode)
         {
-            string spriteName = "Default";
             string partName = null;
-            XAttribute spriteNameAttr = xmlNode.Attribute("name");
-            if (spriteNameAttr != null) spriteName = spriteNameAttr.Value;
             XAttribute partAttr = xmlNode.Attribute("part");
             if (partAttr != null) partName = partAttr.Value;
 
@@ -115,7 +112,7 @@ namespace MegaMan.Engine
 
             Sprite sprite = GameXmlReader.LoadSprite(xmlNode);
             sprite.SheetPath = FilePath.FromAbsolute(_sheetPath, Game.CurrentGame.BasePath);
-            Add(spriteName, sprite, partName);
+            Add(sprite.Name ?? "Default", sprite, partName);
         }
 
         public static Effect ParseEffect(XElement node)

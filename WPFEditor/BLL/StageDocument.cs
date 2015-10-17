@@ -10,6 +10,7 @@ namespace MegaMan.Editor.Bll
     public class StageDocument
     {
         private readonly StageInfo map;
+        public StageInfo Info { get { return map; } }
 
         public History History { get; private set; }
 
@@ -97,11 +98,6 @@ namespace MegaMan.Editor.Bll
             Dirty = true;
         }
 
-        private void SaveTileset()
-        {
-            Tileset.Save();
-        }
-
         public FilePath MusicIntro
         {
             get { return map.MusicIntroPath; }
@@ -142,14 +138,6 @@ namespace MegaMan.Editor.Bll
         public IEnumerable<Join> Joins
         {
             get { return map.Joins; }
-        }
-
-        public void Save()
-        {
-            var stageWriter = new StageXmlWriter(map);
-            stageWriter.Write();
-            SaveTileset();
-            Dirty = false;
         }
 
         #endregion

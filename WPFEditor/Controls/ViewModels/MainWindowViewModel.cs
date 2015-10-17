@@ -11,6 +11,7 @@ using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
+using MegaMan.IO;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -20,6 +21,7 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private IProjectDocumentFactory _projectFactory;
         private IDialogService _dialogService;
+        private IDataAccessService _dataService;
 
         private ProjectDocument _openProject;
 
@@ -101,10 +103,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public MainWindowViewModel(IProjectDocumentFactory projectFactory, IDialogService dialogService)
+        public MainWindowViewModel(IProjectDocumentFactory projectFactory, IDialogService dialogService, IDataAccessService dataService)
         {
             _projectFactory = projectFactory;
             _dialogService = dialogService;
+            _dataService = dataService;
 
             ProjectViewModel = new ProjectViewModel();
 
@@ -117,7 +120,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             WindowTitle = attr.Product;
 
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
-            SaveProjectCommand = new RelayCommand(SaveProject, o => _openProject != null);
+            SaveProjectCommand = new RelayCommand(x => SaveProject(), o => _openProject != null);
             CloseProjectCommand = new RelayCommand(CloseProject, o => _openProject != null);
             TestCommand = new RelayCommand(TestProject, o => _openProject != null);
             TestStageCommand = new RelayCommand(TestStage, o => _openProject != null);
@@ -206,11 +209,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             WindowTitle = ApplicationName;
         }
 
-        public void SaveProject(object arg)
+        public void SaveProject()
         {
             if (_openProject != null)
             {
-                _openProject.Save();
+                _dataService.SaveProject(_openProject);
             }
         }
 
