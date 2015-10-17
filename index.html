@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 	<head>
 		<meta charset='utf-8' />
 		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
@@ -12,81 +12,26 @@
 		<title>C# Mega Man Engine</title>
 	</head>
 
-	<body>
+	<body ng-controller="mainController">
 		<a href="https://github.com/tesserex/C--MegaMan-Engine"><img style="z-index: 2000; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
 		<nav class="navbar navbar-fixed-top">
 			<div class="container">
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="download.html">Download</a></li>
-						<li><a href="features.html">Features</a></li>
-						<li><a href="http://www.youtube.com/playlist?list=PL51A9554B5210B6F6">YouTube</a></li>
-						<li><a href="docs.html">Documentation</a></li>
+						<li><a href="#/">Home</a></li>
+						<li><a href="#download">Download</a></li>
+						<li><a href="#features">Features</a></li>
+						<li><a target="_blank" href="http://www.youtube.com/playlist?list=PL51A9554B5210B6F6">YouTube</a></li>
+						<li><a href="#docs">Documentation</a></li>
+						<li><a href="#resources">Resource Packs</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
 		<div id="main" class="container">
-			<div class="row logo">
-				<div class="col-md-12">
-					<img src="images/logo.png">
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-12">
-					<p>The C# Mega Man Engine was built from the ground up to allow Mega Man fans to craft high-quality fan games with ease. The goal of the project is to faithfully recreate all of the feel and features of the classic NES series. The project has come a long way, and is still under active development.</p>
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-6">
-					<p>Recreate your favorite or most feared stages from the classic series. Customize your tiles, enemies, and more.</p>
-				</div>
-				<div class="col-md-6">
-					<img src="images/screens/1.png">
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-6">
-					<img src="images/screens/2.png">
-				</div>
-				<div class="col-md-6">
-					<p>Easily add special stage gimmicks, like conveyors, ice physics, death spikes, and water sections.</p>
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-6">
-					<p>Create your own cutscenes and menus, with animation, text, and entities. You have total control over the results!</p>
-					<p>By the way, this is not a clip of Mega Man 5 - this scene was completely recreated in the engine!</p>
-				</div>
-				<div class="col-md-6">
-					<img src="images/screens/3.png">
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-6">
-					<img src="images/screens/4.png">
-				</div>
-				<div class="col-md-6">
-					<p>Of course, what would Mega Man be without special weapons? Create your own new arsenal, with custom movement patterns, damage, and animations.</p>
-				</div>
-			</div>
-
-			<div class="row section">
-				<div class="col-md-6">
-					<p>The engine can even simulate the appearance of an old NTSC television, with scaling and scanlines! Choose from Composite, S-Video, or RGB connections!</p>
-				</div>
-				<div class="col-md-6">
-					<img src="images/screens/5.png">
-				</div>
-			</div>
+			<div ng-view></div>
 		</div>
 
 		<footer class="footer">
@@ -98,7 +43,9 @@
 			</div>
 		</div>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/scripts/main.js"></script>
 	</body>
 </html>
