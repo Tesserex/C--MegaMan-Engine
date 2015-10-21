@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -74,15 +75,25 @@ namespace MegaMan.Editor.Tools
         {
             var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
 
+            var scrollX = 0d;
+            var scrollY = 0d;
+            if (_element is ScrollViewer)
+            {
+                scrollX = ((ScrollViewer)_element).HorizontalOffset;
+                scrollY = ((ScrollViewer)_element).VerticalOffset;
+            }
+
             var cursorPosition = Mouse.GetPosition(_element);
 
             var width = this.Width * zoom;
             var height = this.Height * zoom;
             var snapWidth = this.SnapWidth * zoom;
             var snapHeight = this.SnapHeight * zoom;
+            var scrollOffsetX = (int)scrollX % snapWidth;
+            var scrollOffsetY = (int)scrollY % snapHeight;
 
-            var snapX = (int)(cursorPosition.X / snapWidth) * snapWidth;
-            var snapY = (int)(cursorPosition.Y / snapHeight) * snapHeight;
+            var snapX = (int)((cursorPosition.X + scrollOffsetX) / snapWidth) * snapWidth - scrollOffsetX;
+            var snapY = (int)((cursorPosition.Y + scrollOffsetY) / snapHeight) * snapHeight - scrollOffsetY;
 
             drawingContext.DrawImage(this.CursorImage,
                 new Rect(
