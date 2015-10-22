@@ -16,6 +16,7 @@
     <Window.InputBindings>
         <KeyBinding Command="{Binding UndoCommand}" Key="Z" Modifiers="Control"/>
         <KeyBinding Command="{Binding RedoCommand}" Key="Y" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SaveProjectCommand}" Key="S" Modifiers="Control"/>
         <KeyBinding Command="{Binding TestStageCommand}" Key="F5" />
     </Window.InputBindings>
 
