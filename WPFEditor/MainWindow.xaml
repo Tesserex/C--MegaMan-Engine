@@ -44,7 +44,6 @@
                     <Fluent:DropDownButton Icon="/Resources/protoman.png" LargeIcon="/Resources/protoman.png" Header="Test">
                         <Fluent:MenuItem Command="{Binding TestCommand}" Header="Project" />
                         <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
-                        <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
                     </Fluent:DropDownButton>
 
                     <Fluent:DropDownButton Icon="/Resources/roll.png" LargeIcon="/Resources/roll.png" Header="Preferences">
@@ -52,7 +51,7 @@
                     </Fluent:DropDownButton>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-            
+
             <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Stage Properties" Command="{Binding ElementName=MainWindow1,Path=StagePropertiesCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
@@ -62,13 +61,6 @@
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Header="Undo" Icon="/Resources/Undo.png" LargeIcon="/Resources/Undo.png" Command="{Binding UndoCommand}" />
                     <Fluent:Button Header="Redo" Icon="/Resources/Redo.png" LargeIcon="/Resources/Redo.png" Command="{Binding RedoCommand}" />
-                </Fluent:RibbonGroupBox>
-            </Fluent:RibbonTabItem>
-
-            <Fluent:RibbonTabItem Header="Entities" x:Name="ribbonEntities">
-                <Fluent:RibbonGroupBox>
-                    <Fluent:Button Header="Entity List" Icon="/Resources/EntityList.png" LargeIcon="/Resources/EntityList.png" />
-                    <Fluent:Button Header="New Entity" Icon="/Resources/NewEntity.png" LargeIcon="/Resources/NewEntity.png" Command="{Binding NewEntityCommand}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
