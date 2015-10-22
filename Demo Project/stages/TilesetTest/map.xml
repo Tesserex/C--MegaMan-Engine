@@ -1,4 +1,5 @@
 <Map name="TilesetTest" tiles="tilesets\TilesetTest\tiles.xml">
+	<Music nsftrack="2" />
 	<Start screen="1" x="38" y="170" />
 	<Screen id="1" />
 	<Screen id="2" />

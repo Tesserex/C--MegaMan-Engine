@@ -33,9 +33,11 @@
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="WhiteSmoke">
         <DockPanel Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
-            <ComboBox Text="Select Entity" DockPanel.Dock="Top" ItemsSource="{Binding EntityList}" DisplayMemberPath="Name" SelectedValue="{Binding CurrentEntity, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"></ComboBox>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,5">
+                <ComboBox Text="Select Entity" DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding EntityList}" DisplayMemberPath="Name" SelectedValue="{Binding CurrentEntity, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"></ComboBox>
+            </StackPanel>
             <DockPanel DockPanel.Dock="Top">
-                <StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0,0,10,0">
                     <Label>Entity Information</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Name</TextBlock>
@@ -48,7 +50,7 @@
                     <Label>Editor Preferences</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Default Sprite</TextBlock>
-                        <ComboBox ItemsSource="{Binding CurrentEntity.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
+                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Show in Entity Placement Panel</TextBlock>
@@ -59,7 +61,7 @@
             </DockPanel>
             <DockPanel Background="WhiteSmoke" VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" DockPanel.Dock="Top">
                 <Label DockPanel.Dock="Top">Components</Label>
-                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13">
                     <TabItem Header="Sprites" Visibility="{Binding SpriteTabVisibility}">
                         <ListView ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center">
                             <ListView.ItemsPanel>
