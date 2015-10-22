@@ -230,14 +230,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (_openProject != null)
             {
-                var startInfo = GetEngineStartInfo();
-                if (startInfo != null)
-                {
-                    var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
-                    startInfo.Arguments = string.Format("\"{0}\"", projectPath);
-
-                    Process.Start(startInfo);
-                }
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                RunTest(string.Format("\"{0}\"", projectPath));
             }
         }
 
@@ -258,16 +252,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (_openProject != null && ProjectViewModel.CurrentStage != null)
             {
-                var startInfo = GetEngineStartInfo();
-                if (startInfo != null)
-                {
-                    var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
-                    var stage = ProjectViewModel.CurrentStage.LinkName;
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var stage = ProjectViewModel.CurrentStage.LinkName;
 
-                    startInfo.Arguments = string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage);
-
-                    Process.Start(startInfo);
-                }
+                RunTest(string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage));
             }
         }
 
@@ -276,6 +264,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (_openProject != null)
             {
 
+            }
+        }
+
+        private void RunTest(string arguments)
+        {
+            var startInfo = GetEngineStartInfo();
+            if (startInfo != null)
+            {
+                SaveProject();
+                startInfo.Arguments = arguments;
+                Process.Start(startInfo);
             }
         }
 
