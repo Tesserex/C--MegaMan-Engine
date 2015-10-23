@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'angulartics', 'angulartics.google.analytics']);
 
 app.config(function($routeProvider) {
 	$routeProvider
