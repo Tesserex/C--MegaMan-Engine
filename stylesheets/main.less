@@ -28,6 +28,10 @@ body {
   padding-top: 50px;
 }
 
+h1 {
+  font-family: 'MegaMan', Calibri;
+}
+
 nav.navbar {
   border-color: @black;
   background: @darkgray;
@@ -63,19 +67,30 @@ div.logo {
   }
 }
 
+p {
+  margin: 2em;
+}
+
 .section {
   padding-top: 2em;
   padding-bottom: 2em;
   border-top: 2px solid @darkgray;
   border-bottom: 2px solid @darkgray;
 
-  p {
-    margin: 2em;
-  }
-
   img {
     margin: 1em auto;
     display: block;
+  }
+}
+
+ul.releases {
+  h4, .release-date {
+    line-height: 24px;
+  }
+  .release-date {
+    display: inline-block;
+    font-size: 0.8em;
+    vertical-align: middle;
   }
 }
 
