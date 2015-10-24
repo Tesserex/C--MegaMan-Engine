@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Editor.Bll.Tools;
@@ -39,7 +40,8 @@ namespace MegaMan.Editor.Tools
                     }
                 }
 
-                return cursor;
+                var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
+                return SpriteBitmapCache.Scale(cursor, zoom);
             }
         }
 
