@@ -236,6 +236,8 @@ namespace MegaMan.Editor.Bll
 
             ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = info });
 
+            CheckStartHandler();
+
             Dirty = true;
 
             return stage;
@@ -245,6 +247,25 @@ namespace MegaMan.Editor.Bll
         {
             this.Project.AddEntity(entity);
             Dirty = true;
+        }
+
+        private void CheckStartHandler()
+        {
+            if (Project.StartHandler == null)
+            {
+                if (Project.Stages.Any())
+                {
+                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Stage, Name = Project.Stages.First().Name };
+                }
+                else if (Project.Menus.Any())
+                {
+                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Menu, Name = Project.Menus.First().Name };
+                }
+                else if (Project.Scenes.Any())
+                {
+                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Scene, Name = Project.Scenes.First().Name };
+                }
+            }
         }
     }
 }
