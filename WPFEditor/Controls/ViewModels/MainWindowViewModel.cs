@@ -196,6 +196,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             AppData.AddRecentProject(args.Project);
             AppData.Save();
+
+            ShowBackstage = false;
         }
 
         private void SetupProjectDependencies(ProjectDocument project)

@@ -34,7 +34,7 @@
 
             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                 <Image Source="/Resources/metool.png" Stretch="None" Margin="0,0,5,0"></Image>
-                <Button Width="auto" Height="24" HorizontalAlignment="Right" Click="CreateClick">Create Project</Button>
+                <Button Width="auto" Height="24" HorizontalAlignment="Right" Command="{Binding CreateCommand}">Create Project</Button>
             </StackPanel>
         </Grid>
     </DockPanel>

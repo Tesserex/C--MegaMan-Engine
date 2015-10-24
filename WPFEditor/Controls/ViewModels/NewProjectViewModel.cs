@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MegaMan.IO;
 using MegaMan.Editor.Services;
+using System.Windows.Input;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -61,10 +62,14 @@ namespace MegaMan.Editor.Controls.ViewModels
         private IProjectDocumentFactory _projectFactory;
         private IDataAccessService _dataService;
 
+        public ICommand CreateCommand { get; private set; }
+
         public NewProjectViewModel(IProjectDocumentFactory projectFactory, IDataAccessService dataService)
         {
             _projectFactory = projectFactory;
             _dataService = dataService;
+
+            CreateCommand = new RelayCommand(Create);
 
             Name = GetDefaultProjectName();
             Author = GetMostRecentAuthor();
@@ -98,7 +103,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void Create()
+        public void Create(object param)
         {
             var path = DirectoryPath;
             if (CreateProjectDirectory)
