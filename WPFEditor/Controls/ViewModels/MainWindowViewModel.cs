@@ -31,6 +31,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ProjectViewModel ProjectViewModel { get; private set; }
 
+        public ICommand OpenProjectCommand { get; private set; }
         public ICommand OpenRecentCommand { get; private set; }
         public ICommand SaveProjectCommand { get; private set; }
         public ICommand CloseProjectCommand { get; private set; }
@@ -119,6 +120,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             ApplicationName = attr.Product;
             WindowTitle = attr.Product;
 
+            OpenProjectCommand = new RelayCommand(OpenProjectDialog, null);
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
             SaveProjectCommand = new RelayCommand(x => SaveProject(), o => _openProject != null);
             CloseProjectCommand = new RelayCommand(CloseProject, o => _openProject != null);
@@ -138,7 +140,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             _dialogService.ShowNewEntityDialog();
         }
 
-        private void OpenProjectDialog(object sender, ExecutedRoutedEventArgs e)
+        private void OpenProjectDialog(object param)
         {
             var dialog = new OpenFileDialog();
             dialog.Title = "Open Project File";

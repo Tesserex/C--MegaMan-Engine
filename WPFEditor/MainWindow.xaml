@@ -76,7 +76,7 @@
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage x:Name="ribbonBackstage" IsOpen="{Binding ShowBackstage, Mode=TwoWay}">
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectDialog}" />
+                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
                         <Fluent:BackstageTabItem Header="Recent Projects" Background="White">
                             <StackPanel Orientation="Vertical" Margin="30">
                                 <TextBlock FontSize="20">Recent Projects</TextBlock>
