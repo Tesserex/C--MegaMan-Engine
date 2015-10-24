@@ -4,7 +4,8 @@
                     xmlns:avalonDockLayout="http://schemas.xceed.com/wpf/xaml/avalondock"
                     xmlns:avalonDockControls="http://schemas.xceed.com/wpf/xaml/avalondock"
                     xmlns:avalonDockConverters="http://schemas.xceed.com/wpf/xaml/avalondock"
-                    xmlns:avalonDockProperties="http://schemas.xceed.com/wpf/xaml/avalondock">
+                    xmlns:avalonDockProperties="http://schemas.xceed.com/wpf/xaml/avalondock"
+                    xmlns:my="clr-namespace:MegaMan.Editor">
 
     <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <avalonDockConverters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -106,11 +107,11 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Button">
+    <Style TargetType="Button" x:Key="ButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Border" CornerRadius="4" BorderBrush="#80a0f0" BorderThickness="1" Padding="8,1">
+                    <Border x:Name="Border" CornerRadius="{TemplateBinding my:ThemeProperties.ButtonRadius}" BorderBrush="#80a0f0" BorderThickness="{TemplateBinding BorderThickness}" Padding="8,1" Margin="{TemplateBinding Margin}">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#d0eaff" Offset="0"></GradientStop>
@@ -136,6 +137,20 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="2,0"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}"></Style>
+
+    <Style x:Key="LeftButton" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Margin" Value="2,0,0,0"></Setter>
+        <Setter Property="my:ThemeProperties.ButtonRadius" Value="4,0,0,4"></Setter>
+    </Style>
+
+    <Style x:Key="RightButton" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Margin" Value="0,0,2,0"></Setter>
+        <Setter Property="my:ThemeProperties.ButtonRadius" Value="0,4,4,0"></Setter>
     </Style>
 
     <Style x:Key="InputForm" TargetType="{x:Type Grid}">
@@ -149,7 +164,7 @@
                 <Setter Property="Margin" Value="8,0,0,0" />
                 <Setter Property="FontSize" Value="14" />
             </Style>
-            <Style TargetType="{x:Type Button}">
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="FontSize" Value="14" />
             </Style>
             <Style TargetType="{x:Type CheckBox}">

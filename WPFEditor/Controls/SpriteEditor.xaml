@@ -8,7 +8,7 @@
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="410" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
@@ -29,16 +29,16 @@
                 <xctk:IntegerUpDown Value="{Binding FrameDuration}" Height="20" Minimum="0"></xctk:IntegerUpDown>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding ZoomOutCommand}">
+                <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource LeftButton}">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Command="{Binding ZoomInCommand}">
+                <Button Command="{Binding ZoomInCommand}" Style="{StaticResource RightButton}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Height="24" Padding="0" Command="{Binding PauseCommand}">
+                <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource LeftButton}">
                     <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Command="{Binding PlayCommand}">
+                <Button Command="{Binding PlayCommand}" Style="{StaticResource RightButton}">
                     <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
@@ -129,10 +129,10 @@
                     <Label>Spacing</Label>
                     <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
                 </DockPanel>
-                <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Margin="0,0,10,0">
+                <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center">
+                <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
