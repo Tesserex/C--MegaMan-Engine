@@ -34,10 +34,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _track = value;
+                if (bgm != null)
+                {
+                    bgm.CurrentTrack = value - 1;
+                }
+                
                 if (_stage != null && _stage.MusicTrack != value)
                 {
                     _stage.MusicTrack = (int)value;
-                    bgm.CurrentTrack = value - 1;
                 }
                 OnPropertyChanged("Track");
             }
@@ -61,9 +65,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
-            PlayCommand = new RelayCommand(Play, o => _stage != null && (!AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
-            PauseCommand = new RelayCommand(Pause, o => _stage != null && AudioManager.Instance.IsBGMPlaying);
-            StopCommand = new RelayCommand(Stop, o => _stage != null && (AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
+            PlayCommand = new RelayCommand(Play, o => bgm != null && (!AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
+            PauseCommand = new RelayCommand(Pause, o => AudioManager.Instance.IsBGMPlaying);
+            StopCommand = new RelayCommand(Stop, o => (AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
 
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
