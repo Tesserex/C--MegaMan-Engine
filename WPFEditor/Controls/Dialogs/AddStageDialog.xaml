@@ -23,20 +23,20 @@
             <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                 <DockPanel>
                     <RadioButton IsChecked="{Binding CreateTileset, Mode=OneWay}" Click="ClickCreateTileset">Create New Tileset</RadioButton>
-                    <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesheetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=CreateTileset}">Browse...</Button>
+                    <Button Height="24" Command="{Binding BrowseTilesheetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=CreateTileset}">Browse...</Button>
                     <TextBox Text="{Binding Path=TilesheetPath}" IsEnabled="{Binding Path=CreateTileset}"></TextBox>
                 </DockPanel>
                 <DockPanel>
                     <RadioButton IsChecked="{Binding ExistingTileset, Mode=OneWay}" Click="ClickExistingTileset">Use Existing Tileset</RadioButton>
-                    <Button Height="24" Width="70" Margin="10,0" Command="{Binding BrowseTilesetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=ExistingTileset}">Browse...</Button>
+                    <Button Height="24" Command="{Binding BrowseTilesetCommand}" DockPanel.Dock="Right" IsEnabled="{Binding Path=ExistingTileset}">Browse...</Button>
                     <TextBox Text="{Binding Path=TilesetPath}" IsEnabled="{Binding Path=ExistingTileset}"></TextBox>
                 </DockPanel>
             </StackPanel>
 
 
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
-                <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0,0,15,0" Command="{Binding AddStageCommand}">Ok</Button>
-                <Button Width="60" Height="24" HorizontalAlignment="Left" Margin="0" Click="CancelClick">Cancel</Button>
+                <Button Width="80" Height="24" HorizontalAlignment="Left" Command="{Binding AddStageCommand}">Ok</Button>
+                <Button Width="80" Height="24" HorizontalAlignment="Left" Click="CancelClick">Cancel</Button>
             </StackPanel>
         </Grid>
     </DockPanel>

@@ -28,13 +28,13 @@
 
             <Label Grid.Column="0" Grid.Row="2">Location</Label>
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=DirectoryPath}"></TextBox>
-            <Button Grid.Column="2" Grid.Row="2" Height="24" Width="70" Click="BrowseClick">Browse...</Button>
+            <Button Grid.Column="2" Grid.Row="2" Height="24" Width="auto" Click="BrowseClick">Browse...</Button>
             
             <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding Path=CreateProjectDirectory}">Create Project Directory</CheckBox>
 
             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                <Image Source="/Resources/metool.png" Stretch="None" Margin="0,0,15,0"></Image>
-                <Button Width="100" Height="24" HorizontalAlignment="Right" Click="CreateClick">Create Project</Button>
+                <Image Source="/Resources/metool.png" Stretch="None" Margin="0,0,5,0"></Image>
+                <Button Width="auto" Height="24" HorizontalAlignment="Right" Click="CreateClick">Create Project</Button>
             </StackPanel>
         </Grid>
     </DockPanel>
