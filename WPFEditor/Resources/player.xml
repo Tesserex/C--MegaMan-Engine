@@ -1,0 +1,1038 @@
+<Entities>
+<Entity name="Player">
+	<EditorData hide="true" defaultSprite="Standing" />
+	<GravityFlip>True</GravityFlip>
+	<Tilesheet>images\megaman.png</Tilesheet>
+	<Sprite name="Teleport" palette="MegaMan" layer="2" width="24" height="32">
+		<Hotspot x="12" y="12" />
+		<Frame x="164" y="72" duration="4" />
+		<Frame x="190" y="72" duration="4" />
+		<Frame x="218" y="72" duration="4" />
+	</Sprite>
+	<Sprite name="TeleportStart" palette="MegaMan" layer="2" width="24" height="32">
+		<Hotspot x="12" y="12" />
+		<Frame x="218" y="72" duration="4" />
+		<Frame x="190" y="72" duration="4" />
+		<Frame x="164" y="72" duration="4" />
+	</Sprite>
+	<Sprite name="Standing" palette="MegaMan" layer="2" width="32" height="24">
+		<Hotspot x="16" y="11" />
+		<Frame x="0" y="0" duration="110" />
+		<Frame x="32" y="0" duration="10" />
+	</Sprite>
+	<Sprite name="BeginWalk" palette="MegaMan" layer="2" width="32" height="24">
+		<Hotspot x="16" y="11" />
+		<Frame x="64" y="0" duration="60" />
+	</Sprite>
+	<Sprite name="Walking" palette="MegaMan" layer="2" width="32" height="24">
+		<Hotspot x="12" y="11" />
+		<AnimStyle>Bounce</AnimStyle>
+		<Frame x="96" y="0" duration="8" />
+		<Frame x="128" y="0" duration="8" />
+		<Frame x="160" y="0" duration="8" />
+	</Sprite>
+	<Sprite name="Air" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="11" />
+		<Frame x="168" y="32" duration="60" />
+	</Sprite>
+	<Sprite name="Sliding" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="9" />
+		<Frame x="128" y="72" duration="60" />
+	</Sprite>
+	<Sprite name="Climbing" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="12" />
+		<Frame x="0" y="64" duration="12" />
+		<Frame x="32" y="64" duration="12" />
+	</Sprite>
+	<Sprite name="ClimbTop" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="8" />
+		<Frame x="96" y="64" duration="60" />
+	</Sprite>
+	<Sprite name="ShootStanding" palette="MegaMan" layer="2" width="40" height="24">
+		<Hotspot x="20" y="11" />
+		<Frame x="0" y="32" duration="60" />
+	</Sprite>
+	<Sprite name="ShootWalking" palette="MegaMan" layer="2" width="32" height="24">
+		<Hotspot x="12" y="11" />
+		<Frame x="40" y="32" duration="8" />
+		<Frame x="72" y="32" duration="8" />
+		<Frame x="104" y="32" duration="8" />
+		<AnimStyle>Bounce</AnimStyle>
+	</Sprite>
+	<Sprite name="ShootAir" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="11" />
+		<Frame x="136" y="32" duration="860" />
+	</Sprite>
+	<Sprite name="ShootClimbing" palette="MegaMan" layer="2" width="32" height="32">
+		<Hotspot x="16" y="12" />
+		<Frame x="64" y="64" duration="60" />
+	</Sprite>
+	<Sprite name="Hurt" palette="MegaMan" layer="2" width="32" height="24">
+		<Hotspot x="16" y="11" />
+		<Frame x="200" y="32" duration="3" />
+		<Frame x="200" y="0" duration="3" />
+	</Sprite>
+	<Collision>
+		<Hitbox name="Stand" x="-7.5" y="-9" width="15" height="21">
+			<Group>Solid</Group><Group>Player</Group>
+		</Hitbox>
+		<Hitbox name="PlayerRush" x="-7.5" y="4" width="15" height="8">
+			<Group>Solid</Group><Group>PlayerRush</Group>
+		</Hitbox>
+		<Hitbox name="Slide" x="-7.5" y="-4" width="15" height="16">
+			<Group>Solid</Group><Group>Player</Group>
+		</Hitbox>
+	</Collision>
+	<Health>
+		<Max>28</Max>
+		<Meter x="16" y="16" background="images\meters\healthmeter_back.png" image="images\meters\healthtick.png">
+			<Sound name="MeterTick" />
+		</Meter>
+		<Flash>90</Flash>
+	</Health>
+	<Ladder>
+		<Hitbox x="-7.5" y="-10" width="15" height="14">
+			<Group>Solid</Group><Group>Player</Group>
+		</Hitbox>
+	</Ladder>
+	<Weapons>
+		<Weapon name="MBuster" entity="MBuster" palette="0"/>
+		<Weapon name="RushCoil" entity="RushCoil" ammo="7" usage="0" palette="6">
+			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\rushhealth.png" />
+		</Weapon>
+		<Weapon name="RushJet" entity="RushJet" ammo="28" usage="0" palette="6">
+			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\rushhealth.png" />
+		</Weapon>
+	</Weapons>
+    <Timer />
+	<Trigger>
+		<States>Sliding</States>
+		<Condition>(Input.Right==True and Movement.Direction==Left) Or (Input.Left==True and Movement.Direction==Right) or Collision.BlockLeft or Collision.BlockRight</Condition>
+		<Effect>
+		<State>Standing</State>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking</States>
+		<Condition>!(GravityFlip? Collision.BlockTop : Collision.BlockBottom)</Condition>
+		<Effect><State>Air</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootStanding, ShootWalking</States>
+		<Condition>!(GravityFlip? Collision.BlockTop : Collision.BlockBottom)</Condition>
+		<Effect><State>ShootAir</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, ShootStanding, ShootWalking, RushJet</States>
+		<Condition>(GravityFlip? Input.Up : Input.Down) And Input.Jump</Condition>
+		<Effect>
+			<State>Sliding</State>
+			<Spawn name="Dust" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
+		<Condition>!GravityFlip And Input.Jump And !Input.Down</Condition>
+		<Effect><Movement><Y magnitude="5.1" direction="Up" /></Movement><State>Air</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, RushJet, Sliding</States>
+		<Condition>GravityFlip And Input.Jump And !Input.Up</Condition>
+		<Effect><Movement><Y magnitude="5.1" direction="Down" /></Movement><State>Air</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootStanding, ShootWalking, ShootRushJet</States>
+		<Condition>GravityFlip==False And Input.Jump==True</Condition>
+		<Effect><Movement><Y magnitude="5.1" direction="Up" /></Movement><State>ShootAir</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootStanding, ShootWalking</States>
+		<Condition>GravityFlip==True And Input.Jump==True</Condition>
+		<Effect><Movement><Y magnitude="5.1" direction="Down" /></Movement><State>ShootAir</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>BeginWalk, Walking</States>
+		<Condition>Input.Right==False And Input.Left==False</Condition>
+		<Effect><State>Standing</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootWalking</States>
+		<Condition>(Movement.Direction==Right And Input.Right==False) Or (Movement.Direction==Left And Input.Left==False)</Condition>
+		<Effect><State>ShootStanding</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Air, ShootAir, CoilAir, CoilShootAir</States>
+		<Condition>Input.Right==True Or Input.Left==True</Condition>
+		<Effect><Movement><X magnitude="1.3125" direction="Input" /></Movement></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Air, ShootAir, CoilAir, CoilShootAir</States>
+		<Condition>Input.Right==False And Input.Left==False</Condition>
+		<Effect><Movement><X magnitude="0" /></Movement></Effect>
+	</Trigger>
+	<Trigger condition="GravityFlip? (Collision.BlockBottom == True) : (Collision.BlockTop == True)">
+		<States>Air, ShootAir, CoilAir, CoilShootAir</States>
+		<Effect><Movement><Y magnitude="0" /></Movement></Effect>
+	</Trigger>
+	<Trigger condition="Input.JumpHeld==False And (GravityFlip? Movement.VelocityY &gt; 0 : Movement.VelocityY &lt; 0)">
+		<States>Air, ShootAir</States>
+		<Effect><Movement><Y magnitude="0" /></Movement></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, CoilAir</States>
+		<Condition>( GravityFlip? (Input.Down Or (Input.Up And !Collision.BlockTop)) : (Input.Up Or (Input.Down And !Collision.BlockBottom)) ) And Ladder.InReach</Condition>
+		<Effect>
+			<Ladder>Grab</Ladder>
+			<State>Climbing</State>
+			<Movement><Y magnitude="1.3" direction="Input" /></Movement>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootStanding, ShootWalking, ShootAir, CoilShootAir</States>
+		<Condition>( GravityFlip? (Input.Down Or (Input.Up And !Collision.BlockTop)) : (Input.Up Or (Input.Down And !Collision.BlockBottom)) ) And Ladder.InReach</Condition>
+		<Effect>
+			<Ladder>Grab</Ladder>
+			<State>ShootClimbing</State>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Climbing, ClimbTop</States>
+		<Condition>Input.Up == False And Input.Down == False</Condition>
+		<Effect><Movement><Y magnitude="0" /></Movement><Sprite><Playing>False</Playing></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Climbing, ClimbTop</States>
+		<Condition>Input.Up == True Or Input.Down == True</Condition>
+		<Effect><Movement><Y magnitude="1.3" direction="Input" /></Movement><Sprite><Playing>True</Playing></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Weapon.CurrentWeapon == "MBuster" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
+		<Effect>
+			<Timer><Start>ChargeShot</Start></Timer>
+		</Effect>
+	</Trigger>
+	<State name="Sliding" />
+	<Trigger>
+		<Condition>Timer.Value("ChargeShot") == 40</Condition>
+		<Effect><Timer><Start>ChargeLow</Start></Timer><Sound name="Charge" /></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Value("ChargeShot") == 96</Condition>
+		<Effect><Timer><Delete>ChargeLow</Delete><Start>ChargeHigh</Start></Timer></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 1</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &lt; 12</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="1" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 12 And Timer.Value("ChargeLow") &lt; 24</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="2" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 24</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="3" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 0</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 1</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="4" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 2</Condition>
+		<Effect><Sprite><Palette name="MegaMan" index="5" /></Sprite></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing</States>
+		<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
+		<Effect><State>ShootStanding</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>BeginWalk, Walking</States>
+		<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
+		<Effect><State>ShootWalking</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Air</States>
+		<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
+		<Effect><State>ShootAir</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Climbing, ClimbTop</States>
+		<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
+		<Effect><State>ShootClimbing</State></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Timer.Exists("ChargeLow") And Input.ShootHeld == False</Condition>
+		<Effect>
+			<Spawn name="ChargeLow" />
+			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+			<Sound name="Charge" playing="false" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Timer.Exists("ChargeHigh") And Input.ShootHeld == False</Condition>
+		<Effect>
+			<Spawn name="ChargeFull" />
+			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+			<Sound name="Charged" playing="false" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Timer.Exists("ChargeShot") And Input.ShootHeld == False</Condition>
+		<Effect>
+			<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Input.Select == True</Condition>
+		<Effect>
+			<Weapon>RotateForward</Weapon>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootStanding, ShootWalking, ShootAir, ShootClimbing, ShootCoilAir, ShootRushJet</States>
+		<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
+		<Effect>
+			<Timer><Reset>Shoot</Reset></Timer>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing, CoilAir, CoilShootAir, RushJet, ShootRushJet</States>
+		<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And ((Weapon.CurrentWeapon == "RushCoil" And GameEntity.NumAlive("RushCoil") != 0) Or (Weapon.CurrentWeapon == "RushJet" And GameEntity.NumAlive("RushJet") != 0))</Condition>
+		<Effect>
+			<Spawn name="MBuster" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Climbing, ClimbTop, ShootClimbing</States>
+		<Condition>Input.Left == True Or Input.Right == True</Condition>
+		<Effect>
+			<Movement><X magnitude="1" direction="Input" /><X magnitude="0" /></Movement>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Collision.TouchedBy("SmallWeapon")</Condition>
+		<Effect><Func>Weapon.AddAmmo(2)</Func></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Collision.TouchedBy("BigWeapon")</Condition>
+		<Effect><Func>Weapon.AddAmmo(10)</Func></Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Collision.TouchedBy("DeductAmmo")</Condition>
+		<Effect><Func>Weapon.AddAmmo(-1)</Func></Effect>
+	</Trigger>
+	<Trigger>
+		<States>Standing, BeginWalk, Walking, Air, Climbing, ClimbTop, ShootStanding, ShootWalking, ShootAir, ShootClimbing</States>
+		<Condition>Input.Shoot == True And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") = 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") = 0)</Condition>
+		<Effect>
+			<Weapon>Shoot</Weapon>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>RushJet, ShootRushJet</States>
+		<Condition>Input.Up == True</Condition>
+		<Effect>
+			<Position><Y offset="0.7" direction="Up" /></Position>
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>RushJet, ShootRushJet</States>
+		<Condition>Input.Down == True And Collision.BlockBottom == False</Condition>
+		<Effect>
+			<Position><Y offset="0.7" direction="Down" /></Position>
+		</Effect>
+	</Trigger>
+	<State name="Start">
+		<Collision><Enabled>True</Enabled></Collision>
+		<Movement>
+			<Flying>False</Flying>
+			<FlipSprite>True</FlipSprite>
+		</Movement>
+	</State>
+	<State name="Teleport">
+		<Sprite><Name>Teleport</Name><Playing>False</Playing></Sprite>
+		<Movement>
+			<Flying>True</Flying>
+			<X magnitude="0" /><Y magnitude="8" direction="Down" />
+		</Movement>
+		<Collision><Enabled>False</Enabled></Collision>
+	</State>
+	<State name="TeleportOut">
+		<Sprite><Name>Teleport</Name><Playing>False</Playing></Sprite>
+		<Sound name="TeleportOut" />
+		<Movement>
+			<Flying>True</Flying>
+			<X magnitude="0" /><Y magnitude="10" direction="Up" />
+		</Movement>
+		<Collision><Enabled>False</Enabled></Collision>
+	</State>
+	<State name="TeleportStart">
+		<Sprite><Name>TeleportStart</Name><Playing>True</Playing></Sprite>
+		<Movement>
+			<Flying>True</Flying>
+		</Movement>
+		<Collision><Enabled>False</Enabled></Collision>
+		<Trigger><Condition>StateTime >= 12</Condition><Effect><State>TeleportOut</State></Effect></Trigger>
+	</State>
+	<State name="TeleportBlink">
+		<Sprite><Name>TeleportStart</Name><Playing>True</Playing></Sprite>
+		<Movement>
+			<Flying>True</Flying>
+		</Movement>
+		<Collision><Enabled>False</Enabled></Collision>
+		<Trigger><Condition>StateTime >= 12</Condition><Effect><State>Teleport</State></Effect></Trigger>
+	</State>
+	<State name="TeleportEnd">
+		<Sprite><Name>Teleport</Name><Playing>True</Playing></Sprite>
+		<Movement>
+			<Y magnitude="0" />
+		</Movement>
+		<Sound name="Teleport" />
+		<Trigger>
+			<Condition>StateTime > 7</Condition>
+			<Effect>
+				<Movement>
+					<Flying>False</Flying>
+				</Movement>
+				<Collision>
+					<Enabled>True</Enabled>
+				</Collision>
+				<State>Standing</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Standing">
+		<Sprite><Name>Standing</Name></Sprite>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Input.Right==True Or Input.Left==True</Condition>
+			<Effect><State>BeginWalk</State></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(GravityFlip? Input.Up : Input.Down) And Ladder.AboveLadder == True</Condition>
+			<Effect><Ladder>ClimbDown</Ladder><State>ClimbTop</State></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
+			<Effect>
+				<Timer><Start>Shoot</Start></Timer>
+				<State>ShootStanding</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="BeginWalk">
+		<Sprite><Name>BeginWalk</Name></Sprite>
+		<Movement mode="Repeat">
+			<X magnitude="0.125" direction="Input" />
+		</Movement>
+		<Movement>
+			<X magnitude="1.375" direction="Input" />
+		</Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>StateTime > 7</Condition>
+			<Effect><State>Walking</State></Effect>
+		</Trigger>
+	</State>
+	<State name="Walking">
+		<Sprite><Name>Walking</Name></Sprite>
+		<Movement mode="Repeat">
+			<X magnitude="1.375" direction="Input" />
+		</Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+	</State>
+	<Trigger>
+		<States>BeginWalk, Walking</States>
+		<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
+		<Effect>
+			<Timer><Start>Shoot</Start></Timer>
+			<State>ShootWalking</State>
+		</Effect>
+	</Trigger>
+	<State name="Air">
+		<Sprite><Name>Air</Name></Sprite>
+		<Movement><Flying>False</Flying></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger condition="Movement.VelocityY > 0">
+			<Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+					<EnableBox name="PlayerRush" />
+				</Collision>
+			</Effect>
+		</Trigger>
+		<Trigger condition="Movement.VelocityY &lt;= 0">
+			<Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+				</Collision>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushJetRight") And Movement.VelocityY > 0</Condition>
+			<Effect>
+				<Movement><X magnitude="1" direction="Right" /><X magnitude="0" /></Movement>
+				<State>RushJet</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushJetLeft") And Movement.VelocityY > 0</Condition>
+			<Effect>
+				<Movement><X magnitude="1" direction="Left" /><X magnitude="0" /></Movement>
+				<State>RushJet</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And Input.Right==False And Input.Left==False</Condition>
+			<Effect><State>Standing</State><Sound name="MMLand" /></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And (Input.Right==True Or Input.Left==True)</Condition>
+			<Effect><State>Walking</State><Sound name="MMLand" /></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
+			<Effect>
+				<Timer><Start>Shoot</Start></Timer>
+				<State>ShootAir</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushCoil")</Condition>
+			<Effect>
+				<Movement><Y magnitude="7" direction="Up" /></Movement>
+				<State>CoilAir</State>
+				<Func>Weapon.AddAmmo(-1)</Func>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="CoilAir">
+		<Sprite><Name>Air</Name></Sprite>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And Input.Right==False And Input.Left==False</Condition>
+			<Effect><State>Standing</State><Sound name="MMLand" /></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And (Input.Right==True Or Input.Left==True)</Condition>
+			<Effect><State>Walking</State><Sound name="MMLand" /></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
+			<Effect>
+				<Timer><Start>Shoot</Start></Timer>
+				<State>CoilShootAir</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="RushJet">
+		<Sprite><Name>Standing</Name></Sprite>
+		<Movement mode="Repeat"><Flying>True</Flying><Y magnitude="0" /><X magnitude="1.375" /></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+			<EnableBox name="PlayerRush" />
+		</Collision>
+		<Trigger>
+			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
+			<Effect><Timer><Start>Shoot</Start></Timer><State>ShootRushJet</State></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>!Collision.TouchedBy("RushJet")</Condition>
+			<Effect><State>Air</State></Effect>
+		</Trigger>
+	</State>
+	<State name="Climbing">
+		<Sprite><Name>Climbing</Name></Sprite>
+		<Movement><Flying>True</Flying><X magnitude="0" /></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>GravityFlip? Collision.BlockTop : Collision.BlockBottom</Condition>
+			<Effect>
+				<State>Standing</State>
+				<Movement><Flying>False</Flying></Movement>
+				<Sprite><Playing>True</Playing></Sprite>
+				<Ladder>LetGo</Ladder>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
+			<Effect>
+				<State>Air</State>
+				<Movement><Flying>False</Flying></Movement>
+				<Ladder>LetGo</Ladder>
+				<Sprite><Playing>True</Playing></Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Ladder.AtTop == True</Condition>
+			<Effect><State>ClimbTop</State></Effect>
+		</Trigger>
+	</State>
+	<State name="Sliding">
+		<Sprite><Name>Sliding</Name></Sprite>
+		<Collision>
+			<EnableBox name="Slide" />
+			<DisableBox name="Stand" />
+		</Collision>
+		<Movement mode="Repeat">
+			<X magnitude="2.5" /><Y magnitude="0" />
+		</Movement>
+		<Trigger condition="Input.Right == True">
+			<Effect><Movement><X magnitude="2.5" direction="Right" /></Movement></Effect>
+		</Trigger>
+		<Trigger condition="Input.Left == True">
+			<Effect><Movement><X magnitude="2.5" direction="Left" /></Movement></Effect>
+		</Trigger>
+		<Trigger condition="StateTime >= 20 And !(GravityFlip? Collision.BlockBottom : Collision.BlockTop) And (Input.Right==True Or Input.Left==True)">
+			<Effect>
+				<State>Walking</State>
+			</Effect>
+		</Trigger>
+		<Trigger condition="StateTime >= 24 And !(GravityFlip? Collision.BlockBottom : Collision.BlockTop)">
+			<Effect>
+				<State>Standing</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>!GravityFlip And Collision.BlockBottom == False And Collision.BlockTop == True</Condition>
+			<Effect>
+				<State>Air</State>
+				<Position><Y offset="8" direction="Down" /></Position>
+				<Movement><X magnitude="0" /><Y magnitude="0" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>GravityFlip And Collision.BlockBottom == True And Collision.BlockTop == False</Condition>
+			<Effect>
+				<State>Air</State>
+				<Position><Y offset="8" direction="Up" /></Position>
+				<Movement><X magnitude="0" /><Y magnitude="0" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockBottom == False And Collision.BlockTop == False</Condition>
+			<Effect>
+				<State>Air</State>
+				<Movement><X magnitude="0" /><Y magnitude="0" /></Movement>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="ClimbTop">
+		<Sprite><Name>ClimbTop</Name></Sprite>
+		<Movement><Flying>True</Flying><X magnitude="0" /></Movement>
+		<Collision>
+			<EnableBox name="Slide" />
+		</Collision>
+		<Trigger>
+			<Condition>Input.Jump == True</Condition>
+			<Effect>
+				<State>Air</State>
+				<Movement><Flying>False</Flying></Movement>
+				<Ladder>LetGo</Ladder>
+				<Sprite><Playing>True</Playing></Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Ladder.InReach == False And Ladder.AboveLadder == True</Condition>
+			<Effect>
+				<State>Standing</State>
+				<Movement><Flying>False</Flying><Y magnitude="0" /></Movement>
+				<Ladder>StandOn</Ladder>
+				<Sprite><Playing>True</Playing></Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Ladder.AtTop == False</Condition>
+			<Effect><State>Climbing</State></Effect>
+		</Trigger>
+	</State>
+	<State name="ShootStanding">
+		<Sprite><Name>ShootStanding</Name></Sprite>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<State>Standing</State>
+				<Timer><Delete>Shoot</Delete></Timer>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Input.Right==True Or Input.Left==True</Condition>
+			<Effect><State>ShootWalking</State></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(Input.Up==True Or (Input.Down==True And Collision.BlockBottom==False)) And Ladder.InReach==True</Condition>
+			<Effect>
+				<Ladder>Grab</Ladder>
+				<State>ShootClimbing</State>
+				<Movement><Y magnitude="1.3" direction="Input" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Input.Down == True And Ladder.AboveLadder == True</Condition>
+			<Effect><Ladder>ClimbDown</Ladder><State>ShootClimbing</State></Effect>
+		</Trigger>
+	</State>
+	<State name="ShootRushJet">
+		<Sprite><Name>ShootStanding</Name></Sprite>
+		<Movement mode="Repeat"><Flying>True</Flying><Y magnitude="0" /><X magnitude="1.375" /></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+			<EnableBox name="PlayerRush" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<Timer><Delete>Shoot</Delete></Timer>
+				<State>RushJet</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>!Collision.TouchedBy("RushJet")</Condition>
+			<Effect><State>ShootAir</State></Effect>
+		</Trigger>
+	</State>
+	<State name="ShootWalking">
+		<Sprite><Name>ShootWalking</Name></Sprite>
+		<Movement mode="Repeat">
+			<X magnitude="1.375" direction="Input" />
+		</Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<State>Walking</State>
+				<Timer><Delete>Shoot</Delete></Timer>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="ShootAir">
+		<Sprite><Name>ShootAir</Name></Sprite>
+		<Movement><Flying>False</Flying></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger condition="Movement.VelocityY > 0">
+			<Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+					<EnableBox name="PlayerRush" />
+				</Collision>
+			</Effect>
+		</Trigger>
+		<Trigger condition="Movement.VelocityY &lt;= 0">
+			<Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+				</Collision>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushJetRight") And Movement.VelocityY > 0</Condition>
+			<Effect>
+				<Movement><X magnitude="1" direction="Right" /><X magnitude="0" /></Movement>
+				<State>ShootRushJet</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushJetLeft") And Movement.VelocityY > 0</Condition>
+			<Effect>
+				<Movement><X magnitude="1" direction="Left" /><X magnitude="0" /></Movement>
+				<State>ShootRushJet</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<State>Air</State>
+				<Timer><Delete>Shoot</Delete></Timer>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("RushCoil")</Condition>
+			<Effect>
+				<Movement><Y magnitude="6" direction="Up" /></Movement>
+				<State>CoilShootAir</State>
+				<Func>Weapon.AddAmmo(-1)</Func>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="CoilShootAir">
+		<Sprite><Name>ShootAir</Name></Sprite>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<State>CoilAir</State>
+				<Timer><Delete>Shoot</Delete></Timer>
+			</Effect>
+		</Trigger>
+	</State>
+	<Trigger>
+		<States>ShootAir, CoilShootAir</States>
+		<Condition>Collision.BlockBottom == True And Input.Right==False And Input.Left==False</Condition>
+		<Effect><State>ShootStanding</State><Sound name="MMLand" /></Effect>
+	</Trigger>
+	<Trigger>
+		<States>ShootAir, CoilShootAir</States>
+		<Condition>Collision.BlockBottom == True And (Input.Right==True Or Input.Left==True)</Condition>
+		<Effect><State>ShootWalking</State><Sound name="MMLand" /></Effect>
+	</Trigger>
+	<State name="ShootClimbing">
+		<Sprite><Name>ShootClimbing</Name></Sprite>
+		<Movement><Flying>True</Flying><X magnitude="0" /><Y magnitude="0" /></Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Value("Shoot") >= 16</Condition>
+			<Effect>
+				<State>Climbing</State>
+				<Timer><Delete>Shoot</Delete></Timer>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockBottom == True</Condition>
+			<Effect>
+				<State>ShootStanding</State>
+				<Movement><Flying>False</Flying></Movement>
+				<Sprite><Playing>True</Playing></Sprite>
+				<Ladder>LetGo</Ladder>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
+			<Effect>
+				<State>ShootAir</State>
+				<Movement><Flying>False</Flying></Movement>
+				<Ladder>LetGo</Ladder>
+				<Sprite><Playing>True</Playing></Sprite>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Hurt">
+		<Sprite><Name>Hurt</Name></Sprite>
+		<Movement><X magnitude="-0.5" /><Y magnitude="2" direction="Up" /></Movement>
+		<Movement mode="Repeat">
+			<X magnitude="0.5" />
+		</Movement>
+		<Collision>
+			<EnableBox name="Stand" />
+		</Collision>
+		<Trigger>
+			<Condition>Timer.Exists("ChargeShot")</Condition>
+			<Effect>
+				<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
+				<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+				<Sound name="Charge" playing="false" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime > 30</Condition>
+			<Effect>
+				<State>Standing</State>
+				<Movement><X magnitude="-1" /><X magnitude="0" /></Movement>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="EndStage">
+		<Sprite><Name>Walking</Name></Sprite>
+		<Trigger>
+			<Condition>Position.Position.X &lt; 127</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Right" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &gt; 129</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Left" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &lt;= 129 And Position.Position.X >= 127</Condition>
+			<Effect>
+				<Position><X base="128" /></Position>
+				<State>EndStageJump</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="LeaveStage">
+		<Trigger>
+			<Condition>Position.Position.X &lt; 127</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.3125" direction="Right" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &gt; 129</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.3125" direction="Left" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger condition="Collision.BlockBottom">
+			<Effect><State>LeaveStageWalk</State></Effect>
+		</Trigger>
+	</State>
+	<State name="LeaveStageWalk">
+		<Sprite><Name>Walking</Name></Sprite>
+		<Trigger condition="!Collision.BlockBottom">
+			<Effect><State>LeaveStage</State></Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &lt; 127</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Right" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &gt; 129</Condition>
+			<Effect>
+				<Movement mode="Repeat">
+					<X magnitude="1.375" direction="Left" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Position.Position.X &lt;= 129 And Position.Position.X >= 127</Condition>
+			<Effect>
+				<Position><X base="128" /></Position>
+				<State>TeleportStart</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="EndStageJump">
+		<Sprite><Name>Air</Name></Sprite>
+		<Movement><X magnitude="0" /><Y magnitude="8" direction="Up" /></Movement>
+		<Trigger condition="Position.Position.Y >= 106 And Movement.VelocityY > 0">
+			<Effect>
+				<Position><Y base="108" /></Position>
+				<Movement><Flying>True</Flying><Y magnitude="0" /></Movement>
+				<State>Powerup</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Powerup">
+		<Trigger>
+			<Condition>(StateTime % 24) == 0 And StateTime &lt; 200</Condition>
+			<Effect>
+				<Spawn name="PowerAbsorb" state="UpLeft" />
+				<Spawn name="PowerAbsorb" state="UpRight" />
+				<Spawn name="PowerAbsorb" state="DownLeft" />
+				<Spawn name="PowerAbsorb" state="DownRight" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>(StateTime % 24) == 12 And StateTime &lt; 200</Condition>
+			<Effect>
+				<Sound name="Powerup" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 220</Condition>
+			<Effect>
+				<Movement><Flying>False</Flying></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.BlockBottom</Condition>
+			<Effect>
+				<State>TeleportStart</State>
+			</Effect>
+		</Trigger>
+	</State>
+
+	<Trigger>
+		<States>Climbing, ClimbTop</States>
+		<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
+		<Effect>
+			<Timer><Start>Shoot</Start></Timer>
+			<State>ShootClimbing</State>
+		</Effect>
+	</Trigger>
+
+	<Trigger>
+		<Condition>Health.Hit == True</Condition>
+		<Effect>
+			<Sprite><Playing>True</Playing></Sprite>
+			<Movement><Flying>False</Flying></Movement>
+			<State>Hurt</State>
+			<Sound name="MMHurt" />
+			<Spawn name="Spark" />
+		</Effect>
+	</Trigger>
+
+	<Trigger>
+		<Condition>Input.StartKey</Condition>
+		<Effect>
+			<Sound name="pause" />
+			<Next mode="Push" type="Menu" name="Pause" pause="true" fade="true" />
+		</Effect>
+	</Trigger>
+
+	<Input />
+	<Death>
+		<Spawn name="MegaManDeath" state="Up" />
+		<Spawn name="MegaManDeath" state="Down" />
+		<Spawn name="MegaManDeath" state="Left" />
+		<Spawn name="MegaManDeath" state="Right" />
+		<Spawn name="MegaManDeath" state="UpLeft" />
+		<Spawn name="MegaManDeath" state="UpRight" />
+		<Spawn name="MegaManDeath" state="DownLeft" />
+		<Spawn name="MegaManDeath" state="DownRight" />
+		<Spawn name="MegaManDeath" state="UpFast" />
+		<Spawn name="MegaManDeath" state="DownFast" />
+		<Spawn name="MegaManDeath" state="LeftFast" />
+		<Spawn name="MegaManDeath" state="RightFast" />
+		<Spawn name="MegaManDeath" state="UpLeftFast" />
+		<Spawn name="MegaManDeath" state="UpRightFast" />
+		<Spawn name="MegaManDeath" state="DownLeftFast" />
+		<Spawn name="MegaManDeath" state="DownRightFast" />
+		<Sound name="MMDeath" />
+	</Death>
+</Entity>
+</Entities>

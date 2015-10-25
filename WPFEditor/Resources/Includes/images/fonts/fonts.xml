@@ -1,0 +1,13 @@
+<Fonts>
+	<Font name="Default" image="images/fonts/mm9_font.png" charwidth="8" cased="true">
+		<Line x="7" y="6">0123456789</Line>
+		<Line x="7" y="15">ABCDEFGHIJKLMNOPQRSTUVWXYZ</Line>
+		<Line x="7" y="24">abcdefghijklmnopqrstuvwxyz</Line>
+		<Line x="7" y="34">!"#$%&amp;'()*+,-./:;&lt;=&gt;?</Line>
+		<Line x="7" y="46">@[]^_`{|}~</Line>
+		<Line x="152" y="56">&#12354;&#12353;&#12356;&#12355;&#12358;&#12357;&#12360;&#12359;&#12362;&#12361;</Line>
+	</Font>
+	<Font name="Pause" image="images/fonts/pause.png" charwidth="8" cased="false">
+		<Line x="0" y="0">ABCDEFGHIJKLMNOPQRSTUVWXYZ.0123456789</Line>
+	</Font>
+</Fonts>

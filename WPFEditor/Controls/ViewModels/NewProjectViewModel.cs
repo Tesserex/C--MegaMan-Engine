@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using MegaMan.IO;
 using MegaMan.Editor.Services;
 using System.Windows.Input;
+using System.Resources;
+using System.Collections;
+using System.IO;
+using System.Reflection;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -119,11 +123,54 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             document.Name = Name;
             document.Author = Author;
-
             _dataService.SaveProject(document);
+            
+            var resPath = "resources/includes";
+            var includes = GetResourcesUnder(resPath);
+            foreach (var resName in includes)
+            {
+                var filePath = Path.Combine(path, resName.Substring(resPath.Length + 1)); // remove final slash
+                WriteResourceToFile(resName, filePath);
+            }
 
             var args = new ProjectOpenedEventArgs() { Project = document };
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
+        }
+
+        private static string[] GetResourcesUnder(string folder)
+        {
+            folder = folder.ToLower() + "/";
+
+            var assembly       = Assembly.GetCallingAssembly();
+            var resourcesName  = assembly.GetName().Name + ".g.resources";
+            var stream         = assembly.GetManifestResourceStream(resourcesName);
+            var resourceReader = new ResourceReader(stream);
+
+            var resources = resourceReader.OfType<DictionaryEntry>()
+                .Select(p => p.Key.ToString())
+                .Where(theme => theme.StartsWith(folder));
+
+            return resources.ToArray();
+        }
+
+        private static void WriteResourceToFile(string resname, string path)
+        {
+            FileInfo fi = new FileInfo(path);
+            if (!fi.Directory.Exists) 
+            {
+                Directory.CreateDirectory(fi.DirectoryName); 
+            } 
+
+            Stream res = System.Windows.Application.GetResourceStream(new Uri(resname, UriKind.Relative)).Stream;
+            using (FileStream file = new FileStream(path, FileMode.Create))
+            {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = res.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    file.Write(buffer, 0, bytesRead);
+                }
+            }
         }
     }
 }

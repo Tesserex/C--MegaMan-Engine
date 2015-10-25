@@ -534,6 +534,25 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Includes\images\fonts\fonts.xml" />
+    <Resource Include="Resources\Includes\images\fonts\mm9_font.png" />
+    <Resource Include="Resources\Includes\images\fonts\pause.png" />
+    <Resource Include="Resources\Includes\images\megaman.png" />
+    <Resource Include="Resources\Includes\images\palettes\megaman.png" />
+    <Resource Include="Resources\Includes\images\particles\bubble.png" />
+    <Resource Include="Resources\Includes\images\particles\dust_-_spark.png" />
+    <Resource Include="Resources\Includes\images\particles\enemy_death.png" />
+    <Resource Include="Resources\Includes\images\particles\enemy_death_large.png" />
+    <Resource Include="Resources\Includes\images\particles\megaman_death.png" />
+    <Resource Include="Resources\Includes\images\particles\spark.png" />
+    <Resource Include="Resources\Includes\images\particles\splash.png" />
+    <Resource Include="Resources\Includes\images\rush.png" />
+    <Resource Include="Resources\Includes\images\weapons\basic.png" />
+    <Resource Include="Resources\Includes\objects\entities\functions.xml" />
+    <Resource Include="Resources\Includes\objects\entities\items.xml" />
+    <Resource Include="Resources\Includes\objects\entities\particles.xml" />
+    <Resource Include="Resources\Includes\objects\entities\player.xml" />
+    <Resource Include="Resources\Includes\objects\entities\weapons.xml" />
     <Resource Include="Resources\EntityList.png" />
     <Resource Include="Resources\NewEntity.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
