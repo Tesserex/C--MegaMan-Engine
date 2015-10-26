@@ -277,7 +277,7 @@ namespace MegaMan.Engine
             }
             catch (System.IO.FileNotFoundException ex)
             {
-                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.FileName, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Game.CurrentGame.Unload();
             }
             catch (XmlException ex)

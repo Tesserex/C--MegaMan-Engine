@@ -8,8 +8,8 @@
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" width="8" height="8">
 			<Hotspot x="4" y="4" />
-			<Frame x="70" y="8" duration="8" />
-			<Frame x="83" y="8" duration="8" />
+			<Frame x="0" y="12" duration="8" />
+			<Frame x="8" y="12" duration="8" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -58,8 +58,8 @@
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" width="16" height="16">
 			<Hotspot x="8" y="8" />
-			<Frame x="95" y="0" duration="8" />
-			<Frame x="116" y="0" duration="8" />
+			<Frame x="16" y="12" duration="8" />
+			<Frame x="32" y="12" duration="8" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -105,7 +105,7 @@
 				<Hits>Player</Hits><Group>Item</Group><Group>SmallWeapon</Group>
 			</Hitbox>
 		</Collision>
-		<Tilesheet pallete="Default">images\items\coloritems.png</Tilesheet>
+		<Tilesheet pallete="Default">images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="8" height="8">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="8" />
@@ -159,8 +159,8 @@
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="16" height="12">
 			<Hotspot x="8" y="6" />
-			<Frame x="29" y="4" duration="8" />
-			<Frame x="50" y="4" duration="8" />
+			<Frame x="16" y="0" duration="8" />
+			<Frame x="32" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -210,7 +210,7 @@
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="16" height="15">
 			<Hotspot x="8" y="8" />
-			<Frame x="134" y="1" duration="0" />
+			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -253,15 +253,15 @@
 
   <Entity name="EnergyTank">
 		<Collision>
-			<Hitbox name="H" x="-8" y="-8" width="16" height="15">
+			<Hitbox name="H" x="-8" y="-8" width="16" height="16">
 				<Hits>Player</Hits><Group>Item</Group>
 			</Hitbox>
 		</Collision>
-		<Tilesheet>images\items\energytank.png</Tilesheet>
-		<Sprite name="normal" palette="MegaMan" width="16" height="15">
+		<Tilesheet>images\items.png</Tilesheet>
+		<Sprite name="normal" palette="MegaMan" width="16" height="16">
 			<Hotspot x="8" y="8" />
-			<Frame x="0" y="0" duration="8" />
-            <Frame x="18" y="0" duration="8" />
+			<Frame x="64" y="0" duration="8" />
+			<Frame x="80" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -286,10 +286,10 @@
 				<Hits>Player</Hits><Group>Item</Group>
 			</Hitbox>
 		</Collision>
-		<Tilesheet>images\items\bolt_small.png</Tilesheet>
+		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite width="8" height="8">
 			<Hotspot x="4" y="4" />
-			<Frame x="0" y="0" duration="0" />
+			<Frame x="64" y="16" duration="0" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -314,10 +314,10 @@
 				<Hits>Player</Hits><Group>Item</Group>
 			</Hitbox>
 		</Collision>
-		<Tilesheet>images\items\bolt_large.png</Tilesheet>
+		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite width="16" height="12">
 			<Hotspot x="8" y="6" />
-			<Frame x="0" y="0" duration="0" />
+			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 		<State name="Start">
 			<Position>
@@ -335,5 +335,4 @@
 			<Effect><AddInventory item="Bolts" quantity="20" /><Remove /></Effect>
 		</Trigger>
   </Entity>
-
 </Entities>
