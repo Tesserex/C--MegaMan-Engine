@@ -1,6 +1,6 @@
 <Tileset tilesheet="..\..\..\..\junk\Code\MegaMan\Demo Project\stages\test\tiles.png" tilesize="16">
 	<TileProperties>
-		<Properties name="Wind" />
+		<Properties name="Wind" pushX="0.5" />
 		<Properties name="Glue" blocking="true" resistX="0" dragX="0" />
 		<Properties name="Block" blocking="true" resistX="0.5" />
 		<Properties name="Lethal" blocking="true" lethal="true" />
@@ -9,7 +9,7 @@
 		<Properties name="GravDown" onenter="GravityDown" />
 		<Properties name="Sand" gravitymult="3" resistX="0.2" dragX="0.4" sinking="0.2" />
 	</TileProperties>
-	<Tile id="0" name="" properties="Wind">
+	<Tile id="0" name="" properties="Default">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="..\..\..\..\junk\Code\MegaMan\Demo Project\stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
@@ -74,6 +74,18 @@
 			<Frame x="96" y="0" duration="12" />
 			<Frame x="96" y="16" duration="12" />
 			<Frame x="96" y="32" duration="12" />
+		</Sprite>
+	</Tile>
+	<Tile id="9" name="" properties="Wind">
+		<Sprite width="16" height="16" tilesheet="..\..\..\..\junk\Code\MegaMan\Demo Project\stages\test\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="10" name="" properties="Glue">
+		<Sprite width="16" height="16" tilesheet="..\..\..\..\junk\Code\MegaMan\Demo Project\stages\test\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 </Tileset>

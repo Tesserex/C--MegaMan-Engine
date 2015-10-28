@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
@@ -7,7 +8,30 @@ namespace MegaMan.Editor.Bll
 {
     public class TilesetDocument
     {
+        public event EventHandler TilesetModified;
+
         public Tileset Tileset { get; private set; }
+
+        public FilePath SheetPath
+        {
+            get
+            {
+                if (Tileset != null)
+                    return Tileset.SheetPath;
+                else
+                    return null;
+            }
+        }
+
+        public virtual IEnumerable<Tile> Tiles
+        {
+            get
+            {
+                return Tileset;
+            }
+        }
+
+        public IEnumerable<TileProperties> Properties { get { return Tileset.Properties; } }
 
         private List<MultiTileBrush> _brushes;
         public IEnumerable<MultiTileBrush> Brushes
@@ -23,6 +47,24 @@ namespace MegaMan.Editor.Bll
             Tileset = tileset;
             _brushes = new List<MultiTileBrush>();
             LoadBrushes();
+        }
+
+        public Tile AddTile()
+        {
+            var tile = Tileset.AddTile();
+
+            if (TilesetModified != null)
+                TilesetModified(this, new EventArgs());
+
+            return tile;
+        }
+
+        public void RemoveTile(Tile tile)
+        {
+            Tileset.Remove(tile);
+
+            if (TilesetModified != null)
+                TilesetModified(this, new EventArgs());
         }
 
         public void AddBlockProperty()

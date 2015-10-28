@@ -11,22 +11,10 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TilesetEditorViewModel : TilesetViewModelBase, INotifyPropertyChanged
+    public class TilesetEditorViewModel : TilesetViewModelBase
     {
         private ProjectDocument _project;
-        private ObservableCollection<Tile> _observedTiles;
         private ObservableCollection<TileProperties> _observedProperties;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string property)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
-        }
 
         public ICommand ChangeSheetCommand { get; private set; }
         public ICommand AddTileCommand { get; private set; }
@@ -97,42 +85,30 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
             if (e.Stage != null)
-                SetTileset(e.Stage.Tileset.Tileset);
+                ChangeTileset(e.Stage.Tileset);
             else
-                SetTileset(null);
+                ChangeTileset(null);
         }
 
-        private void SetTileset(Tileset tileset)
+        private void ChangeTileset(TilesetDocument tileset)
         {
-            _tileset = tileset;
+            SetTileset(tileset);
 
             if (_tileset != null)
             {
-                _observedTiles = new ObservableCollection<Tile>(_tileset);
                 _observedProperties = new ObservableCollection<TileProperties>(_tileset.Properties);
-
-                if (_tileset.Any())
-                    ChangeTile(_tileset.First());
-                else
-                    ChangeTile(null);
 
                 if (!File.Exists(_tileset.SheetPath.Absolute))
                 {
                     ChangeSheet();
                 }
-
-                ((App)App.Current).AnimateTileset(_tileset);
             }
             else
             {
-                _observedTiles = new ObservableCollection<Tile>();
                 _observedProperties = new ObservableCollection<TileProperties>();
-                ChangeTile(null);
             }
-
-            OnPropertyChanged("Tiles");
+            
             OnPropertyChanged("TileProperties");
-            OnPropertyChanged("SheetPath");
             OnPropertyChanged("RelSheetPath");
         }
 
@@ -148,7 +124,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (SelectedTile != null)
             {
-                _tileset.Remove(SelectedTile);
+                _tileset.RemoveTile(SelectedTile);
                 _observedTiles.Remove(SelectedTile);
                 ChangeTile(null);
                 this._project.Dirty = true;
@@ -158,7 +134,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddProperties()
         {
             var properties = new TileProperties() { Name = "New Properties" };
-            _tileset.AddProperties(properties);
+            _tileset.Tileset.AddProperties(properties);
             _observedProperties.Add(properties);
             this._project.Dirty = true;
             OnPropertyChanged("TileProperties");
@@ -177,7 +153,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void DeleteProperties(object obj)
         {
             var props = (TileProperties)obj;
-            _tileset.DeleteProperties(props);
+            _tileset.Tileset.DeleteProperties(props);
             _observedProperties.Remove(props);
             this._project.Dirty = true;
             OnPropertyChanged("TileProperties");
@@ -211,12 +187,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                _tileset.ChangeSheetPath(dialog.FileName);
+                _tileset.Tileset.ChangeSheetPath(dialog.FileName);
                 OnPropertyChanged("SheetPath");
                 OnPropertyChanged("RelSheetPath");
 
-                if (_tileset.Any())
-                    ChangeTile(_tileset.First());
+                if (_tileset.Tiles.Any())
+                    ChangeTile(_tileset.Tiles.First());
             }
         }
 
@@ -230,11 +206,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 Sprite = null;
 
             OnPropertyChanged("Sprite");
-
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
-            }
+            OnPropertyChanged("SelectedTile");
         }
     }
 }

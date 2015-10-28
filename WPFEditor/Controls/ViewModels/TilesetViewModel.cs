@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -10,13 +11,12 @@ using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TilesetViewModel : TilesetViewModelBase, IToolProvider, INotifyPropertyChanged
+    public class TilesetViewModel : TilesetViewModelBase, IToolProvider
     {
         private IToolBehavior _currentTool;
         private IToolCursor _currentCursor;
         private string _activeIcon;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
         public ICommand ChangeToolCommand { get; private set; }
@@ -81,10 +81,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 ToolCursor = null;
             }
 
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTile"));
-            }
+            OnPropertyChanged("SelectedTile");
         }
 
         private void ConstructTool()
@@ -150,35 +147,42 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void SetStage(StageDocument stage)
         {
-            _tileset = stage.Tileset.Tileset;
-            ((App)App.Current).AnimateTileset(_tileset);
+            ChangeTileset(stage.Tileset);
 
-            ChangeTile(_tileset.FirstOrDefault());
+            ChangeTile(_tileset.Tiles.FirstOrDefault());
 
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
-            }
+            OnPropertyChanged("Tiles");
         }
 
         private void UnsetStage()
         {
-            _tileset = null;
+            ChangeTileset(null);
 
             ChangeTile(null);
 
-            if (PropertyChanged != null)
+            OnPropertyChanged("Tiles");
+        }
+
+        private void ChangeTileset(TilesetDocument tileset)
+        {
+            if (_tileset != null)
+                _tileset.TilesetModified -= Update;
+
+            SetTileset(tileset);
+
+            if (_tileset != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs("Tiles"));
+                _tileset.TilesetModified += Update;
+                ((App)App.Current).AnimateTileset(_tileset.Tileset);
             }
         }
 
-        private void OnPropertyChanged(string name)
+        private void Update(object sender, EventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
+            // easier to reassign the whole thing than correctly update the collection
+            // wrong I know but don't really care right now.
+            _observedTiles = new ObservableCollection<Tile>(_tileset.Tiles);
+            OnPropertyChanged("Tiles");
         }
     }
 }
