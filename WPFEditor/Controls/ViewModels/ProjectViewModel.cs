@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
@@ -54,6 +55,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(_stage));
             }
             catch (GameXmlException ex)
+            {
+                CustomMessageBox.ShowError(ex.Message, this.Project.Name);
+            }
+            catch (FileNotFoundException ex)
             {
                 CustomMessageBox.ShowError(ex.Message, this.Project.Name);
             }
