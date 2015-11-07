@@ -112,6 +112,9 @@
 		<Weapon name="Napalm" entity="Napalm" ammo="28" usage="1" palette="9">
 			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\napalmhealth.png" />
 		</Weapon>
+		<Weapon name="Portal" entity="PortalShot" ammo="28" usage="2" palette="10">
+			<Meter x="9" y="16" background="images\meters\healthmeter_back.png" image="images\meters\napalmhealth.png" />
+		</Weapon>
 	</Weapons>
     <Timer />
 	<Trigger>
