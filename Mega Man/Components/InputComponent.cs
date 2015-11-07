@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace MegaMan.Engine
@@ -50,6 +51,13 @@ namespace MegaMan.Engine
             Shoot = Jump = StartKey = Select = false;
             activeKeys.Clear();
             backupKeys.Clear();
+
+            // initialize
+            var dict = Paused ? backupKeys : activeKeys;
+            foreach (var k in globalKeys)
+            {
+                dict[k.Key] = k.Value;
+            }
         }
 
         public override Component Clone()
@@ -122,6 +130,7 @@ namespace MegaMan.Engine
             var dict = Paused ? backupKeys : activeKeys;
 
             dict[e.Input] = e.Pressed;
+            globalKeys[e.Input] = e.Pressed;
 
             if (!Paused && !Parent.Paused)
             {
@@ -145,5 +154,7 @@ namespace MegaMan.Engine
                 }
             }
         }
+
+        private static readonly Dictionary<GameInput, bool> globalKeys = new Dictionary<GameInput, bool>();
     }
 }
