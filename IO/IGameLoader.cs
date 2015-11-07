@@ -6,8 +6,8 @@ using MegaMan.Common;
 
 namespace MegaMan.IO
 {
-    public interface IReaderProvider
+    public interface IGameLoader
     {
-        IProjectReader GetProjectReader(FilePath path);
+        Project Load(string filepath);
     }
 }

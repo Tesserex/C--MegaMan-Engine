@@ -66,13 +66,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSources\FileSourceLoader.cs" />
+    <Compile Include="DataSources\IDataSourceLoader.cs" />
+    <Compile Include="DataSources\XmlFileSourceLoader.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Injector.cs" />
+    <Compile Include="IGameLoader.cs" />
     <Compile Include="IProjectWriter.cs" />
     <Compile Include="IReaderProvider.cs" />
     <Compile Include="IStageWriter.cs" />
     <Compile Include="ITilesetReader.cs" />
     <Compile Include="ITilesetWriter.cs" />
     <Compile Include="IWriterProvider.cs" />
+    <Compile Include="GameLoader.cs" />
     <Compile Include="ReaderProvider.cs" />
     <Compile Include="WriterProvider.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />

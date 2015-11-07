@@ -9,15 +9,15 @@ namespace MegaMan.IO.Xml
     {
         private Project _project;
 
-        public Project Load(string filePath)
-        {
-            if (!File.Exists(filePath)) throw new FileNotFoundException("The project file does not exist: " + filePath);
+        public string Extension { get { return "xml"; } }
 
+        public Project Load(Stream stream, FilePath path)
+        {
             _project = new Project();
 
-            _project.GameFile = FilePath.FromAbsolute(filePath, Path.GetDirectoryName(filePath));
+            _project.GameFile = path;
 
-            XElement reader = XElement.Load(filePath);
+            XElement reader = XElement.Load(stream);
 
             XAttribute nameAttr = reader.Attribute("name");
             if (nameAttr != null) _project.Name = nameAttr.Value;

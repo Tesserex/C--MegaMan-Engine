@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -6,13 +7,13 @@ namespace MegaMan.IO.Xml
 {
     public class TilesetXmlReader : GameXmlReader, ITilesetReader
     {
-        public Tileset Load(FilePath path)
+        public Tileset Load(Stream stream)
         {
             var tileset = new Tileset();
 
             tileset.FilePath = path;
 
-            var doc = XDocument.Load(path.Absolute);
+            var doc = XDocument.Load(stream);
             var reader = doc.Element("Tileset");
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
