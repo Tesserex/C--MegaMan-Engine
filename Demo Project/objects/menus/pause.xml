@@ -10,8 +10,8 @@
 	<Sprite name="GyroOn" tilesheet="images/pause/gyro_on.png" width="16" height="16" layer="3" />
 	<Sprite name="CrystalOff" tilesheet="images/pause/crystal_off.png" width="16" height="16" layer="3" />
 	<Sprite name="CrystalOn" tilesheet="images/pause/crystal_on.png" width="16" height="16" layer="3" />
-	<Sprite name="NapalmOff" tilesheet="images/pause/napalm_off.png" width="16" height="16" layer="3" />
-	<Sprite name="NapalmOn" tilesheet="images/pause/napalm_on.png" width="16" height="16" layer="3" />
+	<Sprite name="PortalOff" tilesheet="images/pause/napalm_off.png" width="16" height="16" layer="3" />
+	<Sprite name="PortalOn" tilesheet="images/pause/napalm_on.png" width="16" height="16" layer="3" />
 
 	<Sprite name="EOn" tilesheet="images\pause\e_on.png" width="16" height="16" layer="3" />
 	<Sprite name="EOff" tilesheet="images\pause\e_off.png" width="16" height="16" layer="3" />
@@ -78,14 +78,14 @@
 		<Binding source="Weapon.Crystal" target="Value" />
 	</Meter>
 
-	<Meter name="NapalmMeter" x="64" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
-		<Binding source="Weapon.Napalm" target="Value" />
+	<Meter name="PortalMeter" x="64" y="104" image="images\meters\horizmeter_selected.png" background="images\meters\horizback_selected.png" orientation="horizontal">
+		<Binding source="Weapon.Portal" target="Value" />
 	</Meter>
-	<Meter name="NapalmMeterOff" x="64" y="104" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
-		<Binding source="Weapon.Napalm" target="Value" />
+	<Meter name="PortalMeterOff" x="64" y="104" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Portal" target="Value" />
 	</Meter>
-	<Meter name="NapalmMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
-		<Binding source="Weapon.Napalm" target="Value" />
+	<Meter name="PortalMeterBottom" x="148" y="204" image="images\meters\horizmeter.png" background="images\meters\horizback.png" orientation="horizontal">
+		<Binding source="Weapon.Portal" target="Value" />
 	</Meter>
 
 	<State name="Start">
@@ -107,9 +107,9 @@
 			<Add name="CrystalMeterOff" object="CrystalMeterOff" x="56" y="80" />
 
 
-		<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
+		<Sprite name="PortalOff" object="PortalOff" x="32" y="96" />
 		<Text font="Pause" x="56" y="96" content="N.Bomb" />
-		<Add name="NapalmMeterOff" object="NapalmMeterOff" x="56" y="96" />
+		<Add name="PortalMeterOff" object="PortalMeterOff" x="56" y="96" />
 
 		<Sprite name="RushCoilOff" object="RushCoilOff" x="136" y="96" />
 		<Text font="Pause" x="160" y="96" content="R.Coil" />
@@ -215,25 +215,25 @@
 			</Select>
 		</Option>
 
-		<Option name="Napalm" x="32" y="96">
+		<Option name="Portal" x="32" y="96">
 			<On>
-				<Remove name="NapalmOff" />
-				<Sprite name="NapalmOn" object="NapalmOn" x="32" y="96" />
-				<Remove name="NapalmMeterOff" />
-				<Add name="NapalmMeter" object="NapalmMeter" x="56" y="104" />
-				<Add name="NapalmMeterBottom" object="NapalmMeterBottom" x="148" y="204" />
+				<Remove name="PortalOff" />
+				<Sprite name="PortalOn" object="PortalOn" x="32" y="96" />
+				<Remove name="PortalMeterOff" />
+				<Add name="PortalMeter" object="PortalMeter" x="56" y="104" />
+				<Add name="PortalMeterBottom" object="PortalMeterBottom" x="148" y="204" />
 				<Effect entity="Player">
-					<Weapon><Change name="Napalm" /></Weapon>
-					<SetVar name="weapon" value="Napalm" />
+					<Weapon><Change name="Portal" /></Weapon>
+					<SetVar name="weapon" value="Portal" />
 				</Effect>
 			</On>
 			<Off>
 				<Sound name="Menu" />
-				<Remove name="NapalmOn" />
-				<Sprite name="NapalmOff" object="NapalmOff" x="32" y="96" />
-				<Remove name="NapalmMeter" />
-				<Remove name="NapalmMeterBottom" />
-				<Add name="NapalmMeterOff" object="NapalmMeterOff" x="56" y="104" />
+				<Remove name="PortalOn" />
+				<Sprite name="PortalOff" object="PortalOff" x="32" y="96" />
+				<Remove name="PortalMeter" />
+				<Remove name="PortalMeterBottom" />
+				<Add name="PortalMeterOff" object="PortalMeterOff" x="56" y="104" />
 			</Off>
 			<Select>
 				<Sound name="pause" />

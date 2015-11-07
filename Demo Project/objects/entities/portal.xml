@@ -1,0 +1,70 @@
+<Entities>
+	<Entity name="PortalShot">
+		<EditorData hide="true" />
+		<Sprite layer="4" name="Blue" tilesheet="images\weapons\portal.png" width="16" height="7">
+			<Hotspot x="8" y="4" />
+			<AnimStyle>Bounce</AnimStyle>
+			<Frame x="0" y="7" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="0" y="14" duration="4" />
+		</Sprite>
+		<Sprite layer="4" name="Orange" tilesheet="images\weapons\portal.png" width="16" height="7">
+			<Hotspot x="8" y="4" />
+			<AnimStyle>Bounce</AnimStyle>
+			<Frame x="16" y="7" duration="4" />
+			<Frame x="16" y="0" duration="4" />
+			<Frame x="16" y="14" duration="4" />
+		</Sprite>
+		<Input />
+		<Collision>
+			<Hitbox name="H" damage="1" x="-8" y="-8" width="16" height="16" environment="true">
+				<Hits>Enemy</Hits>
+				<Group>Projectile</Group>
+			</Hitbox>
+			<Blocking>False</Blocking>
+		</Collision>
+		<Health>
+			<Max>1</Max>
+		</Health>
+		<State name="Start">
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" offset="16" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Movement>
+				<Flying>True</Flying>
+				<FlipSprite>True</FlipSprite>
+				<X magnitude="6" direction="Inherit" />
+				<Y magnitude="0" />
+			</Movement>
+			<Sound name="Buster" />
+			<Trigger>
+				<Condition>Input.Up==True</Condition>
+				<Effect>
+					<State>Orange</State>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Input.Up==False And StateTime > 60</Condition>
+				<Effect>
+					<State>Blue</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Blue">
+			<Sprite><Name>Blue</Name></Sprite>
+		</State>
+		<State name="Orange">
+			<Sprite><Name>Orange</Name></Sprite>
+		</State>
+		<Trigger>
+			<Condition>Collision.DamageDealt > 0</Condition>
+			<Effect>
+				<Func>
+					Health.Add(-Collision.DamageDealt)
+				</Func>
+			</Effect>
+		</Trigger>
+	</Entity>
+</Entities>
