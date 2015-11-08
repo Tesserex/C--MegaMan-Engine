@@ -46,7 +46,7 @@
 				</Effect>
 			</Trigger>
 			<Trigger>
-				<Condition>Input.Up==False And StateTime > 60</Condition>
+				<Condition>Input.Up==False</Condition>
 				<Effect>
 					<State>Blue</State>
 				</Effect>
@@ -54,9 +54,23 @@
 		</State>
 		<State name="Blue">
 			<Sprite><Name>Blue</Name></Sprite>
+			<Trigger>
+			<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
+			<Effect>
+				<Spawn name="Portal" state="Blue" />
+				<Die />
+			</Effect>
+		</Trigger>
 		</State>
 		<State name="Orange">
 			<Sprite><Name>Orange</Name></Sprite>
+			<Trigger>
+			<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
+			<Effect>
+				<Spawn name="Portal" state="Orange" />
+				<Die />
+			</Effect>
+		</Trigger>
 		</State>
 		<Trigger>
 			<Condition>Collision.DamageDealt > 0</Condition>
@@ -66,5 +80,77 @@
 				</Func>
 			</Effect>
 		</Trigger>
+	</Entity>
+	<Entity name="Portal">
+		<EditorData hide="true" />
+		<Sprite layer="4" name="Blue" tilesheet="images\weapons\portal.png" width="9" height="14">
+			<Hotspot x="1" y="7" />
+			<Frame x="0" y="21" duration="6" />
+			<Frame x="0" y="35" duration="6" />
+		</Sprite>
+		<Sprite layer="4" name="Orange" tilesheet="images\weapons\portal.png" width="9" height="14">
+			<Hotspot x="1" y="7" />
+			<Frame x="9" y="21" duration="6" />
+			<Frame x="9" y="35" duration="6" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="H" x="0" y="-7" width="7" height="14" environment="false">
+				<Group>Portal</Group>
+				<Hits>Player</Hits>
+			</Hitbox>
+			<Hitbox name="KillBlue" damage="1" x="-500" y="-500" width="1000" height="1000" environment="false">
+				<Group>PortalKillerBlue</Group>
+				<Hits>Portal</Hits>
+			</Hitbox>
+			<Hitbox name="KillOrange" damage="1" x="-500" y="-500" width="1000" height="1000" environment="false">
+				<Group>PortalKillerOrange</Group>
+				<Hits>Portal</Hits>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Movement>
+				<FlipSprite>True</FlipSprite>
+				<Flying>True</Flying>
+				<X magnitude="1" direction="Inherit" /><X magnitude="0" />
+				<Y magnitude="0" />
+			</Movement>
+			<Collision><EnableBox name="H" /></Collision>
+			<Position>
+				<X base="Inherit" direction="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+		</State>
+		<State name="Blue">
+			<Sprite><Name>Blue</Name></Sprite>
+			<Collision><EnableBox name="KillBlue" /></Collision>
+			<Trigger>
+				<Condition>StateTime &gt; 1</Condition>
+				<Effect>
+					<Collision><Clear /><EnableBox name="H" /></Collision>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Collision.TouchedBy("PortalKillerBlue")</Condition>
+				<Effect>
+					<Die />
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Orange">
+			<Sprite><Name>Orange</Name></Sprite>
+			<Collision><EnableBox name="KillOrange" /></Collision>
+			<Trigger>
+				<Condition>StateTime &gt; 1</Condition>
+				<Effect>
+					<Collision><Clear /><EnableBox name="H" /></Collision>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Collision.TouchedBy("PortalKillerOrange")</Condition>
+				<Effect>
+					<Die />
+				</Effect>
+			</Trigger>
+		</State>
 	</Entity>
 </Entities>
