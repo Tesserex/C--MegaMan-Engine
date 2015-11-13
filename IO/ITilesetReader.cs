@@ -4,9 +4,9 @@ using MegaMan.Common;
 
 namespace MegaMan.IO
 {
-    public interface ITilesetReader
+    public interface ITilesetReader : IGameFileReader
     {
-        Tileset Load(Stream stream);
+        Tileset Load(FilePath path);
         TileProperties LoadProperties(XElement node);
     }
 }

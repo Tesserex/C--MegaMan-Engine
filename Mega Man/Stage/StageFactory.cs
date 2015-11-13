@@ -45,8 +45,8 @@ namespace MegaMan.Engine
 
         public void TryLoad(StageLinkInfo info)
         {
-            var stageReader = new StageXmlReader();
-            StageInfo map = stageReader.LoadStageXml(info.StagePath);
+            var stageReader = Game.CurrentGame.FileReaderProvider.GetStageReader(info.StagePath);
+            StageInfo map = stageReader.Load(info.StagePath);
 
             var handler = new StageHandler(map);
 

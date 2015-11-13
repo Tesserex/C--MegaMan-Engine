@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Ninject;
 using Ninject.Extensions.Conventions;
+using MegaMan.Editor.Bll.Factories;
 
 namespace MegaMan.Editor
 {
@@ -40,7 +41,8 @@ namespace MegaMan.Editor
             Container = new StandardKernel();
             Container.Load(System.Reflection.Assembly.GetExecutingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.Xml.GameXmlReader)).SelectAllClasses().BindAllInterfaces());
+            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.IGameLoader)).SelectAllClasses().BindAllInterfaces());
+            Container.Bind<FactoryCore>().ToSelf().InSingletonScope();
         }
 
         public void AnimateTileset(Tileset tileset)

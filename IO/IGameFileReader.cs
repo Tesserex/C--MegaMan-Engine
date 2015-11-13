@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MegaMan.Common;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO
 {
-    public interface IGameLoader
+    public interface IGameFileReader
     {
-        IReaderProvider Load(string filepath);
+        void Init(IDataSourceLoader dataSource);
     }
 }

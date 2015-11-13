@@ -5,16 +5,17 @@ namespace MegaMan.Editor.Bll.Factories
 {
     public class TilesetDocumentFactory : ITilesetDocumentFactory
     {
-        private ITilesetReader _reader;
+        private FactoryCore _core;
 
-        public TilesetDocumentFactory(ITilesetReader reader)
+        public TilesetDocumentFactory(FactoryCore core)
         {
-            _reader = reader;
+            _core = core;
         }
 
         public TilesetDocument Load(FilePath filePath)
         {
-            var tileset = _reader.Load(filePath);
+            var tilesetReader = _core.Reader.GetTilesetReader(filePath);
+            var tileset = tilesetReader.Load(filePath);
             var tilesetDocument = new TilesetDocument(tileset);
             return tilesetDocument;
         }

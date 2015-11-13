@@ -5,28 +5,44 @@ using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
-    public class StageXmlReader : GameXmlReader
+    public class StageXmlReader : GameXmlReader, IStageReader
     {
         private StageInfo _info;
 
+        private IReaderProvider _readerProvider;
         private BlockPatternXmlReader _blockReader = new BlockPatternXmlReader();
+        private IDataSourceLoader _dataSource;
 
-        public StageInfo LoadStageXml(FilePath path)
+        public void Init(IDataSourceLoader dataSource)
+        {
+            this._dataSource = dataSource;
+        }
+
+        public StageXmlReader(IReaderProvider readerProvider)
+        {
+            _readerProvider = readerProvider;
+        }
+
+        public StageInfo Load(FilePath path)
         {
             _info = new StageInfo();
 
             _info.StagePath = path;
 
-            var mapXml = XElement.Load(Path.Combine(_info.StagePath.Absolute, "map.xml"));
+            var mapPath = Path.Combine(_info.StagePath.Absolute, "map.xml");
+            var stream = _dataSource.GetData(FilePath.FromAbsolute(mapPath, _info.StagePath.BasePath));
+            var mapXml = XElement.Load(stream);
             _info.Name = Path.GetFileNameWithoutExtension(_info.StagePath.Absolute);
 
             string tilePathRel = mapXml.Attribute("tiles").Value;
             var tilePath = FilePath.FromRelative(tilePathRel, _info.StagePath.BasePath);
 
-            var tileset = new TilesetXmlReader().Load(tilePath);
+            var tileReader = _readerProvider.GetTilesetReader(tilePath);
+            var tileset = tileReader.Load(tilePath);
             _info.ChangeTileset(tileset);
 
             _info.PlayerStartX = 3;

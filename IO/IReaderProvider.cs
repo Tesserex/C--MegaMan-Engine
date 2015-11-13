@@ -8,6 +8,8 @@ namespace MegaMan.IO
 {
     public interface IReaderProvider
     {
-        IProjectReader GetProjectReader(FilePath path);
+        IProjectReader GetProjectReader();
+        IStageReader GetStageReader(FilePath path);
+        ITilesetReader GetTilesetReader(FilePath path);
     }
 }

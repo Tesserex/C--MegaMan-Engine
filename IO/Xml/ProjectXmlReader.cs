@@ -2,21 +2,30 @@
 using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
     public class ProjectXmlReader : GameXmlReader, IProjectReader
     {
         private Project _project;
+        private IDataSourceLoader _dataSource;
 
-        public string Extension { get { return "xml"; } }
+        public string Extension { get { return ".xml"; } }
 
-        public Project Load(Stream stream, FilePath path)
+        public void Init(IDataSourceLoader dataSource)
+        {
+            this._dataSource = dataSource;
+        }
+
+        public Project Load()
         {
             _project = new Project();
 
-            _project.GameFile = path;
+            var gameFilePath = _dataSource.GetGameFile();
+            _project.GameFile = gameFilePath;
 
+            var stream = _dataSource.GetData(gameFilePath);
             XElement reader = XElement.Load(stream);
 
             XAttribute nameAttr = reader.Attribute("name");

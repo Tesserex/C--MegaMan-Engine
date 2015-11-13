@@ -6,7 +6,7 @@ using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 using MegaMan.Engine.StateMachine;
-using MegaMan.IO.Xml;
+using MegaMan.IO;
 
 namespace MegaMan.Engine
 {
@@ -28,6 +28,8 @@ namespace MegaMan.Engine
     public class Game
     {
         public static Game CurrentGame { get; private set; }
+
+        public IReaderProvider FileReaderProvider { get; private set; }
 
         private Project project;
         private StageFactory stageFactory;
@@ -106,9 +108,9 @@ namespace MegaMan.Engine
 
         private void LoadFile(string path, List<string> pathArgs = null)
         {
-            var projectReader = new ProjectXmlReader();
-
-            project = projectReader.Load(path);
+            var projectLoader = new GameLoader();
+            this.FileReaderProvider = projectLoader.Load(path);
+            project = FileReaderProvider.GetProjectReader().Load();
 
             BasePath = project.BaseDir;
 

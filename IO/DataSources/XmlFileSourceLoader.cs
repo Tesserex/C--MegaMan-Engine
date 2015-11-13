@@ -7,6 +7,6 @@ namespace MegaMan.IO.DataSources
 {
     internal class XmlFileSourceLoader : FileSourceLoader
     {
-        public override string Extension { get { return "xml"; } }
+        public override string Extension { get { return ".xml"; } }
     }
 }

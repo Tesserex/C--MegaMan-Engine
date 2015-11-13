@@ -70,6 +70,7 @@
     <Compile Include="DataSources\IDataSourceLoader.cs" />
     <Compile Include="DataSources\XmlFileSourceLoader.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IGameFileReader.cs" />
     <Compile Include="Injector.cs" />
     <Compile Include="IGameLoader.cs" />
     <Compile Include="IProjectWriter.cs" />

@@ -2,17 +2,26 @@
 using System.IO;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
     public class TilesetXmlReader : GameXmlReader, ITilesetReader
     {
-        public Tileset Load(Stream stream)
+        private IDataSourceLoader _dataSource;
+
+        public void Init(IDataSourceLoader dataSource)
+        {
+            this._dataSource = dataSource;
+        }
+
+        public Tileset Load(FilePath path)
         {
             var tileset = new Tileset();
 
             tileset.FilePath = path;
 
+            var stream = _dataSource.GetData(path);
             var doc = XDocument.Load(stream);
             var reader = doc.Element("Tileset");
             if (reader == null)

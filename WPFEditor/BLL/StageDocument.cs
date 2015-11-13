@@ -9,8 +9,8 @@ namespace MegaMan.Editor.Bll
 {
     public class StageDocument
     {
-        private readonly StageInfo map;
-        public StageInfo Info { get { return map; } }
+        private readonly StageInfo _map;
+        public StageInfo Info { get { return _map; } }
 
         public History History { get; private set; }
 
@@ -20,7 +20,7 @@ namespace MegaMan.Editor.Bll
 
         public Point StartPoint
         {
-            get { return new Point(map.PlayerStartX, map.PlayerStartY); }
+            get { return new Point(_map.PlayerStartX, _map.PlayerStartY); }
         }
 
         public event Action<ScreenDocument> ScreenAdded;
@@ -33,22 +33,21 @@ namespace MegaMan.Editor.Bll
         public StageDocument(ProjectDocument project)
         {
             Project = project;
-            map = new StageInfo();
+            _map = new StageInfo();
             History = new History();
         }
 
-        public StageDocument(ProjectDocument project, StageLinkInfo linkInfo)
+        public StageDocument(ProjectDocument project, StageInfo info, StageLinkInfo linkInfo)
         {
             Project = project;
             History = new History();
-            var stageReader = new StageXmlReader();
-            map = stageReader.LoadStageXml(linkInfo.StagePath);
-            Tileset = new TilesetDocument(map.Tileset);
+            _map = info;
+            Tileset = new TilesetDocument(_map.Tileset);
             LinkName = linkInfo.Name;
 
             // wrap all map screens in screendocuments
             // this should be the only time MegaMan.Screen's are touched directly
-            foreach (var pair in map.Screens)
+            foreach (var pair in _map.Screens)
             {
                 WrapScreen(pair.Value);
             }
@@ -73,10 +72,10 @@ namespace MegaMan.Editor.Bll
 
         public string Name
         {
-            get { return map.Name; }
+            get { return _map.Name; }
             set
             {
-                map.Name = value;
+                _map.Name = value;
                 Dirty = true;
             }
         }
@@ -85,8 +84,8 @@ namespace MegaMan.Editor.Bll
 
         public FilePath Path
         {
-            get { return map.StagePath; }
-            set { map.StagePath = value; Dirty = true; }
+            get { return _map.StagePath; }
+            set { _map.StagePath = value; Dirty = true; }
         }
 
         public TilesetDocument Tileset { get; private set; }
@@ -94,40 +93,40 @@ namespace MegaMan.Editor.Bll
         public void ChangeTileset(TilesetDocument tileset)
         {
             Tileset = tileset;
-            map.ChangeTileset(tileset.Tileset);
+            _map.ChangeTileset(tileset.Tileset);
             Dirty = true;
         }
 
         public FilePath MusicIntro
         {
-            get { return map.MusicIntroPath; }
-            set { map.MusicIntroPath = value; Dirty = true; }
+            get { return _map.MusicIntroPath; }
+            set { _map.MusicIntroPath = value; Dirty = true; }
         }
 
         public FilePath MusicLoop
         {
-            get { return map.MusicLoopPath; }
-            set { map.MusicLoopPath = value; Dirty = true; }
+            get { return _map.MusicLoopPath; }
+            set { _map.MusicLoopPath = value; Dirty = true; }
         }
 
         public int MusicTrack
         {
-            get { return map.MusicNsfTrack; }
+            get { return _map.MusicNsfTrack; }
             set
             {
-                map.MusicNsfTrack = value;
+                _map.MusicNsfTrack = value;
                 Dirty = true;
             }
         }
 
         public string StartScreen
         {
-            get { return map.StartScreen; }
+            get { return _map.StartScreen; }
         }
 
         public IDictionary<string, Point> ContinuePoints
         {
-            get { return map.ContinuePoints; }
+            get { return _map.ContinuePoints; }
         }
 
         public IEnumerable<ScreenDocument> Screens
@@ -137,7 +136,7 @@ namespace MegaMan.Editor.Bll
 
         public IEnumerable<Join> Joins
         {
-            get { return map.Joins; }
+            get { return _map.Joins; }
         }
 
         #endregion
@@ -161,11 +160,11 @@ namespace MegaMan.Editor.Bll
 
             screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<ScreenLayerKeyframe>()));
 
-            map.Screens.Add(name, screen);
+            _map.Screens.Add(name, screen);
 
             if (StartScreen == null)
             {
-                map.StartScreen = map.Screens.Keys.First();
+                _map.StartScreen = _map.Screens.Keys.First();
                 Dirty = true;
             }
 
@@ -190,14 +189,14 @@ namespace MegaMan.Editor.Bll
 
         public void AddJoin(Join join)
         {
-            map.Joins.Add(join);
+            _map.Joins.Add(join);
             Dirty = true;
             if (JoinChanged != null) JoinChanged(join);
         }
 
         public void RemoveJoin(Join join)
         {
-            map.Joins.Remove(join);
+            _map.Joins.Remove(join);
             Dirty = true;
             if (JoinChanged != null) JoinChanged(join);
         }
@@ -241,7 +240,7 @@ namespace MegaMan.Editor.Bll
             ScreenDocument doc = screens[oldName];
             screens.Remove(oldName);
             screens.Add(newName, doc);
-            if (map.StartScreen == oldName) map.StartScreen = newName;
+            if (_map.StartScreen == oldName) _map.StartScreen = newName;
             foreach (var join in Joins)
             {
                 if (join.screenOne == oldName) join.screenOne = newName;
@@ -252,9 +251,9 @@ namespace MegaMan.Editor.Bll
 
         public void SetStartPoint(ScreenDocument screenDocument, Point location)
         {
-            map.StartScreen = screenDocument.Name;
-            map.PlayerStartX = location.X;
-            map.PlayerStartY = location.Y;
+            _map.StartScreen = screenDocument.Name;
+            _map.PlayerStartX = location.X;
+            _map.PlayerStartY = location.Y;
             Dirty = true;
             if (EntryPointsChanged != null)
                 EntryPointsChanged();
@@ -262,13 +261,13 @@ namespace MegaMan.Editor.Bll
 
         public void AddContinuePoint(ScreenDocument screenDocument, Point location)
         {
-            if (map.ContinuePoints.ContainsKey(screenDocument.Name))
+            if (_map.ContinuePoints.ContainsKey(screenDocument.Name))
             {
-                map.ContinuePoints[screenDocument.Name] = location;
+                _map.ContinuePoints[screenDocument.Name] = location;
             }
             else
             {
-                map.AddContinuePoint(screenDocument.Name, location);
+                _map.AddContinuePoint(screenDocument.Name, location);
             }
 
             Dirty = true;

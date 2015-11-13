@@ -3,9 +3,9 @@ using MegaMan.Common;
 
 namespace MegaMan.IO
 {
-    public interface IProjectReader
+    public interface IProjectReader : IGameFileReader
     {
         string Extension { get; }
-        Project Load(Stream stream, FilePath path);
+        Project Load();
     }
 }
