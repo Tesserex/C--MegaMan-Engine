@@ -6,7 +6,7 @@ using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
-    public class ProjectXmlReader : GameXmlReader, IProjectReader
+    internal class ProjectXmlReader : GameXmlReader, IProjectReader
     {
         private Project _project;
         private IDataSourceLoader _dataSource;

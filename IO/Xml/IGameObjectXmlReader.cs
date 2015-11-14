@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public interface IGameObjectXmlReader
+    internal interface IGameObjectXmlReader
     {
         void Load(Project project, XElement node);
     }

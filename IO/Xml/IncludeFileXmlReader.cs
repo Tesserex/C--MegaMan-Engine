@@ -7,7 +7,7 @@ using Ninject;
 
 namespace MegaMan.IO.Xml
 {
-    public class IncludeFileXmlReader
+    internal class IncludeFileXmlReader
     {
         private Project _project;
 

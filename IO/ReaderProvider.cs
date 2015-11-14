@@ -9,7 +9,7 @@ using MegaMan.IO.Xml;
 
 namespace MegaMan.IO
 {
-    public class ReaderProvider : IReaderProvider
+    internal class ReaderProvider : IReaderProvider
     {
         private readonly IDataSourceLoader _dataSource;
         private readonly Dictionary<string, IProjectReader> ProjectReaders;

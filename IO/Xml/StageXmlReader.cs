@@ -9,7 +9,7 @@ using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
-    public class StageXmlReader : GameXmlReader, IStageReader
+    internal class StageXmlReader : GameXmlReader, IStageReader
     {
         private StageInfo _info;
 

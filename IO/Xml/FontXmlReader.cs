@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
 {
-    public class FontGroupXmlReader : IGameObjectXmlReader
+    internal class FontGroupXmlReader : IGameObjectXmlReader
     {
         public void Load(Project project, XElement node)
         {
@@ -18,7 +18,7 @@ namespace MegaMan.IO.Xml
         }
     }
 
-    public class FontXmlReader : IGameObjectXmlReader
+    internal class FontXmlReader : IGameObjectXmlReader
     {
         public void Load(Project project, XElement node)
         {
