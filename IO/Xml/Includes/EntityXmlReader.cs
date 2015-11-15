@@ -32,6 +32,9 @@ namespace MegaMan.IO.Xml.Includes
             if (posNode != null)
                 ReadPositionComponent(posNode, info);
 
+            if (xmlNode.Element("Input") != null)
+                info.InputComponent = new InputComponentInfo();
+
             project.AddEntity(info);
         }
 

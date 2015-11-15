@@ -183,9 +183,10 @@ namespace MegaMan.Engine
 
                 Condition condition = EffectParser.ParseCondition(conditionString);
 
-                Effect effect = EffectParser.LoadTriggerEffect(triggerNode.Element("Effect"));
+                var effectNode = triggerNode.Element("Effect");
+                Effect effect = EffectParser.LoadTriggerEffect(effectNode);
 
-                return new Trigger { Condition = condition, Effect = effect };
+                return new Trigger { Condition = condition, Effect = effect, ConditionString = conditionString, EffectString = effectNode.ToString() };
             }
             catch (Exception e)
             {
@@ -209,6 +210,8 @@ namespace MegaMan.Engine
 
         private class Trigger
         {
+            public string ConditionString;
+            public string EffectString;
             public Condition Condition;
             public Effect Effect;
         }

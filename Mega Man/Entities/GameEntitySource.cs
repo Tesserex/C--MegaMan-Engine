@@ -41,6 +41,9 @@ namespace MegaMan.Engine.Entities
 
             if (info.PositionComponent != null || info.SpriteComponent != null)
                 LoadPositionComponent(entity, info.PositionComponent);
+
+            if (info.InputComponent != null)
+                entity.AddComponent(new InputComponent());
         }
 
         private void LoadSpriteComponent(GameEntity entity, SpriteComponentInfo componentInfo)
@@ -92,6 +95,7 @@ namespace MegaMan.Engine.Entities
                         case "Tilesheet":
                         case "Sprite":
                         case "Position":
+                        case "Input":
                             break;
 
                         case "Trigger":

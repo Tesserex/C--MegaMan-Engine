@@ -60,14 +60,14 @@ namespace MegaMan.Engine
         public override void Start(IGameplayContainer container)
         {
             Reset();
-            container.GameThink += Update;
+            container.GameCleanup += Update;
             Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
         public override void Stop(IGameplayContainer container)
         {
             Reset();
-            container.GameThink -= Update;
+            container.GameCleanup -= Update;
             Engine.Instance.GameInputReceived -= Instance_GameInputReceived;
         }
 

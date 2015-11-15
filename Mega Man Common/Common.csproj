@@ -95,6 +95,7 @@
     <Compile Include="Const.cs" />
     <Compile Include="Entities\EntityEditorData.cs" />
     <Compile Include="Entities\EntityInfo.cs" />
+    <Compile Include="Entities\InputComponentInfo.cs" />
     <Compile Include="Entities\PositionComponentInfo.cs" />
     <Compile Include="Entities\SpriteComponentInfo.cs" />
     <Compile Include="EntityPlacement.cs" />
