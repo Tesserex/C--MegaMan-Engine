@@ -38,6 +38,9 @@ namespace MegaMan.Engine.Entities
 
             if (info.SpriteComponent != null)
                 LoadSpriteComponent(entity, info.SpriteComponent);
+
+            if (info.PositionComponent != null || info.SpriteComponent != null)
+                LoadPositionComponent(entity, info.PositionComponent);
         }
 
         private void LoadSpriteComponent(GameEntity entity, SpriteComponentInfo componentInfo)
@@ -46,6 +49,15 @@ namespace MegaMan.Engine.Entities
             entity.AddComponent(spritecomp);
 
             spritecomp.LoadInfo(componentInfo);
+        }
+
+        private void LoadPositionComponent(GameEntity entity, PositionComponentInfo componentInfo)
+        {
+            var poscomp = new PositionComponent();
+            entity.AddComponent(poscomp);
+
+            if (componentInfo != null)
+                poscomp.LoadInfo(componentInfo);
         }
 
         public void LoadEntities(XElement doc)
@@ -67,7 +79,6 @@ namespace MegaMan.Engine.Entities
             
             entity.MaxAlive = xml.TryAttribute<int>("limit", 50);
             
-            PositionComponent poscomp = null;
             StateComponent statecomp = new StateComponent();
             entity.AddComponent(statecomp);
 
@@ -78,30 +89,13 @@ namespace MegaMan.Engine.Entities
                     switch (xmlComp.Name.LocalName)
                     {
                         case "EditorData":
-                            break;
-
                         case "Tilesheet":
+                        case "Sprite":
+                        case "Position":
                             break;
 
                         case "Trigger":
                             statecomp.LoadStateTrigger(xmlComp);
-                            break;
-
-                        case "Sprite":
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            break;
-
-                        case "Position":
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            poscomp.LoadXml(xmlComp);
                             break;
 
                         case "Death":

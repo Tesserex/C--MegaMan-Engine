@@ -25,15 +25,18 @@ namespace MegaMan.IO.Xml.Includes
                 MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50)
             };
 
-            var editorData = xmlNode.Element("EditorData");
-            if (editorData != null)
-            {
-                info.EditorData = new EntityEditorData() {
-                    DefaultSpriteName = editorData.TryAttribute<string>("defaultSprite"),
-                    HideFromPlacement = editorData.TryAttribute<bool>("hide", false)
-                };
-            }
+            ReadEditorData(xmlNode, info);
+            ReadSpriteComponent(project, xmlNode, info);
 
+            var posNode = xmlNode.Element("Position");
+            if (posNode != null)
+                ReadPositionComponent(posNode, info);
+
+            project.AddEntity(info);
+        }
+
+        private static void ReadSpriteComponent(Project project, XElement xmlNode, EntityInfo info)
+        {
             var spriteComponent = new SpriteComponentInfo();
 
             FilePath sheetPath = null;
@@ -50,8 +53,7 @@ namespace MegaMan.IO.Xml.Includes
                 {
                     var sprite = GameXmlReader.LoadSprite(spriteNode, project.BaseDir);
                     spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
-                }
-                else
+                } else
                 {
                     var sprite = GameXmlReader.LoadSprite(spriteNode);
                     sprite.SheetPath = sheetPath;
@@ -61,8 +63,25 @@ namespace MegaMan.IO.Xml.Includes
 
             if (spriteComponent.SheetPath != null || spriteComponent.Sprites.Any())
                 info.SpriteComponent = spriteComponent;
+        }
 
-            project.AddEntity(info);
+        private void ReadPositionComponent(XElement xmlNode, EntityInfo info)
+        {
+            var posInfo = new PositionComponentInfo();
+            posInfo.PersistOffscreen = xmlNode.TryAttribute<bool>("persistoffscreen");
+            info.PositionComponent = posInfo;
+        }
+
+        private static void ReadEditorData(XElement xmlNode, EntityInfo info)
+        {
+            var editorData = xmlNode.Element("EditorData");
+            if (editorData != null)
+            {
+                info.EditorData = new EntityEditorData() {
+                    DefaultSpriteName = editorData.TryAttribute<string>("defaultSprite"),
+                    HideFromPlacement = editorData.TryAttribute<bool>("hide", false)
+                };
+            }
         }
     }
 }

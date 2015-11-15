@@ -24,5 +24,7 @@ namespace MegaMan.Common.Entities
                     return SpriteComponent.Sprites.Values.First();
             }
         }
+
+        public PositionComponentInfo PositionComponent { get; set; }
     }
 }

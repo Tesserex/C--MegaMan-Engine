@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
@@ -76,14 +77,14 @@ namespace MegaMan.Engine
             Position = new PointF(Position.X + x, Position.Y + y);
         }
 
+        internal void LoadInfo(PositionComponentInfo info)
+        {
+            PersistOffScreen = info.PersistOffscreen;
+        }
+
         public override void LoadXml(XElement node)
         {
-            XAttribute persistAttr = node.Attribute("persistoffscreen");
-            if (persistAttr != null)
-            {
-                bool p;
-                if (bool.TryParse(persistAttr.Value, out p)) PersistOffScreen = p;
-            }
+            throw new NotSupportedException("Should not call LoadXml for position component anymore.");
         }
 
         public static Effect ParseEffect(XElement child)
