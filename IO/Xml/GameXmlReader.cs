@@ -7,7 +7,7 @@ namespace MegaMan.IO.Xml
 {
     public class GameXmlReader
     {
-        public static Sprite LoadSprite(XElement element, string basePath)
+        internal static Sprite LoadSprite(XElement element, string basePath)
         {
             var sprite = LoadSprite(element);
 
@@ -17,7 +17,7 @@ namespace MegaMan.IO.Xml
             return sprite;
         }
 
-        public static Sprite LoadSprite(XElement element)
+        internal static Sprite LoadSprite(XElement element)
         {
             int width = element.GetAttribute<int>("width");
             int height = element.GetAttribute<int>("height");
@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml
             Sprite sprite = new Sprite(width, height);
 
             sprite.Name = element.TryAttribute<string>("name");
-
+            sprite.Part = element.TryAttribute<string>("part");
             sprite.PaletteName = element.TryAttribute<string>("palette");
 
             sprite.Reversed = element.TryAttribute<bool>("reversed");
@@ -82,7 +82,7 @@ namespace MegaMan.IO.Xml
             return sprite;
         }
 
-        public static EntityPlacement LoadEntityPlacement(XElement entity)
+        internal static EntityPlacement LoadEntityPlacement(XElement entity)
         {
             EntityPlacement info = new EntityPlacement();
 

@@ -66,7 +66,7 @@ namespace MegaMan.Common
         public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
 
         public string Name { get; set; }
-
+        public string Part { get; set; }
         public string PaletteName { get; set; }
 
         /// <summary>
@@ -114,6 +114,10 @@ namespace MegaMan.Common
 
         public Sprite(Sprite copy)
         {
+            this.Name = copy.Name;
+            this.Part = copy.Part;
+            this.PaletteName = copy.PaletteName;
+
             this.Height = copy.Height;
             this.Width = copy.Width;
             this.tickable = copy.tickable;
@@ -133,8 +137,6 @@ namespace MegaMan.Common
             {
                 this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
             }
-
-            this.PaletteName = copy.PaletteName;
         }
 
         public SpriteFrame this[int index]

@@ -131,6 +131,8 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
+            _entitySource.LoadEntities(project.Entities);
+
             foreach (var includePath in project.Includes)
             {
                 string includefile = includePath.Absolute;

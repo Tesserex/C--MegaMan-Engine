@@ -6,14 +6,14 @@ using System.Xml.Linq;
 using MegaMan.IO.Xml;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
     public class SpriteComponent : Component
     {
         private readonly Dictionary<string, SpriteGroup> _sprites;
-        private System.Drawing.Image _spriteSheet;
-        private string _sheetPath;
+        private FilePath _sheetPath;
 
         private SpriteGroup currentSpriteGroup;
 
@@ -99,20 +99,17 @@ namespace MegaMan.Engine
             
         }
 
+        internal void LoadInfo(SpriteComponentInfo componentInfo)
+        {
+            _sheetPath = componentInfo.SheetPath;
+
+            foreach (var sprite in componentInfo.Sprites.Values)
+                Add(sprite.Name ?? "Default", sprite, sprite.Part);
+        }
+        
         public override void LoadXml(XElement xmlNode)
         {
-            string partName = null;
-            XAttribute partAttr = xmlNode.Attribute("part");
-            if (partAttr != null) partName = partAttr.Value;
-
-            if (xmlNode.Attribute("tilesheet") != null) // explicitly specified sheet for this sprite
-            {
-                _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
-            }
-
-            Sprite sprite = GameXmlReader.LoadSprite(xmlNode);
-            sprite.SheetPath = FilePath.FromAbsolute(_sheetPath, Game.CurrentGame.BasePath);
-            Add(sprite.Name ?? "Default", sprite, partName);
+            throw new NotSupportedException("Should not call LoadXml for sprites anymore.");
         }
 
         public static Effect ParseEffect(XElement node)
@@ -167,18 +164,7 @@ namespace MegaMan.Engine
             return action;
         }
 
-        public void LoadTilesheet(XElement xmlComp)
-        {
-            XAttribute palAttr = xmlComp.Attribute("pallete");
-            string pallete = "Default";
-            if (palAttr != null) pallete = palAttr.Value;
-            _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
-            var sheet = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(_sheetPath);
-            sheet.SetResolution(Const.Resolution, Const.Resolution);
-            _spriteSheet = sheet;
-        }
-
-        private void Add(string name, Sprite sprite, string partName = null)
+        public void Add(string name, Sprite sprite, string partName = null)
         {
             SpriteGroup group;
             if (_sprites.ContainsKey(name))
