@@ -44,6 +44,16 @@ namespace MegaMan.Engine.Entities
 
             if (info.InputComponent != null)
                 entity.AddComponent(new InputComponent());
+
+            if (info.CollisionComponent != null)
+                LoadCollisionComponent(entity, info.CollisionComponent);
+        }
+
+        private void LoadCollisionComponent(GameEntity entity, CollisionComponentInfo info)
+        {
+            var comp = new CollisionComponent();
+            entity.AddComponent(comp);
+            comp.Loadinfo(info);
         }
 
         private void LoadSpriteComponent(GameEntity entity, SpriteComponentInfo componentInfo)
@@ -96,6 +106,7 @@ namespace MegaMan.Engine.Entities
                         case "Sprite":
                         case "Position":
                         case "Input":
+                        case "Collision":
                             break;
 
                         case "Trigger":

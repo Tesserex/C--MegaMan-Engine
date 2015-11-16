@@ -6,6 +6,7 @@ using MegaMan.Common.Rendering;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -47,6 +48,7 @@ namespace MegaMan.Engine
         public float BlockBottomWidth { get { return blockBottomMax - blockBottomMin; } }
 
         private float blockTopMin, blockTopMax;
+
         public float BlockTopWidth { get { return blockTopMax - blockTopMin; } }
 
         private float blockLeftMin, blockLeftMax;
@@ -137,16 +139,21 @@ namespace MegaMan.Engine
             }
         }
 
+        internal void Loadinfo(CollisionComponentInfo info)
+        {
+            Enabled = info.Enabled;
+
+            foreach (var box in info.HitBoxes)
+            {
+                var coll = new CollisionBox(box);
+                coll.SetParent(this);
+                AddBox(coll);
+            }
+        }
+
         public override void LoadXml(XElement xml)
         {
-            foreach (XElement boxnode in xml.Elements("Hitbox"))
-            {
-                CollisionBox box = new CollisionBox(boxnode);
-                box.SetParent(this);
-                AddBox(box);
-            }
-            
-            Enabled = xml.TryAttribute<bool>("Enabled");
+            throw new NotSupportedException("Should not call LoadXml for collision component anymore.");
         }
 
         public void AddBox(CollisionBox box)
@@ -620,7 +627,33 @@ namespace MegaMan.Engine
                         break;
 
                     case "Hitbox":
-                        rects.Add(new CollisionBox(prop));
+                        var info = new HitBoxInfo() {
+                            Box = new RectangleF() {
+                                X = prop.GetAttribute<float>("x"),
+                                Y = prop.GetAttribute<float>("y"),
+                                Width = prop.GetAttribute<float>("width"),
+                                Height = prop.GetAttribute<float>("height")
+                            },
+                            ContactDamage = prop.TryAttribute<float>("damage"),
+                            Environment = prop.TryAttribute<bool>("environment", true),
+                            PushAway = prop.TryAttribute<bool>("pushaway", true),
+                            PropertiesName = prop.TryAttribute<string>("properties", "Default")
+                        };
+
+                        foreach (var groupnode in prop.Elements("Hits"))
+                            info.Hits.Add(groupnode.Value);
+
+                        foreach (var groupnode in prop.Elements("Group"))
+                            info.Groups.Add(groupnode.Value);
+
+                        foreach (var resistNode in prop.Elements("Resist"))
+                        {
+                            var resistName = resistNode.GetAttribute<string>("name");
+                            float mult = resistNode.GetAttribute<float>("multiply");
+                            info.Resistance.Add(resistName, mult);
+                        }
+
+                        rects.Add(new CollisionBox(info));
                         break;
 
                     case "EnableBox":

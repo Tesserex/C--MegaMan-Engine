@@ -93,6 +93,8 @@
     <Compile Include="BlockPatternInfo.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Entities\HitBoxInfo.cs" />
+    <Compile Include="Entities\CollisionComponentInfo.cs" />
     <Compile Include="Entities\EntityEditorData.cs" />
     <Compile Include="Entities\EntityInfo.cs" />
     <Compile Include="Entities\InputComponentInfo.cs" />

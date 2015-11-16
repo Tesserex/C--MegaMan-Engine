@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
@@ -33,47 +34,21 @@ namespace MegaMan.Engine
         {
         }
 
-        public CollisionBox(XElement xmlNode)
-            : base(xmlNode)
+        public CollisionBox(HitBoxInfo info)
+            : base(info.Box.X, info.Box.Y, info.Box.Width, info.Box.Height)
         {
             ID = nextID;
             nextID++;
 
-            Hits = new List<string>();
-            Groups = new List<string>();
-            resistance = new Dictionary<string, float>();
-            Properties = TileProperties.Default;
+            Name = info.Name;
+            ContactDamage = info.ContactDamage;
+            Environment = info.Environment;
+            PushAway = info.PushAway;
 
-            foreach (XElement groupnode in xmlNode.Elements("Hits"))
-            {
-                Hits.Add(groupnode.Value);
-            }
-
-            foreach (XElement groupnode in xmlNode.Elements("Group"))
-            {
-                Groups.Add(groupnode.Value);
-            }
-
-            foreach (XElement resistNode in xmlNode.Elements("Resist"))
-            {
-                XAttribute nameAttr = resistNode.RequireAttribute("name");
-
-                float mult = resistNode.GetAttribute<float>("multiply");
-
-                resistance.Add(nameAttr.Value, mult);
-            }
-
-            XAttribute boxnameAttr = xmlNode.Attribute("name");
-            if (boxnameAttr != null) Name = boxnameAttr.Value;
-
-            ContactDamage = xmlNode.TryAttribute<float>("damage");
-
-            Environment = xmlNode.TryAttribute<bool>("environment", true);
-
-            PushAway = xmlNode.TryAttribute<bool>("pushaway", true);
-
-            XAttribute propAttr = xmlNode.Attribute("properties");
-            if (propAttr != null) Properties = Game.CurrentGame.TileProperties.GetProperties(propAttr.Value);
+            Hits = new List<string>(info.Hits);
+            Groups = new List<string>(info.Groups);
+            resistance = new Dictionary<string, float>(info.Resistance);
+            Properties = Game.CurrentGame.TileProperties.GetProperties(info.PropertiesName);
         }
 
         public void SetParent(CollisionComponent parent) { parentComponent = parent; }

@@ -35,7 +35,53 @@ namespace MegaMan.IO.Xml.Includes
             if (xmlNode.Element("Input") != null)
                 info.InputComponent = new InputComponentInfo();
 
+            var collisionNode = xmlNode.Element("Collision");
+            if (collisionNode != null)
+                ReadCollisionComponent(collisionNode, info);
+
             project.AddEntity(info);
+        }
+
+        private void ReadCollisionComponent(XElement collisionNode, EntityInfo info)
+        {
+            var component = new CollisionComponentInfo();
+
+            foreach (var boxnode in collisionNode.Elements("Hitbox"))
+            {
+                float width = boxnode.GetAttribute<float>("width");
+                float height = boxnode.GetAttribute<float>("height");
+                float x = boxnode.GetAttribute<float>("x");
+                float y = boxnode.GetAttribute<float>("y");
+
+                var box = new HitBoxInfo()
+                {
+                    Name = boxnode.TryAttribute<string>("name"),
+                    Box = new Common.Geometry.RectangleF(x, y, width, height),
+                    ContactDamage = boxnode.TryAttribute<float>("damage"),
+                    Environment = boxnode.TryAttribute<bool>("environment", true),
+                    PushAway = boxnode.TryAttribute<bool>("pushaway", true),
+                    PropertiesName = boxnode.TryAttribute<string>("properties", "Default")
+                };
+
+                foreach (var groupnode in boxnode.Elements("Hits"))
+                    box.Hits.Add(groupnode.Value);
+
+                foreach (var groupnode in boxnode.Elements("Group"))
+                    box.Groups.Add(groupnode.Value);
+
+                foreach (var resistNode in boxnode.Elements("Resist"))
+                {
+                    var resistName = resistNode.GetAttribute<string>("name");
+                    float mult = resistNode.GetAttribute<float>("multiply");
+                    box.Resistance.Add(resistName, mult);
+                }
+
+                component.HitBoxes.Add(box);
+            }
+
+            component.Enabled = collisionNode.TryAttribute<bool>("Enabled");
+
+            info.CollisionComponent = component;
         }
 
         private static void ReadSpriteComponent(Project project, XElement xmlNode, EntityInfo info)
