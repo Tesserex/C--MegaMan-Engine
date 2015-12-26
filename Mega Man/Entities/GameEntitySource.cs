@@ -47,6 +47,16 @@ namespace MegaMan.Engine.Entities
 
             if (info.CollisionComponent != null)
                 LoadCollisionComponent(entity, info.CollisionComponent);
+
+            if (info.StateComponent != null)
+                LoadStateComponent(entity, info.StateComponent);
+        }
+
+        private void LoadStateComponent(GameEntity entity, StateComponentInfo info)
+        {
+            var comp = new StateComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
         }
 
         private void LoadCollisionComponent(GameEntity entity, CollisionComponentInfo info)

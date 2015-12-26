@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -105,6 +106,11 @@ namespace MegaMan.Engine
 
         public override void RegisterDependencies(Component component)
         {
+        }
+
+        internal void LoadInfo(StateComponentInfo componentInfo)
+        {
+
         }
 
         public override void LoadXml(XElement stateNode)

@@ -82,6 +82,13 @@
     <Compile Include="GameLoader.cs" />
     <Compile Include="ReaderProvider.cs" />
     <Compile Include="WriterProvider.cs" />
+    <Compile Include="Xml\Effects\CallEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\CollisionEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\EffectXmlReader.cs" />
+    <Compile Include="Xml\Effects\IEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\PositionEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\SpawnEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\TriggerXmlReader.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlWriter.cs" />

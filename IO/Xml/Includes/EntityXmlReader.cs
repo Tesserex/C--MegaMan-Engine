@@ -5,11 +5,21 @@ using System.Text;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Includes
 {
     internal class EntityXmlReader : IIncludeXmlReader
     {
+        private readonly TriggerXmlReader _triggerReader;
+        private readonly EffectXmlReader _effectReader;
+
+        public EntityXmlReader(TriggerXmlReader triggerReader, EffectXmlReader effectReader)
+        {
+            _triggerReader = triggerReader;
+            _effectReader = effectReader;
+        }
+
         public string NodeName
         {
             get
@@ -40,6 +50,46 @@ namespace MegaMan.IO.Xml.Includes
                 ReadCollisionComponent(collisionNode, info);
 
             project.AddEntity(info);
+        }
+
+        private void ReadStateComponent(XElement parentNode, EntityInfo info)
+        {
+            var comp = new StateComponentInfo();
+            foreach (var state in parentNode.Elements("State"))
+            {
+                var stateInfo = ReadState(state);
+                comp.States.Add(stateInfo);
+            }
+
+            info.StateComponent = comp;
+        }
+
+        private StateInfo ReadState(XElement stateNode)
+        {
+            var info = new StateInfo();
+            info.Name = stateNode.RequireAttribute("name").Value;
+
+            foreach (var child in stateNode.Elements())
+            {
+                switch (child.Name.LocalName)
+                {
+                    case "Trigger":
+                        info.Triggers.Add(_triggerReader.Load(child));
+                        break;
+
+                    default:
+                        var compName = child.Name.LocalName;
+
+                        var mode = child.TryAttribute<string>("mode");
+                        if (mode != null && mode.ToUpper() == "REPEAT")
+                            info.Logic.Add(_effectReader.Load(child));
+                        else
+                            info.Initializer.Add(_effectReader.Load(child));
+                        break;
+                }
+            }
+
+            return info;
         }
 
         private void ReadCollisionComponent(XElement collisionNode, EntityInfo info)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.IO.DataSources;
