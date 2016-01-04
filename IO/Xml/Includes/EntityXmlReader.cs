@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Entities.Effects;
 using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Includes
@@ -69,6 +70,9 @@ namespace MegaMan.IO.Xml.Includes
             var info = new StateInfo();
             info.Name = stateNode.RequireAttribute("name").Value;
 
+            var logic = new List<IEffectPartInfo>();
+            var init = new List<IEffectPartInfo>();
+
             foreach (var child in stateNode.Elements())
             {
                 switch (child.Name.LocalName)
@@ -82,12 +86,15 @@ namespace MegaMan.IO.Xml.Includes
 
                         var mode = child.TryAttribute<string>("mode");
                         if (mode != null && mode.ToUpper() == "REPEAT")
-                            info.Logic.Add(_effectReader.Load(child));
+                            logic.Add(_effectReader.LoadPart(child));
                         else
-                            info.Initializer.Add(_effectReader.Load(child));
+                            init.Add(_effectReader.LoadPart(child));
                         break;
                 }
             }
+
+            info.Initializer = new EffectInfo() { Parts = init };
+            info.Logic = new EffectInfo() { Parts = logic };
 
             return info;
         }

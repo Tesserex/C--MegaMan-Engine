@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Xml.Linq;
+using MegaMan.Common.Entities.Effects;
+using System.Reflection;
+using Ninject;
+using MegaMan.Engine.Entities.Effects;
 
 namespace MegaMan.Engine
 {
@@ -69,6 +73,8 @@ namespace MegaMan.Engine
 
         private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
 
+        private static readonly Dictionary<Type, IEffectLoader> effectLoaders = new Dictionary<Type, IEffectLoader>();
+
         static EffectParser()
         {
             posParam = Expression.Parameter(typeof(PositionComponent), "Position");
@@ -96,6 +102,13 @@ namespace MegaMan.Engine
                 {"Left", Direction.Left},
                 {"Right", Direction.Right}
             };
+
+            effectLoaders = Assembly.GetAssembly(typeof(IEffectLoader))
+                .GetTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(IEffectLoader)) && !t.IsAbstract)
+                .Select(t => Injector.Container.Get(t))
+                .Cast<IEffectLoader>()
+                .ToDictionary(t => t.PartInfoType);
         }
 
         public static Condition ParseCondition(string conditionString)
@@ -110,6 +123,15 @@ namespace MegaMan.Engine
             Condition condition = CloseCondition(trigger);
 
             return condition;
+        }
+
+        public static Effect LoadTriggerEffect(EffectInfo info)
+        {
+            Effect effect = LoadEffect(info);
+            if (info.Name != null)
+                SaveEffect(info.Name, effect);
+
+            return effect;
         }
 
         public static Effect LoadTriggerEffect(XElement effectnode)
@@ -160,9 +182,24 @@ namespace MegaMan.Engine
             return storedEffects[name];
         }
 
+        private static Effect LoadEffect(EffectInfo info)
+        {
+            return info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
+        }
+
         private static Effect LoadEffect(XElement node)
         {
             return node.Elements().Aggregate(new Effect(e => { }), (current, child) => current + LoadEffectAction(child));
+        }
+
+        public static Effect LoadEffectPart(IEffectPartInfo partInfo)
+        {
+            var t = partInfo.GetType();
+            if (!effectLoaders.ContainsKey(t))
+                throw new GameRunException("Unsupported effect type: " + t.Name);
+
+            var loader = effectLoaders[t];
+            return loader.Load(partInfo);
         }
 
         public static Effect LoadEffectAction(XElement node)
@@ -317,7 +354,7 @@ namespace MegaMan.Engine
             return effect;
         }
 
-        public static Effect LoadSpawnEffect(XElement node)
+        private static Effect LoadSpawnEffect(XElement node)
         {
             if (node == null) throw new ArgumentNullException("node");
 

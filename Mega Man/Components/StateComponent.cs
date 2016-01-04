@@ -110,42 +110,24 @@ namespace MegaMan.Engine
 
         internal void LoadInfo(StateComponentInfo componentInfo)
         {
+            foreach (var stateInfo in componentInfo.States)
+            {
+                var state = new State() { Name = stateInfo.Name };
+                foreach (var trigger in stateInfo.Triggers)
+                {
+                    state.AddTrigger(ParseTrigger(trigger));
+                }
 
+                state.SetInitial(EffectParser.LoadTriggerEffect(stateInfo.Initializer));
+                state.SetLogic(EffectParser.LoadTriggerEffect(stateInfo.Logic));
+
+                states[state.Name] = state;
+            }
         }
 
         public override void LoadXml(XElement stateNode)
         {
-            string name = stateNode.RequireAttribute("name").Value;
-
-            State state;
-            if (states.ContainsKey(name))
-            {
-                state = states[name];
-            }
-            else
-            {
-                state = new State {Name = name};
-                states[name] = state;
-            }
-
-            foreach (XElement child in stateNode.Elements())
-            {
-                switch (child.Name.LocalName)
-                {
-                    case "Trigger":
-                        state.AddTrigger(ParseTrigger(child));
-                        break;
-
-                    default:
-                        // make sure the entity has the component we're dealing with
-                        // if it's not a component name it will just return null safely
-                        Parent.GetOrCreateComponent(child.Name.LocalName);
-
-                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(EffectParser.LoadEffectAction(child));
-                        else state.AddInitial(EffectParser.LoadEffectAction(child));
-                        break;
-                }
-            }
+            throw new NotSupportedException("Should not call LoadXml for states anymore.");
         }
 
         public void LoadStateTrigger(XElement triggerNode)
@@ -176,6 +158,20 @@ namespace MegaMan.Engine
                 {
                     state.AddTrigger(trigger);
                 }
+            }
+        }
+
+        private Trigger ParseTrigger(TriggerInfo info)
+        {
+            try
+            {
+                var condition = EffectParser.ParseCondition(info.Condition);
+                var effect = EffectParser.LoadTriggerEffect(info.Effect);
+                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition };
+            }
+            catch (Exception e)
+            {
+                throw new GameRunException("There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
             }
         }
 
@@ -240,9 +236,19 @@ namespace MegaMan.Engine
                 logic(entity);
             }
 
+            public void SetInitial(Effect effect)
+            {
+                initializer = effect;
+            }
+
             public void AddInitial(Effect func)
             {
                 initializer += func;
+            }
+
+            public void SetLogic(Effect effect)
+            {
+                logic = effect;
             }
 
             public void AddLogic(Effect func)

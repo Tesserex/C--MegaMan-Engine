@@ -21,14 +21,12 @@ namespace MegaMan.Common.Entities
         public string Name { get; set; }
 
         public List<TriggerInfo> Triggers { get; private set; }
-        public List<EffectInfo> Initializer { get; private set; }
-        public List<EffectInfo> Logic { get; private set; }
+        public EffectInfo Initializer { get; set; }
+        public EffectInfo Logic { get; set; }
 
         public StateInfo()
         {
             Triggers = new List<TriggerInfo>();
-            Initializer = new List<EffectInfo>();
-            Logic = new List<EffectInfo>();
         }
     }
 }

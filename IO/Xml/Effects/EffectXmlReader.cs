@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml.Effects
             return info;
         }
 
-        private IEffectPartInfo LoadPart(XElement node)
+        public IEffectPartInfo LoadPart(XElement node)
         {
             if (!PartReaders.ContainsKey(node.Name.LocalName))
                 throw new GameXmlException(node, "Unrecognized effect part.");

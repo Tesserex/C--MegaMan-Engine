@@ -61,11 +61,11 @@ namespace MegaMan.Engine
     public class HitBoxMessage : IGameMessage
     {
         public IEntity Source { get; private set; }
-        public List<CollisionBox> AddBoxes { get; private set; }
-        public HashSet<string> EnableBoxes { get; private set; }
+        public IEnumerable<CollisionBox> AddBoxes { get; private set; }
+        public IEnumerable<string> EnableBoxes { get; private set; }
         public bool Clear { get; set; }
 
-        public HitBoxMessage(IEntity source, List<CollisionBox> newboxes, HashSet<string> enable, bool clear)
+        public HitBoxMessage(IEntity source, IEnumerable<CollisionBox> newboxes, IEnumerable<string> enable, bool clear)
         {
             Source = source;
             AddBoxes = newboxes;

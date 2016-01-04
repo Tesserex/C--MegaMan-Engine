@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml.Effects
             var rects = new List<HitBoxInfo>();
             HashSet<string> enables = new HashSet<string>();
 
-            var clear = partNode.Element("Clear") != null;
+            info.ClearEnabled = partNode.Element("Clear") != null;
 
             var enable = partNode.Element("Enabled");
             if (enable != null)
@@ -70,6 +70,9 @@ namespace MegaMan.IO.Xml.Effects
             {
                 enables.Add(enableBox.GetAttribute<string>("name"));
             }
+
+            info.HitBoxes = rects;
+            info.EnabledBoxes = enables;
 
             return info;
         }
