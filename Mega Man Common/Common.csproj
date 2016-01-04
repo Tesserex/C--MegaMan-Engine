@@ -95,8 +95,10 @@
     <Compile Include="Const.cs" />
     <Compile Include="Entities\Effects\CallEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\CollisionEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\DieEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\EffectInfo.cs" />
     <Compile Include="Entities\Effects\PositionEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\RemoveEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SpawnEffectPartInfo.cs" />
     <Compile Include="Entities\HitBoxInfo.cs" />
     <Compile Include="Entities\CollisionComponentInfo.cs" />

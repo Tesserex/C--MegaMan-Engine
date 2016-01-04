@@ -87,6 +87,8 @@
     <Compile Include="Xml\Effects\EffectXmlReader.cs" />
     <Compile Include="Xml\Effects\IEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\PositionEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\DieEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\RemoveEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\SpawnEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\TriggerXmlReader.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />

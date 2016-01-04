@@ -10,7 +10,7 @@ using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml.Effects
 {
-    public class CollisionEffectPartXmlReader : IEffectPartXmlReader
+    internal class CollisionEffectPartXmlReader : IEffectPartXmlReader
     {
         public string NodeName
         {

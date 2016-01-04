@@ -136,8 +136,10 @@
     <Compile Include="Components\VarsComponent.cs" />
     <Compile Include="Entities\Effects\CallEffectLoader.cs" />
     <Compile Include="Entities\Effects\CollisionEffectLoader.cs" />
+    <Compile Include="Entities\Effects\DieEffectLoader.cs" />
     <Compile Include="Entities\Effects\IEffectLoader.cs" />
     <Compile Include="Entities\Effects\PositionEffectLoader.cs" />
+    <Compile Include="Entities\Effects\RemoveEffectLoader.cs" />
     <Compile Include="Entities\Effects\SpawnEffectLoader.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
     <Compile Include="Entities\GameEntityRespawnTracker.cs" />
