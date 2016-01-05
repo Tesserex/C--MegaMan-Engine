@@ -134,6 +134,18 @@
     <Compile Include="Components\CollisionBox.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\VarsComponent.cs" />
+    <Compile Include="Entities\Effects\DefeatBossEffectLoader.cs" />
+    <Compile Include="Entities\Effects\DelayEffectLoader.cs" />
+    <Compile Include="Entities\Effects\FuncEffectLoader.cs" />
+    <Compile Include="Entities\Effects\GravityFlipEffectLoader.cs" />
+    <Compile Include="Entities\Effects\LivesEffectLoader.cs" />
+    <Compile Include="Entities\Effects\NextEffectLoader.cs" />
+    <Compile Include="Entities\Effects\PaletteEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SetVarEffectLoader.cs" />
+    <Compile Include="Entities\Effects\UnpauseEffectLoader .cs" />
+    <Compile Include="Entities\Effects\PauseEffectLoader.cs" />
+    <Compile Include="Entities\Effects\RemoveInventoryEffectLoader.cs" />
+    <Compile Include="Entities\Effects\AddInventoryEffectLoader.cs" />
     <Compile Include="Entities\Effects\CallEffectLoader.cs" />
     <Compile Include="Entities\Effects\CollisionEffectLoader.cs" />
     <Compile Include="Entities\Effects\DieEffectLoader.cs" />
@@ -141,6 +153,8 @@
     <Compile Include="Entities\Effects\PositionEffectLoader.cs" />
     <Compile Include="Entities\Effects\RemoveEffectLoader.cs" />
     <Compile Include="Entities\Effects\SpawnEffectLoader.cs" />
+    <Compile Include="Entities\Effects\TriggerEffectLoader.cs" />
+    <Compile Include="Entities\Effects\UnlockWeaponEffectLoader.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
     <Compile Include="Entities\GameEntityRespawnTracker.cs" />
     <Compile Include="Entities\GameEntitySource.cs" />

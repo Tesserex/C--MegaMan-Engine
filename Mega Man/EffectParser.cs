@@ -280,13 +280,7 @@ namespace MegaMan.Engine
                     string[] statements = node.Value.Split(';');
                     foreach (string st in statements.Where(st => !string.IsNullOrEmpty(st.Trim())))
                     {
-                        LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
-                            typeof(SplitEffect),
-                            null,
-                            st,
-                            dirDict);
-                        effect += CloseEffect((SplitEffect)lambda.Compile());
+                        effect += CompileEffect(st);
                     }
                     break;
 
@@ -352,6 +346,17 @@ namespace MegaMan.Engine
                     break;
             }
             return effect;
+        }
+
+        public static Effect CompileEffect(string st)
+        {
+            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
+                            typeof(SplitEffect),
+                            null,
+                            st,
+                            dirDict);
+            return CloseEffect((SplitEffect)lambda.Compile());
         }
 
         private static Effect LoadSpawnEffect(XElement node)
