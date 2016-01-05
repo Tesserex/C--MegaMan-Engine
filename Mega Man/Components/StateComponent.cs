@@ -123,42 +123,36 @@ namespace MegaMan.Engine
 
                 states[state.Name] = state;
             }
+
+            foreach (var triggerInfo in componentInfo.Triggers)
+            {
+                var trigger = ParseTrigger(triggerInfo.Trigger);
+
+                if (triggerInfo.States != null)
+                {
+                    foreach (var stateName in triggerInfo.States)
+                    {
+                        if (!states.ContainsKey(stateName))
+                        {
+                            State state = new State {Name = stateName};
+                            states.Add(stateName, state);
+                        }
+                        states[stateName].AddTrigger(trigger);
+                    }
+                }
+                else
+                {
+                    foreach (var state in states.Values)
+                    {
+                        state.AddTrigger(trigger);
+                    }
+                }
+            }
         }
 
         public override void LoadXml(XElement stateNode)
         {
             throw new NotSupportedException("Should not call LoadXml for states anymore.");
-        }
-
-        public void LoadStateTrigger(XElement triggerNode)
-        {
-            XElement statesNode = triggerNode.Element("States");
-
-            var trigger = ParseTrigger(triggerNode);
-
-            if (statesNode != null)
-            {
-                string statesString = statesNode.Value;
-                string[] statesArray = statesString.Split(',');
-
-                foreach (string stateString in statesArray)
-                {
-                    string stateName = stateString.Trim();
-                    if (!states.ContainsKey(stateName))
-                    {
-                        State state = new State {Name = stateName};
-                        states.Add(stateName, state);
-                    }
-                    states[stateName].AddTrigger(trigger);
-                }
-            }
-            else
-            {
-                foreach (State state in states.Values)
-                {
-                    state.AddTrigger(trigger);
-                }
-            }
         }
 
         private Trigger ParseTrigger(TriggerInfo info)

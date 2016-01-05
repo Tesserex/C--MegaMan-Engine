@@ -9,10 +9,12 @@ namespace MegaMan.Common.Entities
     public class StateComponentInfo
     {
         public List<StateInfo> States { get; private set; }
+        public List<MultiStateTriggerInfo> Triggers { get; private set; }
 
         public StateComponentInfo()
         {
             States = new List<StateInfo>();
+            Triggers = new List<MultiStateTriggerInfo>();
         }
     }
 

@@ -209,136 +209,23 @@ namespace MegaMan.Engine
             switch (node.Name.LocalName)
             {
                 case "Call":
-                    effect = GetLateBoundEffect(node.Value);
-                    break;
-
                 case "Spawn":
-                    effect = LoadSpawnEffect(node);
-                    break;
-
                 case "Remove":
-                    effect = entity => { entity.Remove(); };
-                    break;
-
                 case "Die":
-                    effect = entity => { entity.Die(); };
-                    break;
-
                 case "AddInventory":
-                    string itemName = node.RequireAttribute("item").Value;
-                    int quantity = node.TryAttribute<int>("quantity", 1);
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.CollectItem(itemName, quantity);
-                    };
-                    break;
-
                 case "RemoveInventory":
-                    string itemNameUse = node.RequireAttribute("item").Value;
-                    int quantityUse = node.TryAttribute<int>("quantity", 1);
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.UseItem(itemNameUse, quantityUse);
-                    };
-                    break;
-
                 case "UnlockWeapon":
-                    string weaponName = node.RequireAttribute("name").Value;
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.UnlockWeapon(weaponName);
-                    };
-                    break;
-
                 case "DefeatBoss":
-                    string name = node.RequireAttribute("name").Value;
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.DefeatBoss(name);
-                    };
-                    break;
-
                 case "Lives":
-                    int add = int.Parse(node.RequireAttribute("add").Value);
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.Lives += add;
-                    };
-                    break;
-
                 case "GravityFlip":
-                    bool flip = node.GetValue<bool>();
-                    effect = entity => { entity.Container.IsGravityFlipped = flip; };
-                    break;
-
                 case "Func":
-                    effect = entity => { };
-                    string[] statements = node.Value.Split(';');
-                    foreach (string st in statements.Where(st => !string.IsNullOrEmpty(st.Trim())))
-                    {
-                        effect += CompileEffect(st);
-                    }
-                    break;
-
                 case "Trigger":
-                    string conditionString;
-                    if (node.Attribute("condition") != null) conditionString = node.RequireAttribute("condition").Value;
-                    else conditionString = node.Element("Condition").Value;
-
-                    Condition condition = ParseCondition(conditionString);
-                    Effect triggerEffect = LoadTriggerEffect(node.Element("Effect"));
-                    effect += (e) =>
-                    {
-                        if (condition(e)) triggerEffect(e);
-                    };
-                    break;
-
                 case "Pause":
-                    effect = entity => { entity.Paused = true; };
-                    break;
-
                 case "Unpause":
-                    effect = entity => { entity.Paused = false; };
-                    break;
-
                 case "Next":
-                    var transfer = GameXmlReader.LoadHandlerTransfer(node);
-                    effect = e => { Game.CurrentGame.ProcessHandler(transfer); };
-                    break;
-
                 case "Palette":
-                    var paletteName = node.RequireAttribute("name").Value;
-                    var paletteIndex = node.GetAttribute<int>("index");
-                    effect = e =>
-                    {
-                        var palette = PaletteSystem.Get(paletteName);
-                        if (palette != null)
-                        {
-                            palette.CurrentIndex = paletteIndex;
-                        }
-                    };
-                    break;
-
                 case "Delay":
-                    var delayFrames = node.GetAttribute<int>("frames");
-                    var delayEffect = LoadEffect(node);
-                    effect = e =>
-                    {
-                        Engine.Instance.DelayedCall(() => delayEffect(e), null, delayFrames);
-                    };
-                    break;
-
                 case "SetVar":
-                    var varname = node.RequireAttribute("name").Value;
-                    var value = node.RequireAttribute("value").Value;
-                    effect = e =>
-                    {
-                        Game.CurrentGame.Player.SetVar(varname, value);
-                    };
                     break;
 
                 default:

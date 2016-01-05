@@ -9,4 +9,10 @@ namespace MegaMan.Common.Entities
         public string Condition { get; set; }
         public EffectInfo Effect { get; set; }
     }
+
+    public class MultiStateTriggerInfo
+    {
+        public List<string> States { get; set; }
+        public TriggerInfo Trigger { get; set; }
+    }
 }

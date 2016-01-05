@@ -62,6 +62,18 @@ namespace MegaMan.IO.Xml.Includes
                 comp.States.Add(stateInfo);
             }
 
+            foreach (var triggerInfo in parentNode.Elements("Trigger"))
+            {
+                var statesNode = triggerInfo.Element("States");
+                var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
+
+                var trigger = _triggerReader.Load(triggerInfo);
+                comp.Triggers.Add(new MultiStateTriggerInfo() {
+                    States = states,
+                    Trigger = trigger
+                });
+            }
+
             info.StateComponent = comp;
         }
 

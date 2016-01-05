@@ -117,10 +117,8 @@ namespace MegaMan.Engine.Entities
                         case "Position":
                         case "Input":
                         case "Collision":
-                            break;
-
+                        case "State":
                         case "Trigger":
-                            statecomp.LoadStateTrigger(xmlComp);
                             break;
 
                         case "Death":
