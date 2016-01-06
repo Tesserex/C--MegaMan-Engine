@@ -82,6 +82,7 @@
     <Compile Include="GameLoader.cs" />
     <Compile Include="ReaderProvider.cs" />
     <Compile Include="WriterProvider.cs" />
+    <Compile Include="Xml\Effects\MovementEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\NextEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\SetVarEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\PaletteEffectPartXmlReader.cs" />

@@ -139,6 +139,7 @@
     <Compile Include="Entities\Effects\FuncEffectLoader.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectLoader.cs" />
     <Compile Include="Entities\Effects\LivesEffectLoader.cs" />
+    <Compile Include="Entities\Effects\MovementEffectLoader.cs" />
     <Compile Include="Entities\Effects\NextEffectLoader.cs" />
     <Compile Include="Entities\Effects\PaletteEffectLoader.cs" />
     <Compile Include="Entities\Effects\SetVarEffectLoader.cs" />

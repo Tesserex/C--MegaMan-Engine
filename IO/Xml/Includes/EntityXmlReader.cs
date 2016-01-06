@@ -50,6 +50,8 @@ namespace MegaMan.IO.Xml.Includes
             if (collisionNode != null)
                 ReadCollisionComponent(collisionNode, info);
 
+            ReadStateComponent(xmlNode, info);
+
             project.AddEntity(info);
         }
 

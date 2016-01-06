@@ -98,6 +98,7 @@
     <Compile Include="Entities\Effects\FuncEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\LivesEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\MovementEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\NextEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\PaletteEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\PauseEffectPartInfo.cs" />

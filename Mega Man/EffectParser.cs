@@ -166,8 +166,7 @@ namespace MegaMan.Engine
 
         public static Effect GetLateBoundEffect(string name)
         {
-            return e =>
-            {
+            return e => {
                 if (storedEffects.ContainsKey(name)) storedEffects[name](e);
             };
         }
@@ -226,6 +225,9 @@ namespace MegaMan.Engine
                 case "Palette":
                 case "Delay":
                 case "SetVar":
+                case "Position":
+                case "Movement":
+                case "Collision":
                     break;
 
                 default:
@@ -246,36 +248,10 @@ namespace MegaMan.Engine
             return CloseEffect((SplitEffect)lambda.Compile());
         }
 
-        private static Effect LoadSpawnEffect(XElement node)
-        {
-            if (node == null) throw new ArgumentNullException("node");
-
-            string name = node.RequireAttribute("name").Value;
-            string statename = "Start";
-            if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
-            XElement posNodeX = node.Element("X");
-            XElement posNodeY = node.Element("Y");
-            Effect posEff = null;
-            if (posNodeX != null)
-            {
-                posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
-            }
-            if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
-            return entity =>
-            {
-                GameEntity spawn = entity.Spawn(name);
-                if (spawn == null) return;
-                StateMessage msg = new StateMessage(entity, statename);
-                spawn.SendMessage(msg);
-                if (posEff != null) posEff(spawn);
-            };
-        }
-
         // provides a closure around a split condition
         private static Condition CloseCondition(SplitCondition split)
         {
-            return entity =>
-            {
+            return entity => {
                 if (entity == null)
                 {
                     return split(

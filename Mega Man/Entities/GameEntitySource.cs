@@ -101,9 +101,6 @@ namespace MegaMan.Engine.Entities
             var entity = entities[name];
             
             entity.MaxAlive = xml.TryAttribute<int>("limit", 50);
-            
-            StateComponent statecomp = new StateComponent();
-            entity.AddComponent(statecomp);
 
             try
             {
