@@ -112,6 +112,7 @@ namespace MegaMan.Engine.Entities
                         case "Tilesheet":
                         case "Sprite":
                         case "Position":
+                        case "Movement":
                         case "Input":
                         case "Collision":
                         case "State":

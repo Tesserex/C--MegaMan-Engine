@@ -87,6 +87,7 @@
     <Compile Include="Xml\Effects\SetVarEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\PaletteEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\DelayEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Effects\SoundEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\UnpauseEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\PauseEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\TriggerEffectPartXmlReader.cs" />

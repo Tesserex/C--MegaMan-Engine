@@ -14,11 +14,13 @@ namespace MegaMan.IO.Xml.Includes
     {
         private readonly TriggerXmlReader _triggerReader;
         private readonly EffectXmlReader _effectReader;
+        private readonly MovementEffectPartXmlReader _movementReader;
 
-        public EntityXmlReader(TriggerXmlReader triggerReader, EffectXmlReader effectReader)
+        public EntityXmlReader(TriggerXmlReader triggerReader, EffectXmlReader effectReader, MovementEffectPartXmlReader movementReader)
         {
             _triggerReader = triggerReader;
             _effectReader = effectReader;
+            _movementReader = movementReader;
         }
 
         public string NodeName
@@ -45,6 +47,14 @@ namespace MegaMan.IO.Xml.Includes
 
             if (xmlNode.Element("Input") != null)
                 info.InputComponent = new InputComponentInfo();
+
+            var movementNode = xmlNode.Element("Movement");
+            if (movementNode != null)
+            {
+                info.MovementComponent = new MovementComponentInfo() {
+                    EffectInfo = (MovementEffectPartInfo)_movementReader.Load(movementNode)
+                };
+            }
 
             var collisionNode = xmlNode.Element("Collision");
             if (collisionNode != null)

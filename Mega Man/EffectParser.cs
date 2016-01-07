@@ -228,6 +228,7 @@ namespace MegaMan.Engine
                 case "Position":
                 case "Movement":
                 case "Collision":
+                case "Sound":
                     break;
 
                 default:

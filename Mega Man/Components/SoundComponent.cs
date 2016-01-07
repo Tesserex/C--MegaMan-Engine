@@ -54,18 +54,5 @@ namespace MegaMan.Engine
         {
             
         }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            string soundname = node.RequireAttribute("name").Value;
-            bool playing = node.TryAttribute<bool>("playing", true);
-
-            return entity =>
-            {
-                entity.GetOrCreateComponent("Sound");
-                SoundMessage msg = new SoundMessage(entity, soundname, playing);
-                entity.SendMessage(msg);
-            };
-        }
     }
 }

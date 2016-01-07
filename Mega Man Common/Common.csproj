@@ -111,6 +111,7 @@
     <Compile Include="Entities\Effects\PositionEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\RemoveEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SetVarEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SoundEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SpawnEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\TriggerEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnlockWeaponEffectPartInfo.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Entities\EntityInfo.cs" />
     <Compile Include="Entities\Effects\IEffectPartInfo.cs" />
     <Compile Include="Entities\InputComponentInfo.cs" />
+    <Compile Include="Entities\MovementComponentInfo.cs" />
     <Compile Include="Entities\PositionComponentInfo.cs" />
     <Compile Include="Entities\SpriteComponentInfo.cs" />
     <Compile Include="Entities\StateComponentInfo.cs" />
