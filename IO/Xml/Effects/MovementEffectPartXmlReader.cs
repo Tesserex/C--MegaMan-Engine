@@ -39,6 +39,9 @@ namespace MegaMan.IO.Xml.Effects
 
         private VelocityEffectInfo LoadVelocity(XElement prop)
         {
+            if (prop == null)
+                return null;
+
             var dir = prop.TryAttribute<string>("direction", "Same");
             return new VelocityEffectInfo() {
                 Magnitude = prop.TryAttribute<float?>("magnitude"),

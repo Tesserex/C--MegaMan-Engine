@@ -112,58 +112,6 @@ namespace MegaMan.Engine
             throw new NotSupportedException("Should not call LoadXml for sprites anymore.");
         }
 
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect action = entity => { };
-            foreach (XElement prop in node.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Name":
-                        string spritename = prop.Value;
-
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.ChangeSprite(spritename);
-                        };
-                        break;
-
-                    case "Playing":
-                        bool play = prop.GetValue<bool>();
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.Playing = play;
-                        };
-                        break;
-
-                    case "Visible":
-                        bool vis = prop.GetValue<bool>();
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.Visible = vis;
-                        };
-                        break;
-
-                    case "Palette":
-                        string pal = prop.RequireAttribute("name").Value;
-                        int index = prop.GetAttribute<int>("index");
-                        action += entity =>
-                        {
-                            var palette = PaletteSystem.Get(pal);
-                            if (palette != null)
-                            {
-                                palette.CurrentIndex = index;
-                            }
-                        };
-                        break;
-                }
-            }
-            return action;
-        }
-
         public void Add(string name, Sprite sprite, string partName = null)
         {
             SpriteGroup group;

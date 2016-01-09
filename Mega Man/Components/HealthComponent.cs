@@ -19,7 +19,7 @@ namespace MegaMan.Engine
         public float Health
         {
             get { return health; }
-            private set
+            set
             {
                 health = value;
                 if (health > maxHealth) health = maxHealth;
@@ -160,19 +160,6 @@ namespace MegaMan.Engine
             {
                 flashtime = flashNode.TryValue<int>();
             }
-        }
-
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            if (effectNode.Attribute("change") != null)
-            {
-                float changeval = effectNode.TryAttribute<float>("change");
-                return entity =>
-                {
-                    entity.GetComponent<HealthComponent>().Health += changeval;
-                };
-            }
-            return entity => { };
         }
 
         // this exists for the sake of dynamic expressions,

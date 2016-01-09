@@ -190,20 +190,6 @@ namespace MegaMan.Engine
             }
         }
 
-        // this is for when <State> appears in an effect, used for changing state
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            string newstate = effectNode.Value;
-            return entity =>
-            {
-                StateComponent state = entity.GetComponent<StateComponent>();
-                if (state != null)
-                {
-                    state.ChangeState(newstate);
-                }
-            };
-        }
-
         private class Trigger
         {
             public string ConditionString;

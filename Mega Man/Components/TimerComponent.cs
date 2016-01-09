@@ -6,7 +6,12 @@ namespace MegaMan.Engine
 {
     public class TimerComponent : Component
     {
-        private Dictionary<string, int> timers = new Dictionary<string,int>();
+        public Dictionary<string, int> Timers { get; private set; }
+
+        public TimerComponent()
+        {
+            Timers = new Dictionary<string, int>();
+        }
 
         public override Component Clone()
         {
@@ -15,13 +20,13 @@ namespace MegaMan.Engine
 
         public override void Start(IGameplayContainer container)
         {
-            timers.Clear();
+            Timers.Clear();
             container.GameThink += Update;
         }
 
         public override void Stop(IGameplayContainer container)
         {
-            timers.Clear();
+            Timers.Clear();
             container.GameThink -= Update;
         }
 
@@ -34,11 +39,11 @@ namespace MegaMan.Engine
         {
             if (Parent.Paused) return;
             Dictionary<string, int> update = new Dictionary<string, int>();
-            foreach (string name in timers.Keys)
+            foreach (string name in Timers.Keys)
             {
-                update[name] = timers[name] + 1;
+                update[name] = Timers[name] + 1;
             }
-            timers = update;
+            Timers = update;
         }
 
         public override void RegisterDependencies(Component component)
@@ -46,51 +51,17 @@ namespace MegaMan.Engine
             
         }
 
-        public bool Exists(string name) { return timers.ContainsKey(name); }
+        public bool Exists(string name) { return Timers.ContainsKey(name); }
 
         public int Value(string name)
         {
-            if (timers.ContainsKey(name)) return timers[name];
+            if (Timers.ContainsKey(name)) return Timers[name];
             return 0;
         }
 
         public override void LoadXml(XElement xmlNode)
         {
             // nothing needed
-        }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = e => { };
-
-            effect = node.Elements("Start")
-                .Select(createNode => createNode.Value)
-                .Aggregate(effect, (current, timerName) => current + (entity =>
-                {
-                    string name = timerName;
-                    TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null)
-                        timer.timers[name] = 0;
-                }));
-
-            effect = node.Elements("Reset")
-                .Select(resetNode => resetNode.Value)
-                .Aggregate(effect, (current, timerName) => current + (entity =>
-                {
-                    string name = timerName;
-                    TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null && timer.timers.ContainsKey(name))
-                        timer.timers[name] = 0;
-                }));
-
-            return node.Elements("Delete")
-                .Select(deleteNode => deleteNode.Value)
-                .Aggregate(effect, (current, timerName) => current + (entity =>
-                {
-                    TimerComponent timer = entity.GetComponent<TimerComponent>();
-                    if (timer != null)
-                        timer.timers.Remove(timerName);
-                }));
         }
     }
 }

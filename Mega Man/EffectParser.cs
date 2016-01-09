@@ -225,10 +225,14 @@ namespace MegaMan.Engine
                 case "Palette":
                 case "Delay":
                 case "SetVar":
+                case "Sprite":
                 case "Position":
                 case "Movement":
                 case "Collision":
                 case "Sound":
+                case "State":
+                case "Health":
+                case "Timer":
                     break;
 
                 default:

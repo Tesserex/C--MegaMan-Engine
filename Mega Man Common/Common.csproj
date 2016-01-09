@@ -97,6 +97,7 @@
     <Compile Include="Entities\Effects\DelayedEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\FuncEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\HealthEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\LivesEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\MovementEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\NextEffectPartInfo.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Entities\Effects\SoundEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SpawnEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SpriteEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\StateEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\TimerEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\TriggerEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnlockWeaponEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnpauseEffectPartInfo.cs" />
