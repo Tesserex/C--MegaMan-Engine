@@ -199,7 +199,7 @@ namespace MegaMan.Engine
             currentSpriteGroup.ChangePalette(index);
         }
 
-        private void ChangeSprite(string name)
+        public void ChangeSprite(string name)
         {
             if (!_sprites.ContainsKey(name) || _sprites[name] == null)
             {

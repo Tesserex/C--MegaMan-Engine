@@ -144,6 +144,7 @@
     <Compile Include="Entities\Effects\PaletteEffectLoader.cs" />
     <Compile Include="Entities\Effects\SetVarEffectLoader.cs" />
     <Compile Include="Entities\Effects\SoundEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SpriteEffectLoader.cs" />
     <Compile Include="Entities\Effects\UnpauseEffectLoader .cs" />
     <Compile Include="Entities\Effects\PauseEffectLoader.cs" />
     <Compile Include="Entities\Effects\RemoveInventoryEffectLoader.cs" />

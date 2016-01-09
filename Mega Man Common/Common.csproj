@@ -113,6 +113,7 @@
     <Compile Include="Entities\Effects\SetVarEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SoundEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\SpawnEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SpriteEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\TriggerEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnlockWeaponEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnpauseEffectPartInfo.cs" />
