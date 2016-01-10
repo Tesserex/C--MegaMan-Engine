@@ -233,6 +233,10 @@ namespace MegaMan.Engine
                 case "State":
                 case "Health":
                 case "Timer":
+                case "Ladder":
+                case "Weapon":
+                case "Input":
+                case "Vars":
                     break;
 
                 default:

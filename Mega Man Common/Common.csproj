@@ -98,6 +98,8 @@
     <Compile Include="Entities\Effects\FuncEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\HealthEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\InputEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\LadderEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\LivesEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\MovementEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\NextEffectPartInfo.cs" />
@@ -120,6 +122,8 @@
     <Compile Include="Entities\Effects\TriggerEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnlockWeaponEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\UnpauseEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\VarsEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\WeaponEffectPartInfo.cs" />
     <Compile Include="Entities\HitBoxInfo.cs" />
     <Compile Include="Entities\CollisionComponentInfo.cs" />
     <Compile Include="Entities\EntityEditorData.cs" />

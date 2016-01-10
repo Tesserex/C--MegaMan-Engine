@@ -92,7 +92,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void Grab()
+        public void Grab()
         {
             if (InReach)
             {
@@ -100,7 +100,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void StandOn()
+        public void StandOn()
         {
             if (position != null && aboveTile != null)
             {
@@ -108,7 +108,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void ClimbDown()
+        public void ClimbDown()
         {
             if (position != null && aboveTile != null)
             {
@@ -116,7 +116,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void LetGo()
+        public void LetGo()
         {
             inReach = false;
         }
@@ -196,34 +196,6 @@ namespace MegaMan.Engine
             aboveLadder = (below != null && below.Tile.Properties.Climbable);
             if (aboveLadder) aboveTile = below;
             aboveLadderCached = true;
-        }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = e => { };
-
-            if (node.Value == "Grab") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.Grab();
-            };
-            else if (node.Value == "LetGo") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.LetGo();
-            };
-            else if (node.Value == "StandOn") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.StandOn();
-            };
-            else if (node.Value == "ClimbDown") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.ClimbDown();
-            };
-
-            return effect;
         }
     }
 }

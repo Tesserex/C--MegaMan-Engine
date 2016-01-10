@@ -20,6 +20,8 @@ namespace MegaMan.IO.Xml.Effects
             foreach (var node in effectNode.Elements())
                 parts.Add(LoadPart(node));
 
+            info.Parts = parts;
+
             return info;
         }
 

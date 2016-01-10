@@ -51,13 +51,5 @@ namespace MegaMan.Engine
         public override void LoadXml(XElement xmlNode)
         {
         }
-
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            var name = effectNode.RequireAttribute("name").Value;
-            var value = effectNode.RequireAttribute("value").Value;
-
-            return e => { e.GetComponent<VarsComponent>().Set(name, value); };
-        }
     }
 }

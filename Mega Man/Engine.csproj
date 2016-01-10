@@ -139,6 +139,8 @@
     <Compile Include="Entities\Effects\FuncEffectLoader.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectLoader.cs" />
     <Compile Include="Entities\Effects\HealthEffectLoader.cs" />
+    <Compile Include="Entities\Effects\InputEffectLoader.cs" />
+    <Compile Include="Entities\Effects\LadderEffectLoader.cs" />
     <Compile Include="Entities\Effects\LivesEffectLoader.cs" />
     <Compile Include="Entities\Effects\MovementEffectLoader.cs" />
     <Compile Include="Entities\Effects\NextEffectLoader.cs" />
@@ -161,6 +163,8 @@
     <Compile Include="Entities\Effects\SpawnEffectLoader.cs" />
     <Compile Include="Entities\Effects\TriggerEffectLoader.cs" />
     <Compile Include="Entities\Effects\UnlockWeaponEffectLoader.cs" />
+    <Compile Include="Entities\Effects\VarsEffectLoader.cs" />
+    <Compile Include="Entities\Effects\WeaponEffectLoader.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
     <Compile Include="Entities\GameEntityRespawnTracker.cs" />
     <Compile Include="Entities\GameEntitySource.cs" />

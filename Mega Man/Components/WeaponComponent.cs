@@ -218,51 +218,5 @@ namespace MegaMan.Engine
                 AddWeapon(name, entity, ammo, usage, meter, palette);
             }
         }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = e => { };
-            if (node.Value == "Shoot")
-            {
-                effect = entity =>
-                {
-                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                    if (weaponComponent != null) weaponComponent.Shoot();
-                };
-            }
-            else if (node.Value == "RotateForward")
-            {
-                effect = entity =>
-                {
-                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                    if (weaponComponent != null) weaponComponent.RotateForward();
-                };
-            }
-            else
-            {
-                XElement ammoNode = node.Element("Ammo");
-                if (ammoNode != null)
-                {
-                    int val = ammoNode.GetAttribute<int>("val");
-                    effect = entity =>
-                    {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                        if (weaponComponent != null) weaponComponent.AddAmmo(val);
-                    };
-                }
-
-                XElement changeNode = node.Element("Change");
-                if (changeNode != null)
-                {
-                    var weaponName = changeNode.RequireAttribute("name").Value;
-                    effect = entity =>
-                    {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                        if (weaponComponent != null) weaponComponent.SetWeapon(weaponName);
-                    };
-                }
-            }
-            return effect;
-        }
     }
 }

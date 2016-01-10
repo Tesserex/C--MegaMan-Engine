@@ -90,33 +90,6 @@ namespace MegaMan.Engine
             // nothing needed
         }
 
-        public static Effect ParseEffect(System.Xml.Linq.XElement effectNode)
-        {
-            Effect action = entity => { };
-
-            foreach (XElement prop in effectNode.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Pause":
-                        action += entity =>
-                        {
-                            entity.GetComponent<InputComponent>().Paused = true;
-                        };
-                        break;
-
-                    case "Unpause":
-                        action += entity =>
-                        {
-                            entity.GetComponent<InputComponent>().Paused = false;
-                        };
-                        break;
-                }
-            }
-
-            return action;
-        }
-
         private void Instance_GameInputReceived(GameInputEventArgs e)
         {
             var dict = Paused ? backupKeys : activeKeys;
