@@ -62,6 +62,12 @@ namespace MegaMan.IO.Xml.Includes
 
             ReadStateComponent(xmlNode, info);
 
+            if (info.PositionComponent == null && info.SpriteComponent != null)
+                info.PositionComponent = new PositionComponentInfo();
+
+            if (info.MovementComponent == null && info.PositionComponent != null)
+                info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
+
             project.AddEntity(info);
         }
 

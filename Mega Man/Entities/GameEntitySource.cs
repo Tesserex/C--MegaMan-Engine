@@ -42,6 +42,9 @@ namespace MegaMan.Engine.Entities
             if (info.PositionComponent != null || info.SpriteComponent != null)
                 LoadPositionComponent(entity, info.PositionComponent);
 
+            if (info.MovementComponent != null)
+                LoadMovementComponent(info.MovementComponent, entity);
+
             if (info.InputComponent != null)
                 entity.AddComponent(new InputComponent());
 
@@ -50,6 +53,13 @@ namespace MegaMan.Engine.Entities
 
             if (info.StateComponent != null)
                 LoadStateComponent(entity, info.StateComponent);
+        }
+
+        private static void LoadMovementComponent(MovementComponentInfo info, GameEntity entity)
+        {
+            var moveComp = new MovementComponent();
+            entity.AddComponent(moveComp);
+            moveComp.LoadInfo(info);
         }
 
         private void LoadStateComponent(GameEntity entity, StateComponentInfo info)

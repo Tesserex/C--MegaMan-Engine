@@ -169,27 +169,6 @@ namespace MegaMan.Engine
             }
         }
 
-        private Trigger ParseTrigger(XElement triggerNode)
-        {
-            try
-            {
-                string conditionString;
-                if (triggerNode.Attribute("condition") != null) conditionString = triggerNode.RequireAttribute("condition").Value;
-                else conditionString = triggerNode.Element("Condition").Value;
-
-                Condition condition = EffectParser.ParseCondition(conditionString);
-
-                var effectNode = triggerNode.Element("Effect");
-                Effect effect = EffectParser.LoadTriggerEffect(effectNode);
-
-                return new Trigger { Condition = condition, Effect = effect, ConditionString = conditionString, EffectString = effectNode.ToString() };
-            }
-            catch (Exception e)
-            {
-                throw new GameXmlException(triggerNode, "There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
-            }
-        }
-
         private class Trigger
         {
             public string ConditionString;

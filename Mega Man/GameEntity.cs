@@ -121,7 +121,8 @@ namespace MegaMan.Engine
 
         public void SendMessage(IGameMessage message)
         {
-            foreach (Component c in components.Values)
+            var componentList = components.Values.ToList();
+            foreach (Component c in componentList)
             {
                 c.Message(message);
             }
