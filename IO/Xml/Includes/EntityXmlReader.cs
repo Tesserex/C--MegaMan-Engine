@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -86,6 +87,7 @@ namespace MegaMan.IO.Xml.Includes
                 var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
 
                 var trigger = _triggerReader.Load(triggerInfo);
+                trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
                 comp.Triggers.Add(new MultiStateTriggerInfo() {
                     States = states,
                     Trigger = trigger
@@ -108,7 +110,9 @@ namespace MegaMan.IO.Xml.Includes
                 switch (child.Name.LocalName)
                 {
                     case "Trigger":
-                        info.Triggers.Add(_triggerReader.Load(child));
+                        var t = _triggerReader.Load(child);
+                        t.Priority = ((IXmlLineInfo)child).LineNumber;
+                        info.Triggers.Add(t);
                         break;
 
                     default:

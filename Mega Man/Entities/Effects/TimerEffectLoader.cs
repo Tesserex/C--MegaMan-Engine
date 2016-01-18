@@ -18,7 +18,9 @@ namespace MegaMan.Engine.Entities.Effects
         {
             var timerInfo = (TimerEffectPartInfo)info;
 
-            Effect effect = e => { };
+            Effect effect = e => {
+                e.GetOrCreateComponent("Timer");
+            };
 
             effect = timerInfo.Start
                 .Aggregate(effect, (current, timerName) => current + (entity => {

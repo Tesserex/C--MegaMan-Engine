@@ -161,7 +161,7 @@ namespace MegaMan.Engine
             {
                 var condition = EffectParser.ParseCondition(info.Condition);
                 var effect = EffectParser.LoadTriggerEffect(info.Effect);
-                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition };
+                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition, Priority = info.Priority };
             }
             catch (Exception e)
             {
@@ -175,6 +175,7 @@ namespace MegaMan.Engine
             public string EffectString;
             public Condition Condition;
             public Effect Effect;
+            public int Priority;
         }
 
         private class State
@@ -223,7 +224,7 @@ namespace MegaMan.Engine
             public void CheckTriggers(StateComponent statecomp, IEntity entity)
             {
                 string state = statecomp.currentState;
-                foreach (Trigger trigger in triggers)
+                foreach (Trigger trigger in triggers.OrderBy(t => t.Priority))
                 {
                     bool result = trigger.Condition(entity);
                     if (result)

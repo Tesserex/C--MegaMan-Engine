@@ -74,6 +74,20 @@ namespace MegaMan.Common
             return GetValue<T>(node);
         }
 
+        public static T TryElementValue<T>(this XElement node, string name)
+        {
+            return TryElementValue(node, name, default(T));
+        }
+
+        public static T TryElementValue<T>(this XElement node, string name, T defaultValue)
+        {
+            var el = node.Element(name);
+            if (el == null)
+                return defaultValue;
+
+            return TryValue(el, defaultValue);
+        }
+
         public static T GetValue<T>(this XElement node)
         {
             try

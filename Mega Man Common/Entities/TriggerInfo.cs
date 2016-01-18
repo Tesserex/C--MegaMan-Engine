@@ -8,6 +8,7 @@ namespace MegaMan.Common.Entities
     {
         public string Condition { get; set; }
         public EffectInfo Effect { get; set; }
+        public int Priority { get; set; }
     }
 
     public class MultiStateTriggerInfo
