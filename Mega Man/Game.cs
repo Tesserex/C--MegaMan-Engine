@@ -132,6 +132,7 @@ namespace MegaMan.Engine
             }
 
             _entitySource.LoadEntities(project.Entities);
+            EffectParser.LoadEffectsList(project.Functions);
 
             foreach (var includePath in project.Includes)
             {
@@ -215,9 +216,6 @@ namespace MegaMan.Engine
                             break;
 
                         case "Functions":
-                            EffectParser.LoadEffectsList(element);
-                            break;
-
                         case "Sounds":
                         case "Scenes":
                         case "Scene":

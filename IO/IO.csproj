@@ -131,6 +131,8 @@
     <Compile Include="Xml\HandlerXmlReader.cs" />
     <Compile Include="Xml\IGameObjectXmlReader.cs" />
     <Compile Include="Xml\IncludeFileXmlReader.cs" />
+    <Compile Include="Xml\Includes\FunctionsXmlReader.cs" />
+    <Compile Include="Xml\Includes\FunctionXmlReader.cs" />
     <Compile Include="Xml\Includes\MenusXmlReader.cs" />
     <Compile Include="Xml\Includes\PalletesXmlReader.cs" />
     <Compile Include="Xml\Includes\ScenesXmlReader.cs" />

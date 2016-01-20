@@ -147,6 +147,15 @@ namespace MegaMan.Engine
             return effect;
         }
 
+        public static void LoadEffectsList(IEnumerable<EffectInfo> effects)
+        {
+            foreach (var effectInfo in effects)
+            {
+                Effect effect = LoadEffect(effectInfo);
+                EffectParser.SaveEffect(effectInfo.Name, effect);
+            }
+        }
+
         public static void LoadEffectsList(XElement element)
         {
             foreach (var effectnode in element.Elements("Function"))
