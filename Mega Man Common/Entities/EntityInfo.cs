@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common.Entities
 {
@@ -8,6 +9,8 @@ namespace MegaMan.Common.Entities
         public string Name { get; set; }
         public int MaxAlive { get; set; }
         public EntityEditorData EditorData { get; set; }
+
+        public EffectInfo Death { get; set; }
 
         public SpriteComponentInfo SpriteComponent { get; set; }
 

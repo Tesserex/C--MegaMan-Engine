@@ -40,6 +40,11 @@ namespace MegaMan.IO.Xml.Includes
             };
 
             ReadEditorData(xmlNode, info);
+
+            var deathNode = xmlNode.Element("Death");
+            if (deathNode != null)
+                info.Death = _effectReader.Load(deathNode);
+
             ReadSpriteComponent(project, xmlNode, info);
 
             var posNode = xmlNode.Element("Position");

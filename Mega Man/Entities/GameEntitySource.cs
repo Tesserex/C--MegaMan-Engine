@@ -36,6 +36,9 @@ namespace MegaMan.Engine.Entities
 
             entities[info.Name] = entity;
 
+            if (info.Death != null)
+                entity.OnDeath = EffectParser.LoadTriggerEffect(info.Death);
+
             if (info.SpriteComponent != null)
                 LoadSpriteComponent(entity, info.SpriteComponent);
 
@@ -127,10 +130,7 @@ namespace MegaMan.Engine.Entities
                         case "Collision":
                         case "State":
                         case "Trigger":
-                            break;
-
                         case "Death":
-                            entity.OnDeath += EffectParser.LoadTriggerEffect(xmlComp);
                             break;
 
                         case "GravityFlip":
