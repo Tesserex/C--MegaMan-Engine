@@ -2,6 +2,7 @@
 using MegaMan.Common;
 using System;
 using MegaMan.IO.Xml;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -138,27 +139,20 @@ namespace MegaMan.Engine
 
         public override void LoadXml(XElement node)
         {
-            XElement maxNode = node.Element("Max");
-            if (maxNode != null)
-            {
-                maxHealth = maxNode.GetValue<float>();
-            }
+            throw new NotSupportedException("Should not call LoadXml for health component anymore.");
+        }
 
-            StartHealth = node.TryAttribute<float>("startValue", MaxHealth);
+        public void LoadInfo(HealthComponentInfo info)
+        {
+            maxHealth = info.Max;
+            StartHealth = info.StartValue ?? info.Max;
+            flashtime = info.FlashFrames;
 
-            XElement meterNode = node.Element("Meter");
-            if (meterNode != null)
+            if (info.Meter != null)
             {
-                var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
-                meter = HealthMeter.Create(meterInfo, true);
+                meter = HealthMeter.Create(info.Meter, true);
                 meter.MaxValue = maxHealth;
                 meter.IsPlayer = (Parent.Name == "Player");
-            }
-
-            XElement flashNode = node.Element("Flash");
-            if (flashNode != null)
-            {
-                flashtime = flashNode.TryValue<int>();
             }
         }
 

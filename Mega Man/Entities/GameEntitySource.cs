@@ -56,6 +56,16 @@ namespace MegaMan.Engine.Entities
 
             if (info.StateComponent != null)
                 LoadStateComponent(entity, info.StateComponent);
+
+            if (info.HealthComponent != null)
+                LoadHealthComponent(entity, info.HealthComponent);
+        }
+
+        private void LoadHealthComponent(GameEntity entity, HealthComponentInfo info)
+        {
+            var comp = new HealthComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
         }
 
         private static void LoadMovementComponent(MovementComponentInfo info, GameEntity entity)
@@ -129,6 +139,7 @@ namespace MegaMan.Engine.Entities
                         case "Input":
                         case "Collision":
                         case "State":
+                        case "Health":
                         case "Trigger":
                         case "Death":
                             break;

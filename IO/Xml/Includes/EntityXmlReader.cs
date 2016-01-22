@@ -68,6 +68,10 @@ namespace MegaMan.IO.Xml.Includes
 
             ReadStateComponent(xmlNode, info);
 
+            var healthNode = xmlNode.Element("Health");
+            if (healthNode != null)
+                ReadHealthComponent(project, healthNode, info);
+
             if (info.PositionComponent == null && info.SpriteComponent != null)
                 info.PositionComponent = new PositionComponentInfo();
 
@@ -75,6 +79,24 @@ namespace MegaMan.IO.Xml.Includes
                 info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
 
             project.AddEntity(info);
+        }
+
+        private void ReadHealthComponent(Project project, XElement healthNode, EntityInfo info)
+        {
+            var comp = new HealthComponentInfo();
+            comp.Max = healthNode.TryAttribute<float>("max", healthNode.TryElementValue<float>("Max"));
+
+            comp.StartValue = healthNode.TryAttribute<float?>("startValue");
+
+            XElement meterNode = healthNode.Element("Meter");
+            if (meterNode != null)
+            {
+                comp.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
+            }
+            
+            comp.FlashFrames = healthNode.TryAttribute("flash", healthNode.TryElementValue<int>("Flash"));
+
+            info.HealthComponent = comp;
         }
 
         private void ReadStateComponent(XElement parentNode, EntityInfo info)

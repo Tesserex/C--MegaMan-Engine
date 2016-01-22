@@ -33,5 +33,6 @@ namespace MegaMan.Common.Entities
         public CollisionComponentInfo CollisionComponent { get; set; }
         public StateComponentInfo StateComponent { get; set; }
         public MovementComponentInfo MovementComponent { get; set; }
+        public HealthComponentInfo HealthComponent { get; set; }
     }
 }
