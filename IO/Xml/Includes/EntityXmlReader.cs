@@ -72,6 +72,10 @@ namespace MegaMan.IO.Xml.Includes
             if (healthNode != null)
                 ReadHealthComponent(project, healthNode, info);
 
+            var ladderNode = xmlNode.Element("Ladder");
+            if (ladderNode != null)
+                ReadLadderComponent(ladderNode, info);
+
             if (info.PositionComponent == null && info.SpriteComponent != null)
                 info.PositionComponent = new PositionComponentInfo();
 
@@ -79,6 +83,14 @@ namespace MegaMan.IO.Xml.Includes
                 info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
 
             project.AddEntity(info);
+        }
+
+        private void ReadLadderComponent(XElement ladderNode, EntityInfo info)
+        {
+            var comp = new LadderComponentInfo();
+            comp.HitBoxes = ladderNode.Elements("Hitbox").Select(GetHitbox).ToList();
+
+            info.LadderComponent = comp;
         }
 
         private void ReadHealthComponent(Project project, XElement healthNode, EntityInfo info)
@@ -166,20 +178,7 @@ namespace MegaMan.IO.Xml.Includes
 
             foreach (var boxnode in collisionNode.Elements("Hitbox"))
             {
-                float width = boxnode.GetAttribute<float>("width");
-                float height = boxnode.GetAttribute<float>("height");
-                float x = boxnode.GetAttribute<float>("x");
-                float y = boxnode.GetAttribute<float>("y");
-
-                var box = new HitBoxInfo()
-                {
-                    Name = boxnode.TryAttribute<string>("name"),
-                    Box = new Common.Geometry.RectangleF(x, y, width, height),
-                    ContactDamage = boxnode.TryAttribute<float>("damage"),
-                    Environment = boxnode.TryAttribute<bool>("environment", true),
-                    PushAway = boxnode.TryAttribute<bool>("pushaway", true),
-                    PropertiesName = boxnode.TryAttribute<string>("properties", "Default")
-                };
+                var box = GetHitbox(boxnode);
 
                 foreach (var groupnode in boxnode.Elements("Hits"))
                     box.Hits.Add(groupnode.Value);
@@ -200,6 +199,25 @@ namespace MegaMan.IO.Xml.Includes
             component.Enabled = collisionNode.TryAttribute<bool>("Enabled");
 
             info.CollisionComponent = component;
+        }
+
+        private static HitBoxInfo GetHitbox(XElement boxnode)
+        {
+            float width = boxnode.GetAttribute<float>("width");
+            float height = boxnode.GetAttribute<float>("height");
+            float x = boxnode.GetAttribute<float>("x");
+            float y = boxnode.GetAttribute<float>("y");
+
+            var box = new HitBoxInfo()
+            {
+                Name = boxnode.TryAttribute<string>("name"),
+                Box = new Common.Geometry.RectangleF(x, y, width, height),
+                ContactDamage = boxnode.TryAttribute<float>("damage"),
+                Environment = boxnode.TryAttribute<bool>("environment", true),
+                PushAway = boxnode.TryAttribute<bool>("pushaway", true),
+                PropertiesName = boxnode.TryAttribute<string>("properties", "Default")
+            };
+            return box;
         }
 
         private static void ReadSpriteComponent(Project project, XElement xmlNode, EntityInfo info)

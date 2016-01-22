@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
@@ -86,10 +88,12 @@ namespace MegaMan.Engine
 
         public override void LoadXml(XElement xml)
         {
-            foreach (XElement boxnode in xml.Elements("Hitbox"))
-            {
-                hitboxes.Add(new HitBox(boxnode));
-            }
+            
+        }
+
+        public void LoadInfo(LadderComponentInfo info)
+        {
+            hitboxes.AddRange(info.HitBoxes.Select(h => new HitBox(h.Box.X, h.Box.Y, h.Box.Width, h.Box.Height)));
         }
 
         public void Grab()
