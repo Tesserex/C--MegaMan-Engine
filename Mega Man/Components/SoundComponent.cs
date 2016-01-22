@@ -1,24 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
-using MegaMan.Common;
-using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
     public class SoundComponent : Component
     {
         private HashSet<string> sounds = new HashSet<string>();
-
-        public override void LoadXml(XElement xml)
-        {
-            //foreach (XElement soundNode in xml.Elements("Sound"))
-            //{
-            //    var soundInfo = IncludeFileXmlReader.LoadSound(soundNode, Game.CurrentGame.BasePath);
-            //    string name = Engine.Instance.SoundSystem.EffectFromInfo(soundInfo);
-            //    sounds.Add(name);
-            //}
-        }
-
+        
         public override Component Clone()
         {
             return this;

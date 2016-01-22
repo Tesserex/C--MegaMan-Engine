@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace MegaMan.Engine
 {
@@ -57,11 +55,6 @@ namespace MegaMan.Engine
         {
             if (Timers.ContainsKey(name)) return Timers[name];
             return 0;
-        }
-
-        public override void LoadXml(XElement xmlNode)
-        {
-            // nothing needed
         }
     }
 }

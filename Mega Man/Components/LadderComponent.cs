@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
@@ -84,11 +83,6 @@ namespace MegaMan.Engine
         public override void RegisterDependencies(Component component)
         {
             if (component is PositionComponent) position = component as PositionComponent;
-        }
-
-        public override void LoadXml(XElement xml)
-        {
-            
         }
 
         public void LoadInfo(LadderComponentInfo info)

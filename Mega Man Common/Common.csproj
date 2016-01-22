@@ -137,6 +137,7 @@
     <Compile Include="Entities\SpriteComponentInfo.cs" />
     <Compile Include="Entities\StateComponentInfo.cs" />
     <Compile Include="Entities\TriggerInfo.cs" />
+    <Compile Include="Entities\WeaponComponentInfo.cs" />
     <Compile Include="EntityPlacement.cs" />
     <Compile Include="Enums\Axis.cs" />
     <Compile Include="Enums\Direction.cs" />

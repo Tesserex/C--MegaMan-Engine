@@ -61,7 +61,5 @@ namespace MegaMan.Engine
         protected abstract void Update();
 
         public abstract void RegisterDependencies(Component component);
-
-        public abstract void LoadXml(System.Xml.Linq.XElement xmlNode);
     }
 }

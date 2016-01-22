@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using System;
 using MegaMan.IO.Xml;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -190,32 +191,15 @@ namespace MegaMan.Engine
             weapons.Add(weapon);
         }
 
-        public override void LoadXml(XElement node)
+        public void LoadInfo(WeaponComponentInfo info)
         {
-            foreach (XElement weapon in node.Elements("Weapon"))
+            foreach (var weapon in info.Weapons)
             {
-                string name = weapon.RequireAttribute("name").Value;
-
-                string entity = weapon.RequireAttribute("entity").Value;
-
-                int ammo = weapon.TryAttribute<int>("ammo", -1);
-
-                int usage = weapon.TryAttribute<int>("usage", 1);
-
-                int? palette = weapon.TryAttribute<int?>("palette");
-
                 HealthMeter meter = null;
-                XElement meterNode = weapon.Element("Meter");
-                if (meterNode != null)
-                {
-                    var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
-                    meter = HealthMeter.Create(meterInfo, true);
+                if (weapon.Meter != null)
+                    meter = HealthMeter.Create(weapon.Meter, true);
 
-                    meter.MaxValue = ammo;
-                    meter.Reset();
-                }
-
-                AddWeapon(name, entity, ammo, usage, meter, palette);
+                AddWeapon(weapon.Name, weapon.EntityName, weapon.Ammo ?? -1, weapon.Usage ?? 1, meter, weapon.Palette);
             }
         }
     }

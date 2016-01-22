@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Engine.Entities;
 
@@ -149,12 +146,7 @@ namespace MegaMan.Engine
                 }
             }
         }
-
-        public override void LoadXml(XElement stateNode)
-        {
-            throw new NotSupportedException("Should not call LoadXml for states anymore.");
-        }
-
+        
         private Trigger ParseTrigger(TriggerInfo info)
         {
             try

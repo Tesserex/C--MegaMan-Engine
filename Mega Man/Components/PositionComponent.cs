@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
@@ -80,11 +78,6 @@ namespace MegaMan.Engine
         internal void LoadInfo(PositionComponentInfo info)
         {
             PersistOffScreen = info.PersistOffscreen;
-        }
-
-        public override void LoadXml(XElement node)
-        {
-            throw new NotSupportedException("Should not call LoadXml for position component anymore.");
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using MegaMan.Common;
-using System;
-using MegaMan.IO.Xml;
+﻿using System;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
@@ -135,11 +132,6 @@ namespace MegaMan.Engine
         public override void RegisterDependencies(Component component)
         {
             
-        }
-
-        public override void LoadXml(XElement node)
-        {
-            throw new NotSupportedException("Should not call LoadXml for health component anymore.");
         }
 
         public void LoadInfo(HealthComponentInfo info)

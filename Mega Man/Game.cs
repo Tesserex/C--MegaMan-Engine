@@ -211,7 +211,6 @@ namespace MegaMan.Engine
                     switch (element.Name.LocalName)
                     {
                         case "Entities":
-                            _entitySource.LoadEntities(element);
                             _tileProperties.LoadProperties(element);
                             break;
 

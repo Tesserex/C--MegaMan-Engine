@@ -59,6 +59,21 @@ namespace MegaMan.Engine.Entities
 
             if (info.HealthComponent != null)
                 LoadHealthComponent(entity, info.HealthComponent);
+
+            if (info.WeaponComponent != null)
+                LoadWeaponComponent(entity, info.WeaponComponent);
+
+            // everyone gets these
+            entity.AddComponent(new SoundComponent());
+            entity.AddComponent(new TimerComponent());
+            entity.AddComponent(new VarsComponent());
+        }
+
+        private void LoadWeaponComponent(GameEntity entity, WeaponComponentInfo info)
+        {
+            var comp = new WeaponComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
         }
 
         private void LoadHealthComponent(GameEntity entity, HealthComponentInfo info)
@@ -104,61 +119,6 @@ namespace MegaMan.Engine.Entities
 
             if (componentInfo != null)
                 poscomp.LoadInfo(componentInfo);
-        }
-
-        public void LoadEntities(XElement doc)
-        {
-            foreach (XElement entity in doc.Elements("Entity"))
-            {
-                LoadEntity(entity);
-            }
-        }
-
-        private void LoadEntity(XElement xml)
-        {
-            string name = xml.RequireAttribute("name").Value;
-
-            if (!entities.ContainsKey(name))
-                throw new GameRunException("Could not find entity named \"" + name + "\".");
-
-            var entity = entities[name];
-            
-            entity.MaxAlive = xml.TryAttribute<int>("limit", 50);
-
-            try
-            {
-                foreach (XElement xmlComp in xml.Elements())
-                {
-                    switch (xmlComp.Name.LocalName)
-                    {
-                        case "EditorData":
-                        case "Tilesheet":
-                        case "Sprite":
-                        case "Position":
-                        case "Movement":
-                        case "Input":
-                        case "Collision":
-                        case "State":
-                        case "Health":
-                        case "Trigger":
-                        case "Death":
-                            break;
-
-                        case "GravityFlip":
-                            entity.IsGravitySensitive = xmlComp.GetValue<bool>();
-                            break;
-
-                        default:
-                            entity.GetOrCreateComponent(xmlComp.Name.LocalName).LoadXml(xmlComp);
-                            break;
-                    }
-                }
-            }
-            catch (GameXmlException ex)
-            {
-                ex.Entity = name;
-                throw;
-            }
         }
 
         public void Unload()

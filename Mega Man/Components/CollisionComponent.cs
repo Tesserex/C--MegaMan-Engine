@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using MegaMan.Common.Rendering;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
@@ -149,11 +148,6 @@ namespace MegaMan.Engine
                 coll.SetParent(this);
                 AddBox(coll);
             }
-        }
-
-        public override void LoadXml(XElement xml)
-        {
-            throw new NotSupportedException("Should not call LoadXml for collision component anymore.");
         }
 
         public void AddBox(CollisionBox box)

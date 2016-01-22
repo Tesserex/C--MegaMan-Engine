@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace MegaMan.Engine
 {
@@ -83,11 +82,6 @@ namespace MegaMan.Engine
         public override void RegisterDependencies(Component component)
         {
 
-        }
-
-        public override void LoadXml(System.Xml.Linq.XElement xmlNode)
-        {
-            // nothing needed
         }
 
         private void Instance_GameInputReceived(GameInputEventArgs e)

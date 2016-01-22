@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using MegaMan.Common;
-using System.Xml.Linq;
-using MegaMan.IO.Xml;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
 using MegaMan.Common.Entities;
@@ -107,11 +105,6 @@ namespace MegaMan.Engine
                 Add(sprite.Name ?? "Default", sprite, sprite.Part);
         }
         
-        public override void LoadXml(XElement xmlNode)
-        {
-            throw new NotSupportedException("Should not call LoadXml for sprites anymore.");
-        }
-
         public void Add(string name, Sprite sprite, string partName = null)
         {
             SpriteGroup group;

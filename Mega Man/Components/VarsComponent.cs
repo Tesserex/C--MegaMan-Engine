@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
@@ -45,10 +41,6 @@ namespace MegaMan.Engine
         }
 
         public override void RegisterDependencies(Component component)
-        {
-        }
-
-        public override void LoadXml(XElement xmlNode)
         {
         }
     }

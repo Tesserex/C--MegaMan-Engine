@@ -77,6 +77,10 @@ namespace MegaMan.IO.Xml.Includes
             if (ladderNode != null)
                 ReadLadderComponent(ladderNode, info);
 
+            var weaponsNode = xmlNode.Element("Weapons");
+            if (weaponsNode != null)
+                ReadWeaponComponent(project, weaponsNode, info);
+
             if (info.PositionComponent == null && info.SpriteComponent != null)
                 info.PositionComponent = new PositionComponentInfo();
 
@@ -84,6 +88,30 @@ namespace MegaMan.IO.Xml.Includes
                 info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
 
             project.AddEntity(info);
+        }
+
+        private void ReadWeaponComponent(Project project, XElement weaponsNode, EntityInfo info)
+        {
+            var comp = new WeaponComponentInfo();
+            comp.Weapons = weaponsNode.Elements("Weapon")
+                .Select(x => {
+                    var w = new WeaponInfo() {
+                        Name = x.GetAttribute<string>("name"),
+                        EntityName = x.GetAttribute<string>("entity"),
+                        Ammo = x.TryAttribute<int?>("ammo"),
+                        Usage = x.TryAttribute<int?>("usage"),
+                        Palette = x.TryAttribute<int?>("palette")
+                    };
+
+                    var meterNode = x.Element("Meter");
+                    if (meterNode != null)
+                        w.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
+
+                    return w;
+                })
+                .ToList();
+
+            info.WeaponComponent = comp;
         }
 
         private void ReadLadderComponent(XElement ladderNode, EntityInfo info)

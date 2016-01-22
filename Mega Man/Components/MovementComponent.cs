@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using MegaMan.Common.Geometry;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Engine.Entities.Effects;
@@ -242,11 +241,6 @@ namespace MegaMan.Engine
             var loader = new MovementEffectLoader();
             var effect = loader.Load(info.EffectInfo);
             effect(this.Parent);
-        }
-
-        public override void LoadXml(XElement xmlNode)
-        {
-            throw new NotSupportedException("Should not call LoadXml for movement component anymore.");
         }
     }
 }
