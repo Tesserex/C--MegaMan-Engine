@@ -8,6 +8,7 @@ namespace MegaMan.Common.Entities
     {
         public string Name { get; set; }
         public int MaxAlive { get; set; }
+        public bool GravityFlip { get; set; }
         public EntityEditorData EditorData { get; set; }
 
         public EffectInfo Death { get; set; }

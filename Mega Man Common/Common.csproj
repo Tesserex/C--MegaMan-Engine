@@ -131,6 +131,7 @@
     <Compile Include="Entities\EntityInfo.cs" />
     <Compile Include="Entities\Effects\IEffectPartInfo.cs" />
     <Compile Include="Entities\InputComponentInfo.cs" />
+    <Compile Include="Entities\LadderComponentInfo.cs" />
     <Compile Include="Entities\MovementComponentInfo.cs" />
     <Compile Include="Entities\PositionComponentInfo.cs" />
     <Compile Include="Entities\SpriteComponentInfo.cs" />

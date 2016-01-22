@@ -36,7 +36,8 @@ namespace MegaMan.IO.Xml.Includes
         {
             var info = new EntityInfo() {
                 Name = xmlNode.RequireAttribute("name").Value,
-                MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50)
+                MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50),
+                GravityFlip = xmlNode.TryElementValue<bool>("GravityFlip")
             };
 
             ReadEditorData(xmlNode, info);

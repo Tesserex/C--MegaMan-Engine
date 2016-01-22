@@ -20,6 +20,8 @@ namespace MegaMan.IO.Xml.Includes
             writer.WriteAttributeString("name", entity.Name);
             writer.WriteAttributeString("maxAlive", entity.MaxAlive.ToString());
 
+            writer.WriteElementString("GravityFlip", entity.GravityFlip.ToString());
+
             if (entity.EditorData != null)
             {
                 writer.WriteStartElement("EditorData");
