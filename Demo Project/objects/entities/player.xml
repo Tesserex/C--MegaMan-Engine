@@ -235,31 +235,31 @@
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 1</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="0" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &lt; 12</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="1" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="1" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 12 And Timer.Value("ChargeLow") &lt; 24</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="2" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="2" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") > 24</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="3" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="3" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 0</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="0" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="0" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 1</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="4" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="4" /></Effect>
 	</Trigger>
 	<Trigger>
 		<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 2</Condition>
-		<Effect><Sprite><Palette name="MegaMan" index="5" /></Sprite></Effect>
+		<Effect><Palette name="MegaMan" index="5" /></Effect>
 	</Trigger>
 	<Trigger>
 		<States>Standing</States>
@@ -287,7 +287,7 @@
 		<Effect>
 			<Spawn name="ChargeLow" />
 			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+			<Palette name="MegaMan" index="0" />
 			<Sound name="Charge" playing="false" />
 		</Effect>
 	</Trigger>
@@ -297,7 +297,7 @@
 		<Effect>
 			<Spawn name="ChargeFull" />
 			<Timer><Start>Shoot</Start><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+			<Palette name="MegaMan" index="0" />
 			<Sound name="Charged" playing="false" />
 		</Effect>
 	</Trigger>
@@ -306,7 +306,7 @@
 		<Condition>Timer.Exists("ChargeShot") And Input.ShootHeld == False</Condition>
 		<Effect>
 			<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-			<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+			<Palette name="MegaMan" index="0" />
 		</Effect>
 	</Trigger>
 	<Trigger>
@@ -869,7 +869,7 @@
 			<Condition>Timer.Exists("ChargeShot")</Condition>
 			<Effect>
 				<Timer><Delete>ChargeShot</Delete><Delete>ChargeLow</Delete><Delete>ChargeHigh</Delete></Timer>
-				<Sprite><Palette name="MegaMan" index="0" /></Sprite>
+				<Palette name="MegaMan" index="0" />
 				<Sound name="Charge" playing="false" />
 			</Effect>
 		</Trigger>
