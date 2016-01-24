@@ -18,7 +18,7 @@ namespace MegaMan.Engine.Entities.Effects
             var sound = (SoundEffectPartInfo)info;
 
             return entity => {
-                entity.GetOrCreateComponent("Sound");
+                entity.CreateComponentIfNotExists<SoundComponent>();
                 SoundMessage msg = new SoundMessage(entity, sound.Name, sound.Playing);
                 entity.SendMessage(msg);
             };

@@ -140,23 +140,13 @@ namespace MegaMan.Engine
             return spawn;
         }
 
-        public Component GetOrCreateComponent(string name)
+        public void CreateComponentIfNotExists<T>() where T : Component, new()
         {
-            // handle plural cases
-            if (name == "Sounds") name = "Sound";
-            if (name == "Weapons") name = "Weapon";
-
-            string typename = name + "Component";
-            Type comptype = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().SingleOrDefault(t => t.Name == typename);
-            if (comptype == null) return null;
-            Component comp;
-            if (components.ContainsKey(comptype)) comp = components[comptype];
-            else // create one
+            if (!components.ContainsKey(typeof(T)))
             {
-                comp = (Component)Activator.CreateInstance(comptype);
+                var comp = new T();
                 AddComponent(comp);
             }
-            return comp;
         }
 
         // this is for the XML to use

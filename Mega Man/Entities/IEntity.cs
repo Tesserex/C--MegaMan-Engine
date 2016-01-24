@@ -18,7 +18,7 @@ namespace MegaMan.Engine.Entities
         Direction Direction { get; }
 
         T GetComponent<T>() where T : Component;
-        Component GetOrCreateComponent(string name);
+        void CreateComponentIfNotExists<T>() where T : Component, new();
         GameEntity Spawn(string entityName);
         void Remove();
         void Die();

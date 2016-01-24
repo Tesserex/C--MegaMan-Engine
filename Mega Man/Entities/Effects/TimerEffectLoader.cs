@@ -19,7 +19,7 @@ namespace MegaMan.Engine.Entities.Effects
             var timerInfo = (TimerEffectPartInfo)info;
 
             Effect effect = e => {
-                e.GetOrCreateComponent("Timer");
+                e.CreateComponentIfNotExists<TimerComponent>();
             };
 
             effect = timerInfo.Start
