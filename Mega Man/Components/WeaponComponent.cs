@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using MegaMan.Common;
 using System;
-using MegaMan.IO.Xml;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine

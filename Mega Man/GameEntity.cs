@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using System.Diagnostics;
 using MegaMan.Common;
 using MegaMan.Engine.Entities;
@@ -158,14 +157,6 @@ namespace MegaMan.Engine
                 AddComponent(comp);
             }
             return comp;
-        }
-
-        public static Effect ParseComponentEffect(XElement effectNode)
-        {
-            Type componentType = Type.GetType("MegaMan.Engine." + effectNode.Name.LocalName + "Component");
-            if (componentType == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
-            var method = componentType.GetMethod("ParseEffect");
-            return (Effect)method.Invoke(null, new[] {effectNode});
         }
 
         // this is for the XML to use

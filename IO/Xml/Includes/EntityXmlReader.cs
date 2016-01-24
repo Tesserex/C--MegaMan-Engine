@@ -84,10 +84,20 @@ namespace MegaMan.IO.Xml.Includes
             if (info.PositionComponent == null && info.SpriteComponent != null)
                 info.PositionComponent = new PositionComponentInfo();
 
-            if (info.MovementComponent == null && info.PositionComponent != null)
+            if (info.MovementComponent == null && HasMovementEffects(info))
                 info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
 
             project.AddEntity(info);
+        }
+
+        private bool HasMovementEffects(EntityInfo info)
+        {
+            var parts = info.StateComponent.Triggers.SelectMany(t => t.Trigger.Effect.Parts);
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Initializer.Parts));
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Logic.Parts));
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Triggers.SelectMany(t => t.Effect.Parts)));
+
+            return parts.OfType<MovementEffectPartInfo>().Any();
         }
 
         private void ReadWeaponComponent(Project project, XElement weaponsNode, EntityInfo info)

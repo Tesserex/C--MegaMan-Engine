@@ -1,11 +1,9 @@
 ﻿using MegaMan.Common;
 using MegaMan.Engine.Entities;
-using MegaMan.IO.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
 using System.Reflection;
 using Ninject;
@@ -133,41 +131,16 @@ namespace MegaMan.Engine
 
             return effect;
         }
-
-        public static Effect LoadTriggerEffect(XElement effectnode)
-        {
-            Effect effect = LoadEffect(effectnode);
-
-            // check for name to save
-            XAttribute nameAttr = effectnode.Attribute("name");
-            if (nameAttr != null)
-            {
-                EffectParser.SaveEffect(nameAttr.Value, effect);
-            }
-            return effect;
-        }
-
+        
         public static void LoadEffectsList(IEnumerable<EffectInfo> effects)
         {
             foreach (var effectInfo in effects)
             {
                 Effect effect = LoadEffect(effectInfo);
-                EffectParser.SaveEffect(effectInfo.Name, effect);
+                SaveEffect(effectInfo.Name, effect);
             }
         }
-
-        public static void LoadEffectsList(XElement element)
-        {
-            foreach (var effectnode in element.Elements("Function"))
-            {
-                string name = effectnode.RequireAttribute("name").Value;
-
-                Effect effect = LoadEffect(effectnode);
-
-                EffectParser.SaveEffect(name, effect);
-            }
-        }
-
+        
         public static void SaveEffect(string name, Effect effect)
         {
             storedEffects.Add(name, effect);
@@ -180,11 +153,11 @@ namespace MegaMan.Engine
             };
         }
 
-        public static Effect GetOrLoadEffect(string name, XElement node)
+        public static Effect GetOrLoadEffect(string name, EffectInfo info)
         {
             if (!storedEffects.ContainsKey(name))
             {
-                SaveEffect(name, LoadEffect(node));
+                storedEffects[name] = LoadEffect(info);
             }
 
             return storedEffects[name];
@@ -195,11 +168,6 @@ namespace MegaMan.Engine
             return info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
         }
 
-        private static Effect LoadEffect(XElement node)
-        {
-            return node.Elements().Aggregate(new Effect(e => { }), (current, child) => current + LoadEffectAction(child));
-        }
-
         public static Effect LoadEffectPart(IEffectPartInfo partInfo)
         {
             var t = partInfo.GetType();
@@ -208,51 +176,6 @@ namespace MegaMan.Engine
 
             var loader = effectLoaders[t];
             return loader.Load(partInfo);
-        }
-
-        public static Effect LoadEffectAction(XElement node)
-        {
-            Effect effect = e => { };
-
-            switch (node.Name.LocalName)
-            {
-                case "Call":
-                case "Spawn":
-                case "Remove":
-                case "Die":
-                case "AddInventory":
-                case "RemoveInventory":
-                case "UnlockWeapon":
-                case "DefeatBoss":
-                case "Lives":
-                case "GravityFlip":
-                case "Func":
-                case "Trigger":
-                case "Pause":
-                case "Unpause":
-                case "Next":
-                case "Palette":
-                case "Delay":
-                case "SetVar":
-                case "Sprite":
-                case "Position":
-                case "Movement":
-                case "Collision":
-                case "Sound":
-                case "State":
-                case "Health":
-                case "Timer":
-                case "Ladder":
-                case "Weapon":
-                case "Input":
-                case "Vars":
-                    break;
-
-                default:
-                    effect = GameEntity.ParseComponentEffect(node);
-                    break;
-            }
-            return effect;
         }
 
         public static Effect CompileEffect(string st)

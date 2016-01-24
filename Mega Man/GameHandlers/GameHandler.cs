@@ -301,7 +301,7 @@ namespace MegaMan.Engine
         {
             var entity = Entities.GetEntityById(command.EntityId);
 
-            var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectNode);
+            var effect = EffectParser.GetOrLoadEffect(command.GeneratedName, command.EffectInfo);
             effect(entity);
         }
 

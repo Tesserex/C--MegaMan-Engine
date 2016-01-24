@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;

@@ -1,9 +1,6 @@
 ﻿using MegaMan.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine.Entities
@@ -36,6 +33,8 @@ namespace MegaMan.Engine.Entities
 
             entities[info.Name] = entity;
 
+            entity.IsGravitySensitive = info.GravityFlip;
+
             if (info.Death != null)
                 entity.OnDeath = EffectParser.LoadTriggerEffect(info.Death);
 
@@ -63,10 +62,20 @@ namespace MegaMan.Engine.Entities
             if (info.WeaponComponent != null)
                 LoadWeaponComponent(entity, info.WeaponComponent);
 
+            if (info.LadderComponent != null)
+                LoadLadderComponent(entity, info.LadderComponent);
+
             // everyone gets these
             entity.AddComponent(new SoundComponent());
             entity.AddComponent(new TimerComponent());
             entity.AddComponent(new VarsComponent());
+        }
+
+        private void LoadLadderComponent(GameEntity entity, LadderComponentInfo info)
+        {
+            var comp = new LadderComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
         }
 
         private void LoadWeaponComponent(GameEntity entity, WeaponComponentInfo info)

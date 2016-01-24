@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using MegaMan.Common;
-using MegaMan.IO.Xml;
 using MegaMan.Common.Rendering;
 using MegaMan.Common.Geometry;
 

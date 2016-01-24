@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.Xml.Effects;
+using Ninject;
 
 namespace MegaMan.IO.Xml
 {
@@ -286,7 +288,9 @@ namespace MegaMan.IO.Xml
             {
                 info.EntityId = attr.Value;
             }
-            info.EffectNode = node;
+            
+            var effectReader = Injector.Container.Get<EffectXmlReader>();
+            info.EffectInfo = effectReader.Load(node);
 
             return info;
         }

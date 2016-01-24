@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common
 {
@@ -295,7 +296,7 @@ namespace MegaMan.Common
     {
         public string GeneratedName { get; set; }
         public string EntityId { get; set; }
-        public XElement EffectNode { get; set; }
+        public EffectInfo EffectInfo { get; set; }
 
         public override SceneCommands Type
         {
@@ -309,7 +310,8 @@ namespace MegaMan.Common
             {
                 writer.WriteAttributeString("entity", EntityId);
             }
-            EffectNode.WriteTo(writer);
+
+            throw new System.Exception("Can't write scene effects right now.");
             writer.WriteEndElement();
         }
     }

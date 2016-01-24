@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MegaMan.Common.Geometry;
-using System.IO;
 using MegaMan.Common;
-using MegaMan.IO.Xml;
 using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
