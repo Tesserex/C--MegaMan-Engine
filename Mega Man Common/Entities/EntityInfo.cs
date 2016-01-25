@@ -13,7 +13,13 @@ namespace MegaMan.Common.Entities
 
         public EffectInfo Death { get; set; }
 
-        public SpriteComponentInfo SpriteComponent { get; set; }
+        public SpriteComponentInfo SpriteComponent
+        {
+            get
+            {
+                return Components.OfType<SpriteComponentInfo>().SingleOrDefault();
+            }
+        }
 
         public Sprite DefaultSprite
         {
