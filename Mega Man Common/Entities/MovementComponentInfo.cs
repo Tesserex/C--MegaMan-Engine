@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MegaMan.Common.Entities.Effects;
+﻿using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common.Entities
 {
-    public class MovementComponentInfo
+    public class MovementComponentInfo : IComponentInfo
     {
         public MovementEffectPartInfo EffectInfo { get; set; }
     }

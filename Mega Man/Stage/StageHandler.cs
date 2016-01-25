@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
-using MegaMan.Common.Geometry;
-using System.IO;
-using MegaMan.Common;
 using System.Collections.Generic;
-using MegaMan.Engine.Entities;
+using System.Linq;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
@@ -28,7 +26,7 @@ namespace MegaMan.Engine
         private ScreenHandler nextScreen;
 
         private StageInfo info;
-        
+
         public HandlerTransfer WinHandler { get; set; }
 
         public HandlerTransfer LoseHandler { get; set; }
@@ -74,7 +72,7 @@ namespace MegaMan.Engine
         {
             if (music != null) music.Stop();
             Engine.Instance.SoundSystem.StopMusicNsf();
-            
+
             playerDeadCount = 0;
             updateFunc = DeadUpdate;
             Game.CurrentGame.Player.Lives--;
@@ -88,9 +86,8 @@ namespace MegaMan.Engine
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));
             Player.SendMessage(msg);
-            Action teleport = () => {};
-            teleport += () =>
-            {
+            Action teleport = () => { };
+            teleport += () => {
                 if (PlayerPos.Position.Y >= startY)
                 {
                     PlayerPos.SetPosition(new PointF(startX, startY));
@@ -204,7 +201,7 @@ namespace MegaMan.Engine
 
         private void BossDefeated()
         {
-            Finish(WinHandler); 
+            Finish(WinHandler);
         }
 
         private void StopScreen()
@@ -222,8 +219,7 @@ namespace MegaMan.Engine
             Action<string> setpos = (s) => { };
             if (info.TargetScreen == _currentScreen.Screen.Name)
             {
-                setpos = (state) =>
-                {
+                setpos = (state) => {
                     PlayerPos.SetPosition(new Point(info.To.X, info.To.Y));
                     (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
@@ -233,18 +229,15 @@ namespace MegaMan.Engine
             }
             else
             {
-                setpos = state =>
-                {
+                setpos = state => {
                     (Player.GetComponent<SpriteComponent>()).Visible = false;
                     (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Engine.Instance.FadeTransition(
-                        () => 
-                    { 
-                        StopScreen();
-                        ChangeScreen(screens[info.TargetScreen]);
-                        PlayerPos.SetPosition(new Point(info.To.X, info.To.Y)); // do it here so drawing is correct for fade-in
-                    }, () =>
-                    {
+                        () => {
+                            StopScreen();
+                            ChangeScreen(screens[info.TargetScreen]);
+                            PlayerPos.SetPosition(new Point(info.To.X, info.To.Y)); // do it here so drawing is correct for fade-in
+                        }, () => {
                         (Player.GetComponent<SpriteComponent>()).Visible = true;
                         Player.SendMessage(new StateMessage(null, "TeleportEnd"));
                         (Player.GetComponent<MovementComponent>()).CanMove = true;
@@ -266,10 +259,9 @@ namespace MegaMan.Engine
 
             Player.Death += Player_Death;
 
-            PlayerPos = Player.GetComponent<PositionComponent>();
             PlayerPos.SetPosition(new PointF(startX, 0));
 
-            if (!info.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \""+info.Name+"\" is supposed to be \""+startScreen+"\", but it doesn't exist!");
+            if (!info.Screens.ContainsKey(startScreen)) throw new GameRunException("The start screen for \"" + info.Name + "\" is supposed to be \"" + startScreen + "\", but it doesn't exist!");
             _currentScreen = screens[startScreen];
             StartScreen();
 

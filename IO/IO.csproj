@@ -115,8 +115,16 @@
     <Compile Include="Xml\Effects\UnlockWeaponEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\VarsEffectPartXmlReader.cs" />
     <Compile Include="Xml\Effects\WeaponEffectPartXmlReader.cs" />
+    <Compile Include="Xml\Entities\CollisionComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\HealthComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\IComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\InputComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\LadderComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\MovementComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\PositionComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\SpriteComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\StateComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\WeaponComponentXmlReader.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlWriter.cs" />

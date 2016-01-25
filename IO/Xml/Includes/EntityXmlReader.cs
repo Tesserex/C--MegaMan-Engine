@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -12,15 +11,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class EntityXmlReader : IIncludeXmlReader
     {
-        private readonly TriggerXmlReader _triggerReader;
         private readonly EffectXmlReader _effectReader;
-        private readonly MovementEffectPartXmlReader _movementReader;
 
-        public EntityXmlReader(TriggerXmlReader triggerReader, EffectXmlReader effectReader, MovementEffectPartXmlReader movementReader)
+        public EntityXmlReader(EffectXmlReader effectReader)
         {
-            _triggerReader = triggerReader;
             _effectReader = effectReader;
-            _movementReader = movementReader;
         }
 
         public string NodeName
@@ -48,7 +43,7 @@ namespace MegaMan.IO.Xml.Includes
 
             foreach (var compReader in ComponentReaders)
             {
-                var element = xmlNode.Element(compReader.NodeName);
+                var element = compReader.NodeName != null ? xmlNode.Element(compReader.NodeName) : xmlNode;
                 if (element != null)
                 {
                     var comp = compReader.Load(element, project);
@@ -57,44 +52,11 @@ namespace MegaMan.IO.Xml.Includes
                 }
             }
 
-            var posNode = xmlNode.Element("Position");
-            if (posNode != null)
-                ReadPositionComponent(posNode, info);
-
-            if (xmlNode.Element("Input") != null)
-                info.InputComponent = new InputComponentInfo();
-
-            var movementNode = xmlNode.Element("Movement");
-            if (movementNode != null)
-            {
-                info.MovementComponent = new MovementComponentInfo() {
-                    EffectInfo = (MovementEffectPartInfo)_movementReader.Load(movementNode)
-                };
-            }
-
-            var collisionNode = xmlNode.Element("Collision");
-            if (collisionNode != null)
-                ReadCollisionComponent(collisionNode, info);
-
-            ReadStateComponent(xmlNode, info);
-
-            var healthNode = xmlNode.Element("Health");
-            if (healthNode != null)
-                ReadHealthComponent(project, healthNode, info);
-
-            var ladderNode = xmlNode.Element("Ladder");
-            if (ladderNode != null)
-                ReadLadderComponent(ladderNode, info);
-
-            var weaponsNode = xmlNode.Element("Weapons");
-            if (weaponsNode != null)
-                ReadWeaponComponent(project, weaponsNode, info);
-
             if (info.PositionComponent == null && info.SpriteComponent != null)
-                info.PositionComponent = new PositionComponentInfo();
+                info.Components.Add(new PositionComponentInfo());
 
             if (info.MovementComponent == null && HasMovementEffects(info))
-                info.MovementComponent = new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() };
+                info.Components.Add(new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() });
 
             project.AddEntity(info);
         }
@@ -107,171 +69,6 @@ namespace MegaMan.IO.Xml.Includes
             parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Triggers.SelectMany(t => t.Effect.Parts)));
 
             return parts.OfType<MovementEffectPartInfo>().Any();
-        }
-
-        private void ReadWeaponComponent(Project project, XElement weaponsNode, EntityInfo info)
-        {
-            var comp = new WeaponComponentInfo();
-            comp.Weapons = weaponsNode.Elements("Weapon")
-                .Select(x => {
-                    var w = new WeaponInfo() {
-                        Name = x.GetAttribute<string>("name"),
-                        EntityName = x.GetAttribute<string>("entity"),
-                        Ammo = x.TryAttribute<int?>("ammo"),
-                        Usage = x.TryAttribute<int?>("usage"),
-                        Palette = x.TryAttribute<int?>("palette")
-                    };
-
-                    var meterNode = x.Element("Meter");
-                    if (meterNode != null)
-                        w.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
-
-                    return w;
-                })
-                .ToList();
-
-            info.WeaponComponent = comp;
-        }
-
-        private void ReadLadderComponent(XElement ladderNode, EntityInfo info)
-        {
-            var comp = new LadderComponentInfo();
-            comp.HitBoxes = ladderNode.Elements("Hitbox").Select(GetHitbox).ToList();
-
-            info.LadderComponent = comp;
-        }
-
-        private void ReadHealthComponent(Project project, XElement healthNode, EntityInfo info)
-        {
-            var comp = new HealthComponentInfo();
-            comp.Max = healthNode.TryAttribute<float>("max", healthNode.TryElementValue<float>("Max"));
-
-            comp.StartValue = healthNode.TryAttribute<float?>("startValue");
-
-            XElement meterNode = healthNode.Element("Meter");
-            if (meterNode != null)
-            {
-                comp.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
-            }
-
-            comp.FlashFrames = healthNode.TryAttribute("flash", healthNode.TryElementValue<int>("Flash"));
-
-            info.HealthComponent = comp;
-        }
-
-        private void ReadStateComponent(XElement parentNode, EntityInfo info)
-        {
-            var comp = new StateComponentInfo();
-            foreach (var state in parentNode.Elements("State"))
-            {
-                var stateInfo = ReadState(state);
-                comp.States.Add(stateInfo);
-            }
-
-            foreach (var triggerInfo in parentNode.Elements("Trigger"))
-            {
-                var statesNode = triggerInfo.Element("States");
-                var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
-
-                var trigger = _triggerReader.Load(triggerInfo);
-                trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
-                comp.Triggers.Add(new MultiStateTriggerInfo() {
-                    States = states,
-                    Trigger = trigger
-                });
-            }
-
-            info.StateComponent = comp;
-        }
-
-        private StateInfo ReadState(XElement stateNode)
-        {
-            var info = new StateInfo();
-            info.Name = stateNode.RequireAttribute("name").Value;
-
-            var logic = new List<IEffectPartInfo>();
-            var init = new List<IEffectPartInfo>();
-
-            foreach (var child in stateNode.Elements())
-            {
-                switch (child.Name.LocalName)
-                {
-                    case "Trigger":
-                        var t = _triggerReader.Load(child);
-                        t.Priority = ((IXmlLineInfo)child).LineNumber;
-                        info.Triggers.Add(t);
-                        break;
-
-                    default:
-                        var compName = child.Name.LocalName;
-
-                        var mode = child.TryAttribute<string>("mode");
-                        if (mode != null && mode.ToUpper() == "REPEAT")
-                            logic.Add(_effectReader.LoadPart(child));
-                        else
-                            init.Add(_effectReader.LoadPart(child));
-                        break;
-                }
-            }
-
-            info.Initializer = new EffectInfo() { Parts = init };
-            info.Logic = new EffectInfo() { Parts = logic };
-
-            return info;
-        }
-
-        private void ReadCollisionComponent(XElement collisionNode, EntityInfo info)
-        {
-            var component = new CollisionComponentInfo();
-
-            foreach (var boxnode in collisionNode.Elements("Hitbox"))
-            {
-                var box = GetHitbox(boxnode);
-
-                foreach (var groupnode in boxnode.Elements("Hits"))
-                    box.Hits.Add(groupnode.Value);
-
-                foreach (var groupnode in boxnode.Elements("Group"))
-                    box.Groups.Add(groupnode.Value);
-
-                foreach (var resistNode in boxnode.Elements("Resist"))
-                {
-                    var resistName = resistNode.GetAttribute<string>("name");
-                    float mult = resistNode.GetAttribute<float>("multiply");
-                    box.Resistance.Add(resistName, mult);
-                }
-
-                component.HitBoxes.Add(box);
-            }
-
-            component.Enabled = collisionNode.TryAttribute<bool>("Enabled");
-
-            info.CollisionComponent = component;
-        }
-
-        private static HitBoxInfo GetHitbox(XElement boxnode)
-        {
-            float width = boxnode.GetAttribute<float>("width");
-            float height = boxnode.GetAttribute<float>("height");
-            float x = boxnode.GetAttribute<float>("x");
-            float y = boxnode.GetAttribute<float>("y");
-
-            var box = new HitBoxInfo() {
-                Name = boxnode.TryAttribute<string>("name"),
-                Box = new Common.Geometry.RectangleF(x, y, width, height),
-                ContactDamage = boxnode.TryAttribute<float>("damage"),
-                Environment = boxnode.TryAttribute<bool>("environment", true),
-                PushAway = boxnode.TryAttribute<bool>("pushaway", true),
-                PropertiesName = boxnode.TryAttribute<string>("properties", "Default")
-            };
-            return box;
-        }
-
-        private void ReadPositionComponent(XElement xmlNode, EntityInfo info)
-        {
-            var posInfo = new PositionComponentInfo();
-            posInfo.PersistOffscreen = xmlNode.TryAttribute<bool>("persistoffscreen");
-            info.PositionComponent = posInfo;
         }
 
         private static void ReadEditorData(XElement xmlNode, EntityInfo info)

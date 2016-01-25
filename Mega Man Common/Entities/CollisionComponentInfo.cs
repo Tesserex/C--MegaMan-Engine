@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MegaMan.Common.Entities
 {
-    public class CollisionComponentInfo
+    public class CollisionComponentInfo : IComponentInfo
     {
         public bool Enabled { get; set; }
         public List<HitBoxInfo> HitBoxes { get; private set; }

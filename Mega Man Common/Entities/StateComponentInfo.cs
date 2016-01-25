@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common.Entities
 {
-    public class StateComponentInfo
+    public class StateComponentInfo : IComponentInfo
     {
         public List<StateInfo> States { get; private set; }
         public List<MultiStateTriggerInfo> Triggers { get; private set; }

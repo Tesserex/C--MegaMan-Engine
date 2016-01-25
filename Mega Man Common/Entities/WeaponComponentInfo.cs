@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MegaMan.Common.Entities
 {
-    public class WeaponComponentInfo
+    public class WeaponComponentInfo : IComponentInfo
     {
         public List<WeaponInfo> Weapons { get; set; }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -8,7 +7,7 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class SpriteComponentXmlReader : IComponentXmlReader
     {
-        public string NodeName { get { return "Sprite"; } }
+        public string NodeName { get { return null; } }
 
         public IComponentInfo Load(XElement node, Project project)
         {
