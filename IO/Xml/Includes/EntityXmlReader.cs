@@ -8,6 +8,7 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.IO.Xml.Effects;
+using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -306,6 +307,24 @@ namespace MegaMan.IO.Xml.Includes
                     HideFromPlacement = editorData.TryAttribute<bool>("hide", false)
                 };
             }
+        }
+
+        public IComponentInfo LoadComponent(XElement node, Project project)
+        {
+            if (!ComponentReaders.ContainsKey(node.Name.LocalName))
+                throw new GameXmlException(node, "Unrecognized component name: " + node.Name.LocalName);
+
+            var reader = ComponentReaders[node.Name.LocalName];
+
+            return reader.Load(node, project);
+        }
+
+        private static Dictionary<string, IComponentXmlReader> ComponentReaders;
+
+        static EntityXmlReader()
+        {
+            ComponentReaders = Extensions.GetImplementersOf<IComponentXmlReader>()
+                .ToDictionary(x => x.NodeName);
         }
     }
 }

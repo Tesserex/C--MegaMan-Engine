@@ -29,6 +29,8 @@ namespace MegaMan.Common.Entities
             }
         }
 
+        public List<IComponentInfo> Components { get; set; }
+
         public PositionComponentInfo PositionComponent { get; set; }
         public InputComponentInfo InputComponent { get; set; }
         public CollisionComponentInfo CollisionComponent { get; set; }
