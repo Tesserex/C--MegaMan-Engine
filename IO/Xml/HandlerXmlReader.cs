@@ -288,7 +288,7 @@ namespace MegaMan.IO.Xml
             {
                 info.EntityId = attr.Value;
             }
-            
+
             var effectReader = Injector.Container.Get<EffectXmlReader>();
             info.EffectInfo = effectReader.Load(node);
 
@@ -351,7 +351,7 @@ namespace MegaMan.IO.Xml
             return meter;
         }
 
-        private static SceneBindingInfo LoadSceneBinding(XElement node)
+        public static SceneBindingInfo LoadSceneBinding(XElement node)
         {
             var info = new SceneBindingInfo();
             info.Source = node.RequireAttribute("source").Value;

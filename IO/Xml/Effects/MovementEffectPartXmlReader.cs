@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using MegaMan.Common.Entities.Effects;
 using MegaMan.Common;
+using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
 {
@@ -22,13 +19,8 @@ namespace MegaMan.IO.Xml.Effects
         {
             var info = new MovementEffectPartInfo();
 
-            var flyNode = partNode.Element("Flying");
-            if (flyNode != null)
-                info.Flying = flyNode.GetValue<bool>();
-
-            var flipNode = partNode.Element("FlipSprite");
-            if (flipNode != null)
-                info.FlipSprite = flipNode.GetValue<bool>();
+            info.Flying = partNode.TryElementValue<bool>("Flying");
+            info.FlipSprite = partNode.TryElementValue<bool>("FlipSprite");
 
             info.X = LoadVelocity(partNode.Element("X"));
             info.Y = LoadVelocity(partNode.Element("Y"));
