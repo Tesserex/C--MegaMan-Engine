@@ -1,9 +1,11 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using MegaMan.Common;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml
 {
-    internal class MeterXmlWriter
+    internal class MeterXmlWriter : IHandlerObjectXmlWriter
     {
         private readonly SoundXmlWriter _soundWriter;
         private readonly SceneBindingXmlWriter _bindingWriter;
@@ -14,8 +16,10 @@ namespace MegaMan.IO.Xml
             _bindingWriter = bindingWriter;
         }
 
-        public void Write(MeterInfo meter, XmlWriter writer)
+        public void Write(IHandlerObjectInfo info, XmlWriter writer)
         {
+            var meter = (MeterInfo)info;
+
             writer.WriteStartElement("Meter");
             writer.WriteAttributeString("name", meter.Name);
             writer.WriteAttributeString("x", meter.Position.X.ToString());
@@ -37,6 +41,11 @@ namespace MegaMan.IO.Xml
                 _bindingWriter.Write(meter.Binding, writer);
 
             writer.WriteEndElement();
+        }
+
+        public Type ObjectType
+        {
+            get { return typeof(MeterInfo); }
         }
     }
 }

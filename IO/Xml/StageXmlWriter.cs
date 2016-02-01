@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml
 {
@@ -12,9 +13,11 @@ namespace MegaMan.IO.Xml
     {
         private StageInfo _stageInfo;
         private XmlTextWriter _writer;
+        private readonly SceneCommandXmlWriter _commandWriter;
 
-        public StageXmlWriter()
+        internal StageXmlWriter(SceneCommandXmlWriter commandWriter)
         {
+            _commandWriter = commandWriter;
         }
 
         public void Save(StageInfo stage)
@@ -91,7 +94,7 @@ namespace MegaMan.IO.Xml
             foreach (var command in screen.Commands)
             {
                 if (!(command is SceneEntityCommandInfo))
-                    command.Save(_writer);
+                    _commandWriter.Write(command, _writer);
             }
 
             foreach (var entity in screen.Layers[0].Entities)

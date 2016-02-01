@@ -133,6 +133,14 @@
     <Compile Include="Xml\Entities\SpriteComponentXmlWriter.cs" />
     <Compile Include="Xml\Entities\StateComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\WeaponComponentXmlReader.cs" />
+    <Compile Include="Xml\EntityPlacementXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\HandlerTransferXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\HandlerXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\IHandlerObjectXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\MenuXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\SceneCommandXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\SceneXmlWriter.cs" />
+    <Compile Include="Xml\Handlers\HandlerSpriteXmlWriter.cs" />
     <Compile Include="Xml\Includes\EntitiesXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlReader.cs" />
     <Compile Include="Xml\Includes\EntityXmlWriter.cs" />
