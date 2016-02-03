@@ -56,13 +56,15 @@ namespace MegaMan.IO.Tests
 
             var xmlNode = XElement.Parse(xmlInput);
 
+            var reader = new SpriteXmlReader();
+
             if (basePath == null)
             {
-                return GameXmlReader.LoadSprite(xmlNode);
+                return reader.LoadSprite(xmlNode);
             }
             else
             {
-                return GameXmlReader.LoadSprite(xmlNode, basePath);
+                return reader.LoadSprite(xmlNode, basePath);
             }
         } 
     }

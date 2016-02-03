@@ -14,16 +14,18 @@ namespace MegaMan.IO.Xml
         {
             handler.Name = node.RequireAttribute("name").Value;
 
+            var spriteLoader = new SpriteXmlReader();
             foreach (var spriteNode in node.Elements("Sprite"))
             {
                 var info = new HandlerSpriteInfo();
-                info.Sprite = LoadSprite(spriteNode, basePath);
+                info.Sprite = spriteLoader.LoadSprite(spriteNode, basePath);
                 handler.Objects.Add(info.Name, info);
             }
 
+            var meterLoader = new MeterXmlReader();
             foreach (var meterNode in node.Elements("Meter"))
             {
-                var meter = LoadMeter(meterNode, basePath);
+                var meter = meterLoader.LoadMeter(meterNode, basePath);
                 handler.Objects.Add(meter.Name, meter);
             }
         }

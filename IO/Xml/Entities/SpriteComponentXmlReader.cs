@@ -7,6 +7,13 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class SpriteComponentXmlReader : IComponentXmlReader
     {
+        private readonly SpriteXmlReader _spriteReader;
+
+        public SpriteComponentXmlReader(SpriteXmlReader spriteReader)
+        {
+            _spriteReader = spriteReader;
+        }
+
         public string NodeName { get { return null; } }
 
         public IComponentInfo Load(XElement node, Project project)
@@ -25,12 +32,12 @@ namespace MegaMan.IO.Xml.Entities
             {
                 if (sheetPath == null)
                 {
-                    var sprite = GameXmlReader.LoadSprite(spriteNode, project.BaseDir);
+                    var sprite = _spriteReader.LoadSprite(spriteNode, project.BaseDir);
                     spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
                 }
                 else
                 {
-                    var sprite = GameXmlReader.LoadSprite(spriteNode);
+                    var sprite = _spriteReader.LoadSprite(spriteNode);
                     sprite.SheetPath = sheetPath;
                     spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
                 }

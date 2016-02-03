@@ -191,6 +191,7 @@
     <Compile Include="Xml\PaletteXmlReader.cs" />
     <Compile Include="Xml\SceneBindingXmlWriter.cs" />
     <Compile Include="Xml\SoundXmlWriter.cs" />
+    <Compile Include="Xml\SpriteXmlReader.cs" />
     <Compile Include="Xml\SpriteXmlWriter.cs" />
     <Compile Include="Xml\StageXmlReader.cs" />
     <Compile Include="Xml\StageXmlWriter.cs" />
