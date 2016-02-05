@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Handlers.Commands
 {
-    internal class SceneCommandXmlWriter
+    internal class HandlerCommandXmlWriter
     {
         public void Write(SceneCommandInfo info, XmlWriter writer)
         {
@@ -19,7 +19,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 
         private static Dictionary<Type, ICommandXmlWriter> _writers;
 
-        static SceneCommandXmlWriter()
+        static HandlerCommandXmlWriter()
         {
             _writers = Extensions.GetImplementersOf<ICommandXmlWriter>()
                 .ToDictionary(x => x.CommandType);

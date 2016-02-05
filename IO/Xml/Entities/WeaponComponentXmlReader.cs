@@ -7,6 +7,13 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class WeaponComponentXmlReader : IComponentXmlReader
     {
+        private readonly MeterXmlReader _meterReader;
+
+        public WeaponComponentXmlReader(MeterXmlReader meterReader)
+        {
+            _meterReader = meterReader;
+        }
+
         public string NodeName
         {
             get { return "Weapons"; }
@@ -27,7 +34,7 @@ namespace MegaMan.IO.Xml.Entities
 
                     var meterNode = x.Element("Meter");
                     if (meterNode != null)
-                        w.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
+                        w.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir);
 
                     return w;
                 })

@@ -14,11 +14,13 @@ namespace MegaMan.IO.Xml
     {
         private StageInfo _stageInfo;
         private XmlTextWriter _writer;
-        private readonly SceneCommandXmlWriter _commandWriter;
+        private readonly HandlerCommandXmlWriter _commandWriter;
+        private readonly EntityPlacementXmlWriter _entityWriter;
 
-        internal StageXmlWriter(SceneCommandXmlWriter commandWriter)
+        internal StageXmlWriter(HandlerCommandXmlWriter commandWriter, EntityPlacementXmlWriter entityWriter)
         {
             _commandWriter = commandWriter;
+            _entityWriter = entityWriter;
         }
 
         public void Save(StageInfo stage)
@@ -99,7 +101,7 @@ namespace MegaMan.IO.Xml
             }
 
             foreach (var entity in screen.Layers[0].Entities)
-                entity.Save(_writer);
+                _entityWriter.Write(entity, _writer);
 
             foreach (var layer in screen.Layers.Skip(1))
             {

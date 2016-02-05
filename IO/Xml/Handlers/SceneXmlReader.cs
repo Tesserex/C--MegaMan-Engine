@@ -1,15 +1,26 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.Xml.Handlers.Commands;
 
-namespace MegaMan.IO.Xml
+namespace MegaMan.IO.Xml.Handlers
 {
-    public class SceneXmlReader : HandlerXmlReader, IIncludeXmlReader
+    internal class SceneXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
+        private readonly HandlerTransferXmlReader _transferReader;
+        private readonly HandlerCommandXmlReader _commandReader;
+
+        public SceneXmlReader(HandlerTransferXmlReader transferReader, HandlerCommandXmlReader commandReader)
+        {
+            _transferReader = transferReader;
+            _commandReader = commandReader;
+        }
+
         public void Load(Project project, XElement node)
         {
             var scene = new SceneInfo();
 
-            LoadHandlerBase(scene, node, project.BaseDir);
+            LoadBase(scene, node, project.BaseDir);
 
             scene.Duration = node.GetAttribute<int>("duration");
 
@@ -23,13 +34,13 @@ namespace MegaMan.IO.Xml
             var transferNode = node.Element("Next");
             if (transferNode != null)
             {
-                scene.NextHandler = LoadHandlerTransfer(transferNode);
+                scene.NextHandler = _transferReader.Load(transferNode);
             }
 
             project.AddScene(scene);
         }
 
-        private static KeyFrameInfo LoadKeyFrame(XElement node, string basePath)
+        private KeyFrameInfo LoadKeyFrame(XElement node, string basePath)
         {
             var info = new KeyFrameInfo();
 
@@ -37,7 +48,7 @@ namespace MegaMan.IO.Xml
 
             info.Fade = node.TryAttribute<bool>("fade");
 
-            info.Commands = LoadCommands(node, basePath);
+            info.Commands = _commandReader.LoadCommands(node, basePath);
 
             return info;
         }

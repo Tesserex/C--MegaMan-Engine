@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using MegaMan.Common;
 using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml;
+using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO
 {
@@ -39,7 +39,7 @@ namespace MegaMan.IO
 
         public IStageReader GetStageReader(FilePath path)
         {
-            var reader = new StageXmlReader(this);
+            var reader = new StageXmlReader(this, new EntityPlacementXmlReader(), new HandlerCommandXmlReader());
             reader.Init(_dataSource);
             return reader;
         }

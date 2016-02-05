@@ -4,7 +4,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Handlers.Commands
 {
-    internal class PlayCommandWriter : ICommandXmlWriter
+    internal class PlayCommandXmlWriter : ICommandXmlWriter
     {
         public Type CommandType
         {

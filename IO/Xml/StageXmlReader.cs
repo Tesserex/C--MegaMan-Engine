@@ -6,14 +6,17 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.IO.DataSources;
+using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml
 {
-    internal class StageXmlReader : GameXmlReader, IStageReader
+    internal class StageXmlReader : IStageReader
     {
         private StageInfo _info;
 
-        private IReaderProvider _readerProvider;
+        private readonly IReaderProvider _readerProvider;
+        private readonly EntityPlacementXmlReader _entityReader;
+        private readonly HandlerCommandXmlReader _commandReader;
         private BlockPatternXmlReader _blockReader = new BlockPatternXmlReader();
         private IDataSourceLoader _dataSource;
 
@@ -22,9 +25,11 @@ namespace MegaMan.IO.Xml
             this._dataSource = dataSource;
         }
 
-        public StageXmlReader(IReaderProvider readerProvider)
+        public StageXmlReader(IReaderProvider readerProvider, EntityPlacementXmlReader entityReader, HandlerCommandXmlReader commandReader)
         {
             _readerProvider = readerProvider;
+            _entityReader = entityReader;
+            _commandReader = commandReader;
         }
 
         public StageInfo Load(FilePath path)
@@ -182,7 +187,7 @@ namespace MegaMan.IO.Xml
                 screen.BlockPatterns.Add(pattern);
             }
 
-            screen.Commands = HandlerXmlReader.LoadCommands(node, stagePath.BasePath);
+            screen.Commands = _commandReader.LoadCommands(node, stagePath.BasePath);
 
             return screen;
         }
@@ -205,7 +210,7 @@ namespace MegaMan.IO.Xml
 
             foreach (XElement entity in node.Elements("Entity"))
             {
-                EntityPlacement info = LoadEntityPlacement(entity);
+                EntityPlacement info = _entityReader.Load(entity);
                 layer.AddEntity(info);
             }
 

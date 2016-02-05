@@ -5,7 +5,7 @@ using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
-    public class TilesetXmlReader : GameXmlReader, ITilesetReader
+    public class TilesetXmlReader : ITilesetReader
     {
         private IDataSourceLoader _dataSource;
         private readonly SpriteXmlReader _spriteReader;

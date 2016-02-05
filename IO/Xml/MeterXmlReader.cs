@@ -6,6 +6,13 @@ namespace MegaMan.IO.Xml
 {
     internal class MeterXmlReader
     {
+        private readonly SceneBindingXmlReader _bindingReader;
+
+        public MeterXmlReader(SceneBindingXmlReader bindingReader)
+        {
+            _bindingReader = bindingReader;
+        }
+
         public MeterInfo LoadMeter(XElement meterNode, string basePath)
         {
             MeterInfo meter = new MeterInfo();
@@ -40,7 +47,7 @@ namespace MegaMan.IO.Xml
             if (soundNode != null) meter.Sound = IncludeFileXmlReader.LoadSound(soundNode, basePath);
 
             XElement bindingNode = meterNode.Element("Binding");
-            if (bindingNode != null) meter.Binding = HandlerXmlReader.LoadSceneBinding(bindingNode);
+            if (bindingNode != null) meter.Binding = _bindingReader.Load(bindingNode);
 
             return meter;
         }

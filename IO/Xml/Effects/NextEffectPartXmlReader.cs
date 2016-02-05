@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Xml.Linq;
-using System.Linq;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml.Effects
 {
     internal class NextEffectPartXmlReader : IEffectPartXmlReader
     {
+        private readonly HandlerTransferXmlReader _transferReader;
+
+        public NextEffectPartXmlReader(HandlerTransferXmlReader transferReader)
+        {
+            _transferReader = transferReader;
+        }
+
         public string NodeName
         {
             get
@@ -19,7 +25,7 @@ namespace MegaMan.IO.Xml.Effects
         public IEffectPartInfo Load(XElement partNode)
         {
             return new NextEffectPartInfo() {
-                Transfer = GameXmlReader.LoadHandlerTransfer(partNode)
+                Transfer = _transferReader.Load(partNode)
             };
         }
     }

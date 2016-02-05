@@ -9,9 +9,9 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal abstract class HandlerXmlWriter
     {
-        protected readonly SceneCommandXmlWriter _commandWriter;
+        protected readonly HandlerCommandXmlWriter _commandWriter;
 
-        public HandlerXmlWriter(SceneCommandXmlWriter commandWriter)
+        public HandlerXmlWriter(HandlerCommandXmlWriter commandWriter)
         {
             _commandWriter = commandWriter;
         }

@@ -8,7 +8,7 @@ namespace MegaMan.IO.Xml.Handlers
     {
         private readonly HandlerTransferXmlWriter _transferWriter;
 
-        public SceneXmlWriter(SceneCommandXmlWriter commandWriter, HandlerTransferXmlWriter transferWriter)
+        public SceneXmlWriter(HandlerCommandXmlWriter commandWriter, HandlerTransferXmlWriter transferWriter)
             : base(commandWriter)
         {
             _transferWriter = transferWriter;

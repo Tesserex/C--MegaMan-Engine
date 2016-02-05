@@ -6,6 +6,13 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class HealthComponentXmlReader : IComponentXmlReader
     {
+        private readonly MeterXmlReader _meterReader;
+
+        public HealthComponentXmlReader(MeterXmlReader meterReader)
+        {
+            _meterReader = meterReader;
+        }
+
         public string NodeName
         {
             get { return "Health"; }
@@ -21,7 +28,7 @@ namespace MegaMan.IO.Xml.Entities
             XElement meterNode = node.Element("Meter");
             if (meterNode != null)
             {
-                comp.Meter = HandlerXmlReader.LoadMeter(meterNode, project.BaseDir);
+                comp.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir);
             }
 
             comp.FlashFrames = node.TryAttribute("flash", node.TryElementValue<int>("Flash"));

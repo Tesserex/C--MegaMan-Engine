@@ -6,7 +6,7 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal class MenuXmlWriter : HandlerXmlWriter
     {
-        public MenuXmlWriter(SceneCommandXmlWriter commandWriter) : base(commandWriter) { }
+        public MenuXmlWriter(HandlerCommandXmlWriter commandWriter) : base(commandWriter) { }
 
         public void Write(MenuInfo info, XmlWriter writer)
         {

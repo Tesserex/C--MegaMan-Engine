@@ -1,15 +1,24 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.Xml.Handlers.Commands;
 
-namespace MegaMan.IO.Xml
+namespace MegaMan.IO.Xml.Handlers
 {
-    public class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
+    internal class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
+        private readonly HandlerCommandXmlReader _commandReader;
+
+        public MenuXmlReader(HandlerCommandXmlReader commandReader)
+        {
+            _commandReader = commandReader;
+        }
+
         public void Load(Project project, XElement node)
         {
             var menu = new MenuInfo();
 
-            LoadHandlerBase(menu, node, project.BaseDir);
+            LoadBase(menu, node, project.BaseDir);
 
             foreach (var keyNode in node.Elements("State"))
             {
@@ -19,7 +28,7 @@ namespace MegaMan.IO.Xml
             project.AddMenu(menu);
         }
 
-        private static MenuStateInfo LoadMenuState(XElement node, string basePath)
+        private MenuStateInfo LoadMenuState(XElement node, string basePath)
         {
             var info = new MenuStateInfo();
 
@@ -44,7 +53,7 @@ namespace MegaMan.IO.Xml
                 }
             }
 
-            info.Commands = LoadCommands(node, basePath);
+            info.Commands = _commandReader.LoadCommands(node, basePath);
 
             return info;
         }

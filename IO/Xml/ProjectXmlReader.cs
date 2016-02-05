@@ -3,13 +3,20 @@ using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.IO.DataSources;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml
 {
-    internal class ProjectXmlReader : GameXmlReader, IProjectReader
+    internal class ProjectXmlReader : IProjectReader
     {
         private Project _project;
         private IDataSourceLoader _dataSource;
+        private readonly HandlerTransferXmlReader _transferReader;
+
+        public ProjectXmlReader(HandlerTransferXmlReader transferReader)
+        {
+            _transferReader = transferReader;
+        }
 
         public string Extension { get { return ".xml"; } }
 
@@ -62,7 +69,7 @@ namespace MegaMan.IO.Xml
                         var winHandlerNode = winNode.Element("Next");
                         if (winHandlerNode != null)
                         {
-                            info.WinHandler = LoadHandlerTransfer(winHandlerNode);
+                            info.WinHandler = _transferReader.Load(winHandlerNode);
                         }
                     }
 
@@ -72,7 +79,7 @@ namespace MegaMan.IO.Xml
                         var loseHandlerNode = loseNode.Element("Next");
                         if (loseHandlerNode != null)
                         {
-                            info.LoseHandler = LoadHandlerTransfer(loseHandlerNode);
+                            info.LoseHandler = _transferReader.Load(loseHandlerNode);
                         }
                     }
 
@@ -83,7 +90,7 @@ namespace MegaMan.IO.Xml
             XElement startNode = reader.Element("Next");
             if (startNode != null)
             {
-                _project.StartHandler = LoadHandlerTransfer(startNode);
+                _project.StartHandler = _transferReader.Load(startNode);
             }
 
             _project.AddIncludeFiles(reader.Elements("Include")
