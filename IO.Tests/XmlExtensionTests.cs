@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MegaMan.Common;
 using System.Xml.Linq;
+using MegaMan.IO.Xml;
 
-namespace MegaMan.Common.Tests
+namespace MegaMan.IO.Tests
 {
     [TestClass]
     public class XmlExtensionTests

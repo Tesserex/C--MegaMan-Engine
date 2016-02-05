@@ -17,7 +17,7 @@ namespace MegaMan.IO
 
         public ITilesetWriter GetTilesetWriter()
         {
-            return new TilesetXmlWriter();
+            return new TilesetXmlWriter(new SpriteXmlWriter());
         }
     }
 }

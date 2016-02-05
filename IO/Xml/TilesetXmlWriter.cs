@@ -5,6 +5,13 @@ namespace MegaMan.IO.Xml
 {
     internal class TilesetXmlWriter : ITilesetWriter
     {
+        private readonly SpriteXmlWriter _spriteWriter;
+
+        public TilesetXmlWriter(SpriteXmlWriter spriteWriter)
+        {
+            _spriteWriter = spriteWriter;
+        }
+
         public void Save(Tileset tileset)
         {
             XmlTextWriter writer = new XmlTextWriter(tileset.FilePath.Absolute, null);
@@ -36,7 +43,7 @@ namespace MegaMan.IO.Xml
                 writer.WriteAttributeString("name", tile.Name);
                 writer.WriteAttributeString("properties", tile.Properties.Name);
 
-                tile.Sprite.WriteTo(writer);
+                _spriteWriter.Write(tile.Sprite, writer);
 
                 writer.WriteEndElement();   // end Tile
             }

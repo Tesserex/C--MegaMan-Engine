@@ -1,7 +1,7 @@
-﻿using MegaMan.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using MegaMan.Common.Entities;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine.Entities
 {

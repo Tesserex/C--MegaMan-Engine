@@ -79,15 +79,10 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockPatternInfo.cs" />
@@ -144,8 +139,6 @@
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="FilePath.cs" />
     <Compile Include="FontInfo.cs" />
-    <Compile Include="GameXml.cs" />
-    <Compile Include="GameXmlException.cs" />
     <Compile Include="HandlerInfo.cs" />
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="Math.cs" />

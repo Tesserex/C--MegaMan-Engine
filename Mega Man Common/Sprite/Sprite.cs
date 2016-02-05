@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
 
@@ -333,35 +332,6 @@ namespace MegaMan.Common
                 new Common.Geometry.Point((int)(positionX - hx), (int)(positionY - hy)),
                 new Common.Geometry.Rectangle(CurrentFrame.SheetLocation.X, CurrentFrame.SheetLocation.Y, CurrentFrame.SheetLocation.Width, CurrentFrame.SheetLocation.Height),
                 flipHorizontal, flipVertical);
-        }
-
-        public void WriteTo(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Sprite");
-
-            if (this.PaletteName != null)
-                writer.WriteAttributeString("palette", this.PaletteName);
-
-            writer.WriteAttributeString("width", this.Width.ToString());
-            writer.WriteAttributeString("height", this.Height.ToString());
-
-            if (this.SheetPathRelative != null)
-                writer.WriteAttributeString("tilesheet", this.SheetPathRelative);
-
-            writer.WriteStartElement("Hotspot");
-            writer.WriteAttributeString("x", this.HotSpot.X.ToString());
-            writer.WriteAttributeString("y", this.HotSpot.Y.ToString());
-            writer.WriteEndElement();
-
-            foreach (SpriteFrame frame in frames)
-            {
-                writer.WriteStartElement("Frame");
-                writer.WriteAttributeString("x", frame.SheetLocation.X.ToString());
-                writer.WriteAttributeString("y", frame.SheetLocation.Y.ToString());
-                writer.WriteAttributeString("duration", frame.Duration.ToString());
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();   // end Sprite
         }
 
         public static Sprite Empty = new Sprite(0, 0);

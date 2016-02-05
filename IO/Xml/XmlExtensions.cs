@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Linq;
 
-namespace MegaMan.Common
+namespace MegaMan.IO.Xml
 {
-    public static class GameXml
+    public static class XmlExtensions
     {
         public static XAttribute RequireAttribute(this XElement node, string name)
         {

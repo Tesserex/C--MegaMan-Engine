@@ -135,6 +135,8 @@
     <Compile Include="Xml\Entities\WeaponComponentXmlReader.cs" />
     <Compile Include="Xml\EntityPlacementXmlReader.cs" />
     <Compile Include="Xml\EntityPlacementXmlWriter.cs" />
+    <Compile Include="Xml\GameXmlException.cs" />
+    <Compile Include="Xml\XmlExtensions.cs" />
     <Compile Include="Xml\Handlers\Commands\AddCommandXmlReader.cs" />
     <Compile Include="Xml\Handlers\Commands\AddCommandXmlWriter.cs" />
     <Compile Include="Xml\Handlers\Commands\AutoscrollCommandXmlReader.cs" />

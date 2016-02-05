@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.IO.Xml.Handlers;
 using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml
@@ -105,7 +104,7 @@ namespace MegaMan.IO.Xml
 
             foreach (var layer in screen.Layers.Skip(1))
             {
-                layer.Save(_writer);
+                SaveLayer(layer, _writer);
             }
 
             foreach (BlockPatternInfo pattern in screen.BlockPatterns)
@@ -130,6 +129,51 @@ namespace MegaMan.IO.Xml
             {
                 layer.Tiles.Save(Path.Combine(_stageInfo.StagePath.Absolute, layer.Name + ".scn"));
             }
+        }
+
+        private void SaveLayer(ScreenLayerInfo layer, XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Overlay");
+
+            writer.WriteAttributeString("name", layer.Name);
+
+            writer.WriteAttributeString("x", layer.Tiles.BaseX.ToString());
+            writer.WriteAttributeString("y", layer.Tiles.BaseY.ToString());
+
+            if (layer.Foreground)
+                writer.WriteAttributeString("foreground", layer.Foreground.ToString());
+
+            if (layer.Parallax)
+                writer.WriteAttributeString("parallax", layer.Parallax.ToString());
+
+            foreach (var entity in layer.Entities)
+                _entityWriter.Write(entity, writer);
+
+            foreach (var keyframe in layer.Keyframes)
+                SaveKeyframe(keyframe, writer);
+
+            writer.WriteEndElement();
+        }
+
+        private void SaveKeyframe(ScreenLayerKeyframe frame, XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Keyframe");
+
+            writer.WriteAttributeString("frame", frame.Frame.ToString());
+
+            if (frame.Move != null)
+            {
+                writer.WriteStartElement("Move");
+                writer.WriteAttributeString("x", frame.Move.X.ToString());
+                writer.WriteAttributeString("y", frame.Move.Y.ToString());
+                writer.WriteAttributeString("duration", frame.Move.Duration.ToString());
+                writer.WriteEndElement();
+            }
+
+            if (frame.Reset)
+                writer.WriteElementString("Reset", "");
+
+            writer.WriteEndElement();
         }
     }
 }

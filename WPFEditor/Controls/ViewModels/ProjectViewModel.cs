@@ -6,6 +6,7 @@ using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {

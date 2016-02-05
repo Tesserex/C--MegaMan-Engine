@@ -55,6 +55,7 @@
     <Compile Include="SceneTests.cs" />
     <Compile Include="SpriteTests.cs" />
     <Compile Include="TestHelpers.cs" />
+    <Compile Include="XmlExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IO\IO.csproj">
