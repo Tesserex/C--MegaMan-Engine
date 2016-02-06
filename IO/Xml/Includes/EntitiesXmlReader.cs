@@ -1,6 +1,5 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
-using MegaMan.Common.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -9,9 +8,10 @@ namespace MegaMan.IO.Xml.Includes
         private readonly EntityXmlReader _entityReader;
         private readonly TilesetXmlReader _tilesetReader;
 
-        public EntitiesXmlReader(EntityXmlReader entityReader)
+        public EntitiesXmlReader(EntityXmlReader entityReader, TilesetXmlReader tilesetReader)
         {
             this._entityReader = entityReader;
+            _tilesetReader = tilesetReader;
         }
 
         public string NodeName
