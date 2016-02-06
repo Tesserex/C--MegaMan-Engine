@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MegaMan.IO.Xml;
+﻿using MegaMan.IO.Xml;
+using Ninject;
 
 namespace MegaMan.IO
 {
@@ -15,12 +12,12 @@ namespace MegaMan.IO
 
         public IStageWriter GetStageWriter()
         {
-            return new StageXmlWriter();
+            return Injector.Container.Get<StageXmlWriter>();
         }
 
         public ITilesetWriter GetTilesetWriter()
         {
-            return new TilesetXmlWriter();
+            return new TilesetXmlWriter(new SpriteXmlWriter());
         }
     }
 }

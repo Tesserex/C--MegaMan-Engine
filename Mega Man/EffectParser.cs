@@ -1,11 +1,13 @@
 ﻿using MegaMan.Common;
 using MegaMan.Engine.Entities;
-using MegaMan.IO.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Xml.Linq;
+using MegaMan.Common.Entities.Effects;
+using System.Reflection;
+using Ninject;
+using MegaMan.Engine.Entities.Effects;
 
 namespace MegaMan.Engine
 {
@@ -69,6 +71,8 @@ namespace MegaMan.Engine
 
         private static readonly Dictionary<string, Effect> storedEffects = new Dictionary<string, Effect>();
 
+        private static readonly Dictionary<Type, IEffectLoader> effectLoaders = new Dictionary<Type, IEffectLoader>();
+
         static EffectParser()
         {
             posParam = Expression.Parameter(typeof(PositionComponent), "Position");
@@ -96,6 +100,13 @@ namespace MegaMan.Engine
                 {"Left", Direction.Left},
                 {"Right", Direction.Right}
             };
+
+            effectLoaders = Assembly.GetAssembly(typeof(IEffectLoader))
+                .GetTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(IEffectLoader)) && !t.IsAbstract)
+                .Select(t => Injector.Container.Get(t))
+                .Cast<IEffectLoader>()
+                .ToDictionary(t => t.PartInfoType);
         }
 
         public static Condition ParseCondition(string conditionString)
@@ -112,31 +123,24 @@ namespace MegaMan.Engine
             return condition;
         }
 
-        public static Effect LoadTriggerEffect(XElement effectnode)
+        public static Effect LoadTriggerEffect(EffectInfo info)
         {
-            Effect effect = LoadEffect(effectnode);
+            Effect effect = LoadEffect(info);
+            if (info.Name != null)
+                SaveEffect(info.Name, effect);
 
-            // check for name to save
-            XAttribute nameAttr = effectnode.Attribute("name");
-            if (nameAttr != null)
-            {
-                EffectParser.SaveEffect(nameAttr.Value, effect);
-            }
             return effect;
         }
-
-        public static void LoadEffectsList(XElement element)
+        
+        public static void LoadEffectsList(IEnumerable<EffectInfo> effects)
         {
-            foreach (var effectnode in element.Elements("Function"))
+            foreach (var effectInfo in effects)
             {
-                string name = effectnode.RequireAttribute("name").Value;
-
-                Effect effect = LoadEffect(effectnode);
-
-                EffectParser.SaveEffect(name, effect);
+                Effect effect = LoadEffect(effectInfo);
+                SaveEffect(effectInfo.Name, effect);
             }
         }
-
+        
         public static void SaveEffect(string name, Effect effect)
         {
             storedEffects.Add(name, effect);
@@ -144,209 +148,51 @@ namespace MegaMan.Engine
 
         public static Effect GetLateBoundEffect(string name)
         {
-            return e =>
-            {
+            return e => {
                 if (storedEffects.ContainsKey(name)) storedEffects[name](e);
             };
         }
 
-        public static Effect GetOrLoadEffect(string name, XElement node)
+        public static Effect GetOrLoadEffect(string name, EffectInfo info)
         {
             if (!storedEffects.ContainsKey(name))
             {
-                SaveEffect(name, LoadEffect(node));
+                storedEffects[name] = LoadEffect(info);
             }
 
             return storedEffects[name];
         }
 
-        private static Effect LoadEffect(XElement node)
+        private static Effect LoadEffect(EffectInfo info)
         {
-            return node.Elements().Aggregate(new Effect(e => { }), (current, child) => current + LoadEffectAction(child));
+            return info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
         }
 
-        public static Effect LoadEffectAction(XElement node)
+        public static Effect LoadEffectPart(IEffectPartInfo partInfo)
         {
-            Effect effect = e => { };
+            var t = partInfo.GetType();
+            if (!effectLoaders.ContainsKey(t))
+                throw new GameRunException("Unsupported effect type: " + t.Name);
 
-            switch (node.Name.LocalName)
-            {
-                case "Call":
-                    effect = GetLateBoundEffect(node.Value);
-                    break;
+            var loader = effectLoaders[t];
+            return loader.Load(partInfo);
+        }
 
-                case "Spawn":
-                    effect = LoadSpawnEffect(node);
-                    break;
-
-                case "Remove":
-                    effect = entity => { entity.Remove(); };
-                    break;
-
-                case "Die":
-                    effect = entity => { entity.Die(); };
-                    break;
-
-                case "AddInventory":
-                    string itemName = node.RequireAttribute("item").Value;
-                    int quantity = node.TryAttribute<int>("quantity", 1);
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.CollectItem(itemName, quantity);
-                    };
-                    break;
-
-                case "RemoveInventory":
-                    string itemNameUse = node.RequireAttribute("item").Value;
-                    int quantityUse = node.TryAttribute<int>("quantity", 1);
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.UseItem(itemNameUse, quantityUse);
-                    };
-                    break;
-
-                case "UnlockWeapon":
-                    string weaponName = node.RequireAttribute("name").Value;
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.UnlockWeapon(weaponName);
-                    };
-                    break;
-
-                case "DefeatBoss":
-                    string name = node.RequireAttribute("name").Value;
-
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.DefeatBoss(name);
-                    };
-                    break;
-
-                case "Lives":
-                    int add = int.Parse(node.RequireAttribute("add").Value);
-                    effect = entity =>
-                    {
-                        Game.CurrentGame.Player.Lives += add;
-                    };
-                    break;
-
-                case "GravityFlip":
-                    bool flip = node.GetValue<bool>();
-                    effect = entity => { entity.Container.IsGravityFlipped = flip; };
-                    break;
-
-                case "Func":
-                    effect = entity => { };
-                    string[] statements = node.Value.Split(';');
-                    foreach (string st in statements.Where(st => !string.IsNullOrEmpty(st.Trim())))
-                    {
-                        LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+        public static Effect CompileEffect(string st)
+        {
+            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitEffect),
                             null,
                             st,
                             dirDict);
-                        effect += CloseEffect((SplitEffect)lambda.Compile());
-                    }
-                    break;
-
-                case "Trigger":
-                    string conditionString;
-                    if (node.Attribute("condition") != null) conditionString = node.RequireAttribute("condition").Value;
-                    else conditionString = node.Element("Condition").Value;
-
-                    Condition condition = ParseCondition(conditionString);
-                    Effect triggerEffect = LoadTriggerEffect(node.Element("Effect"));
-                    effect += (e) =>
-                    {
-                        if (condition(e)) triggerEffect(e);
-                    };
-                    break;
-
-                case "Pause":
-                    effect = entity => { entity.Paused = true; };
-                    break;
-
-                case "Unpause":
-                    effect = entity => { entity.Paused = false; };
-                    break;
-
-                case "Next":
-                    var transfer = GameXmlReader.LoadHandlerTransfer(node);
-                    effect = e => { Game.CurrentGame.ProcessHandler(transfer); };
-                    break;
-
-                case "Palette":
-                    var paletteName = node.RequireAttribute("name").Value;
-                    var paletteIndex = node.GetAttribute<int>("index");
-                    effect = e =>
-                    {
-                        var palette = PaletteSystem.Get(paletteName);
-                        if (palette != null)
-                        {
-                            palette.CurrentIndex = paletteIndex;
-                        }
-                    };
-                    break;
-
-                case "Delay":
-                    var delayFrames = node.GetAttribute<int>("frames");
-                    var delayEffect = LoadEffect(node);
-                    effect = e =>
-                    {
-                        Engine.Instance.DelayedCall(() => delayEffect(e), null, delayFrames);
-                    };
-                    break;
-
-                case "SetVar":
-                    var varname = node.RequireAttribute("name").Value;
-                    var value = node.RequireAttribute("value").Value;
-                    effect = e =>
-                    {
-                        Game.CurrentGame.Player.SetVar(varname, value);
-                    };
-                    break;
-
-                default:
-                    effect = GameEntity.ParseComponentEffect(node);
-                    break;
-            }
-            return effect;
-        }
-
-        public static Effect LoadSpawnEffect(XElement node)
-        {
-            if (node == null) throw new ArgumentNullException("node");
-
-            string name = node.RequireAttribute("name").Value;
-            string statename = "Start";
-            if (node.Attribute("state") != null) statename = node.Attribute("state").Value;
-            XElement posNodeX = node.Element("X");
-            XElement posNodeY = node.Element("Y");
-            Effect posEff = null;
-            if (posNodeX != null)
-            {
-                posEff = PositionComponent.ParsePositionBehavior(posNodeX, Axis.X);
-            }
-            if (posNodeY != null) posEff += PositionComponent.ParsePositionBehavior(posNodeY, Axis.Y);
-            return entity =>
-            {
-                GameEntity spawn = entity.Spawn(name);
-                if (spawn == null) return;
-                StateMessage msg = new StateMessage(entity, statename);
-                spawn.SendMessage(msg);
-                if (posEff != null) posEff(spawn);
-            };
+            return CloseEffect((SplitEffect)lambda.Compile());
         }
 
         // provides a closure around a split condition
         private static Condition CloseCondition(SplitCondition split)
         {
-            return entity =>
-            {
+            return entity => {
                 if (entity == null)
                 {
                     return split(

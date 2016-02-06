@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 using MegaMan.Engine.StateMachine;
-using MegaMan.IO.Xml;
+using MegaMan.IO;
 
 namespace MegaMan.Engine
 {
@@ -28,6 +27,8 @@ namespace MegaMan.Engine
     public class Game
     {
         public static Game CurrentGame { get; private set; }
+
+        public IReaderProvider FileReaderProvider { get; private set; }
 
         private Project project;
         private StageFactory stageFactory;
@@ -106,9 +107,9 @@ namespace MegaMan.Engine
 
         private void LoadFile(string path, List<string> pathArgs = null)
         {
-            var projectReader = new ProjectXmlReader();
-
-            project = projectReader.Load(path);
+            var projectLoader = new GameLoader();
+            this.FileReaderProvider = projectLoader.Load(path);
+            project = FileReaderProvider.GetProjectReader().Load();
 
             BasePath = project.BaseDir;
 
@@ -129,12 +130,9 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
-            foreach (var includePath in project.Includes)
-            {
-                string includefile = includePath.Absolute;
-                IncludeXmlFile(includefile);
-            }
-
+            _entitySource.LoadEntities(project.Entities);
+            _tileProperties.LoadProperties(project.EntityProperties);
+            EffectParser.LoadEffectsList(project.Functions);
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
             Scene.LoadScenes(project.Scenes);
             Menu.LoadMenus(project.Menus);
@@ -193,45 +191,6 @@ namespace MegaMan.Engine
 
                 default:
                     throw new GameRunException("The starting point given by command line argument was invalid.");
-            }
-        }
-
-        private void IncludeXmlFile(string path)
-        {
-            try
-            {
-                XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
-                foreach (XElement element in document.Elements())
-                {
-                    switch (element.Name.LocalName)
-                    {
-                        case "Entities":
-                            _entitySource.LoadEntities(element);
-                            _tileProperties.LoadProperties(element);
-                            break;
-
-                        case "Functions":
-                            EffectParser.LoadEffectsList(element);
-                            break;
-
-                        case "Sounds":
-                        case "Scenes":
-                        case "Scene":
-                        case "Menus":
-                        case "Menu":
-                        case "Fonts":
-                        case "Palettes":
-                            break;
-
-                        default:
-                            throw new GameXmlException(element, string.Format("Unrecognized XML type: \"{0}\"", element.Name.LocalName));
-                    }
-                }
-            }
-            catch (GameXmlException ex)
-            {
-                ex.File = path;
-                throw;
             }
         }
 

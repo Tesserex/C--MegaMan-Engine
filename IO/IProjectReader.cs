@@ -1,9 +1,11 @@
-﻿using MegaMan.Common;
+﻿using System.IO;
+using MegaMan.Common;
 
 namespace MegaMan.IO
 {
-    public interface IProjectReader
+    public interface IProjectReader : IGameFileReader
     {
-        Project Load(string filePath);
+        string Extension { get; }
+        Project Load();
     }
 }

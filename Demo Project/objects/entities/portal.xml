@@ -46,7 +46,11 @@
 				</Effect>
 			</Trigger>
 			<Trigger>
+<<<<<<< HEAD
 				<Condition>Input.Up==False</Condition>
+=======
+				<Condition>Input.Up==False And StateTime > 60</Condition>
+>>>>>>> IO-streams
 				<Effect>
 					<State>Blue</State>
 				</Effect>
@@ -54,6 +58,7 @@
 		</State>
 		<State name="Blue">
 			<Sprite><Name>Blue</Name></Sprite>
+<<<<<<< HEAD
 			<Trigger>
 			<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
 			<Effect>
@@ -71,6 +76,11 @@
 				<Die />
 			</Effect>
 		</Trigger>
+=======
+		</State>
+		<State name="Orange">
+			<Sprite><Name>Orange</Name></Sprite>
+>>>>>>> IO-streams
 		</State>
 		<Trigger>
 			<Condition>Collision.DamageDealt > 0</Condition>
@@ -81,6 +91,7 @@
 			</Effect>
 		</Trigger>
 	</Entity>
+<<<<<<< HEAD
 	<Entity name="Portal">
 		<EditorData hide="true" />
 		<Sprite layer="4" name="Blue" tilesheet="images\weapons\portal.png" width="9" height="14">
@@ -153,4 +164,6 @@
 			</Trigger>
 		</State>
 	</Entity>
+=======
+>>>>>>> IO-streams
 </Entities>

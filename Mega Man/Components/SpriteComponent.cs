@@ -2,18 +2,16 @@
 using System.Linq;
 using System.Collections.Generic;
 using MegaMan.Common;
-using System.Xml.Linq;
-using MegaMan.IO.Xml;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
     public class SpriteComponent : Component
     {
         private readonly Dictionary<string, SpriteGroup> _sprites;
-        private System.Drawing.Image _spriteSheet;
-        private string _sheetPath;
+        private FilePath _sheetPath;
 
         private SpriteGroup currentSpriteGroup;
 
@@ -99,86 +97,15 @@ namespace MegaMan.Engine
             
         }
 
-        public override void LoadXml(XElement xmlNode)
+        internal void LoadInfo(SpriteComponentInfo componentInfo)
         {
-            string partName = null;
-            XAttribute partAttr = xmlNode.Attribute("part");
-            if (partAttr != null) partName = partAttr.Value;
+            _sheetPath = componentInfo.SheetPath;
 
-            if (xmlNode.Attribute("tilesheet") != null) // explicitly specified sheet for this sprite
-            {
-                _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlNode.RequireAttribute("tilesheet").Value);
-            }
-
-            Sprite sprite = GameXmlReader.LoadSprite(xmlNode);
-            sprite.SheetPath = FilePath.FromAbsolute(_sheetPath, Game.CurrentGame.BasePath);
-            Add(sprite.Name ?? "Default", sprite, partName);
+            foreach (var sprite in componentInfo.Sprites.Values)
+                Add(sprite.Name ?? "Default", sprite, sprite.Part);
         }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect action = entity => { };
-            foreach (XElement prop in node.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Name":
-                        string spritename = prop.Value;
-
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.ChangeSprite(spritename);
-                        };
-                        break;
-
-                    case "Playing":
-                        bool play = prop.GetValue<bool>();
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.Playing = play;
-                        };
-                        break;
-
-                    case "Visible":
-                        bool vis = prop.GetValue<bool>();
-                        action += entity =>
-                        {
-                            SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                            spritecomp.Visible = vis;
-                        };
-                        break;
-
-                    case "Palette":
-                        string pal = prop.RequireAttribute("name").Value;
-                        int index = prop.GetAttribute<int>("index");
-                        action += entity =>
-                        {
-                            var palette = PaletteSystem.Get(pal);
-                            if (palette != null)
-                            {
-                                palette.CurrentIndex = index;
-                            }
-                        };
-                        break;
-                }
-            }
-            return action;
-        }
-
-        public void LoadTilesheet(XElement xmlComp)
-        {
-            XAttribute palAttr = xmlComp.Attribute("pallete");
-            string pallete = "Default";
-            if (palAttr != null) pallete = palAttr.Value;
-            _sheetPath = System.IO.Path.Combine(Game.CurrentGame.BasePath, xmlComp.Value);
-            var sheet = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(_sheetPath);
-            sheet.SetResolution(Const.Resolution, Const.Resolution);
-            _spriteSheet = sheet;
-        }
-
-        private void Add(string name, Sprite sprite, string partName = null)
+        
+        public void Add(string name, Sprite sprite, string partName = null)
         {
             SpriteGroup group;
             if (_sprites.ContainsKey(name))
@@ -213,7 +140,7 @@ namespace MegaMan.Engine
             currentSpriteGroup.ChangePalette(index);
         }
 
-        private void ChangeSprite(string name)
+        public void ChangeSprite(string name)
         {
             if (!_sprites.ContainsKey(name) || _sprites[name] == null)
             {

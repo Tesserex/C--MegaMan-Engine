@@ -74,10 +74,8 @@
     <Compile Include="FilePathTests.cs" />
     <Compile Include="PaletteCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneTests.cs" />
     <Compile Include="SpriteTests.cs" />
     <Compile Include="TestHelpers.cs" />
-    <Compile Include="XmlExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IO\IO.csproj">
@@ -88,12 +86,6 @@
       <Project>{6779a7e6-ce6c-43e4-a0cb-1b0f921c8009}</Project>
       <Name>Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Sprite_NormalInput.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Sprite_Defaults.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Xml_RequireAttribute.xml" />

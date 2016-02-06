@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
+using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
@@ -84,15 +85,12 @@ namespace MegaMan.Engine
             if (component is PositionComponent) position = component as PositionComponent;
         }
 
-        public override void LoadXml(XElement xml)
+        public void LoadInfo(LadderComponentInfo info)
         {
-            foreach (XElement boxnode in xml.Elements("Hitbox"))
-            {
-                hitboxes.Add(new HitBox(boxnode));
-            }
+            hitboxes.AddRange(info.HitBoxes.Select(h => new HitBox(h.Box.X, h.Box.Y, h.Box.Width, h.Box.Height)));
         }
 
-        private void Grab()
+        public void Grab()
         {
             if (InReach)
             {
@@ -100,7 +98,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void StandOn()
+        public void StandOn()
         {
             if (position != null && aboveTile != null)
             {
@@ -108,7 +106,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void ClimbDown()
+        public void ClimbDown()
         {
             if (position != null && aboveTile != null)
             {
@@ -116,7 +114,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void LetGo()
+        public void LetGo()
         {
             inReach = false;
         }
@@ -196,34 +194,6 @@ namespace MegaMan.Engine
             aboveLadder = (below != null && below.Tile.Properties.Climbable);
             if (aboveLadder) aboveTile = below;
             aboveLadderCached = true;
-        }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = e => { };
-
-            if (node.Value == "Grab") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.Grab();
-            };
-            else if (node.Value == "LetGo") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.LetGo();
-            };
-            else if (node.Value == "StandOn") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.StandOn();
-            };
-            else if (node.Value == "ClimbDown") effect = entity =>
-            {
-                LadderComponent ladder = entity.GetComponent<LadderComponent>();
-                if (ladder != null) ladder.ClimbDown();
-            };
-
-            return effect;
         }
     }
 }

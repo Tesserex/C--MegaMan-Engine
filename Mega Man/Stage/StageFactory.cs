@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using MegaMan.Common;
-using MegaMan.IO.Xml;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -45,8 +43,8 @@ namespace MegaMan.Engine
 
         public void TryLoad(StageLinkInfo info)
         {
-            var stageReader = new StageXmlReader();
-            StageInfo map = stageReader.LoadStageXml(info.StagePath);
+            var stageReader = Game.CurrentGame.FileReaderProvider.GetStageReader(info.StagePath);
+            StageInfo map = stageReader.Load(info.StagePath);
 
             var handler = new StageHandler(map);
 

@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {

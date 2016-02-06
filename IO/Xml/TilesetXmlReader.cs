@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
-    public class TilesetXmlReader : GameXmlReader, ITilesetReader
+    public class TilesetXmlReader : ITilesetReader
     {
+        private IDataSourceLoader _dataSource;
+        private readonly SpriteXmlReader _spriteReader;
+
+        public TilesetXmlReader()
+        {
+            _spriteReader = new SpriteXmlReader();
+        }
+
+        public void Init(IDataSourceLoader dataSource)
+        {
+            this._dataSource = dataSource;
+        }
+
         public Tileset Load(FilePath path)
         {
             var tileset = new Tileset();
 
             tileset.FilePath = path;
 
-            var doc = XDocument.Load(path.Absolute);
+            var stream = _dataSource.GetData(path);
+            var doc = XDocument.Load(stream);
             var reader = doc.Element("Tileset");
             if (reader == null)
                 throw new Exception("The specified tileset definition file does not contain a Tileset tag.");
@@ -44,7 +59,7 @@ namespace MegaMan.IO.Xml
                 if (spriteNode == null)
                     throw new GameXmlException(tileNode, "All Tile tags must contain a Sprite tag.");
 
-                var sprite = LoadSprite(spriteNode);
+                var sprite = _spriteReader.LoadSprite(spriteNode);
                 var tileSprite = new TileSprite(tileset, sprite);
 
                 Tile tile = new Tile(id, tileSprite);

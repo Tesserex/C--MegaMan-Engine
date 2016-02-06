@@ -2,22 +2,38 @@
 using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.IO.DataSources;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml
 {
-    public class ProjectXmlReader : GameXmlReader, IProjectReader
+    internal class ProjectXmlReader : IProjectReader
     {
         private Project _project;
+        private IDataSourceLoader _dataSource;
+        private readonly HandlerTransferXmlReader _transferReader;
 
-        public Project Load(string filePath)
+        public ProjectXmlReader(HandlerTransferXmlReader transferReader)
         {
-            if (!File.Exists(filePath)) throw new FileNotFoundException("The project file does not exist: " + filePath);
+            _transferReader = transferReader;
+        }
 
+        public string Extension { get { return ".xml"; } }
+
+        public void Init(IDataSourceLoader dataSource)
+        {
+            this._dataSource = dataSource;
+        }
+
+        public Project Load()
+        {
             _project = new Project();
 
-            _project.GameFile = FilePath.FromAbsolute(filePath, Path.GetDirectoryName(filePath));
+            var gameFilePath = _dataSource.GetGameFile();
+            _project.GameFile = gameFilePath;
 
-            XElement reader = XElement.Load(filePath);
+            var stream = _dataSource.GetData(gameFilePath);
+            XElement reader = XElement.Load(stream);
 
             XAttribute nameAttr = reader.Attribute("name");
             if (nameAttr != null) _project.Name = nameAttr.Value;
@@ -53,7 +69,7 @@ namespace MegaMan.IO.Xml
                         var winHandlerNode = winNode.Element("Next");
                         if (winHandlerNode != null)
                         {
-                            info.WinHandler = LoadHandlerTransfer(winHandlerNode);
+                            info.WinHandler = _transferReader.Load(winHandlerNode);
                         }
                     }
 
@@ -63,7 +79,7 @@ namespace MegaMan.IO.Xml
                         var loseHandlerNode = loseNode.Element("Next");
                         if (loseHandlerNode != null)
                         {
-                            info.LoseHandler = LoadHandlerTransfer(loseHandlerNode);
+                            info.LoseHandler = _transferReader.Load(loseHandlerNode);
                         }
                     }
 
@@ -74,7 +90,7 @@ namespace MegaMan.IO.Xml
             XElement startNode = reader.Element("Next");
             if (startNode != null)
             {
-                _project.StartHandler = LoadHandlerTransfer(startNode);
+                _project.StartHandler = _transferReader.Load(startNode);
             }
 
             _project.AddIncludeFiles(reader.Elements("Include")

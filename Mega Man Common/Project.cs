@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common
 {
@@ -157,6 +158,27 @@ namespace MegaMan.Common
         public void RemoveEntity(EntityInfo entity)
         {
             _entities.Remove(entity);
+        }
+
+        private List<EffectInfo> _functions = new List<EffectInfo>();
+        public IEnumerable<EffectInfo> Functions { get { return _functions.AsReadOnly(); } }
+
+        public void AddFunction(EffectInfo effect)
+        {
+            _functions.Add(effect);
+        }
+
+        private Dictionary<string, TileProperties> _entityProperties = new Dictionary<string, TileProperties>();
+        public IDictionary<string, TileProperties> EntityProperties { get { return _entityProperties; } }
+
+        public void AddEntityProperties(TileProperties properties)
+        {
+            _entityProperties[properties.Name] = properties;
+        }
+
+        public void RemoveEntityProperties(TileProperties properties)
+        {
+            _entityProperties.Remove(properties.Name);
         }
 
         #endregion

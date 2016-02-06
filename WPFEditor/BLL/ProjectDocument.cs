@@ -2,6 +2,7 @@
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using MegaMan.IO;
 using MegaMan.IO.Xml;
@@ -10,6 +11,8 @@ namespace MegaMan.Editor.Bll
 {
     public class ProjectDocument
     {
+        private readonly IStageDocumentFactory _stageFactory;
+
         public IProjectFileStructure FileStructure { get; private set; }
         public Project Project { get; private set; }
 
@@ -184,10 +187,11 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
-        public ProjectDocument(IProjectFileStructure fileStructure, Project project)
+        public ProjectDocument(IProjectFileStructure fileStructure, Project project, IStageDocumentFactory stageFactory)
         {
             Project = project;
             FileStructure = fileStructure;
+            _stageFactory = stageFactory;
 
             entities = project.Entities.ToDictionary(e => e.Name, e => e);
             foreach (var entity in project.Entities)
@@ -204,7 +208,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (info.Name == name)
                 {
-                    StageDocument stage = new StageDocument(this, info);
+                    StageDocument stage = _stageFactory.Load(this, info);
                     openStages.Add(name, stage);
                     return stage;
                 }

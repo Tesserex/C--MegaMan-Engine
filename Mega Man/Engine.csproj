@@ -100,6 +100,14 @@
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ninject.extensions.conventions.3.2.0.0\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -126,6 +134,37 @@
     <Compile Include="Components\CollisionBox.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\VarsComponent.cs" />
+    <Compile Include="Entities\Effects\DefeatBossEffectLoader.cs" />
+    <Compile Include="Entities\Effects\DelayEffectLoader.cs" />
+    <Compile Include="Entities\Effects\FuncEffectLoader.cs" />
+    <Compile Include="Entities\Effects\GravityFlipEffectLoader.cs" />
+    <Compile Include="Entities\Effects\HealthEffectLoader.cs" />
+    <Compile Include="Entities\Effects\InputEffectLoader.cs" />
+    <Compile Include="Entities\Effects\LadderEffectLoader.cs" />
+    <Compile Include="Entities\Effects\LivesEffectLoader.cs" />
+    <Compile Include="Entities\Effects\MovementEffectLoader.cs" />
+    <Compile Include="Entities\Effects\NextEffectLoader.cs" />
+    <Compile Include="Entities\Effects\PaletteEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SetVarEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SoundEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SpriteEffectLoader.cs" />
+    <Compile Include="Entities\Effects\StateEffectLoader.cs" />
+    <Compile Include="Entities\Effects\TimerEffectLoader.cs" />
+    <Compile Include="Entities\Effects\UnpauseEffectLoader .cs" />
+    <Compile Include="Entities\Effects\PauseEffectLoader.cs" />
+    <Compile Include="Entities\Effects\RemoveInventoryEffectLoader.cs" />
+    <Compile Include="Entities\Effects\AddInventoryEffectLoader.cs" />
+    <Compile Include="Entities\Effects\CallEffectLoader.cs" />
+    <Compile Include="Entities\Effects\CollisionEffectLoader.cs" />
+    <Compile Include="Entities\Effects\DieEffectLoader.cs" />
+    <Compile Include="Entities\Effects\IEffectLoader.cs" />
+    <Compile Include="Entities\Effects\PositionEffectLoader.cs" />
+    <Compile Include="Entities\Effects\RemoveEffectLoader.cs" />
+    <Compile Include="Entities\Effects\SpawnEffectLoader.cs" />
+    <Compile Include="Entities\Effects\TriggerEffectLoader.cs" />
+    <Compile Include="Entities\Effects\UnlockWeaponEffectLoader.cs" />
+    <Compile Include="Entities\Effects\VarsEffectLoader.cs" />
+    <Compile Include="Entities\Effects\WeaponEffectLoader.cs" />
     <Compile Include="Entities\GameEntityPool.cs" />
     <Compile Include="Entities\GameEntityRespawnTracker.cs" />
     <Compile Include="Entities\GameEntitySource.cs" />
@@ -150,7 +189,6 @@
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
     <Compile Include="GameHandlers\NullTiledScreen.cs" />
-    <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />
     <Compile Include="Forms\GraphicsDeviceControl.cs">
@@ -158,9 +196,11 @@
     </Compile>
     <Compile Include="Forms\GraphicsDeviceService.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="GameXmlException.cs" />
     <Compile Include="HealthMeter.cs" />
     <Compile Include="Components\HitBox.cs" />
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Injector.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="JoinHandler.cs" />
     <Compile Include="Forms\Keyboard.cs">

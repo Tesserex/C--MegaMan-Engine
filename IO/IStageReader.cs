@@ -2,8 +2,8 @@
 
 namespace MegaMan.IO
 {
-    public interface IStageReader
+    public interface IStageReader : IGameFileReader
     {
-        StageInfo Load();
+        StageInfo Load(FilePath path);
     }
 }

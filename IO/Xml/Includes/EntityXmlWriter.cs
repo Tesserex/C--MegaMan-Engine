@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using MegaMan.Common.Entities;
+using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -20,6 +20,8 @@ namespace MegaMan.IO.Xml.Includes
             writer.WriteAttributeString("name", entity.Name);
             writer.WriteAttributeString("maxAlive", entity.MaxAlive.ToString());
 
+            writer.WriteElementString("GravityFlip", entity.GravityFlip.ToString());
+
             if (entity.EditorData != null)
             {
                 writer.WriteStartElement("EditorData");
@@ -30,19 +32,28 @@ namespace MegaMan.IO.Xml.Includes
                 writer.WriteAttributeString("hide", entity.EditorData.HideFromPlacement.ToString());
             }
 
-            if (entity.SpriteComponent != null)
-                WriteSprites(writer, entity.SpriteComponent);
+            foreach (var component in entity.Components)
+                WritePart(component, writer);
 
             writer.Close();
         }
 
-        private void WriteSprites(XmlTextWriter writer, SpriteComponentInfo spriteComponent)
+        public void WritePart(IComponentInfo info, XmlWriter writer)
         {
-            if (spriteComponent.SheetPath != null)
-                writer.WriteElementString("Tilesheet", spriteComponent.SheetPath.Relative);
+            if (!ComponentWriters.ContainsKey(info.GetType()))
+                throw new Exception("No xml writer for component type: " + info.GetType().Name);
 
-            foreach (var sprite in spriteComponent.Sprites.Values)
-                sprite.WriteTo(writer);
+            var compWriter = ComponentWriters[info.GetType()];
+
+            compWriter.Write(info, writer);
+        }
+
+        private static Dictionary<Type, IComponentXmlWriter> ComponentWriters;
+
+        static EntityXmlWriter()
+        {
+            ComponentWriters = Extensions.GetImplementersOf<IComponentXmlWriter>()
+                .ToDictionary(x => x.ComponentType);
         }
     }
 }

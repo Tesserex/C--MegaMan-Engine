@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using MegaMan.Common.Rendering;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -47,6 +47,7 @@ namespace MegaMan.Engine
         public float BlockBottomWidth { get { return blockBottomMax - blockBottomMin; } }
 
         private float blockTopMin, blockTopMax;
+
         public float BlockTopWidth { get { return blockTopMax - blockTopMin; } }
 
         private float blockLeftMin, blockLeftMax;
@@ -137,16 +138,16 @@ namespace MegaMan.Engine
             }
         }
 
-        public override void LoadXml(XElement xml)
+        internal void Loadinfo(CollisionComponentInfo info)
         {
-            foreach (XElement boxnode in xml.Elements("Hitbox"))
+            Enabled = info.Enabled;
+
+            foreach (var box in info.HitBoxes)
             {
-                CollisionBox box = new CollisionBox(boxnode);
-                box.SetParent(this);
-                AddBox(box);
+                var coll = new CollisionBox(box);
+                coll.SetParent(this);
+                AddBox(coll);
             }
-            
-            Enabled = xml.TryAttribute<bool>("Enabled");
         }
 
         public void AddBox(CollisionBox box)
@@ -597,50 +598,6 @@ namespace MegaMan.Engine
         {
             if (component is PositionComponent) PositionSrc = component as PositionComponent;
             else if (component is MovementComponent) MovementSrc = component as MovementComponent;
-        }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = entity => {};
-            List<CollisionBox> rects = new List<CollisionBox>();
-            HashSet<string> enables = new HashSet<string>();
-            bool clear = false;
-
-            foreach (XElement prop in node.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Enabled":
-                        bool b = prop.GetValue<bool>();
-                        effect += entity =>
-                        {
-                            CollisionComponent col = entity.GetComponent<CollisionComponent>();
-                            if (col != null) col.Enabled = b;
-                        };
-                        break;
-
-                    case "Hitbox":
-                        rects.Add(new CollisionBox(prop));
-                        break;
-
-                    case "EnableBox":
-                        XAttribute nameAttrEn = prop.RequireAttribute("name");
-                        enables.Add(nameAttrEn.Value);
-                        break;
-
-                    case "Clear":
-                        clear = true;
-                        break;
-                }
-            }
-
-            if (rects.Count > 0 || enables.Count > 0 || clear) effect += entity =>
-            {
-                HitBoxMessage msg = new HitBoxMessage(entity, rects, enables, clear);
-                entity.SendMessage(msg);
-            };
-
-            return effect;
         }
     }
 }

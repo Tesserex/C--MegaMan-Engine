@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using MegaMan.Common;
 
 namespace MegaMan.Engine
 {
@@ -46,18 +42,6 @@ namespace MegaMan.Engine
 
         public override void RegisterDependencies(Component component)
         {
-        }
-
-        public override void LoadXml(XElement xmlNode)
-        {
-        }
-
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            var name = effectNode.RequireAttribute("name").Value;
-            var value = effectNode.RequireAttribute("value").Value;
-
-            return e => { e.GetComponent<VarsComponent>().Set(name, value); };
         }
     }
 }

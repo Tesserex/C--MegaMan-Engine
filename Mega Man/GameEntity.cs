@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using System.Diagnostics;
 using MegaMan.Common;
 using MegaMan.Engine.Entities;
@@ -61,7 +60,7 @@ namespace MegaMan.Engine
         {
             get
             {
-                return components.Values;
+                return components.Values.ToList();
             }
         }
 
@@ -75,7 +74,7 @@ namespace MegaMan.Engine
         {
             this.container = container;
 
-            foreach (Component c in components.Values)
+            foreach (Component c in Components)
                 c.Start(container);
 
             if (Started != null)
@@ -88,7 +87,9 @@ namespace MegaMan.Engine
         {
             if (!Running) return;
 
-            foreach (Component c in components.Values) c.Stop(container);
+            foreach (Component c in Components)
+                c.Stop(container);
+
             if (Stopped != null) Stopped();
             Running = false;
         }
@@ -111,7 +112,7 @@ namespace MegaMan.Engine
             if (components.ContainsKey(component.GetType())) return;
 
             component.Parent = this;
-            foreach (Component c in components.Values)
+            foreach (Component c in Components)
             {
                 c.RegisterDependencies(component);
                 component.RegisterDependencies(c);
@@ -121,7 +122,7 @@ namespace MegaMan.Engine
 
         public void SendMessage(IGameMessage message)
         {
-            foreach (Component c in components.Values)
+            foreach (Component c in Components)
             {
                 c.Message(message);
             }
@@ -139,31 +140,13 @@ namespace MegaMan.Engine
             return spawn;
         }
 
-        public Component GetOrCreateComponent(string name)
+        public void CreateComponentIfNotExists<T>() where T : Component, new()
         {
-            // handle plural cases
-            if (name == "Sounds") name = "Sound";
-            if (name == "Weapons") name = "Weapon";
-
-            string typename = name + "Component";
-            Type comptype = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().SingleOrDefault(t => t.Name == typename);
-            if (comptype == null) return null;
-            Component comp;
-            if (components.ContainsKey(comptype)) comp = components[comptype];
-            else // create one
+            if (!components.ContainsKey(typeof(T)))
             {
-                comp = (Component)Activator.CreateInstance(comptype);
+                var comp = new T();
                 AddComponent(comp);
             }
-            return comp;
-        }
-
-        public static Effect ParseComponentEffect(XElement effectNode)
-        {
-            Type componentType = Type.GetType("MegaMan.Engine." + effectNode.Name.LocalName + "Component");
-            if (componentType == null) throw new GameXmlException(effectNode, String.Format("Expected a component name, but {0} is not a component!", effectNode.Name.LocalName));
-            var method = componentType.GetMethod("ParseEffect");
-            return (Effect)method.Invoke(null, new[] {effectNode});
         }
 
         // this is for the XML to use

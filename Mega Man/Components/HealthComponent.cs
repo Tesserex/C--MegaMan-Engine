@@ -1,7 +1,5 @@
-﻿using System.Xml.Linq;
-using MegaMan.Common;
-using System;
-using MegaMan.IO.Xml;
+﻿using System;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -19,7 +17,7 @@ namespace MegaMan.Engine
         public float Health
         {
             get { return health; }
-            private set
+            set
             {
                 health = value;
                 if (health > maxHealth) health = maxHealth;
@@ -136,43 +134,18 @@ namespace MegaMan.Engine
             
         }
 
-        public override void LoadXml(XElement node)
+        public void LoadInfo(HealthComponentInfo info)
         {
-            XElement maxNode = node.Element("Max");
-            if (maxNode != null)
-            {
-                maxHealth = maxNode.GetValue<float>();
-            }
+            maxHealth = info.Max;
+            StartHealth = info.StartValue ?? info.Max;
+            flashtime = info.FlashFrames;
 
-            StartHealth = node.TryAttribute<float>("startValue", MaxHealth);
-
-            XElement meterNode = node.Element("Meter");
-            if (meterNode != null)
+            if (info.Meter != null)
             {
-                var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
-                meter = HealthMeter.Create(meterInfo, true);
+                meter = HealthMeter.Create(info.Meter, true);
                 meter.MaxValue = maxHealth;
                 meter.IsPlayer = (Parent.Name == "Player");
             }
-
-            XElement flashNode = node.Element("Flash");
-            if (flashNode != null)
-            {
-                flashtime = flashNode.TryValue<int>();
-            }
-        }
-
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            if (effectNode.Attribute("change") != null)
-            {
-                float changeval = effectNode.TryAttribute<float>("change");
-                return entity =>
-                {
-                    entity.GetComponent<HealthComponent>().Health += changeval;
-                };
-            }
-            return entity => { };
         }
 
         // this exists for the sake of dynamic expressions,

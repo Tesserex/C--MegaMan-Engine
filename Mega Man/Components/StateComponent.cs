@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Xml.Linq;
-using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -107,110 +105,69 @@ namespace MegaMan.Engine
         {
         }
 
-        public override void LoadXml(XElement stateNode)
+        internal void LoadInfo(StateComponentInfo componentInfo)
         {
-            string name = stateNode.RequireAttribute("name").Value;
-
-            State state;
-            if (states.ContainsKey(name))
+            foreach (var stateInfo in componentInfo.States)
             {
-                state = states[name];
-            }
-            else
-            {
-                state = new State {Name = name};
-                states[name] = state;
-            }
-
-            foreach (XElement child in stateNode.Elements())
-            {
-                switch (child.Name.LocalName)
+                var state = new State() { Name = stateInfo.Name };
+                foreach (var trigger in stateInfo.Triggers)
                 {
-                    case "Trigger":
-                        state.AddTrigger(ParseTrigger(child));
-                        break;
-
-                    default:
-                        // make sure the entity has the component we're dealing with
-                        // if it's not a component name it will just return null safely
-                        Parent.GetOrCreateComponent(child.Name.LocalName);
-
-                        if (child.Attribute("mode") != null && child.RequireAttribute("mode").Value.ToUpper() == "REPEAT") state.AddLogic(EffectParser.LoadEffectAction(child));
-                        else state.AddInitial(EffectParser.LoadEffectAction(child));
-                        break;
+                    state.AddTrigger(ParseTrigger(trigger));
                 }
+
+                state.SetInitial(EffectParser.LoadTriggerEffect(stateInfo.Initializer));
+                state.SetLogic(EffectParser.LoadTriggerEffect(stateInfo.Logic));
+
+                states[state.Name] = state;
             }
-        }
 
-        public void LoadStateTrigger(XElement triggerNode)
-        {
-            XElement statesNode = triggerNode.Element("States");
-
-            var trigger = ParseTrigger(triggerNode);
-
-            if (statesNode != null)
+            foreach (var triggerInfo in componentInfo.Triggers)
             {
-                string statesString = statesNode.Value;
-                string[] statesArray = statesString.Split(',');
+                var trigger = ParseTrigger(triggerInfo.Trigger);
 
-                foreach (string stateString in statesArray)
+                if (triggerInfo.States != null)
                 {
-                    string stateName = stateString.Trim();
-                    if (!states.ContainsKey(stateName))
+                    foreach (var stateName in triggerInfo.States)
                     {
-                        State state = new State {Name = stateName};
-                        states.Add(stateName, state);
+                        if (!states.ContainsKey(stateName))
+                        {
+                            State state = new State {Name = stateName};
+                            states.Add(stateName, state);
+                        }
+                        states[stateName].AddTrigger(trigger);
                     }
-                    states[stateName].AddTrigger(trigger);
                 }
-            }
-            else
-            {
-                foreach (State state in states.Values)
+                else
                 {
-                    state.AddTrigger(trigger);
+                    foreach (var state in states.Values)
+                    {
+                        state.AddTrigger(trigger);
+                    }
                 }
             }
         }
-
-        private Trigger ParseTrigger(XElement triggerNode)
+        
+        private Trigger ParseTrigger(TriggerInfo info)
         {
             try
             {
-                string conditionString;
-                if (triggerNode.Attribute("condition") != null) conditionString = triggerNode.RequireAttribute("condition").Value;
-                else conditionString = triggerNode.Element("Condition").Value;
-
-                Condition condition = EffectParser.ParseCondition(conditionString);
-
-                Effect effect = EffectParser.LoadTriggerEffect(triggerNode.Element("Effect"));
-
-                return new Trigger { Condition = condition, Effect = effect };
+                var condition = EffectParser.ParseCondition(info.Condition);
+                var effect = EffectParser.LoadTriggerEffect(info.Effect);
+                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition, Priority = info.Priority };
             }
             catch (Exception e)
             {
-                throw new GameXmlException(triggerNode, "There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
+                throw new GameRunException("There was an error parsing a trigger. There may be a syntax error in your condition expression.\n\nThe error message was:\n\n\t" + e.Message);
             }
-        }
-
-        // this is for when <State> appears in an effect, used for changing state
-        public static Effect ParseEffect(XElement effectNode)
-        {
-            string newstate = effectNode.Value;
-            return entity =>
-            {
-                StateComponent state = entity.GetComponent<StateComponent>();
-                if (state != null)
-                {
-                    state.ChangeState(newstate);
-                }
-            };
         }
 
         private class Trigger
         {
+            public string ConditionString;
+            public string EffectString;
             public Condition Condition;
             public Effect Effect;
+            public int Priority;
         }
 
         private class State
@@ -231,9 +188,19 @@ namespace MegaMan.Engine
                 logic(entity);
             }
 
+            public void SetInitial(Effect effect)
+            {
+                initializer = effect;
+            }
+
             public void AddInitial(Effect func)
             {
                 initializer += func;
+            }
+
+            public void SetLogic(Effect effect)
+            {
+                logic = effect;
             }
 
             public void AddLogic(Effect func)
@@ -249,7 +216,7 @@ namespace MegaMan.Engine
             public void CheckTriggers(StateComponent statecomp, IEntity entity)
             {
                 string state = statecomp.currentState;
-                foreach (Trigger trigger in triggers)
+                foreach (Trigger trigger in triggers.OrderBy(t => t.Priority))
                 {
                     bool result = trigger.Condition(entity);
                     if (result)

@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-using MegaMan.Common;
-using MegaMan.Common.Geometry;
+﻿using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
@@ -10,19 +8,6 @@ namespace MegaMan.Engine
 
         public HitBox(float x, float y, float width, float height)
         {
-            box = new RectangleF(x, y, width, height);
-        }
-
-        public HitBox(XElement xmlNode)
-        {
-            float width = xmlNode.GetAttribute<float>("width");
-
-            float height = xmlNode.GetAttribute<float>("height");
-
-            float x = xmlNode.GetAttribute<float>("x");
-
-            float y = xmlNode.GetAttribute<float>("y");
-
             box = new RectangleF(x, y, width, height);
         }
 

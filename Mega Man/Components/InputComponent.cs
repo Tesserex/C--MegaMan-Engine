@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace MegaMan.Engine
 {
@@ -68,14 +66,14 @@ namespace MegaMan.Engine
         public override void Start(IGameplayContainer container)
         {
             Reset();
-            container.GameThink += Update;
+            container.GameCleanup += Update;
             Engine.Instance.GameInputReceived += Instance_GameInputReceived;
         }
 
         public override void Stop(IGameplayContainer container)
         {
             Reset();
-            container.GameThink -= Update;
+            container.GameCleanup -= Update;
             Engine.Instance.GameInputReceived -= Instance_GameInputReceived;
         }
 
@@ -91,38 +89,6 @@ namespace MegaMan.Engine
         public override void RegisterDependencies(Component component)
         {
 
-        }
-
-        public override void LoadXml(System.Xml.Linq.XElement xmlNode)
-        {
-            // nothing needed
-        }
-
-        public static Effect ParseEffect(System.Xml.Linq.XElement effectNode)
-        {
-            Effect action = entity => { };
-
-            foreach (XElement prop in effectNode.Elements())
-            {
-                switch (prop.Name.LocalName)
-                {
-                    case "Pause":
-                        action += entity =>
-                        {
-                            entity.GetComponent<InputComponent>().Paused = true;
-                        };
-                        break;
-
-                    case "Unpause":
-                        action += entity =>
-                        {
-                            entity.GetComponent<InputComponent>().Paused = false;
-                        };
-                        break;
-                }
-            }
-
-            return action;
         }
 
         private void Instance_GameInputReceived(GameInputEventArgs e)

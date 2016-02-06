@@ -173,7 +173,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
 
             }
-            catch (MegaMan.Common.GameXmlException)
+            catch (MegaMan.IO.Xml.GameXmlException)
             {
                 CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", ApplicationName);
             }

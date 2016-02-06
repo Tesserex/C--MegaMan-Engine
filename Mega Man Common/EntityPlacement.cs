@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml;
 
 namespace MegaMan.Common
 {
@@ -44,22 +39,6 @@ namespace MegaMan.Common
         public RespawnBehavior respawn;
         public float screenX;
         public float screenY;
-
-        public void Save(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Entity");
-            if (Id != null)
-            {
-                writer.WriteAttributeString("id", Id);
-            }
-            writer.WriteAttributeString("entity", entity);
-            if (state != "Start") writer.WriteAttributeString("state", state);
-            writer.WriteAttributeString("x", screenX.ToString());
-            writer.WriteAttributeString("y", screenY.ToString());
-            writer.WriteAttributeString("direction", direction.ToString());
-            writer.WriteAttributeString("respawn", respawn.ToString());
-            writer.WriteEndElement();
-        }
 
         public override bool Equals(object obj)
         {

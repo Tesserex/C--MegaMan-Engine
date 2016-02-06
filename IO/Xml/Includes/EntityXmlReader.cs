@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Entities.Effects;
+using MegaMan.IO.Xml.Effects;
+using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
     internal class EntityXmlReader : IIncludeXmlReader
     {
+        private readonly EffectXmlReader _effectReader;
+
+        public EntityXmlReader(EffectXmlReader effectReader)
+        {
+            _effectReader = effectReader;
+        }
+
         public string NodeName
         {
             get
@@ -22,9 +30,49 @@ namespace MegaMan.IO.Xml.Includes
         {
             var info = new EntityInfo() {
                 Name = xmlNode.RequireAttribute("name").Value,
-                MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50)
+                MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50),
+                GravityFlip = xmlNode.TryElementValue<bool>("GravityFlip"),
+                Components = new List<IComponentInfo>()
             };
 
+            ReadEditorData(xmlNode, info);
+
+            var deathNode = xmlNode.Element("Death");
+            if (deathNode != null)
+                info.Death = _effectReader.Load(deathNode);
+
+            foreach (var compReader in ComponentReaders)
+            {
+                var element = compReader.NodeName != null ? xmlNode.Element(compReader.NodeName) : xmlNode;
+                if (element != null)
+                {
+                    var comp = compReader.Load(element, project);
+                    if (comp != null)
+                        info.Components.Add(comp);
+                }
+            }
+
+            if (info.PositionComponent == null && info.SpriteComponent != null)
+                info.Components.Add(new PositionComponentInfo());
+
+            if (info.MovementComponent == null && HasMovementEffects(info))
+                info.Components.Add(new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() });
+
+            project.AddEntity(info);
+        }
+
+        private bool HasMovementEffects(EntityInfo info)
+        {
+            var parts = info.StateComponent.Triggers.SelectMany(t => t.Trigger.Effect.Parts);
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Initializer.Parts));
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Logic.Parts));
+            parts = parts.Concat(info.StateComponent.States.SelectMany(s => s.Triggers.SelectMany(t => t.Effect.Parts)));
+
+            return parts.OfType<MovementEffectPartInfo>().Any();
+        }
+
+        private static void ReadEditorData(XElement xmlNode, EntityInfo info)
+        {
             var editorData = xmlNode.Element("EditorData");
             if (editorData != null)
             {
@@ -33,36 +81,14 @@ namespace MegaMan.IO.Xml.Includes
                     HideFromPlacement = editorData.TryAttribute<bool>("hide", false)
                 };
             }
+        }
 
-            var spriteComponent = new SpriteComponentInfo();
+        private static List<IComponentXmlReader> ComponentReaders;
 
-            FilePath sheetPath = null;
-            var sheetNode = xmlNode.Element("Tilesheet");
-            if (sheetNode != null)
-            {
-                sheetPath = FilePath.FromRelative(sheetNode.Value, project.BaseDir);
-                spriteComponent.SheetPath = sheetPath;
-            }
-
-            foreach (var spriteNode in xmlNode.Elements("Sprite"))
-            {
-                if (sheetPath == null)
-                {
-                    var sprite = GameXmlReader.LoadSprite(spriteNode, project.BaseDir);
-                    spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
-                }
-                else
-                {
-                    var sprite = GameXmlReader.LoadSprite(spriteNode);
-                    sprite.SheetPath = sheetPath;
-                    spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
-                }
-            }
-
-            if (spriteComponent.SheetPath != null || spriteComponent.Sprites.Any())
-                info.SpriteComponent = spriteComponent;
-
-            project.AddEntity(info);
+        static EntityXmlReader()
+        {
+            ComponentReaders = Extensions.GetImplementersOf<IComponentXmlReader>()
+                .ToList();
         }
     }
 }

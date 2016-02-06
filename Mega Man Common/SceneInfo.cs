@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml;
+﻿using System.Collections.Generic;
 
 namespace MegaMan.Common
 {
@@ -19,28 +14,6 @@ namespace MegaMan.Common
         {
             KeyFrames = new List<KeyFrameInfo>();
         }
-
-        public override void Save(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Scene");
-
-            base.Save(writer);
-
-            writer.WriteAttributeString("duration", Duration.ToString());
-            writer.WriteAttributeString("canskip", CanSkip.ToString());
-
-            foreach (var keyframe in KeyFrames)
-            {
-                keyframe.Save(writer);
-            }
-
-            if (NextHandler != null)
-            {
-                NextHandler.Save(writer);
-            }
-
-            writer.WriteEndElement();
-        }
     }
 
     public class KeyFrameInfo
@@ -48,17 +21,5 @@ namespace MegaMan.Common
         public int Frame { get; set; }
         public bool Fade { get; set; }
         public List<SceneCommandInfo> Commands { get; set; }
-
-        public void Save(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Keyframe");
-
-            foreach (var command in Commands)
-            {
-                command.Save(writer);
-            }
-
-            writer.WriteEndElement();
-        }
     }
 }

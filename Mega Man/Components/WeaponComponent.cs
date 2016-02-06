@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using MegaMan.Common;
 using System;
-using MegaMan.IO.Xml;
+using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -190,79 +188,16 @@ namespace MegaMan.Engine
             weapons.Add(weapon);
         }
 
-        public override void LoadXml(XElement node)
+        public void LoadInfo(WeaponComponentInfo info)
         {
-            foreach (XElement weapon in node.Elements("Weapon"))
+            foreach (var weapon in info.Weapons)
             {
-                string name = weapon.RequireAttribute("name").Value;
-
-                string entity = weapon.RequireAttribute("entity").Value;
-
-                int ammo = weapon.TryAttribute<int>("ammo", -1);
-
-                int usage = weapon.TryAttribute<int>("usage", 1);
-
-                int? palette = weapon.TryAttribute<int?>("palette");
-
                 HealthMeter meter = null;
-                XElement meterNode = weapon.Element("Meter");
-                if (meterNode != null)
-                {
-                    var meterInfo = HandlerXmlReader.LoadMeter(meterNode, Game.CurrentGame.BasePath);
-                    meter = HealthMeter.Create(meterInfo, true);
+                if (weapon.Meter != null)
+                    meter = HealthMeter.Create(weapon.Meter, true);
 
-                    meter.MaxValue = ammo;
-                    meter.Reset();
-                }
-
-                AddWeapon(name, entity, ammo, usage, meter, palette);
+                AddWeapon(weapon.Name, weapon.EntityName, weapon.Ammo ?? -1, weapon.Usage ?? 1, meter, weapon.Palette);
             }
-        }
-
-        public static Effect ParseEffect(XElement node)
-        {
-            Effect effect = e => { };
-            if (node.Value == "Shoot")
-            {
-                effect = entity =>
-                {
-                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                    if (weaponComponent != null) weaponComponent.Shoot();
-                };
-            }
-            else if (node.Value == "RotateForward")
-            {
-                effect = entity =>
-                {
-                    WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                    if (weaponComponent != null) weaponComponent.RotateForward();
-                };
-            }
-            else
-            {
-                XElement ammoNode = node.Element("Ammo");
-                if (ammoNode != null)
-                {
-                    int val = ammoNode.GetAttribute<int>("val");
-                    effect = entity =>
-                    {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                        if (weaponComponent != null) weaponComponent.AddAmmo(val);
-                    };
-                }
-
-                XElement changeNode = node.Element("Change");
-                if (changeNode != null)
-                {
-                    var weaponName = changeNode.RequireAttribute("name").Value;
-                    effect = entity =>
-                    {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                        if (weaponComponent != null) weaponComponent.SetWeapon(weaponName);
-                    };
-                }
-            }
-            return effect;
         }
     }
 }

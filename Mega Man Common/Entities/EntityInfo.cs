@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Common.Entities
 {
@@ -7,9 +8,20 @@ namespace MegaMan.Common.Entities
     {
         public string Name { get; set; }
         public int MaxAlive { get; set; }
+        public bool GravityFlip { get; set; }
         public EntityEditorData EditorData { get; set; }
 
-        public SpriteComponentInfo SpriteComponent { get; set; }
+        public EffectInfo Death { get; set; }
+
+        public List<IComponentInfo> Components { get; set; }
+
+        public SpriteComponentInfo SpriteComponent
+        {
+            get
+            {
+                return Components.OfType<SpriteComponentInfo>().SingleOrDefault();
+            }
+        }
 
         public Sprite DefaultSprite
         {
@@ -24,5 +36,14 @@ namespace MegaMan.Common.Entities
                     return SpriteComponent.Sprites.Values.First();
             }
         }
+
+        public PositionComponentInfo PositionComponent { get { return Components.OfType<PositionComponentInfo>().SingleOrDefault(); } }
+        public InputComponentInfo InputComponent { get { return Components.OfType<InputComponentInfo>().SingleOrDefault(); } }
+        public CollisionComponentInfo CollisionComponent { get { return Components.OfType<CollisionComponentInfo>().SingleOrDefault(); } }
+        public StateComponentInfo StateComponent { get { return Components.OfType<StateComponentInfo>().SingleOrDefault(); } }
+        public MovementComponentInfo MovementComponent { get { return Components.OfType<MovementComponentInfo>().SingleOrDefault(); } }
+        public HealthComponentInfo HealthComponent { get { return Components.OfType<HealthComponentInfo>().SingleOrDefault(); } }
+        public LadderComponentInfo LadderComponent { get { return Components.OfType<LadderComponentInfo>().SingleOrDefault(); } }
+        public WeaponComponentInfo WeaponComponent { get { return Components.OfType<WeaponComponentInfo>().SingleOrDefault(); } }
     }
 }

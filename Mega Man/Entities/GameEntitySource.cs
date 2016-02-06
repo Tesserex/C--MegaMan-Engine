@@ -1,9 +1,7 @@
-﻿using MegaMan.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using MegaMan.Common.Entities;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine.Entities
 {
@@ -19,100 +17,117 @@ namespace MegaMan.Engine.Entities
             return entities[name];
         }
 
-        public void LoadEntities(XElement doc)
+        internal void LoadEntities(IEnumerable<EntityInfo> entities)
         {
-            foreach (XElement entity in doc.Elements("Entity"))
-            {
-                LoadEntity(entity);
-            }
+            foreach (var info in entities)
+                LoadEntity(info);
         }
 
-        private void LoadEntity(XElement xml)
+        private void LoadEntity(EntityInfo info)
         {
-            GameEntity entity = new GameEntity();
-            string name = xml.RequireAttribute("name").Value;
+            if (entities.ContainsKey(info.Name))
+                throw new GameEntityException("You have defined two entities both named \"" + info.Name + "\".");
 
-            if (entities.ContainsKey(name)) throw new GameXmlException(xml, "You have defined two entities both named \"" + name + "\".");
+            var entity = new GameEntity();
+            entity.Name = info.Name;
 
-            entity.Name = name;
-            entity.MaxAlive = xml.TryAttribute<int>("limit", 50);
+            entities[info.Name] = entity;
 
-            SpriteComponent spritecomp = null;
-            PositionComponent poscomp = null;
-            StateComponent statecomp = new StateComponent();
-            entity.AddComponent(statecomp);
+            entity.IsGravitySensitive = info.GravityFlip;
 
-            try
-            {
-                foreach (XElement xmlComp in xml.Elements())
-                {
-                    switch (xmlComp.Name.LocalName)
-                    {
-                        case "EditorData":
-                            break;
+            if (info.Death != null)
+                entity.OnDeath = EffectParser.LoadTriggerEffect(info.Death);
 
-                        case "Tilesheet":
-                            if (spritecomp == null)
-                            {
-                                spritecomp = new SpriteComponent();
-                                entity.AddComponent(spritecomp);
-                            }
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            spritecomp.LoadTilesheet(xmlComp);
-                            break;
+            if (info.SpriteComponent != null)
+                LoadSpriteComponent(entity, info.SpriteComponent);
 
-                        case "Trigger":
-                            statecomp.LoadStateTrigger(xmlComp);
-                            break;
+            if (info.PositionComponent != null || info.SpriteComponent != null)
+                LoadPositionComponent(entity, info.PositionComponent);
 
-                        case "Sprite":
-                            if (spritecomp == null)
-                            {
-                                spritecomp = new SpriteComponent();
-                                entity.AddComponent(spritecomp);
-                            }
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            spritecomp.LoadXml(xmlComp);
-                            break;
+            if (info.MovementComponent != null)
+                LoadMovementComponent(info.MovementComponent, entity);
 
-                        case "Position":
-                            if (poscomp == null)
-                            {
-                                poscomp = new PositionComponent();
-                                entity.AddComponent(poscomp);
-                            }
-                            poscomp.LoadXml(xmlComp);
-                            break;
+            if (info.InputComponent != null)
+                entity.AddComponent(new InputComponent());
 
-                        case "Death":
-                            entity.OnDeath += EffectParser.LoadTriggerEffect(xmlComp);
-                            break;
+            if (info.CollisionComponent != null)
+                LoadCollisionComponent(entity, info.CollisionComponent);
 
-                        case "GravityFlip":
-                            entity.IsGravitySensitive = xmlComp.GetValue<bool>();
-                            break;
+            if (info.StateComponent != null)
+                LoadStateComponent(entity, info.StateComponent);
 
-                        default:
-                            entity.GetOrCreateComponent(xmlComp.Name.LocalName).LoadXml(xmlComp);
-                            break;
-                    }
-                }
-            }
-            catch (GameXmlException ex)
-            {
-                ex.Entity = name;
-                throw;
-            }
+            if (info.HealthComponent != null)
+                LoadHealthComponent(entity, info.HealthComponent);
 
-            entities.Add(name, entity);
+            if (info.WeaponComponent != null)
+                LoadWeaponComponent(entity, info.WeaponComponent);
+
+            if (info.LadderComponent != null)
+                LoadLadderComponent(entity, info.LadderComponent);
+
+            // everyone gets these
+            entity.AddComponent(new SoundComponent());
+            entity.AddComponent(new TimerComponent());
+            entity.AddComponent(new VarsComponent());
+        }
+
+        private void LoadLadderComponent(GameEntity entity, LadderComponentInfo info)
+        {
+            var comp = new LadderComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
+        }
+
+        private void LoadWeaponComponent(GameEntity entity, WeaponComponentInfo info)
+        {
+            var comp = new WeaponComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
+        }
+
+        private void LoadHealthComponent(GameEntity entity, HealthComponentInfo info)
+        {
+            var comp = new HealthComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
+        }
+
+        private static void LoadMovementComponent(MovementComponentInfo info, GameEntity entity)
+        {
+            var moveComp = new MovementComponent();
+            entity.AddComponent(moveComp);
+            moveComp.LoadInfo(info);
+        }
+
+        private void LoadStateComponent(GameEntity entity, StateComponentInfo info)
+        {
+            var comp = new StateComponent();
+            entity.AddComponent(comp);
+            comp.LoadInfo(info);
+        }
+
+        private void LoadCollisionComponent(GameEntity entity, CollisionComponentInfo info)
+        {
+            var comp = new CollisionComponent();
+            entity.AddComponent(comp);
+            comp.Loadinfo(info);
+        }
+
+        private void LoadSpriteComponent(GameEntity entity, SpriteComponentInfo componentInfo)
+        {
+            var spritecomp = new SpriteComponent();
+            entity.AddComponent(spritecomp);
+
+            spritecomp.LoadInfo(componentInfo);
+        }
+
+        private void LoadPositionComponent(GameEntity entity, PositionComponentInfo componentInfo)
+        {
+            var poscomp = new PositionComponent();
+            entity.AddComponent(poscomp);
+
+            if (componentInfo != null)
+                poscomp.LoadInfo(componentInfo);
         }
 
         public void Unload()

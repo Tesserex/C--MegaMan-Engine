@@ -79,30 +79,66 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockPatternInfo.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Entities\Effects\DefeatBossEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\DelayedEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\FuncEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\GravityFlipEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\HealthEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\InputEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\LadderEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\LivesEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\MovementEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\NextEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\PaletteEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\PauseEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\RemoveInventoryEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\AddInventoryEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\CallEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\CollisionEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\DieEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\EffectInfo.cs" />
+    <Compile Include="Entities\Effects\PositionEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\RemoveEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SetVarEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SoundEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SpawnEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\SpriteEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\StateEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\TimerEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\TriggerEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\UnlockWeaponEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\UnpauseEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\VarsEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\WeaponEffectPartInfo.cs" />
+    <Compile Include="Entities\HealthComponentInfo.cs" />
+    <Compile Include="Entities\HitBoxInfo.cs" />
+    <Compile Include="Entities\CollisionComponentInfo.cs" />
     <Compile Include="Entities\EntityEditorData.cs" />
     <Compile Include="Entities\EntityInfo.cs" />
+    <Compile Include="Entities\Effects\IEffectPartInfo.cs" />
+    <Compile Include="Entities\IComponentInfo.cs" />
+    <Compile Include="Entities\InputComponentInfo.cs" />
+    <Compile Include="Entities\LadderComponentInfo.cs" />
+    <Compile Include="Entities\MovementComponentInfo.cs" />
+    <Compile Include="Entities\PositionComponentInfo.cs" />
     <Compile Include="Entities\SpriteComponentInfo.cs" />
+    <Compile Include="Entities\StateComponentInfo.cs" />
+    <Compile Include="Entities\TriggerInfo.cs" />
+    <Compile Include="Entities\WeaponComponentInfo.cs" />
     <Compile Include="EntityPlacement.cs" />
     <Compile Include="Enums\Axis.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="FilePath.cs" />
     <Compile Include="FontInfo.cs" />
-    <Compile Include="GameXml.cs" />
-    <Compile Include="GameXmlException.cs" />
     <Compile Include="HandlerInfo.cs" />
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="Math.cs" />
