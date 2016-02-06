@@ -186,6 +186,48 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public int SpriteWidth
+        {
+            get
+            {
+                return _sprite.Width;
+            }
+            set
+            {
+                _sprite.Width = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
+
+                OnPropertyChanged("PreviewWidth");
+                OnPropertyChanged("PreviewHeight");
+                OnPropertyChanged("HighlightWidth");
+                OnPropertyChanged("HighlightHeight");
+                OnPropertyChanged("PreviewImage");
+            }
+        }
+
+        public int SpriteHeight
+        {
+            get
+            {
+                return _sprite.Height;
+            }
+            set
+            {
+                _sprite.Height = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
+
+                OnPropertyChanged("PreviewWidth");
+                OnPropertyChanged("PreviewHeight");
+                OnPropertyChanged("HighlightWidth");
+                OnPropertyChanged("HighlightHeight");
+                OnPropertyChanged("PreviewImage");
+            }
+        }
+
         public BitmapSource SheetImageSource
         {
             get
