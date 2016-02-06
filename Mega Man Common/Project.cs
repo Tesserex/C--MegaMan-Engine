@@ -168,6 +168,19 @@ namespace MegaMan.Common
             _functions.Add(effect);
         }
 
+        private Dictionary<string, TileProperties> _entityProperties = new Dictionary<string, TileProperties>();
+        public IDictionary<string, TileProperties> EntityProperties { get { return _entityProperties; } }
+
+        public void AddEntityProperties(TileProperties properties)
+        {
+            _entityProperties[properties.Name] = properties;
+        }
+
+        public void RemoveEntityProperties(TileProperties properties)
+        {
+            _entityProperties.Remove(properties.Name);
+        }
+
         #endregion
 
         public Project()

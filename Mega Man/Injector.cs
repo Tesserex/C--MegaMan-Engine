@@ -12,7 +12,7 @@ namespace MegaMan.Engine
             Container = new StandardKernel();
             Container.Load(System.Reflection.Assembly.GetCallingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.Xml.TilesetXmlReader)).SelectAllClasses().BindAllInterfaces());
+            Container.Bind(x => x.FromAssemblyContaining<IO.GameLoader>().SelectAllClasses().BindAllInterfaces());
         }
     }
 }

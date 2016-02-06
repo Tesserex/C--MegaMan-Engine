@@ -6,11 +6,12 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class EntitiesXmlReader : IIncludeXmlReader
     {
-        private EntityXmlReader entityReader;
+        private readonly EntityXmlReader _entityReader;
+        private readonly TilesetXmlReader _tilesetReader;
 
         public EntitiesXmlReader(EntityXmlReader entityReader)
         {
-            this.entityReader = entityReader;
+            this._entityReader = entityReader;
         }
 
         public string NodeName
@@ -20,9 +21,24 @@ namespace MegaMan.IO.Xml.Includes
 
         public void Load(Project project, XElement xmlNode)
         {
+            LoadProperties(project, xmlNode);
+
             foreach (var node in xmlNode.Elements("Entity"))
             {
-                this.entityReader.Load(project, node);
+                this._entityReader.Load(project, node);
+            }
+        }
+
+        private void LoadProperties(Project project, XElement node)
+        {
+            var propHead = node.Element("Properties");
+            if (propHead != null)
+            {
+                foreach (var propNode in propHead.Elements("Properties"))
+                {
+                    var properties = _tilesetReader.LoadProperties(propNode);
+                    project.AddEntityProperties(properties);
+                }
             }
         }
     }

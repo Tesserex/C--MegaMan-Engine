@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
@@ -132,14 +131,8 @@ namespace MegaMan.Engine
             }
 
             _entitySource.LoadEntities(project.Entities);
+            _tileProperties.LoadProperties(project.EntityProperties);
             EffectParser.LoadEffectsList(project.Functions);
-
-            foreach (var includePath in project.Includes)
-            {
-                string includefile = includePath.Absolute;
-                IncludeXmlFile(includefile);
-            }
-
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
             Scene.LoadScenes(project.Scenes);
             Menu.LoadMenus(project.Menus);
@@ -198,41 +191,6 @@ namespace MegaMan.Engine
 
                 default:
                     throw new GameRunException("The starting point given by command line argument was invalid.");
-            }
-        }
-
-        private void IncludeXmlFile(string path)
-        {
-            try
-            {
-                XDocument document = XDocument.Load(path, LoadOptions.SetLineInfo);
-                foreach (XElement element in document.Elements())
-                {
-                    switch (element.Name.LocalName)
-                    {
-                        case "Entities":
-                            _tileProperties.LoadProperties(element);
-                            break;
-
-                        case "Functions":
-                        case "Sounds":
-                        case "Scenes":
-                        case "Scene":
-                        case "Menus":
-                        case "Menu":
-                        case "Fonts":
-                        case "Palettes":
-                            break;
-
-                        default:
-                            throw new GameXmlException(element, string.Format("Unrecognized XML type: \"{0}\"", element.Name.LocalName));
-                    }
-                }
-            }
-            catch (GameXmlException ex)
-            {
-                ex.File = path;
-                throw;
             }
         }
 

@@ -189,7 +189,6 @@
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
     <Compile Include="GameHandlers\NullTiledScreen.cs" />
-    <Compile Include="GameXmlException.cs" />
     <Compile Include="FontSystem.cs" />
     <Compile Include="GameEntity.cs" />
     <Compile Include="Forms\GraphicsDeviceControl.cs">
@@ -197,6 +196,7 @@
     </Compile>
     <Compile Include="Forms\GraphicsDeviceService.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="GameXmlException.cs" />
     <Compile Include="HealthMeter.cs" />
     <Compile Include="Components\HitBox.cs" />
     <Compile Include="Components\InputComponent.cs" />

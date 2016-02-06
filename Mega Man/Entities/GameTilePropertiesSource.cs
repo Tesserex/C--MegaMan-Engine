@@ -1,34 +1,21 @@
-﻿using MegaMan.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using MegaMan.IO.Xml;
+using MegaMan.Common;
 
 namespace MegaMan.Engine.Entities
 {
     public class GameTilePropertiesSource : ITilePropertiesSource
     {
-        private readonly Dictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
+        private IDictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
 
         public GameTilePropertiesSource()
         {
             entityProperties["Default"] = TileProperties.Default;
         }
 
-        public void LoadProperties(XElement doc)
+        public void LoadProperties(IDictionary<string, TileProperties> properties)
         {
-            var reader = new TilesetXmlReader();
-            XElement propHead = doc.Element("Properties");
-            if (propHead != null)
-            {
-                foreach (XElement propNode in propHead.Elements("Properties"))
-                {
-                    TileProperties p = reader.LoadProperties(propNode);
-                    entityProperties[p.Name] = p;
-                }
-            }
+            entityProperties = properties;
         }
 
         public TileProperties GetProperties(string name)
