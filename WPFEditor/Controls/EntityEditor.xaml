@@ -63,22 +63,25 @@
                 <Label DockPanel.Dock="Top">Components</Label>
                 <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13">
                     <TabItem Header="Sprites" Visibility="{Binding SpriteTabVisibility}">
-                        <ListView ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding Items.Count, RelativeSource={RelativeSource AncestorType=ListView}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="WhiteSmoke" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <Label DockPanel.Dock="Top" FontSize="16" Content="{Binding Name}" HorizontalAlignment="Center"></Label>
-                                        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}">Edit</Button>
-                                        <local:SpriteImage DataContext="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"></local:SpriteImage>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <StackPanel Orientation="Horizontal">
+                            <ListView ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding Items.Count, RelativeSource={RelativeSource AncestorType=ListView}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="WhiteSmoke" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Label DockPanel.Dock="Top" FontSize="16" Content="{Binding Name}" HorizontalAlignment="Center"></Label>
+                                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}">Edit</Button>
+                                            <local:SpriteImage DataContext="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"></local:SpriteImage>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Button VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding DataContext.AddSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}">Add</Button>
+                        </StackPanel>
                     </TabItem>
                 </TabControl>
             </DockPanel>
