@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml
         private readonly HandlerCommandXmlWriter _commandWriter;
         private readonly EntityPlacementXmlWriter _entityWriter;
 
-        internal StageXmlWriter(HandlerCommandXmlWriter commandWriter, EntityPlacementXmlWriter entityWriter)
+        public StageXmlWriter(HandlerCommandXmlWriter commandWriter, EntityPlacementXmlWriter entityWriter)
         {
             _commandWriter = commandWriter;
             _entityWriter = entityWriter;

@@ -109,6 +109,8 @@ namespace MegaMan.IO.Xml
                 includeReader.LoadIncludedFile(_project, includefile);
             }
 
+            stream.Close();
+
             return _project;
         }
 

@@ -112,6 +112,8 @@ namespace MegaMan.IO.Xml
                 _info.Joins.Add(j);
             }
 
+            stream.Close();
+
             return _info;
         }
 
