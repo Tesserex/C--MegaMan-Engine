@@ -163,6 +163,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public string Name
+        {
+            get { return _sprite.Name; }
+            set
+            {
+                _sprite.Name = value;
+                if (_project != null)
+                    _project.Dirty = true;
+            }
+        }
+
         public int FrameNumber
         {
             get

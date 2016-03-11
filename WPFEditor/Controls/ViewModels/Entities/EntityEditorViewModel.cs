@@ -16,7 +16,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private ProjectDocument _project;
 
         public ICommand GoBackCommand { get; private set; }
-        public ICommand AddSpriteCommand { get; private set; }
         public ICommand EditSpriteCommand { get; private set; }
 
         public INotifyPropertyChanged ComponentViewModel { get; private set; }
@@ -52,7 +51,22 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public IEnumerable<Sprite> Sprites { get { return (_currentEntity != null && _currentEntity.SpriteComponent != null) ? _currentEntity.SpriteComponent.Sprites.Values : null; } }
+        public IEnumerable<SpriteListItemViewModel> Sprites
+        {
+            get
+            {
+                if (_currentEntity == null || _currentEntity.SpriteComponent == null)
+                    return null;
+
+                var sprites = _currentEntity.SpriteComponent.Sprites.Values
+                    .Select(s => new SpriteListItemViewModel(s))
+                    .ToList();
+
+                sprites.Add(new SpriteListItemViewModel(null));
+
+                return sprites;
+            }
+        }
 
         public Sprite DefaultSprite
         {
@@ -111,8 +125,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
-            AddSpriteCommand = new RelayCommand(AddSprite, arg => _currentEntity != null);
-            EditSpriteCommand = new RelayCommand(x => EditSprite((Sprite)x), arg => _currentEntity != null);
+            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
             GoBackCommand = new RelayCommand(x => GoBack(), null);
         }
 
@@ -125,12 +138,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             _project.AddEntity(CurrentEntity);
         }
 
-        private void AddSprite(object obj)
+        private void AddSprite()
         {
             Sprite sprite = CreateEmptySprite();
             _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
             ComponentViewModel = new SpriteEditorViewModel(sprite, _project);
             OnPropertyChanged("ComponentViewModel");
+            OnPropertyChanged("Sprites");
         }
 
         private Sprite CreateEmptySprite()
@@ -159,10 +173,17 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             return name;
         }
 
-        public void EditSprite(Sprite sprite)
+        public void EditSprite(SpriteListItemViewModel sprite)
         {
-            ComponentViewModel = new SpriteEditorViewModel(sprite, _project);
-            OnPropertyChanged("ComponentViewModel");
+            if (sprite.Sprite == null)
+            {
+                AddSprite();
+            }
+            else
+            {
+                ComponentViewModel = new SpriteEditorViewModel(sprite.Sprite, _project);
+                OnPropertyChanged("ComponentViewModel");
+            }
         }
 
         public void GoBack()

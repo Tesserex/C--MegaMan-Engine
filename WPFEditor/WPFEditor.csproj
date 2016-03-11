@@ -168,6 +168,9 @@
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EditableLabel.xaml.cs">
+      <DependentUpon>EditableLabel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
     </Compile>
@@ -216,6 +219,7 @@
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
@@ -276,6 +280,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\NewEntityDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditableLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -538,6 +546,8 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\pencil.png" />
+    <Resource Include="Resources\check.png" />
     <Resource Include="Resources\Includes\images\items.png" />
     <Resource Include="Resources\Includes\images\weapons\rush.png" />
     <Resource Include="Resources\Includes\images\palettes\palettes.xml" />

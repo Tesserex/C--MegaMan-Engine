@@ -13,6 +13,18 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
+                <c:EditableLabel Width="200" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Command="{Binding PlayCommand}" Style="{StaticResource LeftButton}" HorizontalAlignment="Right">
+                        <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource RightButton}" HorizontalAlignment="Right">
+                        <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+            
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Button Command="{Binding DeleteFrameCommand}">Delete Frame</Button>
                 <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
@@ -35,12 +47,6 @@
                 </Button>
                 <Button Command="{Binding ZoomInCommand}" Style="{StaticResource RightButton}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource LeftButton}">
-                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding PlayCommand}" Style="{StaticResource RightButton}">
-                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
             <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
