@@ -75,6 +75,8 @@ namespace MegaMan.IO.Xml
                 tileset.Add(tile);
             }
 
+            stream.Close();
+
             return tileset;
         }
 

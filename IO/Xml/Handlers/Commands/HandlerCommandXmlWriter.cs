@@ -6,7 +6,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Handlers.Commands
 {
-    internal class HandlerCommandXmlWriter
+    public class HandlerCommandXmlWriter
     {
         public void Write(SceneCommandInfo info, XmlWriter writer)
         {

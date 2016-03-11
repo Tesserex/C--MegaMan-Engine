@@ -14,11 +14,13 @@ namespace MegaMan.IO.Xml.Handlers
             {
                 writer.WriteAttributeString("mode", info.Mode.ToString());
             }
-            else if (info.Mode == HandlerMode.Push)
+
+            if (info.Mode == HandlerMode.Push)
             {
                 writer.WriteAttributeString("pause", info.Pause.ToString());
             }
-            else if (info.Mode != HandlerMode.Pop)
+
+            if (info.Mode != HandlerMode.Pop)
             {
                 writer.WriteAttributeString("type", Enum.GetName(typeof(HandlerType), info.Type));
                 writer.WriteAttributeString("name", info.Name);
