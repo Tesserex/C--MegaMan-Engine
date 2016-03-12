@@ -161,6 +161,10 @@ namespace MegaMan.Engine.Entities.Effects
                             if (mov == null || pos == null) return;
 
                             GameEntity player = entity.Entities.GetEntityById("Player");
+
+                            if (player == null)
+                                return;
+
                             PositionComponent playerPos = player.GetComponent<PositionComponent>();
 
                             if (axis == Axis.X)
