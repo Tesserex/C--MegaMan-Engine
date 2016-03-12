@@ -28,18 +28,45 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _selectedEntity = value;
 
-                _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite);
-                _toolBehavior = new EntityToolBehavior(_selectedEntity);
-
-                if (ToolChanged != null)
-                {
-                    ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
-                }
+                UpdateTool();
             }
         }
 
-        public bool SnapHorizontal { get; set; }
-        public bool SnapVertical { get; set; }
+        private void UpdateTool()
+        {
+            _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
+            _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
+            }
+        }
+
+        private bool _snapHoriz;
+        private bool _snapVert;
+
+        public bool SnapHorizontal
+        {
+            get { return _snapHoriz; }
+            set
+            {
+                _snapHoriz = value;
+                OnPropertyChanged("SnapHorizontal");
+                UpdateTool();
+            }
+        }
+
+        public bool SnapVertical
+        {
+            get { return _snapVert; }
+            set
+            {
+                _snapVert = value;
+                OnPropertyChanged("SnapVertical");
+                UpdateTool();
+            }
+        }
 
         public EntityTrayViewModel()
         {
