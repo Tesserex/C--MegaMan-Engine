@@ -86,9 +86,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _currentZoom = value;
+                App.Current.Resources["Zoom"] = _currentZoom.Zoom;
                 OnPropertyChanged("CurrentZoom");
                 ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Raise(this, new ZoomChangedEventArgs() { Zoom = _currentZoom.Zoom });
-                App.Current.Resources["Zoom"] = _currentZoom.Zoom;
             }
         }
 

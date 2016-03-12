@@ -47,7 +47,7 @@ namespace MegaMan.Editor.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
-            return new Size(_screen.PixelWidth, _screen.PixelHeight);
+            return new Size(_screen.PixelWidth * Zoom, _screen.PixelHeight * Zoom);
         }
 
         private void ScreenLayer_Tick()
