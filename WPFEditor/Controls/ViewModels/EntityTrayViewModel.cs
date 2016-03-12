@@ -38,6 +38,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public bool SnapHorizontal { get; set; }
+        public bool SnapVertical { get; set; }
+
         public EntityTrayViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);

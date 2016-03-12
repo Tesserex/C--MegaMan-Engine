@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls
 {
     public class LayoutObjectsLayer : ScreenLayer
     {
-        private static BitmapImage StartIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/start_full.png"));
-        private static BitmapImage ContinueIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/continue_full.png"));
+        private Sprite _playerSprite;
 
         protected override void UnbindScreen(ScreenDocument oldScreen)
         {
@@ -18,6 +17,10 @@ namespace MegaMan.Editor.Controls
         protected override void BindScreen(ScreenDocument newScreen)
         {
             newScreen.Stage.EntryPointsChanged += Update;
+
+            var player = newScreen.Stage.Project.EntityByName("Player");
+            if (player != null)
+                _playerSprite = player.DefaultSprite;
         }
 
         protected override void Update()
@@ -25,20 +28,23 @@ namespace MegaMan.Editor.Controls
             InvalidateVisual();
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext dc)
+        protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
+
+            var image = SpriteBitmapCache.GetOrLoadFrame(_playerSprite.SheetPath.Absolute, _playerSprite.CurrentFrame.SheetLocation);
+            image = SpriteBitmapCache.Scale(image, this.Zoom);
 
             if (Screen.Name == Screen.Stage.StartScreen)
             {
                 var p = Screen.Stage.StartPoint;
-                dc.DrawImage(StartIcon, new System.Windows.Rect(Zoom * (p.X - StartIcon.PixelWidth / 2), Zoom * (p.Y - StartIcon.PixelHeight / 2), Zoom * StartIcon.PixelWidth, Zoom * StartIcon.PixelHeight));
+                dc.DrawImage(image, new System.Windows.Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
             }
 
             if (Screen.Stage.ContinuePoints.ContainsKey(Screen.Name))
             {
                 var p = Screen.Stage.ContinuePoints[Screen.Name];
-                dc.DrawImage(ContinueIcon, new System.Windows.Rect(Zoom * (p.X - ContinueIcon.PixelWidth / 2), Zoom * (p.Y - ContinueIcon.PixelHeight / 2), Zoom * ContinueIcon.PixelWidth, Zoom * ContinueIcon.PixelHeight));
+                dc.DrawImage(image, new System.Windows.Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
             }
         }
     }

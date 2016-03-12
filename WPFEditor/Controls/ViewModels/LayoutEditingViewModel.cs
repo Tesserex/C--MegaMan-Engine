@@ -129,8 +129,8 @@ namespace MegaMan.Editor.Controls.ViewModels
                     break;
 
                 case "Start":
-                    ToolCursor = new SpriteCursor(_playerSprite);
-                    _toolBehavior = new StartPointToolBehavior();
+                    ToolCursor = new SpriteCursor(_playerSprite, 8, 1);
+                    _toolBehavior = new StartPointToolBehavior(8, 1);
                     ActiveIcon = "start";
                     break;
 

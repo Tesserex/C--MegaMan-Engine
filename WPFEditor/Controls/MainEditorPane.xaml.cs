@@ -30,6 +30,7 @@ namespace MegaMan.Editor.Controls
             var entityModel = new EntityTrayViewModel();
             stageEntitiesControl.ToolProvider = entityModel;
             entityTray.DataContext = entityModel;
+            entityToolbar.DataContext = entityModel;
         }
     }
 }
