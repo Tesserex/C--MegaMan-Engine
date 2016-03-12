@@ -8,9 +8,10 @@ namespace MegaMan.Editor.Tools
     {
         private Sprite _sprite;
 
-        public SpriteCursor(Sprite sprite)
+        public SpriteCursor(Sprite sprite) : base(sprite.HotSpot)
         {
             _sprite = sprite;
+            DrawOutline = false;
         }
 
         protected override ImageSource CursorImage
@@ -25,7 +26,7 @@ namespace MegaMan.Editor.Tools
 
         protected override float Width { get { return _sprite.Width; } }
         protected override float Height { get { return _sprite.Height; } }
-        protected override float SnapWidth { get { return _sprite.Width; } }
-        protected override float SnapHeight { get { return _sprite.Height; } }
+        protected override float SnapWidth { get { return 1; } }
+        protected override float SnapHeight { get { return 1; } }
     }
 }

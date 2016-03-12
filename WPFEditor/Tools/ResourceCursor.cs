@@ -9,7 +9,7 @@ namespace MegaMan.Editor.Tools
         private BitmapImage image;
 
         public ResourceCursor(string resourceName, Point? hotspot = null)
-            : base()
+            : base(hotspot)
         {
             this.image = new BitmapImage(new Uri("pack://application:,,,/Resources/" + resourceName));
         }

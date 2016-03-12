@@ -13,18 +13,28 @@ namespace MegaMan.Editor.Tools
         private static ToolCursorAdorner _cursorAdorner;
 
         private FrameworkElement _element;
+        private int _hotX = 0, _hotY = 0;
 
         private static Pen outlinePen = new Pen(new SolidColorBrush(Colors.Silver) { Opacity = 0.5 }, 2);
         private static Pen shadowPen = new Pen(new SolidColorBrush(Colors.Black) { Opacity = 0.5 }, 2);
 
-        protected ImageCursor()
+        protected ImageCursor(Common.Geometry.Point? hotspot = null)
         {
+            if (hotspot.HasValue)
+            {
+                _hotX = hotspot.Value.X;
+                _hotY = hotspot.Value.Y;
+            }
+
+            DrawOutline = true;
         }
 
         protected abstract ImageSource CursorImage
         {
             get;
         }
+
+        protected bool DrawOutline { get; set; }
 
         public void ApplyCursorTo(FrameworkElement element)
         {
@@ -95,16 +105,22 @@ namespace MegaMan.Editor.Tools
             var snapX = (int)((cursorPosition.X + scrollOffsetX) / snapWidth) * snapWidth - scrollOffsetX;
             var snapY = (int)((cursorPosition.Y + scrollOffsetY) / snapHeight) * snapHeight - scrollOffsetY;
 
+            var finalX = snapX - (_hotX * zoom);
+            var finalY = snapY - (_hotY * zoom);
+
             drawingContext.DrawImage(this.CursorImage,
                 new Rect(
-                    snapX,
-                    snapY,
+                    finalX,
+                    finalY,
                     width,
                     height)
                 );
 
-            drawingContext.DrawRectangle(null, outlinePen, new Rect(snapX, snapY, width, height));
-            drawingContext.DrawRoundedRectangle(null, shadowPen, new Rect(snapX - 1, snapY - 1, width + 2, height + 2), 2, 2);
+            if (DrawOutline)
+            {
+                drawingContext.DrawRectangle(null, outlinePen, new Rect(finalX, finalY, width, height));
+                drawingContext.DrawRoundedRectangle(null, shadowPen, new Rect(finalX - 1, finalY - 1, width + 2, height + 2), 2, 2);
+            }
         }
     }
 }
