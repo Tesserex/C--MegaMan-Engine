@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
@@ -16,6 +17,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         private IToolBehavior _toolBehavior;
 
         private StageDocument _currentStage;
+
+        private Sprite _playerSprite;
 
         private string _activeIcon;
 
@@ -126,13 +129,13 @@ namespace MegaMan.Editor.Controls.ViewModels
                     break;
 
                 case "Start":
-                    ToolCursor = new ResourceCursor("start_full.png");
+                    ToolCursor = new SpriteCursor(_playerSprite);
                     _toolBehavior = new StartPointToolBehavior();
                     ActiveIcon = "start";
                     break;
 
                 case "Continue":
-                    ToolCursor = new ResourceCursor("continue_full.png");
+                    ToolCursor = new SpriteCursor(_playerSprite);
                     _toolBehavior = new ContinuePointToolBehavior();
                     ActiveIcon = "continue";
                     break;
@@ -147,6 +150,15 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void StageChanged(object sender, StageChangedEventArgs e)
         {
             _currentStage = e.Stage;
+
+            if (_currentStage != null)
+            {
+                var player = _currentStage.Project.EntityByName("Player");
+                if (player != null)
+                {
+                    _playerSprite = player.DefaultSprite;
+                }
+            }
 
             OnPropertyChanged("HasStage");
         }
