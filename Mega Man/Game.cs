@@ -130,8 +130,8 @@ namespace MegaMan.Engine
                 stageFactory.Load(stageInfo);
             }
 
-            _entitySource.LoadEntities(project.Entities);
             _tileProperties.LoadProperties(project.EntityProperties);
+            _entitySource.LoadEntities(project.Entities);
             EffectParser.LoadEffectsList(project.Functions);
             Engine.Instance.SoundSystem.LoadEffectsFromInfo(project.Sounds);
             Scene.LoadScenes(project.Scenes);
