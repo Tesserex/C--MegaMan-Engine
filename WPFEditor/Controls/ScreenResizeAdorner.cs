@@ -180,18 +180,19 @@ namespace MegaMan.Editor.Controls
         // Arrange the Adorners.
         protected override Size ArrangeOverride(Size finalSize)
         {
+            var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
+
             // desiredWidth and desiredHeight are the width and height of the element that's being adorned.  
             // These will be used to place the ResizingAdorner at the corners of the adorned element.  
             double desiredWidth = AdornedElement.RenderSize.Width;
             double desiredHeight = AdornedElement.RenderSize.Height;
 
-            /*
             if (AdornedElement is ScreenCanvas)
             {
                 var sc = (ScreenCanvas)AdornedElement;
-                desiredWidth = sc.Screen.PixelWidth;
-                desiredHeight = sc.Screen.PixelHeight;
-            }*/
+                desiredWidth = sc.Screen.PixelWidth * zoom;
+                desiredHeight = sc.Screen.PixelHeight * zoom;
+            }
 
             top.Arrange(new Rect(0, -desiredHeight / 2, desiredWidth, desiredHeight));
             right.Arrange(new Rect(desiredWidth / 2, 0, desiredWidth, desiredHeight));
