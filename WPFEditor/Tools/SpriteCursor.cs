@@ -7,10 +7,14 @@ namespace MegaMan.Editor.Tools
     public class SpriteCursor : ImageCursor
     {
         private Sprite _sprite;
+        private int _snapWidth;
+        private int _snapHeight;
 
-        public SpriteCursor(Sprite sprite) : base(sprite.HotSpot)
+        public SpriteCursor(Sprite sprite, int snapWidth = 1, int snapHeight = 1) : base(sprite.HotSpot)
         {
             _sprite = sprite;
+            _snapWidth = snapWidth;
+            _snapHeight = snapHeight;
             DrawOutline = false;
         }
 
@@ -26,7 +30,7 @@ namespace MegaMan.Editor.Tools
 
         protected override float Width { get { return _sprite.Width; } }
         protected override float Height { get { return _sprite.Height; } }
-        protected override float SnapWidth { get { return 1; } }
-        protected override float SnapHeight { get { return 1; } }
+        protected override float SnapWidth { get { return _snapWidth; } }
+        protected override float SnapHeight { get { return _snapHeight; } }
     }
 }
