@@ -35,11 +35,12 @@ namespace MegaMan.Editor.Controls
                     if (sprite != null)
                     {
                         var frame = SpriteBitmapCache.GetOrLoadFrame(sprite.SheetPath.Absolute, sprite.CurrentFrame.SheetLocation);
+                        frame = SpriteBitmapCache.Scale(frame, this.Zoom);
 
                         var flip = (placement.direction == Common.Direction.Left) ^ sprite.Reversed;
                         int hx = flip ? sprite.Width - sprite.HotSpot.X : sprite.HotSpot.X;
 
-                        dc.DrawImage(frame, new Rect(this.Zoom * (placement.screenX - hx), this.Zoom * (placement.screenY - sprite.HotSpot.Y), this.Zoom * frame.PixelWidth, this.Zoom * frame.PixelHeight));
+                        dc.DrawImage(frame, new Rect(this.Zoom * (placement.screenX - hx), this.Zoom * (placement.screenY - sprite.HotSpot.Y), frame.PixelWidth, frame.PixelHeight));
 
                         continue;
                     }
