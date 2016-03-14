@@ -199,7 +199,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             EntityList = e.Project.Entities
                 .OrderBy(x => x.Name)
                 .ToList();
+
             OnPropertyChanged("EntityList");
+
+            CurrentEntity = EntityList.FirstOrDefault();
         }
         
         private void Save()

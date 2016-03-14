@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
-                <c:EditableLabel Width="200" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
+                <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button Command="{Binding PlayCommand}" Style="{StaticResource LeftButton}" HorizontalAlignment="Right">
                         <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>

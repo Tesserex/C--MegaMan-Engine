@@ -13,6 +13,7 @@
 		<Stage name="Parallax" path="stages\Parallax" />
 		<Stage name="NewStage" path="stages\NewStage" />
 		<Stage name="TilesetTest" path="stages\TilesetTest" />
+		<Stage name="Puzzle" path="stages\Puzzle" />
 	</Stages>
 	<Next type="Menu" name="Title" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>

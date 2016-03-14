@@ -16,7 +16,13 @@ namespace MegaMan.Editor.Controls
     {
         private bool _editing = false;
 
-        public static readonly DependencyProperty TextProp = DependencyProperty.Register("Text", typeof(string), typeof(EditableLabel));
+        public static readonly DependencyProperty TextProp = DependencyProperty.Register("Text", typeof(string), typeof(EditableLabel), new PropertyMetadata(null, Changed));
+
+        private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var c = (EditableLabel)d;
+            c.SetValue(e.Property, e.NewValue);
+        }
 
         public string Text
         {
@@ -31,21 +37,21 @@ namespace MegaMan.Editor.Controls
         public Visibility LabelVisibility { get { return _editing ? Visibility.Collapsed : Visibility.Visible; } }
         public Visibility TextBoxVisibility { get { return _editing ? Visibility.Visible : Visibility.Collapsed; } }
 
-        public string ButtonIcon
+        public Uri ButtonIcon
         {
             get
             {
                 if (_editing)
-                    return "/Resources/check.png";
+                    return new Uri("pack://application:,,,/Resources/check.png");
                 else
-                    return "/Resources/pencil.png";
+                    return new Uri("pack://application:,,,/Resources/pencil.png");
             }
         }
 
         public EditableLabel()
         {
             InitializeComponent();
-            this.DataContext = this;
+            (this.Content as FrameworkElement).DataContext = this;
             SwapCommand = new RelayCommand(Swap);
         }
 

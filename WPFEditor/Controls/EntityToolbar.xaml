@@ -5,12 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MegaMan.Editor.Controls"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="28" d:DesignWidth="500">
     <ToolBarTray Orientation="Horizontal">
         <ToolBar Band="1" BandIndex="1">
-            <CheckBox IsChecked="{Binding Path=SnapHorizontal}">Snap Horizontal</CheckBox>
-            <CheckBox IsChecked="{Binding Path=SnapVertical}">Snap Vertical</CheckBox>
+            <Label FontWeight="Bold">Snap:</Label>
+            <CheckBox IsChecked="{Binding Path=SnapHorizontal}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center">Horizontal</TextBlock>
+                    <xctk:IntegerUpDown Value="{Binding HorizSnapAmount}" Minimum="2" Maximum="16" Margin="5,0,0,0"></xctk:IntegerUpDown>
+                </StackPanel>
+            </CheckBox>
+            <CheckBox IsChecked="{Binding Path=SnapVertical}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center">Vertical</TextBlock>
+                    <xctk:IntegerUpDown Value="{Binding VertSnapAmount}" Minimum="2" Maximum="16" Margin="5,0,0,0"></xctk:IntegerUpDown>
+                </StackPanel>
+            </CheckBox>
         </ToolBar>
     </ToolBarTray>
 </UserControl>

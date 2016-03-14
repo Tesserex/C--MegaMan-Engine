@@ -34,8 +34,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void UpdateTool()
         {
-            _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
-            _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
+            _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+            _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
 
             if (ToolChanged != null)
             {
@@ -45,6 +45,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private bool _snapHoriz;
         private bool _snapVert;
+        private int _horizSnapAmount;
+        private int _vertSnapAmount;
 
         public bool SnapHorizontal
         {
@@ -68,9 +70,33 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public int HorizSnapAmount
+        {
+            get { return _horizSnapAmount; }
+            set
+            {
+                _horizSnapAmount = value;
+                OnPropertyChanged("HorizSnapAmount");
+                UpdateTool();
+            }
+        }
+        
+        public int VertSnapAmount
+        {
+            get { return _vertSnapAmount; }
+            set
+            {
+                _vertSnapAmount = value;
+                OnPropertyChanged("VertSnapAmount");
+                UpdateTool();
+            }
+        }
+
         public EntityTrayViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            _horizSnapAmount = 8;
+            _vertSnapAmount = 8;
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
