@@ -1,7 +1,9 @@
 <Map name="TilesetTest" tiles="tilesets\TilesetTest\tiles.xml">
 	<Music nsftrack="2" />
 	<Start screen="1" x="38" y="170" />
-	<Screen id="1" />
+	<Screen id="1">
+		<Entity id="4e234ce2-a508-4d1b-812b-74fbdfd11d0c" entity="ShotDoor" x="128" y="160" direction="Unknown" respawn="Offscreen" />
+	</Screen>
 	<Screen id="2" />
 	<Screen id="3" />
 	<Join type="vertical" s1="1" s2="2" offset1="0" offset2="0" size="14" direction="both" />

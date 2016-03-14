@@ -57,7 +57,10 @@
 		</Sprite>
 		<Collision>
 			<Hitbox name="H" damage="1" x="-4" y="-4" width="8" height="8" environment="false">
-				<Hits>Enemy</Hits><Group>Projectile</Group>
+				<Group>Projectile</Group>
+				<Hits>Enemy</Hits>
+				<Hits>Deflect</Hits>
+				<Hits>KillProjectile</Hits>
 			</Hitbox>
 			<Blocking>False</Blocking>
 		</Collision>
@@ -91,6 +94,12 @@
 				<Sound name="Deflect" />
 				<Collision><Enabled>False</Enabled></Collision>
 				<Movement><X magnitude="3" direction="Reverse" /><Y magnitude="3" direction="Up" /></Movement>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Collision.TouchedBy("KillProjectile")</Condition>
+			<Effect>
+				<Die />
 			</Effect>
 		</Trigger>
 	</Entity>

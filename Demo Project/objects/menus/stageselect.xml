@@ -171,7 +171,7 @@
 				<SpriteMove name="RightEye" x="130" y="114" />
 			</On>
 			<Select>
-				<Next type="Stage" name="Parallax" fade="True" />
+				<Next type="Stage" name="Puzzle" fade="True" />
 				<Sound name="Select" />
 			</Select>
 		</Option>

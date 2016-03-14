@@ -3,7 +3,7 @@
 	<Start screen="Start" x="128" y="60" />
 	<Continue screen="Continue" x="32" y="148" />
 	<Screen id="Start">
-		<Entity id="4e234ce2-a508-4d1b-812b-74fbdfd11d0b" entity="ExtraLife" state="" x="110" y="161" direction="Unknown" respawn="Offscreen" />
+		<Entity id="4e234ce2-a508-4d1b-812b-74fbdfd11d0b" entity="ExtraLife" x="110" y="161" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Second">
 		<Entity id="ad0548b8-331e-4fd8-8a7a-1424836eed42" entity="ShieldShooter" x="128" y="80" direction="Unknown" respawn="Offscreen" />
@@ -11,8 +11,8 @@
 		<Entity id="a44d9fff-c7c5-43e6-b4c9-b06c81d84a77" entity="GroundCannon" x="112" y="320" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Third">
-		<Entity id="9c6361a0-0611-4cc7-aceb-4b02f749f23b" entity="Collapser" x="128" y="128" direction="Unknown" respawn="Offscreen" />
 		<Entity id="1f58bba7-fb6e-40ce-897a-7182f5d53286" entity="Collapser" x="128" y="192" direction="Unknown" respawn="Offscreen" />
+		<Entity id="5d3e0587-ca40-4b84-a157-eeb3a76a1beb" entity="Collapser" x="130" y="112" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="BottomLeft">
 		<Entity id="0da585e2-56b8-4674-bd23-1f8d0a74c217" entity="FloorBlade" x="60" y="168" direction="Unknown" respawn="Offscreen" />
