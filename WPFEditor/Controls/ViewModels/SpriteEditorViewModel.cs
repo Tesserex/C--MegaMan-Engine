@@ -10,7 +10,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteEditorViewModel : INotifyPropertyChanged
     {
-        private Sprite _sprite;
+        private SpriteViewModel _sprite;
         private ProjectDocument _project;
 
         private static int _previewZoom = 1;
@@ -42,7 +42,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public SpriteEditorViewModel(Sprite sprite, ProjectDocument project = null)
+        public SpriteEditorViewModel(SpriteViewModel sprite, ProjectDocument project = null)
         {
             if (sprite == null)
                 throw new ArgumentNullException("sprite");
@@ -155,7 +155,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("HighlightHeight");
         }
 
-        public Sprite Sprite
+        public SpriteViewModel Sprite
         {
             get
             {

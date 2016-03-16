@@ -4,15 +4,14 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 {
     public class SpriteListItemViewModel
     {
-        private readonly Sprite _sprite;
+        private readonly SpriteViewModel _sprite;
 
         public SpriteListItemViewModel(Sprite sprite)
         {
-            _sprite = sprite;
+            _sprite = sprite != null ? new SpriteViewModel(sprite) : null;
         }
-
-        public string Name { get { return _sprite == null ? string.Empty : _sprite.Name; } }
-        public Sprite Sprite { get { return _sprite; } }
+        
+        public SpriteViewModel Sprite { get { return _sprite; } }
 
         public string ButtonText { get { return _sprite == null ? "Add" : "Edit"; } }
     }

@@ -34,7 +34,7 @@ namespace MegaMan.Editor.Controls
 
         public SpriteEditor(Common.Sprite sprite)
         {
-            var viewModel = new SpriteEditorViewModel(sprite);
+            var viewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite));
 
             InitializeComponent();
 

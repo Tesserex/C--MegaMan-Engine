@@ -142,7 +142,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             Sprite sprite = CreateEmptySprite();
             _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
-            ComponentViewModel = new SpriteEditorViewModel(sprite, _project);
+            ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite), _project);
             OnPropertyChanged("ComponentViewModel");
             OnPropertyChanged("Sprites");
         }

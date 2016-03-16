@@ -10,6 +10,11 @@
              d:DesignHeight="28" d:DesignWidth="500">
     <ToolBarTray Orientation="Horizontal">
         <ToolBar Band="1" BandIndex="1">
+            <RadioButton ToolTip="Edit Entities" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
+                <Image Source="{Binding CursorIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </RadioButton>
+        </ToolBar>
+        <ToolBar Band="1" BandIndex="2">
             <Label FontWeight="Bold">Snap:</Label>
             <CheckBox IsChecked="{Binding Path=SnapHorizontal}">
                 <StackPanel Orientation="Horizontal">

@@ -225,6 +225,8 @@
     <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
+    <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
+    <Compile Include="Controls\ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
     <Compile Include="Controls\ViewModels\TileBrushControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
