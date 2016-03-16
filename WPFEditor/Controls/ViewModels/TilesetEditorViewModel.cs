@@ -201,7 +201,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             SelectedTile = tile;
 
             if (tile != null)
-                Sprite = new SpriteEditorViewModel(tile.Sprite, this._project);
+                Sprite = new SpriteEditorViewModel(new SpriteViewModel(tile.Sprite), this._project);
             else
                 Sprite = null;
 

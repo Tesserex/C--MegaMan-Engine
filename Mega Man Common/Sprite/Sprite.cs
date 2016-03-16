@@ -40,12 +40,12 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets the height of the sprite.
         /// </summary>
-        public virtual int Height { get; private set; }
+        public virtual int Height { get; set; }
 
         /// <summary>
         /// Gets the width of the sprite.
         /// </summary>
-        public virtual int Width { get; private set; }
+        public virtual int Width { get; set; }
 
         /// <summary>
         /// Gets the number of frames in the sprite animation.

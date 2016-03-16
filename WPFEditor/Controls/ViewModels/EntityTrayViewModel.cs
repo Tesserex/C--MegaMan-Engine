@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
@@ -21,6 +22,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         private IToolBehavior _toolBehavior;
         private EntityInfo _selectedEntity;
 
+        public ICommand ChangeToolCommand { get; set; }
+
         public EntityInfo SelectedEntity
         {
             get { return _selectedEntity; }
@@ -28,14 +31,44 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _selectedEntity = value;
 
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
-        private void UpdateTool()
+        public string CursorIcon { get { return IconFor("cursor"); } }
+
+        private string _activeIcon;
+        private string ActiveIcon
         {
-            _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
-            _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? 16 : 1, SnapVertical ? 16 : 1);
+            get { return _activeIcon; }
+            set
+            {
+                _activeIcon = value;
+                OnPropertyChanged("CursorIcon");
+            }
+        }
+
+        private string IconFor(string icon)
+        {
+            return String.Format("/Resources/{0}_{1}.png", icon, (_activeIcon == icon) ? "on" : "off");
+        }
+
+        private void UpdateTool(object toolParam = null)
+        {
+            switch (toolParam.ToString())
+            {
+                case "Hand":
+                    _toolCursor = new StandardToolCursor("hand.cur");
+                    _toolBehavior = new LayoutToolBehavior();
+                    ActiveIcon = "cursor";
+                    break;
+
+                case "Entity":
+                    _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                    _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                    ActiveIcon = "";
+                    break;
+            }
 
             if (ToolChanged != null)
             {
@@ -45,6 +78,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private bool _snapHoriz;
         private bool _snapVert;
+        private int _horizSnapAmount;
+        private int _vertSnapAmount;
 
         public bool SnapHorizontal
         {
@@ -68,9 +103,35 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public int HorizSnapAmount
+        {
+            get { return _horizSnapAmount; }
+            set
+            {
+                _horizSnapAmount = value;
+                OnPropertyChanged("HorizSnapAmount");
+                UpdateTool();
+            }
+        }
+
+        public int VertSnapAmount
+        {
+            get { return _vertSnapAmount; }
+            set
+            {
+                _vertSnapAmount = value;
+                OnPropertyChanged("VertSnapAmount");
+                UpdateTool();
+            }
+        }
+
         public EntityTrayViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+
+            ChangeToolCommand = new RelayCommand(UpdateTool);
+            _horizSnapAmount = 8;
+            _vertSnapAmount = 8;
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
