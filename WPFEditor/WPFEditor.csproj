@@ -544,7 +544,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\fmodex.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\MegaManR.Audio.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

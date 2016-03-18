@@ -7,7 +7,7 @@ using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
-    internal class EntityXmlWriter
+    public class EntityXmlWriter : IEntityWriter
     {
         public void Write(EntityInfo entity, string filepath)
         {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.IO;
@@ -28,6 +25,12 @@ namespace MegaMan.Editor.Services
             {
                 var stage = project.StageByName(stageName);
                 SaveStage(stage);
+            }
+
+            foreach (var entity in project.Entities)
+            {
+                var entityPath = project.FileStructure.CreateEntityPath(entity.Name);
+                SaveEntity(entity, entityPath.Absolute);
             }
         }
 
@@ -110,6 +113,12 @@ namespace MegaMan.Editor.Services
                     tileset.AddBrush(brush);
                 }
             }
+        }
+
+        public void SaveEntity(EntityInfo entity, string path)
+        {
+            var writer = _writerProvider.GetEntityWriter();
+            writer.Write(entity, path);
         }
     }
 }

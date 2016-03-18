@@ -1,4 +1,5 @@
 ﻿using MegaMan.IO.Xml;
+using MegaMan.IO.Xml.Includes;
 using Ninject;
 
 namespace MegaMan.IO
@@ -7,7 +8,7 @@ namespace MegaMan.IO
     {
         public IProjectWriter GetProjectWriter()
         {
-            return new ProjectXmlWriter();
+            return Injector.Container.Get<ProjectXmlWriter>();
         }
 
         public IStageWriter GetStageWriter()
@@ -18,6 +19,11 @@ namespace MegaMan.IO
         public ITilesetWriter GetTilesetWriter()
         {
             return new TilesetXmlWriter(new SpriteXmlWriter());
+        }
+
+        public IEntityWriter GetEntityWriter()
+        {
+            return new EntityXmlWriter();
         }
     }
 }
