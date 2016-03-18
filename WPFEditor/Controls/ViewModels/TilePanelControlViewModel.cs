@@ -27,6 +27,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public MultiTileBrush SelectedBrush { get; set; }
+
         public TilePanelControlViewModel()
         {
             ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Subscribe(SelectionChanged);
@@ -50,7 +52,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
             _ignoreTileChanged = false;
 
+            SelectedBrush = null;
             OnPropertyChanged("SelectedTile");
+            OnPropertyChanged("SelectedBrush");
         }
 
         private void CreateSelectionBrush(object obj)
@@ -119,6 +123,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             var args = new TileBrushSelectedEventArgs() { TileBrush = multiTileBrush };
             ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
+
+            SelectedBrush = multiTileBrush;
+            OnPropertyChanged("SelectedBrush");
         }
     }
 }
