@@ -60,7 +60,7 @@
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <c:TileBrushControl x:Name="brushTray" Grid.Column="0"></c:TileBrushControl>
+                    <c:TilePanelControl x:Name="brushTray" Grid.Column="0"></c:TilePanelControl>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
                     <c:StageTileControl x:Name="stageTileControl" Grid.Column="2"></c:StageTileControl>
                 </Grid>

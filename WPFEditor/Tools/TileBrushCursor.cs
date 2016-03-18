@@ -6,11 +6,11 @@ using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Tools
 {
-    public class MultiTileCursor : ImageCursor
+    public class TileBrushCursor : ImageCursor
     {
-        private MultiTileBrush _brush;
+        private ITileBrush _brush;
 
-        public MultiTileCursor(MultiTileBrush brush)
+        public TileBrushCursor(ITileBrush brush)
         {
             _brush = brush;
 
