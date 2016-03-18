@@ -7,7 +7,7 @@ namespace MegaMan.IO
     {
         public IProjectWriter GetProjectWriter()
         {
-            return new ProjectXmlWriter();
+            return Injector.Container.Get<ProjectXmlWriter>();
         }
 
         public IStageWriter GetStageWriter()
