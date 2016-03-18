@@ -59,7 +59,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Hand":
                     _toolCursor = new StandardToolCursor("hand.cur");
-                    _toolBehavior = new LayoutToolBehavior();
+                    _toolBehavior = null;
                     ActiveIcon = "cursor";
                     break;
 
