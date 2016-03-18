@@ -208,8 +208,8 @@
     <Compile Include="Controls\StagePropertiesControl.xaml.cs">
       <DependentUpon>StagePropertiesControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TileBrushControl.xaml.cs">
-      <DependentUpon>TileBrushControl.xaml</DependentUpon>
+    <Compile Include="Controls\TilePanelControl.xaml.cs">
+      <DependentUpon>TilePanelControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
@@ -228,7 +228,7 @@
     <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
     <Compile Include="Controls\ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TileBrushControlViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TilePanelControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -244,6 +244,7 @@
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
+    <Compile Include="Mediator\TileBrushSelectedEventArgs.cs" />
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
@@ -254,7 +255,7 @@
     <Compile Include="ThemeProperties.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
     <Compile Include="Tools\ImageCursor.cs" />
-    <Compile Include="Tools\MultiTileCursor.cs" />
+    <Compile Include="Tools\TileBrushCursor.cs" />
     <Compile Include="Tools\ResourceCursor.cs" />
     <Compile Include="Tools\SpriteCursor.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
@@ -272,7 +273,7 @@
     <Compile Include="Controls\TileStrip.xaml.cs">
       <DependentUpon>TileStrip.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ViewModels\TilesetViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TilesToolbarViewModel.cs" />
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
@@ -336,7 +337,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TileBrushControl.xaml">
+    <Page Include="Controls\TilePanelControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

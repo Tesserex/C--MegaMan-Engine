@@ -1,23 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
+using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
-using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    public class TileBrushControlViewModel : INotifyPropertyChanged, IToolProvider
+    public class TilePanelControlViewModel : TilesetViewModelBase
     {
-        private TilesetDocument _tileset;
-
         private ScreenDocument _selectionScreen;
         private Rectangle? _selection;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand AddTileBrushCommand { get; private set; }
         public ICommand CreateBrushSelectionCommand { get; private set; }
@@ -32,22 +27,30 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        private void OnPropertyChanged(string property)
+        public TilePanelControlViewModel()
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
-        }
-
-        public TileBrushControlViewModel()
-        {
-            ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Subscribe(SelectionChanged);
 
             AddTileBrushCommand = new RelayCommand(AddTileBrush, o => _tileset != null);
             CreateBrushSelectionCommand = new RelayCommand(CreateSelectionBrush, o => _selection != null);
+        }
+
+        private bool _ignoreTileChanged;
+
+        public override void ChangeTile(Tile tile)
+        {
+            if (_ignoreTileChanged)
+                return;
+
+            SelectedTile = tile;
+
+            // prevent infinite recursion
+            _ignoreTileChanged = true;
+            var args = new TileBrushSelectedEventArgs() { TileBrush = tile != null ? new SingleTileBrush(tile) : null };
+            ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
+            _ignoreTileChanged = false;
+
+            OnPropertyChanged("SelectedTile");
         }
 
         private void CreateSelectionBrush(object obj)
@@ -96,9 +99,9 @@ namespace MegaMan.Editor.Controls.ViewModels
                 SetTileset(null);
         }
 
-        private void SetTileset(TilesetDocument tileset)
+        protected override void SetTileset(TilesetDocument tileset)
         {
-            _tileset = tileset;
+            base.SetTileset(tileset);
 
             if (tileset == null)
             {
@@ -114,27 +117,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         internal void SelectBrush(MultiTileBrush multiTileBrush)
         {
-            Tool = new TileBrushToolBehavior(multiTileBrush);
-            ToolCursor = new MultiTileCursor(multiTileBrush);
-
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(Tool));
-            }
+            var args = new TileBrushSelectedEventArgs() { TileBrush = multiTileBrush };
+            ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
         }
-
-        public IToolBehavior Tool
-        {
-            get;
-            private set;
-        }
-
-        public IToolCursor ToolCursor
-        {
-            get;
-            private set;
-        }
-
-        public event System.EventHandler<ToolChangedEventArgs> ToolChanged;
     }
 }
