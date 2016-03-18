@@ -12,7 +12,8 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         protected void OnPropertyChanged([CallerMemberName] string property = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
