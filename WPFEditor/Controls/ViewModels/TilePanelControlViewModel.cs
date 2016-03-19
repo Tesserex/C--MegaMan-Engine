@@ -16,8 +16,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand AddTileBrushCommand { get; private set; }
         public ICommand CreateBrushSelectionCommand { get; private set; }
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
 
         private ObservableCollection<MultiTileBrush> _observedBrushes;
+
+        public int Zoom { get; private set; }
 
         public IEnumerable<MultiTileBrush> Brushes
         {
@@ -33,8 +37,29 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Subscribe(SelectionChanged);
 
+            Zoom = 1;
             AddTileBrushCommand = new RelayCommand(AddTileBrush, o => _tileset != null);
             CreateBrushSelectionCommand = new RelayCommand(CreateSelectionBrush, o => _selection != null);
+            ZoomInCommand = new RelayCommand(ZoomIn);
+            ZoomOutCommand = new RelayCommand(ZoomOut);
+        }
+
+        private void ZoomIn(object arg)
+        {
+            if (Zoom < 4)
+            {
+                Zoom++;
+                OnPropertyChanged("Zoom");
+            }
+        }
+
+        private void ZoomOut(object arg)
+        {
+            if (Zoom > 1)
+            {
+                Zoom--;
+                OnPropertyChanged("Zoom");
+            }
         }
 
         private bool _ignoreTileChanged;

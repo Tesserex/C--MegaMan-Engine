@@ -1,7 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
 using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls
@@ -16,7 +13,8 @@ namespace MegaMan.Editor.Controls
             set { SetValue(SelectedTileProperty, value); }
         }
 
-        public TileImage() : base()
+        public TileImage()
+            : base()
         {
         }
 
