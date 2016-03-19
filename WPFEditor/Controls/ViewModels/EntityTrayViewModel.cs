@@ -53,7 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             return String.Format("/Resources/{0}_{1}.png", icon, (_activeIcon == icon) ? "on" : "off");
         }
 
-        private void UpdateTool(object toolParam = null)
+        private void UpdateTool(object toolParam)
         {
             switch (toolParam.ToString())
             {
@@ -88,7 +88,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _snapHoriz = value;
                 OnPropertyChanged("SnapHorizontal");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
@@ -99,7 +99,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _snapVert = value;
                 OnPropertyChanged("SnapVertical");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
@@ -110,7 +110,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _horizSnapAmount = value;
                 OnPropertyChanged("HorizSnapAmount");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
@@ -121,7 +121,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _vertSnapAmount = value;
                 OnPropertyChanged("VertSnapAmount");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
