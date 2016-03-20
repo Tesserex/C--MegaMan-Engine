@@ -58,6 +58,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>wily.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fluent, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -548,6 +551,8 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\wily.ico" />
+    <Resource Include="wily.ico" />
     <Resource Include="Resources\Includes\images\items.png" />
     <Resource Include="Resources\Includes\images\weapons\rush.png" />
     <Resource Include="Resources\Includes\images\palettes\palettes.xml" />

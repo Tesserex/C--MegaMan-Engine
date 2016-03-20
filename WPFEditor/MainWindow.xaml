@@ -6,6 +6,7 @@
         xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:c="clr-namespace:MegaMan.Editor.Controls"
         Title="{Binding WindowTitle}" Height="700" Width="1100"
+        Icon="Resources/wily.ico"
         x:Name="MainWindow1">
     <Window.Resources>
         <avalonDock:VS2010Theme x:Key="VS2010Theme" />
