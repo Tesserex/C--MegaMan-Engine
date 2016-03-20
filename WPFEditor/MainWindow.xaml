@@ -65,6 +65,7 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox>
                     <Fluent:ToggleButton Header="Room Borders" Icon="/Resources/roomborder.png" LargeIcon="/Resources/roomborder.png" IsChecked="{Binding ShowRoomBorders}" Command="{Binding UpdateLayerVisibilityCommand}" />
+                    <Fluent:ToggleButton Header="Tile Effects" IsChecked="{Binding ShowTileProperties}" Command="{Binding UpdateLayerVisibilityCommand}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 

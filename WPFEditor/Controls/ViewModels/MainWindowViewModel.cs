@@ -91,16 +91,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        private bool _showRoomBorders;
-        public bool ShowRoomBorders
-        {
-            get { return _showRoomBorders; }
-            set
-            {
-                _showRoomBorders = value;
-                OnPropertyChanged("ShowRoomBorders");
-            }
-        }
+        public bool ShowRoomBorders { get; set; }
+        public bool ShowTileProperties { get; set; }
 
         private AvalonDockLayoutViewModel mAVLayout;
         public AvalonDockLayoutViewModel ADLayout
@@ -149,7 +141,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void UpdateLayerVisibility(object obj)
         {
             ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Raise(this, new LayerVisibilityChangedEventArgs() {
-                BordersVisible = ShowRoomBorders
+                BordersVisible = ShowRoomBorders,
+                TilePropertiesVisible = ShowTileProperties
             });
         }
 
