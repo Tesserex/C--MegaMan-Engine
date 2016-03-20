@@ -40,6 +40,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand RedoCommand { get; private set; }
         public ICommand EnginePathCommand { get; private set; }
         public ICommand NewEntityCommand { get; private set; }
+        public ICommand UpdateLayerVisibilityCommand { get; private set; }
 
         private bool _showBackstage;
         public bool ShowBackstage
@@ -140,8 +141,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
             NewEntityCommand = new RelayCommand(NewEntity);
+            UpdateLayerVisibilityCommand = new RelayCommand(UpdateLayerVisibility);
 
             ShowBackstage = true;
+        }
+
+        private void UpdateLayerVisibility(object obj)
+        {
+            ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Raise(this, new LayerVisibilityChangedEventArgs() {
+                BordersVisible = ShowRoomBorders
+            });
         }
 
         private void NewEntity(object obj)

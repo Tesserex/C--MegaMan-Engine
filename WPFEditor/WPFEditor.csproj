@@ -177,6 +177,7 @@
     <Compile Include="Controls\EntityToolbar.xaml.cs">
       <DependentUpon>EntityToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Layers\GuidesLayer.cs" />
     <Compile Include="Controls\Layers\EntityScreenLayer.cs" />
     <Compile Include="Controls\EntityTray.xaml.cs">
       <DependentUpon>EntityTray.xaml</DependentUpon>
@@ -241,6 +242,7 @@
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\NewEntityEventArgs.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
+    <Compile Include="Mediator\LayerVisibilityChangedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
     <Compile Include="Mediator\TileBrushSelectedEventArgs.cs" />
@@ -551,6 +553,7 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\roomborder.png" />
     <Resource Include="Resources\wily.ico" />
     <Resource Include="wily.ico" />
     <Resource Include="Resources\Includes\images\items.png" />
