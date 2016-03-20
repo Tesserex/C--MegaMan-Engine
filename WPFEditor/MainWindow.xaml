@@ -63,6 +63,9 @@
                     <Fluent:Button Header="Undo" Icon="/Resources/Undo.png" LargeIcon="/Resources/Undo.png" Command="{Binding UndoCommand}" />
                     <Fluent:Button Header="Redo" Icon="/Resources/Redo.png" LargeIcon="/Resources/Redo.png" Command="{Binding RedoCommand}" />
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox>
+                    <Fluent:ToggleButton Header="Room Borders" Icon="/Resources/roomborder.png" LargeIcon="/Resources/roomborder.png" IsChecked="{Binding ShowRoomBorders}" />
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
             <!--Backstage-->

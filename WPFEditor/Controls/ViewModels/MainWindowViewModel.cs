@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +10,6 @@ using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
-using MegaMan.IO;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -89,6 +87,17 @@ namespace MegaMan.Editor.Controls.ViewModels
                 App.Current.Resources["Zoom"] = _currentZoom.Zoom;
                 OnPropertyChanged("CurrentZoom");
                 ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Raise(this, new ZoomChangedEventArgs() { Zoom = _currentZoom.Zoom });
+            }
+        }
+
+        private bool _showRoomBorders;
+        public bool ShowRoomBorders
+        {
+            get { return _showRoomBorders; }
+            set
+            {
+                _showRoomBorders = value;
+                OnPropertyChanged("ShowRoomBorders");
             }
         }
 
