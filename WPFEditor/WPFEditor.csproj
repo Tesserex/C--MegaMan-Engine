@@ -142,6 +142,7 @@
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
+    <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
     <Compile Include="Bll\Factories\FactoryCore.cs" />
     <Compile Include="Bll\Factories\IProjectDocumentFactory.cs" />
     <Compile Include="Bll\Factories\IStageDocumentFactory.cs" />
@@ -170,6 +171,9 @@
     <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\TilesetImporter.xaml.cs">
+      <DependentUpon>TilesetImporter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
@@ -287,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\NewEntityDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\TilesetImporter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

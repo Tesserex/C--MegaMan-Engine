@@ -10,13 +10,16 @@
              d:DesignHeight="800" d:DesignWidth="800">
     <DockPanel Background="WhiteSmoke">
         <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label FontSize="14" FontWeight="Bold">Image:</Label>
-                <Label Content="{Binding RelSheetPath}" FontSize="12" Margin="5,0,20,0"></Label>
-                <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,40,0">Change...</Button>
-                <Button Command="{Binding AddTileCommand}" Padding="6,2" Margin="0,0,10,0">Add Tile</Button>
-                <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Tile</Button>
-            </StackPanel>
+            <DockPanel Margin="5">
+                <Button Command="{Binding ChangeTilesetCommand}" DockPanel.Dock="Right">Change Tileset</Button>
+                <StackPanel Orientation="Horizontal">
+                    <Label FontSize="14" FontWeight="Bold">Image:</Label>
+                    <Label Content="{Binding RelSheetPath}" FontSize="12" Margin="5,0,20,0"></Label>
+                    <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,40,0">Change...</Button>
+                    <Button Command="{Binding AddTileCommand}" Padding="6,2" Margin="0,0,10,0">Add Tile</Button>
+                    <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Tile</Button>
+                </StackPanel>
+            </DockPanel>
         </Border>
         <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="0">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="150">
@@ -30,12 +33,14 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
-                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Height="20" Command="{Binding DataContext.DeleteTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
-                                    <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
-                                </Button>
-                                <Button DockPanel.Dock="Right" Height="20" Command="{Binding DataContext.EditTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
-                                    <Image Source="/Resources/edit.png" Width="16" Height="16"></Image>
-                                </Button>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                    <Button Style="{StaticResource LeftButton}" Height="20" Command="{Binding DataContext.EditTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
+                                        <Image Source="/Resources/edit.png" Width="16" Height="16"></Image>
+                                    </Button>
+                                    <Button Style="{StaticResource RightButton}" HorizontalContentAlignment="Stretch" Height="20" Command="{Binding DataContext.DeleteTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
+                                        <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
+                                    </Button>
+                                </StackPanel>
                                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="{Binding Name}"></Label>
                             </DockPanel>
                         </DataTemplate>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -23,6 +22,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand EditTilePropertiesCommand { get; private set; }
         public ICommand DeleteTilePropertiesCommand { get; private set; }
         public ICommand HidePropertiesEditorCommand { get; set; }
+        public ICommand ChangeTilesetCommand { get; set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
 
@@ -69,12 +69,18 @@ namespace MegaMan.Editor.Controls.ViewModels
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
             HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
+            ChangeTilesetCommand = new RelayCommand(ChangeTileset);
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
 
             ShowSpriteEditor = System.Windows.Visibility.Visible;
             ShowPropEditor = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ChangeTileset(object obj)
+        {
+
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
@@ -107,7 +113,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _observedProperties = new ObservableCollection<TileProperties>();
             }
-            
+
             OnPropertyChanged("TileProperties");
             OnPropertyChanged("RelSheetPath");
         }
