@@ -152,6 +152,7 @@
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
     <Compile Include="Bll\Tools\ContinuePointToolBehavior.cs" />
+    <Compile Include="Bll\Tools\EntityEditToolBehavior.cs" />
     <Compile Include="Bll\Tools\EntityToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
@@ -173,6 +174,9 @@
     </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EntityPlacementControl.xaml.cs">
+      <DependentUpon>EntityPlacementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EntityToolbar.xaml.cs">
       <DependentUpon>EntityToolbar.xaml</DependentUpon>
@@ -223,6 +227,7 @@
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
+    <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
@@ -293,6 +298,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EntityEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EntityPlacementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,8 +16,14 @@ namespace MegaMan.Editor.Controls
             set { SetValue(SelectedTileProperty, value); }
         }
 
+        protected Border _highlight;
+
         public TileImage() : base()
         {
+            _highlight = new Border() { BorderThickness = new Thickness(1.5), BorderBrush = Brushes.Yellow, Width = 16, Height = 16 };
+            _highlight.Effect = new BlurEffect() { Radius = 2 };
+            _highlight.Visibility = System.Windows.Visibility.Hidden;
+            Children.Add(_highlight);
         }
 
         protected override void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
