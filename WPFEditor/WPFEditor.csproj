@@ -172,8 +172,8 @@
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Dialogs\TilesetImporter.xaml.cs">
-      <DependentUpon>TilesetImporter.xaml</DependentUpon>
+    <Compile Include="Controls\Dialogs\TilesetImporterDialog.xaml.cs">
+      <DependentUpon>TilesetImporterDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
@@ -226,6 +226,7 @@
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
@@ -294,7 +295,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Dialogs\TilesetImporter.xaml">
+    <Page Include="Controls\Dialogs\TilesetImporterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

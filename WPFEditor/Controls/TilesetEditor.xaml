@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:e="clr-namespace:MegaMan.Editor"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
@@ -12,6 +13,7 @@
         <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
             <DockPanel Margin="5">
                 <Button Command="{Binding ChangeTilesetCommand}" DockPanel.Dock="Right">Change Tileset</Button>
+                <Button DockPanel.Dock="Right" Command="{Binding Path=ImportTilesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:MainWindow}}}" CommandParameter="{Binding Tileset}">Import...</Button>
                 <StackPanel Orientation="Horizontal">
                     <Label FontSize="14" FontWeight="Bold">Image:</Label>
                     <Label Content="{Binding RelSheetPath}" FontSize="12" Margin="5,0,20,0"></Label>

@@ -150,6 +150,9 @@
                         <avalonDock:LayoutDocument x:Name="entityEditorPane">
                             <c:EntityEditor x:Name="entityEditorControl"></c:EntityEditor>
                         </avalonDock:LayoutDocument>
+                        <avalonDock:LayoutDocument x:Name="tilesetImporterPane">
+                            <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
+                        </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
                             <DockPanel>
                                 <StackPanel DockPanel.Dock="Bottom">

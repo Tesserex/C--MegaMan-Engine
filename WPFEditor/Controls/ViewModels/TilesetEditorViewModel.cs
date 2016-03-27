@@ -21,10 +21,12 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand AddTilePropertiesCommand { get; private set; }
         public ICommand EditTilePropertiesCommand { get; private set; }
         public ICommand DeleteTilePropertiesCommand { get; private set; }
-        public ICommand HidePropertiesEditorCommand { get; set; }
-        public ICommand ChangeTilesetCommand { get; set; }
+        public ICommand HidePropertiesEditorCommand { get; private set; }
+        public ICommand ChangeTilesetCommand { get; private set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
+
+        public TilesetDocument Tileset { get { return _tileset; } }
 
         public string RelSheetPath
         {
@@ -116,6 +118,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("TileProperties");
             OnPropertyChanged("RelSheetPath");
+            OnPropertyChanged("Tileset");
         }
 
         private void AddTile()

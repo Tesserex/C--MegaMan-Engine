@@ -9,18 +9,22 @@ namespace MegaMan.Editor.Bll.Algorithms
 {
     public class TilesetImporter
     {
-        public Tileset Tileset { get; private set; }
+        public TilesetDocument Tileset { get; private set; }
+        public BitmapSource Tilesheet { get; private set; }
 
         public List<TilesetImporterError> LastErrors { get; private set; }
 
         private List<WriteableBitmap> _tempTiles;
-        private List<WriteableBitmap> _existingFrames;
+        private Dictionary<WriteableBitmap, List<SpriteFrame>> _existingFrames;
 
-        public TilesetImporter(Tileset tileset)
+        public TilesetImporter(TilesetDocument tileset)
         {
             Tileset = tileset;
             if (Tileset != null)
+            {
                 _existingFrames = RipAllFrames();
+                Tilesheet = SpriteBitmapCache.GetOrLoadImage(Tileset.SheetPath.Absolute);
+            }
         }
 
         public void AddImages(IEnumerable<string> filePaths)
@@ -36,6 +40,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 AddImage(i);
 
             DeduplicateTemps();
+            ReconstructTilesheet();
         }
 
         private void AddImage(BitmapImage image)
@@ -52,13 +57,12 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             var sourceImage = BitmapFactory.ConvertToPbgra32Format(image);
 
-            for (var y = 0; y < (image.PixelHeight / 16); y += 16)
+            for (var y = 0; y < image.PixelHeight; y += 16)
             {
-                for (var x = 0; x < (image.PixelWidth / 16); x += 16)
+                for (var x = 0; x < image.PixelWidth; x += 16)
                 {
                     var tileImage = new WriteableBitmap(16, 16, 96, 96, PixelFormats.Pbgra32, null);
                     tileImage.Blit(new System.Windows.Rect(0, 0, 16, 16), sourceImage, new System.Windows.Rect(x, y, 16, 16));
-                    tileImage.Freeze();
                     _tempTiles.Add(tileImage);
                 }
             }
@@ -69,28 +73,77 @@ namespace MegaMan.Editor.Bll.Algorithms
             var comparer = new BitmapComparer();
             _tempTiles = _tempTiles
                 .Distinct(comparer)
-                .Except(_existingFrames, comparer)
+                .Except(_existingFrames.Keys, comparer)
                 .ToList();
         }
 
-        private List<WriteableBitmap> RipAllFrames()
+        private Dictionary<WriteableBitmap, List<SpriteFrame>> RipAllFrames()
         {
             if (Tileset == null)
                 return null;
 
-            return Tileset
-                .SelectMany(t => t.Sprite.Select(f => f.SheetLocation))
-                .Select(rect => SpriteBitmapCache.GetOrLoadFrame(Tileset.SheetPath.Absolute, rect))
-                .ToList();
+            return Tileset.Tiles
+                .SelectMany(t => t.Sprite)
+                .Select(frame => new { Frame = frame, Image = SpriteBitmapCache.GetOrLoadFrame(Tileset.SheetPath.Absolute, frame.SheetLocation) })
+                .GroupBy(x => x.Image)
+                .ToDictionary(x => x.Key, x => x.Select(a => a.Frame).ToList());
         }
 
         private void ReconstructTilesheet()
         {
-            var root = Math.Sqrt(_existingFrames.Count);
+            var total = _existingFrames.Count + _tempTiles.Count;
+            var root = Math.Sqrt(total);
             var width = (int)Math.Ceiling(root);
-            var height = (int)Math.Ceiling(_existingFrames.Count / (double)width);
+            var height = (int)Math.Ceiling(total / (double)width);
 
             var tilesheet = new WriteableBitmap(width * 16, height * 16, 96, 96, PixelFormats.Pbgra32, null);
+
+            var x = 0;
+            var y = 0;
+            var source = new System.Windows.Rect(0, 0, 16, 16);
+
+            foreach (var frame in _existingFrames)
+            {
+                var dest = new System.Windows.Rect(x, y, 16, 16);
+                tilesheet.Blit(dest, frame.Key, source);
+
+                foreach (var spriteFrame in frame.Value)
+                {
+                    spriteFrame.SetSheetPosition(x, y);
+                }
+
+                if (x < 16 * (width - 1))
+                {
+                    x += 16;
+                }
+                else
+                {
+                    x = 0;
+                    y += 16;
+                }
+            }
+
+            foreach (var frame in _tempTiles)
+            {
+                var dest = new System.Windows.Rect(x, y, 16, 16);
+                tilesheet.Blit(dest, frame, source);
+
+                var tile = Tileset.AddTile();
+                tile.Sprite.CurrentFrame.SetSheetPosition(x, y);
+
+                if (x < 16 * (width - 1))
+                {
+                    x += 16;
+                }
+                else
+                {
+                    x = 0;
+                    y += 16;
+                }
+            }
+
+            Tilesheet = tilesheet;
+            SpriteBitmapCache.InsertSource(Tileset.SheetPath.Absolute, tilesheet);
         }
 
         private class BitmapComparer : IEqualityComparer<WriteableBitmap>
@@ -105,7 +158,18 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             public int GetHashCode(WriteableBitmap obj)
             {
-                return obj.GetHashCode();
+                var array = obj.ToByteArray();
+
+                if (array == null)
+                {
+                    return 0;
+                }
+                int hash = 17;
+                foreach (var b in array)
+                {
+                    hash = hash * 31 + b;
+                }
+                return hash;
             }
         }
     }

@@ -1,8 +1,10 @@
 ﻿using System.Windows.Input;
+using MegaMan.Common;
+using MegaMan.Editor.Bll;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
+using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
-using Microsoft.Win32;
 using Ninject;
 
 namespace MegaMan.Editor
@@ -19,6 +21,7 @@ namespace MegaMan.Editor
         public ICommand EditStageCommand { get; private set; }
         public ICommand AddStageCommand { get; private set; }
         public ICommand StagePropertiesCommand { get; private set; }
+        public ICommand ImportTilesCommand { get; private set; }
 
         public MainWindow()
         {
@@ -41,6 +44,7 @@ namespace MegaMan.Editor
                 EditTilesetCommand = new RelayCommand(EditTileset, p => IsStageOpen());
                 EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
                 StagePropertiesCommand = new RelayCommand(ShowStageProperties, p => IsStageOpen());
+                ImportTilesCommand = new RelayCommand(ImportTiles);
 
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
 
@@ -96,6 +100,12 @@ namespace MegaMan.Editor
         private void EditTileset(object param)
         {
             this.tilesetEditorPane.IsSelected = true;
+        }
+
+        private void ImportTiles(object param)
+        {
+            this.tilesetImporterControl.DataContext = new TilesetImporterViewModel((TilesetDocument)param);
+            this.tilesetImporterPane.IsSelected = true;
         }
 
         private void AddStage(object param)
