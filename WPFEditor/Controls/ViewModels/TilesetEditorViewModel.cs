@@ -225,7 +225,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void RefreshSheet(object sender, System.EventArgs e)
         {
-            Sprite.RefreshSheet();
+            if (Sprite != null)
+                Sprite.RefreshSheet();
         }
     }
 }

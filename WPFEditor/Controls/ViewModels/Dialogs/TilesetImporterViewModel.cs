@@ -20,12 +20,15 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
         public double TilesheetHeight { get { return _importer.Tilesheet != null ? _importer.Tilesheet.PixelHeight : 0; } }
 
         public ICommand ImportImagesCommand { get; private set; }
+        public ICommand ExtractCommand { get; private set; }
 
         public TilesetImporterViewModel(TilesetDocument tileset)
         {
             _importer = new TilesetImporter(tileset);
             SetTileset(tileset);
             ImportImagesCommand = new RelayCommand(x => ImportImages());
+            ExtractCommand = new RelayCommand(x => ExtractImages());
+
             OnPropertyChanged("TilesheetSource");
             OnPropertyChanged("TilesheetWidth");
             OnPropertyChanged("TilesheetHeight");
@@ -48,6 +51,15 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
                 return;
 
             _importer.AddImages(dialog.FileNames);
+
+            OnPropertyChanged("TilesheetSource");
+            OnPropertyChanged("TilesheetWidth");
+            OnPropertyChanged("TilesheetHeight");
+        }
+
+        private void ExtractImages()
+        {
+            _importer.ExtractTiles();
 
             OnPropertyChanged("TilesheetSource");
             OnPropertyChanged("TilesheetWidth");

@@ -7,10 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <DockPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="5">
-            <Button Command="{Binding ImportImagesCommand}">Import Images</Button>
-        </StackPanel>
-        <ListView DockPanel.Dock="Left" ItemsSource="{Binding Path=Tiles}" SelectedItem="{Binding SelectedTile}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Command="{Binding ExtractCommand}">Extract From Sheet</Button>
+                <Button Command="{Binding ImportImagesCommand}">Import Images</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding BackCommand}">Back to Editor</Button>
+            </StackPanel>
+        </DockPanel>
+        <Image DockPanel.Dock="Right" Margin="16" Source="{Binding TilesheetSource}" Width="{Binding TilesheetWidth}" Height="{Binding TilesheetHeight}" Stretch="Fill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        <ListView ItemsSource="{Binding Path=Tiles}" SelectedItem="{Binding SelectedTile}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Template">
@@ -28,6 +35,5 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <Image Source="{Binding TilesheetSource}" Width="{Binding TilesheetWidth}" Height="{Binding TilesheetHeight}" Stretch="Fill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" />
     </DockPanel>
 </UserControl>

@@ -27,6 +27,17 @@ namespace MegaMan.Editor.Bll.Algorithms
             }
         }
 
+        public void ExtractTiles()
+        {
+            _tempTiles = new List<WriteableBitmap>();
+            LastErrors = new List<TilesetImporterError>();
+
+            ExtractImage(Tilesheet);
+
+            DeduplicateTemps();
+            ReconstructTilesheet();
+        }
+
         public void AddImages(IEnumerable<string> filePaths)
         {
             _tempTiles = new List<WriteableBitmap>();
@@ -55,6 +66,11 @@ namespace MegaMan.Editor.Bll.Algorithms
                 return;
             }
 
+            ExtractImage(image);
+        }
+
+        private void ExtractImage(BitmapSource image)
+        {
             var sourceImage = BitmapFactory.ConvertToPbgra32Format(image);
 
             for (var y = 0; y < image.PixelHeight; y += 16)
