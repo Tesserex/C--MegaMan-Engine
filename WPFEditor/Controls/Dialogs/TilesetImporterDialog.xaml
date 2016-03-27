@@ -11,6 +11,7 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                 <Button Command="{Binding ExtractCommand}">Extract From Sheet</Button>
                 <Button Command="{Binding ImportImagesCommand}">Import Images</Button>
+                <Button Command="{Binding CompactSheetCommand}">Compact Sheet</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding BackCommand}">Back to Editor</Button>

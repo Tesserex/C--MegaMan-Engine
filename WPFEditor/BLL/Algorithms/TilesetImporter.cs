@@ -35,7 +35,8 @@ namespace MegaMan.Editor.Bll.Algorithms
             ExtractImage(Tilesheet);
 
             DeduplicateTemps();
-            ReconstructTilesheet();
+            AppendNewTilesToSheet();
+            CompactTilesheet();
         }
 
         public void AddImages(IEnumerable<string> filePaths)
@@ -51,7 +52,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 AddImage(i);
 
             DeduplicateTemps();
-            ReconstructTilesheet();
+            AppendNewTilesToSheet();
         }
 
         private void AddImage(BitmapImage image)
@@ -105,39 +106,20 @@ namespace MegaMan.Editor.Bll.Algorithms
                 .ToDictionary(x => x.Key, x => x.Select(a => a.Frame).ToList());
         }
 
-        private void ReconstructTilesheet()
+        private void AppendNewTilesToSheet()
         {
-            var total = _existingFrames.Count + _tempTiles.Count;
-            var root = Math.Sqrt(total);
-            var width = (int)Math.Ceiling(root);
-            var height = (int)Math.Ceiling(total / (double)width);
+            var total = _tempTiles.Count;
+            var width = Tilesheet.PixelWidth / 16;
+            var height = (Tilesheet.PixelHeight / 16) + (int)Math.Ceiling(total / (double)width);
 
-            var tilesheet = new WriteableBitmap(width * 16, height * 16, 96, 96, PixelFormats.Pbgra32, null);
+            var tilesheet = new WriteableBitmap(Tilesheet.PixelWidth + width * 16, Tilesheet.PixelHeight + height * 16, 96, 96, PixelFormats.Pbgra32, null);
+            var writeableSource = BitmapFactory.ConvertToPbgra32Format(Tilesheet);
+            var originalRect = new System.Windows.Rect(0, 0, Tilesheet.PixelWidth, Tilesheet.PixelHeight);
+            tilesheet.Blit(originalRect, writeableSource, originalRect);
 
             var x = 0;
-            var y = 0;
+            var y = Tilesheet.PixelHeight;
             var source = new System.Windows.Rect(0, 0, 16, 16);
-
-            foreach (var frame in _existingFrames)
-            {
-                var dest = new System.Windows.Rect(x, y, 16, 16);
-                tilesheet.Blit(dest, frame.Key, source);
-
-                foreach (var spriteFrame in frame.Value)
-                {
-                    spriteFrame.SetSheetPosition(x, y);
-                }
-
-                if (x < 16 * (width - 1))
-                {
-                    x += 16;
-                }
-                else
-                {
-                    x = 0;
-                    y += 16;
-                }
-            }
 
             foreach (var frame in _tempTiles)
             {
@@ -158,6 +140,46 @@ namespace MegaMan.Editor.Bll.Algorithms
                 }
             }
 
+            Tilesheet = tilesheet;
+            SpriteBitmapCache.InsertSource(Tileset.SheetPath.Absolute, tilesheet);
+            Tileset.RefreshSheet();
+        }
+
+        public void CompactTilesheet()
+        {
+            var allFrames = RipAllFrames();
+            var total = allFrames.Count;
+            var root = Math.Sqrt(total);
+            var width = (int)Math.Ceiling(root);
+            var height = (int)Math.Ceiling(total / (double)width);
+
+            var tilesheet = new WriteableBitmap(width * 16, height * 16, 96, 96, PixelFormats.Pbgra32, null);
+
+            var x = 0;
+            var y = 0;
+            var source = new System.Windows.Rect(0, 0, 16, 16);
+
+            foreach (var frame in allFrames)
+            {
+                var dest = new System.Windows.Rect(x, y, 16, 16);
+                tilesheet.Blit(dest, frame.Key, source);
+
+                foreach (var spriteFrame in frame.Value)
+                {
+                    spriteFrame.SetSheetPosition(x, y);
+                }
+
+                if (x < 16 * (width - 1))
+                {
+                    x += 16;
+                }
+                else
+                {
+                    x = 0;
+                    y += 16;
+                }
+            }
+            
             Tilesheet = tilesheet;
             SpriteBitmapCache.InsertSource(Tileset.SheetPath.Absolute, tilesheet);
             Tileset.RefreshSheet();
