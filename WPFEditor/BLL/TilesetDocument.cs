@@ -12,6 +12,8 @@ namespace MegaMan.Editor.Bll
 
         public Tileset Tileset { get; private set; }
 
+        public bool IsSheetDirty { get; set; }
+
         public FilePath SheetPath
         {
             get
@@ -69,6 +71,8 @@ namespace MegaMan.Editor.Bll
 
         public void RefreshSheet()
         {
+            IsSheetDirty = true;
+
             if (TilesheetModified != null)
                 TilesheetModified(this, new EventArgs());
         }
