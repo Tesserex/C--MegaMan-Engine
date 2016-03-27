@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Common;
+using MegaMan.Editor.Controls.Dialogs;
+using MegaMan.Editor.Controls.ViewModels.Dialogs;
 
 namespace MegaMan.Editor.Bll.Algorithms
 {
@@ -32,11 +34,10 @@ namespace MegaMan.Editor.Bll.Algorithms
             _tempTiles = new List<WriteableBitmap>();
             LastErrors = new List<TilesetImporterError>();
 
-            ExtractImage(Tilesheet);
+            AddImage(Tilesheet, Tileset.SheetPath.Absolute);
 
             DeduplicateTemps();
             AppendNewTilesToSheet();
-            CompactTilesheet();
         }
 
         public void AddImages(IEnumerable<string> filePaths)
@@ -46,37 +47,37 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             var images = filePaths
                 .Where(p => System.IO.File.Exists(p))
-                .Select(p => new BitmapImage(new Uri(p)));
+                .ToDictionary(p => p, p => new BitmapImage(new Uri(p)));
 
-            foreach (var i in images)
-                AddImage(i);
+            foreach (var pair in images)
+                AddImage(pair.Value, pair.Key);
 
             DeduplicateTemps();
             AppendNewTilesToSheet();
         }
 
-        private void AddImage(BitmapImage image)
+        private void AddImage(BitmapSource image, string path)
         {
-            if (image.PixelWidth % 16 != 0 || image.PixelHeight % 16 != 0)
+            var boxModel = new TilesetImageImportDialogViewModel(path);
+            var box = new TilesetImageImportDialog();
+            box.DataContext = boxModel;
+            box.ShowDialog();
+
+            if (box.Result == System.Windows.MessageBoxResult.OK)
             {
-                LastErrors.Add(new TilesetImporterError() {
-                    FilePath = image.UriSource.AbsoluteUri,
-                    Error = "The selected image must have a size of a multiple of 16x16."
-                });
-
-                return;
+                ExtractImage(image, boxModel.Spacing, boxModel.Offset);
             }
-
-            ExtractImage(image);
         }
 
-        private void ExtractImage(BitmapSource image)
+        private void ExtractImage(BitmapSource image, int spacing, int offset)
         {
             var sourceImage = BitmapFactory.ConvertToPbgra32Format(image);
 
-            for (var y = 0; y < image.PixelHeight; y += 16)
+            var jump = 16 + spacing;
+
+            for (var y = offset; y < image.PixelHeight; y += jump)
             {
-                for (var x = 0; x < image.PixelWidth; x += 16)
+                for (var x = offset; x < image.PixelWidth; x += jump)
                 {
                     var tileImage = new WriteableBitmap(16, 16, 96, 96, PixelFormats.Pbgra32, null);
                     tileImage.Blit(new System.Windows.Rect(0, 0, 16, 16), sourceImage, new System.Windows.Rect(x, y, 16, 16));
@@ -109,10 +110,10 @@ namespace MegaMan.Editor.Bll.Algorithms
         private void AppendNewTilesToSheet()
         {
             var total = _tempTiles.Count;
-            var width = Tilesheet.PixelWidth / 16;
-            var height = (Tilesheet.PixelHeight / 16) + (int)Math.Ceiling(total / (double)width);
+            var tileWidth = Tilesheet.PixelWidth / 16;
+            var addedTileHeight = (int)Math.Ceiling(total / (double)tileWidth);
 
-            var tilesheet = new WriteableBitmap(Tilesheet.PixelWidth + width * 16, Tilesheet.PixelHeight + height * 16, 96, 96, PixelFormats.Pbgra32, null);
+            var tilesheet = new WriteableBitmap(Tilesheet.PixelWidth, Tilesheet.PixelHeight + addedTileHeight * 16, 96, 96, PixelFormats.Pbgra32, null);
             var writeableSource = BitmapFactory.ConvertToPbgra32Format(Tilesheet);
             var originalRect = new System.Windows.Rect(0, 0, Tilesheet.PixelWidth, Tilesheet.PixelHeight);
             tilesheet.Blit(originalRect, writeableSource, originalRect);
@@ -129,7 +130,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 var tile = Tileset.AddTile();
                 tile.Sprite.CurrentFrame.SetSheetPosition(x, y);
 
-                if (x < 16 * (width - 1))
+                if (x < 16 * (tileWidth - 1))
                 {
                     x += 16;
                 }

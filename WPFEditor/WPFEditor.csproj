@@ -172,6 +172,9 @@
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\TilesetImageImportDialog.xaml.cs">
+      <DependentUpon>TilesetImageImportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\TilesetImporterDialog.xaml.cs">
       <DependentUpon>TilesetImporterDialog.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,7 @@
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
@@ -292,6 +296,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\NewEntityDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\TilesetImageImportDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
