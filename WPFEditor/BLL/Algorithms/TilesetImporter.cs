@@ -144,6 +144,7 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             Tilesheet = tilesheet;
             SpriteBitmapCache.InsertSource(Tileset.SheetPath.Absolute, tilesheet);
+            Tileset.RefreshSheet();
         }
 
         private class BitmapComparer : IEqualityComparer<WriteableBitmap>

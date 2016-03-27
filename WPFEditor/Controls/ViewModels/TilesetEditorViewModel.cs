@@ -100,6 +100,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ChangeTileset(TilesetDocument tileset)
         {
+            if (_tileset != null)
+                _tileset.TilesheetModified -= RefreshSheet;
+
             SetTileset(tileset);
 
             if (_tileset != null)
@@ -110,6 +113,8 @@ namespace MegaMan.Editor.Controls.ViewModels
                 {
                     ChangeSheet();
                 }
+
+                _tileset.TilesheetModified += RefreshSheet;
             }
             else
             {
@@ -216,6 +221,11 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("Sprite");
             OnPropertyChanged("SelectedTile");
+        }
+
+        private void RefreshSheet(object sender, System.EventArgs e)
+        {
+            Sprite.RefreshSheet();
         }
     }
 }

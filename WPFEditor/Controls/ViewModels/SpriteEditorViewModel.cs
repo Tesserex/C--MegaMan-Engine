@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels
@@ -140,19 +139,22 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void ZoomOutSheet(object obj)
         {
             _sheetZoom = Math.Max(1, _sheetZoom / 2);
-            OnPropertyChanged("SheetWidth");
-            OnPropertyChanged("SheetHeight");
-            OnPropertyChanged("HighlightWidth");
-            OnPropertyChanged("HighlightHeight");
+            RefreshSheet();
         }
 
         private void ZoomInSheet(object obj)
         {
             _sheetZoom = Math.Min(MAXZOOM, _sheetZoom * 2);
+            RefreshSheet();
+        }
+
+        public void RefreshSheet()
+        {
             OnPropertyChanged("SheetWidth");
             OnPropertyChanged("SheetHeight");
             OnPropertyChanged("HighlightWidth");
             OnPropertyChanged("HighlightHeight");
+            OnPropertyChanged("SheetImageSource");
         }
 
         public SpriteViewModel Sprite

@@ -8,6 +8,7 @@ namespace MegaMan.Editor.Bll
     public class TilesetDocument
     {
         public event EventHandler TilesetModified;
+        public event EventHandler TilesheetModified;
 
         public Tileset Tileset { get; private set; }
 
@@ -64,6 +65,12 @@ namespace MegaMan.Editor.Bll
 
             if (TilesetModified != null)
                 TilesetModified(this, new EventArgs());
+        }
+
+        public void RefreshSheet()
+        {
+            if (TilesheetModified != null)
+                TilesheetModified(this, new EventArgs());
         }
 
         public void AddBlockProperty()
