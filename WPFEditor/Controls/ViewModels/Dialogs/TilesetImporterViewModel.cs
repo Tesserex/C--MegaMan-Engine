@@ -31,6 +31,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             ExtractCommand = new RelayCommand(x => ExtractImages());
             CompactSheetCommand = new RelayCommand(x => CompactSheet());
 
+            RefreshSheet();
+        }
+
+        private void RefreshSheet()
+        {
             OnPropertyChanged("TilesheetSource");
             OnPropertyChanged("TilesheetWidth");
             OnPropertyChanged("TilesheetHeight");
@@ -53,28 +58,26 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
                 return;
 
             _importer.AddImages(dialog.FileNames);
-
-            OnPropertyChanged("TilesheetSource");
-            OnPropertyChanged("TilesheetWidth");
-            OnPropertyChanged("TilesheetHeight");
+            RefreshSheet();
         }
 
         private void ExtractImages()
         {
             _importer.ExtractTiles();
-
-            OnPropertyChanged("TilesheetSource");
-            OnPropertyChanged("TilesheetWidth");
-            OnPropertyChanged("TilesheetHeight");
+            RefreshSheet();
         }
 
         private void CompactSheet()
         {
             _importer.CompactTilesheet();
+            RefreshSheet();
+        }
 
-            OnPropertyChanged("TilesheetSource");
-            OnPropertyChanged("TilesheetWidth");
-            OnPropertyChanged("TilesheetHeight");
+        protected override void SetTileset(TilesetDocument tileset)
+        {
+            base.SetTileset(tileset);
+            _importer = new TilesetImporter(tileset);
+            RefreshSheet();
         }
 
         public override void ChangeTile(Tile tile)
