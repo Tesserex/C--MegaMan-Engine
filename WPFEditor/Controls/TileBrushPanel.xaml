@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MegaMan.Editor.Controls.TilePanelControl"
+﻿<UserControl x:Class="MegaMan.Editor.Controls.TileBrushPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -28,46 +28,7 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Tiles">
-                <DockPanel>
-                    <ListView DockPanel.Dock="Top" ItemsSource="{Binding Path=Tiles}" SelectedItem="{Binding SelectedTile}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListView.Resources>
-                            <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
-                                <Border BorderThickness="3" BorderBrush="Cyan" Padding="0" Margin="0">
-                                    <c:TileImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TilePanelControl}}}" />
-                                </Border>
-                            </ControlTemplate>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <c:TileImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TilePanelControl}}}" SelectedTile="{Binding Path=DataContext.SelectedTile}" Margin="3">
-                                                <c:TileImage.CommandBindings>
-                                                    <CommandBinding Command="c:TilePanelControl.clickTileCommand" Executed="TileClick" />
-                                                </c:TileImage.CommandBindings>
-                                                <c:TileImage.InputBindings>
-                                                    <MouseBinding MouseAction="LeftClick" Command="c:TilePanelControl.clickTileCommand" CommandParameter="{Binding}" />
-                                                </c:TileImage.InputBindings>
-                                            </c:TileImage>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="true" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
-                                    </MultiTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.Resources>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="WhiteSmoke" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
-                </DockPanel>
+                <c:TilePanel DataContext="{Binding}" />
             </TabItem>
             <TabItem Header="Brushes">
                 <DockPanel>
@@ -78,19 +39,19 @@
                         <ListView.Resources>
                             <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
                                 <Border BorderThickness="3" BorderBrush="Cyan" Padding="0" Margin="0">
-                                    <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TilePanelControl}}}" />
+                                    <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" />
                                 </Border>
                             </ControlTemplate>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate>
-                                            <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TilePanelControl}}}" Margin="3">
+                                            <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" Margin="3">
                                                 <c:MultiTileBrushImage.CommandBindings>
-                                                    <CommandBinding Command="c:TilePanelControl.clickBrushCommand" Executed="BrushClick" />
+                                                    <CommandBinding Command="c:TileBrushPanel.clickBrushCommand" Executed="BrushClick" />
                                                 </c:MultiTileBrushImage.CommandBindings>
                                                 <c:MultiTileBrushImage.InputBindings>
-                                                    <MouseBinding MouseAction="LeftClick" Command="c:TilePanelControl.clickBrushCommand" CommandParameter="{Binding}" />
+                                                    <MouseBinding MouseAction="LeftClick" Command="c:TileBrushPanel.clickBrushCommand" CommandParameter="{Binding}" />
                                                 </c:MultiTileBrushImage.InputBindings>
                                             </c:MultiTileBrushImage>
                                         </ControlTemplate>

@@ -216,8 +216,11 @@
     <Compile Include="Controls\StagePropertiesControl.xaml.cs">
       <DependentUpon>StagePropertiesControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TilePanelControl.xaml.cs">
-      <DependentUpon>TilePanelControl.xaml</DependentUpon>
+    <Compile Include="Controls\TilePanel.xaml.cs">
+      <DependentUpon>TilePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileBrushPanel.xaml.cs">
+      <DependentUpon>TileBrushPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
@@ -280,9 +283,6 @@
     <Compile Include="Controls\StageTileControl.cs" />
     <Compile Include="Controls\TileImage.cs" />
     <Compile Include="Controls\Canvases\TileScreenCanvas.cs" />
-    <Compile Include="Controls\TileStrip.xaml.cs">
-      <DependentUpon>TileStrip.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ViewModels\TilesToolbarViewModel.cs" />
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
@@ -351,7 +351,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TilePanelControl.xaml">
+    <Page Include="Controls\TilePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TileBrushPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,10 +364,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TilesToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TileStrip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
