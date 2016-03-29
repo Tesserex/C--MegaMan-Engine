@@ -37,15 +37,42 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Tile SelectedTile { get; protected set; }
+        private Tile _selectedTile;
+
+        public Tile SelectedTile
+        {
+            get { return _selectedTile; }
+            set
+            {
+                ChangeTile(value);
+            }
+        }
+
+        private List<Tile> _multiSelectedTiles;
+
+        public IEnumerable<Tile> MultiSelectedTiles
+        {
+            get { return _multiSelectedTiles.AsReadOnly(); }
+            set
+            {
+                _multiSelectedTiles = value.ToList();
+                OnPropertyChanged("MultiSelectedTiles");
+            }
+        }
 
         public TilesetViewModelBase()
         {
+            _multiSelectedTiles = new List<Tile>();
+
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<TileSelectedEventArgs>().Subscribe((s, e) => ChangeTile(e.Tile));
         }
 
-        public abstract void ChangeTile(Tile tile);
+        public virtual void ChangeTile(Tile tile)
+        {
+            _selectedTile = tile;
+            OnPropertyChanged("SelectedTile");
+        }
 
         protected virtual void SetTileset(TilesetDocument tileset)
         {

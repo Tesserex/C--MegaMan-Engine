@@ -50,7 +50,7 @@
                 </ListView>
             </StackPanel>
         </Border>
-        <c:TilePanel DockPanel.Dock="Top" DataContext="{Binding}"></c:TilePanel>
+        <c:TilePanel DockPanel.Dock="Top" DataContext="{Binding}" MultiSelect="True"></c:TilePanel>
         <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
             <DockPanel>
                 <Grid Visibility="{Binding ShowSpriteEditor}" DockPanel.Dock="Top">

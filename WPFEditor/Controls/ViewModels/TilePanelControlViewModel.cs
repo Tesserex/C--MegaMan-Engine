@@ -69,8 +69,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (_ignoreTileChanged)
                 return;
 
-            SelectedTile = tile;
-
             // prevent infinite recursion
             _ignoreTileChanged = true;
             var args = new TileBrushSelectedEventArgs() { TileBrush = tile != null ? new SingleTileBrush(tile) : null };

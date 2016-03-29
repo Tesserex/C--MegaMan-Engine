@@ -212,7 +212,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public override void ChangeTile(Tile tile)
         {
-            SelectedTile = tile;
+            base.ChangeTile(tile);
 
             if (tile != null)
                 Sprite = new SpriteEditorViewModel(new SpriteViewModel(tile.Sprite), this._project);

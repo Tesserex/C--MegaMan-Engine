@@ -6,7 +6,9 @@
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="150">
-    <ListView DockPanel.Dock="Top" ItemsSource="{Binding Path=Tiles}" SelectedItem="{Binding SelectedTile}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+    <ListView x:Name="tileList" DockPanel.Dock="Top" ItemsSource="{Binding Path=Tiles}"
+              SelectionMode="{Binding Path=SelectionMode, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=c:TilePanel}}"
+              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListView.Resources>
             <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
                 <Border BorderThickness="3" BorderBrush="Cyan" Padding="0" Margin="0">
@@ -17,14 +19,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <c:TileImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" SelectedTile="{Binding SelectedTile}" Margin="3">
-                                <c:TileImage.CommandBindings>
-                                    <CommandBinding Command="c:TilePanel.clickTileCommand" Executed="TileClick" />
-                                </c:TileImage.CommandBindings>
-                                <c:TileImage.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" Command="c:TilePanel.clickTileCommand" CommandParameter="{Binding}" />
-                                </c:TileImage.InputBindings>
-                            </c:TileImage>
+                            <c:TileImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" Margin="3" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
