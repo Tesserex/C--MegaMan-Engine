@@ -23,6 +23,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand DeleteTilePropertiesCommand { get; private set; }
         public ICommand HidePropertiesEditorCommand { get; private set; }
         public ICommand ChangeTilesetCommand { get; private set; }
+        public ICommand AnimateTilesCommand { get; private set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
 
@@ -89,6 +90,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
             HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
             ChangeTilesetCommand = new RelayCommand(ChangeTileset);
+            AnimateTilesCommand = new RelayCommand(AnimateTiles, x => MultiSelectedTiles.Any());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
@@ -246,6 +248,34 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (Sprite != null)
                 Sprite.RefreshSheet();
+        }
+
+        private void AnimateTiles(object obj)
+        {
+            if (MultiSelectedTiles.Count() > 1)
+            {
+                var first = MultiSelectedTiles.First();
+                foreach (var frame in first.Sprite)
+                {
+                    if (frame.Duration == 0)
+                        frame.Duration = 6;
+                }
+
+                foreach (var tile in MultiSelectedTiles.Skip(1))
+                {
+                    foreach (var frame in tile.Sprite)
+                    {
+                        first.Sprite.Add(frame);
+                        if (frame.Duration == 0)
+                            frame.Duration = 6;
+                    }
+
+                    _tileset.RemoveTile(tile);
+                }
+
+                first.Sprite.Play();
+                ChangeTile(first);
+            }
         }
     }
 }

@@ -18,8 +18,9 @@
                     <Label FontSize="14" FontWeight="Bold">Image:</Label>
                     <Label Content="{Binding RelSheetPath}" FontSize="12" Margin="5,0,20,0"></Label>
                     <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,40,0">Change...</Button>
-                    <Button Command="{Binding AddTileCommand}" Padding="6,2" Margin="0,0,10,0">Add Tile</Button>
-                    <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Selected Tiles</Button>
+                    <Button Command="{Binding AddTileCommand}" Padding="6,2">Add Tile</Button>
+                    <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Selected</Button>
+                    <Button Command="{Binding AnimateTilesCommand}">Animate Selected</Button>
                 </StackPanel>
             </DockPanel>
         </Border>
