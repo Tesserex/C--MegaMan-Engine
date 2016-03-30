@@ -83,7 +83,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
             AddTileCommand = new RelayCommand(o => AddTile());
-            DeleteTileCommand = new RelayCommand(o => DeleteTile());
+            DeleteTileCommand = new RelayCommand(o => DeleteTile(), x => MultiSelectedTiles.Any());
             AddTilePropertiesCommand = new RelayCommand(o => AddProperties());
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
@@ -153,13 +153,14 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void DeleteTile()
         {
-            if (SelectedTile != null)
+            foreach (var tile in MultiSelectedTiles)
             {
-                _tileset.RemoveTile(SelectedTile);
-                _observedTiles.Remove(SelectedTile);
-                ChangeTile(null);
-                this._project.Dirty = true;
+                _tileset.RemoveTile(tile);
+                _observedTiles.Remove(tile);
             }
+
+            ChangeTile(null);
+            this._project.Dirty = true;
         }
 
         private void AddProperties()
