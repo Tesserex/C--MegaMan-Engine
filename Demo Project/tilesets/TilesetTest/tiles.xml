@@ -18,4 +18,22 @@
 			<Frame x="64" y="0" duration="0" />
 		</Sprite>
 	</Tile>
+	<Tile id="2" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="stages\demo\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="48" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="3" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="stages\demo\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="4" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="stages\demo\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="80" duration="0" />
+		</Sprite>
+	</Tile>
 </Tileset>

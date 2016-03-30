@@ -1,6 +1,6 @@
 <Map name="Metal" tiles="stages\metal\tiles.xml">
 	<Start screen="1" x="116" y="148" />
 	<Screen id="1">
-		<Entity id="616c08cc-c990-4b44-9120-a19c4074224c" entity="EnergyTank" state="" x="504" y="152" direction="Unknown" respawn="Stage" />
+		<Entity id="616c08cc-c990-4b44-9120-a19c4074224c" entity="EnergyTank" x="504" y="152" direction="Unknown" respawn="Stage" />
 	</Screen>
 </Map>

@@ -58,6 +58,23 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public TileProperties SelectedTileProperties
+        {
+            get
+            {
+                var props = MultiSelectedTiles.Select(t => t.Properties).Distinct().ToList();
+                if (props.Count == 1)
+                    return props[0];
+                else
+                    return null;
+            }
+            set
+            {
+                foreach (var t in MultiSelectedTiles)
+                    t.Properties = value;
+            }
+        }
+
         public TileProperties EditingProperties { get; private set; }
         public System.Windows.Visibility ShowPropEditor { get; private set; }
         public System.Windows.Visibility ShowSpriteEditor { get; private set; }
@@ -221,6 +238,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("Sprite");
             OnPropertyChanged("SelectedTile");
+            OnPropertyChanged("SelectedTileProperties");
         }
 
         private void RefreshSheet(object sender, System.EventArgs e)

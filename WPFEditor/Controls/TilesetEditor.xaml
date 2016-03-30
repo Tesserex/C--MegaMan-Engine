@@ -31,7 +31,7 @@
                     </Button>
                     <Label DockPanel.Dock="Left" FontWeight="Bold" HorizontalAlignment="Left" HorizontalContentAlignment="Center">Tile Properties</Label>
                 </DockPanel>
-                <ListView ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedTile.Properties}" Margin="0" BorderThickness="0" HorizontalContentAlignment="Stretch">
+                <ListView ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedTileProperties, Mode=TwoWay}" Margin="0" BorderThickness="0" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
