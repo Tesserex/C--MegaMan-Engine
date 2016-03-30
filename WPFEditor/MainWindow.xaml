@@ -45,6 +45,7 @@
                     <Fluent:DropDownButton Icon="/Resources/protoman.png" LargeIcon="/Resources/protoman.png" Header="Test">
                         <Fluent:MenuItem Command="{Binding TestCommand}" Header="Project" />
                         <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
+                        <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
                     </Fluent:DropDownButton>
 
                     <Fluent:DropDownButton Icon="/Resources/roll.png" LargeIcon="/Resources/roll.png" Header="Preferences">

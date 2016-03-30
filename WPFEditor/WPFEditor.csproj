@@ -161,6 +161,7 @@
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
+    <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -257,6 +258,8 @@
     <Compile Include="Mediator\LayerVisibilityChangedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
+    <Compile Include="Mediator\TestLocationClickedEventArgs.cs" />
+    <Compile Include="Mediator\TestLocationSelectedEventArgs.cs" />
     <Compile Include="Mediator\TileBrushSelectedEventArgs.cs" />
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />

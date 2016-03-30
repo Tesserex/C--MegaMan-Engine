@@ -115,6 +115,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             ProjectViewModel = new ProjectViewModel();
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
+            ViewModelMediator.Current.GetEvent<TestLocationSelectedEventArgs>().Subscribe(this.TestLocationSelected);
 
             AppData = StoredAppData.Load();
 
@@ -276,9 +277,20 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void TestLocation(object arg)
         {
-            if (_openProject != null)
+            if (_openProject != null && ProjectViewModel.CurrentStage != null)
             {
+                ViewModelMediator.Current.GetEvent<TestLocationClickedEventArgs>().Raise(this, new TestLocationClickedEventArgs());
+            }
+        }
 
+        private void TestLocationSelected(object sender, TestLocationSelectedEventArgs args)
+        {
+            if (_openProject != null && ProjectViewModel.CurrentStage != null)
+            {
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var stage = ProjectViewModel.CurrentStage.LinkName;
+
+                RunTest(string.Format("\"{0}\" \"STAGE\\{1}\" \"{2}\" \"{3},{4}\"", projectPath, stage, args.Screen, args.X, args.Y));
             }
         }
 
