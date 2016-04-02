@@ -1,8 +1,13 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Algorithms;
+using MegaMan.Editor.Controls.Dialogs;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels.Dialogs
@@ -41,7 +46,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             OnPropertyChanged("TilesheetHeight");
         }
 
-        private void ImportImages()
+        private async void ImportImages()
         {
             var dialog = new CommonOpenFileDialog();
             dialog.Filters.Add(new CommonFileDialogFilter("Images", "png,gif,jpg,jpeg,bmp"));
@@ -57,8 +62,35 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
                 return;
 
-            _importer.AddImages(dialog.FileNames);
+            var images = dialog.FileNames
+                .Where(p => System.IO.File.Exists(p))
+                .Select(p => PromptImage(new BitmapImage(new Uri(p)), p))
+                .Where(m => m != null)
+                .ToList();
+            
+            var reporter = new Progress<ProgressDialogState>();
+            var stopwatch = new Stopwatch();
+            var progress = ProgressDialog.Open(reporter, stopwatch);
+
+            stopwatch.Start();
+            await _importer.AddImagesAsync(images, reporter);
+            stopwatch.Stop();
+            progress.Close();
+
             RefreshSheet();
+        }
+
+        private TilesetImageImportDialogViewModel PromptImage(BitmapSource image, string path)
+        {
+            var boxModel = new TilesetImageImportDialogViewModel(path);
+            var box = new TilesetImageImportDialog();
+            box.DataContext = boxModel;
+            box.ShowDialog();
+
+            if (box.Result == System.Windows.MessageBoxResult.OK)
+                return boxModel;
+            else
+                return null;
         }
 
         private void ExtractImages()

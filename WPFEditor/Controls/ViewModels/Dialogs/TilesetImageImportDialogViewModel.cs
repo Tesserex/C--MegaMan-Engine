@@ -12,6 +12,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
         public int ImageWidth { get; private set; }
         public int ImageHeight { get; private set; }
 
+        public string FileName { get; private set; }
+
         private int _spacing;
         public int Spacing
         {
@@ -40,8 +42,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             ImageWidth = Image.PixelWidth;
             ImageHeight = Image.PixelHeight;
 
-            var filename = Path.GetFileNameWithoutExtension(imagePath);
-            Title = string.Format("Import {0}", filename);
+            FileName = Path.GetFileNameWithoutExtension(imagePath);
+            Title = string.Format("Import {0}", FileName);
 
             OnPropertyChanged("Image");
             OnPropertyChanged("ImageWidth");
