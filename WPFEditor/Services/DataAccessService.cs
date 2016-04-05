@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.IO;
@@ -44,6 +46,20 @@ namespace MegaMan.Editor.Services
             var tilesetWriter = _writerProvider.GetTilesetWriter();
             tilesetWriter.Save(tileset.Tileset);
             SaveBrushes(tileset);
+
+            if (tileset.IsSheetDirty)
+            {
+                var sheet = SpriteBitmapCache.GetOrLoadImage(tileset.SheetPath.Absolute);
+
+                using (var fileStream = new FileStream(tileset.SheetPath.Absolute, FileMode.OpenOrCreate))
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(sheet));
+                    encoder.Save(fileStream);
+                }
+
+                tileset.IsSheetDirty = false;
+            }
         }
 
         private void SaveBrushes(TilesetDocument tileset)

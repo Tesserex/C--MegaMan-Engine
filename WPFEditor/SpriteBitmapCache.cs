@@ -11,7 +11,7 @@ namespace MegaMan.Editor
 {
     public static class SpriteBitmapCache
     {
-        private static Dictionary<string, BitmapImage> images = new Dictionary<string, BitmapImage>();
+        private static Dictionary<string, BitmapSource> images = new Dictionary<string, BitmapSource>();
 
         private static Dictionary<string, WriteableBitmap> imagesGrayscale = new Dictionary<string, WriteableBitmap>();
 
@@ -127,6 +127,21 @@ namespace MegaMan.Editor
                 _resizes[image][scale] = image.Resize((int)(image.PixelWidth * scale), (int)(image.PixelHeight * scale), WriteableBitmapExtensions.Interpolation.NearestNeighbor);
 
             return _resizes[image][scale];
+        }
+
+        public static void ClearCache(string imagePath)
+        {
+            images.Remove(imagePath);
+            imagesGrayscale.Remove(imagePath);
+            croppedImages.Remove(imagePath);
+            croppedImagesGrayscale.Remove(imagePath);
+        }
+
+        public static void InsertSource(string imagePath, BitmapSource source)
+        {
+            ClearCache(imagePath);
+            source.Freeze();
+            images[imagePath] = source;
         }
     }
 }

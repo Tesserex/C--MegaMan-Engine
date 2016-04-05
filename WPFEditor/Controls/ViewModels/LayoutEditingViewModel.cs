@@ -29,6 +29,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public LayoutEditingViewModel()
         {
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
+            ViewModelMediator.Current.GetEvent<TestLocationClickedEventArgs>().Subscribe((s,e) => TestFromLocation());
 
             AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage());
 
@@ -140,6 +141,18 @@ namespace MegaMan.Editor.Controls.ViewModels
                     ActiveIcon = "continue";
                     break;
             }
+
+            if (ToolChanged != null)
+            {
+                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
+            }
+        }
+
+        private void TestFromLocation()
+        {
+            ToolCursor = new SpriteCursor(_playerSprite);
+            _toolBehavior = new TestLocationToolBehavior();
+            ActiveIcon = null;
 
             if (ToolChanged != null)
             {

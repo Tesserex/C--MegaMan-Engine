@@ -58,6 +58,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>wily.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fluent, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -139,6 +142,7 @@
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
+    <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
     <Compile Include="Bll\Factories\FactoryCore.cs" />
     <Compile Include="Bll\Factories\IProjectDocumentFactory.cs" />
     <Compile Include="Bll\Factories\IStageDocumentFactory.cs" />
@@ -158,6 +162,7 @@
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
+    <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -172,6 +177,15 @@
     <Compile Include="Controls\EditableLabel.xaml.cs">
       <DependentUpon>EditableLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\ProgressDialog.xaml.cs">
+      <DependentUpon>ProgressDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\TilesetImageImportDialog.xaml.cs">
+      <DependentUpon>TilesetImageImportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\TilesetImporterDialog.xaml.cs">
+      <DependentUpon>TilesetImporterDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
     </Compile>
@@ -181,6 +195,7 @@
     <Compile Include="Controls\EntityToolbar.xaml.cs">
       <DependentUpon>EntityToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Layers\GuidesLayer.cs" />
     <Compile Include="Controls\Layers\EntityScreenLayer.cs" />
     <Compile Include="Controls\EntityTray.xaml.cs">
       <DependentUpon>EntityTray.xaml</DependentUpon>
@@ -212,8 +227,11 @@
     <Compile Include="Controls\StagePropertiesControl.xaml.cs">
       <DependentUpon>StagePropertiesControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TileBrushControl.xaml.cs">
-      <DependentUpon>TileBrushControl.xaml</DependentUpon>
+    <Compile Include="Controls\TilePanel.xaml.cs">
+      <DependentUpon>TilePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileBrushPanel.xaml.cs">
+      <DependentUpon>TileBrushPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
@@ -225,6 +243,9 @@
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\ProgressDialogViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
@@ -233,7 +254,7 @@
     <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
     <Compile Include="Controls\ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TileBrushControlViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TilePanelControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
     <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
@@ -247,8 +268,12 @@
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\NewEntityEventArgs.cs" />
     <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
+    <Compile Include="Mediator\LayerVisibilityChangedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />
+    <Compile Include="Mediator\TestLocationClickedEventArgs.cs" />
+    <Compile Include="Mediator\TestLocationSelectedEventArgs.cs" />
+    <Compile Include="Mediator\TileBrushSelectedEventArgs.cs" />
     <Compile Include="Mediator\TileSelectedEventArgs.cs" />
     <Compile Include="Mediator\ViewModelMediator.cs" />
     <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
@@ -259,7 +284,7 @@
     <Compile Include="ThemeProperties.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
     <Compile Include="Tools\ImageCursor.cs" />
-    <Compile Include="Tools\MultiTileCursor.cs" />
+    <Compile Include="Tools\TileBrushCursor.cs" />
     <Compile Include="Tools\ResourceCursor.cs" />
     <Compile Include="Tools\SpriteCursor.cs" />
     <Compile Include="Tools\StandardToolCursor.cs" />
@@ -274,10 +299,7 @@
     <Compile Include="Controls\StageTileControl.cs" />
     <Compile Include="Controls\TileImage.cs" />
     <Compile Include="Controls\Canvases\TileScreenCanvas.cs" />
-    <Compile Include="Controls\TileStrip.xaml.cs">
-      <DependentUpon>TileStrip.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ViewModels\TilesetViewModel.cs" />
+    <Compile Include="Controls\ViewModels\TilesToolbarViewModel.cs" />
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
@@ -294,6 +316,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EditableLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\ProgressDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\TilesetImageImportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\TilesetImporterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -345,7 +379,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TileBrushControl.xaml">
+    <Page Include="Controls\TilePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TileBrushPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -354,10 +392,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TilesToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TileStrip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -566,6 +600,10 @@
     </Content>
     <Resource Include="Resources\pencil.png" />
     <Resource Include="Resources\check.png" />
+    <Resource Include="Resources\wilybrows.gif" />
+    <Resource Include="Resources\roomborder.png" />
+    <Resource Include="Resources\wily.ico" />
+    <Resource Include="wily.ico" />
     <Resource Include="Resources\Includes\images\items.png" />
     <Resource Include="Resources\Includes\images\weapons\rush.png" />
     <Resource Include="Resources\Includes\images\palettes\palettes.xml" />

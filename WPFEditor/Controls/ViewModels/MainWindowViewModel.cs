@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +10,6 @@ using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
-using MegaMan.IO;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -42,6 +40,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand RedoCommand { get; private set; }
         public ICommand EnginePathCommand { get; private set; }
         public ICommand NewEntityCommand { get; private set; }
+        public ICommand UpdateLayerVisibilityCommand { get; private set; }
 
         private bool _showBackstage;
         public bool ShowBackstage
@@ -92,6 +91,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public bool ShowRoomBorders { get; set; }
+        public bool ShowTileProperties { get; set; }
+
         private AvalonDockLayoutViewModel mAVLayout;
         public AvalonDockLayoutViewModel ADLayout
         {
@@ -113,6 +115,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             ProjectViewModel = new ProjectViewModel();
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
+            ViewModelMediator.Current.GetEvent<TestLocationSelectedEventArgs>().Subscribe(this.TestLocationSelected);
 
             AppData = StoredAppData.Load();
 
@@ -131,8 +134,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
             NewEntityCommand = new RelayCommand(NewEntity);
+            UpdateLayerVisibilityCommand = new RelayCommand(UpdateLayerVisibility);
 
             ShowBackstage = true;
+        }
+
+        private void UpdateLayerVisibility(object obj)
+        {
+            ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Raise(this, new LayerVisibilityChangedEventArgs() {
+                BordersVisible = ShowRoomBorders,
+                TilePropertiesVisible = ShowTileProperties
+            });
         }
 
         private void NewEntity(object obj)
@@ -265,9 +277,20 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void TestLocation(object arg)
         {
-            if (_openProject != null)
+            if (_openProject != null && ProjectViewModel.CurrentStage != null)
             {
+                ViewModelMediator.Current.GetEvent<TestLocationClickedEventArgs>().Raise(this, new TestLocationClickedEventArgs());
+            }
+        }
 
+        private void TestLocationSelected(object sender, TestLocationSelectedEventArgs args)
+        {
+            if (_openProject != null && ProjectViewModel.CurrentStage != null)
+            {
+                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var stage = ProjectViewModel.CurrentStage.LinkName;
+
+                RunTest(string.Format("\"{0}\" \"STAGE\\{1}\" \"{2}\" \"{3},{4}\"", projectPath, stage, args.Screen, args.X, args.Y));
             }
         }
 

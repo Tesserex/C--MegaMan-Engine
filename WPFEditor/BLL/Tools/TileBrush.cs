@@ -8,6 +8,8 @@ namespace MegaMan.Editor.Bll.Tools
     {
         IEnumerable<TileChange> DrawOn(ScreenDocument screen, int tile_x, int tile_y);
         TileBrushCell[][] Cells { get; }
+        int Width { get; }
+        int Height { get; }
     }
 
     public struct TileBrushCell

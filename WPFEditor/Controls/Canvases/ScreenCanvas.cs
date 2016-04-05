@@ -12,6 +12,7 @@ namespace MegaMan.Editor.Controls
         protected ScreenDocument _screen;
 
         protected TileScreenLayer _tiles;
+        protected GuidesLayer _guides;
         protected OverlayScreenLayer _overlay;
 
         private IToolProvider _toolProvider;
@@ -32,6 +33,7 @@ namespace MegaMan.Editor.Controls
                 _screen = value;
 
                 _tiles.Screen = value;
+                _guides.Screen = value;
                 _overlay.Screen = value;
 
                 _screen.Resized += Resized;
@@ -57,6 +59,7 @@ namespace MegaMan.Editor.Controls
         public ScreenCanvas(IToolProvider toolProvider)
         {
             _tiles = new TileScreenLayer();
+            _guides = new GuidesLayer();
             _overlay = new OverlayScreenLayer();
 
             _toolProvider = toolProvider;
@@ -65,6 +68,7 @@ namespace MegaMan.Editor.Controls
             VerticalAlignment = System.Windows.VerticalAlignment.Top;
 
             this.Children.Add(_tiles);
+            this.Children.Add(_guides);
             this.Children.Add(_overlay);
 
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);

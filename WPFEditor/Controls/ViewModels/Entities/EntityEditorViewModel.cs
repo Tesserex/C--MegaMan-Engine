@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -141,6 +140,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private void AddSprite()
         {
             Sprite sprite = CreateEmptySprite();
+
             _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
             ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite), _project);
             OnPropertyChanged("ComponentViewModel");
@@ -204,13 +204,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
             CurrentEntity = EntityList.FirstOrDefault();
         }
-        
+
         private void Save()
         {
             if (CurrentEntity == null)
                 return;
-
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

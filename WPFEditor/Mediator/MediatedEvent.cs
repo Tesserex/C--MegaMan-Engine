@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MegaMan.Editor.Mediator
 {
@@ -10,9 +7,14 @@ namespace MegaMan.Editor.Mediator
     {
         private List<EventHandler<T>> _handlers = new List<EventHandler<T>>();
 
-        public void Subscribe(EventHandler<T> handler)
+        private T _lastValue;
+
+        public void Subscribe(EventHandler<T> handler, bool getLastValue = false)
         {
             _handlers.Add(handler);
+
+            if (getLastValue && _lastValue != null)
+                handler(null, _lastValue);
         }
 
         public void Unsubscribe(EventHandler<T> handler)
@@ -22,6 +24,8 @@ namespace MegaMan.Editor.Mediator
 
         public void Raise(object sender, T args)
         {
+            _lastValue = args;
+
             foreach (var h in _handlers)
             {
                 h(sender, args);

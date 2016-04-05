@@ -6,6 +6,7 @@
         xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:c="clr-namespace:MegaMan.Editor.Controls"
         Title="{Binding WindowTitle}" Height="700" Width="1100"
+        Icon="Resources/wily.ico"
         x:Name="MainWindow1">
     <Window.Resources>
         <avalonDock:VS2010Theme x:Key="VS2010Theme" />
@@ -44,6 +45,7 @@
                     <Fluent:DropDownButton Icon="/Resources/protoman.png" LargeIcon="/Resources/protoman.png" Header="Test">
                         <Fluent:MenuItem Command="{Binding TestCommand}" Header="Project" />
                         <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
+                        <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
                     </Fluent:DropDownButton>
 
                     <Fluent:DropDownButton Icon="/Resources/roll.png" LargeIcon="/Resources/roll.png" Header="Preferences">
@@ -61,6 +63,10 @@
                 <Fluent:RibbonGroupBox>
                     <Fluent:Button Header="Undo" Icon="/Resources/Undo.png" LargeIcon="/Resources/Undo.png" Command="{Binding UndoCommand}" />
                     <Fluent:Button Header="Redo" Icon="/Resources/Redo.png" LargeIcon="/Resources/Redo.png" Command="{Binding RedoCommand}" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox>
+                    <Fluent:ToggleButton Header="Room Borders" Icon="/Resources/roomborder.png" LargeIcon="/Resources/roomborder.png" IsChecked="{Binding ShowRoomBorders}" Command="{Binding UpdateLayerVisibilityCommand}" />
+                    <Fluent:ToggleButton Header="Tile Effects" IsChecked="{Binding ShowTileProperties}" Command="{Binding UpdateLayerVisibilityCommand}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
@@ -151,6 +157,9 @@
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="entityEditorPane">
                             <c:EntityEditor x:Name="entityEditorControl"></c:EntityEditor>
+                        </avalonDock:LayoutDocument>
+                        <avalonDock:LayoutDocument x:Name="tilesetImporterPane">
+                            <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
                             <DockPanel>

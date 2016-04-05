@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Controls.ViewModels;
 
-namespace MegaMan.Editor.Controls
-{
+namespace MegaMan.Editor.Controls {
     public class EntityScreenLayer : ScreenLayer
     {
         protected override void UnbindScreen(ScreenDocument oldScreen)

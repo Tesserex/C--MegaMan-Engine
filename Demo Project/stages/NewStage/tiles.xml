@@ -6,491 +6,2111 @@
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="2" />
-			<Frame x="80" y="0" duration="0" />
+			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="1" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="0" duration="0" />
+			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="2" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="0" duration="0" />
+			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="3" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="0" duration="0" />
+			<Frame x="64" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="4" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="17" duration="0" />
+			<Frame x="80" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="5" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="17" duration="0" />
+			<Frame x="96" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="6" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="17" duration="0" />
+			<Frame x="112" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="7" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="34" duration="0" />
+			<Frame x="128" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="8" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="51" duration="0" />
+			<Frame x="144" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="9" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="68" duration="0" />
+			<Frame x="160" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="10" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="34" duration="0" />
+			<Frame x="176" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="11" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="34" duration="0" />
+			<Frame x="192" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="12" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="51" duration="0" />
+			<Frame x="208" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="13" name="" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="51" duration="0" />
+			<Frame x="224" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="14" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="238" duration="0" />
+			<Frame x="240" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="15" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="119" duration="0" />
+			<Frame x="256" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="16" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="119" duration="0" />
+			<Frame x="272" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="17" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="136" y="119" duration="0" />
+			<Frame x="288" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="18" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="136" duration="0" />
+			<Frame x="304" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="19" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="136" y="136" duration="0" />
+			<Frame x="0" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="20" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="153" duration="0" />
+			<Frame x="16" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="21" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="136" y="153" duration="0" />
+			<Frame x="32" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="22" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="102" y="170" duration="0" />
+			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="23" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="170" duration="0" />
+			<Frame x="64" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="24" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="136" y="170" duration="0" />
+			<Frame x="80" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="25" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="153" y="170" duration="0" />
+			<Frame x="96" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="26" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="68" y="170" duration="0" />
+			<Frame x="112" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="27" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="85" y="170" duration="0" />
+			<Frame x="128" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="28" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="170" y="153" duration="0" />
+			<Frame x="144" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="29" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="170" y="170" duration="0" />
+			<Frame x="160" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="30" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="170" duration="0" />
+			<Frame x="176" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="31" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="204" y="170" duration="0" />
+			<Frame x="192" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="32" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="187" duration="0" />
+			<Frame x="208" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="33" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="68" y="187" duration="0" />
+			<Frame x="224" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="34" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="85" y="187" duration="0" />
+			<Frame x="240" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="35" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="238" duration="0" />
+			<Frame x="256" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="36" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="170" y="187" duration="0" />
+			<Frame x="272" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="37" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="187" duration="0" />
+			<Frame x="288" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="38" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="221" y="187" duration="0" />
+			<Frame x="304" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="39" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="238" y="187" duration="0" />
+			<Frame x="0" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="40" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="187" duration="0" />
+			<Frame x="16" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="41" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="204" duration="0" />
+			<Frame x="32" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="42" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="204" duration="0" />
+			<Frame x="48" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="43" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="204" duration="0" />
+			<Frame x="64" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="44" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="238" y="204" duration="0" />
+			<Frame x="80" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="45" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="255" y="204" duration="0" />
+			<Frame x="96" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="46" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="221" duration="0" />
+			<Frame x="112" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="47" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="221" duration="0" />
+			<Frame x="128" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="48" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="221" duration="0" />
+			<Frame x="144" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="49" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="238" y="221" duration="0" />
+			<Frame x="160" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="50" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="255" y="221" duration="0" />
+			<Frame x="176" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="51" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="238" duration="0" />
+			<Frame x="192" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="52" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="238" duration="0" />
+			<Frame x="208" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="53" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="238" duration="0" />
+			<Frame x="224" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="54" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="255" y="238" duration="0" />
+			<Frame x="240" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="55" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="0" y="255" duration="0" />
+			<Frame x="256" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="56" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="17" y="255" duration="0" />
+			<Frame x="272" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="57" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="34" y="255" duration="0" />
+			<Frame x="288" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="58" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="255" duration="0" />
+			<Frame x="304" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="59" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="68" y="255" duration="0" />
+			<Frame x="0" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="60" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="170" y="255" duration="0" />
+			<Frame x="16" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="61" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="187" y="255" duration="0" />
+			<Frame x="32" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="62" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="204" y="255" duration="0" />
+			<Frame x="48" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="63" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="221" y="255" duration="0" />
+			<Frame x="64" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="64" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="255" y="255" duration="0" />
+			<Frame x="80" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="65" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="272" y="255" duration="0" />
+			<Frame x="96" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="66" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="102" y="187" duration="0" />
+			<Frame x="112" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="67" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="187" duration="16" />
-			<Frame x="119" y="221" duration="16" />
-			<Frame x="119" y="272" duration="16" />
+			<Frame x="128" y="48" duration="16" />
+			<Frame x="144" y="48" duration="16" />
+			<Frame x="160" y="48" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="68" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="153" y="187" duration="16" />
-			<Frame x="68" y="238" duration="16" />
-			<Frame x="102" y="255" duration="16" />
+			<Frame x="176" y="48" duration="16" />
+			<Frame x="192" y="48" duration="16" />
+			<Frame x="208" y="48" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="69" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="68" y="204" duration="16" />
-			<Frame x="85" y="238" duration="16" />
-			<Frame x="136" y="272" duration="16" />
+			<Frame x="224" y="48" duration="16" />
+			<Frame x="240" y="48" duration="16" />
+			<Frame x="256" y="48" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="70" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="85" y="204" duration="16" />
-			<Frame x="102" y="238" duration="16" />
-			<Frame x="153" y="272" duration="16" />
+			<Frame x="272" y="48" duration="16" />
+			<Frame x="288" y="48" duration="16" />
+			<Frame x="304" y="48" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="71" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="102" y="204" duration="16" />
-			<Frame x="119" y="238" duration="16" />
-			<Frame x="170" y="272" duration="16" />
+			<Frame x="0" y="64" duration="16" />
+			<Frame x="16" y="64" duration="16" />
+			<Frame x="32" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="72" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="119" y="204" duration="16" />
-			<Frame x="34" y="272" duration="16" />
-			<Frame x="204" y="272" duration="16" />
+			<Frame x="48" y="64" duration="16" />
+			<Frame x="64" y="64" duration="16" />
+			<Frame x="80" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="73" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="51" y="221" duration="16" />
-			<Frame x="51" y="272" duration="16" />
-			<Frame x="221" y="272" duration="16" />
+			<Frame x="96" y="64" duration="16" />
+			<Frame x="112" y="64" duration="16" />
+			<Frame x="128" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="74" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="68" y="221" duration="16" />
-			<Frame x="68" y="272" duration="16" />
-			<Frame x="238" y="272" duration="16" />
+			<Frame x="144" y="64" duration="16" />
+			<Frame x="160" y="64" duration="16" />
+			<Frame x="176" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="75" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="85" y="221" duration="16" />
-			<Frame x="85" y="272" duration="16" />
-			<Frame x="255" y="272" duration="16" />
+			<Frame x="192" y="64" duration="16" />
+			<Frame x="208" y="64" duration="16" />
+			<Frame x="224" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="76" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="102" y="221" duration="16" />
-			<Frame x="102" y="272" duration="16" />
-			<Frame x="272" y="272" duration="16" />
+			<Frame x="240" y="64" duration="16" />
+			<Frame x="256" y="64" duration="16" />
+			<Frame x="272" y="64" duration="16" />
 		</Sprite>
 	</Tile>
 	<Tile id="77" name="" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
-			<Frame x="102" y="187" duration="16" />
-			<Frame x="85" y="255" duration="16" />
-			<Frame x="187" y="272" duration="16" />
+			<Frame x="112" y="48" duration="16" />
+			<Frame x="288" y="64" duration="16" />
+			<Frame x="304" y="64" duration="16" />
+		</Sprite>
+	</Tile>
+	<Tile id="78" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="79" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="80" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="81" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="82" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="83" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="84" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="85" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="86" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="87" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="88" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="89" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="90" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="91" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="92" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="93" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="94" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="95" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="96" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="97" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="80" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="98" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="99" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="100" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="101" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="102" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="103" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="104" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="105" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="106" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="107" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="108" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="109" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="110" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="111" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="112" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="113" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="114" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="115" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="116" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="117" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="96" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="118" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="119" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="120" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="121" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="122" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="123" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="124" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="125" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="126" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="127" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="128" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="129" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="130" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="131" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="132" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="133" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="134" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="135" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="136" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="137" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="112" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="138" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="139" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="140" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="141" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="142" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="143" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="144" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="145" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="146" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="147" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="148" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="149" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="150" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="151" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="152" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="153" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="154" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="155" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="156" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="157" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="128" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="158" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="159" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="160" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="161" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="162" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="163" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="164" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="165" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="166" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="167" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="168" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="169" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="170" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="171" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="172" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="173" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="174" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="175" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="176" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="177" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="144" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="178" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="179" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="180" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="181" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="182" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="183" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="184" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="185" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="186" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="187" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="188" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="189" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="190" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="191" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="192" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="193" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="194" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="195" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="196" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="197" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="160" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="198" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="199" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="200" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="201" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="202" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="203" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="204" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="205" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="206" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="207" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="208" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="209" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="210" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="211" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="212" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="213" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="214" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="215" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="216" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="217" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="176" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="218" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="219" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="220" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="221" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="222" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="223" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="224" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="225" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="226" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="227" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="228" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="229" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="230" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="231" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="232" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="233" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="234" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="235" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="236" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="237" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="192" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="238" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="239" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="240" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="241" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="242" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="243" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="244" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="245" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="246" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="247" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="248" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="249" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="250" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="251" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="252" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="253" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="254" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="255" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="256" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="257" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="208" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="258" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="259" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="260" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="261" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="262" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="263" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="264" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="265" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="266" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="267" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="268" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="269" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="270" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="271" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="272" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="273" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="274" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="275" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="276" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="277" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="224" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="278" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="279" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="280" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="281" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="282" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="283" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="284" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="285" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="286" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="287" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="288" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="289" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="290" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="291" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="292" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="293" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="294" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="295" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="296" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="297" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="240" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="298" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="299" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="300" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="301" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="302" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="303" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="304" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="305" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="306" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="307" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="308" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="309" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="310" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="311" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="312" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="313" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="314" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="315" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="316" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="317" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="256" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="318" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="319" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="320" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="321" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="322" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="323" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="324" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="325" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="326" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="327" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="328" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="160" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="329" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="330" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="192" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="331" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="208" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="332" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="224" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="333" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="240" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="334" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="256" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="335" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="272" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="336" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="288" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="337" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="304" y="272" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="338" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="339" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="340" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="32" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="341" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="48" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="342" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="64" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="343" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="80" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="344" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="96" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="345" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="112" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="346" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="128" y="288" duration="0" />
+		</Sprite>
+	</Tile>
+	<Tile id="347" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="144" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 </Tileset>
