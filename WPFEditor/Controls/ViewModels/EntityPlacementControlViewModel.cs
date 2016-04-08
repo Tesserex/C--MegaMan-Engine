@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
-    class EntityPlacementControlViewModel
+    class EntityPlacementControlViewModel : ViewModelBase
     {
         private EntityInfo _entityInfo;
 
@@ -21,5 +17,13 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         public Sprite DefaultSprite { get { return _entityInfo.DefaultSprite; } }
+
+        public string BorderColor
+        {
+            get
+            {
+                return "Cyan";
+            }
+        }
     }
 }

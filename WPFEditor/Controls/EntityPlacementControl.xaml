@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="64">
     <DockPanel>
-        <Border BorderBrush="Cyan" BorderThickness="1">
+        <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="2" Margin="-4">
             <local:SpriteImage DataContext="{Binding Path=DefaultSprite}" Width="{Binding Path=DefaultSprite.Width}" Height="{Binding Path=DefaultSprite.Height}"></local:SpriteImage>
         </Border>
     </DockPanel>

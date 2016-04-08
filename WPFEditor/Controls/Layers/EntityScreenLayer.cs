@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Controls.ViewModels;
 
-namespace MegaMan.Editor.Controls {
+namespace MegaMan.Editor.Controls
+{
     public class EntityScreenLayer : ScreenLayer
     {
         protected override void UnbindScreen(ScreenDocument oldScreen)
@@ -38,6 +40,7 @@ namespace MegaMan.Editor.Controls {
 
             Canvas.SetLeft(ctrl, placement.screenX - info.DefaultSprite.HotSpot.X);
             Canvas.SetTop(ctrl, placement.screenY - info.DefaultSprite.HotSpot.Y);
+            Canvas.SetZIndex(ctrl, 10000);
 
             this.Children.Add(ctrl);
             Update();
@@ -56,6 +59,17 @@ namespace MegaMan.Editor.Controls {
         protected override void Update()
         {
             InvalidateVisual();
+        }
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            base.OnRender(dc);
+
+            foreach (var c in Children.OfType<EntityPlacementControl>())
+            {
+                c.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                c.Arrange(new Rect(GetLeft(c), GetTop(c), c.Width, c.Height));
+            }
         }
     }
 }
