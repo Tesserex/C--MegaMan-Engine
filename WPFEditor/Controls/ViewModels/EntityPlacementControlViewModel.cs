@@ -1,6 +1,7 @@
-﻿using System.Windows.Media;
+﻿using System;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -14,9 +15,17 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             this.Placement = placement;
             this._entityInfo = entityInfo;
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+        }
+
+        private void ZoomChanged(object sender, ZoomChangedEventArgs e)
+        {
+            OnPropertyChanged("Zoom");
         }
 
         public Sprite DefaultSprite { get { return _entityInfo.DefaultSprite; } }
+
+        public double Zoom { get { return Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1); } }
 
         public string BorderColor
         {

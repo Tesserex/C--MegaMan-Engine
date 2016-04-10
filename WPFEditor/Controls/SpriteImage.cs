@@ -6,14 +6,14 @@ using MegaMan.Common;
 namespace MegaMan.Editor.Controls {
     public class SpriteImage : Grid
     {
-        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(int), typeof(SpriteImage), new PropertyMetadata(1, new PropertyChangedCallback(ZoomChanged)));
+        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, new PropertyChangedCallback(ZoomChanged)));
 
         protected Image _image;
         private Sprite _sprite;
         
-        public int Zoom
+        public double Zoom
         {
-            get { return (int)GetValue(ZoomProperty); }
+            get { return (double)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
 
@@ -50,8 +50,8 @@ namespace MegaMan.Editor.Controls {
         private static void ZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var image = (SpriteImage)d;
-            image.Width = image._sprite.Width * (int)e.NewValue;
-            image.Height = image._sprite.Height * (int)e.NewValue;
+            image.Width = image._sprite.Width * (double)e.NewValue;
+            image.Height = image._sprite.Height * (double)e.NewValue;
             image._image.Width = image.Width;
             image._image.Height = image.Height;
             image.Tick();

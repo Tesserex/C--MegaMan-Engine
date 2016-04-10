@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
 {
@@ -43,11 +44,14 @@ namespace MegaMan.Editor.Controls
         public ScreenLayer()
         {
             ((App)App.Current).Tick += ScreenLayer_Tick;
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged, true);
         }
 
-        protected override Size MeasureOverride(Size constraint)
+        private void ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
-            return new Size(_screen.PixelWidth * Zoom, _screen.PixelHeight * Zoom);
+            Width = MaxWidth = MinWidth = _screen.PixelWidth * this.Zoom;
+            Height = MaxHeight = MinHeight = _screen.PixelHeight * this.Zoom;
+            InvalidateMeasure();
         }
 
         private void ScreenLayer_Tick()

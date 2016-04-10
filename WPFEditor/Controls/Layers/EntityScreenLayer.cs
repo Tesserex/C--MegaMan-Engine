@@ -34,8 +34,6 @@ namespace MegaMan.Editor.Controls
             var ctrl = new EntityPlacementControl();
             var info = this.Screen.Stage.Project.EntityByName(placement.entity);
             ctrl.DataContext = new EntityPlacementControlViewModel(placement, info);
-            ctrl.Width = info.DefaultSprite.Width;
-            ctrl.Height = info.DefaultSprite.Height;
             ctrl.Visibility = Visibility.Visible;
 
             Canvas.SetLeft(ctrl, placement.screenX - info.DefaultSprite.HotSpot.X);
@@ -61,15 +59,28 @@ namespace MegaMan.Editor.Controls
             InvalidateVisual();
         }
 
-        protected override void OnRender(DrawingContext dc)
+        protected override Size MeasureOverride(Size constraint)
         {
-            base.OnRender(dc);
-
             foreach (var c in Children.OfType<EntityPlacementControl>())
             {
+                var d = ((EntityPlacementControlViewModel)c.DataContext);
+                Canvas.SetLeft(c, Zoom * (d.Placement.screenX - d.DefaultSprite.HotSpot.X));
+                Canvas.SetTop(c, Zoom * (d.Placement.screenY - d.DefaultSprite.HotSpot.Y));
+
                 c.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                c.Arrange(new Rect(GetLeft(c), GetTop(c), c.Width, c.Height));
             }
+
+            return base.MeasureOverride(constraint);
+        }
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            foreach (var c in Children.OfType<EntityPlacementControl>())
+            {
+                c.Arrange(new Rect(GetLeft(c) * Zoom, GetTop(c) * Zoom, c.DesiredSize.Width * Zoom, c.DesiredSize.Height * Zoom));
+            }
+
+            return base.ArrangeOverride(arrangeSize);
         }
     }
 }
