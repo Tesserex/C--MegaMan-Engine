@@ -33,7 +33,7 @@ namespace MegaMan.Editor.Controls
         {
             var ctrl = new EntityPlacementControl();
             var info = this.Screen.Stage.Project.EntityByName(placement.entity);
-            ctrl.DataContext = new EntityPlacementControlViewModel(placement, info);
+            ctrl.DataContext = new EntityPlacementControlViewModel(placement, info, Screen);
             ctrl.Visibility = Visibility.Visible;
 
             Canvas.SetLeft(ctrl, placement.screenX - info.DefaultSprite.HotSpot.X);

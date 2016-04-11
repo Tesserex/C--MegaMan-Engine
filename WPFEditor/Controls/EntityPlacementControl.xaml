@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="64">
     <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="2" Margin="-4">
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Delete" Icon="/Resources/Remove.png" Command="{Binding DeleteCommand}" />
+            </ContextMenu>
+        </Border.ContextMenu>
         <local:SpriteImage DataContext="{Binding Path=DefaultSprite}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityPlacementControl}}}"></local:SpriteImage>
     </Border>
 </UserControl>
