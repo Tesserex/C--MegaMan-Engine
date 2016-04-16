@@ -9,9 +9,14 @@
     <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="2" Margin="-4">
         <Border.ContextMenu>
             <ContextMenu>
+                <MenuItem Header="Flip" Command="{Binding FlipCommand}" />
+                <Separator />
                 <MenuItem Header="Delete" Icon="/Resources/Remove.png" Command="{Binding DeleteCommand}" />
             </ContextMenu>
         </Border.ContextMenu>
-        <local:SpriteImage DataContext="{Binding Path=DefaultSprite}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityPlacementControl}}}"></local:SpriteImage>
+        <local:SpriteImage DataContext="{Binding Path=DefaultSprite}"
+                           Flipped="{Binding Path=DataContext.Flipped, RelativeSource={RelativeSource AncestorType={x:Type local:EntityPlacementControl}}}"
+                           Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityPlacementControl}}}">
+        </local:SpriteImage>
     </Border>
 </UserControl>

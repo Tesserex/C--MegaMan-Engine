@@ -26,14 +26,28 @@ namespace MegaMan.Editor.Controls.ViewModels
         public EntityPlacement Placement { get; private set; }
 
         public ICommand DeleteCommand { get; private set; }
+        public ICommand FlipCommand { get; private set; }
+
+        public event EventHandler PlacementModified;
 
         public EntityPlacementControlViewModel(EntityPlacement placement, EntityInfo entityInfo, ScreenDocument screen)
         {
             this.Placement = placement;
             this._entityInfo = entityInfo;
             this._screen = screen;
+
             DeleteCommand = new RelayCommand(Delete);
+            FlipCommand = new RelayCommand(Flip);
+
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+        }
+
+        private void Flip(object obj)
+        {
+            Placement.direction = (Placement.direction == Direction.Right) ? Direction.Left : Direction.Right;
+            OnPropertyChanged("Flipped");
+            if (PlacementModified != null)
+                PlacementModified(this, new EventArgs());
         }
 
         private void Delete(object obj)
@@ -50,6 +64,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         public Sprite DefaultSprite { get { return _entityInfo.DefaultSprite; } }
 
         public double Zoom { get { return Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1); } }
+
+        public bool Flipped { get { return (Placement.direction == Direction.Left); } }
 
         public string BorderColor
         {

@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MegaMan.Common;
 
 namespace MegaMan.Editor.Controls {
     public class SpriteImage : Grid
     {
         public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, new PropertyChangedCallback(ZoomChanged)));
+        public static readonly DependencyProperty FlippedProperty = DependencyProperty.Register("Flipped", typeof(bool), typeof(SpriteImage), new PropertyMetadata(false));
 
         protected Image _image;
         private Sprite _sprite;
@@ -15,6 +17,12 @@ namespace MegaMan.Editor.Controls {
         {
             get { return (double)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
+        }
+
+        public bool Flipped
+        {
+            get { return (bool)GetValue(FlippedProperty); }
+            set { SetValue(FlippedProperty, value); }
         }
 
         public SpriteImage()
@@ -28,6 +36,7 @@ namespace MegaMan.Editor.Controls {
 
             _image = new Image();
             Children.Add(_image);
+            _image.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
         protected virtual void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -67,6 +76,11 @@ namespace MegaMan.Editor.Controls {
             var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
             if (Zoom != 1)
                 image = SpriteBitmapCache.Scale(image, Zoom);
+
+            if (_sprite.Reversed ^ Flipped)
+                _image.RenderTransform = new ScaleTransform(-1, 1);
+            else
+                _image.RenderTransform = null;
 
             _image.Source = image;
             _image.InvalidateVisual();

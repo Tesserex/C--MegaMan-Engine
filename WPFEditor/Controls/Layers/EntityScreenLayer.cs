@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Controls.ViewModels;
@@ -33,12 +32,14 @@ namespace MegaMan.Editor.Controls
         {
             var ctrl = new EntityPlacementControl();
             var info = this.Screen.Stage.Project.EntityByName(placement.entity);
-            ctrl.DataContext = new EntityPlacementControlViewModel(placement, info, Screen);
+            var vm = new EntityPlacementControlViewModel(placement, info, Screen);
+            ctrl.DataContext = vm;
             ctrl.Visibility = Visibility.Visible;
 
-            Canvas.SetLeft(ctrl, placement.screenX - info.DefaultSprite.HotSpot.X);
-            Canvas.SetTop(ctrl, placement.screenY - info.DefaultSprite.HotSpot.Y);
+            PositionControl(ctrl, vm);
             Canvas.SetZIndex(ctrl, 10000);
+
+            vm.PlacementModified += (s, e) => PositionControl(ctrl, vm);
 
             this.Children.Add(ctrl);
             Update();
@@ -64,13 +65,22 @@ namespace MegaMan.Editor.Controls
             foreach (var c in Children.OfType<EntityPlacementControl>())
             {
                 var d = ((EntityPlacementControlViewModel)c.DataContext);
-                Canvas.SetLeft(c, Zoom * (d.Placement.screenX - d.DefaultSprite.HotSpot.X));
-                Canvas.SetTop(c, Zoom * (d.Placement.screenY - d.DefaultSprite.HotSpot.Y));
+                PositionControl(c, d);
 
                 c.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             }
 
             return base.MeasureOverride(constraint);
+        }
+
+        private void PositionControl(EntityPlacementControl ctrl, EntityPlacementControlViewModel viewModel)
+        {
+            bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
+            var offset = flipHorizontal ? viewModel.DefaultSprite.Width - viewModel.DefaultSprite.HotSpot.X : viewModel.DefaultSprite.HotSpot.X;
+
+            Canvas.SetLeft(ctrl, Zoom * (viewModel.Placement.screenX - offset));
+            Canvas.SetTop(ctrl, Zoom * (viewModel.Placement.screenY - viewModel.DefaultSprite.HotSpot.Y));
+            InvalidateVisual();
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
