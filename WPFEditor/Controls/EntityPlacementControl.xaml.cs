@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
@@ -21,6 +10,8 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class EntityPlacementControl : UserControl
     {
+        public Point DragOrigin { get; private set; }
+
         public EntityPlacementControl()
         {
             InitializeComponent();
@@ -36,6 +27,22 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseLeave(e);
             ((EntityPlacementControlViewModel)DataContext).Hovered = false;
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            DragOrigin = e.GetPosition(this);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
+            }
         }
     }
 }

@@ -9,6 +9,11 @@ namespace MegaMan.Editor.Controls
 {
     public class EntityScreenLayer : ScreenLayer
     {
+        public EntityScreenLayer()
+        {
+            this.AllowDrop = true;
+        }
+
         protected override void UnbindScreen(ScreenDocument oldScreen)
         {
             oldScreen.EntityAdded -= EntityAdded;
@@ -91,6 +96,24 @@ namespace MegaMan.Editor.Controls
             }
 
             return base.ArrangeOverride(arrangeSize);
+        }
+
+        protected override void OnDragOver(DragEventArgs e)
+        {
+            base.OnDragOver(e);
+            var ctrl = (EntityPlacementControl)e.Data.GetData(typeof(EntityPlacementControl));
+            if (ctrl != null)
+            {
+                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
+                var point = e.GetPosition(this);
+
+                var offset = new Point(vm.DefaultSprite.HotSpot.X - ctrl.DragOrigin.X, vm.DefaultSprite.HotSpot.Y - ctrl.DragOrigin.Y);
+
+                vm.Placement.screenX = (float)(point.X + offset.X);
+                vm.Placement.screenY = (float)(point.Y + offset.Y);
+
+                PositionControl(ctrl, vm);
+            }
         }
     }
 }
