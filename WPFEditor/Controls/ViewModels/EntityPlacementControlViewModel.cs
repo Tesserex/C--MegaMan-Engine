@@ -27,6 +27,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public ICommand DeleteCommand { get; private set; }
         public ICommand FlipCommand { get; private set; }
+        public ICommand RespawnCommand { get; private set; }
 
         public event EventHandler PlacementModified;
 
@@ -38,8 +39,20 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             DeleteCommand = new RelayCommand(Delete);
             FlipCommand = new RelayCommand(Flip);
+            RespawnCommand = new RelayCommand(SetRespawnMode);
 
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+        }
+
+        private void SetRespawnMode(object obj)
+        {
+            var mode = (RespawnBehavior)Enum.Parse(typeof(RespawnBehavior), obj.ToString());
+            Placement.respawn = mode;
+
+            OnPropertyChanged("RespawnsOffscreen");
+            OnPropertyChanged("RespawnsDeath");
+            OnPropertyChanged("RespawnsStage");
+            OnPropertyChanged("RespawnsNever");
         }
 
         private void Flip(object obj)
@@ -74,5 +87,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                 return Hovered ? "Cyan" : "Transparent";
             }
         }
+
+        public bool RespawnsOffscreen { get { return Placement.respawn == RespawnBehavior.Offscreen; } }
+        public bool RespawnsDeath { get { return Placement.respawn == RespawnBehavior.Death; } }
+        public bool RespawnsStage { get { return Placement.respawn == RespawnBehavior.Stage; } }
+        public bool RespawnsNever { get { return Placement.respawn == RespawnBehavior.Never; } }
     }
 }

@@ -10,6 +10,12 @@
         <Border.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Flip" Command="{Binding FlipCommand}" />
+                <MenuItem Header="Respawn Rule">
+                    <MenuItem Header="Offscreen" Command="{Binding RespawnCommand}" CommandParameter="Offscreen" IsChecked="{Binding RespawnsOffscreen, Mode=OneWay}" />
+                    <MenuItem Header="Death" Command="{Binding RespawnCommand}" CommandParameter="Death" IsChecked="{Binding RespawnsDeath, Mode=OneWay}" />
+                    <MenuItem Header="Stage" Command="{Binding RespawnCommand}" CommandParameter="Stage" IsChecked="{Binding RespawnsStage, Mode=OneWay}" />
+                    <MenuItem Header="Never" Command="{Binding RespawnCommand}" CommandParameter="Never" IsChecked="{Binding RespawnsNever, Mode=OneWay}" />
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="Delete" Icon="/Resources/Remove.png" Command="{Binding DeleteCommand}" />
             </ContextMenu>
