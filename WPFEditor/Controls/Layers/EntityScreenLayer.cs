@@ -105,12 +105,15 @@ namespace MegaMan.Editor.Controls
             if (ctrl != null)
             {
                 var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
-                var point = e.GetPosition(this);
+                var canvasPoint = e.GetPosition(this);
+                var screenMouseX = canvasPoint.X / Zoom;
+                var screenMouseY = canvasPoint.Y / Zoom;
 
-                var offset = new Point(vm.DefaultSprite.HotSpot.X - ctrl.DragOrigin.X, vm.DefaultSprite.HotSpot.Y - ctrl.DragOrigin.Y);
+                var offsetX = vm.DefaultSprite.HotSpot.X - (ctrl.DragOrigin.X / Zoom);
+                var offsetY = vm.DefaultSprite.HotSpot.Y - (ctrl.DragOrigin.Y / Zoom);
 
-                vm.Placement.screenX = (float)(point.X + offset.X);
-                vm.Placement.screenY = (float)(point.Y + offset.Y);
+                vm.Placement.screenX = (float)(screenMouseX + offsetX);
+                vm.Placement.screenY = (float)(screenMouseY + offsetY);
 
                 PositionControl(ctrl, vm);
             }
