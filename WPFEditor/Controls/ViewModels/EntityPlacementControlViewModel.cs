@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Entities.Effects;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 
@@ -28,6 +31,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand DeleteCommand { get; private set; }
         public ICommand FlipCommand { get; private set; }
         public ICommand RespawnCommand { get; private set; }
+        public ICommand StartStateCommand { get; private set; }
 
         public event EventHandler PlacementModified;
 
@@ -40,8 +44,16 @@ namespace MegaMan.Editor.Controls.ViewModels
             DeleteCommand = new RelayCommand(Delete);
             FlipCommand = new RelayCommand(Flip);
             RespawnCommand = new RelayCommand(SetRespawnMode);
+            StartStateCommand = new RelayCommand(SetStartState);
 
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
+        }
+
+        private void SetStartState(object obj)
+        {
+            Placement.state = obj.ToString();
+            OnPropertyChanged("StartState");
+            OnPropertyChanged("DefaultSprite");
         }
 
         private void SetRespawnMode(object obj)
@@ -74,7 +86,24 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("Zoom");
         }
 
-        public Sprite DefaultSprite { get { return _entityInfo.DefaultSprite; } }
+        public Sprite DefaultSprite
+        {
+            get
+            {
+                if (_entityInfo.SpriteComponent == null || !_entityInfo.SpriteComponent.Sprites.Any())
+                    return null;
+
+                var state = _entityInfo.StateComponent.States.SingleOrDefault(s => s.Name == StartState);
+                if (state != null)
+                {
+                    var stateSprite = state.Initializer.Parts.OfType<SpriteEffectPartInfo>().FirstOrDefault();
+                    if (stateSprite != null && stateSprite.Name != null && _entityInfo.SpriteComponent.Sprites.ContainsKey(stateSprite.Name))
+                        return _entityInfo.SpriteComponent.Sprites[stateSprite.Name];
+                }
+
+                return _entityInfo.DefaultSprite;
+            }
+        }
 
         public double Zoom { get { return Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1); } }
 
@@ -87,6 +116,16 @@ namespace MegaMan.Editor.Controls.ViewModels
                 return Hovered ? "Cyan" : "Transparent";
             }
         }
+
+        public IEnumerable<string> States
+        {
+            get
+            {
+                return _entityInfo.StateComponent.States.Select(s => s.Name);
+            }
+        }
+
+        public string StartState { get { return Placement.state; } }
 
         public bool RespawnsOffscreen { get { return Placement.respawn == RespawnBehavior.Offscreen; } }
         public bool RespawnsDeath { get { return Placement.respawn == RespawnBehavior.Death; } }

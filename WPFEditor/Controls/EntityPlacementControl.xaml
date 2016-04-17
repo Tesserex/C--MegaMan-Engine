@@ -6,10 +6,30 @@
              xmlns:local="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="64">
+    <UserControl.Resources>
+        <local:StartingStateConverter x:Key="StartingStateConverter" />
+    </UserControl.Resources>
     <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="2" Margin="-4">
         <Border.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Flip" Command="{Binding FlipCommand}" />
+                <MenuItem Header="Starting State" ItemsSource="{Binding States}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding}" />
+                            <Setter Property="IsChecked">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource StartingStateConverter}" Mode="OneWay">
+                                        <Binding />
+                                        <Binding Path="DataContext.StartState" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EntityPlacementControl}}" />
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Command" Value="{Binding DataContext.StartStateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EntityPlacementControl}}}" />
+                            <Setter Property="CommandParameter" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
                 <MenuItem Header="Respawn Rule">
                     <MenuItem Header="Offscreen" Command="{Binding RespawnCommand}" CommandParameter="Offscreen" IsChecked="{Binding RespawnsOffscreen, Mode=OneWay}" />
                     <MenuItem Header="Death" Command="{Binding RespawnCommand}" CommandParameter="Death" IsChecked="{Binding RespawnsDeath, Mode=OneWay}" />

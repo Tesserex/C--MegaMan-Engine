@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using MegaMan.Editor.Controls.ViewModels;
 
@@ -43,6 +46,20 @@ namespace MegaMan.Editor.Controls
             {
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
             }
+        }
+    }
+
+    public class StartingStateConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var startState = values[1].ToString();
+            return values[0].ToString() == startState;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

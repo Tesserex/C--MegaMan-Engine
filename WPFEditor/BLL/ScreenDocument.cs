@@ -181,11 +181,6 @@ namespace MegaMan.Editor.Bll
             if (EntityRemoved != null) EntityRemoved(info);
         }
 
-        public int FindEntityAt(Point location)
-        {
-            return screen.Layers[0].Entities.FindIndex(e => EntityBounded(e, location));
-        }
-
         public EntityPlacement GetEntity(int index)
         {
             if (index >= 0 && index < screen.Layers[0].Entities.Count)
@@ -193,26 +188,6 @@ namespace MegaMan.Editor.Bll
                 return screen.Layers[0].Entities[index];
             }
             return null;
-        }
-
-        private bool EntityBounded(EntityPlacement entityInfo, Point location)
-        {
-            var entity = Stage.Project.EntityByName(entityInfo.entity);
-            RectangleF bounds;
-
-            if (entity.DefaultSprite == null)
-            {
-                bounds = new RectangleF(-8, -8, 16, 16);
-            }
-            else
-            {
-                var sprite = entity.DefaultSprite;
-                bounds = sprite.BoundBox;
-                bounds.Offset(-sprite.HotSpot.X, -sprite.HotSpot.Y);
-            }
-
-            bounds.Offset(entityInfo.screenX, entityInfo.screenY);
-            return bounds.Contains(location);
         }
 
         public void SelectEntity(int index)

@@ -156,7 +156,6 @@
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
     <Compile Include="Bll\Tools\ContinuePointToolBehavior.cs" />
-    <Compile Include="Bll\Tools\EntityEditToolBehavior.cs" />
     <Compile Include="Bll\Tools\EntityToolBehavior.cs" />
     <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
     <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
