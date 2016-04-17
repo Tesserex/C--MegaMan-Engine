@@ -52,6 +52,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void SetStartState(object obj)
         {
             Placement.state = obj.ToString();
+            _screen.Stage.Dirty = true;
             OnPropertyChanged("StartState");
             OnPropertyChanged("DefaultSprite");
         }
@@ -60,6 +61,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             var mode = (RespawnBehavior)Enum.Parse(typeof(RespawnBehavior), obj.ToString());
             Placement.respawn = mode;
+            _screen.Stage.Dirty = true;
 
             OnPropertyChanged("RespawnsOffscreen");
             OnPropertyChanged("RespawnsDeath");
@@ -70,6 +72,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void Flip(object obj)
         {
             Placement.direction = (Placement.direction == Direction.Right) ? Direction.Left : Direction.Right;
+            _screen.Stage.Dirty = true;
             OnPropertyChanged("Flipped");
             if (PlacementModified != null)
                 PlacementModified(this, new EventArgs());

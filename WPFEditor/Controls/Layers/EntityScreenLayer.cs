@@ -115,6 +115,8 @@ namespace MegaMan.Editor.Controls
                 vm.Placement.screenX = (float)(screenMouseX + offsetX);
                 vm.Placement.screenY = (float)(screenMouseY + offsetY);
 
+                Screen.Stage.Dirty = true;
+
                 PositionControl(ctrl, vm);
             }
         }
