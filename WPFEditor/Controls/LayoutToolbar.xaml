@@ -22,9 +22,10 @@
             </RadioButton>
         </ToolBar>
         <ToolBar Band="1" BandIndex="2">
-            <Button Command="{Binding AddScreenCommand}">
+            <Button Command="{Binding AddScreenCommand}" Margin="0,0,2,0">
                 Add Screen
             </Button>
+            <Button Command="{Binding ImportScreenCommand}" Margin="0,0,2,0">Import Screen</Button>
         </ToolBar>
     </ToolBarTray>
 </UserControl>

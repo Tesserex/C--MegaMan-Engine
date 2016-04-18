@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MegaMan.Common;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Editor.Bll.Algorithms
@@ -17,7 +19,7 @@ namespace MegaMan.Editor.Bll.Algorithms
             Stage = stage;
         }
 
-        public ScreenDocument Import(BitmapSource image)
+        public ScreenInfo Import(BitmapSource image)
         {
             var sourceImage = BitmapFactory.ConvertToPbgra32Format(image);
             var tiles = new List<WriteableBitmap>();
@@ -48,11 +50,11 @@ namespace MegaMan.Editor.Bll.Algorithms
             foreach (var point in coordsToTiles)
                 tileMap[point.Key.X, point.Key.Y] = point.Value;
 
-            var screen = new Common.ScreenInfo("", Stage.Tileset.Tileset);
+            var screen = new Common.ScreenInfo(Stage.FindNextScreenId().ToString(), Stage.Tileset.Tileset);
             var tileLayer = new Common.TileLayer(tileMap, Stage.Tileset.Tileset, 0, 0);
-            screen.Layers.Add(new Common.ScreenLayerInfo("", tileLayer, false, new List<Common.ScreenLayerKeyframe>()));
+            screen.Layers.Add(new Common.ScreenLayerInfo(screen.Name, tileLayer, false, new List<Common.ScreenLayerKeyframe>()));
 
-            return new ScreenDocument(screen, Stage);
+            return screen;
         }
 
         private Dictionary<int, WriteableBitmap> MapImageIndicesToUnique(List<WriteableBitmap> images, out List<WriteableBitmap> keys)
@@ -98,7 +100,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 }
             }
 
-            return scores.Average();
+            return Math.Abs(scores.Average());
         }
     }
 }
