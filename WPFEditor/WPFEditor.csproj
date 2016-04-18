@@ -139,8 +139,10 @@
     </ApplicationDefinition>
     <Compile Include="AppData\AppData.cs" />
     <Compile Include="AppData\RecentProject.cs" />
+    <Compile Include="Bll\Algorithms\BitmapComparer.cs" />
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
+    <Compile Include="Bll\Algorithms\ScreenImporter.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
     <Compile Include="Bll\Factories\FactoryCore.cs" />
