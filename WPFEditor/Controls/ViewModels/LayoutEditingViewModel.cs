@@ -129,6 +129,13 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             var image = new BitmapImage(new Uri(dialog.FileName));
 
+            var tilesize = _currentStage.Tileset.Tileset.TileSize;
+            if (image.PixelWidth % tilesize != 0 || image.PixelHeight % tilesize != 0)
+            {
+                CustomMessageBox.ShowError(string.Format("Screen image width and height must be multiples of {0}.", tilesize), "Import Error");
+                return;
+            }
+
             var importer = new ScreenImporter(_currentStage);
             var screen = importer.Import(image);
             _currentStage.AddScreen(screen);

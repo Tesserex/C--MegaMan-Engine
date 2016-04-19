@@ -25,17 +25,17 @@ namespace MegaMan.Editor.Bll.Algorithms
             var tiles = new List<WriteableBitmap>();
             var coordsToIndex = new Dictionary<Point, int>();
 
-            var jump = 16;
+            var tilesize = Stage.Tileset.Tileset.TileSize;
 
-            for (var y = 0; y < image.PixelHeight; y += jump)
+            for (var y = 0; y < image.PixelHeight; y += tilesize)
             {
-                for (var x = 0; x < image.PixelWidth; x += jump)
+                for (var x = 0; x < image.PixelWidth; x += tilesize)
                 {
-                    var tileImage = new WriteableBitmap(16, 16, 96, 96, PixelFormats.Pbgra32, null);
-                    tileImage.Blit(new System.Windows.Rect(0, 0, 16, 16), sourceImage, new System.Windows.Rect(x, y, 16, 16));
+                    var tileImage = new WriteableBitmap(tilesize, tilesize, 96, 96, PixelFormats.Pbgra32, null);
+                    tileImage.Blit(new System.Windows.Rect(0, 0, tilesize, tilesize), sourceImage, new System.Windows.Rect(x, y, tilesize, tilesize));
                     tiles.Add(tileImage);
 
-                    coordsToIndex[new Point(x / jump, y / jump)] = tiles.Count - 1;
+                    coordsToIndex[new Point(x / tilesize, y / tilesize)] = tiles.Count - 1;
                 }
             }
 
@@ -46,7 +46,7 @@ namespace MegaMan.Editor.Bll.Algorithms
             var coordsToTiles = coordsToIndex
                 .ToDictionary(p => p.Key, p => imagesToTiles[imageIndexMap[p.Value]]);
 
-            var tileMap = new int[image.PixelWidth / jump, image.PixelHeight / jump];
+            var tileMap = new int[image.PixelWidth / tilesize, image.PixelHeight / tilesize];
             foreach (var point in coordsToTiles)
                 tileMap[point.Key.X, point.Key.Y] = point.Value;
 
