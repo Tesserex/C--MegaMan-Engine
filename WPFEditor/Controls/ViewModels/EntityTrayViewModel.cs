@@ -59,7 +59,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Hand":
                     _toolCursor = new StandardToolCursor("hand.cur");
-                    _toolBehavior = new LayoutToolBehavior();
+                    _toolBehavior = null;
                     ActiveIcon = "cursor";
                     break;
 
@@ -88,10 +88,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _snapHoriz = value;
                 OnPropertyChanged("SnapHorizontal");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
-
+        
         public bool SnapVertical
         {
             get { return _snapVert; }
@@ -99,7 +99,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _snapVert = value;
                 OnPropertyChanged("SnapVertical");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
@@ -110,10 +110,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _horizSnapAmount = value;
                 OnPropertyChanged("HorizSnapAmount");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
-        
+
         public int VertSnapAmount
         {
             get { return _vertSnapAmount; }

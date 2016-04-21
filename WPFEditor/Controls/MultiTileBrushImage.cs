@@ -10,6 +10,7 @@ namespace MegaMan.Editor.Controls
     public class MultiTileBrushImage : Grid
     {
         public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register("Highlight", typeof(bool), typeof(MultiTileBrushImage), new PropertyMetadata(new PropertyChangedCallback(HighlightChanged)));
+        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(int), typeof(MultiTileBrushImage), new PropertyMetadata(1, ZoomChanged));
 
         protected List<Image> _images;
         protected Border _highlight;
@@ -19,6 +20,12 @@ namespace MegaMan.Editor.Controls
         {
             get { return (bool)GetValue(HighlightProperty); }
             set { SetValue(HighlightProperty, value); }
+        }
+
+        public int Zoom
+        {
+            get { return (int)GetValue(ZoomProperty); }
+            set { SetValue(ZoomProperty, value); }
         }
 
         public MultiTileBrushImage()
@@ -55,8 +62,11 @@ namespace MegaMan.Editor.Controls
             var width = _brush.Cells.Length;
             var height = _brush.Cells[0].Length;
 
-            this.Width = _brush.Cells[0][0].tile.Width * width;
-            this.Height = _brush.Cells[0][0].tile.Height * height;
+            var cellWidth = _brush.Cells[0][0].tile.Width * Zoom;
+            var cellHeight = _brush.Cells[0][0].tile.Height * Zoom;
+
+            this.Width = cellWidth * width;
+            this.Height = cellHeight * height;
 
             this.ColumnDefinitions.Clear();
             this.RowDefinitions.Clear();
@@ -64,7 +74,7 @@ namespace MegaMan.Editor.Controls
             for (var x = 0; x < width; x++)
             {
                 var col = new ColumnDefinition();
-                col.Width = new GridLength(_brush.Cells[0][0].tile.Width);
+                col.Width = new GridLength(cellWidth);
                 this.ColumnDefinitions.Add(col);
 
                 for (var y = 0; y < height; y++)
@@ -72,14 +82,14 @@ namespace MegaMan.Editor.Controls
                     if (x == 0)
                     {
                         var row = new RowDefinition();
-                        row.Height = new GridLength(_brush.Cells[0][0].tile.Height);
+                        row.Height = new GridLength(cellHeight);
                         this.RowDefinitions.Add(row);
                     }
 
                     var cell = _brush.Cells[x][y];
                     var image = new Image();
-                    image.Width = cell.tile.Width;
-                    image.Height = cell.tile.Height;
+                    image.Width = cellWidth;
+                    image.Height = cellHeight;
 
                     Grid.SetColumn(image, x);
                     Grid.SetRow(image, y);
@@ -97,6 +107,38 @@ namespace MegaMan.Editor.Controls
         private static void HighlightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
 
+        }
+
+        private static void ZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctrl = (MultiTileBrushImage)d;
+
+            var zoom = (int)e.NewValue;
+            var cells = ctrl._brush.Cells;
+            var tilesize = cells[0][0].tile.Width;
+            var width = cells.Length;
+            var height = cells[0].Length;
+
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    var image = ctrl._images[x * height + y];
+                    image.Width = tilesize * zoom;
+                    image.Height = tilesize * zoom;
+                }
+
+                ctrl.ColumnDefinitions[x].Width = new GridLength(tilesize * zoom);
+            }
+
+            for (var y = 0; y < height; y++)
+            {
+                ctrl.RowDefinitions[y].Height = new GridLength(tilesize * zoom);
+            }
+
+            ctrl.Width = tilesize * width * zoom;
+            ctrl.Height = tilesize * height * zoom;
+            ctrl.Tick();
         }
 
         protected virtual void Tick()
@@ -117,6 +159,7 @@ namespace MegaMan.Editor.Controls
                     var location = cell.tile.Sprite.CurrentFrame.SheetLocation;
 
                     var source = SpriteBitmapCache.GetOrLoadFrame(cell.tile.Sprite.SheetPath.Absolute, location);
+                    source = SpriteBitmapCache.Scale(source, Zoom);
 
                     image.Source = source;
                     image.InvalidateVisual();

@@ -6,20 +6,20 @@ using MegaMan.Editor.Controls.ViewModels;
 namespace MegaMan.Editor.Controls
 {
     /// <summary>
-    /// Interaction logic for TileBrushControl.xaml
+    /// Interaction logic for TilePanelControl.xaml
     /// </summary>
-    public partial class TileBrushControl : UserControl
+    public partial class TileBrushPanel : UserControl
     {
-        public static readonly RoutedUICommand clickCommand = new RoutedUICommand("BrushClick", "BrushClick", typeof(TileBrushControl));
+        public static readonly RoutedUICommand clickBrushCommand = new RoutedUICommand("BrushClick", "BrushClick", typeof(TileBrushPanel));
 
-        public TileBrushControl()
+        public TileBrushPanel()
         {
             InitializeComponent();
         }
 
         private void BrushClick(object sender, ExecutedRoutedEventArgs e)
         {
-            ((TileBrushControlViewModel)this.DataContext).SelectBrush((MultiTileBrush)e.Parameter);
+            ((TilePanelControlViewModel)this.DataContext).SelectBrush((MultiTileBrush)e.Parameter);
         }
     }
 }

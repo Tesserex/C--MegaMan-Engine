@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
 
@@ -9,8 +8,11 @@ namespace MegaMan.Editor.Bll
     public class TilesetDocument
     {
         public event EventHandler TilesetModified;
+        public event EventHandler TilesheetModified;
 
         public Tileset Tileset { get; private set; }
+
+        public bool IsSheetDirty { get; set; }
 
         public FilePath SheetPath
         {
@@ -65,6 +67,14 @@ namespace MegaMan.Editor.Bll
 
             if (TilesetModified != null)
                 TilesetModified(this, new EventArgs());
+        }
+
+        public void RefreshSheet()
+        {
+            IsSheetDirty = true;
+
+            if (TilesheetModified != null)
+                TilesheetModified(this, new EventArgs());
         }
 
         public void AddBlockProperty()

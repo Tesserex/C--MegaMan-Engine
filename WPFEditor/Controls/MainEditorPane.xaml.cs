@@ -14,14 +14,13 @@ namespace MegaMan.Editor.Controls
         {
             InitializeComponent();
 
-            var tilesetModel = new TilesetViewModel();
-            tileStrip.DataContext = tilesetModel;
+            var tilesToolbarModel = new TilesToolbarViewModel();
+            tileStrip.DataContext = tilesToolbarModel;
 
-            var brushViewModel = App.Container.Get<TileBrushControlViewModel>();
+            var brushViewModel = App.Container.Get<TilePanelControlViewModel>();
             brushTray.DataContext = brushViewModel;
 
-            var tilingToolProvider = new CombinedToolProvider(tilesetModel, brushViewModel);
-            stageTileControl.ToolProvider = tilingToolProvider;
+            stageTileControl.ToolProvider = tilesToolbarModel;
 
             var layoutEditor = new LayoutEditingViewModel();
             layoutToolbar.DataContext = layoutEditor;

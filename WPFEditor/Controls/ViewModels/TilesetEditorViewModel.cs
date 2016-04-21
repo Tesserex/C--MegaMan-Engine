@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -22,9 +21,13 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand AddTilePropertiesCommand { get; private set; }
         public ICommand EditTilePropertiesCommand { get; private set; }
         public ICommand DeleteTilePropertiesCommand { get; private set; }
-        public ICommand HidePropertiesEditorCommand { get; set; }
+        public ICommand HidePropertiesEditorCommand { get; private set; }
+        public ICommand ChangeTilesetCommand { get; private set; }
+        public ICommand AnimateTilesCommand { get; private set; }
 
         public SpriteEditorViewModel Sprite { get; private set; }
+
+        public TilesetDocument Tileset { get { return _tileset; } }
 
         public string RelSheetPath
         {
@@ -56,6 +59,23 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public TileProperties SelectedTileProperties
+        {
+            get
+            {
+                var props = MultiSelectedTiles.Select(t => t.Properties).Distinct().ToList();
+                if (props.Count == 1)
+                    return props[0];
+                else
+                    return null;
+            }
+            set
+            {
+                foreach (var t in MultiSelectedTiles)
+                    t.Properties = value;
+            }
+        }
+
         public TileProperties EditingProperties { get; private set; }
         public System.Windows.Visibility ShowPropEditor { get; private set; }
         public System.Windows.Visibility ShowSpriteEditor { get; private set; }
@@ -64,17 +84,24 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             ChangeSheetCommand = new RelayCommand(o => ChangeSheet());
             AddTileCommand = new RelayCommand(o => AddTile());
-            DeleteTileCommand = new RelayCommand(o => DeleteTile());
+            DeleteTileCommand = new RelayCommand(o => DeleteTile(), x => MultiSelectedTiles.Any());
             AddTilePropertiesCommand = new RelayCommand(o => AddProperties());
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
             HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
+            ChangeTilesetCommand = new RelayCommand(ChangeTileset);
+            AnimateTilesCommand = new RelayCommand(AnimateTiles, x => MultiSelectedTiles.Any());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
 
             ShowSpriteEditor = System.Windows.Visibility.Visible;
             ShowPropEditor = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ChangeTileset(object obj)
+        {
+
         }
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
@@ -92,6 +119,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ChangeTileset(TilesetDocument tileset)
         {
+            if (_tileset != null)
+                _tileset.TilesheetModified -= RefreshSheet;
+
             SetTileset(tileset);
 
             if (_tileset != null)
@@ -102,14 +132,17 @@ namespace MegaMan.Editor.Controls.ViewModels
                 {
                     ChangeSheet();
                 }
+
+                _tileset.TilesheetModified += RefreshSheet;
             }
             else
             {
                 _observedProperties = new ObservableCollection<TileProperties>();
             }
-            
+
             OnPropertyChanged("TileProperties");
             OnPropertyChanged("RelSheetPath");
+            OnPropertyChanged("Tileset");
         }
 
         private void AddTile()
@@ -122,13 +155,14 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void DeleteTile()
         {
-            if (SelectedTile != null)
+            foreach (var tile in MultiSelectedTiles)
             {
-                _tileset.RemoveTile(SelectedTile);
-                _observedTiles.Remove(SelectedTile);
-                ChangeTile(null);
-                this._project.Dirty = true;
+                _tileset.RemoveTile(tile);
+                _observedTiles.Remove(tile);
             }
+
+            ChangeTile(null);
+            this._project.Dirty = true;
         }
 
         private void AddProperties()
@@ -198,7 +232,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public override void ChangeTile(Tile tile)
         {
-            SelectedTile = tile;
+            base.ChangeTile(tile);
 
             if (tile != null)
                 Sprite = new SpriteEditorViewModel(new SpriteViewModel(tile.Sprite), this._project);
@@ -207,6 +241,41 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OnPropertyChanged("Sprite");
             OnPropertyChanged("SelectedTile");
+            OnPropertyChanged("SelectedTileProperties");
+        }
+
+        private void RefreshSheet(object sender, System.EventArgs e)
+        {
+            if (Sprite != null)
+                Sprite.RefreshSheet();
+        }
+
+        private void AnimateTiles(object obj)
+        {
+            if (MultiSelectedTiles.Count() > 1)
+            {
+                var first = MultiSelectedTiles.First();
+                foreach (var frame in first.Sprite)
+                {
+                    if (frame.Duration == 0)
+                        frame.Duration = 6;
+                }
+
+                foreach (var tile in MultiSelectedTiles.Skip(1))
+                {
+                    foreach (var frame in tile.Sprite)
+                    {
+                        first.Sprite.Add(frame);
+                        if (frame.Duration == 0)
+                            frame.Duration = 6;
+                    }
+
+                    _tileset.RemoveTile(tile);
+                }
+
+                first.Sprite.Play();
+                ChangeTile(first);
+            }
         }
     }
 }

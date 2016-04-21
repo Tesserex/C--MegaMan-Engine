@@ -1,19 +1,63 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
 {
     public class EntityScreenLayer : ScreenLayer
     {
+        public EntityScreenLayer()
+        {
+            this.AllowDrop = true;
+        }
+
         protected override void UnbindScreen(ScreenDocument oldScreen)
         {
-            oldScreen.EntitiesChanged -= Update;
+            oldScreen.EntityAdded -= EntityAdded;
+            oldScreen.EntityRemoved -= EntityRemoved;
+
+            this.Children.Clear();
         }
 
         protected override void BindScreen(ScreenDocument newScreen)
         {
-            newScreen.EntitiesChanged += Update;
+            newScreen.EntityAdded += EntityAdded;
+            newScreen.EntityRemoved += EntityRemoved;
+
+            foreach (var placement in newScreen.Entities)
+            {
+                EntityAdded(placement);
+            }
+        }
+
+        private void EntityAdded(EntityPlacement placement)
+        {
+            var ctrl = new EntityPlacementControl();
+            var info = this.Screen.Stage.Project.EntityByName(placement.entity);
+            var vm = new EntityPlacementControlViewModel(placement, info, Screen);
+            ctrl.DataContext = vm;
+            ctrl.Visibility = Visibility.Visible;
+
+            PositionControl(ctrl, vm);
+            Canvas.SetZIndex(ctrl, 10000);
+
+            vm.PlacementModified += (s, e) => PositionControl(ctrl, vm);
+
+            this.Children.Add(ctrl);
+            Update();
+        }
+
+        private void EntityRemoved(EntityPlacement placement)
+        {
+            var ctrl = this.Children.OfType<EntityPlacementControl>().SingleOrDefault(c => ((EntityPlacementControlViewModel)c.DataContext).Placement == placement);
+
+            if (ctrl != null)
+                this.Children.Remove(ctrl);
+
+            Update();
         }
 
         protected override void Update()
@@ -21,32 +65,59 @@ namespace MegaMan.Editor.Controls
             InvalidateVisual();
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext dc)
+        protected override Size MeasureOverride(Size constraint)
         {
-            base.OnRender(dc);
-
-            foreach (var placement in Screen.Entities)
+            foreach (var c in Children.OfType<EntityPlacementControl>())
             {
-                var entity = Screen.Stage.Project.EntityByName(placement.entity);
+                var d = ((EntityPlacementControlViewModel)c.DataContext);
+                PositionControl(c, d);
 
-                if (entity != null)
-                {
-                    var sprite = entity.DefaultSprite;
-                    if (sprite != null)
-                    {
-                        var frame = SpriteBitmapCache.GetOrLoadFrame(sprite.SheetPath.Absolute, sprite.CurrentFrame.SheetLocation);
-                        frame = SpriteBitmapCache.Scale(frame, this.Zoom);
+                c.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            }
 
-                        var flip = (placement.direction == Common.Direction.Left) ^ sprite.Reversed;
-                        int hx = flip ? sprite.Width - sprite.HotSpot.X : sprite.HotSpot.X;
+            return base.MeasureOverride(constraint);
+        }
 
-                        dc.DrawImage(frame, new Rect(this.Zoom * (placement.screenX - hx), this.Zoom * (placement.screenY - sprite.HotSpot.Y), frame.PixelWidth, frame.PixelHeight));
+        private void PositionControl(EntityPlacementControl ctrl, EntityPlacementControlViewModel viewModel)
+        {
+            bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
+            var offset = flipHorizontal ? viewModel.DefaultSprite.Width - viewModel.DefaultSprite.HotSpot.X : viewModel.DefaultSprite.HotSpot.X;
 
-                        continue;
-                    }
-                }
+            Canvas.SetLeft(ctrl, Zoom * (viewModel.Placement.screenX - offset));
+            Canvas.SetTop(ctrl, Zoom * (viewModel.Placement.screenY - viewModel.DefaultSprite.HotSpot.Y));
+            InvalidateVisual();
+        }
 
-                dc.DrawEllipse(Brushes.Orange, null, new System.Windows.Point(this.Zoom * placement.screenX, this.Zoom * placement.screenY), 10 * Zoom, 10 * Zoom);
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            foreach (var c in Children.OfType<EntityPlacementControl>())
+            {
+                c.Arrange(new Rect(GetLeft(c) * Zoom, GetTop(c) * Zoom, c.DesiredSize.Width * Zoom, c.DesiredSize.Height * Zoom));
+            }
+
+            return base.ArrangeOverride(arrangeSize);
+        }
+
+        protected override void OnDragOver(DragEventArgs e)
+        {
+            base.OnDragOver(e);
+            var ctrl = (EntityPlacementControl)e.Data.GetData(typeof(EntityPlacementControl));
+            if (ctrl != null)
+            {
+                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
+                var canvasPoint = e.GetPosition(this);
+                var screenMouseX = canvasPoint.X / Zoom;
+                var screenMouseY = canvasPoint.Y / Zoom;
+
+                var offsetX = vm.DefaultSprite.HotSpot.X - (ctrl.DragOrigin.X / Zoom);
+                var offsetY = vm.DefaultSprite.HotSpot.Y - (ctrl.DragOrigin.Y / Zoom);
+
+                vm.Placement.screenX = (float)(screenMouseX + offsetX);
+                vm.Placement.screenY = (float)(screenMouseY + offsetY);
+
+                Screen.Stage.Dirty = true;
+
+                PositionControl(ctrl, vm);
             }
         }
     }

@@ -140,6 +140,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private void AddSprite()
         {
             Sprite sprite = CreateEmptySprite();
+
             _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
             ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite), _project);
             OnPropertyChanged("ComponentViewModel");
@@ -208,8 +209,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             if (CurrentEntity == null)
                 return;
-
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

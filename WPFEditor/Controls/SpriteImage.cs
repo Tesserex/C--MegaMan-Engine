@@ -2,23 +2,27 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using MegaMan.Common;
 
-namespace MegaMan.Editor.Controls
-{
+namespace MegaMan.Editor.Controls {
     public class SpriteImage : Grid
     {
-        public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register("Highlight", typeof(bool), typeof(SpriteImage), new PropertyMetadata(new PropertyChangedCallback(HighlightChanged)));
+        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, new PropertyChangedCallback(ZoomChanged)));
+        public static readonly DependencyProperty FlippedProperty = DependencyProperty.Register("Flipped", typeof(bool), typeof(SpriteImage), new PropertyMetadata(false));
 
         protected Image _image;
-        protected Border _highlight;
         private Sprite _sprite;
-
-        public bool Highlight
+        
+        public double Zoom
         {
-            get { return (bool)GetValue(HighlightProperty); }
-            set { SetValue(HighlightProperty, value); }
+            get { return (double)GetValue(ZoomProperty); }
+            set { SetValue(ZoomProperty, value); }
+        }
+
+        public bool Flipped
+        {
+            get { return (bool)GetValue(FlippedProperty); }
+            set { SetValue(FlippedProperty, value); }
         }
 
         public SpriteImage()
@@ -32,11 +36,7 @@ namespace MegaMan.Editor.Controls
 
             _image = new Image();
             Children.Add(_image);
-
-            _highlight = new Border() { BorderThickness = new Thickness(1.5), BorderBrush = Brushes.Yellow, Width = 16, Height = 16 };
-            _highlight.Effect = new BlurEffect() { Radius = 2 };
-            _highlight.Visibility = System.Windows.Visibility.Hidden;
-            Children.Add(_highlight);
+            _image.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
         protected virtual void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -50,15 +50,20 @@ namespace MegaMan.Editor.Controls
         protected void SetSprite(Sprite s)
         {
             _sprite = s;
-            _image.Width = _sprite.Width;
-            _image.Height = _sprite.Height;
+            _image.Width = _sprite.Width * Zoom;
+            _image.Height = _sprite.Height * Zoom;
+            this.Width = _image.Width;
+            this.Height = _image.Height;
         }
 
-        private static void HighlightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void ZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var image = (SpriteImage)sender;
-
-            image._highlight.Visibility = image.Highlight ? Visibility.Visible : Visibility.Hidden;
+            var image = (SpriteImage)d;
+            image.Width = image._sprite.Width * (double)e.NewValue;
+            image.Height = image._sprite.Height * (double)e.NewValue;
+            image._image.Width = image.Width;
+            image._image.Height = image.Height;
+            image.Tick();
         }
 
         protected virtual void Tick()
@@ -69,6 +74,13 @@ namespace MegaMan.Editor.Controls
             var location = _sprite.CurrentFrame.SheetLocation;
 
             var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
+            if (Zoom != 1)
+                image = SpriteBitmapCache.Scale(image, Zoom);
+
+            if (_sprite.Reversed ^ Flipped)
+                _image.RenderTransform = new ScaleTransform(-1, 1);
+            else
+                _image.RenderTransform = null;
 
             _image.Source = image;
             _image.InvalidateVisual();

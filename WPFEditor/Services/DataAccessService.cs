@@ -1,4 +1,6 @@
-﻿using System.Linq;
+using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
@@ -47,13 +49,27 @@ namespace MegaMan.Editor.Services
             var tilesetWriter = _writerProvider.GetTilesetWriter();
             tilesetWriter.Save(tileset.Tileset);
             SaveBrushes(tileset);
+
+            if (tileset.IsSheetDirty)
+            {
+                var sheet = SpriteBitmapCache.GetOrLoadImage(tileset.SheetPath.Absolute);
+
+                using (var fileStream = new FileStream(tileset.SheetPath.Absolute, FileMode.OpenOrCreate))
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(sheet));
+                    encoder.Save(fileStream);
+                }
+
+                tileset.IsSheetDirty = false;
+            }
         }
 
         private void SaveBrushes(TilesetDocument tileset)
         {
             string path = GetBrushFilePath(tileset);
 
-            using (var stream = new System.IO.StreamWriter(path, false))
+            using (var stream = new StreamWriter(path, false))
             {
                 foreach (var brush in tileset.Brushes)
                 {
@@ -73,9 +89,9 @@ namespace MegaMan.Editor.Services
 
         private string GetBrushFilePath(TilesetDocument tileset)
         {
-            string dir = System.IO.Path.GetDirectoryName(tileset.Tileset.FilePath.Absolute);
-            string file = System.IO.Path.GetFileNameWithoutExtension(tileset.Tileset.FilePath.Absolute);
-            string path = System.IO.Path.Combine(dir, file + "_brushes.xml");
+            string dir = Path.GetDirectoryName(tileset.Tileset.FilePath.Absolute);
+            string file = Path.GetFileNameWithoutExtension(tileset.Tileset.FilePath.Absolute);
+            string path = Path.Combine(dir, file + "_brushes.xml");
             return path;
         }
 
@@ -83,9 +99,9 @@ namespace MegaMan.Editor.Services
         {
             var path = GetBrushFilePath(tileset);
 
-            if (!System.IO.File.Exists(path)) return;
+            if (!File.Exists(path)) return;
 
-            using (var stream = new System.IO.StreamReader(path))
+            using (var stream = new StreamReader(path))
             {
                 while (!stream.EndOfStream)
                 {
