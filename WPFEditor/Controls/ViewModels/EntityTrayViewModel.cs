@@ -121,7 +121,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 _vertSnapAmount = value;
                 OnPropertyChanged("VertSnapAmount");
-                UpdateTool();
+                UpdateTool("Entity");
             }
         }
 
