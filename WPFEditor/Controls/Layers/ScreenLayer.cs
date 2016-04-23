@@ -44,11 +44,14 @@ namespace MegaMan.Editor.Controls
         public ScreenLayer()
         {
             ((App)App.Current).Tick += ScreenLayer_Tick;
-            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged, true);
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
         }
 
         private void ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
+            if (_screen == null)
+                return;
+
             Width = MaxWidth = MinWidth = _screen.PixelWidth * this.Zoom;
             Height = MaxHeight = MinHeight = _screen.PixelHeight * this.Zoom;
             InvalidateMeasure();
