@@ -29,15 +29,18 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 _currentEntity = value;
 
-                if (_currentEntity.EditorData == null)
-                    _currentEntity.EditorData = new EntityEditorData();
-
-                if (_currentEntity.SpriteComponent != null)
+                if (_currentEntity != null)
                 {
-                    foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
+                    if (_currentEntity.EditorData == null)
+                        _currentEntity.EditorData = new EntityEditorData();
+
+                    if (_currentEntity.SpriteComponent != null)
                     {
-                        sprite.Play();
-                        ((App)App.Current).AnimateSprite(sprite);
+                        foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
+                        {
+                            sprite.Play();
+                            ((App)App.Current).AnimateSprite(sprite);
+                        }
                     }
                 }
 
