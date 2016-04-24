@@ -164,6 +164,7 @@
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
     <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
+    <Compile Include="Bll\UnknownTile.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>

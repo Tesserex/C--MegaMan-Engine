@@ -112,8 +112,8 @@ namespace MegaMan.Editor.Controls
                 var offsetX = vm.DefaultSprite.HotSpot.X - (ctrl.DragOrigin.X / Zoom);
                 var offsetY = vm.DefaultSprite.HotSpot.Y - (ctrl.DragOrigin.Y / Zoom);
 
-                vm.Placement.screenX = (float)(screenMouseX + offsetX);
-                vm.Placement.screenY = (float)(screenMouseY + offsetY);
+                vm.Placement.screenX = (int)(screenMouseX + offsetX);
+                vm.Placement.screenY = (int)(screenMouseY + offsetY);
 
                 Screen.Stage.Dirty = true;
 
