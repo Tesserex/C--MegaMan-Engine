@@ -128,7 +128,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public string StartState { get { return Placement.state; } }
+        public string StartState { get { return Placement.state ?? States.FirstOrDefault() ?? "Start"; } }
 
         public bool RespawnsOffscreen { get { return Placement.respawn == RespawnBehavior.Offscreen; } }
         public bool RespawnsDeath { get { return Placement.respawn == RespawnBehavior.Death; } }

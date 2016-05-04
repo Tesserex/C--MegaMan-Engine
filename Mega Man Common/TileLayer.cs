@@ -1,9 +1,7 @@
-﻿using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common
 {
@@ -30,7 +28,7 @@ namespace MegaMan.Common
         public Tile TileAt(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Width || y >= Height) return null;
-            return Tileset[tiles[x,y]];
+            return Tileset.SingleOrDefault(t => t.Id == tiles[x,y]);
         }
 
         public void Save(string filepath)
@@ -59,7 +57,7 @@ namespace MegaMan.Common
             if (y < 0 || y >= Height || x < 0 || x >= Width)
                 return;
 
-            if (tile < 0 || tile >= Tileset.Count)
+            if (!Tileset.Any(t => t.Id == tile))
                 throw new ArgumentException("Tile is not within tileset range");
 
             tiles[x,y] = tile;

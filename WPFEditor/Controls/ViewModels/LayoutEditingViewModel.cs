@@ -2,11 +2,14 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Tools;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -32,12 +35,12 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<TestLocationClickedEventArgs>().Subscribe((s,e) => TestFromLocation());
 
             AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage());
-
+            ImportScreenCommand = new RelayCommand(p => ImportScreen(), p => HasStage());
             ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage());
         }
 
         public ICommand AddScreenCommand { get; private set; }
-
+        public ICommand ImportScreenCommand { get; private set; }
         public ICommand ChangeToolCommand { get; private set; }
 
         private bool HasStage()
@@ -106,6 +109,36 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 stage.AddScreen(nextScreenId.ToString(), 16, 14);
             }
+        }
+
+        private void ImportScreen()
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.Filters.Add(new CommonFileDialogFilter("Images", "png,gif,jpg,jpeg,bmp"));
+
+            dialog.Title = "Select Screen Image";
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureReadOnly = false;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = false;
+            dialog.ShowPlacesList = true;
+
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
+                return;
+
+            var image = new BitmapImage(new Uri(dialog.FileName));
+
+            var tilesize = _currentStage.Tileset.Tileset.TileSize;
+            if (image.PixelWidth % tilesize != 0 || image.PixelHeight % tilesize != 0)
+            {
+                CustomMessageBox.ShowError(string.Format("Screen image width and height must be multiples of {0}.", tilesize), "Import Error");
+                return;
+            }
+
+            var importer = new ScreenImporter(_currentStage);
+            var screen = importer.Import(image);
+            _currentStage.AddScreen(screen);
         }
 
         private void DeleteScreen(ScreenDocument screen)

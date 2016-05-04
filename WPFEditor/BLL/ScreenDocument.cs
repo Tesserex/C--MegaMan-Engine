@@ -100,7 +100,11 @@ namespace MegaMan.Editor.Bll
 
         public Tile TileAt(int x, int y)
         {
-            return screen.Layers[0].Tiles.TileAt(x, y);
+            var tile = screen.Layers[0].Tiles.TileAt(x, y);
+            if (tile == null)
+                return new UnknownTile(Tileset);
+            else
+                return tile;
         }
 
         public void ChangeTile(int tile_x, int tile_y, int tile_id)

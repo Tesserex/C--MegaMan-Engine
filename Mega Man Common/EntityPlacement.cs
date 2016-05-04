@@ -37,8 +37,8 @@ namespace MegaMan.Common
         public string state;
         public Direction direction;
         public RespawnBehavior respawn;
-        public float screenX;
-        public float screenY;
+        public int screenX;
+        public int screenY;
 
         public override bool Equals(object obj)
         {

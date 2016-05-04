@@ -38,13 +38,7 @@ namespace MegaMan.Common
         public string Name { get; set; }
         public TileSprite Sprite { get; protected set; }
         public float Width { get { return Sprite.Width; } }
-        public float Height
-        {
-            get
-            {
-                return Sprite.Height;
-            }
-        }
+        public float Height { get { return Sprite.Height; } }
 
         public TileProperties Properties { get; set; }
 
