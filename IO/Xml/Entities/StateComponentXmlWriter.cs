@@ -9,6 +9,13 @@ namespace MegaMan.IO.Xml.Entities
     internal class StateComponentXmlWriter : IComponentXmlWriter
     {
         private readonly TriggerXmlWriter _triggerWriter;
+        private readonly EffectXmlWriter _effectWriter;
+
+        public StateComponentXmlWriter(TriggerXmlWriter triggerWriter, EffectXmlWriter effectWriter)
+        {
+            _triggerWriter = triggerWriter;
+            _effectWriter = effectWriter;
+        }
 
         public Type ComponentType { get { return typeof(StateComponentInfo); } }
 
@@ -27,6 +34,20 @@ namespace MegaMan.IO.Xml.Entities
         {
             writer.WriteStartElement("State");
             writer.WriteAttributeString("name", state.Name);
+
+            writer.WriteStartElement("Initialize");
+            foreach (var part in state.Initializer.Parts)
+            {
+                _effectWriter.WritePart(part, writer);
+            }
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("Logic");
+            foreach (var part in state.Initializer.Parts)
+            {
+                _effectWriter.WritePart(part, writer);
+            }
+            writer.WriteEndElement();
 
             foreach (var trigger in state.Triggers.OrderBy(t => t.Priority))
                 _triggerWriter.Write(trigger, writer);

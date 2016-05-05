@@ -58,6 +58,18 @@ namespace MegaMan.IO.Xml.Entities
             var logic = new List<IEffectPartInfo>();
             var init = new List<IEffectPartInfo>();
 
+            var initNode = stateNode.Element("Initialize");
+            if (initNode != null)
+            {
+                init.AddRange(_effectReader.Load(initNode).Parts);
+            }
+
+            var logicNode = stateNode.Element("Logic");
+            if (logicNode != null)
+            {
+                logic.AddRange(_effectReader.Load(logicNode).Parts);
+            }
+
             foreach (var child in stateNode.Elements())
             {
                 switch (child.Name.LocalName)
