@@ -1,0 +1,55 @@
+<Entity name="Moving" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="block" environment="True" pushaway="True">
+			<Hits>Solid</Hits>
+			<Group>Block</Group>
+		</Hitbox>
+	</Collision>
+	<Movement>
+		<Flying>True</Flying>
+		<FlipSprite />
+	</Movement>
+	<Position persistoffscreen="True" />
+	<Tilesheet>images\blocks\disappearing.png</Tilesheet>
+	<Sprite name="Visible" width="16" height="16" tilesheet="images\blocks\disappearing.png">
+		<Hotspot x="8" y="8" />
+		<Frame x="0" y="0" duration="5" />
+		<Frame x="16" y="0" duration="5" />
+		<Frame x="32" y="0" duration="5" />
+		<Frame x="48" y="0" duration="5" />
+		<Frame x="64" y="0" duration="5" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic>
+			<Flying />
+			<FlipSprite />
+			<X direction="Right" magnitude="1" />
+		</Logic>
+		<Trigger>
+			<Condition>StateTime &gt; 120</Condition>
+			<Effect>
+				<State>Left</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Left">
+		<Initialize />
+		<Logic>
+			<Flying />
+			<FlipSprite />
+			<X direction="Left" magnitude="1" />
+		</Logic>
+		<Trigger>
+			<Condition>StateTime &gt; 120</Condition>
+			<Effect>
+				<State>Start</State>
+			</Effect>
+		</Trigger>
+	</State>
+</Entity>

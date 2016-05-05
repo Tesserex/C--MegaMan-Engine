@@ -1,0 +1,90 @@
+<Entity name="PowerAbsorb" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<EditorData defaultSprite="" hide="True">
+		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
+			<Hotspot x="12" y="12" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="72" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="0" y="0" duration="4" />
+		</Sprite>
+		<State name="Start">
+			<Initialize>
+				<Flying>True</Flying>
+				<FlipSprite />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpLeft">
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Left" />
+					<Y base="Inherit" offset="80" direction="Up" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger>
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="UpRight">
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Right" />
+					<Y base="Inherit" offset="80" direction="Up" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger>
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="DownLeft">
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Left" />
+					<Y base="Inherit" offset="80" direction="Down" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger>
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="DownRight">
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Right" />
+					<Y base="Inherit" offset="80" direction="Down" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger>
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
+		</State>
+		<Trigger>
+			<Condition>StateTime &gt; 20</Condition>
+			<Effect>
+				<Die />
+			</Effect>
+		</Trigger>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+	</EditorData>
+</Entity>

@@ -1,0 +1,81 @@
+<Entity name="SmallHealth" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="-2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Item</Group>
+		</Hitbox>
+	</Collision>
+	<Tilesheet>images\items.png</Tilesheet>
+	<Sprite name="normal" width="8" height="8" tilesheet="images\items.png">
+		<Hotspot x="4" y="4" />
+		<Frame x="0" y="12" duration="8" />
+		<Frame x="8" y="12" duration="8" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Flying>False</Flying>
+			<FlipSprite />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime&gt;=480</Condition>
+			<Effect>
+				<State>Flash</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Flash">
+		<Initialize>
+			<Timer>
+				<Start>Vanish</Start>
+			</Timer>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
+			<Effect>
+				<Sprite>
+					<Name />
+					<Visible>False</Visible>
+				</Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+			<Effect>
+				<Sprite>
+					<Name />
+					<Visible>True</Visible>
+				</Sprite>
+				<Timer>
+					<Reset>Vanish</Reset>
+					<Delete>Vanish</Delete>
+				</Timer>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime&gt;=120</Condition>
+			<Effect>
+				<Remove />
+			</Effect>
+		</Trigger>
+	</State>
+	<Trigger>
+		<Condition>Collision.TouchedBy("Player")</Condition>
+		<Effect>
+			<Remove />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

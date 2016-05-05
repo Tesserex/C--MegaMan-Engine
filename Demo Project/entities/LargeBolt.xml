@@ -1,0 +1,39 @@
+<Entity name="LargeBolt" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-8" y="-6" width="16" height="12" properties="Default" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Item</Group>
+		</Hitbox>
+	</Collision>
+	<Tilesheet>images\items.png</Tilesheet>
+	<Sprite width="16" height="12" tilesheet="images\items.png">
+		<Hotspot x="8" y="6" />
+		<Frame x="48" y="16" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Flying>False</Flying>
+			<FlipSprite />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+	</State>
+	<Trigger>
+		<Condition>Collision.TouchedBy("Player")</Condition>
+		<Effect>
+			<AddInventory item="Bolts" quantity="20" />
+			<Remove />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

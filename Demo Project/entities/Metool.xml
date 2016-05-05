@@ -1,0 +1,129 @@
+<Entity name="Metool" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="Down" x="-9" y="-7" width="18" height="11" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+			<Group>Deflect</Group>
+			<Resist name="ALL" multiply="0" />
+		</Hitbox>
+		<Hitbox name="MidHat" x="-9" y="-11" width="18" height="8" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+			<Group>Deflect</Group>
+			<Resist name="ALL" multiply="0" />
+		</Hitbox>
+		<Hitbox name="MidBody" x="-9" y="-3" width="18" height="7" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+		</Hitbox>
+		<Hitbox name="UpHat" x="-9" y="-15" width="18" height="8" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+			<Group>Deflect</Group>
+			<Resist name="ALL" multiply="0" />
+		</Hitbox>
+		<Hitbox name="UpBody" x="-9" y="-7" width="18" height="11" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+		</Hitbox>
+	</Collision>
+	<Health max="1" flash="0" />
+	<Tilesheet>images\enemies\metool.png</Tilesheet>
+	<Sprite name="Sit" width="18" height="19" tilesheet="images\enemies\metool.png">
+		<Hotspot x="9" y="15" />
+		<Frame x="44" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Mid" width="18" height="19" tilesheet="images\enemies\metool.png">
+		<Hotspot x="9" y="15" />
+		<Frame x="22" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Stand" width="18" height="19" tilesheet="images\enemies\metool.png">
+		<Hotspot x="9" y="15" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Flying>False</Flying>
+			<FlipSprite>True</FlipSprite>
+			<Sprite>
+				<Name>Sit</Name>
+			</Sprite>
+			<Collision>
+				<Enabled>True</Enabled>
+				<EnableBox name="Down" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64</Condition>
+			<Effect>
+				<State>Up</State>
+				<Flying />
+				<FlipSprite />
+				<X direction="Player" magnitude="1" />
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Down">
+		<Initialize>
+			<Sprite>
+				<Name>Mid</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="MidHat" />
+				<EnableBox name="MidBody" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 8</Condition>
+			<Effect>
+				<State>Start</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Up">
+		<Initialize>
+			<Sprite>
+				<Name>Mid</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="MidHat" />
+				<EnableBox name="MidBody" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 8</Condition>
+			<Effect>
+				<State>Stand</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Stand">
+		<Initialize>
+			<Sprite>
+				<Name>Stand</Name>
+			</Sprite>
+			<Spawn name="EnemyShot" state="Start">
+				<Position />
+			</Spawn>
+			<Collision>
+				<EnableBox name="UpHat" />
+				<EnableBox name="UpBody" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 40</Condition>
+			<Effect>
+				<State>Down</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

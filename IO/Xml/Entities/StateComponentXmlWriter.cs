@@ -43,7 +43,7 @@ namespace MegaMan.IO.Xml.Entities
             writer.WriteEndElement();
 
             writer.WriteStartElement("Logic");
-            foreach (var part in state.Initializer.Parts)
+            foreach (var part in state.Logic.Parts)
             {
                 _effectWriter.WritePart(part, writer);
             }

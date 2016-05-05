@@ -1,0 +1,42 @@
+<Entity name="YokuSpike" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Movement>
+		<Flying>True</Flying>
+		<FlipSprite />
+	</Movement>
+	<Tilesheet>images\blocks\spike.png</Tilesheet>
+	<Sprite width="16" height="16" tilesheet="images\blocks\spike.png">
+		<Hotspot x="0" y="0" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<State name="Hide">
+		<Initialize>
+			<Sprite>
+				<Name />
+				<Visible>True</Visible>
+			</Sprite>
+			<Collision>
+				<Hitbox x="0" y="0" width="16" height="16" damage="0" environment="True" pushaway="True" properties="lethal">
+					<Hits>Player</Hits>
+				</Hitbox>
+				<Hitbox x="0" y="0" width="16" height="16" damage="0" environment="True" pushaway="True" properties="block">
+					<Hits>Solid</Hits>
+					<Hits>Enemy</Hits>
+				</Hitbox>
+			</Collision>
+		</Initialize>
+		<Logic />
+	</State>
+	<State name="Show">
+		<Initialize>
+			<Sprite>
+				<Name />
+				<Visible>False</Visible>
+			</Sprite>
+			<Collision>
+				<Hitbox x="0" y="0" width="0" height="0" damage="0" environment="True" pushaway="True" properties="Default" />
+			</Collision>
+		</Initialize>
+		<Logic />
+	</State>
+</Entity>

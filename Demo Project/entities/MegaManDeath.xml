@@ -1,0 +1,173 @@
+<Entity name="MegaManDeath" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<EditorData defaultSprite="" hide="True">
+		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
+			<Hotspot x="12" y="12" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="24" y="0" duration="4" />
+			<Frame x="48" y="0" duration="4" />
+			<Frame x="72" y="0" duration="4" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="120" y="0" duration="4" />
+		</Sprite>
+		<State name="Start">
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Flying>True</Flying>
+				<FlipSprite />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Up">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y direction="Up" magnitude="1" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Down">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y direction="Down" magnitude="1" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Left">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="1" />
+				<Y magnitude="0" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Right">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="1" />
+				<Y magnitude="0" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpLeft">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="0.71" />
+				<Y direction="Up" magnitude="0.71" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpRight">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="0.71" />
+				<Y direction="Up" magnitude="0.71" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownLeft">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="0.71" />
+				<Y direction="Down" magnitude="0.71" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownRight">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="0.71" />
+				<Y direction="Down" magnitude="0.71" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y direction="Up" magnitude="2" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y direction="Down" magnitude="2" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="LeftFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="2" />
+				<Y magnitude="0" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="RightFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="2" />
+				<Y magnitude="0" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpLeftFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="1.42" />
+				<Y direction="Up" magnitude="1.42" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpRightFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="1.42" />
+				<Y direction="Up" magnitude="1.42" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownLeftFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Left" magnitude="1.42" />
+				<Y direction="Down" magnitude="1.42" />
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownRightFast">
+			<Initialize>
+				<Flying />
+				<FlipSprite />
+				<X direction="Right" magnitude="1.42" />
+				<Y direction="Down" magnitude="1.42" />
+			</Initialize>
+			<Logic />
+		</State>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+	</EditorData>
+</Entity>

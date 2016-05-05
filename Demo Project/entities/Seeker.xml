@@ -1,0 +1,94 @@
+<Entity name="Seeker" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-8" y="-7" width="16" height="14" properties="Default" damage="2" environment="False" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+		</Hitbox>
+	</Collision>
+	<Health max="2" flash="8" />
+	<Tilesheet>images\enemies\annoyingseeker.png</Tilesheet>
+	<Sprite name="Closed" width="16" height="14" tilesheet="images\enemies\annoyingseeker.png">
+		<Hotspot x="8" y="7" />
+		<Frame x="0" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Open" width="16" height="20" tilesheet="images\enemies\annoyingseeker.png">
+		<Hotspot x="8" y="7" />
+		<Frame x="16" y="0" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Sprite>
+				<Name>Closed</Name>
+			</Sprite>
+			<Timer>
+				<Start>Bob</Start>
+			</Timer>
+			<Flying>True</Flying>
+			<FlipSprite>True</FlipSprite>
+			<X magnitude="0" />
+			<Y direction="Down" magnitude="0.5" />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>Timer.Value("Bob") == 8</Condition>
+			<Effect>
+				<Flying />
+				<FlipSprite />
+				<Y direction="Up" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>Timer.Value("Bob") == 16</Condition>
+			<Effect>
+				<Flying />
+				<FlipSprite />
+				<Y direction="Down" />
+				<Timer>
+					<Reset>Bob</Reset>
+					<Delete>Bob</Delete>
+				</Timer>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime &gt;= 60</Condition>
+			<Effect>
+				<Timer />
+				<State>Open</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Open">
+		<Initialize>
+			<Sprite>
+				<Name>Open</Name>
+			</Sprite>
+			<Flying />
+			<FlipSprite />
+			<Velocity direction="Player" magnitude="1.5" />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 30</Condition>
+			<Effect>
+				<State>Start</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<Trigger>
+		<Condition>Health.Hit == True</Condition>
+		<Effect>
+			<Sound name="EnemyHurt" playing="True" />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

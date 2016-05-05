@@ -26,14 +26,14 @@ namespace MegaMan.IO.Xml.Effects
             var posNodeY = partNode.Element("Y");
 
             if (posNodeX != null)
-                ParsePositionBehavior(info, posNodeX, Axis.X);
+                info.X = ParsePositionBehavior(info, posNodeX);
             if (posNodeY != null)
-                ParsePositionBehavior(info, posNodeY, Axis.Y);
+                info.Y = ParsePositionBehavior(info, posNodeY);
 
             return info;
         }
 
-        private void ParsePositionBehavior(PositionEffectPartInfo info, XElement prop, Axis axis)
+        private PositionEffectAxisInfo ParsePositionBehavior(PositionEffectPartInfo info, XElement prop)
         {
             var axisInfo = new PositionEffectAxisInfo();
 
@@ -60,10 +60,7 @@ namespace MegaMan.IO.Xml.Effects
                 }
             }
 
-            if (axis == Axis.X)
-                info.X = axisInfo;
-            else if (axis == Axis.Y)
-                info.Y = axisInfo;
+            return axisInfo;
         }
     }
 }

@@ -1,0 +1,72 @@
+<Entity name="FloorBlade" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" damage="2" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+			<Group>Deflect</Group>
+			<Resist name="ALL" multiply="0" />
+			<Resist name="MetalBlade" multiply="1" />
+		</Hitbox>
+	</Collision>
+	<Health max="1" flash="0" />
+	<Tilesheet>images\enemies\floorblade.png</Tilesheet>
+	<Sprite width="16" height="16" tilesheet="images\enemies\floorblade.png">
+		<Hotspot x="8" y="8" />
+		<Frame x="0" y="0" duration="4" />
+		<Frame x="16" y="0" duration="4" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Flying>True</Flying>
+			<FlipSprite />
+			<X direction="Right" magnitude="0.5" />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime&gt;4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Right) Or Collision.BlockRight == True</Condition>
+			<Effect>
+				<State>Left</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Left">
+		<Initialize>
+			<Flying />
+			<FlipSprite />
+			<X direction="Left" />
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime&gt;4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Left) Or Collision.BlockLeft == True</Condition>
+			<Effect>
+				<State>Start</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<Trigger>
+		<States>Start,Left</States>
+		<Condition>PlayerDistY &lt; 8</Condition>
+		<Effect>
+			<Flying />
+			<FlipSprite />
+			<X magnitude="2" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<States>Start,Left</States>
+		<Condition>PlayerDistY &gt;= 8</Condition>
+		<Effect>
+			<Flying />
+			<FlipSprite />
+			<X magnitude="0.5" />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

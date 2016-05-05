@@ -1,0 +1,40 @@
+<Entity name="SmallBolt" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Item</Group>
+		</Hitbox>
+	</Collision>
+	<Tilesheet>images\items.png</Tilesheet>
+	<Sprite width="8" height="8" tilesheet="images\items.png">
+		<Hotspot x="4" y="4" />
+		<Frame x="64" y="16" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
+			<Flying>False</Flying>
+			<FlipSprite />
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic />
+	</State>
+	<Trigger>
+		<Condition>Collision.TouchedBy("Player")</Condition>
+		<Effect>
+			<AddInventory item="Bolts" quantity="2" />
+			<Sound name="Bolt" playing="True" />
+			<Remove />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

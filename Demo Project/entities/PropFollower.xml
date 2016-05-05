@@ -1,0 +1,42 @@
+<Entity name="PropFollower" maxAlive="50">
+	<GravityFlip>False</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="H" x="-12" y="-8" width="24" height="16" properties="Default" damage="2" environment="False" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+		</Hitbox>
+	</Collision>
+	<Health max="1" flash="8" />
+	<Tilesheet>images\enemies\propfollower.png</Tilesheet>
+	<Sprite width="24" height="16" tilesheet="images\enemies\propfollower.png">
+		<Hotspot x="12" y="8" />
+		<Frame x="0" y="0" duration="6" />
+		<Frame x="24" y="0" duration="6" />
+		<Frame x="48" y="0" duration="6" />
+		<Frame x="72" y="0" duration="6" />
+		<Frame x="96" y="0" duration="6" />
+		<Frame x="120" y="0" duration="6" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+		</Initialize>
+		<Logic>
+			<Flying>True</Flying>
+			<FlipSprite />
+			<Velocity direction="Player" magnitude="0.4" />
+		</Logic>
+	</State>
+	<Trigger>
+		<Condition>Health.Hit == True</Condition>
+		<Effect>
+			<Sound name="EnemyHurt" playing="True" />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>

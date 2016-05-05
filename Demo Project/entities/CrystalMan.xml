@@ -1,0 +1,293 @@
+<Entity name="CrystalMan" maxAlive="50">
+	<GravityFlip>True</GravityFlip>
+	<Collision Enabled="False">
+		<Hitbox name="Stand" x="-12" y="-14" width="24" height="27" properties="Default" damage="5" environment="True" pushaway="True">
+			<Hits>Player</Hits>
+			<Group>Enemy</Group>
+			<Resist name="Gyro" multiply="4" />
+		</Hitbox>
+	</Collision>
+	<Health max="28" startValue="0" flash="60">
+		<Meter name="" x="32" y="16" image="images\meters\crystalhealth.png" background="images\meters\healthmeter_back.png" orientation="vertical" tickX="0" tickY="0">
+			<Sound name="MeterTick" loop="False" volume="1" />
+		</Meter>
+	</Health>
+	<Position persistoffscreen="True" />
+	<Tilesheet>images\enemies\crystalman.png</Tilesheet>
+	<Sprite name="Drop" width="30" height="30" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="15" y="16" />
+		<Frame x="0" y="5" duration="0" />
+	</Sprite>
+	<Sprite name="Stand" width="30" height="30" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="15" y="16" />
+		<Frame x="33" y="5" duration="0" />
+	</Sprite>
+	<Sprite name="Jump" width="30" height="36" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="11" y="16" />
+		<Frame x="171" y="0" duration="0" />
+	</Sprite>
+	<Sprite name="Crystal" width="30" height="36" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="11" y="16" />
+		<Frame x="200" y="0" duration="12" />
+		<Frame x="228" y="0" duration="5" />
+		<Frame x="257" y="0" duration="5" />
+		<Frame x="228" y="0" duration="5" />
+		<Frame x="257" y="0" duration="5" />
+		<Frame x="228" y="0" duration="5" />
+		<Frame x="257" y="0" duration="5" />
+		<Frame x="228" y="0" duration="40" />
+	</Sprite>
+	<Sprite name="Pose" width="32" height="30" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="15" y="16" />
+		<Frame x="0" y="5" duration="4" />
+		<Frame x="33" y="5" duration="10" />
+		<Frame x="67" y="5" duration="28" />
+		<Frame x="99" y="5" duration="20" />
+		<Frame x="134" y="5" duration="4" />
+		<Frame x="99" y="5" duration="10" />
+		<Frame x="134" y="5" duration="4" />
+		<Frame x="99" y="5" duration="120" />
+	</Sprite>
+	<Sprite name="Ready" width="32" height="46" tilesheet="images\enemies\crystalman.png">
+		<Hotspot x="12" y="23" />
+		<Frame x="196" y="110" duration="0" />
+	</Sprite>
+	<State name="Start">
+		<Initialize>
+			<Sprite>
+				<Name>Drop</Name>
+			</Sprite>
+			<Flying>False</Flying>
+			<FlipSprite>True</FlipSprite>
+			<X direction="Left" magnitude="1" />
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime == 1</Condition>
+			<Effect>
+				<Next mode="Push" pause="False" type="Scene" name="BossIntro" fade="False" />
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 30</Condition>
+			<Effect>
+				<Collision>
+					<EnableBox name="Stand" />
+				</Collision>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Pose">
+		<Initialize>
+			<Sprite>
+				<Name>Pose</Name>
+			</Sprite>
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt;= 180</Condition>
+			<Effect>
+				<State>Stand</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 90</Condition>
+			<Effect>
+				<Health change="28" />
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="Stand">
+		<Initialize>
+			<Sprite>
+				<Name>Stand</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="Stand" />
+			</Collision>
+		</Initialize>
+		<Logic>
+			<Flying />
+			<FlipSprite />
+			<X direction="Player" magnitude="1" />
+		</Logic>
+		<Trigger>
+			<Condition>StateTime &gt;= 20 And PlayerDistX &gt; 80 And GameEntity.NumAlive("BossCrystal") == 0</Condition>
+			<Effect>
+				<State>CrystalJump</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime &gt;= 20 And Random &lt; 0.3</Condition>
+			<Effect>
+				<State>LowJump</State>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime &gt;= 20 And Random &gt;= 0.3</Condition>
+			<Effect>
+				<State>ShootJump</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="CrystalJump">
+		<Initialize>
+			<Sprite>
+				<Name>Jump</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="Stand" />
+			</Collision>
+			<Flying />
+			<FlipSprite />
+			<X direction="Player" magnitude="1" />
+			<Y direction="Up" magnitude="7.5" />
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime == 30</Condition>
+			<Effect>
+				<Flying>True</Flying>
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y magnitude="0" />
+				<Sprite>
+					<Name>Crystal</Name>
+				</Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 70</Condition>
+			<Effect>
+				<Spawn name="BossCrystal" state="UpLeft">
+					<Position />
+				</Spawn>
+				<Spawn name="BossCrystal" state="DownLeft">
+					<Position />
+				</Spawn>
+				<Spawn name="BossCrystal" state="UpRight">
+					<Position />
+				</Spawn>
+				<Spawn name="BossCrystal" state="DownRight">
+					<Position />
+				</Spawn>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 78</Condition>
+			<Effect>
+				<Flying>False</Flying>
+				<FlipSprite />
+				<X magnitude="1" />
+				<Sprite>
+					<Name>Jump</Name>
+				</Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime &gt; 60 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
+			<Effect>
+				<State>Stand</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="LowJump">
+		<Initialize>
+			<Sprite>
+				<Name>Jump</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="Stand" />
+			</Collision>
+			<Flying />
+			<FlipSprite />
+			<X direction="Player" magnitude="1" />
+			<Y direction="Up" magnitude="6" />
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime &gt; 1 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
+			<Effect>
+				<State>Stand</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<State name="ShootJump">
+		<Initialize>
+			<Sprite>
+				<Name>Jump</Name>
+			</Sprite>
+			<Collision>
+				<EnableBox name="Stand" />
+			</Collision>
+			<Flying />
+			<FlipSprite />
+			<X direction="Player" magnitude="1" />
+			<Y direction="Up" magnitude="6" />
+		</Initialize>
+		<Logic />
+		<Trigger>
+			<Condition>StateTime == 24</Condition>
+			<Effect>
+				<Flying>True</Flying>
+				<FlipSprite />
+				<X magnitude="0" />
+				<Y magnitude="0" />
+				<Sprite>
+					<Name>Crystal</Name>
+				</Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 66</Condition>
+			<Effect>
+				<Spawn name="SeekPlayerShot" state="UpLeft">
+					<Position />
+				</Spawn>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime == 72</Condition>
+			<Effect>
+				<Flying>False</Flying>
+				<FlipSprite />
+				<X magnitude="1" />
+				<Sprite>
+					<Name>Jump</Name>
+				</Sprite>
+			</Effect>
+		</Trigger>
+		<Trigger>
+			<Condition>StateTime &gt; 1 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
+			<Effect>
+				<State>Stand</State>
+			</Effect>
+		</Trigger>
+	</State>
+	<Trigger>
+		<Condition>Collision.BlockRight</Condition>
+		<Effect>
+			<Flying />
+			<FlipSprite />
+			<X direction="Left" magnitude="1" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Collision.BlockLeft</Condition>
+		<Effect>
+			<Flying />
+			<FlipSprite />
+			<X direction="Right" magnitude="1" />
+		</Effect>
+	</Trigger>
+	<Trigger>
+		<Condition>Health.Hit == True</Condition>
+		<Effect>
+			<Sound name="EnemyHurt" playing="True" />
+		</Effect>
+	</Trigger>
+	<Movement>
+		<Flying />
+		<FlipSprite />
+	</Movement>
+</Entity>
