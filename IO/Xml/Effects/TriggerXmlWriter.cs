@@ -16,5 +16,17 @@ namespace MegaMan.IO.Xml.Effects
 
             writer.WriteEndElement();
         }
+
+        public void WriteMulti(MultiStateTriggerInfo trigger, XmlWriter writer)
+        {
+            writer.WriteStartElement("Trigger");
+
+            var states = string.Join(",", trigger.States);
+            writer.WriteElementString("States", states);
+            writer.WriteElementString("Condition", trigger.Trigger.Condition);
+            _effectXmlWriter.Write(trigger.Trigger.Effect, writer);
+
+            writer.WriteEndElement();
+        }
     }
 }
