@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Effects
             foreach (var reset in timer.Reset)
                 writer.WriteElementString("Reset", reset);
 
-            foreach (var delete in timer.Reset)
+            foreach (var delete in timer.Delete)
                 writer.WriteElementString("Delete", delete);
 
             writer.WriteEndElement();
