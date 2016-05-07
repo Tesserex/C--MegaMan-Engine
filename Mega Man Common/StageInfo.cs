@@ -65,11 +65,6 @@ namespace MegaMan.Common
 
         public Tileset Tileset { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the absolute file path to the directory where this stage is stored
-        /// </summary>
-        public FilePath StagePath { get; set; }
-
         public FilePath MusicIntroPath { get; set; }
         public FilePath MusicLoopPath { get; set; }
         public int MusicNsfTrack { get; set; }
