@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MegaMan.Common;
-using System.Drawing.Imaging;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Engine
 {

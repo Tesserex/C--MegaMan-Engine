@@ -1,5 +1,5 @@
 ﻿using System.Xml;
-using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml.Handlers

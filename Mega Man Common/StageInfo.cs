@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common
 {

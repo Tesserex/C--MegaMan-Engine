@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common
 {

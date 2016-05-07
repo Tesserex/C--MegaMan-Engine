@@ -1,5 +1,6 @@
 ﻿using MegaMan.Common;
 using System.Xml.Linq;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Includes
 {

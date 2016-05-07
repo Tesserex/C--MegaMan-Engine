@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using Ninject;
 
 namespace MegaMan.IO.Xml

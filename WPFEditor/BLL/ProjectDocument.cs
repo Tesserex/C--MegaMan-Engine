@@ -4,8 +4,6 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
-using MegaMan.IO;
-using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {

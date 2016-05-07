@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FMOD;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaManR.Audio;
 
 namespace MegaMan.Engine

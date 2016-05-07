@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using MegaMan.Common.IncludedObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MegaMan.Common.Tests
 {
