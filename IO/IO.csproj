@@ -157,6 +157,7 @@
     <Compile Include="Xml\Entities\InputComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\InputComponentXmlWriter.cs" />
     <Compile Include="Xml\Entities\LadderComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\LadderComponentXmlWriter.cs" />
     <Compile Include="Xml\Entities\MovementComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\MovementComponentXmlWriter.cs" />
     <Compile Include="Xml\Entities\PositionComponentXmlReader.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Xml\Entities\StateComponentXmlReader.cs" />
     <Compile Include="Xml\Entities\StateComponentXmlWriter.cs" />
     <Compile Include="Xml\Entities\WeaponComponentXmlReader.cs" />
+    <Compile Include="Xml\Entities\WeaponComponentXmlWriter.cs" />
     <Compile Include="Xml\EntityPlacementXmlReader.cs" />
     <Compile Include="Xml\EntityPlacementXmlWriter.cs" />
     <Compile Include="Xml\GameXmlException.cs" />
