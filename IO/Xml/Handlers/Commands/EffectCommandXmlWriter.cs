@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Xml;
 using MegaMan.Common;
+using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class EffectCommandXmlWriter : ICommandXmlWriter
     {
+        private readonly EffectXmlWriter _effectWriter;
+
+        public EffectCommandXmlWriter(EffectXmlWriter effectWriter)
+        {
+            _effectWriter = effectWriter;
+        }
+
         public Type CommandType
         {
             get
@@ -22,7 +30,9 @@ namespace MegaMan.IO.Xml.Handlers.Commands
             if (effect.EntityId != null)
                 writer.WriteAttributeString("entity", effect.EntityId);
 
-            throw new System.Exception("Can't write scene effects right now.");
+            foreach (var part in effect.EffectInfo.Parts)
+                _effectWriter.WritePart(part, writer);
+
             writer.WriteEndElement();
         }
     }
