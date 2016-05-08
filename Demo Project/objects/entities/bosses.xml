@@ -69,13 +69,13 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="65">
 				<Condition>StateTime == 1</Condition>
 				<Effect>
 					<Next mode="Push" pause="False" type="Scene" name="BossIntro" fade="False" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="68">
 				<Condition>StateTime == 30</Condition>
 				<Effect>
 					<Collision>
@@ -91,13 +91,13 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="78">
 				<Condition>StateTime &gt;= 180</Condition>
 				<Effect>
 					<State>Stand</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="83">
 				<Condition>StateTime == 90</Condition>
 				<Effect>
 					<Health change="28" />
@@ -120,19 +120,19 @@
 					<X direction="Player" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="93">
 				<Condition>StateTime &gt;= 20 And PlayerDistX &gt; 80 And GameEntity.NumAlive("BossCrystal") == 0</Condition>
 				<Effect>
 					<State>CrystalJump</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="97">
 				<Condition>StateTime &gt;= 20 And Random &lt; 0.3</Condition>
 				<Effect>
 					<State>LowJump</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="100">
 				<Condition>StateTime &gt;= 20 And Random &gt;= 0.3</Condition>
 				<Effect>
 					<State>ShootJump</State>
@@ -155,7 +155,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="108">
 				<Condition>StateTime == 30</Condition>
 				<Effect>
 					<Movement>
@@ -169,7 +169,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="118">
 				<Condition>StateTime == 70</Condition>
 				<Effect>
 					<Spawn name="BossCrystal" state="UpLeft">
@@ -186,7 +186,7 @@
 					</Spawn>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="127">
 				<Condition>StateTime == 78</Condition>
 				<Effect>
 					<Movement>
@@ -199,7 +199,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="137">
 				<Condition>StateTime &gt; 60 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
 				<Effect>
 					<State>Stand</State>
@@ -222,7 +222,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="146">
 				<Condition>StateTime &gt; 1 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
 				<Effect>
 					<State>Stand</State>
@@ -245,7 +245,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="155">
 				<Condition>StateTime == 24</Condition>
 				<Effect>
 					<Movement>
@@ -259,7 +259,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="165">
 				<Condition>StateTime == 66</Condition>
 				<Effect>
 					<Spawn name="SeekPlayerShot" state="UpLeft">
@@ -267,7 +267,7 @@
 					</Spawn>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="171">
 				<Condition>StateTime == 72</Condition>
 				<Effect>
 					<Movement>
@@ -280,14 +280,14 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="181">
 				<Condition>StateTime &gt; 1 And Collision.BlockBottom And Collision.BlockBottomWidth &gt; 4</Condition>
 				<Effect>
 					<State>Stand</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="186">
 			<Condition>Collision.BlockRight</Condition>
 			<Effect>
 				<Movement>
@@ -297,7 +297,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="190">
 			<Condition>Collision.BlockLeft</Condition>
 			<Effect>
 				<Movement>
@@ -307,7 +307,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="194">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -362,19 +362,19 @@
 					<Y direction="Up" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="254">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>UpRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="255">
 				<Condition>Collision.BlockTop == True</Condition>
 				<Effect>
 					<State>DownLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="256">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -391,19 +391,19 @@
 					<Y direction="Up" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="260">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>UpLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="261">
 				<Condition>Collision.BlockTop == True</Condition>
 				<Effect>
 					<State>DownRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="262">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -420,19 +420,19 @@
 					<Y direction="Down" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="266">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>DownRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="267">
 				<Condition>Collision.BlockBottom == True</Condition>
 				<Effect>
 					<State>UpLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="268">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -449,26 +449,26 @@
 					<Y direction="Down" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="272">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>DownLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="273">
 				<Condition>Collision.BlockBottom == True</Condition>
 				<Effect>
 					<State>UpRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="274">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="276">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Remove />

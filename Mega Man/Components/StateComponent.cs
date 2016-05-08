@@ -222,7 +222,8 @@ namespace MegaMan.Engine
                     if (result)
                     {
                         trigger.Effect(entity);
-                        if (statecomp.currentState != state) break;
+                        if (statecomp.currentState != state)
+                            break;
                     }
                 }
             }

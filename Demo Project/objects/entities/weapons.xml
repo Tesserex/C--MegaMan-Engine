@@ -109,7 +109,7 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="83">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -117,7 +117,7 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="91">
 			<Condition>Collision.TouchedBy("Deflect")</Condition>
 			<Effect>
 				<Sound name="Deflect" playing="True" />
@@ -132,7 +132,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="99">
 			<Condition>Collision.TouchedBy("KillProjectile")</Condition>
 			<Effect>
 				<Die />
@@ -177,7 +177,7 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="137">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -185,7 +185,7 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="145">
 			<Condition>Collision.TouchedBy("Deflect")</Condition>
 			<Effect>
 				<Sound name="Deflect" playing="True" />
@@ -241,7 +241,7 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="187">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -249,7 +249,7 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="195">
 			<Condition>Collision.TouchedBy("Deflect")</Condition>
 			<Effect>
 				<Sound name="Deflect" playing="True" />
@@ -308,13 +308,13 @@
 				</Timer>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="237">
 				<Condition>Input.Up==True</Condition>
 				<Effect>
 					<State>Up</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="243">
 				<Condition>Input.Down==True</Condition>
 				<Effect>
 					<State>Down</State>
@@ -343,7 +343,7 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="262">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -351,7 +351,7 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="270">
 			<Condition>Collision.TouchedBy("Deflect")</Condition>
 			<Effect>
 				<Sound name="Deflect" playing="True" />
@@ -366,7 +366,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="278">
 			<Condition>Timer.Value("SoundLoop") == 35</Condition>
 			<Effect>
 				<Sound name="Gyro" playing="True" />
@@ -417,13 +417,13 @@
 				<Sound name="Buster" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="317">
 				<Condition>Movement.Direction==Right</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="321">
 				<Condition>Movement.Direction==Left</Condition>
 				<Effect>
 					<State>Left</State>
@@ -440,7 +440,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="331">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<Spawn name="SmallCrystal" state="Left">
@@ -466,7 +466,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="346">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<Spawn name="SmallCrystal" state="Right">
@@ -482,7 +482,7 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="356">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -540,13 +540,13 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="399">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>Left</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="400">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -563,13 +563,13 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="404">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="405">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -586,19 +586,19 @@
 					<Y direction="Up" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="409">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>UpRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="410">
 				<Condition>Collision.BlockTop == True</Condition>
 				<Effect>
 					<State>DownLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="411">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -615,19 +615,19 @@
 					<Y direction="Up" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="415">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>UpLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="416">
 				<Condition>Collision.BlockTop == True</Condition>
 				<Effect>
 					<State>DownRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="417">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -644,19 +644,19 @@
 					<Y direction="Down" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="421">
 				<Condition>Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>DownRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="422">
 				<Condition>Collision.BlockBottom == True</Condition>
 				<Effect>
 					<State>UpLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="423">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
@@ -673,26 +673,26 @@
 					<Y direction="Down" magnitude="2.8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="427">
 				<Condition>Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>DownLeft</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="428">
 				<Condition>Collision.BlockBottom == True</Condition>
 				<Effect>
 					<State>UpRight</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="429">
 				<Condition>LifeTime &gt; 300</Condition>
 				<Effect>
 					<Remove />
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="431">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -749,13 +749,13 @@
 				<Sound name="Buster" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="481">
 				<Condition>Movement.Direction==Right</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="485">
 				<Condition>Movement.Direction==Left</Condition>
 				<Effect>
 					<State>Left</State>
@@ -780,7 +780,7 @@
 					<X magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="494">
 				<Condition>Collision.BlockRight</Condition>
 				<Effect>
 					<State>Left</State>
@@ -805,14 +805,14 @@
 					<X magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="500">
 				<Condition>Collision.BlockLeft</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="502">
 			<Condition>LifeTime &gt; 120</Condition>
 			<Effect>
 				<Remove />
@@ -822,7 +822,7 @@
 				<Sound name="EnemyDeath" playing="True" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="510">
 			<Condition>Collision.BlockBottom == True</Condition>
 			<Effect>
 				<Movement>
@@ -832,7 +832,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="518">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -897,7 +897,7 @@
 					<Y direction="Down" magnitude="8" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="574">
 				<Condition>PlayerDistY &lt; 8</Condition>
 				<Effect>
 					<Collision>
@@ -906,13 +906,13 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="583">
 				<Condition>Collision.BlockBottom And !Collision.BlockTop</Condition>
 				<Effect>
 					<State>WarpEnd</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="586">
 				<Condition>Collision.BlockTop</Condition>
 				<Effect>
 					<Collision>
@@ -934,7 +934,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="595">
 				<Condition>StateTime &gt; 7</Condition>
 				<Effect>
 					<Movement>
@@ -960,7 +960,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="611">
 				<Condition>StateTime &gt;= 12</Condition>
 				<Effect>
 					<State>WarpUp</State>
@@ -1000,13 +1000,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="628">
 				<Condition>Collision.TouchedBy("PlayerRush")</Condition>
 				<Effect>
 					<State>Fire</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="631">
 				<Condition>StateTime &gt;= 300</Condition>
 				<Effect>
 					<State>WarpStart</State>
@@ -1023,7 +1023,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="640">
 				<Condition>StateTime &gt;= 90</Condition>
 				<Effect>
 					<State>WarpStart</State>
@@ -1095,7 +1095,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="697">
 				<Condition>True</Condition>
 				<Effect>
 					<Position>
@@ -1103,7 +1103,7 @@
 					</Position>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="700">
 				<Condition>PlayerDistY &lt; 16</Condition>
 				<Effect>
 					<Collision>
@@ -1112,7 +1112,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="705">
 				<Condition>PlayerDistY &lt; 4 And Collision.Enabled And !Collision.BlockBottom And !Collision.BlockTop</Condition>
 				<Effect>
 					<State>WarpEnd</State>
@@ -1132,7 +1132,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="714">
 				<Condition>StateTime &gt; 15</Condition>
 				<Effect>
 					<Collision>
@@ -1163,7 +1163,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="730">
 				<Condition>StateTime &gt;= 15</Condition>
 				<Effect>
 					<State>WarpUp</State>
@@ -1196,7 +1196,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="742">
 				<Condition>Movement.Direction==Right</Condition>
 				<Effect>
 					<Collision>
@@ -1204,7 +1204,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="749">
 				<Condition>Movement.Direction==Left</Condition>
 				<Effect>
 					<Collision>
@@ -1212,13 +1212,13 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="756">
 				<Condition>StateTime &gt;= 300</Condition>
 				<Effect>
 					<State>WarpStart</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="757">
 				<Condition>Collision.TouchedBy("PlayerRush")</Condition>
 				<Effect>
 					<State>Go</State>
@@ -1241,7 +1241,7 @@
 					<X magnitude="1.375" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="764">
 				<Condition>Collision.TouchedBy("PlayerRush")</Condition>
 				<Effect>
 					<Collision>
@@ -1249,7 +1249,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="771">
 				<Condition>!Collision.TouchedBy("PlayerRush") And Movement.Direction==Right</Condition>
 				<Effect>
 					<Collision>
@@ -1257,7 +1257,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="778">
 				<Condition>!Collision.TouchedBy("PlayerRush") And Movement.Direction==Left</Condition>
 				<Effect>
 					<Collision>
@@ -1265,7 +1265,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="785">
 				<Condition>Collision.TouchedBy("PlayerRush") And Input.Up == True</Condition>
 				<Effect>
 					<Position>
@@ -1273,7 +1273,7 @@
 					</Position>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="791">
 				<Condition>Collision.TouchedBy("PlayerRush") And Input.Down == True And Collision.BlockBottom == False</Condition>
 				<Effect>
 					<Position>
@@ -1281,7 +1281,7 @@
 					</Position>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="797">
 				<Condition>Timer.Value("Fuel") &gt;= 60</Condition>
 				<Effect>
 					<Collision>
@@ -1293,7 +1293,7 @@
 					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="807">
 				<Condition>Timer.Value("Fuel") == 1</Condition>
 				<Effect>
 					<Collision>
@@ -1301,7 +1301,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="813">
 				<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
 				<Effect>
 					<State>WarpStart</State>

@@ -20,7 +20,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="16">
 				<Condition>StateTime &gt;= 60</Condition>
 				<Effect>
 					<State>On</State>
@@ -38,7 +38,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="23">
 				<Condition>StateTime &gt;= 60</Condition>
 				<Effect>
 					<State>Off</State>
@@ -56,7 +56,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="30">
 				<Condition>StateTime &gt;= 120</Condition>
 				<Effect>
 					<State>On</State>
@@ -85,7 +85,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="48">
 				<Condition>StateTime &gt;= 90</Condition>
 				<Effect>
 					<State>On</State>
@@ -103,7 +103,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="55">
 				<Condition>StateTime &gt;= 60</Condition>
 				<Effect>
 					<State>Off</State>
@@ -121,7 +121,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="62">
 				<Condition>StateTime &gt;= 120</Condition>
 				<Effect>
 					<State>On</State>
@@ -166,7 +166,7 @@
 				</Movement>
 			</Logic>
 		</State>
-		<Trigger>
+		<Trigger priority="92">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -214,7 +214,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="127">
 				<Condition>Timer.Value("Bob") == 8</Condition>
 				<Effect>
 					<Movement>
@@ -224,7 +224,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="130">
 				<Condition>Timer.Value("Bob") == 16</Condition>
 				<Effect>
 					<Movement>
@@ -237,7 +237,7 @@
 					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="133">
 				<Condition>StateTime &gt;= 60</Condition>
 				<Effect>
 					<Timer>
@@ -262,14 +262,14 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="141">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="146">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -339,7 +339,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="207">
 				<Condition>StateTime &gt;= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64</Condition>
 				<Effect>
 					<State>Up</State>
@@ -362,7 +362,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="220">
 				<Condition>StateTime &gt;= 8</Condition>
 				<Effect>
 					<State>Start</State>
@@ -380,7 +380,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="231">
 				<Condition>StateTime &gt;= 8</Condition>
 				<Effect>
 					<State>Stand</State>
@@ -401,7 +401,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="243">
 				<Condition>StateTime &gt;= 40</Condition>
 				<Effect>
 					<State>Down</State>
@@ -443,7 +443,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="287">
 				<Condition>StateTime&gt;4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Right) Or Collision.BlockRight == True</Condition>
 				<Effect>
 					<State>Left</State>
@@ -459,14 +459,14 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="295">
 				<Condition>StateTime&gt;4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Left) Or Collision.BlockLeft == True</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="261">
 			<States>Start,Left</States>
 			<Condition>PlayerDistY &lt; 8</Condition>
 			<Effect>
@@ -477,7 +477,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="265">
 			<States>Start,Left</States>
 			<Condition>PlayerDistY &gt;= 8</Condition>
 			<Effect>
@@ -551,7 +551,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="352">
 				<Condition>StateTime &gt; 20 And PlayerDistX &lt; 128 And PlayerDistY &lt; 64</Condition>
 				<Effect>
 					<State>Up</State>
@@ -570,7 +570,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="361">
 				<Condition>StateTime == 5</Condition>
 				<Effect>
 					<Collision>
@@ -578,7 +578,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="364">
 				<Condition>StateTime == 10</Condition>
 				<Effect>
 					<Collision>
@@ -586,7 +586,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="367">
 				<Condition>StateTime == 15</Condition>
 				<Effect>
 					<Collision>
@@ -594,7 +594,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="370">
 				<Condition>StateTime &gt; 40</Condition>
 				<Effect>
 					<Spawn name="EnemyShot" state="Start">
@@ -611,7 +611,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="377">
 				<Condition>StateTime == 50</Condition>
 				<Effect>
 					<Collision>
@@ -619,7 +619,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="380">
 				<Condition>StateTime == 45</Condition>
 				<Effect>
 					<Collision>
@@ -627,7 +627,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="383">
 				<Condition>StateTime == 40</Condition>
 				<Effect>
 					<Collision>
@@ -635,14 +635,14 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="386">
 				<Condition>StateTime &gt;= 55</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="391">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -681,25 +681,25 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="419">
 				<Condition>Collision.BlockBottom</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="420">
 				<Condition>Collision.BlockLeft</Condition>
 				<Effect>
 					<State>Down</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="421">
 				<Condition>Collision.BlockTop</Condition>
 				<Effect>
 					<State>Left</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="422">
 				<Condition>Collision.BlockRight</Condition>
 				<Effect>
 					<State>Up</State>
@@ -716,13 +716,13 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="426">
 				<Condition>Collision.BlockRight</Condition>
 				<Effect>
 					<State>Up</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="427">
 				<Condition>Collision.BlockBottomWidth &lt; 2</Condition>
 				<Effect>
 					<State>Down</State>
@@ -742,13 +742,13 @@
 					<Y direction="Down" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="432">
 				<Condition>Collision.BlockBottom</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="433">
 				<Condition>Collision.BlockLeftWidth &lt; 2</Condition>
 				<Effect>
 					<State>Left</State>
@@ -768,13 +768,13 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="438">
 				<Condition>Collision.BlockLeft</Condition>
 				<Effect>
 					<State>Down</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="439">
 				<Condition>Collision.BlockTopWidth &lt; 2</Condition>
 				<Effect>
 					<State>Up</State>
@@ -794,13 +794,13 @@
 					<Y direction="Up" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="444">
 				<Condition>Collision.BlockTop</Condition>
 				<Effect>
 					<State>Left</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="445">
 				<Condition>Collision.BlockRightWidth &lt; 2</Condition>
 				<Effect>
 					<State>Right</State>
@@ -862,7 +862,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="483">
 				<Condition>Collision.BlockRight</Condition>
 				<Effect>
 					<State>TurnLeft</State>
@@ -881,7 +881,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="488">
 				<Condition>StateTime &gt;= 24</Condition>
 				<Effect>
 					<State>Right</State>
@@ -902,7 +902,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="493">
 				<Condition>Collision.BlockLeft</Condition>
 				<Effect>
 					<State>TurnRight</State>
@@ -921,14 +921,14 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="498">
 				<Condition>StateTime &gt;= 24</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="500">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -974,7 +974,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="535">
 				<Condition>StateTime == 1</Condition>
 				<Effect>
 					<Collision>
@@ -983,7 +983,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="543">
 				<Condition>StateTime == 128</Condition>
 				<Effect>
 					<Collision>
@@ -991,7 +991,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="548">
 				<Condition>StateTime == 134</Condition>
 				<Effect>
 					<Spawn name="EnemyShot" state="Start">
@@ -999,7 +999,7 @@
 					</Spawn>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="556">
 				<Condition>StateTime == 168</Condition>
 				<Effect>
 					<Collision>
@@ -1008,7 +1008,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="564">
 				<Condition>StateTime == 175</Condition>
 				<Effect>
 					<State>Reset</State>
@@ -1018,14 +1018,14 @@
 		<State name="Reset">
 			<Initialize />
 			<Logic />
-			<Trigger>
+			<Trigger priority="569">
 				<Condition>True</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="572">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />
@@ -1083,7 +1083,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="617">
 				<Condition>PlayerDistY &lt; 64 And PlayerDistX &lt; 96</Condition>
 				<Effect>
 					<State>Fall</State>
@@ -1100,7 +1100,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="628">
 				<Condition>StateTime &gt; 6</Condition>
 				<Effect>
 					<State>Down</State>
@@ -1128,7 +1128,7 @@
 					<X magnitude="2" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="641">
 				<Condition>Collision.BlockLeft Or Collision.BlockRight</Condition>
 				<Effect>
 					<Movement>
@@ -1139,7 +1139,7 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="646">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sound name="EnemyHurt" playing="True" />

@@ -44,13 +44,13 @@
 				<Sound name="Buster" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="42">
 				<Condition>Input.Up==True</Condition>
 				<Effect>
 					<State>Orange</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="48">
 				<Condition>Input.Up==False And StateTime &gt; 60</Condition>
 				<Effect>
 					<State>Blue</State>
@@ -64,7 +64,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="57">
 				<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
 				<Effect>
 					<Spawn name="Portal" state="Blue">
@@ -81,7 +81,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="67">
 				<Condition>Collision.BlockRight Or Collision.BlockLeft</Condition>
 				<Effect>
 					<Spawn name="Portal" state="Orange">
@@ -91,7 +91,7 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="75">
 			<Condition>Collision.DamageDealt &gt; 0</Condition>
 			<Effect>
 				<Func>
@@ -159,7 +159,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="126">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -168,7 +168,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="132">
 				<Condition>Collision.TouchedBy("PortalKillerBlue")</Condition>
 				<Effect>
 					<Die />
@@ -185,7 +185,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="142">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -194,7 +194,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="148">
 				<Condition>Collision.TouchedBy("PortalKillerOrange")</Condition>
 				<Effect>
 					<Die />

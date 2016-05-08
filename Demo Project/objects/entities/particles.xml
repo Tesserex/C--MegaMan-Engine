@@ -26,7 +26,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="20">
 				<Condition>StateTime&gt;=14</Condition>
 				<Effect>
 					<Die />
@@ -75,7 +75,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="59">
 				<Condition>StateTime&gt;=23</Condition>
 				<Effect>
 					<Die />
@@ -314,7 +314,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="122">
 				<Condition>StateTime&gt;=18</Condition>
 				<Effect>
 					<Die />
@@ -346,7 +346,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="144">
 				<Condition>StateTime&gt;=24</Condition>
 				<Effect>
 					<Die />
@@ -372,7 +372,7 @@
 				</Position>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="165">
 				<Condition>LifeTime &gt;= 28</Condition>
 				<Effect>
 					<Remove />
@@ -405,13 +405,13 @@
 					<Y direction="Up" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="184">
 				<Condition>Movement.TileType != "Water"</Condition>
 				<Effect>
 					<Remove />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="187">
 				<Condition>(LifeTime % 32) == 0</Condition>
 				<Effect>
 					<Position>
@@ -419,7 +419,7 @@
 					</Position>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="192">
 				<Condition>(LifeTime % 32) == 16</Condition>
 				<Effect>
 					<Position>
@@ -461,7 +461,7 @@
 				</Position>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="217">
 				<Condition>true</Condition>
 				<Effect>
 					<Func>Movement.SetX((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
@@ -476,7 +476,7 @@
 				</Position>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="221">
 				<Condition>true</Condition>
 				<Effect>
 					<Func>Movement.SetX((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
@@ -491,7 +491,7 @@
 				</Position>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="225">
 				<Condition>true</Condition>
 				<Effect>
 					<Func>Movement.SetX((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
@@ -506,14 +506,14 @@
 				</Position>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="229">
 				<Condition>true</Condition>
 				<Effect>
 					<Func>Movement.SetX((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="231">
 			<Condition>StateTime &gt; 20</Condition>
 			<Effect>
 				<Die />

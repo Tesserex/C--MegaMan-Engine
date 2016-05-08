@@ -67,7 +67,10 @@ namespace MegaMan.IO.Xml.Entities
                 {
                     case "Trigger":
                         var t = _triggerReader.Load(child);
-                        t.Priority = ((IXmlLineInfo)child).LineNumber;
+
+                        if (t.Priority == null)
+                            t.Priority = ((IXmlLineInfo)child).LineNumber;
+
                         info.Triggers.Add(t);
                         break;
 

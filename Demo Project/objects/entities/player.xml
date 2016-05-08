@@ -165,7 +165,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="403">
 				<Condition>StateTime &gt;= 12</Condition>
 				<Effect>
 					<State>TeleportOut</State>
@@ -187,7 +187,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="411">
 				<Condition>StateTime &gt;= 12</Condition>
 				<Effect>
 					<State>Teleport</State>
@@ -208,7 +208,7 @@
 				<Sound name="Teleport" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="419">
 				<Condition>StateTime &gt; 7</Condition>
 				<Effect>
 					<Movement>
@@ -232,20 +232,20 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="437">
 				<Condition>Input.Right==True Or Input.Left==True</Condition>
 				<Effect>
 					<State>BeginWalk</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="441">
 				<Condition>(GravityFlip? Input.Up : Input.Down) And Ladder.AboveLadder == True</Condition>
 				<Effect>
 					<Ladder>ClimbDown</Ladder>
 					<State>ClimbTop</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="445">
 				<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
 				<Effect>
 					<Timer>
@@ -276,7 +276,7 @@
 					<X direction="Input" magnitude="0.125" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="464">
 				<Condition>StateTime &gt; 7</Condition>
 				<Effect>
 					<State>Walking</State>
@@ -314,7 +314,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="492">
 				<Condition>Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Collision>
@@ -323,7 +323,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="500">
 				<Condition>Movement.VelocityY &lt;= 0</Condition>
 				<Effect>
 					<Collision>
@@ -331,7 +331,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="507">
 				<Condition>Collision.TouchedBy("RushJetRight") And Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Movement>
@@ -342,7 +342,7 @@
 					<State>RushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="514">
 				<Condition>Collision.TouchedBy("RushJetLeft") And Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Movement>
@@ -353,21 +353,21 @@
 					<State>RushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="521">
 				<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And Input.Right==False And Input.Left==False</Condition>
 				<Effect>
 					<State>Standing</State>
 					<Sound name="MMLand" playing="True" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="525">
 				<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And (Input.Right==True Or Input.Left==True)</Condition>
 				<Effect>
 					<State>Walking</State>
 					<Sound name="MMLand" playing="True" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="529">
 				<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
 				<Effect>
 					<Timer>
@@ -376,7 +376,7 @@
 					<State>ShootAir</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="536">
 				<Condition>Collision.TouchedBy("RushCoil")</Condition>
 				<Effect>
 					<Movement>
@@ -399,21 +399,21 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="550">
 				<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And Input.Right==False And Input.Left==False</Condition>
 				<Effect>
 					<State>Standing</State>
 					<Sound name="MMLand" playing="True" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="554">
 				<Condition>(GravityFlip? Collision.BlockTop : Collision.BlockBottom) And (Input.Right==True Or Input.Left==True)</Condition>
 				<Effect>
 					<State>Walking</State>
 					<Sound name="MMLand" playing="True" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="558">
 				<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
 				<Effect>
 					<Timer>
@@ -441,7 +441,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="573">
 				<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
 				<Effect>
 					<Timer>
@@ -450,7 +450,7 @@
 					<State>ShootRushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="577">
 				<Condition>!Collision.TouchedBy("RushJet")</Condition>
 				<Effect>
 					<State>Air</State>
@@ -472,7 +472,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="588">
 				<Condition>GravityFlip? Collision.BlockTop : Collision.BlockBottom</Condition>
 				<Effect>
 					<State>Standing</State>
@@ -487,7 +487,7 @@
 					<Ladder>LetGo</Ladder>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="597">
 				<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
 				<Effect>
 					<State>Air</State>
@@ -502,7 +502,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="606">
 				<Condition>Ladder.AtTop == True</Condition>
 				<Effect>
 					<State>ClimbTop</State>
@@ -526,7 +526,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="620">
 				<Condition>Input.Right == True</Condition>
 				<Effect>
 					<Movement>
@@ -536,7 +536,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="623">
 				<Condition>Input.Left == True</Condition>
 				<Effect>
 					<Movement>
@@ -546,19 +546,19 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="626">
 				<Condition>StateTime &gt;= 20 And !(GravityFlip? Collision.BlockBottom : Collision.BlockTop) And (Input.Right==True Or Input.Left==True)</Condition>
 				<Effect>
 					<State>Walking</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="631">
 				<Condition>StateTime &gt;= 24 And !(GravityFlip? Collision.BlockBottom : Collision.BlockTop)</Condition>
 				<Effect>
 					<State>Standing</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="636">
 				<Condition>!GravityFlip And Collision.BlockBottom == False And Collision.BlockTop == True</Condition>
 				<Effect>
 					<State>Air</State>
@@ -573,7 +573,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="644">
 				<Condition>GravityFlip And Collision.BlockBottom == True And Collision.BlockTop == False</Condition>
 				<Effect>
 					<State>Air</State>
@@ -588,7 +588,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="652">
 				<Condition>Collision.BlockBottom == False And Collision.BlockTop == False</Condition>
 				<Effect>
 					<State>Air</State>
@@ -616,7 +616,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="666">
 				<Condition>Input.Jump == True</Condition>
 				<Effect>
 					<State>Air</State>
@@ -631,7 +631,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="675">
 				<Condition>Ladder.InReach == False And Ladder.AboveLadder == True</Condition>
 				<Effect>
 					<State>Standing</State>
@@ -647,7 +647,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="684">
 				<Condition>Ladder.AtTop == False</Condition>
 				<Effect>
 					<State>Climbing</State>
@@ -664,7 +664,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="694">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<State>Standing</State>
@@ -673,13 +673,13 @@
 					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="701">
 				<Condition>Input.Right==True Or Input.Left==True</Condition>
 				<Effect>
 					<State>ShootWalking</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="705">
 				<Condition>(Input.Up==True Or (Input.Down==True And Collision.BlockBottom==False)) And Ladder.InReach==True</Condition>
 				<Effect>
 					<Ladder>Grab</Ladder>
@@ -691,7 +691,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="713">
 				<Condition>Input.Down == True And Ladder.AboveLadder == True</Condition>
 				<Effect>
 					<Ladder>ClimbDown</Ladder>
@@ -717,7 +717,7 @@
 					<Y magnitude="0" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="725">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<Timer>
@@ -726,7 +726,7 @@
 					<State>RushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="732">
 				<Condition>!Collision.TouchedBy("RushJet")</Condition>
 				<Effect>
 					<State>ShootAir</State>
@@ -749,7 +749,7 @@
 					<X direction="Input" magnitude="1.375" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="745">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<State>Walking</State>
@@ -773,7 +773,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="759">
 				<Condition>Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Collision>
@@ -782,7 +782,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="767">
 				<Condition>Movement.VelocityY &lt;= 0</Condition>
 				<Effect>
 					<Collision>
@@ -790,7 +790,7 @@
 					</Collision>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="774">
 				<Condition>Collision.TouchedBy("RushJetRight") And Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Movement>
@@ -801,7 +801,7 @@
 					<State>ShootRushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="781">
 				<Condition>Collision.TouchedBy("RushJetLeft") And Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Movement>
@@ -812,7 +812,7 @@
 					<State>ShootRushJet</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="788">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<State>Air</State>
@@ -821,7 +821,7 @@
 					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="795">
 				<Condition>Collision.TouchedBy("RushCoil")</Condition>
 				<Effect>
 					<Movement>
@@ -844,7 +844,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="809">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<State>CoilAir</State>
@@ -870,7 +870,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="833">
 				<Condition>Timer.Value("Shoot") &gt;= 16</Condition>
 				<Effect>
 					<State>Climbing</State>
@@ -879,7 +879,7 @@
 					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="840">
 				<Condition>Collision.BlockBottom == True</Condition>
 				<Effect>
 					<State>ShootStanding</State>
@@ -894,7 +894,7 @@
 					<Ladder>LetGo</Ladder>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="849">
 				<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
 				<Effect>
 					<State>ShootAir</State>
@@ -932,7 +932,7 @@
 					<X magnitude="0.5" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="868">
 				<Condition>Timer.Exists("ChargeShot")</Condition>
 				<Effect>
 					<Timer>
@@ -944,7 +944,7 @@
 					<Sound name="Charge" playing="False" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="876">
 				<Condition>StateTime &gt; 30</Condition>
 				<Effect>
 					<State>Standing</State>
@@ -963,7 +963,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="886">
 				<Condition>Position.Position.X &lt; 127</Condition>
 				<Effect>
 					<Movement>
@@ -973,7 +973,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="894">
 				<Condition>Position.Position.X &gt; 129</Condition>
 				<Effect>
 					<Movement>
@@ -983,7 +983,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="902">
 				<Condition>Position.Position.X &lt;= 129 And Position.Position.X &gt;= 127</Condition>
 				<Effect>
 					<Position>
@@ -996,7 +996,7 @@
 		<State name="LeaveStage">
 			<Initialize />
 			<Logic />
-			<Trigger>
+			<Trigger priority="911">
 				<Condition>Position.Position.X &lt; 127</Condition>
 				<Effect>
 					<Movement>
@@ -1006,7 +1006,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="919">
 				<Condition>Position.Position.X &gt; 129</Condition>
 				<Effect>
 					<Movement>
@@ -1016,7 +1016,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="927">
 				<Condition>Collision.BlockBottom</Condition>
 				<Effect>
 					<State>LeaveStageWalk</State>
@@ -1030,13 +1030,13 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="933">
 				<Condition>!Collision.BlockBottom</Condition>
 				<Effect>
 					<State>LeaveStage</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="936">
 				<Condition>Position.Position.X &lt; 127</Condition>
 				<Effect>
 					<Movement>
@@ -1046,7 +1046,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="944">
 				<Condition>Position.Position.X &gt; 129</Condition>
 				<Effect>
 					<Movement>
@@ -1056,7 +1056,7 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="952">
 				<Condition>Position.Position.X &lt;= 129 And Position.Position.X &gt;= 127</Condition>
 				<Effect>
 					<Position>
@@ -1079,7 +1079,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="963">
 				<Condition>Position.Position.Y &gt;= 106 And Movement.VelocityY &gt; 0</Condition>
 				<Effect>
 					<Position>
@@ -1097,7 +1097,7 @@
 		<State name="Powerup">
 			<Initialize />
 			<Logic />
-			<Trigger>
+			<Trigger priority="972">
 				<Condition>(StateTime % 24) == 0 And StateTime &lt; 200</Condition>
 				<Effect>
 					<Spawn name="PowerAbsorb" state="UpLeft">
@@ -1114,13 +1114,13 @@
 					</Spawn>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="981">
 				<Condition>(StateTime % 24) == 12 And StateTime &lt; 200</Condition>
 				<Effect>
 					<Sound name="Powerup" playing="True" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="987">
 				<Condition>StateTime == 220</Condition>
 				<Effect>
 					<Movement>
@@ -1129,35 +1129,35 @@
 					</Movement>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="993">
 				<Condition>Collision.BlockBottom</Condition>
 				<Effect>
 					<State>TeleportStart</State>
 				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="120">
 			<States>Sliding</States>
 			<Condition>(Input.Right==True and Movement.Direction==Left) Or (Input.Left==True and Movement.Direction==Right) or Collision.BlockLeft or Collision.BlockRight</Condition>
 			<Effect>
 				<State>Standing</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="127">
 			<States>Standing,BeginWalk,Walking</States>
 			<Condition>!(GravityFlip? Collision.BlockTop : Collision.BlockBottom)</Condition>
 			<Effect>
 				<State>Air</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="132">
 			<States>ShootStanding,ShootWalking</States>
 			<Condition>!(GravityFlip? Collision.BlockTop : Collision.BlockBottom)</Condition>
 			<Effect>
 				<State>ShootAir</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="137">
 			<States>Standing,BeginWalk,Walking,ShootStanding,ShootWalking,RushJet</States>
 			<Condition>(GravityFlip? Input.Up : Input.Down) And Input.Jump</Condition>
 			<Effect>
@@ -1167,7 +1167,7 @@
 				</Spawn>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="145">
 			<States>Standing,BeginWalk,Walking,RushJet,Sliding</States>
 			<Condition>!GravityFlip And Input.Jump And !Input.Down</Condition>
 			<Effect>
@@ -1179,7 +1179,7 @@
 				<State>Air</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="150">
 			<States>Standing,BeginWalk,Walking,RushJet,Sliding</States>
 			<Condition>GravityFlip And Input.Jump And !Input.Up</Condition>
 			<Effect>
@@ -1191,7 +1191,7 @@
 				<State>Air</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="155">
 			<States>ShootStanding,ShootWalking,ShootRushJet</States>
 			<Condition>GravityFlip==False And Input.Jump==True</Condition>
 			<Effect>
@@ -1203,7 +1203,7 @@
 				<State>ShootAir</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="160">
 			<States>ShootStanding,ShootWalking</States>
 			<Condition>GravityFlip==True And Input.Jump==True</Condition>
 			<Effect>
@@ -1215,21 +1215,21 @@
 				<State>ShootAir</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="165">
 			<States>BeginWalk,Walking</States>
 			<Condition>Input.Right==False And Input.Left==False</Condition>
 			<Effect>
 				<State>Standing</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="170">
 			<States>ShootWalking</States>
 			<Condition>(Movement.Direction==Right And Input.Right==False) Or (Movement.Direction==Left And Input.Left==False)</Condition>
 			<Effect>
 				<State>ShootStanding</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="175">
 			<States>Air,ShootAir,CoilAir,CoilShootAir</States>
 			<Condition>Input.Right==True Or Input.Left==True</Condition>
 			<Effect>
@@ -1240,7 +1240,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="180">
 			<States>Air,ShootAir,CoilAir,CoilShootAir</States>
 			<Condition>Input.Right==False And Input.Left==False</Condition>
 			<Effect>
@@ -1251,7 +1251,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="185">
 			<States>Air,ShootAir,CoilAir,CoilShootAir</States>
 			<Condition>GravityFlip? (Collision.BlockBottom == True) : (Collision.BlockTop == True)</Condition>
 			<Effect>
@@ -1262,7 +1262,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="189">
 			<States>Air,ShootAir</States>
 			<Condition>Input.JumpHeld==False And (GravityFlip? Movement.VelocityY &gt; 0 : Movement.VelocityY &lt; 0)</Condition>
 			<Effect>
@@ -1273,7 +1273,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="193">
 			<States>Standing,BeginWalk,Walking,Air,CoilAir</States>
 			<Condition>( GravityFlip? (Input.Down Or (Input.Up And !Collision.BlockTop)) : (Input.Up Or (Input.Down And !Collision.BlockBottom)) ) And Ladder.InReach</Condition>
 			<Effect>
@@ -1286,7 +1286,7 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="202">
 			<States>ShootStanding,ShootWalking,ShootAir,CoilShootAir</States>
 			<Condition>( GravityFlip? (Input.Down Or (Input.Up And !Collision.BlockTop)) : (Input.Up Or (Input.Down And !Collision.BlockBottom)) ) And Ladder.InReach</Condition>
 			<Effect>
@@ -1294,7 +1294,7 @@
 				<State>ShootClimbing</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="210">
 			<States>Climbing,ClimbTop</States>
 			<Condition>Input.Up == False And Input.Down == False</Condition>
 			<Effect>
@@ -1309,7 +1309,7 @@
 				</Sprite>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="215">
 			<States>Climbing,ClimbTop</States>
 			<Condition>Input.Up == True Or Input.Down == True</Condition>
 			<Effect>
@@ -1324,7 +1324,7 @@
 				</Sprite>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="220">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Weapon.CurrentWeapon == "MBuster" And Input.ShootHeld == True And Not Timer.Exists("ChargeShot")</Condition>
 			<Effect>
@@ -1333,7 +1333,7 @@
 				</Timer>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="228">
 			<Condition>Timer.Value("ChargeShot") == 40</Condition>
 			<Effect>
 				<Timer>
@@ -1342,7 +1342,7 @@
 				<Sound name="Charge" playing="True" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="232">
 			<Condition>Timer.Value("ChargeShot") == 96</Condition>
 			<Effect>
 				<Timer>
@@ -1351,77 +1351,77 @@
 				</Timer>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="236">
 			<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 1</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="0" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="240">
 			<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &lt; 12</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="1" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="244">
 			<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &gt; 12 And Timer.Value("ChargeLow") &lt; 24</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="2" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="248">
 			<Condition>Timer.Exists("ChargeLow") And (Timer.Value("ChargeLow") / 2) % 2 == 0 And Timer.Value("ChargeLow") &gt; 24</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="3" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="252">
 			<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 0</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="0" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="256">
 			<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 1</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="4" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="260">
 			<Condition>Timer.Exists("ChargeHigh") And (Timer.Value("ChargeHigh") / 2) % 3 == 2</Condition>
 			<Effect>
 				<Palette name="MegaMan" index="5" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="264">
 			<States>Standing</States>
 			<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
 			<Effect>
 				<State>ShootStanding</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="269">
 			<States>BeginWalk,Walking</States>
 			<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
 			<Effect>
 				<State>ShootWalking</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="274">
 			<States>Air</States>
 			<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
 			<Effect>
 				<State>ShootAir</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="279">
 			<States>Climbing,ClimbTop</States>
 			<Condition>(Timer.Exists("ChargeLow") Or Timer.Exists("ChargeHigh")) And Input.ShootHeld == False</Condition>
 			<Effect>
 				<State>ShootClimbing</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="284">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Timer.Exists("ChargeLow") And Input.ShootHeld == False</Condition>
 			<Effect>
@@ -1438,7 +1438,7 @@
 				<Sound name="Charge" playing="False" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="294">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Timer.Exists("ChargeHigh") And Input.ShootHeld == False</Condition>
 			<Effect>
@@ -1455,7 +1455,7 @@
 				<Sound name="Charged" playing="False" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="304">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Timer.Exists("ChargeShot") And Input.ShootHeld == False</Condition>
 			<Effect>
@@ -1467,14 +1467,14 @@
 				<Palette name="MegaMan" index="0" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="312">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Input.Select == True</Condition>
 			<Effect>
 				<Weapon>RotateForward</Weapon>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="319">
 			<States>ShootStanding,ShootWalking,ShootAir,ShootClimbing,ShootCoilAir,ShootRushJet</States>
 			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4</Condition>
 			<Effect>
@@ -1483,7 +1483,7 @@
 				</Timer>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="326">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing,CoilAir,CoilShootAir,RushJet,ShootRushJet</States>
 			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And ((Weapon.CurrentWeapon == "RushCoil" And GameEntity.NumAlive("RushCoil") != 0) Or (Weapon.CurrentWeapon == "RushJet" And GameEntity.NumAlive("RushJet") != 0))</Condition>
 			<Effect>
@@ -1492,7 +1492,7 @@
 				</Spawn>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="333">
 			<States>Climbing,ClimbTop,ShootClimbing</States>
 			<Condition>Input.Left == True Or Input.Right == True</Condition>
 			<Effect>
@@ -1503,32 +1503,32 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="340">
 			<Condition>Collision.TouchedBy("SmallWeapon")</Condition>
 			<Effect>
 				<Func>Weapon.AddAmmo(2)</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="344">
 			<Condition>Collision.TouchedBy("BigWeapon")</Condition>
 			<Effect>
 				<Func>Weapon.AddAmmo(10)</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="348">
 			<Condition>Collision.TouchedBy("DeductAmmo")</Condition>
 			<Effect>
 				<Func>Weapon.AddAmmo(-1)</Func>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="352">
 			<States>Standing,BeginWalk,Walking,Air,Climbing,ClimbTop,ShootStanding,ShootWalking,ShootAir,ShootClimbing</States>
 			<Condition>Input.Shoot == True And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") = 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") = 0)</Condition>
 			<Effect>
 				<Weapon>Shoot</Weapon>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="359">
 			<States>RushJet,ShootRushJet</States>
 			<Condition>Input.Up == True</Condition>
 			<Effect>
@@ -1537,7 +1537,7 @@
 				</Position>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="366">
 			<States>RushJet,ShootRushJet</States>
 			<Condition>Input.Down == True And Collision.BlockBottom == False</Condition>
 			<Effect>
@@ -1546,7 +1546,7 @@
 				</Position>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="478">
 			<States>BeginWalk,Walking</States>
 			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
 			<Effect>
@@ -1556,7 +1556,7 @@
 				<State>ShootWalking</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="817">
 			<States>ShootAir,CoilShootAir</States>
 			<Condition>Collision.BlockBottom == True And Input.Right==False And Input.Left==False</Condition>
 			<Effect>
@@ -1564,7 +1564,7 @@
 				<Sound name="MMLand" playing="True" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="822">
 			<States>ShootAir,CoilShootAir</States>
 			<Condition>Collision.BlockBottom == True And (Input.Right==True Or Input.Left==True)</Condition>
 			<Effect>
@@ -1572,7 +1572,7 @@
 				<Sound name="MMLand" playing="True" />
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="1001">
 			<States>Climbing,ClimbTop</States>
 			<Condition>Input.Shoot == True And GameEntity.NumAlive("MBuster") &lt; 4 And (Weapon.CurrentWeapon != "RushCoil" Or GameEntity.NumAlive("RushCoil") != 0) And (Weapon.CurrentWeapon != "RushJet" Or GameEntity.NumAlive("RushJet") != 0)</Condition>
 			<Effect>
@@ -1582,7 +1582,7 @@
 				<State>ShootClimbing</State>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="1010">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
 				<Sprite>
@@ -1600,7 +1600,7 @@
 				</Spawn>
 			</Effect>
 		</Trigger>
-		<Trigger>
+		<Trigger priority="1021">
 			<Condition>Input.StartKey</Condition>
 			<Effect>
 				<Sound name="pause" playing="True" />

@@ -80,7 +80,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="66">
 				<Condition>StateTime &gt;= 105</Condition>
 				<Effect>
 					<State>Hide</State>
@@ -135,7 +135,7 @@
 					<X direction="Right" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="98">
 				<Condition>StateTime &gt; 120</Condition>
 				<Effect>
 					<State>Left</State>
@@ -151,7 +151,7 @@
 					<X direction="Left" magnitude="1" />
 				</Movement>
 			</Logic>
-			<Trigger>
+			<Trigger priority="102">
 				<Condition>StateTime &gt; 120</Condition>
 				<Effect>
 					<State>Start</State>
@@ -346,7 +346,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="225">
 				<Condition>StateTime &gt; 120</Condition>
 				<Effect>
 					<State>HFlash</State>
@@ -365,7 +365,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="231">
 				<Condition>StateTime &gt;= 80</Condition>
 				<Effect>
 					<State>Vert</State>
@@ -384,7 +384,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="240">
 				<Condition>StateTime &gt; 120</Condition>
 				<Effect>
 					<State>VFlash</State>
@@ -403,7 +403,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="246">
 				<Condition>StateTime &gt;= 80</Condition>
 				<Effect>
 					<State>Start</State>
@@ -441,7 +441,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="270">
 				<Condition>Collision.TouchedBy("Player") Or Collision.TouchedBy("BlockBreaker")</Condition>
 				<Effect>
 					<State>Tripped</State>
@@ -451,7 +451,7 @@
 		<State name="Tripped">
 			<Initialize />
 			<Logic />
-			<Trigger>
+			<Trigger priority="276">
 				<Condition>StateTime &gt;= 8</Condition>
 				<Effect>
 					<State>Cascade</State>
@@ -476,7 +476,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="290">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Hide</State>
@@ -493,7 +493,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="295">
 				<Condition>StateTime &gt;= 120</Condition>
 				<Effect>
 					<State>Start</State>
@@ -550,7 +550,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="335">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Open</State>
@@ -578,7 +578,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="344">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Start</State>
@@ -634,7 +634,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="382">
 				<Condition>StateTime &gt;= 24</Condition>
 				<Effect>
 					<State>Open</State>
@@ -662,7 +662,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="391">
 				<Condition>StateTime &gt;= 24</Condition>
 				<Effect>
 					<State>Start</State>
@@ -715,7 +715,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="430">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Open</State>
@@ -740,7 +740,7 @@
 				<Sound name="BossDoor" playing="True" />
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="438">
 				<Condition>StateTime &gt;= 30</Condition>
 				<Effect>
 					<State>Start</State>
@@ -794,7 +794,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="479">
 				<Condition>Collision.Touched</Condition>
 				<Effect>
 					<Call>Darken</Call>
@@ -809,7 +809,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="489">
 				<Condition>Collision.Touched == False</Condition>
 				<Effect>
 					<State>Off</State>
@@ -826,7 +826,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="497">
 				<Condition>Collision.Touched</Condition>
 				<Effect>
 					<Call>Lighten</Call>
@@ -841,7 +841,7 @@
 				</Sprite>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="507">
 				<Condition>Collision.Touched == False</Condition>
 				<Effect>
 					<State>Start</State>

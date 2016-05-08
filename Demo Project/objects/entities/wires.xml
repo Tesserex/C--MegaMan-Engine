@@ -34,7 +34,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="23">
 				<Condition>StateTime &gt; 12 And Collision.TouchedBy("Projectile")</Condition>
 				<Effect>
 					<State>On</State>
@@ -52,7 +52,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="29">
 				<Condition>StateTime &gt; 12 And Collision.TouchedBy("Projectile")</Condition>
 				<Effect>
 					<State>Start</State>
@@ -98,13 +98,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="46">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="47">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -125,13 +125,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="52">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="53">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -180,13 +180,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="70">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="71">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -207,13 +207,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="76">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="77">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -265,13 +265,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="95">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="96">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -292,13 +292,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="101">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="102">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -351,13 +351,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="120">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="121">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -378,13 +378,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="126">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="127">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -437,13 +437,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="145">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="146">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -464,13 +464,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="151">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="152">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -523,13 +523,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="170">
 				<Condition>Collision.TouchedBy("WireSend")</Condition>
 				<Effect>
 					<State>Live</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="171">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>
@@ -550,13 +550,13 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="176">
 				<Condition>Collision.TouchedBy("WireDisable")</Condition>
 				<Effect>
 					<State>Start</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="177">
 				<Condition>StateTime &gt; 1</Condition>
 				<Effect>
 					<Collision>

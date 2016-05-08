@@ -58,7 +58,7 @@
 				</Collision>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="52">
 				<Condition>Health.Hit == True</Condition>
 				<Effect>
 					<State>Opening</State>
@@ -78,7 +78,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="59">
 				<Condition>StateTime == 16</Condition>
 				<Effect>
 					<State>Open</State>
@@ -100,7 +100,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="68">
 				<Condition>Timer.Value("OpenTimer") == 180</Condition>
 				<Effect>
 					<Sprite>
@@ -108,7 +108,7 @@
 					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="74">
 				<Condition>Timer.Value("OpenTimer") == 300</Condition>
 				<Effect>
 					<Timer>
@@ -117,7 +117,7 @@
 					<State>Closing</State>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="81">
 				<Condition>Health.Hit == True</Condition>
 				<Effect>
 					<Sound name="EnemyHurt" playing="True" />
@@ -142,7 +142,7 @@
 				</Movement>
 			</Initialize>
 			<Logic />
-			<Trigger>
+			<Trigger priority="92">
 				<Condition>StateTime == 16</Condition>
 				<Effect>
 					<State>Start</State>
