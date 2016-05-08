@@ -58,18 +58,6 @@ namespace MegaMan.IO.Xml.Entities
             var logic = new List<IEffectPartInfo>();
             var init = new List<IEffectPartInfo>();
 
-            var initNode = stateNode.Element("Initialize");
-            if (initNode != null)
-            {
-                init.AddRange(_effectReader.Load(initNode).Parts);
-            }
-
-            var logicNode = stateNode.Element("Logic");
-            if (logicNode != null)
-            {
-                logic.AddRange(_effectReader.Load(logicNode).Parts);
-            }
-
             foreach (var child in stateNode.Elements())
             {
                 switch (child.Name.LocalName)
@@ -80,9 +68,15 @@ namespace MegaMan.IO.Xml.Entities
                         info.Triggers.Add(t);
                         break;
 
-                    default:
-                        var compName = child.Name.LocalName;
+                    case "Initialize":
+                        init.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        break;
 
+                    case "Logic":
+                        logic.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        break;
+
+                    default:
                         var mode = child.TryAttribute<string>("mode");
                         if (mode != null && mode.ToUpper() == "REPEAT")
                             logic.Add(_effectReader.LoadPart(child));
