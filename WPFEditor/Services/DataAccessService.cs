@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
@@ -27,12 +28,20 @@ namespace MegaMan.Editor.Services
             {
                 var stage = project.StageByName(stageName);
                 SaveStage(stage);
-            }
+            }            
 
             foreach (var entity in project.Entities)
             {
-                var entityPath = project.FileStructure.CreateEntityPath(entity.Name);
-                SaveEntity(entity, entityPath.Absolute);
+                if (entity.StoragePath == null)
+                    entity.StoragePath = project.FileStructure.CreateEntityPath(entity.Name);
+            }
+
+            var entityFileGroups = project.Entities
+                .GroupBy(e => e.StoragePath.Absolute);
+
+            foreach (var group in entityFileGroups)
+            {
+                SaveEntities(group, group.Key);
             }
         }
 
@@ -129,6 +138,12 @@ namespace MegaMan.Editor.Services
                     tileset.AddBrush(brush);
                 }
             }
+        }
+
+        private void SaveEntities(IEnumerable<EntityInfo> entities, string path)
+        {
+            var writer = _writerProvider.GetEntityGroupWriter();
+            writer.Write(entities, path);
         }
 
         public void SaveEntity(EntityInfo entity, string path)

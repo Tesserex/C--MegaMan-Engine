@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace MegaMan.Common.IncludedObjects
 {
-    public class IncludedObjectGroup : IIncludedObject
+    public class IncludedObjectGroup : IIncludedObject, IEnumerable<IIncludedObject>
     {
         private FilePath _storagePath;
         private List<IIncludedObject> _objects;
@@ -31,6 +32,16 @@ namespace MegaMan.Common.IncludedObjects
         public void Add(IIncludedObject obj)
         {
             _objects.Add(obj);
+        }
+
+        public IEnumerator<IIncludedObject> GetEnumerator()
+        {
+            return _objects.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _objects.GetEnumerator();
         }
     }
 }

@@ -25,5 +25,10 @@ namespace MegaMan.IO
         {
             return new EntityXmlWriter();
         }
+
+        public IIncludedObjectGroupWriter GetEntityGroupWriter()
+        {
+            return Injector.Container.Get<EntityGroupXmlWriter>();
+        }
     }
 }

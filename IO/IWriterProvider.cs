@@ -7,5 +7,6 @@ namespace MegaMan.IO
         IStageWriter GetStageWriter();
         ITilesetWriter GetTilesetWriter();
         IEntityWriter GetEntityWriter();
+        IIncludedObjectGroupWriter GetEntityGroupWriter();
     }
 }

@@ -172,6 +172,8 @@
     <Compile Include="Xml\EntityPlacementXmlWriter.cs" />
     <Compile Include="Xml\GameXmlException.cs" />
     <Compile Include="IEntityWriter.cs" />
+    <Compile Include="IIncludedObjectGroupXmlWriter.cs" />
+    <Compile Include="Xml\Includes\EntityGroupXmlWriter.cs" />
     <Compile Include="Xml\XmlExtensions.cs" />
     <Compile Include="Xml\Handlers\Commands\AddCommandXmlReader.cs" />
     <Compile Include="Xml\Handlers\Commands\AddCommandXmlWriter.cs" />
