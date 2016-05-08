@@ -15,6 +15,8 @@ namespace MegaMan.IO.Xml.Effects
         internal void Write(TriggerInfo trigger, XmlWriter writer)
         {
             writer.WriteStartElement("Trigger");
+            writer.WriteAttributeString("priority", trigger.Priority.ToString());
+
             writer.WriteElementString("Condition", trigger.Condition);
 
             _effectXmlWriter.Write(trigger.Effect, writer);
@@ -25,6 +27,7 @@ namespace MegaMan.IO.Xml.Effects
         public void WriteMulti(MultiStateTriggerInfo trigger, XmlWriter writer)
         {
             writer.WriteStartElement("Trigger");
+            writer.WriteAttributeString("priority", trigger.Trigger.Priority.ToString());
 
             if (trigger.States != null)
             {

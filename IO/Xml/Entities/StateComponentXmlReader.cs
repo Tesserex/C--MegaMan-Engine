@@ -40,7 +40,10 @@ namespace MegaMan.IO.Xml.Entities
                 var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
 
                 var trigger = _triggerReader.Load(triggerInfo);
-                trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
+
+                if (trigger.Priority == null)
+                    trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
+
                 comp.Triggers.Add(new MultiStateTriggerInfo() {
                     States = states,
                     Trigger = trigger

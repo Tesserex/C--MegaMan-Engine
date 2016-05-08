@@ -153,7 +153,7 @@ namespace MegaMan.Engine
             {
                 var condition = EffectParser.ParseCondition(info.Condition);
                 var effect = EffectParser.LoadTriggerEffect(info.Effect);
-                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition, Priority = info.Priority };
+                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition, Priority = info.Priority ?? 0 };
             }
             catch (Exception e)
             {
