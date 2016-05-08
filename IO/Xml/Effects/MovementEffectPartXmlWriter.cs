@@ -21,6 +21,8 @@ namespace MegaMan.IO.Xml.Effects
 
         internal void Write(MovementEffectPartInfo info, XmlWriter writer)
         {
+            writer.WriteStartElement("Movement");
+
             writer.WriteElementString("Flying", info.Flying.ToString());
             writer.WriteElementString("FlipSprite", info.FlipSprite.ToString());
 
@@ -32,6 +34,8 @@ namespace MegaMan.IO.Xml.Effects
 
             if (info.Both != null)
                 WriteVelocity("Velocity", info.Both, writer);
+
+            writer.WriteEndElement();
         }
 
         private void WriteVelocity(string axis, VelocityEffectInfo velocityInfo, XmlWriter writer)
