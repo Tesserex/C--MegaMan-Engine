@@ -6,7 +6,7 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class FontXmlReader : IIncludeXmlReader
     {
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
             var info = new FontInfo();
 
@@ -27,6 +27,7 @@ namespace MegaMan.IO.Xml.Includes
             info.ImagePath = FilePath.FromRelative(xmlNode.RequireAttribute("image").Value, project.BaseDir);
 
             project.AddFont(info);
+            return info;
         }
 
         public string NodeName

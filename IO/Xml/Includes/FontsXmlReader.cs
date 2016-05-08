@@ -1,9 +1,6 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -16,12 +13,15 @@ namespace MegaMan.IO.Xml.Includes
             _fontReader = fontReader;
         }
 
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
+            var group = new IncludedObjectGroup();
             foreach (var fontNode in xmlNode.Elements("Font"))
             {
-                _fontReader.Load(project, fontNode);
+                group.Add(_fontReader.Load(project, fontNode));
             }
+
+            return group;
         }
 
         public string NodeName

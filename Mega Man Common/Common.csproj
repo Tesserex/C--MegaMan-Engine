@@ -143,6 +143,7 @@
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="IncludedObjects\IIncludedObject.cs" />
     <Compile Include="IncludedObjects\IncludedObject.cs" />
+    <Compile Include="IncludedObjects\IncludedObjectGroup.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="PaletteCollection.cs" />
     <Compile Include="Rendering\IRenderingContext.cs" />
