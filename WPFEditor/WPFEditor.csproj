@@ -173,6 +173,9 @@
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
+    <Compile Include="Controls\Dialogs\DuplicateObjectsDialog.xaml.cs">
+      <DependentUpon>DuplicateObjectsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
     </Compile>
@@ -244,6 +247,7 @@
     <Compile Include="Controls\ToolCursorAdorner.cs" />
     <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
     <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Dialogs\DuplicateObjectsDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\ProgressDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
@@ -310,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\DuplicateObjectsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

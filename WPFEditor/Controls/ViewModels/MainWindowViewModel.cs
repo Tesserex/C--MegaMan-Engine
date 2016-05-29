@@ -8,6 +8,8 @@ using System.Windows.Input;
 using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
+using MegaMan.Editor.Controls.Dialogs;
+using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
 using Microsoft.Win32;
@@ -197,6 +199,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (project != null)
             {
+                var proceed = CheckProjectForDuplicateIncludes(project);
+
                 var args = new ProjectOpenedEventArgs() { Project = project };
                 ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
             }
@@ -345,6 +349,25 @@ namespace MegaMan.Editor.Controls.ViewModels
                 AppData.EngineAbsolutePath = dialog.FileName;
                 AppData.Save();
             }
+        }
+
+        private bool CheckProjectForDuplicateIncludes(ProjectDocument project)
+        {
+            if (project == null)
+                return true;
+
+            var duplicates = project.Entities.GroupBy(e => e.Name)
+                .Where(g => g.Count() > 1);
+
+            foreach (var dupe in duplicates)
+            {
+                var dialogModel = new DuplicateObjectsDialogViewModel(dupe.Key, dupe.AsEnumerable());
+                var dialog = new DuplicateObjectsDialog();
+                dialog.DataContext = dialogModel;
+                dialog.ShowDialog();
+            }
+
+            return false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

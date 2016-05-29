@@ -29,11 +29,11 @@ namespace MegaMan.Editor.Bll
 
         #region Game XML File Stuff
 
-        private readonly Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
+        private Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
 
         public IEnumerable<EntityInfo> Entities
         {
-            get { return entities.Values; }
+            get { return Project.Entities; }
         }
 
         private string BaseDir
@@ -191,7 +191,6 @@ namespace MegaMan.Editor.Bll
             FileStructure = fileStructure;
             _stageFactory = stageFactory;
 
-            entities = project.Entities.ToDictionary(e => e.Name, e => e);
             foreach (var entity in project.Entities)
             {
                 ((App)App.Current).AnimateSprite(entity.DefaultSprite);
@@ -216,6 +215,9 @@ namespace MegaMan.Editor.Bll
 
         public EntityInfo EntityByName(string name)
         {
+            if (entities == null)
+                entities = Project.Entities.ToDictionary(e => e.Name, e => e);
+
             if (entities.ContainsKey(name))
                 return entities[name];
             else
