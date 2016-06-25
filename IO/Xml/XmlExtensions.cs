@@ -108,11 +108,11 @@ namespace MegaMan.IO.Xml
             var underlyingType = Nullable.GetUnderlyingType(typeof(T));
             if (underlyingType != null)
             {
-                return (T)Convert.ChangeType(value, underlyingType);
+                return (T)Convert.ChangeType(value, underlyingType, System.Globalization.CultureInfo.InvariantCulture);
             }
             else
             {
-                return (T)Convert.ChangeType(value, typeof(T));
+                return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
             }
         }
     }
