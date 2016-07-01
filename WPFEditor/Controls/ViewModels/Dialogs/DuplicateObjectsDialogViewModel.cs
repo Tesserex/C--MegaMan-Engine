@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Data;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Controls.ViewModels.Dialogs
@@ -14,6 +17,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
         private string objectType = "entities";
 
         public IEnumerable<DuplicateObjectViewModel> DuplicateEntries { get; set; }
+
+        public string SelectedFile { get; set; }
 
         public DuplicateObjectsDialogViewModel(string name, IEnumerable<EntityInfo> entities)
         {
@@ -41,5 +46,18 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
     {
         public string StoragePath { get; set; }
         public string ModifyDate { get; set; }
+    }
+
+    public class StringToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.Equals(true) ? parameter : Binding.DoNothing;
+        }
     }
 }
