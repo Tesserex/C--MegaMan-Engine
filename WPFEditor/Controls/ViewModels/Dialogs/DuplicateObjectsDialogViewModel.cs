@@ -20,6 +20,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
         public IEnumerable<DuplicateObjectViewModel> DuplicateEntries { get; set; }
 
         public string SelectedFile { get; set; }
+        public bool DeleteDuplicates { get; set; }
 
         public ICommand SetFile { get; set; }
 

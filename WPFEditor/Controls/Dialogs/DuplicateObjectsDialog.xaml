@@ -19,6 +19,7 @@
     <Grid>
         <Grid.Resources>
             <cv:PropertyToBoolConverter x:Key="propToBool" />
+            <cv:BoolInverterConverter x:Key="BoolInverterConverter" />
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -71,8 +72,8 @@
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="10">
             <TextBlock TextWrapping="Wrap" Margin="0,0,0,5">What should be done with the objects that are not loaded?</TextBlock>
-            <RadioButton>Nothing</RadioButton>
-            <RadioButton>Delete Them</RadioButton>
+            <RadioButton IsChecked="{Binding DeleteDuplicates, Converter={StaticResource BoolInverterConverter}}">Nothing</RadioButton>
+            <RadioButton IsChecked="{Binding DeleteDuplicates}">Delete Them</RadioButton>
         </StackPanel>
         <Grid Grid.Row="3" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MinHeight="49">
             <DockPanel Margin="5,0">

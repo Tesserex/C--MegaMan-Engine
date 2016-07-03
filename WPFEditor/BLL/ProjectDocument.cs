@@ -30,10 +30,16 @@ namespace MegaMan.Editor.Bll
         #region Game XML File Stuff
 
         private Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
+        private List<EntityInfo> unloadedEntities = new List<EntityInfo>();
 
         public IEnumerable<EntityInfo> Entities
         {
             get { return Project.Entities; }
+        }
+
+        public IEnumerable<EntityInfo> UnloadedEntities
+        {
+            get { return unloadedEntities.AsReadOnly(); }
         }
 
         private string BaseDir
@@ -256,6 +262,13 @@ namespace MegaMan.Editor.Bll
         public void RemoveEntity(EntityInfo entity)
         {
             this.Project.RemoveEntity(entity);
+            Dirty = true;
+        }
+
+        public void UnloadEntity(EntityInfo entity)
+        {
+            this.Project.RemoveEntity(entity);
+            this.unloadedEntities.Add(entity);
             Dirty = true;
         }
 

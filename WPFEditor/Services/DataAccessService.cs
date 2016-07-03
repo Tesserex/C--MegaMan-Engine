@@ -28,15 +28,17 @@ namespace MegaMan.Editor.Services
             {
                 var stage = project.StageByName(stageName);
                 SaveStage(stage);
-            }            
+            }
 
-            foreach (var entity in project.Entities)
+            var allEntities = project.Entities.Concat(project.UnloadedEntities).ToList();
+
+            foreach (var entity in allEntities)
             {
                 if (entity.StoragePath == null)
                     entity.StoragePath = project.FileStructure.CreateEntityPath(entity.Name);
             }
 
-            var entityFileGroups = project.Entities
+            var entityFileGroups = allEntities
                 .GroupBy(e => e.StoragePath.Absolute);
 
             foreach (var group in entityFileGroups)

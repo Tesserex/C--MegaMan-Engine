@@ -373,7 +373,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                     var toRemove = dupe.Where(e => e.StoragePath.Relative != dialogModel.SelectedFile).ToList();
                     foreach (var entity in toRemove)
                     {
-                        project.RemoveEntity(entity);
+                        if (dialogModel.DeleteDuplicates)
+                            project.RemoveEntity(entity);
+                        else
+                            project.UnloadEntity(entity);
                     }
                 }
                 else

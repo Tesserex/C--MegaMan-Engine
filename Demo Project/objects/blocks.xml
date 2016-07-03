@@ -46,60 +46,6 @@
 			<Logic />
 		</State>
 	</Entity>
-	<Entity name="ElecYoku" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<Collision Enabled="False">
-			<Hitbox name="H" x="0" y="0" width="16" height="16" properties="block" environment="True" pushaway="True">
-				<Hits>Solid</Hits>
-				<Group>Block</Group>
-			</Hitbox>
-		</Collision>
-		<Position persistoffscreen="True" />
-		<Tilesheet>images\blocks\elec_yoku.png</Tilesheet>
-		<Sprite name="Visible" width="16" height="24" tilesheet="images\blocks\elec_yoku.png">
-			<Hotspot x="0" y="0" />
-			<Frame x="0" y="0" duration="6" />
-			<Frame x="48" y="0" duration="6" />
-			<Frame x="32" y="0" duration="6" />
-			<Frame x="16" y="0" duration="6" />
-			<Frame x="0" y="0" duration="6" />
-		</Sprite>
-		<State name="Start">
-			<Initialize />
-			<Logic />
-		</State>
-		<State name="Show">
-			<Initialize>
-				<Sound name="YokuAppear" playing="True" />
-				<Sprite>
-					<Name>Visible</Name>
-					<Visible>True</Visible>
-				</Sprite>
-				<Collision>
-					<EnableBox name="H" />
-				</Collision>
-			</Initialize>
-			<Logic />
-			<Trigger priority="66">
-				<Condition>StateTime &gt;= 105</Condition>
-				<Effect>
-					<State>Hide</State>
-				</Effect>
-			</Trigger>
-		</State>
-		<State name="Hide">
-			<Initialize>
-				<Sprite>
-					<Name />
-					<Visible>False</Visible>
-				</Sprite>
-				<Collision>
-					<Clear />
-				</Collision>
-			</Initialize>
-			<Logic />
-		</State>
-	</Entity>
 	<Entity name="Moving" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<Collision Enabled="False">
@@ -228,48 +174,6 @@
 			<Logic />
 		</State>
 		<State name="Hide">
-			<Initialize>
-				<Sprite>
-					<Name />
-					<Visible>False</Visible>
-				</Sprite>
-				<Collision>
-					<Hitbox x="0" y="0" width="0" height="0" damage="0" environment="True" pushaway="True" properties="Default" />
-				</Collision>
-			</Initialize>
-			<Logic />
-		</State>
-	</Entity>
-	<Entity name="YokuSpike" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<Movement>
-			<Flying>True</Flying>
-			<FlipSprite />
-		</Movement>
-		<Tilesheet>images\blocks\spike.png</Tilesheet>
-		<Sprite width="16" height="16" tilesheet="images\blocks\spike.png">
-			<Hotspot x="0" y="0" />
-			<Frame x="0" y="0" duration="0" />
-		</Sprite>
-		<State name="Hide">
-			<Initialize>
-				<Sprite>
-					<Name />
-					<Visible>True</Visible>
-				</Sprite>
-				<Collision>
-					<Hitbox x="0" y="0" width="16" height="16" damage="0" environment="True" pushaway="True" properties="lethal">
-						<Hits>Player</Hits>
-					</Hitbox>
-					<Hitbox x="0" y="0" width="16" height="16" damage="0" environment="True" pushaway="True" properties="block">
-						<Hits>Solid</Hits>
-						<Hits>Enemy</Hits>
-					</Hitbox>
-				</Collision>
-			</Initialize>
-			<Logic />
-		</State>
-		<State name="Show">
 			<Initialize>
 				<Sprite>
 					<Name />
