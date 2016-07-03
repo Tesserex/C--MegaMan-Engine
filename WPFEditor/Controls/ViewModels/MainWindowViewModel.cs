@@ -200,6 +200,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (project != null)
             {
                 var proceed = CheckProjectForDuplicateIncludes(project);
+                if (!proceed)
+                    return;
 
                 var args = new ProjectOpenedEventArgs() { Project = project };
                 ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
@@ -365,9 +367,22 @@ namespace MegaMan.Editor.Controls.ViewModels
                 var dialog = new DuplicateObjectsDialog();
                 dialog.DataContext = dialogModel;
                 dialog.ShowDialog();
+
+                if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+                {
+                    var toRemove = dupe.Where(e => e.StoragePath.Relative != dialogModel.SelectedFile).ToList();
+                    foreach (var entity in toRemove)
+                    {
+                        project.RemoveEntity(entity);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
 
-            return false;
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

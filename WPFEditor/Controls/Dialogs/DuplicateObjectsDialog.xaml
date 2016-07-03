@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:MegaMan.Editor.Controls.Dialogs"
         xmlns:cv="clr-namespace:MegaMan.Editor.Controls.Converters"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         Title="Wily's Lab" ShowInTaskbar="False" Topmost="True"
@@ -13,6 +14,7 @@
         <Style TargetType="{x:Type RadioButton}">
             <Setter Property="Margin" Value="0,3" />
         </Style>
+        <x:Static Member="sys:String.Empty" x:Key="Empty" />
     </Window.Resources>
     <Grid>
         <Grid.Resources>
@@ -43,7 +45,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <RadioButton Grid.Column="0" GroupName="LoadFile">
+                            <RadioButton Grid.Column="0" GroupName="LoadFile" Command="{Binding Path=DataContext.SetFile, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:DuplicateObjectsDialog}}}" CommandParameter="{Binding StoragePath}">
                                 <RadioButton.IsChecked>
                                     <MultiBinding Converter="{StaticResource propToBool}" Mode="OneWay">
                                         <Binding Path="StoragePath" />
@@ -57,7 +59,15 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <RadioButton GroupName="LoadFile">None of them</RadioButton>
+            <RadioButton GroupName="LoadFile" Command="{Binding SetFile}" CommandParameter="">
+                <RadioButton.IsChecked>
+                    <MultiBinding Converter="{StaticResource propToBool}" Mode="OneWay">
+                        <Binding Path="SelectedFile" />
+                        <Binding Source="{StaticResource Empty}" />
+                    </MultiBinding>
+                </RadioButton.IsChecked>
+                None of them
+            </RadioButton>
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="10">
             <TextBlock TextWrapping="Wrap" Margin="0,0,0,5">What should be done with the objects that are not loaded?</TextBlock>
@@ -66,13 +76,13 @@
         </StackPanel>
         <Grid Grid.Row="3" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MinHeight="49">
             <DockPanel Margin="5,0">
-                <Button Command="{Binding CancelCommand}" MinWidth="88" MaxWidth="160" Height="26" Margin="5,0" HorizontalAlignment="Right" IsCancel="True" DockPanel.Dock="Right">
+                <Button Click="Cancel_Click" MinWidth="88" MaxWidth="160" Height="26" Margin="5,0" HorizontalAlignment="Right" IsCancel="True" DockPanel.Dock="Right">
                     <Label Name="Label_Cancel" Padding="0" Margin="10,0">_Cancel</Label>
                 </Button>
                 <!-- End Cancel Button -->
 
                 <!-- OK Button -->
-                <Button Command="{Binding OkCommand}" Name="Button_OK" MinWidth="88" MaxWidth="160" Margin="35,0,5,0" HorizontalAlignment="Right" Height="26">
+                <Button Click="Ok_Click" Name="Button_OK" MinWidth="88" MaxWidth="160" Margin="35,0,5,0" HorizontalAlignment="Right" Height="26" IsDefault="True">
                     <Label Name="Label_Ok" Padding="0" Margin="10,0">_OK</Label>
                 </Button>
                 <!-- End OK Button -->

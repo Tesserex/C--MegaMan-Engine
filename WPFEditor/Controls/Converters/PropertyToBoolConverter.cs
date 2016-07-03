@@ -16,7 +16,7 @@ namespace MegaMan.Editor.Controls.Converters
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return new[] { (value != null && value.Equals(true)) ? parameter : Binding.DoNothing };
+            throw new NotImplementedException();
         }
     }
 }

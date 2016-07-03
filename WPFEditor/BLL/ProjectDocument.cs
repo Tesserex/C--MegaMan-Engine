@@ -253,6 +253,12 @@ namespace MegaMan.Editor.Bll
             Dirty = true;
         }
 
+        public void RemoveEntity(EntityInfo entity)
+        {
+            this.Project.RemoveEntity(entity);
+            Dirty = true;
+        }
+
         private void CheckStartHandler()
         {
             if (Project.StartHandler == null)

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Controls.ViewModels.Dialogs
@@ -15,22 +16,26 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
 
         // this will change in the future as other objects are loaded.
         private string objectType = "entities";
-
+        
         public IEnumerable<DuplicateObjectViewModel> DuplicateEntries { get; set; }
 
         public string SelectedFile { get; set; }
+
+        public ICommand SetFile { get; set; }
 
         public DuplicateObjectsDialogViewModel(string name, IEnumerable<EntityInfo> entities)
         {
             this.entities = entities;
             this.name = name;
-
+            
             this.DuplicateEntries = entities
                 .Select(e => new DuplicateObjectViewModel() {
                     StoragePath = e.StoragePath.Relative,
                     ModifyDate = File.GetLastWriteTime(e.StoragePath.Absolute).ToString("g")
                 })
                 .ToList();
+
+            this.SetFile = new RelayCommand(x => { SelectedFile = x.ToString(); });
         }
 
         public string Message
