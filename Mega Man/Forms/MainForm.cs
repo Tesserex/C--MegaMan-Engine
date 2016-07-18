@@ -396,6 +396,7 @@ namespace MegaMan.Engine
 
         private void ScreenSizeMultiple()
         {
+            WindowState = FormWindowState.Normal;
             if (Game.CurrentGame == null)
             {
                 DefaultScreen();
