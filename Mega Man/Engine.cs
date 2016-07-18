@@ -167,7 +167,7 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            if (initialized)
+            if (initialized && running == false)
             {
                 running = true;
                 timer.Start();
@@ -177,9 +177,12 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
-            running = false;
-            timer.Stop();
-            soundsystem.Stop();
+            if (running == true)
+            {
+                running = false;
+                timer.Stop();
+                soundsystem.Stop();
+            }
         }
 
         /// <summary>
