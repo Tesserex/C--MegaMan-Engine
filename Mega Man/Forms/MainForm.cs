@@ -752,11 +752,6 @@ namespace MegaMan.Engine
             Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked;
         }
 
-        private void fileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
-        {
-
-        }
-
         private void noiseMenuItem_Click(object sender, EventArgs e)
         {
             noiseMenuItem.Checked = !noiseMenuItem.Checked;
