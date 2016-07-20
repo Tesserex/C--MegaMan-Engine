@@ -82,6 +82,7 @@ namespace MegaMan.Engine
         {
             Player.Start(this);
             Player.GetComponent<SpriteComponent>().Visible = true;
+            Player.GetComponent<WeaponComponent>().ResetWeapon();
 
             StateMessage msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));

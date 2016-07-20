@@ -49,6 +49,16 @@ namespace MegaMan.Engine
             return 0;
         }
 
+        public void ResetWeapon()
+        {
+            var weapon = weapons.FirstOrDefault();
+
+            if (weapon != null)
+            {
+                SetWeapon(weapon.Name);
+            }
+        }
+
         public void SetWeapon(string name)
         {
             var weapon = weapons.SingleOrDefault(w => w.Name == name);
