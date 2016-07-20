@@ -68,7 +68,7 @@ namespace MegaMan.Engine
                     }
                     catch
                     {
-                        throw new GameRunException("There's an error in screen file " + info.Name + ".scn,\nthere's a bad tile number somewhere.");
+                        throw new GameRunException(string.Format("There's an error in stage {0}, screen file {1}.scn.\nThere's a unrecognized tile number somewhere.", stage.Info.Name, info.Name));
                     }
                 }
             }
