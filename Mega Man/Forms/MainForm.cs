@@ -16,9 +16,188 @@ namespace MegaMan.Engine
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private int widthZoom, heightZoom, width, height;
 
+        #region Code used by windows messages
+        private const int WM_SYSKEYDOWN = 0x104;
+        private const int WM_INITMENUPOPUP = 0x0117;
+        private const int WM_UNINITMENUPOPUP = 0x0125;
+        #endregion
+
+        private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
+                                                 // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
+
+        #region Handle Engine pausing
+        // Lots of functions used to determine what is happening and set engine activated/deactivated state
+
+        /// <summary>
+        /// Function which is called by events, checks conditions to know if engine is active/unactive
+        /// </summary>
+        private void HandleEngineActivation()
+        {
+            altKeyDown = false;
+
+            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) Engine.Instance.Stop();
+            else
+            {
+                Engine.Instance.Start();
+                menu = false;   // If here, no more focus or Window is minimized, so menu is closed for surre
+            }
+        }
+
+        /// <summary>
+        /// Only event to be called when minimizing by clicking on tray icon.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            menu = false;
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Called on focus lost.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnDeactivate(EventArgs e)
+        {
+            base.OnDeactivate(e);
+
+            gotFocus = menu = false; // Menu is sure to be closed
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Called on focus
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            gotFocus = true;
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Called on moving form
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMove(EventArgs e)
+        {
+            base.OnMove(e);
+
+            menu = false; // Menu is sure to be closed.
+            Engine.Instance.Stop();
+        }
+
+        /// <summary>
+        /// Used because it is called when moving is stopped.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            base.OnResizeEnd(e);
+
+            menu = false;
+            gotFocus = true;
+            Engine.Instance.Start();
+        }
+
+        /// <summary>
+        /// Menu was selected but is no more
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuStrip1_MenuDeactivate(object sender, EventArgs e)
+        {
+            menu = false;
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Menubar is activated. It can be by a mouse click (any), alt key, etc...
+        /// To prevent some problems, it is only used by alt key press.
+        /// To know if this key is pressed, we check it using ProcessCmdKey
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuStrip1_MenuActivate(object sender, EventArgs e)
+        {
+            if (altKeyDown) menu = true;
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Call by every menu clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuStrip_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                menu = true;
+                HandleEngineActivation();
+            }
+        }
+
+        /// <summary>
+        /// If a menu is dropped down, make sure engine is stopped.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StripMenuItem_DropDownOpened(object sender, EventArgs e)
+        {
+            menu = true;
+            HandleEngineActivation();
+        }
+
+        /// <summary>
+        /// Interrupt Windows messages. Used to know if context menu is opened.
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_INITMENUPOPUP)
+            {
+                menu = true;
+                HandleEngineActivation();
+            }
+            else if (m.Msg == WM_UNINITMENUPOPUP)
+            {
+                menu = false;
+                HandleEngineActivation();
+            }
+
+            base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// Used to know if alt key is pressed.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((msg.Msg == WM_SYSKEYDOWN))
+            {
+                if (keyData == (Keys.Menu | Keys.Alt))
+                {
+                    altKeyDown = true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        #endregion
+
         public MainForm()
         {
             InitializeComponent();
+
+            menu = gotFocus = altKeyDown = false;
 
 #if !DEBUG
             debugBar.Hide();
@@ -67,32 +246,6 @@ namespace MegaMan.Engine
             height = Const.PixelsDown;
 
             ResizeScreen();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-
-            if (WindowState == FormWindowState.Minimized)
-            {
-                Engine.Instance.Stop();
-            }
-            else
-            {
-                Engine.Instance.Start();
-            }
-        }
-
-        protected override void OnDeactivate(EventArgs e)
-        {
-            Engine.Instance.Stop();
-            base.OnDeactivate(e);
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            Engine.Instance.Start();
-            base.OnActivated(e);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -591,6 +744,11 @@ namespace MegaMan.Engine
         {
             triMenuItem.Checked = !triMenuItem.Checked;
             Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked;
+        }
+
+        private void fileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+        {
+
         }
 
         private void noiseMenuItem_Click(object sender, EventArgs e)
