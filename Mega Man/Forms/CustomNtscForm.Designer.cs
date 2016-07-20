@@ -59,7 +59,7 @@
             this.fringeValue = new System.Windows.Forms.Label();
             this.bleedValue = new System.Windows.Forms.Label();
             this.resetButton = new System.Windows.Forms.Button();
-            this.applyButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.hueTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.satTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.brightTrack)).BeginInit();
@@ -410,22 +410,22 @@
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
-            // applyButton
+            // closeButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(271, 331);
-            this.applyButton.Name = "applyButton";
-            this.applyButton.Size = new System.Drawing.Size(92, 24);
-            this.applyButton.TabIndex = 31;
-            this.applyButton.Text = "Apply";
-            this.applyButton.UseVisualStyleBackColor = true;
-            this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
+            this.closeButton.Location = new System.Drawing.Point(271, 331);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(92, 24);
+            this.closeButton.TabIndex = 31;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // CustomNtscForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(388, 369);
-            this.Controls.Add(this.applyButton);
+            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.bleedValue);
             this.Controls.Add(this.fringeValue);
@@ -508,6 +508,6 @@
         private System.Windows.Forms.Label fringeValue;
         private System.Windows.Forms.Label bleedValue;
         private System.Windows.Forms.Button resetButton;
-        private System.Windows.Forms.Button applyButton;
+        private System.Windows.Forms.Button closeButton;
     }
 }
