@@ -346,6 +346,10 @@ namespace MegaMan.Engine
 
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
+            FormWindowState previousWindowState = WindowState;
+
+            WindowState = FormWindowState.Normal;
+
             if (width != 256 || height != 224)
             {
                 xnaImage.NTSC = false;
@@ -366,6 +370,7 @@ namespace MegaMan.Engine
                 // normal zoomed size
                 ResizeScreen();
             }
+            WindowState = previousWindowState;
         }
 
         private void ResizeScreen(int? newWidth = null, int? newHeight = null)
@@ -549,6 +554,7 @@ namespace MegaMan.Engine
 
         private void ScreenSizeMultiple()
         {
+            WindowState = FormWindowState.Normal;
             if (Game.CurrentGame == null)
             {
                 DefaultScreen();

@@ -195,28 +195,28 @@
             this.screen1XMenu.Checked = true;
             this.screen1XMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.screen1XMenu.Name = "screen1XMenu";
-            this.screen1XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen1XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen1XMenu.Text = "1x";
             this.screen1XMenu.Click += new System.EventHandler(this.screen1XMenu_Click);
             // 
             // screen2XMenu
             // 
             this.screen2XMenu.Name = "screen2XMenu";
-            this.screen2XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen2XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen2XMenu.Text = "2x";
             this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
             // screen3XMenu
             // 
             this.screen3XMenu.Name = "screen3XMenu";
-            this.screen3XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen3XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen3XMenu.Text = "3x";
             this.screen3XMenu.Click += new System.EventHandler(this.screen3XMenu_Click);
             // 
             // screen4XMenu
             // 
             this.screen4XMenu.Name = "screen4XMenu";
-            this.screen4XMenu.Size = new System.Drawing.Size(152, 22);
+            this.screen4XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen4XMenu.Text = "4x";
             this.screen4XMenu.Click += new System.EventHandler(this.screen4XMenu_Click);
             // 
@@ -228,7 +228,7 @@
             this.ntscRGB,
             this.ntscCustom});
             this.screenNTSCMenu.Name = "screenNTSCMenu";
-            this.screenNTSCMenu.Size = new System.Drawing.Size(152, 22);
+            this.screenNTSCMenu.Size = new System.Drawing.Size(154, 22);
             this.screenNTSCMenu.Text = "NTSC";
             this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
             // 
@@ -266,49 +266,49 @@
             // 
             this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
             this.fullScreenToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.fullScreenToolStripMenuItem.Text = "Full Screen";
             this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.fullScreenToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
             // 
             // pixellatedToolStripMenuItem
             // 
             this.pixellatedToolStripMenuItem.Checked = true;
             this.pixellatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
-            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
             this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
             // 
             // smoothedToolStripMenuItem
             // 
             this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
-            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.smoothedToolStripMenuItem.Text = "Smoothed";
             this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(151, 6);
             // 
             // hideMenuItem
             // 
             this.hideMenuItem.Name = "hideMenuItem";
             this.hideMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.hideMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideMenuItem.Size = new System.Drawing.Size(154, 22);
             this.hideMenuItem.Text = "Hide Menu";
             this.hideMenuItem.Click += new System.EventHandler(this.hideMenuItem_Click);
             // 
             // screenshotMenuItem
             // 
             this.screenshotMenuItem.Name = "screenshotMenuItem";
-            this.screenshotMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
-            this.screenshotMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.screenshotMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.screenshotMenuItem.Size = new System.Drawing.Size(154, 22);
             this.screenshotMenuItem.Text = "Capture";
             this.screenshotMenuItem.Click += new System.EventHandler(this.screenshotMenuItem_Click);
             // 
@@ -593,6 +593,7 @@
             this.debugBar.Location = new System.Drawing.Point(0, 272);
             this.debugBar.Name = "debugBar";
             this.debugBar.Size = new System.Drawing.Size(294, 22);
+            this.debugBar.SizingGrip = false;
             this.debugBar.TabIndex = 2;
             this.debugBar.Text = "statusStrip1";
             // 
