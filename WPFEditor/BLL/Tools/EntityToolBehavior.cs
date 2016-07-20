@@ -47,13 +47,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void RightClick(ScreenCanvas canvas, Point location)
         {
-            var i = canvas.Screen.FindEntityAt(location);
-            if (i >= 0)
-            {
-                var e = canvas.Screen.GetEntity(i);
-                canvas.Screen.RemoveEntity(e);
-                canvas.Screen.Stage.PushHistoryAction(new RemoveEntityAction(e, canvas.Screen));
-            }
+            
         }
     }
 }

@@ -1,0 +1,98 @@
+<Entities>
+	<Properties>
+		<Properties name="block" blocking="true" resistX="0.1" />
+	</Properties>
+
+	<Entity name="ShotDoor">
+		<Tilesheet>images\blocks\shotdoor.png</Tilesheet>
+		<Sprite name="Red" width="16" height="32">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="White" width="16" height="32">
+			<Hotspot x="0" y="0" />
+			<Frame x="16" y="0" duration="0" />
+		</Sprite>
+		<Sprite name="Blink" width="16" height="32">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="12" />
+			<Frame x="16" y="0" duration="12" />
+		</Sprite>
+		<Position persistoffscreen="true" />
+		<Movement><Flying>True</Flying></Movement>
+        <Collision>
+			<Hitbox name="H" x="0" y="0" width="16" height="32" properties="block">
+				<Group>Block</Group>
+				<Hits>Solid</Hits>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+			<Hitbox name="DeflectHigh" x="0" y="0" width="16" height="8" properties="block">
+				<Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+			<Hitbox name="Target" x="0" y="14" width="16" height="4">
+				<Group>Block</Group>
+				<Group>KillProjectile</Group>
+			</Hitbox>
+			<Hitbox name="DeflectLow" x="0" y="24" width="16" height="8" properties="block">
+				<Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+			</Hitbox>
+		</Collision>
+		<Health><Max>-1</Max></Health>
+		<State name="Start">
+			<Sprite><Name>Red</Name></Sprite>
+			<Movement><Y magnitude="0" /></Movement>
+			<Collision>
+				<EnableBox name="H" />
+				<EnableBox name="DeflectHigh" />
+				<EnableBox name="DeflectLow" />
+				<EnableBox name="Target" />
+			</Collision>
+			<Trigger><Condition>Health.Hit == True</Condition>
+				<Effect><State>Opening</State><Sound name="EnemyHurt" /></Effect>
+			</Trigger>
+		</State>
+		<State name="Opening">
+			<Sprite><Name>White</Name></Sprite>
+			<Movement><Y magnitude="2" direction="Up" /></Movement>
+			<Trigger>
+				<Condition>StateTime == 16</Condition>
+				<Effect><State>Open</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Open">
+			<Sprite><Name>White</Name></Sprite>
+			<Timer><Start>OpenTimer</Start></Timer>
+			<Movement><Y magnitude="0" /></Movement>
+			<Trigger>
+				<Condition>Timer.Value("OpenTimer") == 180</Condition>
+				<Effect>
+					<Sprite><Name>Blink</Name></Sprite>
+				</Effect>
+			</Trigger>
+			<Trigger>
+				<Condition>Timer.Value("OpenTimer") == 300</Condition>
+				<Effect>
+					<Timer><Delete>OpenTimer</Delete></Timer>
+					<State>Closing</State>
+				</Effect>
+			</Trigger>
+			<Trigger><Condition>Health.Hit == True</Condition>
+				<Effect>
+					<Sound name="EnemyHurt" />
+					<Timer><Reset>OpenTimer</Reset></Timer>
+					<Sprite><Name>White</Name></Sprite>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Closing">
+			<Sprite><Name>Red</Name></Sprite>
+			<Movement><Y magnitude="2" direction="Down" /></Movement>
+			<Trigger>
+				<Condition>StateTime == 16</Condition>
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+	</Entity>
+</Entities>

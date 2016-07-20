@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {
@@ -154,7 +153,7 @@ namespace MegaMan.Editor.Bll
 
         public ScreenDocument AddScreen(string name, int tile_width, int tile_height)
         {
-            var screen = new MegaMan.Common.ScreenInfo(name, Tileset.Tileset);
+            var screen = new ScreenInfo(name, Tileset.Tileset);
 
             int[,] tiles = new int[tile_width, tile_height];
 
@@ -169,11 +168,24 @@ namespace MegaMan.Editor.Bll
             }
 
             ScreenDocument doc = WrapScreen(screen);
-
-            // now I can do things like fire an event... how useful!
+            
             if (ScreenAdded != null) ScreenAdded(doc);
 
             return doc;
+        }
+
+        public void AddScreen(ScreenInfo screen)
+        {
+            var doc = WrapScreen(screen);
+            _map.Screens.Add(screen.Name, screen);
+
+            if (StartScreen == null)
+            {
+                _map.StartScreen = _map.Screens.Keys.First();
+                Dirty = true;
+            }
+
+            if (ScreenAdded != null) ScreenAdded(doc);
         }
 
         public void RemoveScreen(ScreenDocument screen)

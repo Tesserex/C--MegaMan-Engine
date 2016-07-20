@@ -15,6 +15,9 @@ namespace MegaMan.Common
         private int currentFrame;
         private int lastFrameTime;
 
+        private int width;
+        private int height;
+
         private IResourceImage texture;
 
         /// <summary>
@@ -38,14 +41,36 @@ namespace MegaMan.Common
         public RectangleF BoundBox { get; protected set; }
 
         /// <summary>
-        /// Gets the height of the sprite.
+        /// Gets or sets the height of the sprite.
         /// </summary>
-        public virtual int Height { get; set; }
+        public virtual int Height
+        {
+            get { return height; }
+            set
+            {
+                if (height == value)
+                    return;
+
+                height = value;
+                ResizeFrames();
+            }
+        }
 
         /// <summary>
-        /// Gets the width of the sprite.
+        /// Gets or sets the width of the sprite.
         /// </summary>
-        public virtual int Width { get; set; }
+        public virtual int Width
+        {
+            get { return width; }
+            set
+            {
+                if (width == value)
+                    return;
+
+                width = value;
+                ResizeFrames();
+            }
+        }
 
         /// <summary>
         /// Gets the number of frames in the sprite animation.
@@ -313,6 +338,17 @@ namespace MegaMan.Common
             }
         }
 
+        private void ResizeFrames()
+        {
+            if (frames == null)
+                return;
+
+            foreach (var frame in frames)
+            {
+                frame.Resize(Width, Height);
+            }
+        }
+
         public void Draw(IRenderingContext context, int layer, float positionX, float positionY)
         {
             if (!Visible || Count == 0 || context == null) return;
@@ -426,6 +462,11 @@ namespace MegaMan.Common
         public void SetSheetPosition(int x, int y)
         {
             SheetLocation = new Rectangle(x, y, sprite.Width, sprite.Height);
+        }
+
+        internal void Resize(int width, int height)
+        {
+            SheetLocation = new Rectangle(SheetLocation.X, SheetLocation.Y, width, height);
         }
     }
 

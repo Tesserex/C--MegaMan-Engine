@@ -1,0 +1,21 @@
+<Map name="Puzzle" tiles="stages\test\tiles.xml">
+	<Start screen="1" x="80" y="164" />
+	<Screen id="1">
+		<Entity id="84083537-881a-46c0-baec-25ca6ef9a4bf" entity="ShotDoor" x="176" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="1152ea7e-a57c-4386-bf41-79ae8327830b" entity="EnergyTank" x="208" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="3b57fbdb-76e9-4dfb-8e5d-f7ab9f2e12d7" entity="EnergyTank" x="224" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="e371c18f-0c35-4b60-b838-3c427daa0056" entity="EnergyTank" x="240" y="120" direction="Unknown" respawn="Offscreen" />
+	</Screen>
+	<Screen id="2">
+		<Entity id="c7126b1e-9666-4894-b89a-68d7a4833100" entity="ShotDoor" x="160" y="160" direction="Unknown" respawn="Offscreen" />
+		<Entity id="42338b72-6cf8-4c25-a36b-b2ff91a8e4ef" entity="ShotDoor" x="112" y="160" direction="Unknown" respawn="Offscreen" />
+		<Entity id="bad5aeb5-e7a0-46f3-816a-cb55680e66d9" entity="EnergyTank" x="0" y="120" direction="Unknown" respawn="Offscreen" />
+		<Entity id="b19ff4a0-85ac-4158-bb45-25864f724424" entity="EnergyTank" x="16" y="120" direction="Unknown" respawn="Offscreen" />
+	</Screen>
+	<Screen id="3">
+		<Entity id="e9c44c22-7ea4-4c63-8941-59a47e3347e4" entity="ShotDoor" x="96" y="48" direction="Unknown" respawn="Offscreen" />
+		<Entity id="258ffa1f-dfc1-401d-b20c-6db5c117066a" entity="ShotDoor" x="272" y="32" direction="Unknown" respawn="Offscreen" />
+	</Screen>
+	<Join type="vertical" s1="1" s2="2" offset1="0" offset2="0" size="14" direction="both" />
+	<Join type="vertical" s1="2" s2="3" offset1="0" offset2="0" size="14" direction="both" />
+</Map>

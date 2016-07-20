@@ -139,8 +139,10 @@
     </ApplicationDefinition>
     <Compile Include="AppData\AppData.cs" />
     <Compile Include="AppData\RecentProject.cs" />
+    <Compile Include="Bll\Algorithms\BitmapComparer.cs" />
     <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
+    <Compile Include="Bll\Algorithms\ScreenImporter.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
     <Compile Include="Bll\Factories\FactoryCore.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
     <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
+    <Compile Include="Bll\UnknownTile.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,9 @@
     <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditableLabel.xaml.cs">
+      <DependentUpon>EditableLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
@@ -184,6 +190,9 @@
     </Compile>
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EntityPlacementControl.xaml.cs">
+      <DependentUpon>EntityPlacementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EntityToolbar.xaml.cs">
       <DependentUpon>EntityToolbar.xaml</DependentUpon>
@@ -240,6 +249,8 @@
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
+    <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
@@ -306,6 +317,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\EditableLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\ProgressDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,6 +334,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EntityEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EntityPlacementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -581,6 +600,8 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\pencil.png" />
+    <Resource Include="Resources\check.png" />
     <Resource Include="Resources\wilybrows.gif" />
     <Resource Include="Resources\roomborder.png" />
     <Resource Include="Resources\wily.ico" />

@@ -211,33 +211,6 @@ namespace MegaMan.Editor.Bll.Algorithms
             SpriteBitmapCache.InsertSource(Tileset.SheetPath.Absolute, tilesheet);
             Tileset.RefreshSheet();
         }
-
-        private class BitmapComparer : IEqualityComparer<WriteableBitmap>
-        {
-            public bool Equals(WriteableBitmap x, WriteableBitmap y)
-            {
-                var xBytes = x.ToByteArray();
-                var yBytes = y.ToByteArray();
-
-                return xBytes.SequenceEqual(yBytes);
-            }
-
-            public int GetHashCode(WriteableBitmap obj)
-            {
-                var array = obj.ToByteArray();
-
-                if (array == null)
-                {
-                    return 0;
-                }
-                int hash = 17;
-                foreach (var b in array)
-                {
-                    hash = hash * 31 + b;
-                }
-                return hash;
-            }
-        }
     }
 
     public class TilesetImporterError

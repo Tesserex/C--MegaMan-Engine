@@ -165,6 +165,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public string Name
+        {
+            get { return _sprite.Name; }
+            set
+            {
+                _sprite.Name = value;
+                if (_project != null)
+                    _project.Dirty = true;
+            }
+        }
+
         public int FrameNumber
         {
             get
@@ -185,6 +196,48 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 if (_project != null)
                     _project.Dirty = true;
+            }
+        }
+
+        public int SpriteWidth
+        {
+            get
+            {
+                return _sprite.Width;
+            }
+            set
+            {
+                _sprite.Width = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
+
+                OnPropertyChanged("PreviewWidth");
+                OnPropertyChanged("PreviewHeight");
+                OnPropertyChanged("HighlightWidth");
+                OnPropertyChanged("HighlightHeight");
+                OnPropertyChanged("PreviewImage");
+            }
+        }
+
+        public int SpriteHeight
+        {
+            get
+            {
+                return _sprite.Height;
+            }
+            set
+            {
+                _sprite.Height = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
+
+                OnPropertyChanged("PreviewWidth");
+                OnPropertyChanged("PreviewHeight");
+                OnPropertyChanged("HighlightWidth");
+                OnPropertyChanged("HighlightHeight");
+                OnPropertyChanged("PreviewImage");
             }
         }
 

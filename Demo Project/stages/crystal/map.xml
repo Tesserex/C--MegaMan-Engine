@@ -4,7 +4,7 @@
 	<Screen id="Start">
 		<Next mode="Push" pause="False" type="Scene" name="StageReady" fade="False" />
 		<Entity id="c6966e29-83d8-4ce4-bdb8-1c5f198219d4" entity="Seeker" x="230" y="126" direction="Unknown" respawn="Offscreen" />
-		<Entity id="77e78eb2-4501-405c-b73b-43fc0d58a22f" entity="Seeker" x="164" y="54" direction="Unknown" respawn="Offscreen" />
+		<Entity id="77e78eb2-4501-405c-b73b-43fc0d58a22f" entity="Seeker" x="202" y="106" direction="Unknown" respawn="Offscreen" />
 		<Entity id="7daa355a-aa98-4a32-afc2-5f1439bafc11" entity="Seeker" x="209" y="79" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Boss">
@@ -18,7 +18,7 @@
 		<Entity id="a5388619-cb2c-4cf7-bbb0-e1004776068b" entity="Collapser" x="176" y="96" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="4">
-		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" entity="EnergyTank" x="48" y="105" direction="Unknown" respawn="Offscreen" />
+		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" entity="EnergyTank" x="48" y="105" direction="Unknown" respawn="Stage" />
 		<Entity id="bf372b36-c2df-46da-bb45-166ef9f747f8" entity="ShieldGuy" x="52" y="161" direction="Unknown" respawn="Offscreen" />
 		<Entity id="fe638d02-7b5f-40fd-9e1f-82b23d9eb7d4" entity="ShieldShooter" x="160" y="80" direction="Right" respawn="Offscreen" />
 	</Screen>

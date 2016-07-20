@@ -11,6 +11,22 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class SpriteEditor : UserControl
     {
+        public static readonly DependencyProperty CanChangeSizeProperty = DependencyProperty.Register("CanChangeSize", typeof(bool), typeof(SpriteEditor), new PropertyMetadata(true));
+
+        public bool CanChangeSize
+        {
+            get { return (bool)GetValue(CanChangeSizeProperty); }
+            set { SetValue(CanChangeSizeProperty, value); }
+        }
+
+        public Visibility SizeChangeVisibility
+        {
+            get
+            {
+                return CanChangeSize ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public SpriteEditor()
         {
             InitializeComponent();

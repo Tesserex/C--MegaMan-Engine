@@ -70,6 +70,13 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
+            <Fluent:RibbonTabItem Header="Entities" x:Name="ribbonEntities">
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Entity List" Icon="/Resources/EntityList.png" LargeIcon="/Resources/EntityList.png" />
+                    <Fluent:Button Header="New Entity" Icon="/Resources/NewEntity.png" LargeIcon="/Resources/NewEntity.png" Command="{Binding NewEntityCommand}" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+                
             <!--Backstage-->
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage x:Name="ribbonBackstage" IsOpen="{Binding ShowBackstage, Mode=TwoWay}">

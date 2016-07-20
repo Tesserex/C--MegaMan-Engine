@@ -29,15 +29,18 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 _currentEntity = value;
 
-                if (_currentEntity.EditorData == null)
-                    _currentEntity.EditorData = new EntityEditorData();
-
-                if (_currentEntity.SpriteComponent != null)
+                if (_currentEntity != null)
                 {
-                    foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
+                    if (_currentEntity.EditorData == null)
+                        _currentEntity.EditorData = new EntityEditorData();
+
+                    if (_currentEntity.SpriteComponent != null)
                     {
-                        sprite.Play();
-                        ((App)App.Current).AnimateSprite(sprite);
+                        foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
+                        {
+                            sprite.Play();
+                            ((App)App.Current).AnimateSprite(sprite);
+                        }
                     }
                 }
 
@@ -50,7 +53,22 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public IEnumerable<Sprite> Sprites { get { return (_currentEntity != null && _currentEntity.SpriteComponent != null) ? _currentEntity.SpriteComponent.Sprites.Values : null; } }
+        public IEnumerable<SpriteListItemViewModel> Sprites
+        {
+            get
+            {
+                if (_currentEntity == null || _currentEntity.SpriteComponent == null)
+                    return null;
+
+                var sprites = _currentEntity.SpriteComponent.Sprites.Values
+                    .Select(s => new SpriteListItemViewModel(s))
+                    .ToList();
+
+                sprites.Add(new SpriteListItemViewModel(null));
+
+                return sprites;
+            }
+        }
 
         public Sprite DefaultSprite
         {
@@ -109,7 +127,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
-            EditSpriteCommand = new RelayCommand(x => EditSprite((Sprite)x), arg => _currentEntity != null);
+            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
             GoBackCommand = new RelayCommand(x => GoBack(), null);
         }
 
@@ -122,11 +140,53 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             _project.AddEntity(CurrentEntity);
         }
 
-        public void EditSprite(Sprite sprite)
+        private void AddSprite()
         {
+            Sprite sprite = CreateEmptySprite();
+
             _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
             ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite), _project);
             OnPropertyChanged("ComponentViewModel");
+            OnPropertyChanged("Sprites");
+        }
+
+        private Sprite CreateEmptySprite()
+        {
+            var size = ModeOf(_currentEntity.SpriteComponent.Sprites
+                .Select(s => new Common.Geometry.Point(s.Value.Width, s.Value.Height)));
+
+            var sprite = new Sprite(size.X, size.Y);
+            sprite.Name = GetNewSpriteName();
+
+            sprite.SheetPath = _currentEntity.SpriteComponent.SheetPath;
+            sprite.AddFrame();
+            return sprite;
+        }
+
+        private string GetNewSpriteName()
+        {
+            var i = 0;
+            var name = string.Empty;
+            do
+            {
+                i++;
+                name = "NewSprite" + i.ToString();
+            } while (_currentEntity.SpriteComponent.Sprites.ContainsKey(name));
+
+            return name;
+        }
+
+        public void EditSprite(SpriteListItemViewModel sprite)
+        {
+            if (sprite.Sprite == null)
+            {
+                AddSprite();
+            }
+            else
+            {
+                ComponentViewModel = new SpriteEditorViewModel(sprite.Sprite, _project);
+                OnPropertyChanged("ComponentViewModel");
+            }
         }
 
         public void GoBack()
@@ -142,15 +202,16 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             EntityList = e.Project.Entities
                 .OrderBy(x => x.Name)
                 .ToList();
+
             OnPropertyChanged("EntityList");
+
+            CurrentEntity = EntityList.FirstOrDefault();
         }
 
         private void Save()
         {
             if (CurrentEntity == null)
                 return;
-
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -162,6 +223,15 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 handler(this, new PropertyChangedEventArgs(property));
             }
+        }
+
+        private T ModeOf<T>(IEnumerable<T> sequence)
+        {
+            return sequence
+                .GroupBy(x => x)
+                .OrderByDescending(g => g.Count())
+                .First()
+                .Key;
         }
     }
 }

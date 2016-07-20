@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid Background="White">
@@ -12,6 +13,18 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
+                <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Command="{Binding PlayCommand}" Style="{StaticResource LeftButton}" HorizontalAlignment="Right">
+                        <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource RightButton}" HorizontalAlignment="Right">
+                        <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+            
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Button Command="{Binding DeleteFrameCommand}">Delete Frame</Button>
                 <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
@@ -34,12 +47,6 @@
                 </Button>
                 <Button Command="{Binding ZoomInCommand}" Style="{StaticResource RightButton}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource LeftButton}">
-                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding PlayCommand}" Style="{StaticResource RightButton}">
-                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
             <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
@@ -121,21 +128,30 @@
                     </Rectangle>
                 </Grid>
             </ScrollViewer>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Width</Label>
+                <xctk:IntegerUpDown Value="{Binding SpriteWidth}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
+                <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Height</Label>
+                <xctk:IntegerUpDown Value="{Binding SpriteHeight}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
+            </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10" HorizontalAlignment="Center">
-                <DockPanel Margin="0,0,20,0">
-                    <CheckBox x:Name="snapSheet" Margin="5" DockPanel.Dock="Top" HorizontalAlignment="Left">Snap</CheckBox>
-                    <Label>Spacing</Label>
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                    <CheckBox x:Name="snapSheet" Margin="5" HorizontalAlignment="Left">Snap</CheckBox>
+                    <Label VerticalAlignment="Center" Margin="15,0,5,0" Padding="0">Spacing</Label>
                     <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
-                </DockPanel>
-                <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
-                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
-                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                    <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
+                        <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
+                        <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
             </StackPanel>
+            
             <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
                     <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />

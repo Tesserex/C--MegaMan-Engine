@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
@@ -62,6 +61,9 @@ namespace MegaMan.Engine
                     try
                     {
                         Tile tile = info.Tiles.TileAt(x, y);
+                        if (tile == null)
+                            throw new Exception();
+
                         this._squares[y][x] = new MapSquare(this, tile, x, y, info.Tiles.Tileset.TileSize);
                     }
                     catch

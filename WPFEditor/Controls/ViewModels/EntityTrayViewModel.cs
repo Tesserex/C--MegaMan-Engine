@@ -53,7 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             return String.Format("/Resources/{0}_{1}.png", icon, (_activeIcon == icon) ? "on" : "off");
         }
 
-        private void UpdateTool(object toolParam)
+        private void UpdateTool(object toolParam = null)
         {
             switch (toolParam.ToString())
             {
@@ -91,7 +91,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 UpdateTool("Entity");
             }
         }
-
+        
         public bool SnapVertical
         {
             get { return _snapVert; }
@@ -128,7 +128,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         public EntityTrayViewModel()
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
-
             ChangeToolCommand = new RelayCommand(UpdateTool);
             _horizSnapAmount = 8;
             _vertSnapAmount = 8;

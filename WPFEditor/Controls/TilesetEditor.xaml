@@ -55,7 +55,7 @@
         <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
             <DockPanel>
                 <Grid Visibility="{Binding ShowSpriteEditor}" DockPanel.Dock="Top">
-                    <c:SpriteEditor Background="White" DataContext="{Binding Sprite}"></c:SpriteEditor>
+                    <c:SpriteEditor Background="White" DataContext="{Binding Sprite}" CanChangeSize="False"></c:SpriteEditor>
                 </Grid>
                 <StackPanel Background="White" Visibility="{Binding ShowPropEditor}" Orientation="Vertical" DockPanel.Dock="Top">
                     <Grid Background="White">

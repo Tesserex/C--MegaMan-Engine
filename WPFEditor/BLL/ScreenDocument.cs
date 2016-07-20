@@ -18,7 +18,8 @@ namespace MegaMan.Editor.Bll
 
         public event Action<int, int> Resized;
         public event Action TileChanged;
-        public event Action EntitiesChanged;
+        public event Action<EntityPlacement> EntityAdded;
+        public event Action<EntityPlacement> EntityRemoved;
 
         public Rectangle? Selection { get; private set; }
         public event Action<Rectangle?> SelectionChanged;
@@ -99,7 +100,11 @@ namespace MegaMan.Editor.Bll
 
         public Tile TileAt(int x, int y)
         {
-            return screen.Layers[0].Tiles.TileAt(x, y);
+            var tile = screen.Layers[0].Tiles.TileAt(x, y);
+            if (tile == null)
+                return new UnknownTile(Tileset);
+            else
+                return tile;
         }
 
         public void ChangeTile(int tile_x, int tile_y, int tile_id)
@@ -170,28 +175,14 @@ namespace MegaMan.Editor.Bll
         {
             screen.Layers[0].Entities.Add(info);
             Dirty = true;
-            if (EntitiesChanged != null) EntitiesChanged();
-        }
-
-        public void RemoveEntity(EntityInfo entity, Point location)
-        {
-            screen.Layers[0].Entities.RemoveAll(i =>
-                i.entity == entity.Name && i.screenX == location.X && i.screenY == location.Y
-            );
-            Dirty = true;
-            if (EntitiesChanged != null) EntitiesChanged();
+            if (EntityAdded != null) EntityAdded(info);
         }
 
         public void RemoveEntity(EntityPlacement info)
         {
             screen.Layers[0].Entities.Remove(info);
             Dirty = true;
-            if (EntitiesChanged != null) EntitiesChanged();
-        }
-
-        public int FindEntityAt(Point location)
-        {
-            return screen.Layers[0].Entities.FindIndex(e => EntityBounded(e, location));
+            if (EntityRemoved != null) EntityRemoved(info);
         }
 
         public EntityPlacement GetEntity(int index)
@@ -201,26 +192,6 @@ namespace MegaMan.Editor.Bll
                 return screen.Layers[0].Entities[index];
             }
             return null;
-        }
-
-        private bool EntityBounded(EntityPlacement entityInfo, Point location)
-        {
-            var entity = Stage.Project.EntityByName(entityInfo.entity);
-            RectangleF bounds;
-
-            if (entity.DefaultSprite == null)
-            {
-                bounds = new RectangleF(-8, -8, 16, 16);
-            }
-            else
-            {
-                var sprite = entity.DefaultSprite;
-                bounds = sprite.BoundBox;
-                bounds.Offset(-sprite.HotSpot.X, -sprite.HotSpot.Y);
-            }
-
-            bounds.Offset(entityInfo.screenX, entityInfo.screenY);
-            return bounds.Contains(location);
         }
 
         public void SelectEntity(int index)
