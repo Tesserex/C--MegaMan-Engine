@@ -71,10 +71,10 @@ namespace MegaMan.Engine
         public int FPS
         {
             get { return fps; }
-            set 
+            set
             {
                 fps = value;
-                frameTicks = (long) (Stopwatch.Frequency/(float)fps);
+                frameTicks = (long)(Stopwatch.Frequency / (float)fps);
             }
         }
 
@@ -294,10 +294,8 @@ namespace MegaMan.Engine
                 return true;
         }
 
-        public void ToggleLayerVisibility(int layer)
+        private void RenderContext(int layer)
         {
-            layerVisibility[layer] = !layerVisibility[layer];
-
             if (renderContext != null)
             {
                 if (layerVisibility[layer])
@@ -305,6 +303,18 @@ namespace MegaMan.Engine
                 else
                     renderContext.DisableLayer(layer);
             }
+        }
+
+        public void SetLayerVisibility(int layer, bool visibility)
+        {
+            layerVisibility[layer] = visibility;
+            RenderContext(layer);
+        }
+
+        public void ToggleLayerVisibility(int layer)
+        {
+            layerVisibility[layer] = !layerVisibility[layer];
+            RenderContext(layer);
         }
 
         // This is run at the start of every step. It reads key states and checks for any changes.
@@ -315,7 +325,7 @@ namespace MegaMan.Engine
             {
                 if (Program.KeyDown(key))
                 {
-                    if (!inputFlags.ContainsKey(key) || inputFlags[key]==false)
+                    if (!inputFlags.ContainsKey(key) || inputFlags[key] == false)
                     {
                         inputFlags[key] = true;
                         if (GameInputReceived != null) GameInputReceived(new GameInputEventArgs(KeyToInput(key), true));
@@ -367,7 +377,7 @@ namespace MegaMan.Engine
             GameRenderEventArgs r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
-            
+
             if (GameRenderBegin != null) GameRenderBegin(r);
 
             renderContext.SetOpacity(opacity);
@@ -378,7 +388,7 @@ namespace MegaMan.Engine
             renderContext.End();
 
             if (GameRenderEnd != null) GameRenderEnd(r);
-            
+
             return false;
         }
 
@@ -396,7 +406,7 @@ namespace MegaMan.Engine
             if (key == GameInputKeys.Up) return GameInput.Up;
             if (key == GameInputKeys.Start) return GameInput.Start;
             if (key == GameInputKeys.Select) return GameInput.Select;
-        
+
             return GameInput.None;
         }
     }

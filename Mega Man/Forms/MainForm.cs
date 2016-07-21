@@ -414,6 +414,16 @@ namespace MegaMan.Engine
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
+        private void SetLayersVisibilityFromSettings()
+        {
+            Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
+        }
+
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -421,6 +431,7 @@ namespace MegaMan.Engine
             if (result == DialogResult.OK)
             {
                 LoadGame(dialog.FileName);
+                SetLayersVisibilityFromSettings();
             }
         }
 
@@ -479,7 +490,11 @@ namespace MegaMan.Engine
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null) Game.CurrentGame.Reset();
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.Reset();
+                SetLayersVisibilityFromSettings();
+            }
         }
 
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -491,37 +506,47 @@ namespace MegaMan.Engine
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(0);
-            backgroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(0);
+            backgroundToolStripMenuItem.Checked = !backgroundToolStripMenuItem.Checked;
         }
 
         private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(1);
-            sprites1ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(1);
+            sprites1ToolStripMenuItem.Checked = !sprites1ToolStripMenuItem.Checked;
         }
 
         private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(2);
-            sprites2ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(2);
+            sprites2ToolStripMenuItem.Checked = !sprites2ToolStripMenuItem.Checked;
         }
 
         private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(3);
-            sprites3ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(3);
+            sprites3ToolStripMenuItem.Checked = !sprites3ToolStripMenuItem.Checked;
         }
 
         private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(4);
-            spries4ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(4);
+            sprites4ToolStripMenuItem.Checked = !sprites4ToolStripMenuItem.Checked;
         }
 
         private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(5);
-            foregroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(5);
+            foregroundToolStripMenuItem.Checked = !foregroundToolStripMenuItem.Checked;
+        }
+
+        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
+            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
+            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
+            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
+            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
+            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
         }
 
         private void screen1XMenu_Click(object sender, EventArgs e)

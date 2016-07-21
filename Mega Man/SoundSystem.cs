@@ -91,7 +91,11 @@ namespace MegaMan.Engine
         public void Start()
         {
             updateTimer.Start();
-            if (AudioManager.Instance.Paused) AudioManager.Instance.ResumeBGMPlayback();
+            if (AudioManager.Instance.Paused)
+            {
+                if (musicEnabled) AudioManager.Instance.ResumeBGMPlayback();
+                else AudioManager.Instance.PauseBGMPlayback();
+            }
         }
 
         public void Stop()

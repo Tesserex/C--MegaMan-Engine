@@ -77,8 +77,9 @@
             this.sprites1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sprites2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sprites3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.spries4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sprites4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.foregroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.framerateUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.framerateDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugBar = new System.Windows.Forms.StatusStrip();
@@ -87,6 +88,7 @@
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
             this.SuspendLayout();
@@ -500,8 +502,10 @@
             this.sprites1ToolStripMenuItem,
             this.sprites2ToolStripMenuItem,
             this.sprites3ToolStripMenuItem,
-            this.spries4ToolStripMenuItem,
-            this.foregroundToolStripMenuItem});
+            this.sprites4ToolStripMenuItem,
+            this.foregroundToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.activateAllToolStripMenuItem});
             this.layersToolStripMenuItem.Name = "layersToolStripMenuItem";
             this.layersToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.layersToolStripMenuItem.Text = "&Layers";
@@ -512,7 +516,7 @@
             this.backgroundToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
             this.backgroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.backgroundToolStripMenuItem.Text = "Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
@@ -522,7 +526,7 @@
             this.sprites1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sprites1ToolStripMenuItem.Name = "sprites1ToolStripMenuItem";
             this.sprites1ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.sprites1ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.sprites1ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.sprites1ToolStripMenuItem.Text = "Sprites 1";
             this.sprites1ToolStripMenuItem.Click += new System.EventHandler(this.sprites1ToolStripMenuItem_Click);
             // 
@@ -532,7 +536,7 @@
             this.sprites2ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sprites2ToolStripMenuItem.Name = "sprites2ToolStripMenuItem";
             this.sprites2ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.sprites2ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.sprites2ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.sprites2ToolStripMenuItem.Text = "Sprites 2";
             this.sprites2ToolStripMenuItem.Click += new System.EventHandler(this.sprites2ToolStripMenuItem_Click);
             // 
@@ -542,19 +546,19 @@
             this.sprites3ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sprites3ToolStripMenuItem.Name = "sprites3ToolStripMenuItem";
             this.sprites3ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.sprites3ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.sprites3ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.sprites3ToolStripMenuItem.Text = "Sprites 3";
             this.sprites3ToolStripMenuItem.Click += new System.EventHandler(this.sprites3ToolStripMenuItem_Click);
             // 
-            // spries4ToolStripMenuItem
+            // sprites4ToolStripMenuItem
             // 
-            this.spries4ToolStripMenuItem.Checked = true;
-            this.spries4ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.spries4ToolStripMenuItem.Name = "spries4ToolStripMenuItem";
-            this.spries4ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.spries4ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.spries4ToolStripMenuItem.Text = "Sprites 4";
-            this.spries4ToolStripMenuItem.Click += new System.EventHandler(this.sprites4ToolStripMenuItem_Click);
+            this.sprites4ToolStripMenuItem.Checked = true;
+            this.sprites4ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sprites4ToolStripMenuItem.Name = "sprites4ToolStripMenuItem";
+            this.sprites4ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.sprites4ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.sprites4ToolStripMenuItem.Text = "Sprites 4";
+            this.sprites4ToolStripMenuItem.Click += new System.EventHandler(this.sprites4ToolStripMenuItem_Click);
             // 
             // foregroundToolStripMenuItem
             // 
@@ -562,9 +566,17 @@
             this.foregroundToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.foregroundToolStripMenuItem.Name = "foregroundToolStripMenuItem";
             this.foregroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.foregroundToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.foregroundToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.foregroundToolStripMenuItem.Text = "Foreground";
             this.foregroundToolStripMenuItem.Click += new System.EventHandler(this.foregroundToolStripMenuItem_Click);
+            // 
+            // activateAllToolStripMenuItem
+            // 
+            this.activateAllToolStripMenuItem.Name = "activateAllToolStripMenuItem";
+            this.activateAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.activateAllToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.activateAllToolStripMenuItem.Text = "Activate All";
+            this.activateAllToolStripMenuItem.Click += new System.EventHandler(this.activateAllToolStripMenuItem_Click);
             // 
             // framerateUpToolStripMenuItem
             // 
@@ -630,6 +642,11 @@
             this.xnaImage.Size = new System.Drawing.Size(294, 248);
             this.xnaImage.TabIndex = 1;
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(169, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -675,7 +692,7 @@
         private System.Windows.Forms.ToolStripMenuItem sprites1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sprites2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sprites3ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem spries4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sprites4ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem foregroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem screenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem screen1XMenu;
@@ -711,6 +728,8 @@
         private System.Windows.Forms.ToolStripMenuItem screen3XMenu;
         private System.Windows.Forms.ToolStripMenuItem screen4XMenu;
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem activateAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
