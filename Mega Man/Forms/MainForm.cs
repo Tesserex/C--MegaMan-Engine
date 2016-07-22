@@ -803,7 +803,13 @@ namespace MegaMan.Engine
         {
             if (Game.CurrentGame != null)
             {
-                Game.CurrentGame.DebugEmptyHealth();
+                if (Engine.Instance.Invincible)
+                {
+                    Engine.Instance.Invincible = false;
+                    Game.CurrentGame.DebugEmptyHealth();
+                    Engine.Instance.Invincible = true;
+                }
+                else Game.CurrentGame.DebugEmptyHealth();
             }
         }
 
