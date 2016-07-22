@@ -16,6 +16,10 @@ namespace MegaMan.Engine
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private int widthZoom, heightZoom, width, height;
 
+        ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
+        private bool fullScreenToolStripMenuItem_IsMaximized;
+        public static bool pauseEngine;
+
         #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
         private const int WM_INITMENUPOPUP = 0x0117;
@@ -105,6 +109,22 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
+        /// If user happens to find a way to have game deactivated when it shouldn't be, user will have reflex to click
+        /// the game image. So when it is clicked, we must restard engine.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void xnaImage_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.XButton1 && e.Button != MouseButtons.XButton2)
+            {
+                menu = false;
+                gotFocus = true;
+                Engine.Instance.Start();
+            }
+        }
+
+        /// <summary>
         /// Menu was selected but is no more
         /// </summary>
         /// <param name="sender"></param>
@@ -151,6 +171,15 @@ namespace MegaMan.Engine
         {
             menu = true;
             HandleEngineActivation();
+
+            try
+            {
+                gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GetFlipGravity();
+            }
+            catch (Exception)
+            {
+                gravityFlipToolStripMenuItem.Checked = false;
+            }
         }
 
         /// <summary>
@@ -186,16 +215,42 @@ namespace MegaMan.Engine
                 if (keyData == (Keys.Menu | Keys.Alt))
                 {
                     altKeyDown = true;
+                    if (fullScreenToolStripMenuItem.Checked)
+                    {
+                        menuStrip1.Visible = !menuStrip1.Visible;
+                    }
                 }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        /// <summary>
+        /// Pause engine or restart it depending on previous state.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pauseEngineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
+
+            pauseEngine = pauseEngineToolStripMenuItem.Checked;
+
+            if (pauseEngine) Engine.Instance.Stop();
+            else Engine.Instance.Start();
+        }
+
+        private void pauseOff()
+        {
+            pauseEngineToolStripMenuItem.Checked = pauseEngine = false;
         }
         #endregion
 
         public MainForm()
         {
             InitializeComponent();
+
+            previousScreenSizeSelection = screen1XMenu;
 
             menu = gotFocus = altKeyDown = false;
 
@@ -368,13 +423,26 @@ namespace MegaMan.Engine
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
+        private void SetLayersVisibilityFromSettings()
+        {
+            Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
+        }
+
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK)
             {
+                pauseOff();
+
                 LoadGame(dialog.FileName);
+                SetLayersVisibilityFromSettings();
             }
         }
 
@@ -433,7 +501,13 @@ namespace MegaMan.Engine
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null) Game.CurrentGame.Reset();
+            if (Game.CurrentGame != null)
+            {
+                pauseOff();
+
+                Game.CurrentGame.Reset();
+                SetLayersVisibilityFromSettings();
+            }
         }
 
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -445,65 +519,79 @@ namespace MegaMan.Engine
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(0);
-            backgroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(0);
+            backgroundToolStripMenuItem.Checked = !backgroundToolStripMenuItem.Checked;
         }
 
         private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(1);
-            sprites1ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(1);
+            sprites1ToolStripMenuItem.Checked = !sprites1ToolStripMenuItem.Checked;
         }
 
         private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(2);
-            sprites2ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(2);
+            sprites2ToolStripMenuItem.Checked = !sprites2ToolStripMenuItem.Checked;
         }
 
         private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(3);
-            sprites3ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(3);
+            sprites3ToolStripMenuItem.Checked = !sprites3ToolStripMenuItem.Checked;
         }
 
         private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(4);
-            spries4ToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(4);
+            sprites4ToolStripMenuItem.Checked = !sprites4ToolStripMenuItem.Checked;
         }
 
         private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.ToggleLayerVisibility(5);
-            foregroundToolStripMenuItem.Checked = Engine.Instance.GetLayerVisibility(5);
+            foregroundToolStripMenuItem.Checked = !foregroundToolStripMenuItem.Checked;
+        }
+
+        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
+            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
+            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
+            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
+            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
+            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
         }
 
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
+            previousScreenSizeSelection = screen1XMenu;
             widthZoom = heightZoom = 1;
             ScreenSizeMultiple();
-            screen1XMenu.Checked = true;
+            AllScreenResolutionOffBut(ref screen1XMenu);
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
+            previousScreenSizeSelection = screen2XMenu;
             widthZoom = heightZoom = 2;
             ScreenSizeMultiple();
-            screen2XMenu.Checked = true;
+            AllScreenResolutionOffBut(ref screen2XMenu);
         }
 
         private void screen3XMenu_Click(object sender, EventArgs e)
         {
+            previousScreenSizeSelection = screen3XMenu;
             widthZoom = heightZoom = 3;
             ScreenSizeMultiple();
-            screen3XMenu.Checked = true;
+            AllScreenResolutionOffBut(ref screen3XMenu);
         }
 
         private void screen4XMenu_Click(object sender, EventArgs e)
         {
+            previousScreenSizeSelection = screen4XMenu;
             widthZoom = heightZoom = 4;
             ScreenSizeMultiple();
-            screen4XMenu.Checked = true;
+            AllScreenResolutionOffBut(ref screen4XMenu);
         }
 
         private void ScreenSizeMultiple()
@@ -518,11 +606,6 @@ namespace MegaMan.Engine
                 ResizeScreen();
             }
 
-            screen1XMenu.Checked = false;
-            screen2XMenu.Checked = false;
-            screen3XMenu.Checked = false;
-            screen4XMenu.Checked = false;
-            screenNTSCMenu.Checked = false;
             xnaImage.NTSC = false;
         }
 
@@ -542,14 +625,14 @@ namespace MegaMan.Engine
 
         private void screenNTSCMenu_Click(object sender, EventArgs e)
         {
+            previousScreenSizeSelection = screenNTSCMenu;
+
             if (width != 256 || height != 224) return;
 
             widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
-
-            screenNTSCMenu.Checked = true;
-            screen2XMenu.Checked = false;
-            screen1XMenu.Checked = false;
+            
+            AllScreenResolutionOffBut(ref screenNTSCMenu);
             xnaImage.NTSC = true;
         }
 
@@ -641,6 +724,11 @@ namespace MegaMan.Engine
         {
             if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
         }
+        
+        private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.Instance.FPS = 60;
+        }
 
         private void emptyHealthMenuItem_Click(object sender, EventArgs e)
         {
@@ -705,7 +793,7 @@ namespace MegaMan.Engine
             triMenuItem.Checked = !triMenuItem.Checked;
             Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked;
         }
-
+        
         private void noiseMenuItem_Click(object sender, EventArgs e)
         {
             noiseMenuItem.Checked = !noiseMenuItem.Checked;
@@ -753,20 +841,24 @@ namespace MegaMan.Engine
             CloseGame();
         }
 
+        private void AllScreenResolutionOffBut(ref ToolStripMenuItem itemToKeepChecked)
+        {
+            fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
+            screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+
         private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.TopMost)
+            fullScreenToolStripMenuItem.Checked = !fullScreenToolStripMenuItem.Checked;
+
+            if (fullScreenToolStripMenuItem.Checked)
             {
-                this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.WindowState = FormWindowState.Normal;
-                menuStrip1.Visible = !hideMenuItem.Checked;
-#if DEBUG
-                debugBar.Visible = true;
-#endif
-            }
-            else
-            {
+                fullScreenToolStripMenuItem_IsMaximized = (this.WindowState == FormWindowState.Maximized) ?  true : false;
+
+                AllScreenResolutionOffBut(ref fullScreenToolStripMenuItem);
+                xnaImage.NTSC = false;
                 this.TopMost = true;
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
@@ -774,6 +866,26 @@ namespace MegaMan.Engine
 #if DEBUG
                 debugBar.Visible = false;
 #endif
+            }
+            else
+            {
+                AllScreenResolutionOffBut(ref previousScreenSizeSelection);
+                this.TopMost = false;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+
+                if (fullScreenToolStripMenuItem_IsMaximized) this.WindowState = FormWindowState.Maximized;
+                else this.WindowState = FormWindowState.Normal;
+
+                menuStrip1.Visible = !hideMenuItem.Checked;
+#if DEBUG
+                debugBar.Visible = true;
+#endif
+
+                // NTSC has special specifications
+                if (previousScreenSizeSelection.Name == screenNTSCMenu.Name)
+                {
+                    screenNTSCMenu_Click(sender, e);
+                }
             }
         }
     }

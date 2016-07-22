@@ -234,6 +234,11 @@ namespace MegaMan.Engine
             return _stateMachine.DebugFlipGravity();
         }
 
+        public bool GetFlipGravity()
+        {
+            return _stateMachine.GetFlipGravity();
+        }
+
         public static int XmlNumAlive(string name)
         {
             if (CurrentGame != null)
