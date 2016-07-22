@@ -31,19 +31,31 @@ namespace MegaMan.Engine
         {
             if (waitLabel != null)
             {
-                switch (waitKey)
+                if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt))
                 {
-                    case GameInput.Up: GameInputKeys.Up = keyData; break;
-                    case GameInput.Down: GameInputKeys.Down = keyData; break;
-                    case GameInput.Left: GameInputKeys.Left = keyData; break;
-                    case GameInput.Right: GameInputKeys.Right = keyData; break;
-                    case GameInput.Jump: GameInputKeys.Jump = keyData; break;
-                    case GameInput.Shoot: GameInputKeys.Shoot = keyData; break;
-                    case GameInput.Start: GameInputKeys.Start = keyData; break;
-                    case GameInput.Select: GameInputKeys.Select = keyData; break;
+                    switch (waitKey)
+                    {
+                        case GameInput.Up: GameInputKeys.Up = keyData; break;
+                        case GameInput.Down: GameInputKeys.Down = keyData; break;
+                        case GameInput.Left: GameInputKeys.Left = keyData; break;
+                        case GameInput.Right: GameInputKeys.Right = keyData; break;
+                        case GameInput.Jump: GameInputKeys.Jump = keyData; break;
+                        case GameInput.Shoot: GameInputKeys.Shoot = keyData; break;
+                        case GameInput.Start: GameInputKeys.Start = keyData; break;
+                        case GameInput.Select: GameInputKeys.Select = keyData; break;
+                    }
+                    waitLabel.Text = keyData.ToString();
+                    waitLabel = null;
                 }
-                waitLabel.Text = keyData.ToString();
-                waitLabel = null;
+                else
+                {
+                    string key = "";
+
+                    if (keyData.HasFlag(Keys.Control)) key = "ctrl";
+                    else if (keyData.HasFlag(Keys.Alt)) key = "Alt";
+
+                    MessageBox.Show(this, "Key " + key + " is not allowed.", "Unhauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
