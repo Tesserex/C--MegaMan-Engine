@@ -237,12 +237,35 @@ namespace MegaMan.Engine
             pauseEngine = pauseEngineToolStripMenuItem.Checked;
 
             if (pauseEngine) Engine.Instance.Stop();
-            else Engine.Instance.Start();
+            else
+            {
+                Engine.Instance.Start();
+                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
+                {
+                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+                }
+            }
         }
 
+        /// <summary>
+        /// Unpause engine.
+        /// </summary>
+        /// <remarks>
+        /// This function is slightly different from when engine is off from pauseEngineToolStripMenuItem_Click.
+        /// When engine is off and pauseEngineToolStripMenuItem_Click is called, it also call Engine.Instance.Start. pauseOff doesn't.
+        /// pauseOff is for a case Engine.Instance.Start() is gonna be called but by something else. It's not good to keep calling Engine.Instance.Start when it is already started.
+        /// </remarks>
         private void pauseOff()
         {
-            pauseEngineToolStripMenuItem.Checked = pauseEngine = false;
+            if (pauseEngineToolStripMenuItem.Checked == true)
+            {
+                pauseEngineToolStripMenuItem.Checked = pauseEngine = false;
+
+                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
+                {
+                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+                }
+            }
         }
         #endregion
 
@@ -813,7 +836,7 @@ namespace MegaMan.Engine
         private void musicMenuItem_Click(object sender, EventArgs e)
         {
             musicMenuItem.Checked = !musicMenuItem.Checked;
-            Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+            if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
         }
 
         private void sfxMenuItem_Click(object sender, EventArgs e)
