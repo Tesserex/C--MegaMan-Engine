@@ -417,6 +417,12 @@ namespace MegaMan.Engine
                 tempheight += debugBar.Height;
             }
 
+            // for some reason menu height is always still shown when the image is undocked
+            if (!menuStrip1.Visible)
+            {
+                tempheight -= menuStrip1.Height;
+            }
+
             Height = tempheight;
             Width = tempwidth;
             // redock the image
