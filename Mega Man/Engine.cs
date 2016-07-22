@@ -167,11 +167,14 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            if (initialized && running == false)
+            if (!(MainForm.pauseEngine))
             {
-                running = true;
-                timer.Start();
-                soundsystem.Start();
+                if (initialized && running == false)
+                {
+                    running = true;
+                    timer.Start();
+                    soundsystem.Start();
+                }
             }
         }
 

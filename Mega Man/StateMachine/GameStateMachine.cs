@@ -190,6 +190,14 @@ namespace MegaMan.Engine.StateMachine
             }
             return false;
         }
+
+        public bool GetFlipGravity()
+        {
+            if (!_handlerStack.Any()) return false;
+
+            var top = _handlerStack.Peek();
+            return top.IsGravityFlipped;
+        }
 #endif
         #endregion
 
