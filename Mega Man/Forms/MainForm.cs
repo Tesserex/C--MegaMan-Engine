@@ -366,9 +366,8 @@ namespace MegaMan.Engine
 
             width = e.PixelsAcross;
             height = e.PixelsDown;
-            // force resize so xnaImage is correct
-            ResizeScreen(width, height);
-            xnaImage.SetSize();
+            
+            SetXnaSize(width, height);
 
             if (xnaImage.NTSC)
             {
@@ -395,7 +394,13 @@ namespace MegaMan.Engine
 
             // tell the image not to get crushed by the form
             xnaImage.Dock = DockStyle.None;
+            
             // tell the form to fit the image
+            if (fullScreenToolStripMenuItem.Checked)
+            {
+                menuStrip1.Visible = false;
+            }
+
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             xnaImage.Width = newWidth.Value;
@@ -407,10 +412,29 @@ namespace MegaMan.Engine
             AutoSize = false;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // reset the form size
-            tempheight += debugBar.Height;
+            if (debugBar.Visible)
+            {
+                tempheight += debugBar.Height;
+            }
+
             Height = tempheight;
             Width = tempwidth;
             // redock the image
+            xnaImage.Dock = DockStyle.Fill;
+        }
+
+        private void SetXnaSize(int width, int height)
+        {
+            xnaImage.Dock = DockStyle.None;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            xnaImage.Width = width;
+            xnaImage.Height = height;
+            xnaImage.SetSize();
+
+            AutoSize = false;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             xnaImage.Dock = DockStyle.Fill;
         }
 
