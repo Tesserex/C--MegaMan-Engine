@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using System.IO;
-using System.Xml;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
@@ -250,96 +250,50 @@ namespace MegaMan.Engine
 
         protected override void OnClosed(EventArgs e)
         {
-            // write settings to file
-            System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(settingsPath, null)
+            var serializer = new XmlSerializer(typeof(UserSettings));
+            var settings = new UserSettings() {
+                Keys = new UserKeys() {
+                    Up = GameInputKeys.Up,
+                    Down = GameInputKeys.Down,
+                    Left = GameInputKeys.Left,
+                    Right = GameInputKeys.Right,
+                    Jump = GameInputKeys.Jump,
+                    Shoot = GameInputKeys.Shoot,
+                    Start = GameInputKeys.Start,
+                    Select = GameInputKeys.Select
+                }
+            };
+            
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
             {
                 Indentation = 1,
                 IndentChar = '\t',
-                Formatting = System.Xml.Formatting.Indented
+                Formatting = Formatting.Indented
             };
 
-            writer.WriteStartElement("Settings");
+            serializer.Serialize(writer, settings);
 
-            writer.WriteStartElement("Keys");
-
-            writer.WriteStartElement("Up");
-            writer.WriteValue(GameInputKeys.Up.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Down");
-            writer.WriteValue(GameInputKeys.Down.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Left");
-            writer.WriteValue(GameInputKeys.Left.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Right");
-            writer.WriteValue(GameInputKeys.Right.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Jump");
-            writer.WriteValue(GameInputKeys.Jump.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Shoot");
-            writer.WriteValue(GameInputKeys.Shoot.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Start");
-            writer.WriteValue(GameInputKeys.Start.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Select");
-            writer.WriteValue(GameInputKeys.Select.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
             writer.Close();
             base.OnClosed(e);
         }
 
         private void LoadConfig()
         {
-            settingsPath = System.IO.Path.Combine(Application.StartupPath, "settings.xml");
-            if (System.IO.File.Exists(settingsPath))
+            settingsPath = Path.Combine(Application.StartupPath, "settings.xml");
+            if (File.Exists(settingsPath))
             {
-                XElement settings = XElement.Load(settingsPath);
-                XElement keys = settings.Element("Keys");
-                if (keys != null)
+                var serializer = new XmlSerializer(typeof(UserSettings));
+                using (var file = File.Open(settingsPath, FileMode.Open))
                 {
-                    foreach (XElement node in keys.Elements())
-                    {
-                        switch (node.Name.LocalName)
-                        {
-                            case "Up":
-                                GameInputKeys.Up = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Down":
-                                GameInputKeys.Down = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Left":
-                                GameInputKeys.Left = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Right":
-                                GameInputKeys.Right = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Jump":
-                                GameInputKeys.Jump = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Shoot":
-                                GameInputKeys.Shoot = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Start":
-                                GameInputKeys.Start = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Select":
-                                GameInputKeys.Select = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                        }
-                    }
+                    var settings = (UserSettings)serializer.Deserialize(file);
+                    GameInputKeys.Up = settings.Keys.Up;
+                    GameInputKeys.Down = settings.Keys.Down;
+                    GameInputKeys.Left = settings.Keys.Left;
+                    GameInputKeys.Right = settings.Keys.Right;
+                    GameInputKeys.Jump = settings.Keys.Jump;
+                    GameInputKeys.Shoot = settings.Keys.Shoot;
+                    GameInputKeys.Start = settings.Keys.Start;
+                    GameInputKeys.Select = settings.Keys.Select;
                 }
             }
         }

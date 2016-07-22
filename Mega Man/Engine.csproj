@@ -242,6 +242,7 @@
     <Compile Include="StateMachine\IStateMachine.cs" />
     <Compile Include="StateMachine\PopStateTransition.cs" />
     <Compile Include="StateMachine\PushStateTransition.cs" />
+    <Compile Include="UserSettings.cs" />
     <EmbeddedResource Include="Forms\CustomNtscForm.resx">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
       <SubType>Designer</SubType>
