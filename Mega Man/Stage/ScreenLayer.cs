@@ -108,8 +108,7 @@ namespace MegaMan.Engine
         {
             for (int i = 0; i < _entities.Length; i++)
             {
-                if (_entities[i] != null) _entities[i].Stop();
-                _entities[i] = null;
+                if (_entities[i] != null) _entities[i].Remove();
             }
 
             _locationOffsetX = 0;
@@ -230,7 +229,12 @@ namespace MegaMan.Engine
             }
 
             _entities[index] = entity;
-            entity.Removed += () => _entities[index] = null;
+            Action remove = () => { };
+            remove += () => {
+                _entities[index] = null;
+                entity.Removed -= remove;
+            };
+            entity.Removed += remove;
         }
 
         public GameEntity GetEntity(string id)
