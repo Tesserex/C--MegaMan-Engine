@@ -7,6 +7,7 @@ namespace MegaMan.Engine
     {
         private GameInput waitKey;
         private Label waitLabel;
+        private Button previousSelection = null;
 
         public Keyboard()
         {
@@ -46,6 +47,7 @@ namespace MegaMan.Engine
                     }
                     waitLabel.Text = keyData.ToString();
                     waitLabel = null;
+                    return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
                 }
                 else
                 {
@@ -62,55 +64,27 @@ namespace MegaMan.Engine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null) return;
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button1;
             upkeylabel.Text = "Waiting...";
             waitKey = GameInput.Up;
             waitLabel = upkeylabel;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            if (waitLabel != null) return;
-            downkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Down;
-            waitLabel = downkeylabel;
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            if (waitLabel != null) return;
-            leftkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Left;
-            waitLabel = leftkeylabel;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            if (waitLabel != null) return;
-            rightkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Right;
-            waitLabel = rightkeylabel;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (waitLabel != null) return;
-            jumpkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Jump;
-            waitLabel = jumpkeylabel;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (waitLabel != null) return;
-            shootkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Shoot;
-            waitLabel = shootkeylabel;
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null) return;
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button2;
             startkeylabel.Text = "Waiting...";
             waitKey = GameInput.Start;
             waitLabel = startkeylabel;
@@ -118,10 +92,86 @@ namespace MegaMan.Engine
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null) return;
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button3;
             selectkeylabel.Text = "Waiting...";
             waitKey = GameInput.Select;
             waitLabel = selectkeylabel;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button4;
+            shootkeylabel.Text = "Waiting...";
+            waitKey = GameInput.Shoot;
+            waitLabel = shootkeylabel;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button5;
+            rightkeylabel.Text = "Waiting...";
+            waitKey = GameInput.Right;
+            waitLabel = rightkeylabel;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button6;
+            downkeylabel.Text = "Waiting...";
+            waitKey = GameInput.Down;
+            waitLabel = downkeylabel;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button7;
+            jumpkeylabel.Text = "Waiting...";
+            waitKey = GameInput.Jump;
+            waitLabel = jumpkeylabel;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                previousSelection.Select();
+                return;
+            }
+
+            previousSelection = button8;
+            leftkeylabel.Text = "Waiting...";
+            waitKey = GameInput.Left;
+            waitLabel = leftkeylabel;
         }
     }
 }
