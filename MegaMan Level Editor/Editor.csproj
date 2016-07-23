@@ -244,9 +244,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ScreenDocument.cs" />
-    <Compile Include="ScreenDrawingSurface.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ScreenDrawingSurface.cs" />
     <Compile Include="ScreenProp.cs">
       <SubType>Form</SubType>
     </Compile>

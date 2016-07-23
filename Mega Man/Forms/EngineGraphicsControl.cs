@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -49,7 +49,7 @@ namespace MegaMan.Engine
 
             ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
 
-            ntscPixelsDimmed = new ushort[ushort.MaxValue+1];
+            ntscPixelsDimmed = new ushort[ushort.MaxValue + 1];
             for (int i = 0; i <= ushort.MaxValue; i++)
             {
                 int red = (i & 0xf800);
