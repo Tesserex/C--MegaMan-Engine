@@ -77,8 +77,11 @@ namespace MegaMan.Engine
         {
             base.OnResize(e);
 
-            menu = false;
-            HandleEngineActivation();
+            if (!screenToolStripMenuItem.Pressed)
+            {
+                menu = false;
+                HandleEngineActivation();
+            }
         }
 
         /// <summary>
