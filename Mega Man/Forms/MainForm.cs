@@ -752,17 +752,24 @@ namespace MegaMan.Engine
 
         private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.FPS += 10;
+            if (Engine.Instance.FPS <= 490)
+                Engine.Instance.FPS += 10;
+
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
         private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
+            if (Engine.Instance.FPS > 10)
+                Engine.Instance.FPS -= 10;
+
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
         
         private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.FPS = 60;
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
         private void emptyHealthMenuItem_Click(object sender, EventArgs e)
