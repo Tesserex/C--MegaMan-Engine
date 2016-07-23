@@ -510,6 +510,11 @@ namespace MegaMan.Engine
                 MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Game.CurrentGame.Unload();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
 
             this.OnActivated(new EventArgs());
         }
