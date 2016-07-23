@@ -1,8 +1,4 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.StateMachine
 {
@@ -20,9 +16,14 @@ namespace MegaMan.Engine.StateMachine
             stateMachine.RemoveAllEndHandlers();
 
             if (_transfer.Fade)
+            {
+                stateMachine.StopAllInput();
                 Engine.Instance.FadeTransition(() => EmptyStackAndStart(stateMachine));
+            }
             else
+            {
                 EmptyStackAndStart(stateMachine);
+            }
         }
 
         private void EmptyStackAndStart(IStateMachine stateMachine)

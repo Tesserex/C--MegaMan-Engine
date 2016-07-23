@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using MegaMan.Common;
 using MegaMan.Engine.Entities;
 
@@ -44,6 +44,8 @@ namespace MegaMan.Engine
         void ResumeHandler();
         void StopDrawing();
         void StartDrawing();
+        void StopInput();
+        void StartInput();
     }
 
     public abstract class Component
