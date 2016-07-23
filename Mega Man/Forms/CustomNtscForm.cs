@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MegaMan.Engine
@@ -38,51 +34,61 @@ namespace MegaMan.Engine
         private void gammaTrack_Scroll(object sender, EventArgs e)
         {
             gammaValue.Text = (gammaTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void hueTrack_Scroll(object sender, EventArgs e)
         {
             hueValue.Text = hueTrack.Value.ToString();
+            RaiseApply();
         }
 
         private void satTrack_Scroll(object sender, EventArgs e)
         {
             satValue.Text = (satTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void brightTrack_Scroll(object sender, EventArgs e)
         {
             brightValue.Text = (brightTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void contTrack_Scroll(object sender, EventArgs e)
         {
             contValue.Text = (contTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void sharpTrack_Scroll(object sender, EventArgs e)
         {
             sharpValue.Text = (sharpTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void resTrack_Scroll(object sender, EventArgs e)
         {
             resValue.Text = (resTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void artTrack_Scroll(object sender, EventArgs e)
         {
             artValue.Text = (artTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void fringeTrack_Scroll(object sender, EventArgs e)
         {
             fringeValue.Text = (fringeTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void bleedTrack_Scroll(object sender, EventArgs e)
         {
             bleedValue.Text = (bleedTrack.Value / 100.0).ToString();
+            RaiseApply();
         }
 
         private void resetButton_Click(object sender, EventArgs e)
@@ -97,13 +103,21 @@ namespace MegaMan.Engine
             artTrack.Value = 0; artValue.Text = "0";
             fringeTrack.Value = 0; fringeValue.Text = "0";
             bleedTrack.Value = 0; bleedValue.Text = "0";
+            RaiseApply();
         }
 
-        private void applyButton_Click(object sender, EventArgs e)
+        private void closeButton_Click(object sender, EventArgs e)
         {
-            if (Apply != null)
+            RaiseApply();
+            Close();
+        }
+
+        private void RaiseApply()
+        {
+            var apply = Apply;
+            if (apply != null)
             {
-                Apply();
+                apply();
             }
         }
     }

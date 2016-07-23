@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Diagnostics;
-using Microsoft.Xna.Framework.Graphics;
-using MegaMan.Common.Rendering;
 using System.Linq;
+using System.Windows.Forms;
+using MegaMan.Common.Rendering;
 using MegaMan.Engine.Rendering;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -187,6 +187,8 @@ namespace MegaMan.Engine
                 soundsystem.Stop();
             }
         }
+
+        public bool IsRunning { get { return running; } }
 
         /// <summary>
         /// Disposes of all audio objects. If you try to play audio after

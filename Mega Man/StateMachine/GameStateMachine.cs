@@ -1,10 +1,8 @@
-﻿using MegaMan.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.StateMachine
 {
@@ -58,6 +56,14 @@ namespace MegaMan.Engine.StateMachine
             while (_handlerStack.Any())
             {
                 _handlerStack.Pop().StopHandler();
+            }
+        }
+
+        public void StopAllInput()
+        {
+            foreach (var handler in _handlerStack)
+            {
+                handler.StopInput();
             }
         }
 
@@ -116,14 +122,6 @@ namespace MegaMan.Engine.StateMachine
             _handlerStack.Push(handler);
 
             handler.StartHandler(entityPool);
-        }
-
-        public void Unload()
-        {
-            while (_handlerStack.Any())
-            {
-                _handlerStack.Pop().StopHandler();
-            }
         }
 
         #region Debug

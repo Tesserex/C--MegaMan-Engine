@@ -68,7 +68,7 @@ namespace MegaMan.Engine
                     }
                     catch
                     {
-                        throw new GameRunException("There's an error in screen file " + info.Name + ".scn,\nthere's a bad tile number somewhere.");
+                        throw new GameRunException(string.Format("There's an error in stage {0}, screen file {1}.scn.\nThere's a unrecognized tile number somewhere.", stage.Info.Name, info.Name));
                     }
                 }
             }
@@ -108,8 +108,7 @@ namespace MegaMan.Engine
         {
             for (int i = 0; i < _entities.Length; i++)
             {
-                if (_entities[i] != null) _entities[i].Stop();
-                _entities[i] = null;
+                if (_entities[i] != null) _entities[i].Remove();
             }
 
             _locationOffsetX = 0;
@@ -230,7 +229,12 @@ namespace MegaMan.Engine
             }
 
             _entities[index] = entity;
-            entity.Removed += () => _entities[index] = null;
+            Action remove = () => { };
+            remove += () => {
+                _entities[index] = null;
+                entity.Removed -= remove;
+            };
+            entity.Removed += remove;
         }
 
         public GameEntity GetEntity(string id)

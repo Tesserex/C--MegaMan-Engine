@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
 {
@@ -49,7 +49,7 @@ namespace MegaMan.Engine
 
             ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
 
-            ntscPixelsDimmed = new ushort[ushort.MaxValue+1];
+            ntscPixelsDimmed = new ushort[ushort.MaxValue + 1];
             for (int i = 0; i <= ushort.MaxValue; i++)
             {
                 int red = (i & 0xf800);
@@ -71,6 +71,7 @@ namespace MegaMan.Engine
         public void ntscInit(snes_ntsc_setup_t setup)
         {
             snes_ntsc_init(ntsc, setup);
+            ForceRedraw();
         }
 
         public void SetSize()
@@ -104,18 +105,26 @@ namespace MegaMan.Engine
 
         private void Instance_GameRenderEnd(GameRenderEventArgs e)
         {
-            GraphicsDevice.SetRenderTarget(null);
-            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
-            GraphicsDevice.Clear(Color.Black);
-
             DrawMasterTargetToBatch();
-
-            masterSpriteBatch.End();
             EndDraw();
+        }
+
+        private void ForceRedraw()
+        {
+            if (Game.CurrentGame != null && !Engine.Instance.IsRunning)
+            {
+                BeginDraw();
+                GraphicsDevice.Textures[0] = null;
+                DrawMasterTargetToBatch();
+                EndDraw();
+            }
         }
 
         private void DrawMasterTargetToBatch()
         {
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Black);
+
             Texture2D drawTexture = masterRenderingTarget;
 
             if (NTSC)
@@ -129,7 +138,9 @@ namespace MegaMan.Engine
                 drawTexture = ntscTexture;
             }
 
+            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
             masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, Width, Height), Color.White);
+            masterSpriteBatch.End();
         }
 
         private void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)

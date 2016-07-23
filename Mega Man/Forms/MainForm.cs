@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using System.IO;
-using System.Xml;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 using MegaMan.IO.Xml;
 using MegaMan.Engine.Forms;
 
@@ -351,96 +351,50 @@ namespace MegaMan.Engine
 
         protected override void OnClosed(EventArgs e)
         {
-            // write settings to file
-            System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(settingsPath, null)
+            var serializer = new XmlSerializer(typeof(UserSettings));
+            var settings = new UserSettings() {
+                Keys = new UserKeys() {
+                    Up = GameInputKeys.Up,
+                    Down = GameInputKeys.Down,
+                    Left = GameInputKeys.Left,
+                    Right = GameInputKeys.Right,
+                    Jump = GameInputKeys.Jump,
+                    Shoot = GameInputKeys.Shoot,
+                    Start = GameInputKeys.Start,
+                    Select = GameInputKeys.Select
+                }
+            };
+            
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
             {
                 Indentation = 1,
                 IndentChar = '\t',
-                Formatting = System.Xml.Formatting.Indented
+                Formatting = Formatting.Indented
             };
 
-            writer.WriteStartElement("Settings");
+            serializer.Serialize(writer, settings);
 
-            writer.WriteStartElement("Keys");
-
-            writer.WriteStartElement("Up");
-            writer.WriteValue(GameInputKeys.Up.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Down");
-            writer.WriteValue(GameInputKeys.Down.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Left");
-            writer.WriteValue(GameInputKeys.Left.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Right");
-            writer.WriteValue(GameInputKeys.Right.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Jump");
-            writer.WriteValue(GameInputKeys.Jump.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Shoot");
-            writer.WriteValue(GameInputKeys.Shoot.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Start");
-            writer.WriteValue(GameInputKeys.Start.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Select");
-            writer.WriteValue(GameInputKeys.Select.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
             writer.Close();
             base.OnClosed(e);
         }
 
         private void LoadConfig()
         {
-            settingsPath = System.IO.Path.Combine(Application.StartupPath, "settings.xml");
-            if (System.IO.File.Exists(settingsPath))
+            settingsPath = Path.Combine(Application.StartupPath, "settings.xml");
+            if (File.Exists(settingsPath))
             {
-                XElement settings = XElement.Load(settingsPath);
-                XElement keys = settings.Element("Keys");
-                if (keys != null)
+                var serializer = new XmlSerializer(typeof(UserSettings));
+                using (var file = File.Open(settingsPath, FileMode.Open))
                 {
-                    foreach (XElement node in keys.Elements())
-                    {
-                        switch (node.Name.LocalName)
-                        {
-                            case "Up":
-                                GameInputKeys.Up = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Down":
-                                GameInputKeys.Down = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Left":
-                                GameInputKeys.Left = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Right":
-                                GameInputKeys.Right = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Jump":
-                                GameInputKeys.Jump = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Shoot":
-                                GameInputKeys.Shoot = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Start":
-                                GameInputKeys.Start = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                            case "Select":
-                                GameInputKeys.Select = (Keys)Enum.Parse(typeof(Keys), node.Value);
-                                break;
-                        }
-                    }
+                    var settings = (UserSettings)serializer.Deserialize(file);
+                    GameInputKeys.Up = settings.Keys.Up;
+                    GameInputKeys.Down = settings.Keys.Down;
+                    GameInputKeys.Left = settings.Keys.Left;
+                    GameInputKeys.Right = settings.Keys.Right;
+                    GameInputKeys.Jump = settings.Keys.Jump;
+                    GameInputKeys.Shoot = settings.Keys.Shoot;
+                    GameInputKeys.Start = settings.Keys.Start;
+                    GameInputKeys.Select = settings.Keys.Select;
                 }
             }
         }
@@ -458,9 +412,8 @@ namespace MegaMan.Engine
 
             width = e.PixelsAcross;
             height = e.PixelsDown;
-            // force resize so xnaImage is correct
-            ResizeScreen(width, height);
-            xnaImage.SetSize();
+            
+            SetXnaSize(width, height);
 
             if (xnaImage.NTSC)
             {
@@ -487,7 +440,13 @@ namespace MegaMan.Engine
 
             // tell the image not to get crushed by the form
             xnaImage.Dock = DockStyle.None;
+            
             // tell the form to fit the image
+            if (fullScreenToolStripMenuItem.Checked)
+            {
+                menuStrip1.Visible = false;
+            }
+
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             xnaImage.Width = newWidth.Value;
@@ -499,10 +458,35 @@ namespace MegaMan.Engine
             AutoSize = false;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             // reset the form size
-            tempheight += debugBar.Height;
+            if (debugBar.Visible)
+            {
+                tempheight += debugBar.Height;
+            }
+
+            // for some reason menu height is always still shown when the image is undocked
+            if (!menuStrip1.Visible)
+            {
+                tempheight -= menuStrip1.Height;
+            }
+
             Height = tempheight;
             Width = tempwidth;
             // redock the image
+            xnaImage.Dock = DockStyle.Fill;
+        }
+
+        private void SetXnaSize(int width, int height)
+        {
+            xnaImage.Dock = DockStyle.None;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            xnaImage.Width = width;
+            xnaImage.Height = height;
+            xnaImage.SetSize();
+
+            AutoSize = false;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             xnaImage.Dock = DockStyle.Fill;
         }
 
@@ -570,6 +554,11 @@ namespace MegaMan.Engine
             catch (XmlException ex)
             {
                 MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Game.CurrentGame.Unload();
             }
 
@@ -867,17 +856,24 @@ namespace MegaMan.Engine
 
         private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.FPS += 10;
+            if (Engine.Instance.FPS <= 490)
+                Engine.Instance.FPS += 10;
+
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
         private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Engine.Instance.FPS > 10) Engine.Instance.FPS -= 10;
+            if (Engine.Instance.FPS > 10)
+                Engine.Instance.FPS -= 10;
+
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
         
         private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.Instance.FPS = 60;
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
         private void emptyHealthMenuItem_Click(object sender, EventArgs e)

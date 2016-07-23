@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
@@ -80,6 +79,16 @@ namespace MegaMan.Engine
         public virtual void StartDrawing()
         {
             Engine.Instance.GameRender += GameRender;
+        }
+
+        public virtual void StopInput()
+        {
+            Engine.Instance.GameInputReceived -= GameInputReceived;
+        }
+
+        public virtual void StartInput()
+        {
+            Engine.Instance.GameInputReceived += GameInputReceived;
         }
 
         protected abstract void GameInputReceived(GameInputEventArgs e);

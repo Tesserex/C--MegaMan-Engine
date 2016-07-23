@@ -77,7 +77,7 @@ namespace MegaMan.Engine
         public void Unload()
         {
             Engine.Instance.Stop();
-            _stateMachine.Unload();
+            _stateMachine.StopAllHandlers();
             _entitySource.Unload();
             Engine.Instance.UnloadAudio();
             FontSystem.Unload();

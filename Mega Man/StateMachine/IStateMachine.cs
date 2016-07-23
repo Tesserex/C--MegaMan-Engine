@@ -1,8 +1,4 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.StateMachine
 {
@@ -10,6 +6,7 @@ namespace MegaMan.Engine.StateMachine
     {
         void RemoveAllEndHandlers();
         void StopAllHandlers();
+        void StopAllInput();
         void Push(IGameplayContainer handler);
         void StartHandler(HandlerTransfer _transfer);
 
