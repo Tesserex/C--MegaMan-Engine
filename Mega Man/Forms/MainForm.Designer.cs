@@ -437,6 +437,8 @@
             // 
             // debugBarToolStripMenuItem
             // 
+            this.debugBarToolStripMenuItem.Checked = true;
+            this.debugBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.debugBarToolStripMenuItem.Name = "debugBarToolStripMenuItem";
             this.debugBarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
             this.debugBarToolStripMenuItem.Size = new System.Drawing.Size(233, 22);

@@ -12,6 +12,52 @@ namespace MegaMan.Engine
 {
     public partial class MainForm : Form
     {
+        static public class Screen
+        {
+            static public readonly Int16 X1 = 0;
+            static public readonly Int16 X2 = 1;
+            static public readonly Int16 X3 = 2;
+            static public readonly Int16 X4 = 3;
+            static public readonly Int16 NTSC = 4;
+        }
+
+        static public class NTSC
+        {
+            static public readonly Int16 Composite = 0;
+            static public readonly Int16 S_Video = 1;
+            static public readonly Int16 RGB = 2;
+            static public readonly Int16 Custom = 3;
+        }
+
+        static public class Layers
+        {
+            static public readonly Int16 Background = 0;
+            static public readonly Int16 Sprite1 = 1;
+            static public readonly Int16 Sprite2 = 2;
+            static public readonly Int16 Sprite3 = 3;
+            static public readonly Int16 Sprite4 = 4;
+            static public readonly Int16 Foreground = 5;
+        }
+
+        public class NTSC_CustomParameters
+        {
+            public int hue;
+            public int saturation;
+            public int contrast;
+            public int brightness;
+            public int sharpness;
+            public int gamma;
+            public int resolution;
+            public int artifacts;
+            public int fringing;
+            public int bleed;
+
+            public NTSC_CustomParameters()
+            {
+                hue = saturation = contrast = brightness = sharpness = gamma = resolution = artifacts = fringing = bleed = 0;
+            }
+        }
+
         private string settingsPath;
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private int widthZoom, heightZoom, width, height;
@@ -273,8 +319,6 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
-            previousScreenSizeSelection = screen1XMenu;
-
             menu = gotFocus = altKeyDown = false;
 
 #if !DEBUG
@@ -301,7 +345,7 @@ namespace MegaMan.Engine
 
             Engine.Instance.OnException += Engine_Exception;
 
-            customNtscForm.Apply += customNtscForm_Apply;
+            customNtscForm.Apply += customNtscForm_ApplyFromForm;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -585,40 +629,40 @@ namespace MegaMan.Engine
             keyform.Show();
         }
 
+        private void toggleLayerVisibility(ref ToolStripMenuItem itemToToggleCheck, int layerIndex)
+        {
+            Engine.Instance.ToggleLayerVisibility(layerIndex);
+            itemToToggleCheck.Checked = !itemToToggleCheck.Checked;
+        }
+
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(0);
-            backgroundToolStripMenuItem.Checked = !backgroundToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref backgroundToolStripMenuItem, Layers.Background);
         }
 
         private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(1);
-            sprites1ToolStripMenuItem.Checked = !sprites1ToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref sprites1ToolStripMenuItem, Layers.Sprite1);
         }
 
         private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(2);
-            sprites2ToolStripMenuItem.Checked = !sprites2ToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref sprites2ToolStripMenuItem, Layers.Sprite2);
         }
 
         private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(3);
-            sprites3ToolStripMenuItem.Checked = !sprites3ToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref sprites3ToolStripMenuItem, Layers.Sprite3);
         }
 
         private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(4);
-            sprites4ToolStripMenuItem.Checked = !sprites4ToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref sprites4ToolStripMenuItem, Layers.Sprite4);
         }
 
         private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.Instance.ToggleLayerVisibility(5);
-            foregroundToolStripMenuItem.Checked = !foregroundToolStripMenuItem.Checked;
+            toggleLayerVisibility(ref foregroundToolStripMenuItem, Layers.Foreground);
         }
 
         private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -631,36 +675,54 @@ namespace MegaMan.Engine
             if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
         }
 
+        /// <summary>
+        /// For screen option X1, X2, X3, X4, they use mostly similar code.
+        /// </summary>
+        /// <param name="index"></param>
+        private void screenXMenuSelected(int index)
+        {
+            if (index == Screen.X1) 
+            {
+                previousScreenSizeSelection = screen1XMenu;
+                widthZoom = heightZoom = 1;
+            }
+            if (index == Screen.X2)
+            {
+                previousScreenSizeSelection = screen2XMenu;
+                widthZoom = heightZoom = 2;
+            }
+            if (index == Screen.X3)
+            {
+                previousScreenSizeSelection = screen3XMenu;
+                widthZoom = heightZoom = 3;
+            }
+            if (index == Screen.X4)
+            {
+                previousScreenSizeSelection = screen4XMenu;
+                widthZoom = heightZoom = 4;
+            }
+            ScreenSizeMultiple();
+            AllScreenResolutionOffBut(ref previousScreenSizeSelection);
+        }
+
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
-            previousScreenSizeSelection = screen1XMenu;
-            widthZoom = heightZoom = 1;
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(ref screen1XMenu);
+            screenXMenuSelected(Screen.X1);
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
-            previousScreenSizeSelection = screen2XMenu;
-            widthZoom = heightZoom = 2;
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(ref screen2XMenu);
+            screenXMenuSelected(Screen.X2);
         }
 
         private void screen3XMenu_Click(object sender, EventArgs e)
         {
-            previousScreenSizeSelection = screen3XMenu;
-            widthZoom = heightZoom = 3;
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(ref screen3XMenu);
+            screenXMenuSelected(Screen.X3);
         }
 
         private void screen4XMenu_Click(object sender, EventArgs e)
         {
-            previousScreenSizeSelection = screen4XMenu;
-            widthZoom = heightZoom = 4;
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(ref screen4XMenu);
+            screenXMenuSelected(Screen.X4);
         }
 
         private void ScreenSizeMultiple()
@@ -678,21 +740,7 @@ namespace MegaMan.Engine
             xnaImage.NTSC = false;
         }
 
-        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
-            smoothedToolStripMenuItem.Checked = true;
-            pixellatedToolStripMenuItem.Checked = false;
-        }
-
-        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
-            smoothedToolStripMenuItem.Checked = false;
-            pixellatedToolStripMenuItem.Checked = true;
-        }
-
-        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        private void screenNTSCSelected()
         {
             previousScreenSizeSelection = screenNTSCMenu;
 
@@ -700,39 +748,36 @@ namespace MegaMan.Engine
 
             widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
-            
+
             AllScreenResolutionOffBut(ref screenNTSCMenu);
             xnaImage.NTSC = true;
         }
 
+        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        {
+            screenNTSCSelected();
+        }
+
+        private void ntscOptionClick(ref ToolStripMenuItem menuClicked, snes_ntsc_setup_t snes_ntsc_type)
+        {
+            screenNTSCSelected();
+            NTSC_OptionsOffBut(ref menuClicked);
+            xnaImage.ntscInit(snes_ntsc_type);
+        }
+
         private void ntscComposite_Click(object sender, EventArgs e)
         {
-            screenNTSCMenu_Click(sender, e);
-            ntscComposite.Checked = true;
-            ntscSVideo.Checked = false;
-            ntscRGB.Checked = false;
-            ntscCustom.Checked = false;
-            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
+            ntscOptionClick(ref ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite);
         }
 
         private void ntscSVideo_Click(object sender, EventArgs e)
         {
-            screenNTSCMenu_Click(sender, e);
-            ntscSVideo.Checked = true;
-            ntscRGB.Checked = false;
-            ntscComposite.Checked = false;
-            ntscCustom.Checked = false;
-            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_svideo);
+            ntscOptionClick(ref ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo);
         }
 
         private void ntscRGB_Click(object sender, EventArgs e)
         {
-            screenNTSCMenu_Click(sender, e);
-            ntscSVideo.Checked = false;
-            ntscRGB.Checked = true;
-            ntscComposite.Checked = false;
-            ntscCustom.Checked = false;
-            xnaImage.ntscInit(snes_ntsc_setup_t.snes_ntsc_rgb);
+            ntscOptionClick(ref ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb);
         }
 
         private void ntscCustom_Click(object sender, EventArgs e)
@@ -740,15 +785,57 @@ namespace MegaMan.Engine
             customNtscForm.Show();
         }
 
-        private void customNtscForm_Apply()
+        /// <summary>
+        /// Receive all the values in a wrapper class
+        /// </summary>
+        /// <param name="values"></param>
+        /// <remarks>Used to set values from config file read.</remarks>
+        private void customNtscForm_ApplyFromWrapperObject(NTSC_CustomParameters wrapper)
         {
-            screenNTSCMenu_Click(ntscCustom, new EventArgs());
-            ntscCustom.Checked = true;
-            ntscSVideo.Checked = false;
-            ntscRGB.Checked = false;
-            ntscComposite.Checked = false;
-            xnaImage.ntscInit(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+            customNtscForm_Apply(new snes_ntsc_setup_t(wrapper.hue, wrapper.saturation, wrapper.contrast, wrapper.brightness,
+                wrapper.sharpness, wrapper.gamma, wrapper.resolution, wrapper.artifacts, wrapper.fringing, wrapper.bleed, true));
+        }
+
+        /// <summary>
+        /// Build a snes_ntsc_setup_t item from form parameters
+        /// </summary>
+        private void customNtscForm_ApplyFromForm()
+        {
+            customNtscForm_Apply(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
                 customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
+        }
+
+        private void customNtscForm_Apply(snes_ntsc_setup_t snes_ntsc_setup)
+        {
+            ntscOptionClick(ref ntscCustom, snes_ntsc_setup);
+        }
+
+        private void pixellatedVsSmoothedAllOffBut(ref ToolStripMenuItem itemToKeepChecked)
+        {
+            smoothedToolStripMenuItem.Checked = pixellatedToolStripMenuItem.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+
+        /// <summary>
+        /// Function that execute code for Smoothed/Pixellated selection
+        /// </summary>
+        /// <param name="itemToKeepChecked"></param>
+        /// <param name="samplerState"></param>
+        private void pixellatedVsSmoothedCode(ref ToolStripMenuItem itemToKeepChecked, Microsoft.Xna.Framework.Graphics.SamplerState samplerState)
+        {
+            Engine.Instance.FilterState = samplerState;
+            pixellatedVsSmoothedAllOffBut(ref itemToKeepChecked);
+        }
+
+        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pixellatedVsSmoothedCode(ref smoothedToolStripMenuItem, Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp);
+        }
+
+        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pixellatedVsSmoothedCode(ref pixellatedToolStripMenuItem, Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp);
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -757,25 +844,40 @@ namespace MegaMan.Engine
             Application.Exit();
         }
 
-#region Debug Menu
+        #region Debug Menu
 
-        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toggleDebugBar()
         {
             debugBar.Visible = !debugBar.Visible;
             Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
             debugBarToolStripMenuItem.Checked = debugBar.Visible;
         }
 
-        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleDebugBar();
+        }
+
+        private void toggleShowHitBoxes()
         {
             Engine.Instance.DrawHitboxes = !Engine.Instance.DrawHitboxes;
             showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes;
         }
 
-        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleShowHitBoxes();
+        }
+
+        private void toggleInvincibility()
         {
             Engine.Instance.Invincible = !Engine.Instance.Invincible;
             invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible;
+        }
+
+        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleInvincibility();
         }
 
         private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
@@ -837,42 +939,72 @@ namespace MegaMan.Engine
             }
         }
 
-#endregion
+        #endregion
 
-        private void musicMenuItem_Click(object sender, EventArgs e)
+        private void toggleMusic()
         {
             musicMenuItem.Checked = !musicMenuItem.Checked;
             if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
         }
 
-        private void sfxMenuItem_Click(object sender, EventArgs e)
+        private void musicMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleMusic();
+        }
+
+        private void togglerSFX()
         {
             sfxMenuItem.Checked = !sfxMenuItem.Checked;
             Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked;
         }
 
-        private void sq1MenuItem_Click(object sender, EventArgs e)
+        private void sfxMenuItem_Click(object sender, EventArgs e)
+        {
+            togglerSFX();
+        }
+
+        private void toggleSq1()
         {
             sq1MenuItem.Checked = !sq1MenuItem.Checked;
             Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked;
         }
 
-        private void sq2MenuItem_Click(object sender, EventArgs e)
+        private void sq1MenuItem_Click(object sender, EventArgs e)
+        {
+            toggleSq1();
+        }
+
+        private void toggleSq2()
         {
             sq2MenuItem.Checked = !sq2MenuItem.Checked;
             Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked;
         }
 
-        private void triMenuItem_Click(object sender, EventArgs e)
+        private void sq2MenuItem_Click(object sender, EventArgs e)
+        {
+            toggleSq2();
+        }
+
+        private void toggleTri()
         {
             triMenuItem.Checked = !triMenuItem.Checked;
             Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked;
         }
-        
-        private void noiseMenuItem_Click(object sender, EventArgs e)
+
+        private void triMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleTri();
+        }
+
+        private void toggleNoise()
         {
             noiseMenuItem.Checked = !noiseMenuItem.Checked;
             Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked;
+        }
+
+        private void noiseMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleNoise();
         }
 
         private void screenshotMenuItem_Click(object sender, EventArgs e)
@@ -895,7 +1027,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void hideMenuItem_Click(object sender, EventArgs e)
+        private void hideMenu()
         {
             if (menuStrip1.Visible)
             {
@@ -909,6 +1041,11 @@ namespace MegaMan.Engine
             }
         }
 
+        private void hideMenuItem_Click(object sender, EventArgs e)
+        {
+            hideMenu();
+        }
+
         private void Engine_Exception(Exception e)
         {
             MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
@@ -920,6 +1057,13 @@ namespace MegaMan.Engine
         {
             fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
             screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+
+        private void NTSC_OptionsOffBut(ref ToolStripMenuItem itemToKeepChecked)
+        {
+            ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
 
             itemToKeepChecked.Checked = true;
         }
