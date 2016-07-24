@@ -133,6 +133,7 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastAudio
     {
+        public Int32 Volume { get; set; }
         public bool Music { get; set; }
         public bool Sound { get; set; }
         public bool Square1 { get; set; }

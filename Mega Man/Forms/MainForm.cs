@@ -14,11 +14,12 @@ namespace MegaMan.Engine
     public partial class MainForm : Form
     {
         private string settingsPath;
-        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private int widthZoom, heightZoom, width, height;
+        private bool fullScreenToolStripMenuItem_IsMaximized, useGlobalConfig; // useGlobalConfig: if false, used a config specific to a game name in xml file for configs.
+
+        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
 
         ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
-        private bool fullScreenToolStripMenuItem_IsMaximized;
         public static bool pauseEngine;
 
         #region Code used by windows messages
@@ -229,27 +230,6 @@ namespace MegaMan.Engine
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        /// <summary>
-        /// Pause engine or restart it depending on previous state.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pauseEngineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
-
-            pauseEngine = pauseEngineToolStripMenuItem.Checked;
-
-            if (pauseEngine) Engine.Instance.Stop();
-            else
-            {
-                Engine.Instance.Start();
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
-        }
 
         /// <summary>
         /// Unpause engine.
@@ -278,6 +258,7 @@ namespace MegaMan.Engine
             InitializeComponent();
 
             menu = gotFocus = altKeyDown = false;
+            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = true;
 
 #if !DEBUG
             debugBar.Hide();
@@ -421,6 +402,7 @@ namespace MegaMan.Engine
                     #endregion
 
                     #region Audio Menu
+                    SetVolume(settings.Audio.Volume);
                     setMusic(settings.Audio.Music);
                     setSFX(settings.Audio.Sound);
                     // setSq1(settings.Audio.Square1);
@@ -566,6 +548,8 @@ namespace MegaMan.Engine
             Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
         }
 
+        #region File Menu
+        #region First section
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -578,6 +562,71 @@ namespace MegaMan.Engine
                 SetLayersVisibilityFromSettings();
             }
         }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                pauseOff();
+
+                Game.CurrentGame.Reset();
+                SetLayersVisibilityFromSettings();
+            }
+        }
+
+        #region Close Game
+        private void CloseGame()
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.Unload();
+                this.xnaImage.Clear();
+                Text = "Mega Man";
+            }
+        }
+
+        private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseGame();
+        }
+        #endregion
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            Application.Exit();
+        }
+        #endregion
+
+        #region Second section
+        /// <summary>
+        /// Pause engine or restart it depending on previous state.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pauseEngineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
+
+            pauseEngine = pauseEngineToolStripMenuItem.Checked;
+
+            if (pauseEngine) Engine.Instance.Stop();
+            else
+            {
+                Engine.Instance.Start();
+                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
+                {
+                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+                }
+            }
+        }
+        
+        private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = !useGlobalConfig;
+        }
+        #endregion
+        #endregion
 
         private void LoadGame(string path, List<string> pathArgs = null)
         {
@@ -622,31 +671,6 @@ namespace MegaMan.Engine
             this.OnActivated(new EventArgs());
         }
 
-        private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CloseGame();
-        }
-
-        private void CloseGame()
-        {
-            if (Game.CurrentGame != null)
-            {
-                Game.CurrentGame.Unload();
-                this.xnaImage.Clear();
-                Text = "Mega Man";
-            }
-        }
-
-        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                pauseOff();
-
-                Game.CurrentGame.Reset();
-                SetLayersVisibilityFromSettings();
-            }
-        }
 
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -942,12 +966,6 @@ namespace MegaMan.Engine
             pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
         }
 
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
-            Application.Exit();
-        }
-
         #region Debug Menu
 
         private void setDebugBar(bool value)
@@ -1160,6 +1178,23 @@ namespace MegaMan.Engine
         {
             SetNoDamage(!noDamageToolStripMenuItem.Checked);
         }
+
+        #region Volume
+        public void SetVolume(int value)
+        {
+            // Trello 139: Add volume control
+        }
+
+        private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Trello 139: Add volume control
+        }
+
+        private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Trello 139: Add volume control
+        }
+        #endregion
 
         private void hideMenuItem_Click(object sender, EventArgs e)
         {
