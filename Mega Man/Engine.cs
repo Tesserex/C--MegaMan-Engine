@@ -67,6 +67,16 @@ namespace MegaMan.Engine
             get { return instance ?? (instance = new Engine()); }
         }
 
+        private int volume;
+        public int Volume
+        {
+            get { return volume; }
+            set
+            {
+                volume = value;
+            }
+        }
+
         private int fps;
         public int FPS
         {

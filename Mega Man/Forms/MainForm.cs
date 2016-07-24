@@ -759,17 +759,17 @@ namespace MegaMan.Engine
         #region Volume
         public void SetVolume(int value)
         {
-            // Trello 139: Add volume control
+            Engine.Instance.Volume = value;
         }
 
         private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Trello 139: Add volume control
+            SetVolume(Engine.Instance.Volume + 1);
         }
 
         private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Trello 139: Add volume control
+            SetVolume(Engine.Instance.Volume -1);
         }
         #endregion
         #endregion
