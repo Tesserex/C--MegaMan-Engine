@@ -48,6 +48,9 @@ namespace MegaMan.IO.Xml.Effects
             if (velocityInfo.Magnitude != null)
                 writer.WriteAttributeString("magnitude", velocityInfo.Magnitude.ToString());
 
+            if (velocityInfo.MagnitudeVarName != null)
+                writer.WriteAttributeString("magnitudeVar", velocityInfo.MagnitudeVarName);
+
             writer.WriteEndElement();
         }
     }

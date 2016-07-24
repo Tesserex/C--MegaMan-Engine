@@ -19,7 +19,16 @@ namespace MegaMan.IO.Xml.Effects
             var set = (VarsEffectPartInfo)info;
             writer.WriteStartElement("Vars");
             writer.WriteAttributeString("name", set.Name);
-            writer.WriteAttributeString("value", set.Value);
+
+            if (set.Value != null)
+                writer.WriteAttributeString("value", set.Value);
+
+            if (set.Call != null)
+                writer.WriteAttributeString("call", set.Call);
+
+            if (set.EntityName != null)
+                writer.WriteAttributeString("entity", set.EntityName);
+
             writer.WriteEndElement();
         }
     }

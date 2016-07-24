@@ -67,5 +67,13 @@ namespace MegaMan.Engine.Tests
         public void StartDrawing()
         {
         }
+
+        public void StopInput()
+        {
+        }
+
+        public void StartInput()
+        {
+        }
     }
 }
