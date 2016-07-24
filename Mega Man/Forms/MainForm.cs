@@ -369,7 +369,7 @@ namespace MegaMan.Engine
 
         private void LoadConfig()
         {
-            settingsPath = Path.Combine(Application.StartupPath, "settings.xml");
+            settingsPath = Path.Combine(Application.StartupPath, Constants.Paths.SettingFile);
             if (File.Exists(settingsPath))
             {
                 var serializer = new XmlSerializer(typeof(UserSettings));

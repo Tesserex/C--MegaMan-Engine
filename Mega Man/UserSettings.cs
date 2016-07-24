@@ -29,6 +29,12 @@ namespace MegaMan.Engine
     #region Constant Values
     public class Constants
     {
+        #region Paths
+        public class Paths
+        {
+            public static readonly string SettingFile = "settings.xml";
+        }
+        #endregion
         #region Engine Properties
         public class EngineProperties
         {
