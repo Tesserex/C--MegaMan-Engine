@@ -432,8 +432,9 @@ namespace MegaMan.Engine
 
                     #region Cheats
                     setInvincibility(settings.Debug.Cheat.Invincibility);
+                    SetNoDamage(settings.Debug.Cheat.NoDamage);
                     #endregion
-                    
+
                     #region Layers
                     setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, settings.Debug.Layers.Background);
                     setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, settings.Debug.Layers.Sprites1);

@@ -13,6 +13,7 @@ namespace MegaMan.Engine
         private HealthMeter meter;
         private int flashtime;
         private int flashing;
+        private DamageMessage damageMSG;
 
         public float Health
         {
@@ -92,8 +93,31 @@ namespace MegaMan.Engine
             {
                 meter.Stop();
             }
-            Hit = false;
             flashing = 0;
+        }
+
+        #region Hit Code
+        public bool Hurt()
+        {
+            if (Hit)
+            {
+                if (!Engine.Instance.NoDamage) Health -= damageMSG.Damage;
+                flashing = flashtime;
+                Hit = false;
+
+                return true;
+            }
+            return false;
+        }
+
+        public bool AlwaysTrue() { return true; }
+
+        /// <summary>
+        /// State is one where Mega Man cannot be hurt.
+        /// </summary>
+        public void CancelHurt()
+        {
+            Hit = false;
         }
 
         public override void Message(IGameMessage msg)
@@ -102,12 +126,9 @@ namespace MegaMan.Engine
             {
                 if (Engine.Instance.Invincible && Parent.Name == "Player") return;
 
-                DamageMessage damage = (DamageMessage)msg;
-
-                if (!Engine.Instance.NoDamage) Health -= damage.Damage;
+                damageMSG = (DamageMessage)msg;
 
                 Hit = true;
-                flashing = flashtime;
             }
             else if (msg is HealMessage)
             {
@@ -116,11 +137,10 @@ namespace MegaMan.Engine
                 Health += heal.Health;
             }
         }
+        #endregion
 
         protected override void Update()
         {
-            Hit = false;
-
             if (flashing > 0)
             {
                 flashing--;

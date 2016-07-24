@@ -107,6 +107,7 @@ namespace MegaMan.Engine
         public class LastCheat
         {
             public bool Invincibility { get; set; }
+            public bool NoDamage { get; set; }
         }
 
         [Serializable]
