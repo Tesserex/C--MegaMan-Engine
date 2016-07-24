@@ -13,23 +13,30 @@ namespace MegaMan.Engine
 {
     public partial class MainForm : Form
     {
+        #region Variables And Constants
+        #region Variables
         private string settingsPath;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized, useGlobalConfig; // useGlobalConfig: if false, used a config specific to a game name in xml file for configs.
-
-        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
+        
+        private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
+                                                 // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
 
         ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
+
         public static bool pauseEngine;
+        #endregion
+
+        #region Constants
+        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
 
         #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
         private const int WM_INITMENUPOPUP = 0x0117;
         private const int WM_UNINITMENUPOPUP = 0x0125;
         #endregion
-
-        private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
-                                                 // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
+        #endregion
+        #endregion
 
         #region Handle Engine pausing
         // Lots of functions used to determine what is happening and set engine activated/deactivated state
@@ -253,6 +260,7 @@ namespace MegaMan.Engine
         }
         #endregion
 
+        #region Form Events Openings/Closings
         public MainForm()
         {
             InitializeComponent();
@@ -277,6 +285,7 @@ namespace MegaMan.Engine
 
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
         }
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -306,14 +315,6 @@ namespace MegaMan.Engine
             }
         }
 
-        private void DefaultScreen()
-        {
-            width = Const.PixelsAcross;
-            height = Const.PixelsDown;
-
-            ResizeScreen();
-        }
-
         protected override void OnClosed(EventArgs e)
         {
             var serializer = new XmlSerializer(typeof(UserSettings));
@@ -330,7 +331,7 @@ namespace MegaMan.Engine
             //        Select = GameInputKeys.Select
             //    }
             //};
-            
+
             //XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
             //{
             //    Indentation = 1,
@@ -343,12 +344,765 @@ namespace MegaMan.Engine
             //writer.Close();
             //base.OnClosed(e);
         }
+        #endregion
 
-        private void WrongConfigAlert(string message)
+        #region Menus
+        #region File Menu
+        #region First section
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            OpenFileDialog dialog = new OpenFileDialog();
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                pauseOff();
+
+                LoadGame(dialog.FileName);
+                SetLayersVisibilityFromSettings();
+            }
         }
 
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                pauseOff();
+
+                Game.CurrentGame.Reset();
+                SetLayersVisibilityFromSettings();
+            }
+        }
+
+        #region Close Game
+        private void CloseGame()
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.Unload();
+                this.xnaImage.Clear();
+                Text = "Mega Man";
+            }
+        }
+
+        private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseGame();
+        }
+        #endregion
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            Application.Exit();
+        }
+        #endregion
+
+        #region Second section
+        /// <summary>
+        /// Pause engine or restart it depending on previous state.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pauseEngineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
+
+            pauseEngine = pauseEngineToolStripMenuItem.Checked;
+
+            if (pauseEngine) Engine.Instance.Stop();
+            else
+            {
+                Engine.Instance.Start();
+                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
+                {
+                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
+                }
+            }
+        }
+
+        private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = !useGlobalConfig;
+        }
+        #endregion
+        #endregion
+        
+        #region Input Menu
+        private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Keyboard keyform = new Keyboard();
+            keyform.Show();
+        }
+        #endregion
+
+        #region Screen Menu
+        #region First Section
+        private void AllScreenResolutionOffBut(ToolStripMenuItem itemToKeepChecked)
+        {
+            fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
+            screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+        #region Size Selection
+        private void ScreenSizeMultiple()
+        {
+            WindowState = FormWindowState.Normal;
+            if (Game.CurrentGame == null)
+            {
+                DefaultScreen();
+            }
+            else
+            {
+                ResizeScreen();
+            }
+
+            xnaImage.NTSC = false;
+        }
+
+        /// <summary>
+        /// For screen option X1, X2, X3, X4, they use mostly similar code.
+        /// </summary>
+        /// <param name="index"></param>
+        private void screenSizeMenuSelected(int index)
+        {
+            if (index == (Int16)UserSettingsEnums.Screen.NTSC)
+            {
+                if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
+                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
+                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
+                //if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
+            }
+            if (index == (Int16)UserSettingsEnums.Screen.X1)
+            {
+                previousScreenSizeSelection = screen1XMenu;
+                widthZoom = heightZoom = 1;
+            }
+            if (index == (Int16)UserSettingsEnums.Screen.X2)
+            {
+                previousScreenSizeSelection = screen2XMenu;
+                widthZoom = heightZoom = 2;
+            }
+            if (index == (Int16)UserSettingsEnums.Screen.X3)
+            {
+                previousScreenSizeSelection = screen3XMenu;
+                widthZoom = heightZoom = 3;
+            }
+            if (index == (Int16)UserSettingsEnums.Screen.X4)
+            {
+                previousScreenSizeSelection = screen4XMenu;
+                widthZoom = heightZoom = 4;
+            }
+            ScreenSizeMultiple();
+            AllScreenResolutionOffBut(previousScreenSizeSelection);
+        }
+
+        private void screen1XMenu_Click(object sender, EventArgs e)
+        {
+            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X1);
+        }
+
+        private void screen2XMenu_Click(object sender, EventArgs e)
+        {
+            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X2);
+        }
+
+        private void screen3XMenu_Click(object sender, EventArgs e)
+        {
+            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X3);
+        }
+
+        private void screen4XMenu_Click(object sender, EventArgs e)
+        {
+            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X4);
+        }
+
+        #region NTSC Menu Clicked
+        private void screenNTSCSelected()
+        {
+            previousScreenSizeSelection = screenNTSCMenu;
+
+            if (width != 256 || height != 224) return;
+
+            widthZoom = heightZoom = 1;
+            ResizeScreen(602, 448);
+
+            AllScreenResolutionOffBut(screenNTSCMenu);
+            xnaImage.NTSC = true;
+        }
+
+        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        {
+            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.NTSC);
+        }
+        #endregion
+        #endregion
+
+        #region NTSC Submenu
+        #region NTSC Custom Functions
+        /// <summary>
+        /// Functions that preparer parameters to call customNtscForm_Apply from parameters in a wrapper class
+        /// Receive all the values in a wrapper class
+        /// </summary>
+        /// <param name="values"></param>
+        /// <remarks>Used to set values from config file read.</remarks>
+        private void customNtscForm_ApplyFromWrapperObject(LastScreen.NTSC_CustomOptions wrapper)
+        {
+            customNtscForm_Apply(new snes_ntsc_setup_t(wrapper.Hue, wrapper.Saturation, wrapper.Contrast, wrapper.Brightness,
+                wrapper.Sharpness, wrapper.Gamma, wrapper.Resolution, wrapper.Artifacts, wrapper.Fringing, wrapper.Bleed, true));
+        }
+
+        /// <summary>
+        /// Functions that preparer parameters to call customNtscForm_Apply from form settings
+        /// Build a snes_ntsc_setup_t item from form parameters
+        /// </summary>
+        private void customNtscForm_ApplyFromForm()
+        {
+            customNtscForm_Apply(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+                customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
+        }
+
+        /// <summary>
+        /// Function that apply custom parameters
+        /// </summary>
+        /// <param name="snes_ntsc_setup"></param>
+        private void customNtscForm_Apply(snes_ntsc_setup_t snes_ntsc_setup)
+        {
+            ntscOptionCode(ntscCustom, snes_ntsc_setup);
+        }
+        #endregion
+        
+        private void NTSC_OptionsOffBut(ToolStripMenuItem itemToKeepChecked)
+        {
+            ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+
+        private void ntscOptionCode(ToolStripMenuItem menuClicked, snes_ntsc_setup_t snes_ntsc_type, bool setOption = true)
+        {
+            NTSC_OptionsOffBut(menuClicked);
+
+            if (setOption)
+            {
+                screenNTSCSelected();
+                xnaImage.ntscInit(snes_ntsc_type);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NTSC_Option"></param>
+        /// <param name="customParameters"></param>
+        /// <param name="setOption">If not set, we only check the option</param>
+        private void ntscOptionSet(Int16 NTSC_Option, LastScreen.NTSC_CustomOptions customParameters = null, bool setOption = true)
+        {
+            // Set parameters of Custom options
+            if (customParameters != null) customNtscForm_ApplyFromWrapperObject(customParameters);
+
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb, setOption);
+        }
+
+        private void ntscComposite_Click(object sender, EventArgs e)
+        {
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
+        }
+
+        private void ntscSVideo_Click(object sender, EventArgs e)
+        {
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
+        }
+
+        private void ntscRGB_Click(object sender, EventArgs e)
+        {
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
+        }
+
+        private void ntscCustom_Click(object sender, EventArgs e)
+        {
+            customNtscForm.Show();
+        }
+        #endregion
+
+        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fullScreenToolStripMenuItem.Checked = !fullScreenToolStripMenuItem.Checked;
+
+            if (fullScreenToolStripMenuItem.Checked)
+            {
+                fullScreenToolStripMenuItem_IsMaximized = (this.WindowState == FormWindowState.Maximized) ? true : false;
+
+                AllScreenResolutionOffBut(fullScreenToolStripMenuItem);
+                xnaImage.NTSC = false;
+                this.TopMost = true;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+                menuStrip1.Visible = false;
+#if DEBUG
+                debugBar.Visible = false;
+#endif
+            }
+            else
+            {
+                AllScreenResolutionOffBut(previousScreenSizeSelection);
+                this.TopMost = false;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+
+                if (fullScreenToolStripMenuItem_IsMaximized) this.WindowState = FormWindowState.Maximized;
+                else this.WindowState = FormWindowState.Normal;
+
+                menuStrip1.Visible = !hideMenuItem.Checked;
+#if DEBUG
+                debugBar.Visible = true;
+#endif
+
+                // NTSC has special specifications
+                if (previousScreenSizeSelection.Name == screenNTSCMenu.Name)
+                {
+                    screenNTSCMenu_Click(sender, e);
+                }
+            }
+        }
+        #endregion
+
+        #region Second Section
+        #region Pixellated/Smoothed Section
+        private void pixellatedVsSmoothedAllOffBut(ToolStripMenuItem itemToKeepChecked)
+        {
+            smoothedToolStripMenuItem.Checked = pixellatedToolStripMenuItem.Checked = false;
+
+            itemToKeepChecked.Checked = true;
+        }
+
+        /// <summary>
+        /// Function that execute code for Smoothed/Pixellated selection
+        /// </summary>
+        /// <param name="itemToKeepChecked"></param>
+        /// <param name="samplerState"></param>
+        private void pixellatedVsSmoothedCode(Int32 index)
+        {
+            if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
+            {
+                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
+                pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
+            }
+            else if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
+            {
+                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
+                pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
+            }
+        }
+
+        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
+        }
+
+        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
+        }
+        #endregion
+        #endregion
+
+        #region Third Section
+        #region Code for Hide Menu
+        private void hideMenu(bool hideMenu)
+        {
+            if (hideMenu)
+            {
+                hideMenuItem.Checked = true;
+                Height -= menuStrip1.Height;
+                menuStrip1.Visible = false;
+            }
+            else
+            {
+                hideMenuItem.Checked = false;
+                menuStrip1.Visible = true;
+                Height += menuStrip1.Height;
+            }
+        }
+
+        private void hideMenuItem_Click(object sender, EventArgs e)
+        {
+            hideMenu(!hideMenuItem.Checked);
+        }
+        #endregion
+
+        private void screenshotMenuItem_Click(object sender, EventArgs e)
+        {
+            var capDir = Path.Combine(Application.StartupPath, "screenshots");
+            if (!Directory.Exists(capDir)) System.IO.Directory.CreateDirectory(capDir);
+
+            string capPath;
+            int capNum = 1;
+
+            do
+            {
+                capPath = Path.Combine(capDir, String.Format("{0}.png", capNum));
+                capNum++;
+            } while (File.Exists(capPath));
+
+            using (var stream = File.OpenWrite(capPath))
+            {
+                xnaImage.SaveCap(stream);
+            }
+        }
+        #endregion
+        #endregion
+        
+        #region Audio Menu
+        #region First Section
+        #region Volume
+        public void SetVolume(int value)
+        {
+            // Trello 139: Add volume control
+        }
+
+        private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Trello 139: Add volume control
+        }
+
+        private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Trello 139: Add volume control
+        }
+        #endregion
+        #endregion
+
+        #region Second Section
+        private void setMusic(bool value)
+        {
+            if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
+        }
+
+        private void musicMenuItem_Click(object sender, EventArgs e)
+        {
+            setMusic(!musicMenuItem.Checked);
+        }
+
+        private void setSFX(bool value)
+        {
+            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value; ;
+        }
+
+        private void sfxMenuItem_Click(object sender, EventArgs e)
+        {
+            setSFX(!sfxMenuItem.Checked);
+        }
+        #endregion
+
+        #region Third Section
+        private void setSq1(bool value)
+        {
+            Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked = value;
+        }
+
+        private void sq1MenuItem_Click(object sender, EventArgs e)
+        {
+            setSq1(!sq1MenuItem.Checked);
+        }
+
+        private void setSq2(bool value)
+        {
+            Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked = value;
+        }
+
+        private void sq2MenuItem_Click(object sender, EventArgs e)
+        {
+            setSq2(!sq2MenuItem.Checked);
+        }
+
+        private void setTri(bool value)
+        {
+            Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked = value;
+        }
+
+        private void triMenuItem_Click(object sender, EventArgs e)
+        {
+            setTri(!triMenuItem.Checked);
+        }
+
+        private void setNoise(bool value)
+        {
+            Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked = value;
+        }
+
+        private void noiseMenuItem_Click(object sender, EventArgs e)
+        {
+            setNoise(!noiseMenuItem.Checked);
+        }
+        #endregion
+        #endregion
+
+        #region Debug Menu
+
+        #region Debug Menu
+        #region First Section
+        private void setDebugBar(bool value)
+        {
+            debugBar.Visible = value;
+            Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
+            debugBarToolStripMenuItem.Checked = debugBar.Visible;
+        }
+
+        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setDebugBar(!debugBarToolStripMenuItem.Checked);
+        }
+        #endregion
+
+        #region Second Section
+        private void setShowHitBoxes(bool value)
+        {
+            showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes = value;
+        }
+
+        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setShowHitBoxes(!showHitboxesToolStripMenuItem.Checked);
+        }
+
+        #region Cheat Submenu
+        private void SetNoDamage(bool value)
+        {
+            noDamageToolStripMenuItem.Checked = Engine.Instance.NoDamage = value;
+        }
+
+        private void noDamageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetNoDamage(!noDamageToolStripMenuItem.Checked);
+        }
+
+        private void setInvincibility(bool value)
+        {
+            invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible = value;
+        }
+
+        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setInvincibility(!invincibilityToolStripMenuItem.Checked);
+        }
+
+        private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame == null) return;
+            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.DebugFlipGravity();
+        }
+
+        private void emptyHealthMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                if (Engine.Instance.Invincible)
+                {
+                    Engine.Instance.Invincible = false;
+                    Game.CurrentGame.DebugEmptyHealth();
+                    Engine.Instance.Invincible = true;
+                }
+                else Game.CurrentGame.DebugEmptyHealth();
+            }
+        }
+        private void fillHealthMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.DebugFillHealth();
+            }
+        }
+
+        private void emptyWeaponMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.DebugEmptyWeapon();
+            }
+        }
+
+        private void fillWeaponMenuIem_Click(object sender, EventArgs e)
+        {
+            if (Game.CurrentGame != null)
+            {
+                Game.CurrentGame.DebugFillWeapon();
+            }
+        }
+        #endregion
+
+        #region Layer Submenu
+        private void setLayerVisibility(Int16 index, bool value)
+        {
+            if (index == (Int16)UserSettingsEnums.Layers.Background)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                backgroundToolStripMenuItem.Checked = value;
+            }
+            else if (index == (Int16)UserSettingsEnums.Layers.Sprite1)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                sprites1ToolStripMenuItem.Checked = value;
+            }
+            else if (index == (Int16)UserSettingsEnums.Layers.Sprite2)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                sprites2ToolStripMenuItem.Checked = value;
+            }
+            else if (index == (Int16)UserSettingsEnums.Layers.Sprite3)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                sprites3ToolStripMenuItem.Checked = value;
+            }
+            else if (index == (Int16)UserSettingsEnums.Layers.Sprite4)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                sprites4ToolStripMenuItem.Checked = value;
+            }
+            else if (index == (Int16)UserSettingsEnums.Layers.Foreground)
+            {
+                Engine.Instance.ToggleLayerVisibility(index);
+                foregroundToolStripMenuItem.Checked = value;
+            }
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, !backgroundToolStripMenuItem.Checked);
+        }
+
+        private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, !sprites1ToolStripMenuItem.Checked);
+        }
+
+        private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, !sprites2ToolStripMenuItem.Checked);
+        }
+
+        private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, !sprites3ToolStripMenuItem.Checked);
+        }
+
+        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, !sprites4ToolStripMenuItem.Checked);
+        }
+
+        private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, !foregroundToolStripMenuItem.Checked);
+        }
+
+        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
+            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
+            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
+            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
+            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
+            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
+        }
+        #endregion
+        #endregion
+
+        #region Third Section
+
+        #region Framerate Setting
+        private void SetFrameRate(int framerate)
+        {
+            Engine.Instance.FPS = framerate;
+
+            if (Engine.Instance.FPS < Constants.EngineProperties.FramerateMin) Engine.Instance.FPS = Constants.EngineProperties.FramerateMin;
+            if (Engine.Instance.FPS > Constants.EngineProperties.FramerateMax) Engine.Instance.FPS = Constants.EngineProperties.FramerateMax;
+
+            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
+        }
+
+        private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetFrameRate(Engine.Instance.FPS + 10);
+        }
+
+        private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetFrameRate(Engine.Instance.FPS - 10);
+        }
+
+        private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetFrameRate(ConfigFilesDefaultValues.Framerate);
+        }
+        #endregion
+
+        #endregion
+        #endregion
+
+        #endregion
+        #endregion
+
+        #region Functions Used By Many
+        private void LoadGame(string path, List<string> pathArgs = null)
+        {
+            try
+            {
+                Game.Load(path, pathArgs);
+                Text = Game.CurrentGame.Name;
+            }
+            catch (GameXmlException ex)
+            {
+                // this builds a dialog message to tell the user where the error is in the XML file
+
+                StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
+                if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
+                if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
+                if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
+                if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
+                if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
+
+                message.Append("\n").Append(ex.Message);
+
+                MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Game.CurrentGame.Unload();
+            }
+            catch (System.IO.FileNotFoundException ex)
+            {
+                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+            catch (XmlException ex)
+            {
+                MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Game.CurrentGame.Unload();
+            }
+
+            this.OnActivated(new EventArgs());
+        }
+        
+        /// <summary>
+        /// Function used when loading a game.
+        /// When loading a new game, it needs to be set again because those properties are reset.
+        /// </summary>
+        private void SetLayersVisibilityFromSettings()
+        {
+            Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
+            Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
+        }
+
+        #region Configs Functions
         private void LoadConfig(string fileName = null)
         {
             if (fileName == null) fileName = Constants.Paths.SettingFile;
@@ -397,7 +1151,7 @@ namespace MegaMan.Engine
                     pixellatedVsSmoothedCode(settings.Screen.Pixellated);
 
                     hideMenu(settings.Screen.HideMenu);
-                    
+
                     if (settings.Screen.Maximized) WindowState = FormWindowState.Maximized;
                     #endregion
 
@@ -437,7 +1191,32 @@ namespace MegaMan.Engine
                 }
             }
         }
+        #endregion
+        
+        #region Errors
+        private void Engine_Exception(Exception e)
+        {
+            MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
+            CloseGame();
+        }
+
+        private void WrongConfigAlert(string message)
+        {
+            MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+        }
+        #endregion
+        #endregion
+
+        #region To sort!!!!!!
+        private void DefaultScreen()
+        {
+            width = Const.PixelsAcross;
+            height = Const.PixelsDown;
+
+            ResizeScreen();
+        }
+        
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
             FormWindowState previousWindowState = WindowState;
@@ -537,730 +1316,6 @@ namespace MegaMan.Engine
             entityLabel.Text = "Entities: " + Game.DebugEntitiesAlive();
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
-
-        private void SetLayersVisibilityFromSettings()
-        {
-            Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
-        }
-
-        #region File Menu
-        #region First section
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            DialogResult result = dialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                pauseOff();
-
-                LoadGame(dialog.FileName);
-                SetLayersVisibilityFromSettings();
-            }
-        }
-
-        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                pauseOff();
-
-                Game.CurrentGame.Reset();
-                SetLayersVisibilityFromSettings();
-            }
-        }
-
-        #region Close Game
-        private void CloseGame()
-        {
-            if (Game.CurrentGame != null)
-            {
-                Game.CurrentGame.Unload();
-                this.xnaImage.Clear();
-                Text = "Mega Man";
-            }
-        }
-
-        private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CloseGame();
-        }
         #endregion
-
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
-            Application.Exit();
-        }
-        #endregion
-
-        #region Second section
-        /// <summary>
-        /// Pause engine or restart it depending on previous state.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pauseEngineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
-
-            pauseEngine = pauseEngineToolStripMenuItem.Checked;
-
-            if (pauseEngine) Engine.Instance.Stop();
-            else
-            {
-                Engine.Instance.Start();
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
-        }
-        
-        private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = !useGlobalConfig;
-        }
-        #endregion
-        #endregion
-
-        private void LoadGame(string path, List<string> pathArgs = null)
-        {
-            try
-            {
-                Game.Load(path, pathArgs);
-                Text = Game.CurrentGame.Name;
-            }
-            catch (GameXmlException ex)
-            {
-                // this builds a dialog message to tell the user where the error is in the XML file
-
-                StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
-                if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
-                if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
-                if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
-                if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
-                if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
-
-                message.Append("\n").Append(ex.Message);
-
-                MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                Game.CurrentGame.Unload();
-            }
-            catch (System.IO.FileNotFoundException ex)
-            {
-                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Game.CurrentGame.Unload();
-            }
-            catch (XmlException ex)
-            {
-                MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Game.CurrentGame.Unload();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Game.CurrentGame.Unload();
-            }
-
-            this.OnActivated(new EventArgs());
-        }
-
-
-        private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Keyboard keyform = new Keyboard();
-            keyform.Show();
-        }
-
-        #region Layer Visibilities
-        private void setLayerVisibility(Int16 index, bool value)
-        {
-            if (index == (Int16)UserSettingsEnums.Layers.Background)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                backgroundToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite1)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                sprites1ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite2)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                sprites2ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite3)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                sprites3ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite4)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                sprites4ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Foreground)
-            {
-                Engine.Instance.ToggleLayerVisibility(index);
-                foregroundToolStripMenuItem.Checked = value;
-            }
-        }
-
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, !backgroundToolStripMenuItem.Checked);
-        }
-
-        private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, !sprites1ToolStripMenuItem.Checked);
-        }
-
-        private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, !sprites2ToolStripMenuItem.Checked);
-        }
-
-        private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, !sprites3ToolStripMenuItem.Checked);
-        }
-
-        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, !sprites4ToolStripMenuItem.Checked);
-        }
-
-        private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, !foregroundToolStripMenuItem.Checked);
-        }
-
-        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
-            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
-            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
-            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
-            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
-            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
-        }
-        #endregion
-
-        #region Size Selecttion
-        private void ScreenSizeMultiple()
-        {
-            WindowState = FormWindowState.Normal;
-            if (Game.CurrentGame == null)
-            {
-                DefaultScreen();
-            }
-            else
-            {
-                ResizeScreen();
-            }
-
-            xnaImage.NTSC = false;
-        }
-
-        /// <summary>
-        /// For screen option X1, X2, X3, X4, they use mostly similar code.
-        /// </summary>
-        /// <param name="index"></param>
-        private void screenSizeMenuSelected(int index)
-        {
-            if (index == (Int16)UserSettingsEnums.Screen.NTSC)
-            {
-                if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
-                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
-                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
-                //if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
-            }
-            if (index == (Int16)UserSettingsEnums.Screen.X1)
-            {
-                previousScreenSizeSelection = screen1XMenu;
-                widthZoom = heightZoom = 1;
-            }
-            if (index == (Int16)UserSettingsEnums.Screen.X2)
-            {
-                previousScreenSizeSelection = screen2XMenu;
-                widthZoom = heightZoom = 2;
-            }
-            if (index == (Int16)UserSettingsEnums.Screen.X3)
-            {
-                previousScreenSizeSelection = screen3XMenu;
-                widthZoom = heightZoom = 3;
-            }
-            if (index == (Int16)UserSettingsEnums.Screen.X4)
-            {
-                previousScreenSizeSelection = screen4XMenu;
-                widthZoom = heightZoom = 4;
-            }
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(previousScreenSizeSelection);
-        }
-
-        private void screen1XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X1);
-        }
-
-        private void screen2XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X2);
-        }
-
-        private void screen3XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X3);
-        }
-
-        private void screen4XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X4);
-        }
-        #endregion
-
-        #region NTSC Menu Clicked
-        private void screenNTSCSelected()
-        {
-            previousScreenSizeSelection = screenNTSCMenu;
-
-            if (width != 256 || height != 224) return;
-
-            widthZoom = heightZoom = 1;
-            ResizeScreen(602, 448);
-
-            AllScreenResolutionOffBut(screenNTSCMenu);
-            xnaImage.NTSC = true;
-        }
-
-        private void screenNTSCMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.NTSC);
-        }
-        #endregion
-
-        #region NTSC Options Clicked
-        #region NTSC Custom Functions
-        /// <summary>
-        /// Functions that preparer parameters to call customNtscForm_Apply from parameters in a wrapper class
-        /// Receive all the values in a wrapper class
-        /// </summary>
-        /// <param name="values"></param>
-        /// <remarks>Used to set values from config file read.</remarks>
-        private void customNtscForm_ApplyFromWrapperObject(LastScreen.NTSC_CustomOptions wrapper)
-        {
-            customNtscForm_Apply(new snes_ntsc_setup_t(wrapper.Hue, wrapper.Saturation, wrapper.Contrast, wrapper.Brightness,
-                wrapper.Sharpness, wrapper.Gamma, wrapper.Resolution, wrapper.Artifacts, wrapper.Fringing, wrapper.Bleed, true));
-        }
-
-        /// <summary>
-        /// Functions that preparer parameters to call customNtscForm_Apply from form settings
-        /// Build a snes_ntsc_setup_t item from form parameters
-        /// </summary>
-        private void customNtscForm_ApplyFromForm()
-        {
-            customNtscForm_Apply(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
-                customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
-        }
-
-        /// <summary>
-        /// Function that apply custom parameters
-        /// </summary>
-        /// <param name="snes_ntsc_setup"></param>
-        private void customNtscForm_Apply(snes_ntsc_setup_t snes_ntsc_setup)
-        {
-            ntscOptionCode(ntscCustom, snes_ntsc_setup);
-        }
-        #endregion
-
-        private void ntscOptionCode(ToolStripMenuItem menuClicked, snes_ntsc_setup_t snes_ntsc_type, bool setOption = true)
-        {
-            NTSC_OptionsOffBut(menuClicked);
-
-            if (setOption)
-            {
-                screenNTSCSelected();
-                xnaImage.ntscInit(snes_ntsc_type);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NTSC_Option"></param>
-        /// <param name="customParameters"></param>
-        /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(Int16 NTSC_Option, LastScreen.NTSC_CustomOptions customParameters = null, bool setOption = true)
-        {
-            // Set parameters of Custom options
-            if (customParameters != null) customNtscForm_ApplyFromWrapperObject(customParameters);
-
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb, setOption);
-        }
-
-        private void ntscComposite_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
-        }
-
-        private void ntscSVideo_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
-        }
-
-        private void ntscRGB_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
-        }
-               
-        private void ntscCustom_Click(object sender, EventArgs e)
-        {
-            customNtscForm.Show();
-        }
-        #endregion
-
-        private void pixellatedVsSmoothedAllOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            smoothedToolStripMenuItem.Checked = pixellatedToolStripMenuItem.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        /// <summary>
-        /// Function that execute code for Smoothed/Pixellated selection
-        /// </summary>
-        /// <param name="itemToKeepChecked"></param>
-        /// <param name="samplerState"></param>
-        private void pixellatedVsSmoothedCode(Int32 index)
-        {
-            if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
-                pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
-            }
-            else if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
-                pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
-            }
-        }
-
-        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
-        }
-
-        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
-        }
-
-        #region Debug Menu
-
-        private void setDebugBar(bool value)
-        {
-            debugBar.Visible = value;
-            Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
-            debugBarToolStripMenuItem.Checked = debugBar.Visible;
-        }
-
-        private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setDebugBar(!debugBarToolStripMenuItem.Checked);
-        }
-
-        private void setShowHitBoxes(bool value)
-        {
-            showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes = value;
-        }
-
-        private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setShowHitBoxes(!showHitboxesToolStripMenuItem.Checked);
-        }
-
-        private void setInvincibility(bool value)
-        {
-            invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible = value;
-        }
-
-        private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setInvincibility(!invincibilityToolStripMenuItem.Checked);
-        }
-
-        private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame == null) return;
-            gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.DebugFlipGravity();
-        }
-
-        #region Framerate Setting
-        private void SetFrameRate(int framerate)
-        {
-            Engine.Instance.FPS = framerate;
-
-            if (Engine.Instance.FPS < Constants.EngineProperties.FramerateMin) Engine.Instance.FPS = Constants.EngineProperties.FramerateMin;
-            if (Engine.Instance.FPS > Constants.EngineProperties.FramerateMax) Engine.Instance.FPS = Constants.EngineProperties.FramerateMax;
-
-            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
-        }
-
-        private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetFrameRate(Engine.Instance.FPS + 10);
-        }
-
-        private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetFrameRate(Engine.Instance.FPS - 10);
-        }
-
-        private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetFrameRate(ConfigFilesDefaultValues.Framerate);
-        }
-        #endregion
-
-        private void emptyHealthMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                if (Engine.Instance.Invincible)
-                {
-                    Engine.Instance.Invincible = false;
-                    Game.CurrentGame.DebugEmptyHealth();
-                    Engine.Instance.Invincible = true;
-                }
-                else Game.CurrentGame.DebugEmptyHealth();
-            }
-        }
-
-        private void fillHealthMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                Game.CurrentGame.DebugFillHealth();
-            }
-        }
-
-        private void emptyWeaponMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                Game.CurrentGame.DebugEmptyWeapon();
-            }
-        }
-
-        private void fillWeaponMenuIem_Click(object sender, EventArgs e)
-        {
-            if (Game.CurrentGame != null)
-            {
-                Game.CurrentGame.DebugFillWeapon();
-            }
-        }
-
-        #endregion
-
-        private void setMusic(bool value)
-        {
-            if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
-        }
-
-        private void musicMenuItem_Click(object sender, EventArgs e)
-        {
-            setMusic(!musicMenuItem.Checked);
-        }
-
-        private void setSFX(bool value)
-        {
-            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value; ;
-        }
-
-        private void sfxMenuItem_Click(object sender, EventArgs e)
-        {
-            setSFX(!sfxMenuItem.Checked);
-        }
-
-        private void setSq1(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked = value;
-        }
-
-        private void sq1MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq1(!sq1MenuItem.Checked);
-        }
-
-        private void setSq2(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked = value;
-        }
-
-        private void sq2MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq2(!sq2MenuItem.Checked);
-        }
-
-        private void setTri(bool value)
-        {
-            Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked = value;
-        }
-
-        private void triMenuItem_Click(object sender, EventArgs e)
-        {
-            setTri(!triMenuItem.Checked);
-        }
-
-        private void setNoise(bool value)
-        {
-            Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked = value;
-        }
-
-        private void noiseMenuItem_Click(object sender, EventArgs e)
-        {
-            setNoise(!noiseMenuItem.Checked);
-        }
-
-        private void screenshotMenuItem_Click(object sender, EventArgs e)
-        {
-            var capDir = Path.Combine(Application.StartupPath, "screenshots");
-            if (!Directory.Exists(capDir)) System.IO.Directory.CreateDirectory(capDir);
-
-            string capPath;
-            int capNum = 1;
-
-            do
-            {
-                capPath = Path.Combine(capDir, String.Format("{0}.png", capNum));
-                capNum++;
-            } while (File.Exists(capPath));
-
-            using (var stream = File.OpenWrite(capPath))
-            {
-                xnaImage.SaveCap(stream);
-            }
-        }
-
-        private void hideMenu(bool hideMenu)
-        {
-            if (hideMenu)
-            {
-                hideMenuItem.Checked = true;
-                Height -= menuStrip1.Height;
-                menuStrip1.Visible = false;
-            }
-            else
-            {
-                hideMenuItem.Checked = false;
-                menuStrip1.Visible = true;
-                Height += menuStrip1.Height;
-            }
-        }
-
-        private void SetNoDamage(bool value)
-        {
-            noDamageToolStripMenuItem.Checked = Engine.Instance.NoDamage = value;
-        }
-
-        private void noDamageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetNoDamage(!noDamageToolStripMenuItem.Checked);
-        }
-
-        #region Volume
-        public void SetVolume(int value)
-        {
-            // Trello 139: Add volume control
-        }
-
-        private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Trello 139: Add volume control
-        }
-
-        private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Trello 139: Add volume control
-        }
-        #endregion
-
-        private void hideMenuItem_Click(object sender, EventArgs e)
-        {
-            hideMenu(!hideMenuItem.Checked);
-        }
-
-        private void Engine_Exception(Exception e)
-        {
-            MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-
-            CloseGame();
-        }
-
-        private void AllScreenResolutionOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
-            screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        private void NTSC_OptionsOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fullScreenToolStripMenuItem.Checked = !fullScreenToolStripMenuItem.Checked;
-
-            if (fullScreenToolStripMenuItem.Checked)
-            {
-                fullScreenToolStripMenuItem_IsMaximized = (this.WindowState == FormWindowState.Maximized) ?  true : false;
-
-                AllScreenResolutionOffBut(fullScreenToolStripMenuItem);
-                xnaImage.NTSC = false;
-                this.TopMost = true;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
-                menuStrip1.Visible = false;
-#if DEBUG
-                debugBar.Visible = false;
-#endif
-            }
-            else
-            {
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-                this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-
-                if (fullScreenToolStripMenuItem_IsMaximized) this.WindowState = FormWindowState.Maximized;
-                else this.WindowState = FormWindowState.Normal;
-
-                menuStrip1.Visible = !hideMenuItem.Checked;
-#if DEBUG
-                debugBar.Visible = true;
-#endif
-
-                // NTSC has special specifications
-                if (previousScreenSizeSelection.Name == screenNTSCMenu.Name)
-                {
-                    screenNTSCMenu_Click(sender, e);
-                }
-            }
-        }
     }
 }
