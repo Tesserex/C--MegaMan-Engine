@@ -104,7 +104,7 @@ namespace MegaMan.Engine
 
                 DamageMessage damage = (DamageMessage)msg;
 
-                Health -= damage.Damage;
+                if (!Engine.Instance.NoDamage) Health -= damage.Damage;
 
                 Hit = true;
                 flashing = flashtime;

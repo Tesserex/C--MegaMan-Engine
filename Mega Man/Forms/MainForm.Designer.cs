@@ -93,6 +93,7 @@
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
+            this.noDamageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
             this.SuspendLayout();
@@ -102,8 +103,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.inputToolStripMenuItem,
-            this.screenToolStripMenuItem,
             this.audioToolStripMenuItem,
+            this.screenToolStripMenuItem,
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -441,6 +442,7 @@
             // debugCheatMenu
             // 
             this.debugCheatMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noDamageToolStripMenuItem,
             this.invincibilityToolStripMenuItem,
             this.gravityFlipToolStripMenuItem,
             this.emptyHealthMenuItem,
@@ -668,6 +670,14 @@
             this.xnaImage.TabIndex = 1;
             this.xnaImage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.xnaImage_MouseClick);
             // 
+            // noDamageToolStripMenuItem
+            // 
+            this.noDamageToolStripMenuItem.Name = "noDamageToolStripMenuItem";
+            this.noDamageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.noDamageToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.noDamageToolStripMenuItem.Text = "No Damage";
+            this.noDamageToolStripMenuItem.Click += new System.EventHandler(this.noDamageToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -755,6 +765,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem pauseEngineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem noDamageToolStripMenuItem;
     }
 }
 

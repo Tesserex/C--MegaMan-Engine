@@ -106,6 +106,7 @@ namespace MegaMan.Engine
         // these are the flags for the debug menu stuff
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
+        public bool NoDamage { get; set; }
 
         public SamplerState FilterState { get; set; }
 

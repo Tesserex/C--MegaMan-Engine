@@ -1146,6 +1146,16 @@ namespace MegaMan.Engine
             }
         }
 
+        private void SetNoDamage(bool value)
+        {
+            noDamageToolStripMenuItem.Checked = Engine.Instance.NoDamage = value;
+        }
+
+        private void noDamageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetNoDamage(!noDamageToolStripMenuItem.Checked);
+        }
+
         private void hideMenuItem_Click(object sender, EventArgs e)
         {
             hideMenu(!hideMenuItem.Checked);
