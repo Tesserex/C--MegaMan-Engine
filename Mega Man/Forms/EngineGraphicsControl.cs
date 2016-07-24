@@ -178,7 +178,7 @@ namespace MegaMan.Engine
         public double artifacts;  /* artifacts caused by color changes */
         public double fringing;   /* color artifacts caused by brightness changes */
         public double bleed;      /* color bleed (color resolution reduction) */
-        public int merge_fields;  /* if 1, merges even and odd fields together to reduce flicker */
+        public bool merge_fields;  /* if 1, merges even and odd fields together to reduce flicker */
 
         public float[] decoder_matrix; /* optional RGB decoder matrix, 6 elements */
 
@@ -198,10 +198,15 @@ namespace MegaMan.Engine
             this.artifacts = artifacts;
             this.fringing = fringing;
             this.bleed = bleed;
-            this.merge_fields = merge_fields ? 1 : 0;
+            this.merge_fields = merge_fields ? true : false;
 
             // default decoder matrix
             decoder_matrix = null;
+        }
+
+        public snes_ntsc_setup_t snes_ntsc_custom()
+        {
+            return new snes_ntsc_setup_t(hue, saturation, contrast, brightness, sharpness, gamma, resolution, artifacts,fringing, bleed, merge_fields);
         }
     }
 }

@@ -215,8 +215,6 @@
             // 
             // screen1XMenu
             // 
-            this.screen1XMenu.Checked = true;
-            this.screen1XMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.screen1XMenu.Name = "screen1XMenu";
             this.screen1XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen1XMenu.Text = "1x";
@@ -257,31 +255,29 @@
             // 
             // ntscComposite
             // 
-            this.ntscComposite.Checked = true;
-            this.ntscComposite.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ntscComposite.Name = "ntscComposite";
-            this.ntscComposite.Size = new System.Drawing.Size(132, 22);
+            this.ntscComposite.Size = new System.Drawing.Size(152, 22);
             this.ntscComposite.Text = "Composite";
             this.ntscComposite.Click += new System.EventHandler(this.ntscComposite_Click);
             // 
             // ntscSVideo
             // 
             this.ntscSVideo.Name = "ntscSVideo";
-            this.ntscSVideo.Size = new System.Drawing.Size(132, 22);
+            this.ntscSVideo.Size = new System.Drawing.Size(152, 22);
             this.ntscSVideo.Text = "S-Video";
             this.ntscSVideo.Click += new System.EventHandler(this.ntscSVideo_Click);
             // 
             // ntscRGB
             // 
             this.ntscRGB.Name = "ntscRGB";
-            this.ntscRGB.Size = new System.Drawing.Size(132, 22);
+            this.ntscRGB.Size = new System.Drawing.Size(152, 22);
             this.ntscRGB.Text = "RGB";
             this.ntscRGB.Click += new System.EventHandler(this.ntscRGB_Click);
             // 
             // ntscCustom
             // 
             this.ntscCustom.Name = "ntscCustom";
-            this.ntscCustom.Size = new System.Drawing.Size(132, 22);
+            this.ntscCustom.Size = new System.Drawing.Size(152, 22);
             this.ntscCustom.Text = "Custom ...";
             this.ntscCustom.Click += new System.EventHandler(this.ntscCustom_Click);
             // 
@@ -300,8 +296,6 @@
             // 
             // pixellatedToolStripMenuItem
             // 
-            this.pixellatedToolStripMenuItem.Checked = true;
-            this.pixellatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
             this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
@@ -353,8 +347,6 @@
             // 
             // musicMenuItem
             // 
-            this.musicMenuItem.Checked = true;
-            this.musicMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.musicMenuItem.Name = "musicMenuItem";
             this.musicMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.musicMenuItem.Size = new System.Drawing.Size(263, 22);
@@ -363,8 +355,6 @@
             // 
             // sfxMenuItem
             // 
-            this.sfxMenuItem.Checked = true;
-            this.sfxMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sfxMenuItem.Name = "sfxMenuItem";
             this.sfxMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.M)));
@@ -379,8 +369,6 @@
             // 
             // sq1MenuItem
             // 
-            this.sq1MenuItem.Checked = true;
-            this.sq1MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sq1MenuItem.Name = "sq1MenuItem";
             this.sq1MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
             this.sq1MenuItem.Size = new System.Drawing.Size(263, 22);
@@ -389,8 +377,6 @@
             // 
             // sq2MenuItem
             // 
-            this.sq2MenuItem.Checked = true;
-            this.sq2MenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sq2MenuItem.Name = "sq2MenuItem";
             this.sq2MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
             this.sq2MenuItem.Size = new System.Drawing.Size(263, 22);
@@ -399,8 +385,6 @@
             // 
             // triMenuItem
             // 
-            this.triMenuItem.Checked = true;
-            this.triMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.triMenuItem.Name = "triMenuItem";
             this.triMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
             this.triMenuItem.Size = new System.Drawing.Size(263, 22);
@@ -409,8 +393,6 @@
             // 
             // noiseMenuItem
             // 
-            this.noiseMenuItem.Checked = true;
-            this.noiseMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.noiseMenuItem.Name = "noiseMenuItem";
             this.noiseMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
             this.noiseMenuItem.Size = new System.Drawing.Size(263, 22);
@@ -437,8 +419,6 @@
             // 
             // debugBarToolStripMenuItem
             // 
-            this.debugBarToolStripMenuItem.Checked = true;
-            this.debugBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.debugBarToolStripMenuItem.Name = "debugBarToolStripMenuItem";
             this.debugBarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.debugBarToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
