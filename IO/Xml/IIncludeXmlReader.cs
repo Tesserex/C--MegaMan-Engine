@@ -1,11 +1,12 @@
-﻿using MegaMan.Common;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml
 {
     internal interface IIncludeXmlReader
     {
         string NodeName { get; }
-        void Load(Project project, XElement xmlNode);
+        IIncludedObject Load(Project project, XElement xmlNode);
     }
 }

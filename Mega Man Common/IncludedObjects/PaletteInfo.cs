@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MegaMan.Common
+﻿namespace MegaMan.Common.IncludedObjects
 {
-    public class PaletteInfo
+    public class PaletteInfo : IncludedObject
     {
         public string Name { get; set; }
         public FilePath ImagePath { get; set; }

@@ -1,12 +1,28 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
 {
-    internal class MovementEffectPartXmlWriter
+    internal class MovementEffectPartXmlWriter : IEffectPartXmlWriter
     {
+        public Type EffectPartType
+        {
+            get
+            {
+                return typeof(MovementEffectPartInfo);
+            }
+        }
+
+        public void Write(IEffectPartInfo info, XmlWriter writer)
+        {
+            Write((MovementEffectPartInfo)info, writer);
+        }
+
         internal void Write(MovementEffectPartInfo info, XmlWriter writer)
         {
+            writer.WriteStartElement("Movement");
+
             writer.WriteElementString("Flying", info.Flying.ToString());
             writer.WriteElementString("FlipSprite", info.FlipSprite.ToString());
 
@@ -18,6 +34,8 @@ namespace MegaMan.IO.Xml.Effects
 
             if (info.Both != null)
                 WriteVelocity("Velocity", info.Both, writer);
+
+            writer.WriteEndElement();
         }
 
         private void WriteVelocity(string axis, VelocityEffectInfo velocityInfo, XmlWriter writer)

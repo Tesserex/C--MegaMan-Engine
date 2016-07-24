@@ -1,17 +1,19 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Xml;
 using MegaMan.Common;
+using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml
 {
     internal class ProjectXmlWriter : IProjectWriter
     {
         private XmlTextWriter _writer;
+        private readonly HandlerTransferXmlWriter _transferWriter;
 
-        public ProjectXmlWriter()
+        public ProjectXmlWriter(HandlerTransferXmlWriter transferWriter)
         {
+            _transferWriter = transferWriter;
         }
 
         public void Save(Project project)
@@ -50,14 +52,14 @@ namespace MegaMan.IO.Xml
                 if (info.WinHandler != null)
                 {
                     _writer.WriteStartElement("Win");
-                    WriteHandlerTransfer(info.WinHandler);
+                    _transferWriter.Write(info.WinHandler, _writer);
                     _writer.WriteEndElement();
                 }
 
                 if (info.LoseHandler != null)
                 {
                     _writer.WriteStartElement("Lose");
-                    WriteHandlerTransfer(info.LoseHandler);
+                    _transferWriter.Write(info.LoseHandler, _writer);
                     _writer.WriteEndElement();
                 }
 
@@ -67,7 +69,7 @@ namespace MegaMan.IO.Xml
 
             if (project.StartHandler != null)
             {
-                WriteHandlerTransfer(project.StartHandler);
+                _transferWriter.Write(project.StartHandler, _writer);
             }
 
             foreach (var folder in project.IncludeFolders)
@@ -83,31 +85,6 @@ namespace MegaMan.IO.Xml
             _writer.WriteEndElement(); // Game
 
             _writer.Close();
-        }
-
-        private void WriteHandlerTransfer(HandlerTransfer handlerTransfer)
-        {
-            _writer.WriteStartElement("Next");
-
-            if (handlerTransfer.Mode != HandlerMode.Next)
-            {
-                _writer.WriteAttributeString("mode", handlerTransfer.Mode.ToString());
-            }
-
-            if (handlerTransfer.Mode == HandlerMode.Push)
-            {
-                _writer.WriteAttributeString("pause", handlerTransfer.Pause.ToString());
-            }
-
-            if (handlerTransfer.Mode != HandlerMode.Pop)
-            {
-                _writer.WriteAttributeString("type", Enum.GetName(typeof(HandlerType), handlerTransfer.Type));
-                _writer.WriteAttributeString("name", handlerTransfer.Name);
-            }
-
-            _writer.WriteAttributeString("fade", handlerTransfer.Fade.ToString());
-
-            _writer.WriteEndElement();
         }
     }
 }

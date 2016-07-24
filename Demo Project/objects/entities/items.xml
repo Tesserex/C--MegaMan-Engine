@@ -1,338 +1,542 @@
 <Entities>
-	<Entity name="SmallHealth">
-		<Collision>
-			<Hitbox name="H" x="-4" y="-4" width="8" height="8" damage="-2">
-				<Hits>Player</Hits><Group>Item</Group>
+	<Entity name="SmallHealth" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="-2" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" width="8" height="8">
+		<Sprite name="normal" width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="12" duration="8" />
 			<Frame x="8" y="12" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
-			<Trigger>
-				<Condition>StateTime>=480</Condition>
-				<Effect><State>Flash</State></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="23">
+				<Condition>StateTime&gt;=480</Condition>
+				<Effect>
+					<State>Flash</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Flash">
-			<Timer><Start>Vanish</Start></Timer>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 2</Condition>
-				<Effect><Sprite><Visible>False</Visible></Sprite></Effect>
-			</Trigger>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 4</Condition>
+			<Initialize>
+				<Timer>
+					<Start>Vanish</Start>
+				</Timer>
+			</Initialize>
+			<Logic />
+			<Trigger priority="30">
+				<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
 				<Effect>
-					<Sprite><Visible>True</Visible></Sprite>
-					<Timer><Reset>Vanish</Reset></Timer>
+					<Sprite>
+						<Name />
+						<Visible>False</Visible>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
-				<Condition>StateTime>=120</Condition>
-				<Effect><Remove/></Effect>
+			<Trigger priority="34">
+				<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+				<Effect>
+					<Sprite>
+						<Name />
+						<Visible>True</Visible>
+					</Sprite>
+					<Timer>
+						<Reset>Vanish</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="41">
+				<Condition>StateTime&gt;=120</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="46">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><Remove /></Effect>
+			<Effect>
+				<Remove />
+			</Effect>
 		</Trigger>
 	</Entity>
-
-	<Entity name="BigHealth">
-		<Collision>
-			<Hitbox name="H" x="-8" y="-8" width="16" height="16" damage="-10">
-				<Hits>Player</Hits><Group>Item</Group>
+	<Entity name="BigHealth" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="normal" hide="False" />
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" damage="-10" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" width="16" height="16">
+		<Sprite name="normal" width="16" height="16" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="16" y="12" duration="8" />
 			<Frame x="32" y="12" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
-			<Trigger>
-				<Condition>StateTime>=480</Condition>
-				<Effect><State>Flash</State></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="73">
+				<Condition>StateTime&gt;=480</Condition>
+				<Effect>
+					<State>Flash</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Flash">
-			<Timer><Start>Vanish</Start></Timer>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 2</Condition>
-				<Effect><Sprite><Visible>False</Visible></Sprite></Effect>
-			</Trigger>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 4</Condition>
+			<Initialize>
+				<Timer>
+					<Start>Vanish</Start>
+				</Timer>
+			</Initialize>
+			<Logic />
+			<Trigger priority="80">
+				<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
 				<Effect>
-					<Sprite><Visible>True</Visible></Sprite>
-					<Timer><Reset>Vanish</Reset></Timer>
+					<Sprite>
+						<Name />
+						<Visible>False</Visible>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
-				<Condition>StateTime>=120</Condition>
-				<Effect><Remove/></Effect>
+			<Trigger priority="84">
+				<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+				<Effect>
+					<Sprite>
+						<Name />
+						<Visible>True</Visible>
+					</Sprite>
+					<Timer>
+						<Reset>Vanish</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="91">
+				<Condition>StateTime&gt;=120</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="96">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><Remove /></Effect>
+			<Effect>
+				<Remove />
+			</Effect>
 		</Trigger>
 	</Entity>
-
-	<Entity name="SmallWeapon">
-		<Collision>
-			<Hitbox name="H" x="-4" y="-4" width="8" height="8">
-				<Hits>Player</Hits><Group>Item</Group><Group>SmallWeapon</Group>
+	<Entity name="SmallWeapon" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
+				<Group>SmallWeapon</Group>
 			</Hitbox>
 		</Collision>
-		<Tilesheet pallete="Default">images\items.png</Tilesheet>
-		<Sprite name="normal" palette="MegaMan" width="8" height="8">
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Tilesheet>images\items.png</Tilesheet>
+		<Sprite name="normal" palette="MegaMan" width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="8" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
-			<Trigger>
-				<Condition>StateTime>=480</Condition>
-				<Effect><State>Flash</State></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="124">
+				<Condition>StateTime&gt;=480</Condition>
+				<Effect>
+					<State>Flash</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Flash">
-			<Timer><Start>Vanish</Start></Timer>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 2</Condition>
-				<Effect><Sprite><Visible>False</Visible></Sprite></Effect>
-			</Trigger>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 4</Condition>
+			<Initialize>
+				<Timer>
+					<Start>Vanish</Start>
+				</Timer>
+			</Initialize>
+			<Logic />
+			<Trigger priority="131">
+				<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
 				<Effect>
-					<Sprite><Visible>True</Visible></Sprite>
-					<Timer><Reset>Vanish</Reset></Timer>
+					<Sprite>
+						<Name />
+						<Visible>False</Visible>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
-				<Condition>StateTime>=120</Condition>
-				<Effect><Remove/></Effect>
+			<Trigger priority="135">
+				<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+				<Effect>
+					<Sprite>
+						<Name />
+						<Visible>True</Visible>
+					</Sprite>
+					<Timer>
+						<Reset>Vanish</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="142">
+				<Condition>StateTime&gt;=120</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="147">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><Remove /></Effect>
+			<Effect>
+				<Remove />
+			</Effect>
 		</Trigger>
 	</Entity>
-
-	<Entity name="BigWeapon">
-		<Collision>
-			<Hitbox name="H" x="-8" y="-6" width="16" height="12">
-				<Hits>Player</Hits><Group>Item</Group><Group>BigWeapon</Group>
+	<Entity name="BigWeapon" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-8" y="-6" width="16" height="12" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
+				<Group>BigWeapon</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" palette="MegaMan" width="16" height="12">
+		<Sprite name="normal" palette="MegaMan" width="16" height="12" tilesheet="images\items.png">
 			<Hotspot x="8" y="6" />
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="32" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
-			<Trigger>
-				<Condition>StateTime>=480</Condition>
-				<Effect><State>Flash</State></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="175">
+				<Condition>StateTime&gt;=480</Condition>
+				<Effect>
+					<State>Flash</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Flash">
-			<Timer><Start>Vanish</Start></Timer>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 2</Condition>
-				<Effect><Sprite><Visible>False</Visible></Sprite></Effect>
-			</Trigger>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 4</Condition>
+			<Initialize>
+				<Timer>
+					<Start>Vanish</Start>
+				</Timer>
+			</Initialize>
+			<Logic />
+			<Trigger priority="182">
+				<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
 				<Effect>
-					<Sprite><Visible>True</Visible></Sprite>
-					<Timer><Reset>Vanish</Reset></Timer>
+					<Sprite>
+						<Name />
+						<Visible>False</Visible>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
-				<Condition>StateTime>=120</Condition>
-				<Effect><Remove/></Effect>
+			<Trigger priority="186">
+				<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+				<Effect>
+					<Sprite>
+						<Name />
+						<Visible>True</Visible>
+					</Sprite>
+					<Timer>
+						<Reset>Vanish</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="193">
+				<Condition>StateTime&gt;=120</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="198">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><Remove /></Effect>
+			<Effect>
+				<Remove />
+			</Effect>
 		</Trigger>
 	</Entity>
-
-	<Entity name="ExtraLife">
-		<Collision>
-			<Hitbox name="H" x="-8" y="-8" width="16" height="15">
-				<Hits>Player</Hits><Group>Item</Group>
+	<Entity name="ExtraLife" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-8" y="-8" width="16" height="15" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" palette="MegaMan" width="16" height="15">
+		<Sprite name="normal" palette="MegaMan" width="16" height="15" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
-			<Trigger>
-				<Condition>StateTime>=480</Condition>
-				<Effect><State>Flash</State></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="225">
+				<Condition>StateTime&gt;=480</Condition>
+				<Effect>
+					<State>Flash</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Flash">
-			<Timer><Start>Vanish</Start></Timer>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 2</Condition>
-				<Effect><Sprite><Visible>False</Visible></Sprite></Effect>
-			</Trigger>
-			<Trigger>
-				<Condition>Timer.Value("Vanish") >= 4</Condition>
+			<Initialize>
+				<Timer>
+					<Start>Vanish</Start>
+				</Timer>
+			</Initialize>
+			<Logic />
+			<Trigger priority="232">
+				<Condition>Timer.Value("Vanish") &gt;= 2</Condition>
 				<Effect>
-					<Sprite><Visible>True</Visible></Sprite>
-					<Timer><Reset>Vanish</Reset></Timer>
+					<Sprite>
+						<Name />
+						<Visible>False</Visible>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
-				<Condition>StateTime>=120</Condition>
-				<Effect><Remove/></Effect>
+			<Trigger priority="236">
+				<Condition>Timer.Value("Vanish") &gt;= 4</Condition>
+				<Effect>
+					<Sprite>
+						<Name />
+						<Visible>True</Visible>
+					</Sprite>
+					<Timer>
+						<Reset>Vanish</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="243">
+				<Condition>StateTime&gt;=120</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
 			</Trigger>
 		</State>
-		<Trigger>
+		<Trigger priority="248">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><Lives add="1" /><Sound name="Life" /><Remove /></Effect>
+			<Effect>
+				<Lives add="1" />
+				<Sound name="Life" playing="True" />
+				<Remove />
+			</Effect>
 		</Trigger>
-  </Entity>
-
-  <Entity name="EnergyTank">
-		<Collision>
-			<Hitbox name="H" x="-8" y="-8" width="16" height="16">
-				<Hits>Player</Hits><Group>Item</Group>
+	</Entity>
+	<Entity name="EnergyTank" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite name="normal" palette="MegaMan" width="16" height="16">
+		<Sprite name="normal" palette="MegaMan" width="16" height="16" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="64" y="0" duration="8" />
 			<Frame x="80" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="277">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><AddInventory item="EnergyTank" quantity="1" /><Sound name="Life" /><Remove /></Effect>
+			<Effect>
+				<AddInventory item="EnergyTank" quantity="1" />
+				<Sound name="Life" playing="True" />
+				<Remove />
+			</Effect>
 		</Trigger>
-  </Entity>
-
-  <Entity name="SmallBolt">
-		<Collision>
-			<Hitbox name="H" x="-4" y="-4" width="8" height="8">
-				<Hits>Player</Hits><Group>Item</Group>
+	</Entity>
+	<Entity name="SmallBolt" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite width="8" height="8">
+		<Sprite width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="64" y="16" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="305">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><AddInventory item="Bolts" quantity="2" /><Sound name="Bolt" /><Remove /></Effect>
+			<Effect>
+				<AddInventory item="Bolts" quantity="2" />
+				<Sound name="Bolt" playing="True" />
+				<Remove />
+			</Effect>
 		</Trigger>
-  </Entity>
-
-  <Entity name="LargeBolt">
-		<Collision>
-			<Hitbox name="H" x="-8" y="-6" width="16" height="12">
-				<Hits>Player</Hits><Group>Item</Group>
+	</Entity>
+	<Entity name="LargeBolt" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-8" y="-6" width="16" height="12" properties="Default" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
-		<Sprite width="16" height="12">
+		<Sprite width="16" height="12" tilesheet="images\items.png">
 			<Hotspot x="8" y="6" />
 			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Blocking>True</Blocking>
-				<Flying>False</Flying>
-			</Movement>
-			<Collision><EnableBox name="H" /></Collision>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>False</Flying>
+					<FlipSprite />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+				</Collision>
+			</Initialize>
+			<Logic />
 		</State>
-		<Trigger>
+		<Trigger priority="333">
 			<Condition>Collision.TouchedBy("Player")</Condition>
-			<Effect><AddInventory item="Bolts" quantity="20" /><Remove /></Effect>
+			<Effect>
+				<AddInventory item="Bolts" quantity="20" />
+				<Remove />
+			</Effect>
 		</Trigger>
-  </Entity>
+	</Entity>
 </Entities>

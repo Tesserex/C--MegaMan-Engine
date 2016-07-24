@@ -1,6 +1,6 @@
-﻿using MegaMan.Common;
-using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml.Includes
@@ -14,12 +14,15 @@ namespace MegaMan.IO.Xml.Includes
             _sceneReader = sceneReader;
         }
 
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
+            var group = new IncludedObjectGroup();
             foreach (XElement sceneNode in xmlNode.Elements("Scene"))
             {
-                _sceneReader.Load(project, sceneNode);
+                group.Add(_sceneReader.Load(project, sceneNode));
             }
+
+            return group;
         }
 
         public string NodeName

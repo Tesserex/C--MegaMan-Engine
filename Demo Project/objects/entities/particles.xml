@@ -1,7 +1,12 @@
 <Entities>
-	<Entity name="DeathPop">
-		<EditorData hide="true" />
-		<Sprite tilesheet="images\particles\enemy_death.png" width="24" height="24">
+	<Entity name="DeathPop" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="24" height="24" tilesheet="images\particles\enemy_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="24" y="0" duration="3" />
@@ -10,64 +15,82 @@
 			<Frame x="96" y="0" duration="3" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
-			<Trigger>
-				<Condition>StateTime>=14</Condition>
-				<Effect><Die/></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="20">
+				<Condition>StateTime&gt;=14</Condition>
+				<Effect>
+					<Die />
+				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-
-  <Entity name="DeathPopBig">
-  	<EditorData hide="true" />
-    <Sprite tilesheet="images\particles\enemy_death_large.png" width="56" height="56">
-      <Hotspot x="28" y="28" />
-      <Frame x="0" y="0" duration="2" />
-      <Frame x="56" y="0" duration="1" />
-      <Frame x="112" y="0" duration="2" />
-      <Frame x="168" y="0" duration="1" />
-      <Frame x="224" y="0" duration="1" />
-      <Frame x="280" y="0" duration="1" />
-      <Frame x="336" y="0" duration="2" />
-      <Frame x="392" y="0" duration="1" />
-      <Frame x="448" y="0" duration="1" />
-      <Frame x="504" y="0" duration="1" />
-      <Frame x="560" y="0" duration="1" />
-      <Frame x="616" y="0" duration="1" />
-      <Frame x="672" y="0" duration="1" />
-      <Frame x="728" y="0" duration="1" />
-      <Frame x="784" y="0" duration="1" />
-      <Frame x="840" y="0" duration="1" />
-      <Frame x="896" y="0" duration="1" />
-      <Frame x="952" y="0" duration="1" />
-      <Frame x="1008" y="0" duration="2" />
-    </Sprite>
-    <State name="Start">
-      <Position>
-        <X base="Inherit" />
-        <Y base="Inherit" />
-      </Position>
-      <Movement>
-        <Flying>true</Flying>
-      </Movement>
-      <Trigger>
-        <Condition>StateTime>=23</Condition>
-        <Effect>
-          <Die/>
-        </Effect>
-      </Trigger>
-    </State>
-  </Entity>
-
-	<Entity name="MegaManDeath">
-		<EditorData hide="true" />
-		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
+	<Entity name="DeathPopBig" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="56" height="56" tilesheet="images\particles\enemy_death_large.png">
+			<Hotspot x="28" y="28" />
+			<Frame x="0" y="0" duration="2" />
+			<Frame x="56" y="0" duration="1" />
+			<Frame x="112" y="0" duration="2" />
+			<Frame x="168" y="0" duration="1" />
+			<Frame x="224" y="0" duration="1" />
+			<Frame x="280" y="0" duration="1" />
+			<Frame x="336" y="0" duration="2" />
+			<Frame x="392" y="0" duration="1" />
+			<Frame x="448" y="0" duration="1" />
+			<Frame x="504" y="0" duration="1" />
+			<Frame x="560" y="0" duration="1" />
+			<Frame x="616" y="0" duration="1" />
+			<Frame x="672" y="0" duration="1" />
+			<Frame x="728" y="0" duration="1" />
+			<Frame x="784" y="0" duration="1" />
+			<Frame x="840" y="0" duration="1" />
+			<Frame x="896" y="0" duration="1" />
+			<Frame x="952" y="0" duration="1" />
+			<Frame x="1008" y="0" duration="2" />
+		</Sprite>
+		<State name="Start">
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="59">
+				<Condition>StateTime&gt;=23</Condition>
+				<Effect>
+					<Die />
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="MegaManDeath" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
@@ -77,33 +100,202 @@
 			<Frame x="120" y="0" duration="4" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
 		</State>
-		<State name="Up"><Movement><X magnitude="0" /><Y magnitude="1" direction="Up" /></Movement></State>
-		<State name="Down"><Movement><X magnitude="0" /><Y magnitude="1" direction="Down" /></Movement></State>
-		<State name="Left"><Movement><Y magnitude="0" /><X magnitude="1" direction="Left" /></Movement></State>
-		<State name="Right"><Movement><Y magnitude="0" /><X magnitude="1" direction="Right" /></Movement></State>
-		<State name="UpLeft"><Movement><X magnitude="0.71" direction="Left" /><Y magnitude="0.71" direction="Up" /></Movement></State>
-		<State name="UpRight"><Movement><X magnitude="0.71" direction="Right" /><Y magnitude="0.71" direction="Up" /></Movement></State>
-		<State name="DownLeft"><Movement><X magnitude="0.71" direction="Left" /><Y magnitude="0.71" direction="Down" /></Movement></State>
-		<State name="DownRight"><Movement><X magnitude="0.71" direction="Right" /><Y magnitude="0.71" direction="Down" /></Movement></State>
-		<State name="UpFast"><Movement><X magnitude="0" /><Y magnitude="2" direction="Up" /></Movement></State>
-		<State name="DownFast"><Movement><X magnitude="0" /><Y magnitude="2" direction="Down" /></Movement></State>
-		<State name="LeftFast"><Movement><Y magnitude="0" /><X magnitude="2" direction="Left" /></Movement></State>
-		<State name="RightFast"><Movement><Y magnitude="0" /><X magnitude="2" direction="Right" /></Movement></State>
-		<State name="UpLeftFast"><Movement><X magnitude="1.42" direction="Left" /><Y magnitude="1.42" direction="Up" /></Movement></State>
-		<State name="UpRightFast"><Movement><X magnitude="1.42" direction="Right" /><Y magnitude="1.42" direction="Up" /></Movement></State>
-		<State name="DownLeftFast"><Movement><X magnitude="1.42" direction="Left" /><Y magnitude="1.42" direction="Down" /></Movement></State>
-		<State name="DownRightFast"><Movement><X magnitude="1.42" direction="Right" /><Y magnitude="1.42" direction="Down" /></Movement></State>
+		<State name="Up">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X magnitude="0" />
+					<Y direction="Up" magnitude="1" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Down">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X magnitude="0" />
+					<Y direction="Down" magnitude="1" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Left">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="1" />
+					<Y magnitude="0" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="Right">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="1" />
+					<Y magnitude="0" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpLeft">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="0.71" />
+					<Y direction="Up" magnitude="0.71" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpRight">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="0.71" />
+					<Y direction="Up" magnitude="0.71" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownLeft">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="0.71" />
+					<Y direction="Down" magnitude="0.71" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownRight">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="0.71" />
+					<Y direction="Down" magnitude="0.71" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X magnitude="0" />
+					<Y direction="Up" magnitude="2" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X magnitude="0" />
+					<Y direction="Down" magnitude="2" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="LeftFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="2" />
+					<Y magnitude="0" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="RightFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="2" />
+					<Y magnitude="0" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpLeftFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="1.42" />
+					<Y direction="Up" magnitude="1.42" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="UpRightFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="1.42" />
+					<Y direction="Up" magnitude="1.42" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownLeftFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Left" magnitude="1.42" />
+					<Y direction="Down" magnitude="1.42" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
+		<State name="DownRightFast">
+			<Initialize>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<X direction="Right" magnitude="1.42" />
+					<Y direction="Down" magnitude="1.42" />
+				</Movement>
+			</Initialize>
+			<Logic />
+		</State>
 	</Entity>
-	<Entity name="Dust">
-		<Sprite tilesheet="images\particles\dust_-_spark.png" width="8" height="8">
+	<Entity name="Dust" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="8" height="8" tilesheet="images\particles\dust_-_spark.png">
 			<Hotspot x="4" y="-5" />
 			<Frame x="0" y="8" duration="1" />
 			<Frame x="0" y="0" duration="8" />
@@ -111,95 +303,140 @@
 			<Frame x="16" y="0" duration="1" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-				<X offset="-12" direction="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
-			<Trigger>
-				<Condition>StateTime>=18</Condition>
-				<Effect><Die/></Effect>
-		<FlipSprite>True</FlipSprite>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="122">
+				<Condition>StateTime&gt;=18</Condition>
+				<Effect>
+					<Die />
+				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-		<Entity name="Spark" group="Particle">
-		<Sprite tilesheet="images\particles\spark.png" width="29" height="12">
+	<Entity name="Spark" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="29" height="12" tilesheet="images\particles\spark.png">
 			<Hotspot x="14" y="26" />
 			<Frame x="58" y="0" duration="8" />
 			<Frame x="29" y="0" duration="8" />
 			<Frame x="0" y="0" duration="8" />
 		</Sprite>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
-			<Trigger>
-				<Condition>StateTime>=24</Condition>
-				<Effect><Die/></Effect>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="144">
+				<Condition>StateTime&gt;=24</Condition>
+				<Effect>
+					<Die />
+				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-
-    <Entity name="Splash">
-		<EditorData hide="true" />
-        <Sprite tilesheet="images\particles\splash.png" width="30" height="16">
+	<Entity name="Splash" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Sprite width="30" height="16" tilesheet="images\particles\splash.png">
 			<Hotspot x="15" y="14" />
 			<Frame x="-1" y="0" duration="6" />
 			<Frame x="32" y="0" duration="6" />
 			<Frame x="68" y="0" duration="8" />
 			<Frame x="103" y="0" duration="8" />
 		</Sprite>
-        <State name="Start">
-            <Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-            <Trigger condition="LifeTime >= 28"><Effect><Remove /></Effect></Trigger>
-        </State>
-    </Entity>
-
-    <Entity name="Bubble">
-		<EditorData hide="true" />
-        <Sprite tilesheet="images\particles\bubble.png" width="4" height="4">
+		<State name="Start">
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger priority="165">
+				<Condition>LifeTime &gt;= 28</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="Bubble" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="4" height="4" tilesheet="images\particles\bubble.png">
 			<Hotspot x="2" y="2" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
-        <State name="Start">
-            <Position>
-				<X base="Inherit" offset="1" direction="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-            <Movement mode="repeat">
-                <Flying>True</Flying>
-                <Y magnitude="1" direction="Up" />
-            </Movement>
-            <Trigger><Condition>Movement.TileType != "Water"</Condition>
-                <Effect><Remove /></Effect>
-            </Trigger>
-            <Trigger condition="(LifeTime % 32) == 0">
-                <Effect>
-                    <Position><X offset="1" direction="Left" /></Position>
-                </Effect>
-            </Trigger>
-            <Trigger condition="(LifeTime % 32) == 16">
-                <Effect>
-                    <Position><X offset="1" direction="Right" /></Position>
-                </Effect>
-            </Trigger>
-        </State>
-    </Entity>
-
-	<Entity name="PowerAbsorb">
-		<EditorData hide="true" />
-		<Sprite tilesheet="images\particles\megaman_death.png" width="24" height="24">
+		<State name="Start">
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="1" direction="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+			</Initialize>
+			<Logic>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+					<Y direction="Up" magnitude="1" />
+				</Movement>
+			</Logic>
+			<Trigger priority="184">
+				<Condition>Movement.TileType != "Water"</Condition>
+				<Effect>
+					<Remove />
+				</Effect>
+			</Trigger>
+			<Trigger priority="187">
+				<Condition>(LifeTime % 32) == 0</Condition>
+				<Effect>
+					<Position>
+						<X base="Inherit" offset="1" direction="Left" />
+					</Position>
+				</Effect>
+			</Trigger>
+			<Trigger priority="192">
+				<Condition>(LifeTime % 32) == 16</Condition>
+				<Effect>
+					<Position>
+						<X base="Inherit" offset="1" direction="Right" />
+					</Position>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+	<Entity name="PowerAbsorb" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Flying />
+			<FlipSprite />
+		</Movement>
+		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="96" y="0" duration="4" />
 			<Frame x="72" y="0" duration="4" />
@@ -208,29 +445,79 @@
 			<Frame x="0" y="0" duration="4" />
 		</Sprite>
 		<State name="Start">
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
+			<Initialize>
+				<Movement>
+					<Flying>True</Flying>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
 		</State>
 		<State name="UpLeft">
-			<Position><X base="Inherit" offset="80" direction="Left" /><Y base="Inherit" offset="80" direction="Up" /></Position>
-			<Trigger condition="true"><Effect><Func>Movement.SetX((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Left" />
+					<Y base="Inherit" offset="80" direction="Up" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger priority="217">
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
 		</State>
 		<State name="UpRight">
-			<Position><X base="Inherit" offset="80" direction="Right" /><Y base="Inherit" offset="80" direction="Up" /></Position>
-			<Trigger condition="true"><Effect><Func>Movement.SetX((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Right" />
+					<Y base="Inherit" offset="80" direction="Up" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger priority="221">
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
 		</State>
 		<State name="DownLeft">
-			<Position><X base="Inherit" offset="80" direction="Left" /><Y base="Inherit" offset="80" direction="Down" /></Position>
-			<Trigger condition="true"><Effect><Func>Movement.SetX((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Left" />
+					<Y base="Inherit" offset="80" direction="Down" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger priority="225">
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
 		</State>
 		<State name="DownRight">
-			<Position><X base="Inherit" offset="80" direction="Right" /><Y base="Inherit" offset="80" direction="Down" /></Position>
-			<Trigger condition="true"><Effect><Func>Movement.SetX((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func></Effect></Trigger>
+			<Initialize>
+				<Position>
+					<X base="Inherit" offset="80" direction="Right" />
+					<Y base="Inherit" offset="80" direction="Down" />
+				</Position>
+			</Initialize>
+			<Logic />
+			<Trigger priority="229">
+				<Condition>true</Condition>
+				<Effect>
+					<Func>Movement.SetX((-20 / Math.PI) * Math.Sin(State.StateTime * Math.PI / 40)); Movement.SetY((-20 / Math.PI) * Math.Cos(State.StateTime * Math.PI / 40))</Func>
+				</Effect>
+			</Trigger>
 		</State>
-		<Trigger>
-			<Condition>StateTime > 20</Condition>
-			<Effect><Die /></Effect>
+		<Trigger priority="231">
+			<Condition>StateTime &gt; 20</Condition>
+			<Effect>
+				<Die />
+			</Effect>
 		</Trigger>
 	</Entity>
 </Entities>

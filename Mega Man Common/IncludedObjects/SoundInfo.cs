@@ -1,7 +1,7 @@
 ﻿
-namespace MegaMan.Common
+namespace MegaMan.Common.IncludedObjects
 {
-    public class SoundInfo
+    public class SoundInfo : IncludedObject
     {
         public string Name { get; set; }
         public FilePath Path { get; set; }

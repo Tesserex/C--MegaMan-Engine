@@ -1,5 +1,6 @@
 ﻿using MegaMan.Common;
 using System.Xml.Linq;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -17,12 +18,15 @@ namespace MegaMan.IO.Xml.Includes
             get { return "Sounds"; }
         }
 
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
+            var group = new IncludedObjectGroup();
             foreach (var node in xmlNode.Elements("Sound"))
             {
-                _soundReader.Load(project, node);
+                group.Add(_soundReader.Load(project, node));
             }
+
+            return group;
         }
     }
 }

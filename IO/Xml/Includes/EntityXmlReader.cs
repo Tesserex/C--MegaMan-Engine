@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Effects;
 using MegaMan.IO.Xml.Entities;
 
@@ -26,7 +27,7 @@ namespace MegaMan.IO.Xml.Includes
             }
         }
 
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
             var info = new EntityInfo() {
                 Name = xmlNode.RequireAttribute("name").Value,
@@ -59,6 +60,7 @@ namespace MegaMan.IO.Xml.Includes
                 info.Components.Add(new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() });
 
             project.AddEntity(info);
+            return info;
         }
 
         private bool HasMovementEffects(EntityInfo info)

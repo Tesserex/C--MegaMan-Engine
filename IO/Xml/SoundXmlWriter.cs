@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml
 {

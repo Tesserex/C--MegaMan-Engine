@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common
 {
@@ -63,11 +64,6 @@ namespace MegaMan.Common
         public int PlayerStartY { get; set; }
 
         public Tileset Tileset { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the absolute file path to the directory where this stage is stored
-        /// </summary>
-        public FilePath StagePath { get; set; }
 
         public FilePath MusicIntroPath { get; set; }
         public FilePath MusicLoopPath { get; set; }

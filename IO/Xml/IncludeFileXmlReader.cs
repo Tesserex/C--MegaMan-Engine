@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using Ninject;
 
 namespace MegaMan.IO.Xml
@@ -34,7 +35,8 @@ namespace MegaMan.IO.Xml
                 {
                     if (_readers.ContainsKey(element.Name.LocalName))
                     {
-                        _readers[element.Name.LocalName].Load(project, element);
+                        var obj = _readers[element.Name.LocalName].Load(project, element);
+                        obj.StoragePath = FilePath.FromAbsolute(filePath, project.BaseDir);
                     }
                 }
             }
