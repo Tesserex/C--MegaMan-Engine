@@ -336,30 +336,31 @@ namespace MegaMan.Engine
         protected override void OnClosed(EventArgs e)
         {
             var serializer = new XmlSerializer(typeof(UserSettings));
-            var settings = new UserSettings() {
-                Keys = new UserKeys() {
-                    Up = GameInputKeys.Up,
-                    Down = GameInputKeys.Down,
-                    Left = GameInputKeys.Left,
-                    Right = GameInputKeys.Right,
-                    Jump = GameInputKeys.Jump,
-                    Shoot = GameInputKeys.Shoot,
-                    Start = GameInputKeys.Start,
-                    Select = GameInputKeys.Select
-                }
-            };
+            //var settings = new UserSettings();
+            //var settings = new UserSettings() {
+            //    Keys = new UserKeys() {
+            //        Up = GameInputKeys.Up,
+            //        Down = GameInputKeys.Down,
+            //        Left = GameInputKeys.Left,
+            //        Right = GameInputKeys.Right,
+            //        Jump = GameInputKeys.Jump,
+            //        Shoot = GameInputKeys.Shoot,
+            //        Start = GameInputKeys.Start,
+            //        Select = GameInputKeys.Select
+            //    }
+            //};
             
-            /*XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
-            {
-                Indentation = 1,
-                IndentChar = '\t',
-                Formatting = Formatting.Indented
-            };*/
-
+            //XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            //{
+            //    Indentation = 1,
+            //    IndentChar = '\t',
+            //    Formatting = Formatting.Indented
+            //};
+            //
             //serializer.Serialize(writer, settings);
-
+            //
             //writer.Close();
-            base.OnClosed(e);
+            //base.OnClosed(e);
         }
 
         private void WrongConfigAlert(string message)
@@ -367,15 +368,18 @@ namespace MegaMan.Engine
             MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
 
-        private void LoadConfig()
+        private void LoadConfig(string fileName = null)
         {
-            settingsPath = Path.Combine(Application.StartupPath, Constants.Paths.SettingFile);
+            if (fileName == null) fileName = Constants.Paths.SettingFile;
+
+            settingsPath = Path.Combine(Application.StartupPath, fileName);
             if (File.Exists(settingsPath))
             {
                 var serializer = new XmlSerializer(typeof(UserSettings));
                 using (var file = File.Open(settingsPath, FileMode.Open))
                 {
-                    var settings = (UserSettings)serializer.Deserialize(file);
+                    var settingsArray = (UserSettings)serializer.Deserialize(file);
+                    var settings = settingsArray.GetSettingsForGame();
 
                     #region Input Menu: Keys
                     GameInputKeys.Up = settings.Keys.Up;

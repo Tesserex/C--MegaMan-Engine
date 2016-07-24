@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
@@ -49,6 +50,40 @@ namespace MegaMan.Engine
     [Serializable]
     public class UserSettings
     {
+        public List<Setting> Settings { get; set; }
+
+        /// <summary>
+        /// Default constructor must exist to used deserialization
+        /// </summary>
+        public UserSettings() { }
+
+        public UserSettings(UserKeys keys)
+        {
+            
+        }
+
+        public Setting GetSettingsForGame(string gameName = "")
+        {
+            foreach (Setting setting in Settings)
+            {
+                if (setting.GameFileName == gameName) return setting;
+            }
+
+            // Setting of name received not found, return default one
+            foreach (Setting setting in Settings)
+            {
+                if (setting.GameFileName == "") return setting;
+            }
+
+            // No default settings found, return null, will caues crash and default settings will be load.
+            return null;
+        }
+    }
+
+    [Serializable]
+    public class Setting
+    {
+        public string GameFileName { get; set; }
         public UserKeys Keys { get; set; }
         public LastScreen Screen { get; set; }
         public LastAudio Audio { get; set; }
