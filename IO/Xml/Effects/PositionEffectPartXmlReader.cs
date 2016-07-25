@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -46,6 +42,8 @@ namespace MegaMan.IO.Xml.Effects
                     axisInfo.Base = prop.TryAttribute<float>("base");
             }
 
+            axisInfo.BaseVar = prop.TryAttribute<string>("baseVar");
+
             if (prop.Attribute("offset") != null)
             {
                 axisInfo.Offset = prop.TryAttribute<float?>("offset");
@@ -59,6 +57,8 @@ namespace MegaMan.IO.Xml.Effects
                     throw new GameXmlException(offdirattr, "Position offset direction was not valid!");
                 }
             }
+
+            axisInfo.OffsetVar = prop.TryAttribute<string>("offsetVar");
 
             return axisInfo;
         }

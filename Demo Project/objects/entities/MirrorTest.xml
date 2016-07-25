@@ -5,14 +5,19 @@
 			<Hotspot x="4" y="4" />
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
+		<Position persistoffscreen="True" />
 		<State name="Start">
+			<Position mode="repeat">
+				<X baseVar="PlayerX" />
+				<Y baseVar="PlayerY" />
+			</Position>
 			<Movement mode="repeat">
 				<Flying>True</Flying>
-				<X magnitudeVar="PlayerX" direction="Right" />
-				<Y magnitudeVar="PlayerY" direction="Down" />
 			</Movement>
-			<Vars mode="repeat" name="PlayerX" call="Movement.VelocityX" entity="Player" />
-			<Vars mode="repeat" name="PlayerY" call="Movement.VelocityY" entity="Player" />
+			<Vars mode="repeat" name="PlayerX" call="Position.X" entity="Player" />
+			<Vars mode="repeat" name="PlayerY" call="Position.Y - 16" entity="Player" />
+			<Vars mode="repeat" name="PlayerVX" call="Movement.VelocityX" entity="Player" />
+			<Vars mode="repeat" name="PlayerVY" call="Movement.VelocityY" entity="Player" />
 		</State>
 	</Entity>
 </Entities>
