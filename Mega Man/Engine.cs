@@ -327,12 +327,6 @@ namespace MegaMan.Engine
             RenderContext(layer);
         }
 
-        public void ToggleLayerVisibility(int layer)
-        {
-            layerVisibility[layer] = !layerVisibility[layer];
-            RenderContext(layer);
-        }
-
         // This is run at the start of every step. It reads key states and checks for any changes.
         // If a key state changed, a GameInputReceived event is fired.
         private void CheckInput()

@@ -67,5 +67,15 @@ namespace MegaMan.Engine.Tests
         public void StartDrawing()
         {
         }
+
+        public void StopInput()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartInput()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -28,6 +28,11 @@ namespace MegaMan.Engine
             base.OnShown(e);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (waitLabel != null)

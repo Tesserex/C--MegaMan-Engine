@@ -316,9 +316,18 @@ namespace MegaMan.Engine
             }
         }
 
+        /// <summary>
+        /// Things to do when closing engine, no matter the way
+        /// </summary>
+        public void close()
+        {
+            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            SaveConfig();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
-            //SaveConfig();
+            close();
             base.OnClosed(e);
         }
         #endregion
@@ -330,13 +339,17 @@ namespace MegaMan.Engine
         {
             OpenFileDialog dialog = new OpenFileDialog();
             DialogResult result = dialog.ShowDialog();
+
+            SaveConfig();
+
             if (result == DialogResult.OK)
             {
                 pauseOff();
 
                 LoadGame(dialog.FileName);
                 currentGame = Path.GetFileName(dialog.FileName);
-                LoadConfigFromXMLOrDefaultOneIfInvalidXML();
+                LoadConfigFromXML();
+
                 SetLayersVisibilityFromSettings();
             }
         }
@@ -357,6 +370,10 @@ namespace MegaMan.Engine
         {
             if (Game.CurrentGame != null)
             {
+                SaveConfig();
+                currentGame = "";
+                LoadConfigFromXML();
+
                 Game.CurrentGame.Unload();
                 this.xnaImage.Clear();
                 Text = "Mega Man";
@@ -365,15 +382,13 @@ namespace MegaMan.Engine
 
         private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            currentGame = "";
             CloseGame();
         }
         #endregion
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
-            //SaveConfig();
+            close();
             Application.Exit();
         }
         #endregion
@@ -405,7 +420,7 @@ namespace MegaMan.Engine
         #region Third Section
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //SaveConfig();
+            SaveConfig();
         }
 
         /// <summary>
@@ -415,8 +430,9 @@ namespace MegaMan.Engine
         /// <param name="e"></param>
         private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //SaveConfig();
+            SaveConfig();
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
+            LoadConfigFromXML();
         }
         #endregion
         #endregion
@@ -589,6 +605,8 @@ namespace MegaMan.Engine
         {
             ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
                 customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
+
+            SaveConfig();
         }
         #endregion
 
@@ -961,32 +979,32 @@ namespace MegaMan.Engine
         {
             if (index == (Int16)UserSettingsEnums.Layers.Background)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 backgroundToolStripMenuItem.Checked = value;
             }
             else if (index == (Int16)UserSettingsEnums.Layers.Sprite1)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 sprites1ToolStripMenuItem.Checked = value;
             }
             else if (index == (Int16)UserSettingsEnums.Layers.Sprite2)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 sprites2ToolStripMenuItem.Checked = value;
             }
             else if (index == (Int16)UserSettingsEnums.Layers.Sprite3)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 sprites3ToolStripMenuItem.Checked = value;
             }
             else if (index == (Int16)UserSettingsEnums.Layers.Sprite4)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 sprites4ToolStripMenuItem.Checked = value;
             }
             else if (index == (Int16)UserSettingsEnums.Layers.Foreground)
             {
-                Engine.Instance.ToggleLayerVisibility(index);
+                Engine.Instance.SetLayerVisibility(index, value);
                 foregroundToolStripMenuItem.Checked = value;
             }
         }
@@ -1411,6 +1429,12 @@ namespace MegaMan.Engine
         }
         #endregion
 
+        /// <summary>
+        /// When engine is opening, every cases of bad files are handled, then file is locked.
+        /// It means that calling this function after this call, it will always be valid since only program can modify it.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="settings"></param>
         private void SaveConfig(string fileName = null, Setting settings = null)
         {
             if (fileName == null) fileName = Constants.Paths.SettingFile;
