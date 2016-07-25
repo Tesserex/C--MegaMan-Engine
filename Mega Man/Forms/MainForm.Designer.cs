@@ -36,7 +36,9 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.pauseEngineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveConfigurationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keyboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,8 +100,6 @@
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.saveConfigurationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
             this.SuspendLayout();
@@ -184,6 +184,11 @@
             this.pauseEngineToolStripMenuItem.Text = "Pause Engine";
             this.pauseEngineToolStripMenuItem.Click += new System.EventHandler(this.pauseEngineToolStripMenuItem_Click);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(191, 6);
+            // 
             // defaultConfigToolStripMenuItem
             // 
             this.defaultConfigToolStripMenuItem.Checked = true;
@@ -192,6 +197,13 @@
             this.defaultConfigToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.defaultConfigToolStripMenuItem.Text = "Default Configurations";
             this.defaultConfigToolStripMenuItem.Click += new System.EventHandler(this.defaultConfigToolStripMenuItem_Click);
+            // 
+            // saveConfigurationsToolStripMenuItem
+            // 
+            this.saveConfigurationsToolStripMenuItem.Name = "saveConfigurationsToolStripMenuItem";
+            this.saveConfigurationsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saveConfigurationsToolStripMenuItem.Text = "Save Configurations";
+            this.saveConfigurationsToolStripMenuItem.Click += new System.EventHandler(this.saveConfigurationsToolStripMenuItem_Click);
             // 
             // inputToolStripMenuItem
             // 
@@ -214,16 +226,16 @@
             // audioToolStripMenuItem
             // 
             this.audioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.increaseVolumeToolStripMenuItem,
-            this.decreaseVolumeToolStripMenuItem,
-            this.toolStripSeparator8,
             this.musicMenuItem,
             this.sfxMenuItem,
-            this.toolStripSeparator3,
+            this.toolStripSeparator8,
             this.sq1MenuItem,
             this.sq2MenuItem,
             this.triMenuItem,
-            this.noiseMenuItem});
+            this.noiseMenuItem,
+            this.toolStripSeparator3,
+            this.increaseVolumeToolStripMenuItem,
+            this.decreaseVolumeToolStripMenuItem});
             this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
             this.audioToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.audioToolStripMenuItem.Text = "&Audio";
@@ -720,18 +732,6 @@
             this.xnaImage.Size = new System.Drawing.Size(294, 248);
             this.xnaImage.TabIndex = 1;
             this.xnaImage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.xnaImage_MouseClick);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(191, 6);
-            // 
-            // saveConfigurationsToolStripMenuItem
-            // 
-            this.saveConfigurationsToolStripMenuItem.Name = "saveConfigurationsToolStripMenuItem";
-            this.saveConfigurationsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.saveConfigurationsToolStripMenuItem.Text = "Save Configurations";
-            this.saveConfigurationsToolStripMenuItem.Click += new System.EventHandler(this.saveConfigurationsToolStripMenuItem_Click);
             // 
             // MainForm
             // 

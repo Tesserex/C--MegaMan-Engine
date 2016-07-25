@@ -17,7 +17,7 @@ namespace MegaMan.Engine
         #region Variables
         private string settingsPath, currentGame;
         private int widthZoom, heightZoom, width, height;
-        private bool fullScreenToolStripMenuItem_IsMaximized, useGlobalConfig; // useGlobalConfig: if false, used a config specific to a game name in xml file for configs.
+        private bool fullScreenToolStripMenuItem_IsMaximized;
         
         private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
                                                  // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
@@ -266,7 +266,7 @@ namespace MegaMan.Engine
             InitializeComponent();
 
             menu = gotFocus = altKeyDown = false;
-            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = true;
+            defaultConfigToolStripMenuItem.Checked = true;
             currentGame = "";
 
 #if !DEBUG
@@ -335,7 +335,8 @@ namespace MegaMan.Engine
                 pauseOff();
 
                 LoadGame(dialog.FileName);
-                dialog.FileName = "";
+                currentGame = Path.GetFileName(dialog.FileName);
+                LoadConfig();
                 SetLayersVisibilityFromSettings();
             }
         }
@@ -407,10 +408,15 @@ namespace MegaMan.Engine
             SaveConfig();
         }
 
+        /// <summary>
+        /// If defaultConfigToolStripMenuItem unchecked, uses a config specific to a game name in xml file for configs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveConfig();
-            defaultConfigToolStripMenuItem.Checked = useGlobalConfig = !useGlobalConfig;
+            defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
         }
         #endregion
         #endregion
@@ -425,6 +431,10 @@ namespace MegaMan.Engine
 
         #region Screen Menu
         #region First Section
+        /// <summary>
+        /// 1X, 2X, 3X, 4X and NTSC are considered resolutions
+        /// </summary>
+        /// <param name="itemToKeepChecked"></param>
         private void AllScreenResolutionOffBut(ToolStripMenuItem itemToKeepChecked)
         {
             fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
@@ -449,40 +459,83 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
-        /// For screen option X1, X2, X3, X4, they use mostly similar code.
+        /// Screen option X1, X2, X3, X4, they use mostly similar code.
         /// </summary>
         /// <param name="index"></param>
         private void screenSizeMenuSelected(int index)
         {
+            Int16 ntscOption = -1;
+            snes_ntsc_setup_t ntscOptionParameters = null;
+
             if (index == (Int16)UserSettingsEnums.Screen.NTSC)
             {
-                if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
-                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
-                else if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
-                //if (ntscComposite.Checked) ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
+                #region NTSC
+                #region Get NTSC Option and Parameters from Option
+                if (ntscComposite.Checked)
+                {
+                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Composite;
+                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_composite;
+                }
+                else if (ntscSVideo.Checked)
+                {
+                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.S_Video;
+                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_svideo;
+                }
+                else if (ntscRGB.Checked)
+                {
+                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.RGB;
+                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb;
+                }
+                else // (ntscCustom.Checked)
+                {
+                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Custom;
+                    // !!!NTSC option read from what is in form
+                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb; // TEMPORARY TO PREVENT BUG
+                }
+
+                if (ntscOption == -1 || ntscOptionParameters == null)
+                {
+                    // This case is a programming error, alert!
+                    // If NTSC is selected, 3 parameters must be sent to current function.
+                    Programming_Error_No_Shutdown("screenSizeMenuSelected called, NTSC selected, 3 parameters should be sent. ntscOption was " + ntscOption.ToString() + " ntscOptionParameters was " + ntscOptionParameters + ".");
+                    return;
+                }
+                #endregion
+
+                if (ntscComposite.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
+                else if (ntscRGB.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
+                else if (ntscSVideo.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
+                else ntscOptionSet(ntscOption, ntscOptionParameters);
+                #endregion
             }
             if (index == (Int16)UserSettingsEnums.Screen.X1)
             {
                 previousScreenSizeSelection = screen1XMenu;
                 widthZoom = heightZoom = 1;
+                ScreenSizeMultiple();
+                AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
             if (index == (Int16)UserSettingsEnums.Screen.X2)
             {
                 previousScreenSizeSelection = screen2XMenu;
                 widthZoom = heightZoom = 2;
+                ScreenSizeMultiple();
+                AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
             if (index == (Int16)UserSettingsEnums.Screen.X3)
             {
                 previousScreenSizeSelection = screen3XMenu;
                 widthZoom = heightZoom = 3;
+                ScreenSizeMultiple();
+                AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
             if (index == (Int16)UserSettingsEnums.Screen.X4)
             {
                 previousScreenSizeSelection = screen4XMenu;
                 widthZoom = heightZoom = 4;
+                ScreenSizeMultiple();
+                AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            ScreenSizeMultiple();
-            AllScreenResolutionOffBut(previousScreenSizeSelection);
         }
 
         private void screen1XMenu_Click(object sender, EventArgs e)
@@ -529,19 +582,7 @@ namespace MegaMan.Engine
         #region NTSC Submenu
         #region NTSC Custom Functions
         /// <summary>
-        /// Functions that preparer parameters to call customNtscForm_Apply from parameters in a wrapper class
-        /// Receive all the values in a wrapper class
-        /// </summary>
-        /// <param name="values"></param>
-        /// <remarks>Used to set values from config file read.</remarks>
-        private void customNtscForm_ApplyFromWrapperObject(NTSC_CustomOptions wrapper)
-        {
-            ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(wrapper.Hue, wrapper.Saturation, wrapper.Contrast, wrapper.Brightness,
-                wrapper.Sharpness, wrapper.Gamma, wrapper.Resolution, wrapper.Artifacts, wrapper.Fringing, wrapper.Bleed, true));
-        }
-
-        /// <summary>
-        /// Functions that preparer parameters to call customNtscForm_Apply from form settings
+        /// Functions that prepares snes_ntsc_setup_t parameter and make function call to apply changes
         /// Build a snes_ntsc_setup_t item from form parameters
         /// </summary>
         private void customNtscForm_ApplyFromForm()
@@ -576,31 +617,30 @@ namespace MegaMan.Engine
         /// <param name="NTSC_Option"></param>
         /// <param name="customParameters"></param>
         /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(Int16 NTSC_Option, NTSC_CustomOptions customParameters = null, bool setOption = true)
+        private void ntscOptionSet(Int16 NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
         {
             // Set parameters of Custom options
-            if (customParameters != null) customNtscForm_ApplyFromWrapperObject(customParameters);
-
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
+            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
         }
         #endregion
 
         #region Button Click event of NTSC options
         private void ntscComposite_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
         }
 
         private void ntscSVideo_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video);
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
         }
 
         private void ntscRGB_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB);
+            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
         }
 
         private void ntscCustom_Click(object sender, EventArgs e)
@@ -739,25 +779,6 @@ namespace MegaMan.Engine
         
         #region Audio Menu
         #region First Section
-        #region Volume
-        public void SetVolume(int value)
-        {
-            Engine.Instance.Volume = value;
-        }
-
-        private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetVolume(Engine.Instance.Volume + 1);
-        }
-
-        private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetVolume(Engine.Instance.Volume -1);
-        }
-        #endregion
-        #endregion
-
-        #region Second Section
         private void setMusic(bool value)
         {
             if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
@@ -779,7 +800,7 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        #region Third Section
+        #region Second Section
         private void setSq1(bool value)
         {
             Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked = value;
@@ -820,6 +841,26 @@ namespace MegaMan.Engine
             setNoise(!noiseMenuItem.Checked);
         }
         #endregion
+
+        #region Third Section
+        #region Volume
+        public void SetVolume(int value)
+        {
+            Engine.Instance.Volume = value;
+        }
+
+        private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetVolume(Engine.Instance.Volume + 1);
+        }
+
+        private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetVolume(Engine.Instance.Volume - 1);
+        }
+        #endregion
+        #endregion
+
         #endregion
 
         #region Debug Menu
@@ -1117,10 +1158,13 @@ namespace MegaMan.Engine
             return var;
         }
 
-        private void LoadConfig(string fileName = null)
+        private void LoadConfig(string XML_fileName = null)
         {
-            UserSettings settingsArray = GetUserSettingsFromXML(fileName);
-            var settings = settingsArray.GetSettingsForGame();
+            UserSettings settingsArray = GetUserSettingsFromXML(XML_fileName);
+            Setting settings = null;
+
+            if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
+            else settings = settingsArray.GetSettingsForGame(currentGame);
 
             #region Input Menu: Keys
             GameInputKeys.Up = settings.Keys.Up;
@@ -1140,7 +1184,26 @@ namespace MegaMan.Engine
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
                 settings.Screens.NTSC_Options = ConfigFilesDefaultValues.NTSC_Option;
             }
-            ntscOptionSet((Int16)settings.Screens.NTSC_Options, settings.Screens.NTSC_Custom, false);
+            ntscOptionSet(
+                (Int16)settings.Screens.NTSC_Options, 
+                new snes_ntsc_setup_t(
+                    settings.Screens.NTSC_Custom.Hue,
+                    settings.Screens.NTSC_Custom.Saturation,
+                    settings.Screens.NTSC_Custom.Contrast,
+                    settings.Screens.NTSC_Custom.Brightness,
+                    settings.Screens.NTSC_Custom.Sharpness,
+                    settings.Screens.NTSC_Custom.Gamma,
+                    settings.Screens.NTSC_Custom.Resolution,
+                    settings.Screens.NTSC_Custom.Artifacts,
+                    settings.Screens.NTSC_Custom.Fringing,
+                    settings.Screens.NTSC_Custom.Bleed,
+                    settings.Screens.NTSC_Custom.Merge_Fields
+                ),
+                false
+                );
+
+            // !!!NTSC option write values to form for custom, so on opening of form, those values are present
+
 
             if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
             {
@@ -1232,7 +1295,7 @@ namespace MegaMan.Engine
             #region Creation of variable to save
             var settings = new Setting()
             {
-                GameFileName = currentGame = "",
+                GameFileName = defaultConfigToolStripMenuItem.Checked == true ? "" : currentGame,
                 Keys = new UserKeys()
                 {
                     Up = GameInputKeys.Up,
@@ -1249,9 +1312,9 @@ namespace MegaMan.Engine
                     Size = currentSize(),
                     Maximized = WindowState == FormWindowState.Maximized ? true : false,
                     NTSC_Options = currentNTSC_Option(),
+                    // !!!NTSC option write
                     NTSC_Custom = new NTSC_CustomOptions()
                     {
-                        // !!!NTSC option write
                         Hue = 1,
                         Saturation = 1,
                         Brightness = 1,
@@ -1261,7 +1324,8 @@ namespace MegaMan.Engine
                         Resolution = 1,
                         Artifacts = 1,
                         Fringing = 1,
-                        Bleed = 1
+                        Bleed = 1,
+                        Merge_Fields = true
                     },
                     Pixellated = currentPixellatedOrSmoothedOption(),
                     HideMenu = hideMenuItem.Checked
@@ -1306,7 +1370,7 @@ namespace MegaMan.Engine
 
             // This functions updates settingsPath
             UserSettings userSettings = GetUserSettingsFromXML(fileName);
-            userSettings.AddOrSetExistingSettingsForGame(settings, currentGame);
+            userSettings.AddOrSetExistingSettingsForGame(settings);
 
             XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
             {
@@ -1327,6 +1391,11 @@ namespace MegaMan.Engine
             MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
 
             CloseGame();
+        }
+
+        private void Programming_Error_No_Shutdown(string message)
+        {
+            MessageBox.Show(this, message, "Programming Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
 
         private void WrongConfigAlert(string message)

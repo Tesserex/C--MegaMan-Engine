@@ -79,7 +79,7 @@ namespace MegaMan.Engine
             return null;
         }
 
-        public void AddOrSetExistingSettingsForGame(Setting newSetting, string gameName = "")
+        public void AddOrSetExistingSettingsForGame(Setting newSetting)
         {
             // No list, create a new one
             if (Settings == null)
@@ -92,7 +92,10 @@ namespace MegaMan.Engine
             // If setting exist, replace it
             for (int x = 0; x < Settings.Count; x++)
             {
-                if (Settings[x].GameFileName == gameName) Settings[x] = newSetting; return;
+                if (Settings[x].GameFileName == newSetting.GameFileName)
+                {
+                    Settings[x] = newSetting; return;
+                }
             }
 
             // Setting of name received not found, add it
@@ -137,6 +140,7 @@ namespace MegaMan.Engine
         public double Artifacts { get; set; }
         public double Fringing { get; set; }
         public double Bleed { get; set; }
+        public bool Merge_Fields { get; set; }
     }
 
     [Serializable]
