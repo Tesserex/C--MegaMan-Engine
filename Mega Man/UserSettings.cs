@@ -78,6 +78,26 @@ namespace MegaMan.Engine
             // No default settings found, return null, will caues crash and default settings will be load.
             return null;
         }
+
+        public void AddOrSetExistingSettingsForGame(Setting newSetting, string gameName = "")
+        {
+            // No list, create a new one
+            if (Settings == null)
+            {
+                Settings = new List<Setting>();
+                Settings.Add(newSetting);
+                return;
+            }
+
+            // If setting exist, replace it
+            for (int x = 0; x < Settings.Count; x++)
+            {
+                if (Settings[x].GameFileName == gameName) Settings[x] = newSetting; return;
+            }
+
+            // Setting of name received not found, add it
+            Settings.Add(newSetting);
+        }
     }
 
     [Serializable]
@@ -85,7 +105,7 @@ namespace MegaMan.Engine
     {
         public string GameFileName { get; set; }
         public UserKeys Keys { get; set; }
-        public LastScreen Screen { get; set; }
+        public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
         public LastDebug Debug { get; set; }
         public LastMiscellaneous Miscellaneous { get; set; }
@@ -105,23 +125,23 @@ namespace MegaMan.Engine
     }
 
     [Serializable]
+    public class NTSC_CustomOptions
+    {
+        public double Hue { get; set; }
+        public double Saturation { get; set; }
+        public double Brightness { get; set; }
+        public double Contrast { get; set; }
+        public double Sharpness { get; set; }
+        public double Gamma { get; set; }
+        public double Resolution { get; set; }
+        public double Artifacts { get; set; }
+        public double Fringing { get; set; }
+        public double Bleed { get; set; }
+    }
+
+    [Serializable]
     public class LastScreen
     {
-        [Serializable]
-        public class NTSC_CustomOptions
-        {
-            public double Hue { get; set; }
-            public double Saturation { get; set; }
-            public double Brightness { get; set; }
-            public double Contrast { get; set; }
-            public double Sharpness { get; set; }
-            public double Gamma { get; set; }
-            public double Resolution { get; set; }
-            public double Artifacts { get; set; }
-            public double Fringing { get; set; }
-            public double Bleed { get; set; }
-        }
-
         public Int32 Size { get; set; } // Needs to be Int32 even if Int16 is sufficient. It is compared to Int16
         public bool Maximized { get; set; }
         public Int32 NTSC_Options { get; set; }
@@ -134,7 +154,7 @@ namespace MegaMan.Engine
     public class LastAudio
     {
         public Int32 Volume { get; set; }
-        public bool Music { get; set; }
+        public bool Musics { get; set; }
         public bool Sound { get; set; }
         public bool Square1 { get; set; }
         public bool Square2 { get; set; }
@@ -143,26 +163,26 @@ namespace MegaMan.Engine
     }
 
     [Serializable]
+    public class LastCheat
+    {
+        public bool Invincibility { get; set; }
+        public bool NoDamage { get; set; }
+    }
+
+    [Serializable]
+    public class LastBackground
+    {
+        public bool Background { get; set; }
+        public bool Sprites1 { get; set; }
+        public bool Sprites2 { get; set; }
+        public bool Sprites3 { get; set; }
+        public bool Sprites4 { get; set; }
+        public bool Foreground { get; set; }
+    }
+
+    [Serializable]
     public class LastDebug
     {
-        [Serializable]
-        public class LastCheat
-        {
-            public bool Invincibility { get; set; }
-            public bool NoDamage { get; set; }
-        }
-
-        [Serializable]
-        public class LastBackground
-        {
-            public bool Background { get; set; }
-            public bool Sprites1 { get; set; }
-            public bool Sprites2 { get; set; }
-            public bool Sprites3 { get; set; }
-            public bool Sprites4 { get; set; }
-            public bool Foreground { get; set; }
-        }
-
         public bool ShowMenu { get; set; }
         public bool ShowHitboxes { get; set; }
         public Int32 Framerate { get; set; }

@@ -98,6 +98,8 @@
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveConfigurationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();
             this.SuspendLayout();
@@ -127,7 +129,9 @@
             this.quitToolStripMenuItem,
             this.toolStripSeparator7,
             this.pauseEngineToolStripMenuItem,
-            this.defaultConfigToolStripMenuItem});
+            this.toolStripSeparator9,
+            this.defaultConfigToolStripMenuItem,
+            this.saveConfigurationsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -717,6 +721,18 @@
             this.xnaImage.TabIndex = 1;
             this.xnaImage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.xnaImage_MouseClick);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(191, 6);
+            // 
+            // saveConfigurationsToolStripMenuItem
+            // 
+            this.saveConfigurationsToolStripMenuItem.Name = "saveConfigurationsToolStripMenuItem";
+            this.saveConfigurationsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saveConfigurationsToolStripMenuItem.Text = "Save Configurations";
+            this.saveConfigurationsToolStripMenuItem.Click += new System.EventHandler(this.saveConfigurationsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -809,6 +825,8 @@
         private System.Windows.Forms.ToolStripMenuItem decreaseVolumeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem defaultConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem saveConfigurationsToolStripMenuItem;
     }
 }
 

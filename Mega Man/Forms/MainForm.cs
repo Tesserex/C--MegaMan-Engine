@@ -15,7 +15,7 @@ namespace MegaMan.Engine
     {
         #region Variables And Constants
         #region Variables
-        private string settingsPath;
+        private string settingsPath, currentGame;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized, useGlobalConfig; // useGlobalConfig: if false, used a config specific to a game name in xml file for configs.
         
@@ -267,6 +267,7 @@ namespace MegaMan.Engine
 
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = useGlobalConfig = true;
+            currentGame = "";
 
 #if !DEBUG
             debugBar.Hide();
@@ -317,32 +318,8 @@ namespace MegaMan.Engine
 
         protected override void OnClosed(EventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(UserSettings));
-            //var settings = new UserSettings();
-            //var settings = new UserSettings() {
-            //    Keys = new UserKeys() {
-            //        Up = GameInputKeys.Up,
-            //        Down = GameInputKeys.Down,
-            //        Left = GameInputKeys.Left,
-            //        Right = GameInputKeys.Right,
-            //        Jump = GameInputKeys.Jump,
-            //        Shoot = GameInputKeys.Shoot,
-            //        Start = GameInputKeys.Start,
-            //        Select = GameInputKeys.Select
-            //    }
-            //};
-
-            //XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
-            //{
-            //    Indentation = 1,
-            //    IndentChar = '\t',
-            //    Formatting = Formatting.Indented
-            //};
-            //
-            //serializer.Serialize(writer, settings);
-            //
-            //writer.Close();
-            //base.OnClosed(e);
+            SaveConfig();
+            base.OnClosed(e);
         }
         #endregion
 
@@ -358,6 +335,7 @@ namespace MegaMan.Engine
                 pauseOff();
 
                 LoadGame(dialog.FileName);
+                dialog.FileName = "";
                 SetLayersVisibilityFromSettings();
             }
         }
@@ -386,6 +364,7 @@ namespace MegaMan.Engine
 
         private void closeGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            currentGame = "";
             CloseGame();
         }
         #endregion
@@ -393,6 +372,7 @@ namespace MegaMan.Engine
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame != null) Game.CurrentGame.Unload();
+            SaveConfig();
             Application.Exit();
         }
         #endregion
@@ -419,9 +399,17 @@ namespace MegaMan.Engine
                 }
             }
         }
+        #endregion
+
+        #region Third Section
+        private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveConfig();
+        }
 
         private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveConfig();
             defaultConfigToolStripMenuItem.Checked = useGlobalConfig = !useGlobalConfig;
         }
         #endregion
@@ -546,9 +534,9 @@ namespace MegaMan.Engine
         /// </summary>
         /// <param name="values"></param>
         /// <remarks>Used to set values from config file read.</remarks>
-        private void customNtscForm_ApplyFromWrapperObject(LastScreen.NTSC_CustomOptions wrapper)
+        private void customNtscForm_ApplyFromWrapperObject(NTSC_CustomOptions wrapper)
         {
-            customNtscForm_Apply(new snes_ntsc_setup_t(wrapper.Hue, wrapper.Saturation, wrapper.Contrast, wrapper.Brightness,
+            ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(wrapper.Hue, wrapper.Saturation, wrapper.Contrast, wrapper.Brightness,
                 wrapper.Sharpness, wrapper.Gamma, wrapper.Resolution, wrapper.Artifacts, wrapper.Fringing, wrapper.Bleed, true));
         }
 
@@ -558,20 +546,12 @@ namespace MegaMan.Engine
         /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
-            customNtscForm_Apply(new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+            ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
                 customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
         }
-
-        /// <summary>
-        /// Function that apply custom parameters
-        /// </summary>
-        /// <param name="snes_ntsc_setup"></param>
-        private void customNtscForm_Apply(snes_ntsc_setup_t snes_ntsc_setup)
-        {
-            ntscOptionCode(ntscCustom, snes_ntsc_setup);
-        }
         #endregion
-        
+
+        #region NTSC setting the option (once snes_ntsc_setup_t variable is build)
         private void NTSC_OptionsOffBut(ToolStripMenuItem itemToKeepChecked)
         {
             ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
@@ -596,7 +576,7 @@ namespace MegaMan.Engine
         /// <param name="NTSC_Option"></param>
         /// <param name="customParameters"></param>
         /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(Int16 NTSC_Option, LastScreen.NTSC_CustomOptions customParameters = null, bool setOption = true)
+        private void ntscOptionSet(Int16 NTSC_Option, NTSC_CustomOptions customParameters = null, bool setOption = true)
         {
             // Set parameters of Custom options
             if (customParameters != null) customNtscForm_ApplyFromWrapperObject(customParameters);
@@ -605,7 +585,9 @@ namespace MegaMan.Engine
             if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo, setOption);
             if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb, setOption);
         }
+        #endregion
 
+        #region Button Click event of NTSC options
         private void ntscComposite_Click(object sender, EventArgs e)
         {
             ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite);
@@ -625,6 +607,7 @@ namespace MegaMan.Engine
         {
             customNtscForm.Show();
         }
+        #endregion
         #endregion
 
         private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1103,96 +1086,241 @@ namespace MegaMan.Engine
         }
 
         #region Configs Functions
+        /// <summary>
+        /// Returns UserSettings build from XML.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>null if error happens in process</returns>
+        UserSettings GetUserSettingsFromXML(string fileName = null)
+        {
+            UserSettings var = null;
+
+            try
+            {
+                if (fileName == null) fileName = Constants.Paths.SettingFile;
+
+                settingsPath = Path.Combine(Application.StartupPath, fileName);
+                if (File.Exists(settingsPath))
+                {
+                    var serializer = new XmlSerializer(typeof(UserSettings));
+                    using (var file = File.Open(settingsPath, FileMode.Open))
+                    {
+                        var = (UserSettings)serializer.Deserialize(file);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                var = null;
+            }
+
+            return var;
+        }
+
         private void LoadConfig(string fileName = null)
+        {
+            UserSettings settingsArray = GetUserSettingsFromXML(fileName);
+            var settings = settingsArray.GetSettingsForGame();
+
+            #region Input Menu: Keys
+            GameInputKeys.Up = settings.Keys.Up;
+            GameInputKeys.Down = settings.Keys.Down;
+            GameInputKeys.Left = settings.Keys.Left;
+            GameInputKeys.Right = settings.Keys.Right;
+            GameInputKeys.Jump = settings.Keys.Jump;
+            GameInputKeys.Shoot = settings.Keys.Shoot;
+            GameInputKeys.Start = settings.Keys.Start;
+            GameInputKeys.Select = settings.Keys.Select;
+            #endregion
+
+            #region Screen Menu
+            // NTSC option is set before. So if menu selected is NTSC, options are set.
+            if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screens.NTSC_Options))
+            {
+                WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
+                settings.Screens.NTSC_Options = ConfigFilesDefaultValues.NTSC_Option;
+            }
+            ntscOptionSet((Int16)settings.Screens.NTSC_Options, settings.Screens.NTSC_Custom, false);
+
+            if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
+            {
+                WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
+                settings.Screens.Size = ConfigFilesDefaultValues.Size;
+            }
+            screenSizeMenuSelected(settings.Screens.Size);
+
+            if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screens.Pixellated))
+            {
+                WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
+                settings.Screens.Pixellated = ConfigFilesDefaultValues.PixellatedOrSmoothed;
+            }
+            pixellatedVsSmoothedCode(settings.Screens.Pixellated);
+
+            hideMenu(settings.Screens.HideMenu);
+
+            if (settings.Screens.Maximized) WindowState = FormWindowState.Maximized;
+            #endregion
+
+            #region Audio Menu
+            SetVolume(settings.Audio.Volume);
+            setMusic(settings.Audio.Musics);
+            setSFX(settings.Audio.Sound);
+            // setSq1(settings.Audio.Square1);
+            // setSq2(settings.Audio.Square2);
+            // setTri(settings.Audio.Triangle);
+            // setNoise(settings.Audio.Noise);
+            #endregion
+
+            #region Debug Menu
+            setDebugBar(settings.Debug.ShowMenu);
+            setShowHitBoxes(settings.Debug.ShowHitboxes);
+            SetFrameRate(settings.Debug.Framerate);
+
+            #region Cheats
+            setInvincibility(settings.Debug.Cheat.Invincibility);
+            SetNoDamage(settings.Debug.Cheat.NoDamage);
+            #endregion
+
+            #region Layers
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, settings.Debug.Layers.Background);
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, settings.Debug.Layers.Sprites1);
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, settings.Debug.Layers.Sprites2);
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, settings.Debug.Layers.Sprites3);
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, settings.Debug.Layers.Sprites4);
+            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, settings.Debug.Layers.Foreground);
+            #endregion
+            #endregion
+
+            #region Miscellaneous
+            this.Location = new System.Drawing.Point(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
+            #endregion
+        }
+
+        #region Functions to build datas for saving config
+        private Int32 currentSize()
+        {
+            if (screen2XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X2;
+            if (screen3XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X3;
+            if (screen4XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X4;
+            if (screenNTSCMenu.Checked) return (Int32)UserSettingsEnums.Screen.NTSC;
+
+            return (Int32)UserSettingsEnums.Screen.X1;
+        }
+
+        private Int32 currentNTSC_Option()
+        {
+            if (ntscComposite.Checked) return (Int32)UserSettingsEnums.NTSC_Options.Composite;
+            if (ntscSVideo.Checked) return (Int32)UserSettingsEnums.NTSC_Options.S_Video;
+            if (ntscRGB.Checked) return (Int32)UserSettingsEnums.NTSC_Options.RGB;
+
+            return (Int32)UserSettingsEnums.NTSC_Options.Custom;
+        }
+
+        public Int32 currentPixellatedOrSmoothedOption()
+        {
+            if (pixellatedToolStripMenuItem.Checked) return (Int32)UserSettingsEnums.PixellatedOrSmoothed.Pixellated;
+            return (Int32)UserSettingsEnums.PixellatedOrSmoothed.Smoothed;
+        }
+        #endregion
+
+        private void SaveConfig(string fileName = null)
         {
             if (fileName == null) fileName = Constants.Paths.SettingFile;
 
-            settingsPath = Path.Combine(Application.StartupPath, fileName);
-            if (File.Exists(settingsPath))
+            var serializer = new XmlSerializer(typeof(UserSettings));
+
+            #region Creation of variable to save
+            var settings = new Setting()
             {
-                var serializer = new XmlSerializer(typeof(UserSettings));
-                using (var file = File.Open(settingsPath, FileMode.Open))
+                GameFileName = currentGame = "",
+                Keys = new UserKeys()
                 {
-                    var settingsArray = (UserSettings)serializer.Deserialize(file);
-                    var settings = settingsArray.GetSettingsForGame();
-
-                    #region Input Menu: Keys
-                    GameInputKeys.Up = settings.Keys.Up;
-                    GameInputKeys.Down = settings.Keys.Down;
-                    GameInputKeys.Left = settings.Keys.Left;
-                    GameInputKeys.Right = settings.Keys.Right;
-                    GameInputKeys.Jump = settings.Keys.Jump;
-                    GameInputKeys.Shoot = settings.Keys.Shoot;
-                    GameInputKeys.Start = settings.Keys.Start;
-                    GameInputKeys.Select = settings.Keys.Select;
-                    #endregion
-
-                    #region Screen Menu
-                    // NTSC option is set before. So if menu selected is NTSC, options are set.
-                    if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screen.NTSC_Options))
+                    Up = GameInputKeys.Up,
+                    Down = GameInputKeys.Down,
+                    Left = GameInputKeys.Left,
+                    Right = GameInputKeys.Right,
+                    Jump = GameInputKeys.Jump,
+                    Shoot = GameInputKeys.Shoot,
+                    Start = GameInputKeys.Start,
+                    Select = GameInputKeys.Select
+                },
+                Screens = new LastScreen()
+                {
+                    Size = currentSize(),
+                    Maximized = WindowState == FormWindowState.Maximized ? true : false,
+                    NTSC_Options = currentNTSC_Option(),
+                    NTSC_Custom = new NTSC_CustomOptions()
                     {
-                        WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
-                        settings.Screen.NTSC_Options = ConfigFilesDefaultValues.NTSC_Option;
-                    }
-                    ntscOptionSet((Int16)settings.Screen.NTSC_Options, settings.Screen.NTSC_Custom, false);
-
-                    if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screen.Size))
+                        // !!!NTSC option write
+                        Hue = 1,
+                        Saturation = 1,
+                        Brightness = 1,
+                        Contrast = 1,
+                        Sharpness = 1,
+                        Gamma = 1,
+                        Resolution = 1,
+                        Artifacts = 1,
+                        Fringing = 1,
+                        Bleed = 1
+                    },
+                    Pixellated = currentPixellatedOrSmoothedOption(),
+                    HideMenu = hideMenuItem.Checked
+                },
+                Audio = new LastAudio()
+                {
+                    Volume = Engine.Instance.Volume,
+                    Musics = musicMenuItem.Checked,
+                    Sound = sfxMenuItem.Checked,
+                    Square1 = sq1MenuItem.Checked,
+                    Square2 = sq2MenuItem.Checked,
+                    Triangle = triMenuItem.Checked,
+                    Noise = noiseMenuItem.Checked
+                },
+                Debug = new LastDebug()
+                {
+                    ShowMenu = debugBarToolStripMenuItem.Checked,
+                    ShowHitboxes = showHitboxesToolStripMenuItem.Checked,
+                    Framerate = Engine.Instance.FPS,
+                    Cheat = new LastCheat()
                     {
-                        WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
-                        settings.Screen.Size = ConfigFilesDefaultValues.Size;
-                    }
-                    screenSizeMenuSelected(settings.Screen.Size);
-
-                    if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screen.Pixellated))
+                        Invincibility = invincibilityToolStripMenuItem.Checked,
+                        NoDamage = noDamageToolStripMenuItem.Checked
+                    },
+                    Layers = new LastBackground()
                     {
-                        WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
-                        settings.Screen.Pixellated = ConfigFilesDefaultValues.PixellatedOrSmoothed;
+                        Background = backgroundToolStripMenuItem.Checked,
+                        Sprites1 = sprites1ToolStripMenuItem.Checked,
+                        Sprites2 = sprites2ToolStripMenuItem.Checked,
+                        Sprites3 = sprites3ToolStripMenuItem.Checked,
+                        Sprites4 = sprites4ToolStripMenuItem.Checked,
+                        Foreground = foregroundToolStripMenuItem.Checked
                     }
-                    pixellatedVsSmoothedCode(settings.Screen.Pixellated);
-
-                    hideMenu(settings.Screen.HideMenu);
-
-                    if (settings.Screen.Maximized) WindowState = FormWindowState.Maximized;
-                    #endregion
-
-                    #region Audio Menu
-                    SetVolume(settings.Audio.Volume);
-                    setMusic(settings.Audio.Music);
-                    setSFX(settings.Audio.Sound);
-                    // setSq1(settings.Audio.Square1);
-                    // setSq2(settings.Audio.Square2);
-                    // setTri(settings.Audio.Triangle);
-                    // setNoise(settings.Audio.Noise);
-                    #endregion
-
-                    #region Debug Menu
-                    setDebugBar(settings.Debug.ShowMenu);
-                    setShowHitBoxes(settings.Debug.ShowHitboxes);
-                    SetFrameRate(settings.Debug.Framerate);
-
-                    #region Cheats
-                    setInvincibility(settings.Debug.Cheat.Invincibility);
-                    SetNoDamage(settings.Debug.Cheat.NoDamage);
-                    #endregion
-
-                    #region Layers
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, settings.Debug.Layers.Background);
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, settings.Debug.Layers.Sprites1);
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, settings.Debug.Layers.Sprites2);
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, settings.Debug.Layers.Sprites3);
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, settings.Debug.Layers.Sprites4);
-                    setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, settings.Debug.Layers.Foreground);
-                    #endregion
-                    #endregion
-
-                    #region Miscellaneous
-                    this.Location = new System.Drawing.Point(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
-                    #endregion
+                },
+                Miscellaneous = new LastMiscellaneous()
+                {
+                    ScreenX_Coordinate = this.Location.X,
+                    ScreenY_Coordinate = this.Location.Y
                 }
-            }
+            };
+            #endregion
+
+            // This functions updates settingsPath
+            UserSettings userSettings = GetUserSettingsFromXML(fileName);
+            userSettings.AddOrSetExistingSettingsForGame(settings, currentGame);
+
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            {
+                Indentation = 1,
+                IndentChar = '\t',
+                Formatting = Formatting.Indented
+            };
+
+            serializer.Serialize(writer, userSettings);
+
+            writer.Close();
         }
         #endregion
-        
+
         #region Errors
         private void Engine_Exception(Exception e)
         {
