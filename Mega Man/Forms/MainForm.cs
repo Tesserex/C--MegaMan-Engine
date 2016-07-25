@@ -293,7 +293,7 @@ namespace MegaMan.Engine
             
             try
             {
-                LoadConfig();
+                LoadConfigFromXMLOrDefaultOneIfInvalidXML();
             }
             catch (Exception x)
             {
@@ -318,7 +318,7 @@ namespace MegaMan.Engine
 
         protected override void OnClosed(EventArgs e)
         {
-            SaveConfig();
+            //SaveConfig();
             base.OnClosed(e);
         }
         #endregion
@@ -336,7 +336,7 @@ namespace MegaMan.Engine
 
                 LoadGame(dialog.FileName);
                 currentGame = Path.GetFileName(dialog.FileName);
-                LoadConfig();
+                LoadConfigFromXMLOrDefaultOneIfInvalidXML();
                 SetLayersVisibilityFromSettings();
             }
         }
@@ -373,7 +373,7 @@ namespace MegaMan.Engine
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame != null) Game.CurrentGame.Unload();
-            SaveConfig();
+            //SaveConfig();
             Application.Exit();
         }
         #endregion
@@ -405,7 +405,7 @@ namespace MegaMan.Engine
         #region Third Section
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveConfig();
+            //SaveConfig();
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace MegaMan.Engine
         /// <param name="e"></param>
         private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveConfig();
+            //SaveConfig();
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
         }
         #endregion
@@ -1131,11 +1131,15 @@ namespace MegaMan.Engine
         /// Returns UserSettings build from XML.
         /// </summary>
         /// <param name="fileName"></param>
-        /// <returns>null if error happens in process</returns>
-        UserSettings GetUserSettingsFromXML(string fileName = null)
+        /// <returns>
+        /// OK: 
+        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
+        /// Error: 
+        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
+        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
+        /// </returns>
+        Int16 GetUserSettingsFromXML(ref UserSettings var, string fileName = null)
         {
-            UserSettings var = null;
-
             try
             {
                 if (fileName == null) fileName = Constants.Paths.SettingFile;
@@ -1149,23 +1153,71 @@ namespace MegaMan.Engine
                         var = (UserSettings)serializer.Deserialize(file);
                     }
                 }
+                else return Constants.Errors.GetUserSettingsFromXML_FileNotFound;
             }
             catch (Exception)
             {
                 var = null;
+                return Constants.Errors.GetUserSettingsFromXML_CannotDeserialize;
             }
 
-            return var;
+            return Constants.Errors.GetUserSettingsFromXML_NoError;
         }
 
-        private void LoadConfig(string XML_fileName = null)
+        private Setting GetDefaultConfig()
         {
-            UserSettings settingsArray = GetUserSettingsFromXML(XML_fileName);
-            Setting settings = null;
+            Setting settings = new Setting();
 
-            if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
-            else settings = settingsArray.GetSettingsForGame(currentGame);
+            settings.GameFileName = "";
 
+            #region Input Menu: Keys
+            settings.Keys.Up = Keys.Up;
+            settings.Keys.Down = Keys.Down;
+            settings.Keys.Left = Keys.Left;
+            settings.Keys.Right = Keys.Right;
+            settings.Keys.Jump = Keys.A;
+            settings.Keys.Shoot = Keys.S;
+            settings.Keys.Start = Keys.Enter;
+            settings.Keys.Select = Keys.Shift;
+            #endregion
+
+            #region Screen Menu
+            settings.Screens.Size = ConfigFilesDefaultValues.Size;
+            settings.Screens.NTSC_Options = ConfigFilesDefaultValues.NTSC_Option;
+            settings.Screens.Maximized = false;
+            //settings.Screens.NTSC_Custom
+            settings.Screens.Pixellated = ConfigFilesDefaultValues.PixellatedOrSmoothed;
+            settings.Screens.HideMenu = false;
+            #endregion
+
+            #region Audio Menu
+            settings.Audio.Volume = 0;
+            settings.Audio.Musics = true;
+            settings.Audio.Sound = true;
+            settings.Audio.Square1 = true;
+            settings.Audio.Square2 = true;
+            settings.Audio.Triangle = true;
+            settings.Audio.Noise = true;
+            #endregion
+
+            #region Debug Menu
+            settings.Debug.ShowMenu = true;
+            settings.Debug.ShowHitboxes = false;
+            settings.Debug.Framerate = ConfigFilesDefaultValues.Framerate;
+            //settings.Debug.Cheat
+            //settings.Debug.Layers =
+            #endregion
+
+            #region Miscellaneous
+            settings.Miscellaneous.ScreenX_Coordinate = 0;
+            settings.Miscellaneous.ScreenY_Coordinate = 0;
+            #endregion
+
+            return settings;
+        }
+
+        private void LoadConfigFromSetting(Setting settings)
+        {
             #region Input Menu: Keys
             GameInputKeys.Up = settings.Keys.Up;
             GameInputKeys.Down = settings.Keys.Down;
@@ -1185,7 +1237,7 @@ namespace MegaMan.Engine
                 settings.Screens.NTSC_Options = ConfigFilesDefaultValues.NTSC_Option;
             }
             ntscOptionSet(
-                (Int16)settings.Screens.NTSC_Options, 
+                (Int16)settings.Screens.NTSC_Options,
                 new snes_ntsc_setup_t(
                     settings.Screens.NTSC_Custom.Hue,
                     settings.Screens.NTSC_Custom.Saturation,
@@ -1259,6 +1311,79 @@ namespace MegaMan.Engine
             #endregion
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="XML_fileName"></param>
+        /// <returns>
+        /// OK: 
+        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
+        /// Error: 
+        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
+        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
+        /// - Constants.Errors.LoadConfigFromXML_NoContentReadFromXML
+        /// - Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML
+        /// </returns>
+        private Int16 LoadConfigFromXML(string XML_fileName = null)
+        {
+            UserSettings settingsArray = null;
+            Setting settings = null;
+
+            Int16 errorCode = GetUserSettingsFromXML(ref settingsArray, XML_fileName);
+
+            if (errorCode != Constants.Errors.LoadConfigFromXML_NoError) return errorCode;
+
+            if (settingsArray == null) return Constants.Errors.LoadConfigFromXML_NoContentReadFromXML;
+
+            if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
+            else settings = settingsArray.GetSettingsForGame(currentGame);
+
+            if (settings == null) return Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML;
+            
+            // Here, there is a config. If a value is not valid, a default one is loaded instead
+            // It displays messages in such case but always complete well
+            LoadConfigFromSetting(settings);
+
+            return Constants.Errors.LoadConfigFromXML_NoError;
+        }
+
+        private Int16 LoadConfigFromXMLOrDefaultOneIfInvalidXML(string XML_fileName = null)
+        {
+            Int16 errorCode = LoadConfigFromXML(XML_fileName);
+            string newFileName = null, currentFileWithPath;
+            Setting settings = null;
+
+            if (XML_fileName == null) XML_fileName = Constants.Paths.SettingFile;
+            currentFileWithPath = Path.Combine(Application.StartupPath, XML_fileName);
+
+            if (errorCode == 0) return 0;
+
+            #region Error when loading config from XML
+
+            // If file is not readable, rename it to create a new one.
+            if (errorCode == Constants.Errors.LoadConfigFromXML_CannotDeserialize)
+            {
+                WrongConfigAlert(ConfigFileInvalidValuesMessages.CannotDeserializeXML);
+
+                // Will rename file to create a new one. So user can check it if he wants
+                newFileName = "Bad_" + DateTime.Now.Day.ToString("00") + "_" + DateTime.Now.Month.ToString("00") + "_" + DateTime.Now.Year.ToString("0000") + "_" + DateTime.Now.Hour.ToString("00") + "_" + DateTime.Now.Minute.ToString("00") + "_" + DateTime.Now.Second.ToString("00") + ".xml";
+
+                newFileName = Path.Combine(Application.StartupPath, newFileName);
+
+                File.Move(currentFileWithPath, newFileName);
+            }
+
+            // If here, it was not possible to load a config from XML. Load a default one
+            settings = GetDefaultConfig();
+            LoadConfigFromSetting(settings);
+
+            // Save the default config we just loaded
+            SaveConfig(XML_fileName, settings);
+
+            return 0;
+            #endregion
+        }
+
         #region Functions to build datas for saving config
         private Int32 currentSize()
         {
@@ -1286,90 +1411,100 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        private void SaveConfig(string fileName = null)
+        private void SaveConfig(string fileName = null, Setting settings = null)
         {
             if (fileName == null) fileName = Constants.Paths.SettingFile;
 
             var serializer = new XmlSerializer(typeof(UserSettings));
 
-            #region Creation of variable to save
-            var settings = new Setting()
+            if (settings == null)
             {
-                GameFileName = defaultConfigToolStripMenuItem.Checked == true ? "" : currentGame,
-                Keys = new UserKeys()
+                // Save current config
+                #region Creation of variable to save
+                settings = new Setting()
                 {
-                    Up = GameInputKeys.Up,
-                    Down = GameInputKeys.Down,
-                    Left = GameInputKeys.Left,
-                    Right = GameInputKeys.Right,
-                    Jump = GameInputKeys.Jump,
-                    Shoot = GameInputKeys.Shoot,
-                    Start = GameInputKeys.Start,
-                    Select = GameInputKeys.Select
-                },
-                Screens = new LastScreen()
-                {
-                    Size = currentSize(),
-                    Maximized = WindowState == FormWindowState.Maximized ? true : false,
-                    NTSC_Options = currentNTSC_Option(),
-                    // !!!NTSC option write
-                    NTSC_Custom = new NTSC_CustomOptions()
+                    GameFileName = defaultConfigToolStripMenuItem.Checked == true ? "" : currentGame,
+                    Keys = new UserKeys()
                     {
-                        Hue = 1,
-                        Saturation = 1,
-                        Brightness = 1,
-                        Contrast = 1,
-                        Sharpness = 1,
-                        Gamma = 1,
-                        Resolution = 1,
-                        Artifacts = 1,
-                        Fringing = 1,
-                        Bleed = 1,
-                        Merge_Fields = true
+                        Up = GameInputKeys.Up,
+                        Down = GameInputKeys.Down,
+                        Left = GameInputKeys.Left,
+                        Right = GameInputKeys.Right,
+                        Jump = GameInputKeys.Jump,
+                        Shoot = GameInputKeys.Shoot,
+                        Start = GameInputKeys.Start,
+                        Select = GameInputKeys.Select
                     },
-                    Pixellated = currentPixellatedOrSmoothedOption(),
-                    HideMenu = hideMenuItem.Checked
-                },
-                Audio = new LastAudio()
-                {
-                    Volume = Engine.Instance.Volume,
-                    Musics = musicMenuItem.Checked,
-                    Sound = sfxMenuItem.Checked,
-                    Square1 = sq1MenuItem.Checked,
-                    Square2 = sq2MenuItem.Checked,
-                    Triangle = triMenuItem.Checked,
-                    Noise = noiseMenuItem.Checked
-                },
-                Debug = new LastDebug()
-                {
-                    ShowMenu = debugBarToolStripMenuItem.Checked,
-                    ShowHitboxes = showHitboxesToolStripMenuItem.Checked,
-                    Framerate = Engine.Instance.FPS,
-                    Cheat = new LastCheat()
+                    Screens = new LastScreen()
                     {
-                        Invincibility = invincibilityToolStripMenuItem.Checked,
-                        NoDamage = noDamageToolStripMenuItem.Checked
+                        Size = currentSize(),
+                        Maximized = WindowState == FormWindowState.Maximized ? true : false,
+                        NTSC_Options = currentNTSC_Option(),
+                        // !!!NTSC option write
+                        NTSC_Custom = new NTSC_CustomOptions()
+                        {
+                            Hue = 1,
+                            Saturation = 1,
+                            Brightness = 1,
+                            Contrast = 1,
+                            Sharpness = 1,
+                            Gamma = 1,
+                            Resolution = 1,
+                            Artifacts = 1,
+                            Fringing = 1,
+                            Bleed = 1,
+                            Merge_Fields = true
+                        },
+                        Pixellated = currentPixellatedOrSmoothedOption(),
+                        HideMenu = hideMenuItem.Checked
                     },
-                    Layers = new LastBackground()
+                    Audio = new LastAudio()
                     {
-                        Background = backgroundToolStripMenuItem.Checked,
-                        Sprites1 = sprites1ToolStripMenuItem.Checked,
-                        Sprites2 = sprites2ToolStripMenuItem.Checked,
-                        Sprites3 = sprites3ToolStripMenuItem.Checked,
-                        Sprites4 = sprites4ToolStripMenuItem.Checked,
-                        Foreground = foregroundToolStripMenuItem.Checked
+                        Volume = Engine.Instance.Volume,
+                        Musics = musicMenuItem.Checked,
+                        Sound = sfxMenuItem.Checked,
+                        Square1 = sq1MenuItem.Checked,
+                        Square2 = sq2MenuItem.Checked,
+                        Triangle = triMenuItem.Checked,
+                        Noise = noiseMenuItem.Checked
+                    },
+                    Debug = new LastDebug()
+                    {
+                        ShowMenu = debugBarToolStripMenuItem.Checked,
+                        ShowHitboxes = showHitboxesToolStripMenuItem.Checked,
+                        Framerate = Engine.Instance.FPS,
+                        Cheat = new LastCheat()
+                        {
+                            Invincibility = invincibilityToolStripMenuItem.Checked,
+                            NoDamage = noDamageToolStripMenuItem.Checked
+                        },
+                        Layers = new LastBackground()
+                        {
+                            Background = backgroundToolStripMenuItem.Checked,
+                            Sprites1 = sprites1ToolStripMenuItem.Checked,
+                            Sprites2 = sprites2ToolStripMenuItem.Checked,
+                            Sprites3 = sprites3ToolStripMenuItem.Checked,
+                            Sprites4 = sprites4ToolStripMenuItem.Checked,
+                            Foreground = foregroundToolStripMenuItem.Checked
+                        }
+                    },
+                    Miscellaneous = new LastMiscellaneous()
+                    {
+                        ScreenX_Coordinate = this.Location.X,
+                        ScreenY_Coordinate = this.Location.Y
                     }
-                },
-                Miscellaneous = new LastMiscellaneous()
-                {
-                    ScreenX_Coordinate = this.Location.X,
-                    ScreenY_Coordinate = this.Location.Y
-                }
-            };
-            #endregion
+                };
+                #endregion
+            }
+
+            UserSettings userSettings = null;
 
             // This functions updates settingsPath
-            UserSettings userSettings = GetUserSettingsFromXML(fileName);
+            GetUserSettingsFromXML(ref userSettings);
+
+            // If there is no file, or no config in file, it is null
+            if (userSettings == null) userSettings = new UserSettings();
+
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
             XmlTextWriter writer = new XmlTextWriter(settingsPath, null)

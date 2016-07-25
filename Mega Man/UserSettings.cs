@@ -11,6 +11,7 @@ namespace MegaMan.Engine
         public static readonly string Size = "Size value from configuration file is invalid. Default value will be used.";
         public static readonly string NTSC_Option = "NTSC_Option value from configuration file is invalid. Default value will be used.";
         public static readonly string PixellatedOrSmoothed = "Pixellated value from configuration file is invalid. Default value will be used.";
+        public static readonly string CannotDeserializeXML = "Cannot deserialized file Content. File renamed to Bad_XX_XX_XXXX_XX_XX_XX where X represent day, month, year, hour, minute, second.";
     }
     #endregion
     #endregion
@@ -30,6 +31,20 @@ namespace MegaMan.Engine
     #region Constant Values
     public class Constants
     {
+        #region Errors
+        public class Errors
+        {
+            public static readonly Int16 GetUserSettingsFromXML_NoError = 0;
+            public static readonly Int16 GetUserSettingsFromXML_FileNotFound = 1;
+            public static readonly Int16 GetUserSettingsFromXML_CannotDeserialize = 2;
+
+            public static readonly Int16 LoadConfigFromXML_NoError = 0;
+            public static readonly Int16 LoadConfigFromXML_FileNotFound = 1;
+            public static readonly Int16 LoadConfigFromXML_CannotDeserialize = 2;
+            public static readonly Int16 LoadConfigFromXML_NoContentReadFromXML = 3;
+            public static readonly Int16 LoadConfigFromXML_NoDefaultValueInXML = 4;
+        }
+        #endregion
         #region Paths
         public class Paths
         {
@@ -75,7 +90,7 @@ namespace MegaMan.Engine
                 if (setting.GameFileName == "") return setting;
             }
 
-            // No default settings found, return null, will caues crash and default settings will be load.
+            // No default settings found, return null.
             return null;
         }
 
@@ -112,6 +127,15 @@ namespace MegaMan.Engine
         public LastAudio Audio { get; set; }
         public LastDebug Debug { get; set; }
         public LastMiscellaneous Miscellaneous { get; set; }
+
+        public Setting()
+        {
+            Keys = new UserKeys();
+            Screens = new LastScreen();
+            Audio = new LastAudio();
+            Debug = new LastDebug();
+            Miscellaneous = new LastMiscellaneous();
+        }
     }
 
     [Serializable]
@@ -152,6 +176,11 @@ namespace MegaMan.Engine
         public NTSC_CustomOptions NTSC_Custom { get; set; }
         public Int32 Pixellated { get; set; }
         public bool HideMenu { get; set; }
+
+        public LastScreen()
+        {
+            NTSC_Custom = new NTSC_CustomOptions();
+        }
     }
 
     [Serializable]
@@ -192,6 +221,12 @@ namespace MegaMan.Engine
         public Int32 Framerate { get; set; }
         public LastCheat Cheat { get; set; }
         public LastBackground Layers { get; set; }
+
+        public LastDebug()
+        {
+            Cheat = new LastCheat();
+            Layers = new LastBackground();
+        }
     }
 
     [Serializable]
