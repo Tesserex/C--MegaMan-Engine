@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
@@ -58,13 +55,28 @@ namespace MegaMan.Engine.Entities.Effects
             Effect action;
 
             float? mag = info.Magnitude;
+            var magVar = info.MagnitudeVarName;
 
-            if (mag != 0)
+            if (mag == 0)
+            {
+                if (axis == Axis.X)
+                    action = entity => {
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityX = 0;
+                    };
+                else
+                    action = entity => {
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityY = 0;
+                    };
+            }
+            else
             {
                 switch (info.Direction)
                 {
                     case MovementEffectDirection.Up:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = -1 * (mag ?? Math.Abs(mov.VelocityY));
                         };
@@ -72,6 +84,7 @@ namespace MegaMan.Engine.Entities.Effects
 
                     case MovementEffectDirection.Down:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityY = (mag ?? Math.Abs(mov.VelocityY));
                         };
@@ -79,6 +92,7 @@ namespace MegaMan.Engine.Entities.Effects
 
                     case MovementEffectDirection.Left:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
                         };
@@ -86,6 +100,7 @@ namespace MegaMan.Engine.Entities.Effects
 
                     case MovementEffectDirection.Right:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             if (mov != null) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
                         };
@@ -93,6 +108,7 @@ namespace MegaMan.Engine.Entities.Effects
 
                     case MovementEffectDirection.Same:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             if (mag == null) return;
                             float fmag = mag ?? 0;
 
@@ -107,6 +123,7 @@ namespace MegaMan.Engine.Entities.Effects
 
                     case MovementEffectDirection.Reverse:
                         action = entity => {
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                             if (mag == null) return;
                             float fmag = mag ?? 0;
 
@@ -126,6 +143,7 @@ namespace MegaMan.Engine.Entities.Effects
                             if (entity.Parent != null)
                             {
                                 Direction dir = entity.Parent.Direction;
+                                mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                                 if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Right) ? (mag ?? Math.Abs(mov.VelocityX)) : ((dir == Direction.Left) ? (-mag ?? -1 * Math.Abs(mov.VelocityX)) : 0);
                                 if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? (mag ?? Math.Abs(mov.VelocityY)) : ((dir == Direction.Up) ? (-mag ?? -1 * Math.Abs(mov.VelocityY)) : 0);
@@ -139,6 +157,8 @@ namespace MegaMan.Engine.Entities.Effects
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
                             InputComponent input = entity.GetComponent<InputComponent>();
                             if (mov == null || input == null) return;
+
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                             if (axis != Axis.Y)
                             {
@@ -166,6 +186,7 @@ namespace MegaMan.Engine.Entities.Effects
                                 return;
 
                             PositionComponent playerPos = player.GetComponent<PositionComponent>();
+                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                             if (axis == Axis.X)
                             {
@@ -193,21 +214,31 @@ namespace MegaMan.Engine.Entities.Effects
                     default: action = new Effect(entity => { }); break;
                 }
             }
-            else
-            {
-                if (axis == Axis.X)
-                    action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        if (mov != null) mov.VelocityX = 0;
-                    };
-                else
-                    action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        if (mov != null) mov.VelocityY = 0;
-                    };
-            }
+            
 
             return action;
+        }
+
+        private static float? CheckMagnitudeVar(IEntity entity, string magVar)
+        {
+            if (magVar != null)
+            {
+                var varsComp = entity.GetComponent<VarsComponent>();
+                if (varsComp != null)
+                {
+                    var magStr = varsComp.Get(magVar);
+                    if (string.IsNullOrEmpty(magStr))
+                        return null;
+
+                    float tmpMag;
+                    if (float.TryParse(magStr, out tmpMag))
+                        return tmpMag;
+                    else
+                        throw new GameRunException(string.Format("Entity {0} attempted to set movement using local variable {1}, but the value it contained was not a number.", entity.Name, magVar));
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using MegaMan.Common;
-using MegaMan.Engine.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MegaMan.Common.Entities.Effects;
 using System.Reflection;
-using Ninject;
+using MegaMan.Common;
+using MegaMan.Common.Entities.Effects;
+using MegaMan.Engine.Entities;
 using MegaMan.Engine.Entities.Effects;
+using Ninject;
 
 namespace MegaMan.Engine
 {
@@ -44,8 +44,23 @@ namespace MegaMan.Engine
         Player player
     );
 
+    public delegate object SplitQuery(
+        PositionComponent pos,
+        MovementComponent mov,
+        SpriteComponent spr,
+        InputComponent inp,
+        CollisionComponent col,
+        LadderComponent lad,
+        TimerComponent timer,
+        HealthComponent health,
+        StateComponent state,
+        WeaponComponent weapon,
+        Player player
+    );
+
     public delegate bool Condition(IEntity entity);
     public delegate void Effect(IEntity entity);
+    public delegate object Query(IEntity entity);
 
     public static class EffectParser
     {
@@ -189,6 +204,17 @@ namespace MegaMan.Engine
             return CloseEffect((SplitEffect)lambda.Compile());
         }
 
+        public static Query CompileQuery(string st)
+        {
+            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
+                            typeof(SplitQuery),
+                            typeof(object),
+                            st,
+                            dirDict);
+            return CloseQuery((SplitQuery)lambda.Compile());
+        }
+
         // provides a closure around a split condition
         private static Condition CloseCondition(SplitCondition split)
         {
@@ -241,6 +267,24 @@ namespace MegaMan.Engine
 
         // provides a closure around a split effect
         private static Effect CloseEffect(SplitEffect split)
+        {
+            return entity => split(
+                entity.GetComponent<PositionComponent>(),
+                entity.GetComponent<MovementComponent>(),
+                entity.GetComponent<SpriteComponent>(),
+                entity.GetComponent<InputComponent>(),
+                entity.GetComponent<CollisionComponent>(),
+                entity.GetComponent<LadderComponent>(),
+                entity.GetComponent<TimerComponent>(),
+                entity.GetComponent<HealthComponent>(),
+                entity.GetComponent<StateComponent>(),
+                entity.GetComponent<WeaponComponent>(),
+                Game.CurrentGame.Player
+            );
+        }
+
+        // provides a closure around a split query
+        private static Query CloseQuery(SplitQuery split)
         {
             return entity => split(
                 entity.GetComponent<PositionComponent>(),
