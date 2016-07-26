@@ -65,6 +65,9 @@ namespace MegaMan.Engine
     [Serializable]
     public class UserSettings
     {
+        public bool AutosaveSettings { get; set; }
+        public bool UseDefaultSettings { get; set; }
+        public string Autoload { get; set; } // Game with his path to load on startup
         public List<Setting> Settings { get; set; }
 
         /// <summary>

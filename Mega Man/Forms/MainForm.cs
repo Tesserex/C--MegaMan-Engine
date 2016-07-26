@@ -15,7 +15,7 @@ namespace MegaMan.Engine
     {
         #region Variables And Constants
         #region Variables
-        private string settingsPath, currentGame;
+        private string settingsPath, currentGame, lastGameWithPath;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized;
         
@@ -268,6 +268,7 @@ namespace MegaMan.Engine
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = true;
             currentGame = "";
+            lastGameWithPath = null;
 
 #if !DEBUG
             debugBar.Hide();
@@ -287,33 +288,54 @@ namespace MegaMan.Engine
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
         }
 
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            
-            try
-            {
-                LoadConfigFromXMLOrDefaultOneIfInvalidXML();
-            }
-            catch (Exception x)
-            {
-                MessageBox.Show(x.Message); // If a line in config file is wrong, this is gonna tell user.
-                MessageBox.Show("The config file could was not loaded successfully.");
-            }
-        }
-
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);
+            this.Hide();
 
-            var args = Environment.GetCommandLineArgs();
-            if (args.Length > 1)
+            try
             {
-                var path = args[1];
-                var start = (args.Length > 2) ? args[2] : null;
+                string autoLoadGame = GetAutoLoadGame();
+                var args = Environment.GetCommandLineArgs();
 
-                LoadGame(path, args.Skip(2).ToList());
+                base.OnLoad(e);
+
+                if (args.Length > 1)
+                {
+                    var path = args[1];
+                    var start = (args.Length > 2) ? args[2] : null;
+
+                    LoadGame(path, args.Skip(2).ToList());
+                }
+
+                try
+                {
+                    LoadGlobalConfigValues();
+                    LoadConfigFromXMLOrDefaultOneIfInvalidXML();
+
+                    if (autoLoadGame != null)
+                    {
+                        if (!LoadGame(autoLoadGame, null, true))
+                        {
+                            // Game we try to autoload failed. Now set autoload to when no game is loaded
+                            autoloadToolStripMenuItem.Checked = true;
+                            SaveGlobalConfigValues();
+                        }
+                        else
+                        {
+                            OnGameLoaded();
+                        }
+                    }
+                }
+                catch (Exception x)
+                {
+                    MessageBox.Show(x.Message); // If a line in config file is wrong, this is gonna tell user.
+                    MessageBox.Show("The config file could was not loaded successfully.");
+                }
             }
+            catch (Exception)
+            {
+            }
+            this.Show();
         }
 
         /// <summary>
@@ -322,7 +344,7 @@ namespace MegaMan.Engine
         public void close()
         {
             if (Game.CurrentGame != null) Game.CurrentGame.Unload();
-            SaveConfig();
+            AutosaveConfig();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -340,17 +362,13 @@ namespace MegaMan.Engine
             OpenFileDialog dialog = new OpenFileDialog();
             DialogResult result = dialog.ShowDialog();
 
-            SaveConfig();
-
             if (result == DialogResult.OK)
             {
+                AutosaveConfig();
+
                 pauseOff();
 
                 LoadGame(dialog.FileName);
-                currentGame = Path.GetFileName(dialog.FileName);
-                LoadConfigFromXML();
-
-                SetLayersVisibilityFromSettings();
             }
         }
 
@@ -361,7 +379,7 @@ namespace MegaMan.Engine
                 pauseOff();
 
                 Game.CurrentGame.Reset();
-                SetLayersVisibilityFromSettings();
+                OnGameLoaded();
             }
         }
 
@@ -370,13 +388,16 @@ namespace MegaMan.Engine
         {
             if (Game.CurrentGame != null)
             {
-                SaveConfig();
+                AutosaveConfig();
                 currentGame = "";
+                lastGameWithPath = null;
                 LoadConfigFromXML();
 
                 Game.CurrentGame.Unload();
                 this.xnaImage.Clear();
                 Text = "Mega Man";
+
+                OnGameLoadedChanged();
             }
         }
 
@@ -418,9 +439,15 @@ namespace MegaMan.Engine
         #endregion
 
         #region Third Section
-        private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// If true, on events where saving happens, no save (except if menu to save is picked).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void autosaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveConfig();
+            autosaveToolStripMenuItem.Checked = !autosaveToolStripMenuItem.Checked;
+            SaveGlobalConfigValues();
         }
 
         /// <summary>
@@ -430,13 +457,39 @@ namespace MegaMan.Engine
         /// <param name="e"></param>
         private void defaultConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveConfig();
+            AutosaveConfig();
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
+            SaveGlobalConfigValues();
             LoadConfigFromXML();
+
+            SetLayersVisibilityFromSettings();
+        }
+
+        private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveConfig();
+        }
+        #endregion
+
+        #region Fourth Section
+        /// <summary>
+        /// True for a game it autoloads when application starts (if none, this option is checked when no game is loaded)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void autoloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentGame == "") autoloadToolStripMenuItem.Checked = true;
+            else
+            {
+                autoloadToolStripMenuItem.Checked = !autoloadToolStripMenuItem.Checked;
+            }
+
+            SaveGlobalConfigValues();
         }
         #endregion
         #endregion
-        
+
         #region Input Menu
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -606,7 +659,7 @@ namespace MegaMan.Engine
             ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
                 customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
 
-            SaveConfig();
+            AutosaveConfig();
         }
         #endregion
 
@@ -1087,47 +1140,68 @@ namespace MegaMan.Engine
         #endregion
 
         #region Functions Used By Many
-        private void LoadGame(string path, List<string> pathArgs = null)
+        private bool LoadGame(string path, List<string> pathArgs = null, bool silenceErrorMessages = false)
         {
             try
             {
                 Game.Load(path, pathArgs);
                 Text = Game.CurrentGame.Name;
+
+                lastGameWithPath = path;
+                currentGame = Path.GetFileName(path);
+                LoadConfigFromXML();
+
+                OnGameLoadedChanged();
+
+                return true;
             }
             catch (GameXmlException ex)
             {
-                // this builds a dialog message to tell the user where the error is in the XML file
+                if (silenceErrorMessages == false)
+                {
+                    // this builds a dialog message to tell the user where the error is in the XML file
 
-                StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
-                if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
-                if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
-                if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
-                if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
-                if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
+                    StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
+                    if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
+                    if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
+                    if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
+                    if (ex.Tag != null) message.Append("Tag: ").Append(ex.Tag).Append('\n');
+                    if (ex.Attribute != null) message.Append("Attribute: ").Append(ex.Attribute).Append('\n');
 
-                message.Append("\n").Append(ex.Message);
+                    message.Append("\n").Append(ex.Message);
 
-                MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    MessageBox.Show(message.ToString(), "Game Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 Game.CurrentGame.Unload();
             }
             catch (System.IO.FileNotFoundException ex)
             {
-                MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (silenceErrorMessages == false)
+                {
+                    MessageBox.Show("I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 Game.CurrentGame.Unload();
             }
             catch (XmlException ex)
             {
-                MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (silenceErrorMessages == false)
+                {
+                    MessageBox.Show("Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 Game.CurrentGame.Unload();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (silenceErrorMessages == false)
+                {
+                    MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 Game.CurrentGame.Unload();
             }
 
             this.OnActivated(new EventArgs());
+
+            return false;
         }
         
         /// <summary>
@@ -1329,6 +1403,41 @@ namespace MegaMan.Engine
             #endregion
         }
 
+        private string GetAutoLoadGame(string XML_fileName = null)
+        {
+            UserSettings userSettings = null;
+
+            try
+            {
+                GetUserSettingsFromXML(ref userSettings, XML_fileName);
+
+                return userSettings.Autoload;
+            }
+            catch (Exception) { }
+            return null;
+        }
+        
+        /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="XML_fileName"></param>
+         /// <returns></returns>
+         /// <remarks>Does no valiation, if crashes just doesn't set param</remarks>
+        private void LoadGlobalConfigValues(string XML_fileName = null)
+        {
+            UserSettings userSettings = null;
+
+            try
+            {
+                GetUserSettingsFromXML(ref userSettings, XML_fileName);
+
+                autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
+                defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
+                autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
+            }
+            catch (Exception) { }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1429,6 +1538,43 @@ namespace MegaMan.Engine
         }
         #endregion
 
+        private void SaveToConfigXML(UserSettings userSettings, string fileName = null)
+        {
+            if (fileName == null) fileName = Constants.Paths.SettingFile;
+
+            var serializer = new XmlSerializer(typeof(UserSettings));
+            
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            {
+                Indentation = 1,
+                IndentChar = '\t',
+                Formatting = Formatting.Indented
+            };
+
+            serializer.Serialize(writer, userSettings);
+
+            writer.Close();
+        }
+
+        private void SaveGlobalConfigValues(string fileName = null)
+        {
+            UserSettings userSettings = null;
+
+            // This functions updates settingsPath
+            GetUserSettingsFromXML(ref userSettings);
+
+            userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
+            userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
+            userSettings.Autoload = autoloadToolStripMenuItem.Checked == true ? lastGameWithPath : null;
+
+            SaveToConfigXML(userSettings, fileName);
+        }
+
+        private void AutosaveConfig(string fileName = null)
+        {
+            if (autosaveToolStripMenuItem.Checked) SaveConfig();
+        }
+
         /// <summary>
         /// When engine is opening, every cases of bad files are handled, then file is locked.
         /// It means that calling this function after this call, it will always be valid since only program can modify it.
@@ -1437,10 +1583,6 @@ namespace MegaMan.Engine
         /// <param name="settings"></param>
         private void SaveConfig(string fileName = null, Setting settings = null)
         {
-            if (fileName == null) fileName = Constants.Paths.SettingFile;
-
-            var serializer = new XmlSerializer(typeof(UserSettings));
-
             if (settings == null)
             {
                 // Save current config
@@ -1531,16 +1673,7 @@ namespace MegaMan.Engine
 
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
-            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
-            {
-                Indentation = 1,
-                IndentChar = '\t',
-                Formatting = Formatting.Indented
-            };
-
-            serializer.Serialize(writer, userSettings);
-
-            writer.Close();
+            SaveToConfigXML(userSettings, fileName);
         }
         #endregion
 
@@ -1565,6 +1698,23 @@ namespace MegaMan.Engine
         #endregion
 
         #region To sort!!!!!!
+        /// <summary>
+        /// Anytime game loaded is changed
+        /// </summary>
+        private void OnGameLoadedChanged()
+        {
+            LoadGlobalConfigValues();
+            OnGameLoaded();
+        }
+
+        /// <summary>
+        /// Things to do when a game is loaded
+        /// </summary>
+        private void OnGameLoaded()
+        {
+            SetLayersVisibilityFromSettings();
+        }
+
         private void DefaultScreen()
         {
             width = Const.PixelsAcross;

@@ -37,7 +37,7 @@ namespace MegaMan.Engine
         {
             if (waitLabel != null)
             {
-                if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift) && !keyData.HasFlag(Keys.ShiftKey))
+                if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift))
                 {
                     switch (waitKey)
                     {
@@ -61,7 +61,6 @@ namespace MegaMan.Engine
                     if (keyData.HasFlag(Keys.Control)) key = "ctrl";
                     else if (keyData.HasFlag(Keys.Alt)) key = "Alt";
                     else if (keyData.HasFlag(Keys.Shift)) key = "Shift";
-                    else if (keyData.HasFlag(Keys.ShiftKey)) key = "ShiftKey";
 
                     MessageBox.Show(this, "Key " + key + " is not allowed.", "Unhauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 }
