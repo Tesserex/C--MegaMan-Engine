@@ -1607,6 +1607,12 @@
 				<Next mode="Push" pause="True" type="Menu" name="Pause" fade="True" />
 			</Effect>
 		</Trigger>
+		<Trigger priority="1">
+			<Condition>Input.Jump</Condition>
+			<Effect>
+				<Call>TossMets</Call>
+			</Effect>
+		</Trigger>
 		<Weapons>
 			<Weapon name="MBuster" entity="MBuster" palette="0" />
 			<Weapon name="RushCoil" entity="RushCoil" ammo="7" usage="0" palette="6">

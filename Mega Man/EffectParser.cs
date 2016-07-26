@@ -180,10 +180,26 @@ namespace MegaMan.Engine
 
         private static Effect LoadEffect(EffectInfo info)
         {
-            return info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
+            var effect = info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
+
+            if (info.Filter != null)
+            {
+                var filter = info.Filter;
+                return e => {
+                    var targets = GetFilteredEntities(e.Entities, filter);
+                    foreach (var target in targets)
+                    {
+                        effect(target);
+                    }
+                };
+            }
+            else
+            {
+                return effect;
+            }
         }
 
-        public static Effect LoadEffectPart(IEffectPartInfo partInfo)
+        private static Effect LoadEffectPart(IEffectPartInfo partInfo)
         {
             var t = partInfo.GetType();
             if (!effectLoaders.ContainsKey(t))
@@ -299,6 +315,16 @@ namespace MegaMan.Engine
                 entity.GetComponent<WeaponComponent>(),
                 Game.CurrentGame.Player
             );
+        }
+
+        private static IEnumerable<IEntity> GetFilteredEntities(IEntityPool pool, EntityFilterInfo filter)
+        {
+            var entities = pool.GetAll();
+
+            if (filter.Type != null)
+                entities = entities.Where(e => e.Name == filter.Type);
+
+            return entities;
         }
 
         public static void Unload()

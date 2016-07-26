@@ -6,6 +6,7 @@ namespace MegaMan.Common.Entities.Effects
     public class EffectInfo : IncludedObject
     {
         public string Name { get; set; }
+        public EntityFilterInfo Filter { get; set; }
         public IEnumerable<IEffectPartInfo> Parts { get; set; }
     }
 }

@@ -15,6 +15,16 @@ namespace MegaMan.IO.Xml.Effects
             if (!string.IsNullOrWhiteSpace(effect.Name))
                 writer.WriteAttributeString("name", effect.Name);
 
+            if (effect.Filter != null)
+            {
+                writer.WriteStartElement("EntityFilter");
+
+                if (effect.Filter.Type != null)
+                    writer.WriteElementString("Type", effect.Filter.Type);
+
+                writer.WriteEndElement();
+            }
+
             foreach (var part in effect.Parts)
                 WritePart(part, writer);
 

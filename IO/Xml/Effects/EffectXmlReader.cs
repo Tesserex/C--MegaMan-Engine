@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -15,9 +12,17 @@ namespace MegaMan.IO.Xml.Effects
             var info = new EffectInfo();
             info.Name = effectNode.TryAttribute<string>("name");
 
+            var filterNode = effectNode.Element("EntityFilter");
+            if (filterNode != null)
+            {
+                info.Filter = new EntityFilterInfo() {
+                    Type = filterNode.TryElementValue<string>("Type")
+                };
+            }
+
             var parts = new List<IEffectPartInfo>();
 
-            foreach (var node in effectNode.Elements())
+            foreach (var node in effectNode.Elements().Where(e => e.Name != "EntityFilter"))
                 parts.Add(LoadPart(node));
 
             info.Parts = parts;

@@ -90,6 +90,7 @@
     <Compile Include="Const.cs" />
     <Compile Include="Entities\Effects\DefeatBossEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\DelayedEffectPartInfo.cs" />
+    <Compile Include="Entities\Effects\EntityFilterInfo.cs" />
     <Compile Include="Entities\Effects\FuncEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\GravityFlipEffectPartInfo.cs" />
     <Compile Include="Entities\Effects\HealthEffectPartInfo.cs" />
