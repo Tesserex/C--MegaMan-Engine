@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace MegaMan.Engine
@@ -28,9 +29,15 @@ namespace MegaMan.Engine
             base.OnShown(e);
         }
 
-        protected override void OnClosed(EventArgs e)
+        /// <summary>
+        /// Form isn't close, we just hide it and show it.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosing(CancelEventArgs e)
         {
-            base.OnClosed(e);
+            e.Cancel = true;    // If closing it, there will be a failure on call of show method.
+            base.OnClosing(e);
+            this.Hide();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

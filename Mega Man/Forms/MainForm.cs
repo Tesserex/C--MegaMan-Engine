@@ -29,6 +29,7 @@ namespace MegaMan.Engine
 
         #region Constants
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
+        private readonly Keyboard keyform = new Keyboard();
 
         #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
@@ -286,6 +287,7 @@ namespace MegaMan.Engine
             Engine.Instance.OnException += Engine_Exception;
 
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
+            keyform.FormClosed += (s, e) => AutosaveConfig(null);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -343,8 +345,8 @@ namespace MegaMan.Engine
         /// </summary>
         public void close()
         {
-            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
             AutosaveConfig();
+            if (Game.CurrentGame != null) Game.CurrentGame.Unload();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -493,7 +495,6 @@ namespace MegaMan.Engine
         #region Input Menu
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Keyboard keyform = new Keyboard();
             keyform.Show();
         }
         #endregion
@@ -942,7 +943,7 @@ namespace MegaMan.Engine
         {
             debugBar.Visible = value;
             Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
-            debugBarToolStripMenuItem.Checked = debugBar.Visible;
+            debugBarToolStripMenuItem.Checked = value;
         }
 
         private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
