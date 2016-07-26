@@ -324,6 +324,42 @@ namespace MegaMan.Engine
             if (filter.Type != null)
                 entities = entities.Where(e => e.Name == filter.Type);
 
+            if (filter.Direction != null)
+                entities = entities.Where(e => e.Direction == filter.Direction);
+
+            if (filter.Position != null)
+            {
+                if (filter.Position.X != null)
+                {
+                    if (filter.Position.X.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.X >= filter.Position.X.Min.Value;
+                        });
+
+                    if (filter.Position.X.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.X <= filter.Position.X.Max.Value;
+                        });
+                }
+
+                if (filter.Position.Y != null)
+                {
+                    if (filter.Position.Y.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.Y >= filter.Position.Y.Min.Value;
+                        });
+
+                    if (filter.Position.Y.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.Y <= filter.Position.Y.Max.Value;
+                        });
+                }
+            }
+
             return entities;
         }
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -18,6 +20,28 @@ namespace MegaMan.IO.Xml.Effects
                 info.Filter = new EntityFilterInfo() {
                     Type = filterNode.TryElementValue<string>("Type")
                 };
+
+                var direction = filterNode.TryElementValue<string>("Direction");
+                if (direction != null)
+                {
+                    try
+                    {
+                        info.Filter.Direction = (Direction)Enum.Parse(typeof(Direction), direction, true);
+                    }
+                    catch
+                    {
+                        throw new GameXmlException(filterNode, "Entity filter direction was not valid.");
+                    }
+                }
+
+                var positionNode = filterNode.Element("Position");
+                if (positionNode != null)
+                {
+                    info.Filter.Position = new PositionFilter() {
+                        X = LoadRangeFilter(positionNode.Element("X")),
+                        Y = LoadRangeFilter(positionNode.Element("Y"))
+                    };
+                }
             }
 
             var parts = new List<IEffectPartInfo>();
@@ -28,6 +52,17 @@ namespace MegaMan.IO.Xml.Effects
             info.Parts = parts;
 
             return info;
+        }
+
+        public RangeFilter LoadRangeFilter(XElement node)
+        {
+            if (node == null)
+                return null;
+
+            return new RangeFilter() {
+                Min = node.TryAttribute<float?>("min"),
+                Max = node.TryAttribute<float?>("max")
+            };
         }
 
         public IEffectPartInfo LoadPart(XElement node)

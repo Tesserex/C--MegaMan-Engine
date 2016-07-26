@@ -75,6 +75,8 @@
 	<Function name="TossMets">
 		<EntityFilter>
 			<Type>Metool</Type>
+			<Direction>Left</Direction>
+			<Position><X min="64" max="128" /></Position>
 		</EntityFilter>
 		<Movement>
 			<Y magnitude="4" direction="Up" />
