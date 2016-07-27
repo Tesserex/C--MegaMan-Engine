@@ -24,7 +24,7 @@ namespace MegaMan.Engine
 
         ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
 
-        public static bool pauseEngine;
+        public static bool pauseEngine, enginePauseStatus; // enginePauseStatus informs if engine is currently in a pause status. This is used when opening a game: if engine is paused, don't activate engine.
         #endregion
 
         #region Constants
@@ -43,16 +43,42 @@ namespace MegaMan.Engine
         // Lots of functions used to determine what is happening and set engine activated/deactivated state
 
         /// <summary>
+        /// Request to start engine on, if form in a state that allows it.
+        /// </summary>
+        static public void startEngineIfFormAllows()
+        {
+            if (!enginePauseStatus) Engine.Instance.Start();
+        }
+
+        /// <summary>
+        /// Called when form is in a state that sets engine on
+        /// </summary>
+        private void engineStart()
+        {
+            enginePauseStatus = false;
+            Engine.Instance.Start();
+        }
+
+        /// <summary>
+        /// Called when form is in a state that sets engine off
+        /// </summary>
+        private void engineStop()
+        {
+            enginePauseStatus = true;
+            Engine.Instance.Stop();
+        }
+
+        /// <summary>
         /// Function which is called by events, checks conditions to know if engine is active/unactive
         /// </summary>
         private void HandleEngineActivation()
         {
             altKeyDown = false;
 
-            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) Engine.Instance.Stop();
+            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) engineStop();
             else
             {
-                Engine.Instance.Start();
+                engineStart();
                 menu = false;   // If here, no more focus or Window is minimized, so menu is closed for surre
             }
         }
@@ -113,7 +139,7 @@ namespace MegaMan.Engine
             base.OnMove(e);
 
             menu = false; // Menu is sure to be closed.
-            Engine.Instance.Stop();
+            engineStop();
         }
 
         /// <summary>
@@ -126,7 +152,7 @@ namespace MegaMan.Engine
 
             menu = false;
             gotFocus = true;
-            Engine.Instance.Start();
+            engineStart();
         }
 
         /// <summary>
@@ -141,7 +167,7 @@ namespace MegaMan.Engine
             {
                 menu = false;
                 gotFocus = true;
-                Engine.Instance.Start();
+                engineStart();
             }
         }
 
@@ -436,10 +462,10 @@ namespace MegaMan.Engine
 
             pauseEngine = pauseEngineToolStripMenuItem.Checked;
 
-            if (pauseEngine) Engine.Instance.Stop();
+            if (pauseEngine) engineStop();
             else
             {
-                Engine.Instance.Start();
+                engineStart();
                 if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
                 {
                     Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
