@@ -6,7 +6,7 @@ namespace MegaMan.Engine
 {
     class Log
     {
-        public static bool saveLog(string log)
+        public static bool SaveLog(string log)
         {
             try
             {
