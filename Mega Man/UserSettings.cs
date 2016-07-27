@@ -49,6 +49,7 @@ namespace MegaMan.Engine
         public class Paths
         {
             public static readonly string SettingFile = "settings.xml";
+            public static readonly string FileNameToPutDebuggingMsg = "debug.txt";
         }
         #endregion
         #region Engine Properties

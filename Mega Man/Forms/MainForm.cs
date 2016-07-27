@@ -45,7 +45,7 @@ namespace MegaMan.Engine
         /// <summary>
         /// Request to start engine on, if form in a state that allows it.
         /// </summary>
-        static public void startEngineIfFormAllows()
+        static public void startEngineIfFormAllowed()
         {
             if (!enginePauseStatus) Engine.Instance.Start();
         }

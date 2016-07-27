@@ -211,6 +211,7 @@
       <DependentUpon>Keyboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\LadderComponent.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Rendering\XnaRenderingContext.cs" />
     <Compile Include="Rendering\XnaResourceImage.cs" />
     <Compile Include="Stage\IMapSquare.cs" />
