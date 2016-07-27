@@ -58,6 +58,18 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
+        /// A function is made because the event needs to be "triggered" at other places
+        /// </summary>
+        private void OnResizeCode()
+        {
+            if (!screenToolStripMenuItem.Pressed)
+            {
+                menu = false;
+                HandleEngineActivation();
+            }
+        }
+
+        /// <summary>
         /// Only event to be called when minimizing by clicking on tray icon.
         /// </summary>
         /// <param name="e"></param>
@@ -65,11 +77,7 @@ namespace MegaMan.Engine
         {
             base.OnResize(e);
 
-            if (!screenToolStripMenuItem.Pressed)
-            {
-                menu = false;
-                HandleEngineActivation();
-            }
+            OnResizeCode();
         }
 
         /// <summary>
@@ -1257,6 +1265,23 @@ namespace MegaMan.Engine
             return Constants.Errors.GetUserSettingsFromXML_NoError;
         }
 
+        /// <summary>
+        /// This is kind of a bad patch but found no better way to do it.
+        /// OnMove function is used when user is moving the form, and OnResizeEnd is used for when he finish.
+        /// However, when moving it with coordinates, OnMove is called, but not OnResizeEnd.
+        /// So we restart the engine after the move if it was running.
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        private void ChangeFormLocation(int X, int Y)
+        {
+            bool running = Engine.Instance.IsRunning;
+
+            this.Location = new System.Drawing.Point(X, Y);
+
+            if (running) OnResizeCode();
+        }
+
         private Setting GetDefaultConfig()
         {
             Setting settings = new Setting();
@@ -1399,8 +1424,8 @@ namespace MegaMan.Engine
             #endregion
             #endregion
 
-            #region Miscellaneous
-            this.Location = new System.Drawing.Point(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
+            #region Miscellaneou
+            ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
             #endregion
         }
 
