@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Runtime.InteropServices; // To use DllImport
 using MegaMan.IO.Xml;
 using MegaMan.Engine.Forms;
 
@@ -13,6 +14,9 @@ namespace MegaMan.Engine
 {
     public partial class MainForm : Form
     {
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
         #region Variables And Constants
         #region Variables
         private string settingsPath, currentGame, lastGameWithPath;
@@ -78,8 +82,10 @@ namespace MegaMan.Engine
             if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) engineStop();
             else
             {
-                engineStart();
-                menu = false;   // If here, no more focus or Window is minimized, so menu is closed for surre
+                if ((IntPtr)GetForegroundWindow() == this.Handle)
+                {
+                    engineStart();
+                }
             }
         }
 
@@ -1234,7 +1240,11 @@ namespace MegaMan.Engine
                 Game.CurrentGame.Unload();
             }
 
-            this.OnActivated(new EventArgs());
+            // Only call if if current form is the active one
+            if ((IntPtr)GetForegroundWindow() == this.Handle)
+            {
+                this.OnActivated(new EventArgs());
+            }
 
             return false;
         }
