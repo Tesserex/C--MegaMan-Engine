@@ -8,16 +8,105 @@ namespace MegaMan.Engine
     {
         public event Action Apply;
 
-        public double Hue { get { return hueTrack.Value / 180.0; } }
-        public double Saturation { get { return satTrack.Value / 100.0; } }
-        public double Brightness { get { return brightTrack.Value / 100.0; } }
-        public double Contrast { get { return contTrack.Value / 100.0; } }
-        public double Sharpness { get { return sharpTrack.Value / 100.0; } }
-        public double Resolution { get { return resTrack.Value / 100.0; } }
-        public double Artifacts { get { return artTrack.Value / 100.0 - 1; } }
-        public double Gamma { get { return gammaTrack.Value / 100.0; } }
-        public double Fringing { get { return fringeTrack.Value / 100.0 - 1; } }
-        public double Bleed { get { return bleedTrack.Value / 100.0 - 1; } }
+        public double Hue
+        {
+            get { return hueTrack.Value / 180.0; }
+            set
+            {
+                hueTrack.Value = (int)(value * 180.0);
+                hueValue.Text = hueTrack.Value.ToString();
+            }
+        }
+
+        public double Saturation
+        {
+            get { return satTrack.Value / 100.0; }
+            set
+            {
+                satTrack.Value = (int)(value * 100.0);
+                satValue.Text = satTrack.Value.ToString();
+            }
+        }
+
+        public double Brightness
+        {
+            get { return brightTrack.Value / 100.0; }
+            set
+            {
+                brightTrack.Value = (int)(value * 100.0);
+                brightValue.Text = brightTrack.Value.ToString();
+            }
+        }
+
+        public double Contrast
+        {
+            get { return contTrack.Value / 100.0; }
+            set
+            {
+                contTrack.Value = (int)(value * 100.0);
+                contValue.Text = contTrack.Value.ToString();
+            }
+        }
+
+        public double Sharpness
+        {
+            get { return sharpTrack.Value / 100.0; }
+            set
+            {
+                sharpTrack.Value = (int)(value * 100.0);
+                sharpValue.Text = sharpTrack.Value.ToString();
+            }
+        }
+
+        public double Resolution
+        {
+            get { return resTrack.Value / 100.0; }
+            set
+            {
+                resTrack.Value = (int)(value * 100.0);
+                resValue.Text = resTrack.Value.ToString();
+            }
+        }
+
+        public double Artifacts
+        {
+            get { return artTrack.Value / 100.0 - 1; }
+            set
+            {
+                artTrack.Value = (int)((1 + value) * 100.0);
+                artValue.Text = artTrack.Value.ToString();
+            }
+        }
+
+        public double Gamma
+        {
+            get { return gammaTrack.Value / 100.0; }
+            set
+            {
+                gammaTrack.Value = (int)(value * 100.0);
+                gammaValue.Text = gammaTrack.Value.ToString();
+            }
+        }
+
+        public double Fringing
+        {
+            get { return fringeTrack.Value / 100.0 - 1; }
+            set
+            {
+                fringeTrack.Value = (int)((1 + value) * 100.0);
+                fringeValue.Text = fringeTrack.Value.ToString();
+            }
+        }
+
+        public double Bleed
+        {
+            get { return bleedTrack.Value / 100.0 - 1; }
+            set
+            {
+                bleedTrack.Value = (int)((1 + value) * 100.0);
+                bleedValue.Text = bleedTrack.Value.ToString();
+            }
+        }
 
         public CustomNtscForm()
         {

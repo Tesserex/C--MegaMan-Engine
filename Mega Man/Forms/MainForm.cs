@@ -6,8 +6,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using MegaMan.IO.Xml;
 using MegaMan.Engine.Forms;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -548,7 +548,6 @@ namespace MegaMan.Engine
             if (index == (Int16)UserSettingsEnums.Screen.NTSC)
             {
                 #region NTSC
-                #region Get NTSC Option and Parameters from Option
                 if (ntscComposite.Checked)
                 {
                     ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Composite;
@@ -567,8 +566,7 @@ namespace MegaMan.Engine
                 else // (ntscCustom.Checked)
                 {
                     ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Custom;
-                    // !!!NTSC option read from what is in form
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb; // TEMPORARY TO PREVENT BUG
+                    ntscOptionParameters = NtscCustomFromForm();
                 }
 
                 if (ntscOption == -1 || ntscOptionParameters == null)
@@ -578,12 +576,8 @@ namespace MegaMan.Engine
                     Programming_Error_No_Shutdown("screenSizeMenuSelected called, NTSC selected, 3 parameters should be sent. ntscOption was " + ntscOption.ToString() + " ntscOptionParameters was " + ntscOptionParameters + ".");
                     return;
                 }
-                #endregion
 
-                if (ntscComposite.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else if (ntscRGB.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else if (ntscSVideo.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else ntscOptionSet(ntscOption, ntscOptionParameters);
+                ntscOptionSet(ntscOption, ntscOptionParameters);
                 #endregion
             }
             if (index == (Int16)UserSettingsEnums.Screen.X1)
@@ -665,10 +659,15 @@ namespace MegaMan.Engine
         /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
-            ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
-                customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
+            ntscOptionCode(ntscCustom, NtscCustomFromForm());
 
             AutosaveConfig();
+        }
+
+        private snes_ntsc_setup_t NtscCustomFromForm()
+        {
+            return new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+                            customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true);
         }
         #endregion
 
@@ -1372,8 +1371,16 @@ namespace MegaMan.Engine
                 false
                 );
 
-            // !!!NTSC option write values to form for custom, so on opening of form, those values are present
-
+            customNtscForm.Hue = settings.Screens.NTSC_Custom.Hue;
+            customNtscForm.Saturation = settings.Screens.NTSC_Custom.Saturation;
+            customNtscForm.Contrast = settings.Screens.NTSC_Custom.Contrast;
+            customNtscForm.Brightness = settings.Screens.NTSC_Custom.Brightness;
+            customNtscForm.Sharpness = settings.Screens.NTSC_Custom.Sharpness;
+            customNtscForm.Gamma = settings.Screens.NTSC_Custom.Gamma;
+            customNtscForm.Resolution = settings.Screens.NTSC_Custom.Resolution;
+            customNtscForm.Artifacts = settings.Screens.NTSC_Custom.Artifacts;
+            customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
+            customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
 
             if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
             {
@@ -1632,19 +1639,18 @@ namespace MegaMan.Engine
                         Size = currentSize(),
                         Maximized = WindowState == FormWindowState.Maximized ? true : false,
                         NTSC_Options = currentNTSC_Option(),
-                        // !!!NTSC option write
                         NTSC_Custom = new NTSC_CustomOptions()
                         {
-                            Hue = 1,
-                            Saturation = 1,
-                            Brightness = 1,
-                            Contrast = 1,
-                            Sharpness = 1,
-                            Gamma = 1,
-                            Resolution = 1,
-                            Artifacts = 1,
-                            Fringing = 1,
-                            Bleed = 1,
+                            Hue = customNtscForm.Hue,
+                            Saturation = customNtscForm.Saturation,
+                            Brightness = customNtscForm.Brightness,
+                            Contrast = customNtscForm.Contrast,
+                            Sharpness = customNtscForm.Sharpness,
+                            Gamma = customNtscForm.Gamma,
+                            Resolution = customNtscForm.Resolution,
+                            Artifacts = customNtscForm.Artifacts,
+                            Fringing = customNtscForm.Fringing,
+                            Bleed = customNtscForm.Bleed,
                             Merge_Fields = true
                         },
                         Pixellated = currentPixellatedOrSmoothedOption(),
