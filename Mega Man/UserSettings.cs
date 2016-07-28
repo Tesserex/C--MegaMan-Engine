@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using MegaMan.Engine.Forms;
 
 namespace MegaMan.Engine
 {
@@ -37,8 +38,8 @@ namespace MegaMan.Engine
         #region Screen Menu
         public class Screen
         {
-            public static readonly Int16 Size = 0; // also used when reading xml if an invalidvalue is used
-            public static readonly Int16 NTSC_Option = 0; // also used when reading xml if an invalidvalue is used
+            public static readonly UserSettingsEnums.Screen Size = UserSettingsEnums.Screen.X1; // also used when reading xml if an invalidvalue is used
+            public static readonly UserSettingsEnums.NTSC_Options NTSC_Option = UserSettingsEnums.NTSC_Options.None; // also used when reading xml if an invalidvalue is used
             public static readonly bool Maximized = false;
             public static readonly NTSC_CustomOptions NTSC_Options = new NTSC_CustomOptions()
             {
@@ -54,7 +55,7 @@ namespace MegaMan.Engine
                 Bleed = 0,
                 Merge_Fields = true
             };
-            public static readonly Int16 PixellatedOrSmoothed = 0; // also used when reading xml if an invalidvalue is used
+            public static readonly UserSettingsEnums.PixellatedOrSmoothed PixellatedOrSmoothed = UserSettingsEnums.PixellatedOrSmoothed.Pixellated; // also used when reading xml if an invalidvalue is used
             public static readonly bool HideMenu = false;
         }
         #endregion
@@ -77,7 +78,7 @@ namespace MegaMan.Engine
         {
             public static readonly bool ShowMenu = true;
             public static readonly bool ShowHitboxes = false;
-            public static readonly Int32 Framerate = 60; // also used when reading xml if an invalidvalue is used
+            public static readonly int Framerate = 60; // also used when reading xml if an invalidvalue is used
             public static readonly LastCheat Cheat = new LastCheat()
             {
                 Invincibility = false,
@@ -253,11 +254,11 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastScreen
     {
-        public Int32 Size { get; set; } // Needs to be Int32 even if Int16 is sufficient. It is compared to Int16
+        public UserSettingsEnums.Screen Size { get; set; }
         public bool Maximized { get; set; }
-        public Int32 NTSC_Options { get; set; }
+        public UserSettingsEnums.NTSC_Options NTSC_Options { get; set; }
         public NTSC_CustomOptions NTSC_Custom { get; set; }
-        public Int32 Pixellated { get; set; }
+        public UserSettingsEnums.PixellatedOrSmoothed Pixellated { get; set; }
         public bool HideMenu { get; set; }
 
         public LastScreen()
@@ -269,7 +270,7 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastAudio
     {
-        public Int32 Volume { get; set; }
+        public int Volume { get; set; }
         public bool Musics { get; set; }
         public bool Sound { get; set; }
         public bool Square1 { get; set; }
@@ -301,7 +302,7 @@ namespace MegaMan.Engine
     {
         public bool ShowMenu { get; set; }
         public bool ShowHitboxes { get; set; }
-        public Int32 Framerate { get; set; }
+        public int Framerate { get; set; }
         public LastCheat Cheat { get; set; }
         public LastLayers Layers { get; set; }
 
