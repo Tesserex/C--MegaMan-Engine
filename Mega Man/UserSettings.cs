@@ -62,7 +62,7 @@ namespace MegaMan.Engine
         #region Audio Menu
         public class Audio
         {
-            public static readonly int Volume = 60;
+            public static readonly int Volume = 50;
             public static readonly bool Musics = true;
             public static readonly bool Sound = true;
             public static readonly bool Square1 = true;
@@ -77,7 +77,7 @@ namespace MegaMan.Engine
         {
             public static readonly bool ShowMenu = true;
             public static readonly bool ShowHitboxes = false;
-            public static readonly Int32 Framerate = 50; // also used when reading xml if an invalidvalue is used
+            public static readonly Int32 Framerate = 60; // also used when reading xml if an invalidvalue is used
             public static readonly LastCheat Cheat = new LastCheat()
             {
                 Invincibility = false,
