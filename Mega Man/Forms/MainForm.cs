@@ -853,13 +853,13 @@ namespace MegaMan.Engine
         #region Code for Hide Menu
         private void hideMenu(bool hideMenu)
         {
-            if (hideMenu)
+            if (hideMenu && menuStrip1.Visible)
             {
                 hideMenuItem.Checked = true;
                 Height -= menuStrip1.Height;
                 menuStrip1.Visible = false;
             }
-            else
+            else if (!hideMenu && !menuStrip1.Visible)
             {
                 hideMenuItem.Checked = false;
                 menuStrip1.Visible = true;
@@ -987,9 +987,11 @@ namespace MegaMan.Engine
         #region First Section
         private void setDebugBar(bool value)
         {
+            debugBarToolStripMenuItem.Checked = value;
+            if (debugBar.Visible == value) return;
+
             debugBar.Visible = value;
             Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
-            debugBarToolStripMenuItem.Checked = value;
         }
 
         private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
