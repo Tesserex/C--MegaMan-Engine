@@ -173,7 +173,7 @@ namespace MegaMan.Engine
             GraphicsDevice = args.Device;
             renderContext = new XnaRenderingContext(GraphicsDevice);
             initialized = true;
-            Start();
+            MainForm.startEngineIfFormAllowed(); // Do not start engine if it is supposed to be paused right now!
         }
 
         public void Start()

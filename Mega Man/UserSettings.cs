@@ -20,10 +20,88 @@ namespace MegaMan.Engine
     #region Config Files Default Values
     public class ConfigFilesDefaultValues
     {
-        public static readonly Int16 Size = 0;
-        public static readonly Int16 NTSC_Option = 0;
-        public static readonly Int16 PixellatedOrSmoothed = 0;
-        public static readonly Int32 Framerate = 60;
+        #region Input Menu: Keys
+        public class Key
+        {
+            public static readonly Keys UpKey = Keys.Up;
+            public static readonly Keys DownKey = Keys.Down;
+            public static readonly Keys LeftKey = Keys.Left;
+            public static readonly Keys RightKey = Keys.Right;
+            public static readonly Keys JumpKey = Keys.A;
+            public static readonly Keys ShootKey = Keys.S;
+            public static readonly Keys StartKey = Keys.Enter;
+            public static readonly Keys SelectKey = Keys.Space;
+        }
+        #endregion
+
+        #region Screen Menu
+        public class Screen
+        {
+            public static readonly Int16 Size = 0; // also used when reading xml if an invalidvalue is used
+            public static readonly Int16 NTSC_Option = 0; // also used when reading xml if an invalidvalue is used
+            public static readonly bool Maximized = false;
+            public static readonly NTSC_CustomOptions NTSC_Options = new NTSC_CustomOptions()
+            {
+                Hue = 0,
+                Saturation = 0,
+                Brightness = 0,
+                Contrast = 0,
+                Sharpness = 0,
+                Gamma = 0,
+                Resolution = 0,
+                Artifacts = 0,
+                Fringing = 0,
+                Bleed = 0,
+                Merge_Fields = true
+            };
+            public static readonly Int16 PixellatedOrSmoothed = 0; // also used when reading xml if an invalidvalue is used
+            public static readonly bool HideMenu = false;
+        }
+        #endregion
+
+        #region Audio Menu
+        public class Audio
+        {
+            public static readonly int Volume = 50;
+            public static readonly bool Musics = true;
+            public static readonly bool Sound = true;
+            public static readonly bool Square1 = true;
+            public static readonly bool Square2 = true;
+            public static readonly bool Triangle = true;
+            public static readonly bool Noise = true;
+        }
+        #endregion
+
+        #region Debug Menu
+        public class Debug
+        {
+            public static readonly bool ShowMenu = true;
+            public static readonly bool ShowHitboxes = false;
+            public static readonly Int32 Framerate = 60; // also used when reading xml if an invalidvalue is used
+            public static readonly LastCheat Cheat = new LastCheat()
+            {
+                Invincibility = false,
+                NoDamage = false
+            };
+            public static readonly LastLayers Layers = new LastLayers()
+            {
+                Background = true,
+                Sprites1 = true,
+                Sprites2 = true,
+                Sprites3 = true,
+                Sprites4 = true,
+                Foreground = true
+            };
+        }
+        #endregion
+
+        #region Miscellaneous
+        public class Miscellaneous
+        {
+            public static readonly int ScreenX_Coordinate = 50;
+            public static readonly int ScreenY_Coordinate = 50;
+        }
+        #endregion
     }
     #endregion
     #endregion
@@ -49,6 +127,7 @@ namespace MegaMan.Engine
         public class Paths
         {
             public static readonly string SettingFile = "settings.xml";
+            public static readonly string FileNameToPutDebuggingMsg = "debug.txt";
         }
         #endregion
         #region Engine Properties
@@ -68,6 +147,7 @@ namespace MegaMan.Engine
         public bool AutosaveSettings { get; set; }
         public bool UseDefaultSettings { get; set; }
         public string Autoload { get; set; } // Game with his path to load on startup
+        public string InitialFolder { get; set; } // Always remember last place navigating with open folder.
         public List<Setting> Settings { get; set; }
 
         /// <summary>
@@ -206,7 +286,7 @@ namespace MegaMan.Engine
     }
 
     [Serializable]
-    public class LastBackground
+    public class LastLayers
     {
         public bool Background { get; set; }
         public bool Sprites1 { get; set; }
@@ -223,12 +303,12 @@ namespace MegaMan.Engine
         public bool ShowHitboxes { get; set; }
         public Int32 Framerate { get; set; }
         public LastCheat Cheat { get; set; }
-        public LastBackground Layers { get; set; }
+        public LastLayers Layers { get; set; }
 
         public LastDebug()
         {
             Cheat = new LastCheat();
-            Layers = new LastBackground();
+            Layers = new LastLayers();
         }
     }
 
