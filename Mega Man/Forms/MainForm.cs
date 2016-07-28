@@ -19,7 +19,7 @@ namespace MegaMan.Engine
 
         #region Variables And Constants
         #region Variables
-        private string settingsPath, currentGame, lastGameWithPath;
+        private string settingsPath, currentGame, lastGameWithPath, initialFolder;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized;
         
@@ -308,7 +308,7 @@ namespace MegaMan.Engine
 
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = true;
-            currentGame = "";
+            currentGame = initialFolder= "";
             lastGameWithPath = null;
 
 #if !DEBUG
@@ -402,11 +402,18 @@ namespace MegaMan.Engine
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            DialogResult result = dialog.ShowDialog();
+            DialogResult result;
+
+            dialog.InitialDirectory = initialFolder; // If it's bad, following command only open default folder
+                        
+            result = dialog.ShowDialog();
 
             if (result == DialogResult.OK)
             {
+                initialFolder = Path.GetDirectoryName(dialog.FileName);
+
                 AutosaveConfig();
+                SaveGlobalConfigValues();
 
                 pauseOff();
 
@@ -1507,6 +1514,7 @@ namespace MegaMan.Engine
                 autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
                 defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
                 autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
+                initialFolder = userSettings.InitialFolder;
             }
             catch (Exception) { }
         }
@@ -1639,6 +1647,7 @@ namespace MegaMan.Engine
             userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
             userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
             userSettings.Autoload = autoloadToolStripMenuItem.Checked == true ? lastGameWithPath : null;
+            userSettings.InitialFolder = initialFolder;
 
             SaveToConfigXML(userSettings, fileName);
         }

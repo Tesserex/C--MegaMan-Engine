@@ -147,6 +147,7 @@ namespace MegaMan.Engine
         public bool AutosaveSettings { get; set; }
         public bool UseDefaultSettings { get; set; }
         public string Autoload { get; set; } // Game with his path to load on startup
+        public string InitialFolder { get; set; } // Always remember last place navigating with open folder.
         public List<Setting> Settings { get; set; }
 
         /// <summary>
