@@ -348,6 +348,20 @@ namespace MegaMan.Engine
 
             ResizeScreen();
         }
+        
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Engine.Instance.Stop();
+            }
+            else
+            {
+                Engine.Instance.Start();
+            }
+        }
 
         protected override void OnClosed(EventArgs e)
         {

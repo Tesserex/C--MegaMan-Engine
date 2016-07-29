@@ -113,14 +113,14 @@ namespace MegaMan.Engine
 
             BasePath = project.BaseDir;
 
-            PixelsDown = project.ScreenHeight;
-            PixelsAcross = project.ScreenWidth;
-
-            if (ScreenSizeChanged != null)
-            {
-                ScreenSizeChangedEventArgs args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
-                ScreenSizeChanged(this, args);
-            }
+            //PixelsDown = project.ScreenHeight;
+            //PixelsAcross = project.ScreenWidth;
+            //
+            //if (ScreenSizeChanged != null)
+            //{
+            //    ScreenSizeChangedEventArgs args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
+            //    ScreenSizeChanged(this, args);
+            //}
 
             if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
             if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
