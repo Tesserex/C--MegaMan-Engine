@@ -31,6 +31,17 @@ namespace MegaMan.Engine
             }
         }
 
+        private int volume;
+        public int Volume
+        {
+            get { return volume; }
+            set
+            {
+                volume = Math.Max(0, Math.Min(100, value));
+                AudioManager.Instance.ChangeVolume(volume / 100f);
+            }
+        }
+
         private bool sfxEnabled = true;
         public bool SfxEnabled
         {

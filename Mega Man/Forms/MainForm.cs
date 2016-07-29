@@ -961,25 +961,21 @@ namespace MegaMan.Engine
             setNoise(!noiseMenuItem.Checked);
         }
         #endregion
-
-        #region Third Section
-        #region Volume
+        
         public void SetVolume(int value)
         {
-            Engine.Instance.Volume = value;
+            Engine.Instance.SoundSystem.Volume = value;
         }
 
         private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.Volume + 1);
+            SetVolume(Engine.Instance.SoundSystem.Volume + 2);
         }
 
         private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.Volume - 1);
+            SetVolume(Engine.Instance.SoundSystem.Volume - 2);
         }
-        #endregion
-        #endregion
 
         #endregion
 
@@ -1718,7 +1714,7 @@ namespace MegaMan.Engine
                     },
                     Audio = new LastAudio()
                     {
-                        Volume = Engine.Instance.Volume,
+                        Volume = Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
                         Sound = sfxMenuItem.Checked,
                         Square1 = sq1MenuItem.Checked,
