@@ -404,8 +404,10 @@ namespace MegaMan.Engine
             OpenFileDialog dialog = new OpenFileDialog();
             DialogResult result;
 
-            dialog.InitialDirectory = initialFolder; // If it's bad, following command only open default folder
-                        
+            // If directory from xml is still valid, use it, else restore default one.
+            if (Directory.Exists(initialFolder)) dialog.InitialDirectory = initialFolder;
+            else dialog.InitialDirectory = Directory.GetCurrentDirectory();
+
             result = dialog.ShowDialog();
 
             if (result == DialogResult.OK)
