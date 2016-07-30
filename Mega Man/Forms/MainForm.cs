@@ -1449,10 +1449,10 @@ namespace MegaMan.Engine
             SetVolume(settings.Audio.Volume);
             setMusic(settings.Audio.Musics);
             setSFX(settings.Audio.Sound);
-            // setSq1(settings.Audio.Square1);
-            // setSq2(settings.Audio.Square2);
-            // setTri(settings.Audio.Triangle);
-            // setNoise(settings.Audio.Noise);
+            setSq1(settings.Audio.Square1);
+            setSq2(settings.Audio.Square2);
+            setTri(settings.Audio.Triangle);
+            setNoise(settings.Audio.Noise);
             #endregion
 
             #region Debug Menu
