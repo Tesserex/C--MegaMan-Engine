@@ -512,7 +512,6 @@ namespace MegaMan.Engine
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
             SaveGlobalConfigValues();
             LoadConfigFromXML();
-            SaveConfig();
 
             SetLayersVisibilityFromSettings();
         }
