@@ -19,6 +19,7 @@ namespace MegaMan.Engine
             CollisionComponent col,
             LadderComponent lad,
             TimerComponent timer,
+            VarsComponent vars,
             HealthComponent health,
             WeaponComponent weapon,
             int statetime,
@@ -73,6 +74,7 @@ namespace MegaMan.Engine
         private static readonly ParameterExpression weaponParam;
         private static readonly ParameterExpression ladderParam;
         private static readonly ParameterExpression timerParam;
+        private static readonly ParameterExpression varsParam;
         private static readonly ParameterExpression stParam;
         private static readonly ParameterExpression lifeParam;
         private static readonly ParameterExpression healthParam;
@@ -97,6 +99,7 @@ namespace MegaMan.Engine
             collParam = Expression.Parameter(typeof(CollisionComponent), "Collision");
             ladderParam = Expression.Parameter(typeof(LadderComponent), "Ladder");
             timerParam = Expression.Parameter(typeof(TimerComponent), "Timer");
+            varsParam = Expression.Parameter(typeof(VarsComponent), "Vars");
             healthParam = Expression.Parameter(typeof(HealthComponent), "Health");
             stateParam = Expression.Parameter(typeof(StateComponent), "State");
             weaponParam = Expression.Parameter(typeof(WeaponComponent), "Weapon");
@@ -127,7 +130,7 @@ namespace MegaMan.Engine
         public static Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam, playerParam },
+                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
@@ -238,7 +241,7 @@ namespace MegaMan.Engine
                 if (entity == null)
                 {
                     return split(
-                        null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
+                        null, null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
                         entity != null ? entity.Container.IsGravityFlipped : false,
                         0,
                         Game.CurrentGame.Player
@@ -268,6 +271,7 @@ namespace MegaMan.Engine
                     entity.GetComponent<CollisionComponent>(),
                     entity.GetComponent<LadderComponent>(),
                     entity.GetComponent<TimerComponent>(),
+                    entity.GetComponent<VarsComponent>(),
                     entity.GetComponent<HealthComponent>(),
                     entity.GetComponent<WeaponComponent>(),
                     (entity.GetComponent<StateComponent>()).StateFrames,
