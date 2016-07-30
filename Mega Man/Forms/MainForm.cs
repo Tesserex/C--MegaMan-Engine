@@ -82,7 +82,7 @@ namespace MegaMan.Engine
             if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) engineStop();
             else
             {
-                if ((IntPtr)GetForegroundWindow() == this.Handle)
+                if (GetForegroundWindow() == this.Handle)
                 {
                     engineStart();
                 }
@@ -581,74 +581,68 @@ namespace MegaMan.Engine
         /// Screen option X1, X2, X3, X4, they use mostly similar code.
         /// </summary>
         /// <param name="index"></param>
-        private void screenSizeMenuSelected(int index)
+        private void screenSizeMenuSelected(UserSettingsEnums.Screen index)
         {
-            Int16 ntscOption = -1;
+            UserSettingsEnums.NTSC_Options ntscOption = UserSettingsEnums.NTSC_Options.None;
             snes_ntsc_setup_t ntscOptionParameters = null;
 
-            if (index == (Int16)UserSettingsEnums.Screen.NTSC)
+            if (index == UserSettingsEnums.Screen.NTSC)
             {
                 #region NTSC
-                #region Get NTSC Option and Parameters from Option
                 if (ntscComposite.Checked)
                 {
-                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Composite;
+                    ntscOption = UserSettingsEnums.NTSC_Options.Composite;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_composite;
                 }
                 else if (ntscSVideo.Checked)
                 {
-                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.S_Video;
+                    ntscOption = UserSettingsEnums.NTSC_Options.S_Video;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_svideo;
                 }
                 else if (ntscRGB.Checked)
                 {
-                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.RGB;
+                    ntscOption = UserSettingsEnums.NTSC_Options.RGB;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb;
                 }
                 else // (ntscCustom.Checked)
                 {
-                    ntscOption = (Int16)UserSettingsEnums.NTSC_Options.Custom;
-                    // !!!NTSC option read from what is in form
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb; // TEMPORARY TO PREVENT BUG
+                    ntscOption = UserSettingsEnums.NTSC_Options.Custom;
+                    ntscOptionParameters = NtscCustomFromForm();
                 }
 
-                if (ntscOption == -1 || ntscOptionParameters == null)
+                if (ntscOption == UserSettingsEnums.NTSC_Options.None || ntscOptionParameters == null)
                 {
                     // This case is a programming error, alert!
                     // If NTSC is selected, 3 parameters must be sent to current function.
                     Programming_Error_No_Shutdown("screenSizeMenuSelected called, NTSC selected, 3 parameters should be sent. ntscOption was " + ntscOption.ToString() + " ntscOptionParameters was " + ntscOptionParameters + ".");
                     return;
                 }
-                #endregion
 
-                if (ntscComposite.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else if (ntscRGB.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else if (ntscSVideo.Checked) ntscOptionSet(ntscOption, ntscOptionParameters);
-                else ntscOptionSet(ntscOption, ntscOptionParameters);
+                ntscOptionSet(ntscOption, ntscOptionParameters);
                 #endregion
             }
-            if (index == (Int16)UserSettingsEnums.Screen.X1)
+            if (index == UserSettingsEnums.Screen.X1)
             {
                 previousScreenSizeSelection = screen1XMenu;
                 widthZoom = heightZoom = 1;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == (Int16)UserSettingsEnums.Screen.X2)
+            if (index == UserSettingsEnums.Screen.X2)
             {
                 previousScreenSizeSelection = screen2XMenu;
                 widthZoom = heightZoom = 2;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == (Int16)UserSettingsEnums.Screen.X3)
+            if (index == UserSettingsEnums.Screen.X3)
             {
                 previousScreenSizeSelection = screen3XMenu;
                 widthZoom = heightZoom = 3;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == (Int16)UserSettingsEnums.Screen.X4)
+            if (index == UserSettingsEnums.Screen.X4)
             {
                 previousScreenSizeSelection = screen4XMenu;
                 widthZoom = heightZoom = 4;
@@ -659,22 +653,22 @@ namespace MegaMan.Engine
 
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X1);
+            screenSizeMenuSelected(UserSettingsEnums.Screen.X1);
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X2);
+            screenSizeMenuSelected(UserSettingsEnums.Screen.X2);
         }
 
         private void screen3XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X3);
+            screenSizeMenuSelected(UserSettingsEnums.Screen.X3);
         }
 
         private void screen4XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.X4);
+            screenSizeMenuSelected(UserSettingsEnums.Screen.X4);
         }
 
         #region NTSC Menu Clicked
@@ -693,7 +687,7 @@ namespace MegaMan.Engine
 
         private void screenNTSCMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected((Int16)UserSettingsEnums.Screen.NTSC);
+            screenSizeMenuSelected(UserSettingsEnums.Screen.NTSC);
         }
         #endregion
         #endregion
@@ -706,10 +700,15 @@ namespace MegaMan.Engine
         /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
-            ntscOptionCode(ntscCustom, new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
-                customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true));
+            ntscOptionCode(ntscCustom, NtscCustomFromForm());
 
             AutosaveConfig();
+        }
+
+        private snes_ntsc_setup_t NtscCustomFromForm()
+        {
+            return new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
+                            customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true);
         }
         #endregion
 
@@ -738,30 +737,30 @@ namespace MegaMan.Engine
         /// <param name="NTSC_Option"></param>
         /// <param name="customParameters"></param>
         /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(Int16 NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
+        private void ntscOptionSet(UserSettingsEnums.NTSC_Options NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
         {
             // Set parameters of Custom options
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
-            if (NTSC_Option == (Int16)UserSettingsEnums.NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
+            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
+            if (NTSC_Option == UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
+            if (NTSC_Option == UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
+            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
         }
         #endregion
 
         #region Button Click event of NTSC options
         private void ntscComposite_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
+            ntscOptionSet(UserSettingsEnums.NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
         }
 
         private void ntscSVideo_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
+            ntscOptionSet(UserSettingsEnums.NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
         }
 
         private void ntscRGB_Click(object sender, EventArgs e)
         {
-            ntscOptionSet((Int16)UserSettingsEnums.NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
+            ntscOptionSet(UserSettingsEnums.NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
         }
 
         private void ntscCustom_Click(object sender, EventArgs e)
@@ -826,14 +825,14 @@ namespace MegaMan.Engine
         /// </summary>
         /// <param name="itemToKeepChecked"></param>
         /// <param name="samplerState"></param>
-        private void pixellatedVsSmoothedCode(Int32 index)
+        private void pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed index)
         {
-            if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
+            if (index == UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
             {
                 Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
                 pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
             }
-            else if (index == (Int32)UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
+            else if (index == UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
             {
                 Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
                 pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
@@ -842,12 +841,12 @@ namespace MegaMan.Engine
 
         private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
+            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
         }
 
         private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixellatedVsSmoothedCode((Int16)UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
+            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
         }
         #endregion
         #endregion
@@ -856,13 +855,13 @@ namespace MegaMan.Engine
         #region Code for Hide Menu
         private void hideMenu(bool hideMenu)
         {
-            if (hideMenu)
+            if (hideMenu && menuStrip1.Visible)
             {
                 hideMenuItem.Checked = true;
                 Height -= menuStrip1.Height;
                 menuStrip1.Visible = false;
             }
-            else
+            else if (!hideMenu && !menuStrip1.Visible)
             {
                 hideMenuItem.Checked = false;
                 menuStrip1.Visible = true;
@@ -962,25 +961,21 @@ namespace MegaMan.Engine
             setNoise(!noiseMenuItem.Checked);
         }
         #endregion
-
-        #region Third Section
-        #region Volume
+        
         public void SetVolume(int value)
         {
-            Engine.Instance.Volume = value;
+            Engine.Instance.SoundSystem.Volume = value;
         }
 
         private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.Volume + 1);
+            SetVolume(Engine.Instance.SoundSystem.Volume + 2);
         }
 
         private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.Volume - 1);
+            SetVolume(Engine.Instance.SoundSystem.Volume - 2);
         }
-        #endregion
-        #endregion
 
         #endregion
 
@@ -990,9 +985,11 @@ namespace MegaMan.Engine
         #region First Section
         private void setDebugBar(bool value)
         {
+            debugBarToolStripMenuItem.Checked = value;
+            if (debugBar.Visible == value) return;
+
             debugBar.Visible = value;
             Height += debugBar.Height * (debugBar.Visible ? 1 : -1);
-            debugBarToolStripMenuItem.Checked = value;
         }
 
         private void debugBarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1179,7 +1176,7 @@ namespace MegaMan.Engine
 
         private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetFrameRate(ConfigFilesDefaultValues.Debug.Framerate);
+            SetFrameRate(UserSettings.Default.Debug.Framerate);
         }
         #endregion
 
@@ -1334,46 +1331,46 @@ namespace MegaMan.Engine
             settings.GameFileName = "";
 
             #region Input Menu: Keys
-            settings.Keys.Up = ConfigFilesDefaultValues.Key.UpKey;
-            settings.Keys.Down = ConfigFilesDefaultValues.Key.DownKey;
-            settings.Keys.Left = ConfigFilesDefaultValues.Key.LeftKey;
-            settings.Keys.Right = ConfigFilesDefaultValues.Key.RightKey;
-            settings.Keys.Jump = ConfigFilesDefaultValues.Key.JumpKey;
-            settings.Keys.Shoot = ConfigFilesDefaultValues.Key.ShootKey;
-            settings.Keys.Start = ConfigFilesDefaultValues.Key.StartKey;
-            settings.Keys.Select = ConfigFilesDefaultValues.Key.SelectKey;
+            settings.Keys.Up = UserSettings.Default.Keys.Up;
+            settings.Keys.Down = UserSettings.Default.Keys.Down;
+            settings.Keys.Left = UserSettings.Default.Keys.Left;
+            settings.Keys.Right = UserSettings.Default.Keys.Right;
+            settings.Keys.Jump = UserSettings.Default.Keys.Jump;
+            settings.Keys.Shoot = UserSettings.Default.Keys.Shoot;
+            settings.Keys.Start = UserSettings.Default.Keys.Start;
+            settings.Keys.Select = UserSettings.Default.Keys.Select;
             #endregion
 
             #region Screen Menu
-            settings.Screens.Size = ConfigFilesDefaultValues.Screen.Size;
-            settings.Screens.NTSC_Options = ConfigFilesDefaultValues.Screen.NTSC_Option;
-            settings.Screens.Maximized = ConfigFilesDefaultValues.Screen.Maximized;
-            settings.Screens.NTSC_Custom = ConfigFilesDefaultValues.Screen.NTSC_Options;
-            settings.Screens.Pixellated = ConfigFilesDefaultValues.Screen.PixellatedOrSmoothed;
-            settings.Screens.HideMenu = ConfigFilesDefaultValues.Screen.HideMenu;
+            settings.Screens.Size = UserSettings.Default.Screens.Size;
+            settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
+            settings.Screens.Maximized = UserSettings.Default.Screens.Maximized;
+            settings.Screens.NTSC_Custom = UserSettings.Default.Screens.NTSC_Custom;
+            settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
+            settings.Screens.HideMenu = UserSettings.Default.Screens.HideMenu;
             #endregion
 
             #region Audio Menu
-            settings.Audio.Volume = ConfigFilesDefaultValues.Audio.Volume;
-            settings.Audio.Musics = ConfigFilesDefaultValues.Audio.Musics;
-            settings.Audio.Sound = ConfigFilesDefaultValues.Audio.Sound;
-            settings.Audio.Square1 = ConfigFilesDefaultValues.Audio.Square1;
-            settings.Audio.Square2 = ConfigFilesDefaultValues.Audio.Square2;
-            settings.Audio.Triangle = ConfigFilesDefaultValues.Audio.Triangle;
-            settings.Audio.Noise = ConfigFilesDefaultValues.Audio.Noise;
+            settings.Audio.Volume = UserSettings.Default.Audio.Volume;
+            settings.Audio.Musics = UserSettings.Default.Audio.Musics;
+            settings.Audio.Sound = UserSettings.Default.Audio.Sound;
+            settings.Audio.Square1 = UserSettings.Default.Audio.Square1;
+            settings.Audio.Square2 = UserSettings.Default.Audio.Square2;
+            settings.Audio.Triangle = UserSettings.Default.Audio.Triangle;
+            settings.Audio.Noise = UserSettings.Default.Audio.Noise;
             #endregion
 
             #region Debug Menu
-            settings.Debug.ShowMenu = ConfigFilesDefaultValues.Debug.ShowMenu;
-            settings.Debug.ShowHitboxes = ConfigFilesDefaultValues.Debug.ShowHitboxes;
-            settings.Debug.Framerate = ConfigFilesDefaultValues.Debug.Framerate;
-            settings.Debug.Cheat = ConfigFilesDefaultValues.Debug.Cheat;
-            settings.Debug.Layers = ConfigFilesDefaultValues.Debug.Layers;
+            settings.Debug.ShowMenu = UserSettings.Default.Debug.ShowMenu;
+            settings.Debug.ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
+            settings.Debug.Framerate = UserSettings.Default.Debug.Framerate;
+            settings.Debug.Cheat = UserSettings.Default.Debug.Cheat;
+            settings.Debug.Layers = UserSettings.Default.Debug.Layers;
             #endregion
 
             #region Miscellaneous
-            settings.Miscellaneous.ScreenX_Coordinate = ConfigFilesDefaultValues.Miscellaneous.ScreenX_Coordinate;
-            settings.Miscellaneous.ScreenY_Coordinate = ConfigFilesDefaultValues.Miscellaneous.ScreenY_Coordinate;
+            settings.Miscellaneous.ScreenX_Coordinate = UserSettings.Default.Miscellaneous.ScreenX_Coordinate;
+            settings.Miscellaneous.ScreenY_Coordinate = UserSettings.Default.Miscellaneous.ScreenY_Coordinate;
             #endregion
 
             return settings;
@@ -1397,10 +1394,10 @@ namespace MegaMan.Engine
             if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screens.NTSC_Options))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
-                settings.Screens.NTSC_Options = ConfigFilesDefaultValues.Screen.NTSC_Option;
+                settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
             }
             ntscOptionSet(
-                (Int16)settings.Screens.NTSC_Options,
+                settings.Screens.NTSC_Options,
                 new snes_ntsc_setup_t(
                     settings.Screens.NTSC_Custom.Hue,
                     settings.Screens.NTSC_Custom.Saturation,
@@ -1417,20 +1414,28 @@ namespace MegaMan.Engine
                 false
                 );
 
-            // !!!NTSC option write values to form for custom, so on opening of form, those values are present
-
+            customNtscForm.Hue = settings.Screens.NTSC_Custom.Hue;
+            customNtscForm.Saturation = settings.Screens.NTSC_Custom.Saturation;
+            customNtscForm.Contrast = settings.Screens.NTSC_Custom.Contrast;
+            customNtscForm.Brightness = settings.Screens.NTSC_Custom.Brightness;
+            customNtscForm.Sharpness = settings.Screens.NTSC_Custom.Sharpness;
+            customNtscForm.Gamma = settings.Screens.NTSC_Custom.Gamma;
+            customNtscForm.Resolution = settings.Screens.NTSC_Custom.Resolution;
+            customNtscForm.Artifacts = settings.Screens.NTSC_Custom.Artifacts;
+            customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
+            customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
 
             if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
-                settings.Screens.Size = ConfigFilesDefaultValues.Screen.Size;
+                settings.Screens.Size = UserSettings.Default.Screens.Size;
             }
             screenSizeMenuSelected(settings.Screens.Size);
 
             if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screens.Pixellated))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
-                settings.Screens.Pixellated = ConfigFilesDefaultValues.Screen.PixellatedOrSmoothed;
+                settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
             }
             pixellatedVsSmoothedCode(settings.Screens.Pixellated);
 
@@ -1460,13 +1465,13 @@ namespace MegaMan.Engine
             SetNoDamage(settings.Debug.Cheat.NoDamage);
             #endregion
 #else
-            setDebugBar(ConfigFilesDefaultValues.Debug.ShowMenu);
-            setShowHitBoxes(ConfigFilesDefaultValues.Debug.ShowHitboxes);
-            SetFrameRate(ConfigFilesDefaultValues.Debug.Framerate);
+            setDebugBar(UserSettings.Default.Debug.ShowMenu);
+            setShowHitBoxes(UserSettings.Default.Debug.ShowHitboxes);
+            SetFrameRate(UserSettings.Default.Debug.Framerate);
 
             #region Cheats
-            setInvincibility(ConfigFilesDefaultValues.Debug.Cheat.Invincibility);
-            SetNoDamage(ConfigFilesDefaultValues.Debug.Cheat.NoDamage);
+            setInvincibility(UserSettings.Default.Debug.Cheat.Invincibility);
+            SetNoDamage(UserSettings.Default.Debug.Cheat.NoDamage);
             #endregion
 #endif
 
@@ -1595,29 +1600,29 @@ namespace MegaMan.Engine
         }
 
         #region Functions to build datas for saving config
-        private Int32 currentSize()
+        private UserSettingsEnums.Screen currentSize()
         {
-            if (screen2XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X2;
-            if (screen3XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X3;
-            if (screen4XMenu.Checked) return (Int32)UserSettingsEnums.Screen.X4;
-            if (screenNTSCMenu.Checked) return (Int32)UserSettingsEnums.Screen.NTSC;
+            if (screen2XMenu.Checked) return UserSettingsEnums.Screen.X2;
+            if (screen3XMenu.Checked) return UserSettingsEnums.Screen.X3;
+            if (screen4XMenu.Checked) return UserSettingsEnums.Screen.X4;
+            if (screenNTSCMenu.Checked) return UserSettingsEnums.Screen.NTSC;
 
-            return (Int32)UserSettingsEnums.Screen.X1;
+            return UserSettingsEnums.Screen.X1;
         }
 
-        private Int32 currentNTSC_Option()
+        private UserSettingsEnums.NTSC_Options currentNTSC_Option()
         {
-            if (ntscComposite.Checked) return (Int32)UserSettingsEnums.NTSC_Options.Composite;
-            if (ntscSVideo.Checked) return (Int32)UserSettingsEnums.NTSC_Options.S_Video;
-            if (ntscRGB.Checked) return (Int32)UserSettingsEnums.NTSC_Options.RGB;
+            if (ntscComposite.Checked) return UserSettingsEnums.NTSC_Options.Composite;
+            if (ntscSVideo.Checked) return UserSettingsEnums.NTSC_Options.S_Video;
+            if (ntscRGB.Checked) return UserSettingsEnums.NTSC_Options.RGB;
 
-            return (Int32)UserSettingsEnums.NTSC_Options.Custom;
+            return UserSettingsEnums.NTSC_Options.Custom;
         }
 
-        public Int32 currentPixellatedOrSmoothedOption()
+        public UserSettingsEnums.PixellatedOrSmoothed currentPixellatedOrSmoothedOption()
         {
-            if (pixellatedToolStripMenuItem.Checked) return (Int32)UserSettingsEnums.PixellatedOrSmoothed.Pixellated;
-            return (Int32)UserSettingsEnums.PixellatedOrSmoothed.Smoothed;
+            if (pixellatedToolStripMenuItem.Checked) return UserSettingsEnums.PixellatedOrSmoothed.Pixellated;
+            return UserSettingsEnums.PixellatedOrSmoothed.Smoothed;
         }
         #endregion
 
@@ -1690,19 +1695,18 @@ namespace MegaMan.Engine
                         Size = currentSize(),
                         Maximized = WindowState == FormWindowState.Maximized ? true : false,
                         NTSC_Options = currentNTSC_Option(),
-                        // !!!NTSC option write
                         NTSC_Custom = new NTSC_CustomOptions()
                         {
-                            Hue = 1,
-                            Saturation = 1,
-                            Brightness = 1,
-                            Contrast = 1,
-                            Sharpness = 1,
-                            Gamma = 1,
-                            Resolution = 1,
-                            Artifacts = 1,
-                            Fringing = 1,
-                            Bleed = 1,
+                            Hue = customNtscForm.Hue,
+                            Saturation = customNtscForm.Saturation,
+                            Brightness = customNtscForm.Brightness,
+                            Contrast = customNtscForm.Contrast,
+                            Sharpness = customNtscForm.Sharpness,
+                            Gamma = customNtscForm.Gamma,
+                            Resolution = customNtscForm.Resolution,
+                            Artifacts = customNtscForm.Artifacts,
+                            Fringing = customNtscForm.Fringing,
+                            Bleed = customNtscForm.Bleed,
                             Merge_Fields = true
                         },
                         Pixellated = currentPixellatedOrSmoothedOption(),
@@ -1710,7 +1714,7 @@ namespace MegaMan.Engine
                     },
                     Audio = new LastAudio()
                     {
-                        Volume = Engine.Instance.Volume,
+                        Volume = Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
                         Sound = sfxMenuItem.Checked,
                         Square1 = sq1MenuItem.Checked,

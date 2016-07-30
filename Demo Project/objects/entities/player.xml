@@ -1007,12 +1007,9 @@
 		</Effect>
 	</Trigger>
 
-<!--
-When hurt
--->
-	<Trigger>
+	<Trigger priority="-1">
 		<States>Standing, BeginWalk, Walking, Sliding, Air, CoilAir, RushJet, Climbing, Sliding, ClimbTop, ShootStanding, ShootRushJet, ShootWalking, ShootAir, CoilShootAir, ShootClimbing</States>
-		<Condition>Health.Hurt()</Condition>
+		<Condition>Health.Hit == True</Condition>
 		<Effect>
 			<Sprite><Playing>True</Playing></Sprite>
 			<Movement><Flying>False</Flying></Movement>
@@ -1022,17 +1019,6 @@ When hurt
 		</Effect>
 	</Trigger>
 
-<!--
-Cancel hurt if in a state which doesn't allow hurt state.
--->	
-	<Trigger>
-		<States>Start, Teleport, TeleportOut, TeleportStart, TeleportBlink, TeleportEnd, EndStage, LeaveStage, LeaveStageWalk, EndStageJump, Powerup</States>
-		<Condition>Health.AlwaysTrue()</Condition>
-		<Effect>
-			<Func>Health.CancelHurt()</Func>
-		</Effect>
-	</Trigger>
-	
 	<Trigger>
 		<Condition>Input.StartKey</Condition>
 		<Effect>

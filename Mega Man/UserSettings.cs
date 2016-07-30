@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using MegaMan.Engine.Forms;
 
 namespace MegaMan.Engine
 {
@@ -12,96 +13,6 @@ namespace MegaMan.Engine
         public static readonly string NTSC_Option = "NTSC_Option value from configuration file is invalid. Default value will be used.";
         public static readonly string PixellatedOrSmoothed = "Pixellated value from configuration file is invalid. Default value will be used.";
         public static readonly string CannotDeserializeXML = "Cannot deserialized file Content. File renamed to Bad_XX_XX_XXXX_XX_XX_XX where X represent day, month, year, hour, minute, second.";
-    }
-    #endregion
-    #endregion
-
-    #region Default Values
-    #region Config Files Default Values
-    public class ConfigFilesDefaultValues
-    {
-        #region Input Menu: Keys
-        public class Key
-        {
-            public static readonly Keys UpKey = Keys.Up;
-            public static readonly Keys DownKey = Keys.Down;
-            public static readonly Keys LeftKey = Keys.Left;
-            public static readonly Keys RightKey = Keys.Right;
-            public static readonly Keys JumpKey = Keys.A;
-            public static readonly Keys ShootKey = Keys.S;
-            public static readonly Keys StartKey = Keys.Enter;
-            public static readonly Keys SelectKey = Keys.Space;
-        }
-        #endregion
-
-        #region Screen Menu
-        public class Screen
-        {
-            public static readonly Int16 Size = 0; // also used when reading xml if an invalidvalue is used
-            public static readonly Int16 NTSC_Option = 0; // also used when reading xml if an invalidvalue is used
-            public static readonly bool Maximized = false;
-            public static readonly NTSC_CustomOptions NTSC_Options = new NTSC_CustomOptions()
-            {
-                Hue = 0,
-                Saturation = 0,
-                Brightness = 0,
-                Contrast = 0,
-                Sharpness = 0,
-                Gamma = 0,
-                Resolution = 0,
-                Artifacts = 0,
-                Fringing = 0,
-                Bleed = 0,
-                Merge_Fields = true
-            };
-            public static readonly Int16 PixellatedOrSmoothed = 0; // also used when reading xml if an invalidvalue is used
-            public static readonly bool HideMenu = false;
-        }
-        #endregion
-
-        #region Audio Menu
-        public class Audio
-        {
-            public static readonly int Volume = 50;
-            public static readonly bool Musics = true;
-            public static readonly bool Sound = true;
-            public static readonly bool Square1 = true;
-            public static readonly bool Square2 = true;
-            public static readonly bool Triangle = true;
-            public static readonly bool Noise = true;
-        }
-        #endregion
-
-        #region Debug Menu
-        public class Debug
-        {
-            public static readonly bool ShowMenu = true;
-            public static readonly bool ShowHitboxes = false;
-            public static readonly Int32 Framerate = 60; // also used when reading xml if an invalidvalue is used
-            public static readonly LastCheat Cheat = new LastCheat()
-            {
-                Invincibility = false,
-                NoDamage = false
-            };
-            public static readonly LastLayers Layers = new LastLayers()
-            {
-                Background = true,
-                Sprites1 = true,
-                Sprites2 = true,
-                Sprites3 = true,
-                Sprites4 = true,
-                Foreground = true
-            };
-        }
-        #endregion
-
-        #region Miscellaneous
-        public class Miscellaneous
-        {
-            public static readonly int ScreenX_Coordinate = 50;
-            public static readonly int ScreenY_Coordinate = 50;
-        }
-        #endregion
     }
     #endregion
     #endregion
@@ -199,6 +110,74 @@ namespace MegaMan.Engine
             // Setting of name received not found, add it
             Settings.Add(newSetting);
         }
+
+        public static Setting Default { get; private set; }
+
+        static UserSettings()
+        {
+            Default = new Setting() {
+                Keys = new UserKeys() {
+                    Up = Keys.Up,
+                    Down = Keys.Down,
+                    Left = Keys.Left,
+                    Right = Keys.Right,
+                    Jump = Keys.A,
+                    Shoot = Keys.S,
+                    Start = Keys.Enter,
+                    Select = Keys.Space
+                },
+                Screens = new LastScreen() {
+                    Size = UserSettingsEnums.Screen.X1,
+                    Maximized = false,
+                    HideMenu = false,
+                    Pixellated = UserSettingsEnums.PixellatedOrSmoothed.Pixellated,
+                    NTSC_Options = UserSettingsEnums.NTSC_Options.None,
+                    NTSC_Custom = new NTSC_CustomOptions() {
+                        Hue = 0,
+                        Saturation = 0,
+                        Brightness = 0,
+                        Contrast = 0,
+                        Sharpness = 0,
+                        Gamma = 0,
+                        Resolution = 0,
+                        Artifacts = 0,
+                        Fringing = 0,
+                        Bleed = 0,
+                        Merge_Fields = true
+                    }
+                },
+                Audio = new LastAudio() {
+                    Volume = 50,
+                    Musics = true,
+                    Sound = true,
+                    Square1 = true,
+                    Square2 = true,
+                    Triangle = true,
+                    Noise = true
+                },
+                Debug = new LastDebug() {
+                    ShowMenu = true,
+                    ShowHitboxes = false,
+                    Framerate = 60,
+                    Layers = new LastLayers() {
+                        Background = true,
+                        Sprites1 = true,
+                        Sprites2 = true,
+                        Sprites3 = true,
+                        Sprites4 = true,
+                        Foreground = true
+                    },
+                    Cheat = new LastCheat() {
+                        Invincibility = false,
+                        NoDamage = false
+                    }
+                },
+                Miscellaneous = new LastMiscellaneous() {
+                    ScreenX_Coordinate = 800,
+                    ScreenY_Coordinate = 400
+                }
+            };
+        }
     }
 
     [Serializable]
@@ -253,11 +232,11 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastScreen
     {
-        public Int32 Size { get; set; } // Needs to be Int32 even if Int16 is sufficient. It is compared to Int16
+        public UserSettingsEnums.Screen Size { get; set; }
         public bool Maximized { get; set; }
-        public Int32 NTSC_Options { get; set; }
+        public UserSettingsEnums.NTSC_Options NTSC_Options { get; set; }
         public NTSC_CustomOptions NTSC_Custom { get; set; }
-        public Int32 Pixellated { get; set; }
+        public UserSettingsEnums.PixellatedOrSmoothed Pixellated { get; set; }
         public bool HideMenu { get; set; }
 
         public LastScreen()
@@ -269,7 +248,7 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastAudio
     {
-        public Int32 Volume { get; set; }
+        public int Volume { get; set; }
         public bool Musics { get; set; }
         public bool Sound { get; set; }
         public bool Square1 { get; set; }
@@ -301,7 +280,7 @@ namespace MegaMan.Engine
     {
         public bool ShowMenu { get; set; }
         public bool ShowHitboxes { get; set; }
-        public Int32 Framerate { get; set; }
+        public int Framerate { get; set; }
         public LastCheat Cheat { get; set; }
         public LastLayers Layers { get; set; }
 

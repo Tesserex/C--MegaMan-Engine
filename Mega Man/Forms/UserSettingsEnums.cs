@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Engine.Forms
+﻿namespace MegaMan.Engine.Forms
 {
-    class UserSettingsEnums
+    public class UserSettingsEnums
     {
         public enum Screen { X1, X2, X3, X4, NTSC }
 
-        public enum NTSC_Options { Composite, S_Video, RGB, Custom }
+        public enum NTSC_Options { None, Composite, S_Video, RGB, Custom }
 
         public enum PixellatedOrSmoothed { Pixellated, Smoothed }
 
