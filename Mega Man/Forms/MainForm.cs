@@ -512,6 +512,7 @@ namespace MegaMan.Engine
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
             SaveGlobalConfigValues();
             LoadConfigFromXML();
+            SaveConfig();
 
             SetLayersVisibilityFromSettings();
         }
@@ -969,12 +970,12 @@ namespace MegaMan.Engine
 
         private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.SoundSystem.Volume + 2);
+            SetVolume(Engine.Instance.SoundSystem.Volume + 1);
         }
 
         private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.SoundSystem.Volume - 2);
+            SetVolume(Engine.Instance.SoundSystem.Volume - 1);
         }
 
         #endregion
