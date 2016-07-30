@@ -1176,7 +1176,7 @@ namespace MegaMan.Engine
 
         private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetFrameRate(ConfigFilesDefaultValues.Debug.Framerate);
+            SetFrameRate(UserSettings.Default.Debug.Framerate);
         }
         #endregion
 
@@ -1331,46 +1331,46 @@ namespace MegaMan.Engine
             settings.GameFileName = "";
 
             #region Input Menu: Keys
-            settings.Keys.Up = ConfigFilesDefaultValues.Key.UpKey;
-            settings.Keys.Down = ConfigFilesDefaultValues.Key.DownKey;
-            settings.Keys.Left = ConfigFilesDefaultValues.Key.LeftKey;
-            settings.Keys.Right = ConfigFilesDefaultValues.Key.RightKey;
-            settings.Keys.Jump = ConfigFilesDefaultValues.Key.JumpKey;
-            settings.Keys.Shoot = ConfigFilesDefaultValues.Key.ShootKey;
-            settings.Keys.Start = ConfigFilesDefaultValues.Key.StartKey;
-            settings.Keys.Select = ConfigFilesDefaultValues.Key.SelectKey;
+            settings.Keys.Up = UserSettings.Default.Keys.Up;
+            settings.Keys.Down = UserSettings.Default.Keys.Down;
+            settings.Keys.Left = UserSettings.Default.Keys.Left;
+            settings.Keys.Right = UserSettings.Default.Keys.Right;
+            settings.Keys.Jump = UserSettings.Default.Keys.Jump;
+            settings.Keys.Shoot = UserSettings.Default.Keys.Shoot;
+            settings.Keys.Start = UserSettings.Default.Keys.Start;
+            settings.Keys.Select = UserSettings.Default.Keys.Select;
             #endregion
 
             #region Screen Menu
-            settings.Screens.Size = ConfigFilesDefaultValues.Screen.Size;
-            settings.Screens.NTSC_Options = ConfigFilesDefaultValues.Screen.NTSC_Option;
-            settings.Screens.Maximized = ConfigFilesDefaultValues.Screen.Maximized;
-            settings.Screens.NTSC_Custom = ConfigFilesDefaultValues.Screen.NTSC_Options;
-            settings.Screens.Pixellated = ConfigFilesDefaultValues.Screen.PixellatedOrSmoothed;
-            settings.Screens.HideMenu = ConfigFilesDefaultValues.Screen.HideMenu;
+            settings.Screens.Size = UserSettings.Default.Screens.Size;
+            settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
+            settings.Screens.Maximized = UserSettings.Default.Screens.Maximized;
+            settings.Screens.NTSC_Custom = UserSettings.Default.Screens.NTSC_Custom;
+            settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
+            settings.Screens.HideMenu = UserSettings.Default.Screens.HideMenu;
             #endregion
 
             #region Audio Menu
-            settings.Audio.Volume = ConfigFilesDefaultValues.Audio.Volume;
-            settings.Audio.Musics = ConfigFilesDefaultValues.Audio.Musics;
-            settings.Audio.Sound = ConfigFilesDefaultValues.Audio.Sound;
-            settings.Audio.Square1 = ConfigFilesDefaultValues.Audio.Square1;
-            settings.Audio.Square2 = ConfigFilesDefaultValues.Audio.Square2;
-            settings.Audio.Triangle = ConfigFilesDefaultValues.Audio.Triangle;
-            settings.Audio.Noise = ConfigFilesDefaultValues.Audio.Noise;
+            settings.Audio.Volume = UserSettings.Default.Audio.Volume;
+            settings.Audio.Musics = UserSettings.Default.Audio.Musics;
+            settings.Audio.Sound = UserSettings.Default.Audio.Sound;
+            settings.Audio.Square1 = UserSettings.Default.Audio.Square1;
+            settings.Audio.Square2 = UserSettings.Default.Audio.Square2;
+            settings.Audio.Triangle = UserSettings.Default.Audio.Triangle;
+            settings.Audio.Noise = UserSettings.Default.Audio.Noise;
             #endregion
 
             #region Debug Menu
-            settings.Debug.ShowMenu = ConfigFilesDefaultValues.Debug.ShowMenu;
-            settings.Debug.ShowHitboxes = ConfigFilesDefaultValues.Debug.ShowHitboxes;
-            settings.Debug.Framerate = ConfigFilesDefaultValues.Debug.Framerate;
-            settings.Debug.Cheat = ConfigFilesDefaultValues.Debug.Cheat;
-            settings.Debug.Layers = ConfigFilesDefaultValues.Debug.Layers;
+            settings.Debug.ShowMenu = UserSettings.Default.Debug.ShowMenu;
+            settings.Debug.ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
+            settings.Debug.Framerate = UserSettings.Default.Debug.Framerate;
+            settings.Debug.Cheat = UserSettings.Default.Debug.Cheat;
+            settings.Debug.Layers = UserSettings.Default.Debug.Layers;
             #endregion
 
             #region Miscellaneous
-            settings.Miscellaneous.ScreenX_Coordinate = ConfigFilesDefaultValues.Miscellaneous.ScreenX_Coordinate;
-            settings.Miscellaneous.ScreenY_Coordinate = ConfigFilesDefaultValues.Miscellaneous.ScreenY_Coordinate;
+            settings.Miscellaneous.ScreenX_Coordinate = UserSettings.Default.Miscellaneous.ScreenX_Coordinate;
+            settings.Miscellaneous.ScreenY_Coordinate = UserSettings.Default.Miscellaneous.ScreenY_Coordinate;
             #endregion
 
             return settings;
@@ -1394,7 +1394,7 @@ namespace MegaMan.Engine
             if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screens.NTSC_Options))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
-                settings.Screens.NTSC_Options = ConfigFilesDefaultValues.Screen.NTSC_Option;
+                settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
             }
             ntscOptionSet(
                 settings.Screens.NTSC_Options,
@@ -1428,14 +1428,14 @@ namespace MegaMan.Engine
             if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
-                settings.Screens.Size = ConfigFilesDefaultValues.Screen.Size;
+                settings.Screens.Size = UserSettings.Default.Screens.Size;
             }
             screenSizeMenuSelected(settings.Screens.Size);
 
             if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screens.Pixellated))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
-                settings.Screens.Pixellated = ConfigFilesDefaultValues.Screen.PixellatedOrSmoothed;
+                settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
             }
             pixellatedVsSmoothedCode(settings.Screens.Pixellated);
 
@@ -1465,13 +1465,13 @@ namespace MegaMan.Engine
             SetNoDamage(settings.Debug.Cheat.NoDamage);
             #endregion
 #else
-            setDebugBar(ConfigFilesDefaultValues.Debug.ShowMenu);
-            setShowHitBoxes(ConfigFilesDefaultValues.Debug.ShowHitboxes);
-            SetFrameRate(ConfigFilesDefaultValues.Debug.Framerate);
+            setDebugBar(UserSettings.Default.Debug.ShowMenu);
+            setShowHitBoxes(UserSettings.Default.Debug.ShowHitboxes);
+            SetFrameRate(UserSettings.Default.Debug.Framerate);
 
             #region Cheats
-            setInvincibility(ConfigFilesDefaultValues.Debug.Cheat.Invincibility);
-            SetNoDamage(ConfigFilesDefaultValues.Debug.Cheat.NoDamage);
+            setInvincibility(UserSettings.Default.Debug.Cheat.Invincibility);
+            SetNoDamage(UserSettings.Default.Debug.Cheat.NoDamage);
             #endregion
 #endif
 
