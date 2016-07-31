@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices; // To use DllImport
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Runtime.InteropServices; // To use DllImport
-using MegaMan.IO.Xml;
 using MegaMan.Engine.Forms;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -348,30 +348,28 @@ namespace MegaMan.Engine
 
                     LoadGame(path, args.Skip(2).ToList());
                 }
-
-                try
+                else
                 {
-                    LoadGlobalConfigValues();
-                    LoadConfigFromXMLOrDefaultOneIfInvalidXML();
-
-                    if (autoLoadGame != null)
+                    try
                     {
-                        if (!LoadGame(autoLoadGame, null, true))
+                        LoadGlobalConfigValues();
+                        LoadConfigFromXMLOrDefaultOneIfInvalidXML();
+
+                        if (autoLoadGame != null)
                         {
-                            // Game we try to autoload failed. Now set autoload to when no game is loaded
-                            autoloadToolStripMenuItem.Checked = true;
-                            SaveGlobalConfigValues();
-                        }
-                        else
-                        {
-                            OnGameLoaded();
+                            if (!LoadGame(autoLoadGame, null, true))
+                            {
+                                // Game we try to autoload failed. Now set autoload to when no game is loaded
+                                autoloadToolStripMenuItem.Checked = true;
+                                SaveGlobalConfigValues();
+                            }
                         }
                     }
-                }
-                catch (Exception x)
-                {
-                    MessageBox.Show(x.Message); // If a line in config file is wrong, this is gonna tell user.
-                    MessageBox.Show("The config file could was not loaded successfully.");
+                    catch (Exception x)
+                    {
+                        MessageBox.Show(x.Message); // If a line in config file is wrong, this is gonna tell user.
+                        MessageBox.Show("The config file could was not loaded successfully.");
+                    }
                 }
             }
             catch (Exception)
