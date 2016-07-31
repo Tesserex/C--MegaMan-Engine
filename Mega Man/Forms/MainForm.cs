@@ -34,6 +34,7 @@ namespace MegaMan.Engine
         #region Constants
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private readonly Keyboard keyform = new Keyboard();
+        private readonly LoadConfig loadConfigForm = new LoadConfig();
 
         #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
@@ -327,6 +328,7 @@ namespace MegaMan.Engine
             Engine.Instance.OnException += Engine_Exception;
 
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
+            loadConfigForm.Apply += loadConfigSelectedInLoadConfigForm;
             keyform.FormClosed += (s, e) => AutosaveConfig(null);
         }
 
@@ -516,9 +518,32 @@ namespace MegaMan.Engine
             SetLayersVisibilityFromSettings();
         }
 
+        private void loadConfigSelectedInLoadConfigForm()
+        {
+            LoadConfigFromSetting(loadConfigForm.settingsSelected);
+        }
+
+        private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int x = 0;
+            UserSettings userSettingsToPass = new UserSettings();
+
+            if (GetUserSettingsFromXML(ref userSettingsToPass) != 0)
+            {
+                MessageBox.Show("There was an error loading the config file.\n\nUser shouldn't modif setting file manually!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            loadConfigForm.showFormIfNeeded(currentGame, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
+        }
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveConfig();
+        }
+
+        private void clearConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 

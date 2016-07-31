@@ -111,6 +111,22 @@ namespace MegaMan.Engine
             Settings.Add(newSetting);
         }
 
+        public List<string> GetAllConfigsGameNameFromCurrentUserSettings()
+        {
+            List<string> listGameNames = null;
+
+            if (Settings != null)
+            {
+                listGameNames = new List<string>();
+
+                foreach (Setting setting in Settings)
+                {
+                    listGameNames.Add(setting.GameFileName);
+                }
+            }
+            return listGameNames;
+        }
+
         public static Setting Default { get; private set; }
 
         static UserSettings()

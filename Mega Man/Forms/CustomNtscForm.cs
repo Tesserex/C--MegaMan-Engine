@@ -114,7 +114,7 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
-        /// Form isn't close, we just hide it and show it.
+        /// Form isn't closed, we just hide it and show it.
         /// </summary>
         /// <param name="e"></param>
         protected override void OnClosing(CancelEventArgs e)
