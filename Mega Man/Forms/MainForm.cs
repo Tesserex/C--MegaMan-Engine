@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -549,8 +550,10 @@ namespace MegaMan.Engine
                 return;
             }
 
-            loadConfigForm.Location = new System.Drawing.Point(Location.X, Location.Y);
+            loadConfigForm.Location = new Point(this.Location.X + (this.Size.Width - loadConfigForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - loadConfigForm.Size.Height) / 2);
+            loadConfigForm.TopMost = this.TopMost;
             loadConfigForm.showFormIfNeeded(currentGame, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
+            loadConfigForm.TopMost = false;
         }
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -578,8 +581,10 @@ namespace MegaMan.Engine
                 return;
             }
 
-            deleteConfigsForm.Location = new System.Drawing.Point(Location.X, Location.Y);
+            deleteConfigsForm.Location = new Point(this.Location.X + (this.Size.Width - deleteConfigsForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - deleteConfigsForm.Size.Height) / 2);
+            deleteConfigsForm.TopMost = this.TopMost;
             deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, settingsPath, null);
+            deleteConfigsForm.TopMost = false;
         }
         #endregion
 
@@ -605,8 +610,10 @@ namespace MegaMan.Engine
         #region Input Menu
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            keyform.Location = new System.Drawing.Point(this.Location.X, this.Location.Y);
-            keyform.Show();
+            keyform.Location = new Point(this.Location.X + (this.Size.Width - keyform.Size.Width) / 2, this.Location.Y + (this.Size.Height - keyform.Size.Height) / 2);
+            keyform.TopMost = this.TopMost;
+            keyform.ShowDialog();
+            keyform.TopMost = false;
         }
         #endregion
 
@@ -827,8 +834,10 @@ namespace MegaMan.Engine
 
         private void ntscCustom_Click(object sender, EventArgs e)
         {
-            customNtscForm.Location = new System.Drawing.Point(this.Location.X, this.Location.Y);
-            customNtscForm.Show();
+            customNtscForm.Location = new Point(this.Location.X + (this.Size.Width - customNtscForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - customNtscForm.Size.Height) / 2);
+            customNtscForm.TopMost = this.TopMost;
+            customNtscForm.ShowDialog();
+            customNtscForm.TopMost = false;
         }
         #endregion
         #endregion

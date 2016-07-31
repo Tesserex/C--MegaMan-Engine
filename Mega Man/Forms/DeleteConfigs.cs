@@ -52,7 +52,7 @@ namespace MegaMan.Engine.Forms
 
                 cbxConfigToDelete.SelectedIndex = 0;
 
-                this.Show();
+                this.ShowDialog();
             }
         }
 

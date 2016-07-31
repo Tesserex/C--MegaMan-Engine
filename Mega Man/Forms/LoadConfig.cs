@@ -43,7 +43,7 @@ namespace MegaMan.Engine.Forms
 
             cbxConfigToPickFrom.DataSource = configNames;
 
-            this.Show();
+            this.ShowDialog();
         }
 
         /// <summary>
