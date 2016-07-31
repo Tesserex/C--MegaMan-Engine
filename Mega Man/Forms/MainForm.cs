@@ -332,8 +332,6 @@ namespace MegaMan.Engine
 
         protected override void OnLoad(EventArgs e)
         {
-            this.Hide();
-
             try
             {
                 string autoLoadGame = GetAutoLoadGame();
@@ -375,7 +373,6 @@ namespace MegaMan.Engine
             catch (Exception)
             {
             }
-            this.Show();
         }
 
         /// <summary>
