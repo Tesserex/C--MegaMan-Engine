@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices; // To use DllImport
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Runtime.InteropServices; // To use DllImport
-using MegaMan.IO.Xml;
 using MegaMan.Engine.Forms;
+using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
 {
@@ -20,7 +20,7 @@ namespace MegaMan.Engine
 
         #region Variables And Constants
         #region Variables
-        private string settingsPath, currentGame, lastGameWithPath, initialFolder;
+        private string settingsPath, lastGameWithPath, initialFolder;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized;
         
@@ -45,6 +45,16 @@ namespace MegaMan.Engine
         #endregion
         #endregion
         #endregion
+
+        private string CurrentGamePath
+        {
+            get { return Game.CurrentGame != null ? Game.CurrentGame.BasePath : string.Empty; }
+        }
+
+        private string CurrentGameTitle
+        {
+            get { return Game.CurrentGame != null ? Game.CurrentGame.Name : string.Empty; }
+        }
 
         #region Handle Engine pausing
         // Lots of functions used to determine what is happening and set engine activated/deactivated state
@@ -311,7 +321,7 @@ namespace MegaMan.Engine
 
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = true;
-            currentGame = initialFolder= "";
+            initialFolder = "";
             lastGameWithPath = null;
 
 #if !DEBUG
@@ -448,7 +458,6 @@ namespace MegaMan.Engine
             if (Game.CurrentGame != null)
             {
                 AutosaveConfig();
-                currentGame = "";
                 lastGameWithPath = null;
                 LoadConfigFromXML();
 
@@ -552,7 +561,7 @@ namespace MegaMan.Engine
 
             loadConfigForm.Location = new Point(this.Location.X + (this.Size.Width - loadConfigForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - loadConfigForm.Size.Height) / 2);
             loadConfigForm.TopMost = this.TopMost;
-            loadConfigForm.showFormIfNeeded(currentGame, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
+            loadConfigForm.showFormIfNeeded(CurrentGamePath, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
             loadConfigForm.TopMost = false;
         }
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -596,7 +605,7 @@ namespace MegaMan.Engine
         /// <param name="e"></param>
         private void autoloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentGame == "") autoloadToolStripMenuItem.Checked = true;
+            if (CurrentGamePath == "") autoloadToolStripMenuItem.Checked = true;
             else
             {
                 autoloadToolStripMenuItem.Checked = !autoloadToolStripMenuItem.Checked;
@@ -1267,7 +1276,6 @@ namespace MegaMan.Engine
                 Text = Game.CurrentGame.Name;
 
                 lastGameWithPath = path;
-                currentGame = Path.GetFileName(path);
                 LoadConfigFromXML();
 
                 OnGameLoadedChanged();
@@ -1627,7 +1635,7 @@ namespace MegaMan.Engine
             if (settingsArray == null) return Constants.Errors.LoadConfigFromXML_NoContentReadFromXML;
 
             if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
-            else settings = settingsArray.GetSettingsForGame(currentGame);
+            else settings = settingsArray.GetSettingsForGame(CurrentGamePath);
 
             if (settings == null) return Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML;
             
@@ -1711,7 +1719,7 @@ namespace MegaMan.Engine
 
             userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
             userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
-            userSettings.Autoload = autoloadToolStripMenuItem.Checked == true ? lastGameWithPath : null;
+            userSettings.Autoload = autoloadToolStripMenuItem.Checked ? lastGameWithPath : null;
             userSettings.InitialFolder = initialFolder;
 
             XML.SaveToConfigXML(userSettings, settingsPath, fileName);
@@ -1736,7 +1744,8 @@ namespace MegaMan.Engine
                 #region Creation of variable to save
                 settings = new Setting()
                 {
-                    GameFileName = defaultConfigToolStripMenuItem.Checked == true ? "" : currentGame,
+                    GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
+                    GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
                     Keys = new UserKeys()
                     {
                         Up = GameInputKeys.Up,

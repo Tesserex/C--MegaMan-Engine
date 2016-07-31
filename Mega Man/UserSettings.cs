@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using MegaMan.Engine.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using MegaMan.Engine.Forms;
 
 namespace MegaMan.Engine
 {
@@ -52,7 +53,7 @@ namespace MegaMan.Engine
         #endregion
         
         public static readonly string noGameConfigNameToDisplayToUser = "No Game";
-        public static readonly string settingNameForFactorySettings = "Factory Settings";
+        public static readonly string settingNameForFactorySettings = "Default Settings";
     }
     #endregion
 
@@ -173,18 +174,10 @@ namespace MegaMan.Engine
 
         public List<string> GetAllConfigsGameNameFromCurrentUserSettings()
         {
-            List<string> listGameNames = null;
-
             if (Settings != null)
-            {
-                listGameNames = new List<string>();
-
-                foreach (Setting setting in Settings)
-                {
-                    listGameNames.Add(setting.GameFileName);
-                }
-            }
-            return listGameNames;
+                return Settings.Select(s => s.GameTitle).ToList();
+            else
+                return null;
         }
 
         public static Setting Default { get; private set; }
@@ -260,6 +253,7 @@ namespace MegaMan.Engine
     public class Setting
     {
         public string GameFileName { get; set; }
+        public string GameTitle { get; set; }
         public UserKeys Keys { get; set; }
         public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
