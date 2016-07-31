@@ -35,6 +35,7 @@ namespace MegaMan.Engine
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private readonly Keyboard keyform = new Keyboard();
         private readonly LoadConfig loadConfigForm = new LoadConfig();
+        private readonly DeleteConfigs deleteConfigsForm = new DeleteConfigs();
 
         #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
@@ -335,6 +336,10 @@ namespace MegaMan.Engine
         protected override void OnLoad(EventArgs e)
         {
             this.Hide();
+            customNtscForm.StartPosition = FormStartPosition.Manual;
+            keyform.StartPosition = FormStartPosition.Manual;
+            loadConfigForm.StartPosition = FormStartPosition.Manual;
+            deleteConfigsForm.StartPosition = FormStartPosition.Manual;
 
             try
             {
@@ -525,15 +530,26 @@ namespace MegaMan.Engine
 
         private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int x = 0;
             UserSettings userSettingsToPass = new UserSettings();
+            Int16 errorCode = GetUserSettingsFromXML(ref userSettingsToPass);
 
-            if (GetUserSettingsFromXML(ref userSettingsToPass) != 0)
+            if (errorCode == Constants.Errors.GetUserSettingsFromXML_CannotDeserialize)
             {
                 MessageBox.Show("There was an error loading the config file.\n\nUser shouldn't modif setting file manually!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (errorCode == Constants.Errors.GetUserSettingsFromXML_FileNotFound)
+            {
+                MessageBox.Show("No config file!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (errorCode != 0)
+            {
+                MessageBox.Show("There was an error loading the config file. Error unknow, case should be handled by programmers", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            loadConfigForm.Location = new System.Drawing.Point(Location.X, Location.Y);
             loadConfigForm.showFormIfNeeded(currentGame, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
         }
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -541,9 +557,29 @@ namespace MegaMan.Engine
             SaveConfig();
         }
 
-        private void clearConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void deleteConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UserSettings userSettingsToPass = new UserSettings();
+            Int16 errorCode = GetUserSettingsFromXML(ref userSettingsToPass);
 
+            if (errorCode == Constants.Errors.GetUserSettingsFromXML_CannotDeserialize)
+            {
+                MessageBox.Show("There was an error loading the config file.\n\nUser shouldn't modif setting file manually!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (errorCode == Constants.Errors.GetUserSettingsFromXML_FileNotFound)
+            {
+                MessageBox.Show("No config file!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (errorCode != 0)
+            {
+                MessageBox.Show("There was an error loading the config file. Error unknow, case should be handled by programmers", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            deleteConfigsForm.Location = new System.Drawing.Point(Location.X, Location.Y);
+            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, settingsPath, null);
         }
         #endregion
 
@@ -569,6 +605,7 @@ namespace MegaMan.Engine
         #region Input Menu
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            keyform.Location = new System.Drawing.Point(this.Location.X, this.Location.Y);
             keyform.Show();
         }
         #endregion
@@ -790,6 +827,7 @@ namespace MegaMan.Engine
 
         private void ntscCustom_Click(object sender, EventArgs e)
         {
+            customNtscForm.Location = new System.Drawing.Point(this.Location.X, this.Location.Y);
             customNtscForm.Show();
         }
         #endregion
@@ -1344,7 +1382,11 @@ namespace MegaMan.Engine
         {
             bool running = Engine.Instance.IsRunning;
 
-            this.Location = new System.Drawing.Point(X, Y);
+            if (X < 0 || Y < 0)
+            {
+                this.CenterToScreen();
+            }
+            else this.Location = new System.Drawing.Point(X, Y);
 
             if (running) OnResizeCode();
         }
@@ -1510,7 +1552,7 @@ namespace MegaMan.Engine
             #endregion
             #endregion
 
-            #region Miscellaneou
+            #region Miscellaneous
             ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
             #endregion
         }
@@ -1651,24 +1693,6 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        private void SaveToConfigXML(UserSettings userSettings, string fileName = null)
-        {
-            if (fileName == null) fileName = Constants.Paths.SettingFile;
-
-            var serializer = new XmlSerializer(typeof(UserSettings));
-            
-            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
-            {
-                Indentation = 1,
-                IndentChar = '\t',
-                Formatting = Formatting.Indented
-            };
-
-            serializer.Serialize(writer, userSettings);
-
-            writer.Close();
-        }
-
         private void SaveGlobalConfigValues(string fileName = null)
         {
             UserSettings userSettings = null;
@@ -1681,7 +1705,7 @@ namespace MegaMan.Engine
             userSettings.Autoload = autoloadToolStripMenuItem.Checked == true ? lastGameWithPath : null;
             userSettings.InitialFolder = initialFolder;
 
-            SaveToConfigXML(userSettings, fileName);
+            XML.SaveToConfigXML(userSettings, settingsPath, fileName);
         }
 
         private void AutosaveConfig(string fileName = null)
@@ -1786,7 +1810,7 @@ namespace MegaMan.Engine
 
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
-            SaveToConfigXML(userSettings, fileName);
+            XML.SaveToConfigXML(userSettings, settingsPath, fileName);
         }
         #endregion
 

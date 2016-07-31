@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace MegaMan.Engine
 {
@@ -48,8 +50,32 @@ namespace MegaMan.Engine
             public static readonly Int32 FramerateMax = 500;
         }
         #endregion
+        
+        public static readonly string noGameConfigNameToDisplayToUser = "No Game";
+        public static readonly string settingNameForFactorySettings = "Factory Settings";
     }
     #endregion
+
+    public static class XML
+    {
+        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath, string fileName = null)
+        {
+            if (fileName == null) fileName = Constants.Paths.SettingFile;
+
+            var serializer = new XmlSerializer(typeof(UserSettings));
+
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            {
+                Indentation = 1,
+                IndentChar = '\t',
+                Formatting = Formatting.Indented
+            };
+
+            serializer.Serialize(writer, userSettings);
+
+            writer.Close();
+        }
+    }
 
     #region Settings Serialization Class
     [Serializable]
@@ -69,6 +95,40 @@ namespace MegaMan.Engine
         public UserSettings(UserKeys keys)
         {
             
+        }
+
+        public void deleteSetting(int index)
+        {
+            try
+            {
+                Settings.RemoveAt(index);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public void deleteAllSetting()
+        {
+            try
+            {
+                Settings = null;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public Setting GetSettingByIndex(int index)
+        {
+            try
+            {
+                return Settings[index];
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public Setting GetSettingsForGame(string gameName = "")
@@ -189,8 +249,8 @@ namespace MegaMan.Engine
                     }
                 },
                 Miscellaneous = new LastMiscellaneous() {
-                    ScreenX_Coordinate = 800,
-                    ScreenY_Coordinate = 400
+                    ScreenX_Coordinate = -1,        // -1 means centered
+                    ScreenY_Coordinate = -1
                 }
             };
         }
