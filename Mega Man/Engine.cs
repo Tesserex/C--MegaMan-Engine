@@ -67,13 +67,16 @@ namespace MegaMan.Engine
             get { return instance ?? (instance = new Engine()); }
         }
 
+        private static readonly int MIN_FPS = 10;
+        private static readonly int MAX_FPS = 500;
+
         private int fps;
         public int FPS
         {
             get { return fps; }
             set
             {
-                fps = value;
+                fps = Math.Max(MIN_FPS, Math.Min(MAX_FPS, value));
                 frameTicks = (long)(Stopwatch.Frequency / (float)fps);
             }
         }

@@ -44,13 +44,6 @@ namespace MegaMan.Engine
             public static readonly string FileNameToPutDebuggingMsg = "debug.txt";
         }
         #endregion
-        #region Engine Properties
-        public class EngineProperties
-        {
-            public static readonly Int16 FramerateMin = 1;
-            public static readonly Int32 FramerateMax = 500;
-        }
-        #endregion
         
         public static readonly string noGameConfigNameToDisplayToUser = "No Game";
         public static readonly string settingNameForFactorySettings = "Default Settings";

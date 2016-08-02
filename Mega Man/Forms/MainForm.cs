@@ -1140,15 +1140,10 @@ namespace MegaMan.Engine
         #endregion
 
         #region Third Section
-
-        #region Framerate Setting
+        
         private void SetFrameRate(int framerate)
         {
             Engine.Instance.FPS = framerate;
-
-            if (Engine.Instance.FPS < Constants.EngineProperties.FramerateMin) Engine.Instance.FPS = Constants.EngineProperties.FramerateMin;
-            if (Engine.Instance.FPS > Constants.EngineProperties.FramerateMax) Engine.Instance.FPS = Constants.EngineProperties.FramerateMax;
-
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
@@ -1166,7 +1161,6 @@ namespace MegaMan.Engine
         {
             SetFrameRate(UserSettings.Default.Debug.Framerate);
         }
-        #endregion
 
         #endregion
         #endregion
