@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using MegaMan.Engine.Forms;
+using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
@@ -17,6 +18,8 @@ namespace MegaMan.Engine
     {
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
+
+        private List<IMenuController> controllers;
 
         #region Variables And Constants
         #region Variables
@@ -319,6 +322,8 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
+            InitializeControllers();
+
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = true;
             initialFolder = "";
@@ -396,6 +401,21 @@ namespace MegaMan.Engine
             {
             }
             this.Show();
+        }
+
+        private void InitializeControllers()
+        {
+            var b = new LayerVisibilityMenuController(backgroundToolStripMenuItem, UserSettingsEnums.Layers.Background);
+            var s1 = new LayerVisibilityMenuController(sprites1ToolStripMenuItem, UserSettingsEnums.Layers.Sprite1);
+            var s2 = new LayerVisibilityMenuController(sprites2ToolStripMenuItem, UserSettingsEnums.Layers.Sprite2);
+            var s3 = new LayerVisibilityMenuController(sprites3ToolStripMenuItem, UserSettingsEnums.Layers.Sprite3);
+            var s4 = new LayerVisibilityMenuController(sprites4ToolStripMenuItem, UserSettingsEnums.Layers.Sprite4);
+            var f = new LayerVisibilityMenuController(foregroundToolStripMenuItem, UserSettingsEnums.Layers.Foreground);
+
+            this.controllers = new List<IMenuController>() {
+                b, s1, s2, s3, s4, f,
+                new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f)
+            };
         }
 
         /// <summary>
@@ -1155,81 +1175,6 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        #region Layer Submenu
-        private void setLayerVisibility(Int16 index, bool value)
-        {
-            if (index == (Int16)UserSettingsEnums.Layers.Background)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                backgroundToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite1)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites1ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite2)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites2ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite3)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites3ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite4)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites4ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Foreground)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                foregroundToolStripMenuItem.Checked = value;
-            }
-        }
-
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, !backgroundToolStripMenuItem.Checked);
-        }
-
-        private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, !sprites1ToolStripMenuItem.Checked);
-        }
-
-        private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, !sprites2ToolStripMenuItem.Checked);
-        }
-
-        private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, !sprites3ToolStripMenuItem.Checked);
-        }
-
-        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, !sprites4ToolStripMenuItem.Checked);
-        }
-
-        private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, !foregroundToolStripMenuItem.Checked);
-        }
-
-        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
-            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
-            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
-            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
-            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
-            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
-        }
-        #endregion
         #endregion
 
         #region Third Section
@@ -1559,19 +1504,14 @@ namespace MegaMan.Engine
             #endregion
 #endif
 
-            #region Layers
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, settings.Debug.Layers.Background);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, settings.Debug.Layers.Sprites1);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, settings.Debug.Layers.Sprites2);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, settings.Debug.Layers.Sprites3);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, settings.Debug.Layers.Sprites4);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, settings.Debug.Layers.Foreground);
-            #endregion
             #endregion
 
             #region Miscellaneous
             ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
             #endregion
+
+            foreach (var c in this.controllers)
+                c.LoadSettings(settings);
         }
 
         private string GetAutoLoadGame(string XML_fileName = null)

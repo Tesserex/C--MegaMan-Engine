@@ -198,6 +198,9 @@
     <Compile Include="Forms\LoadConfig.Designer.cs">
       <DependentUpon>LoadConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\MenuControllers\ActivateAllMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\IMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\LayerVisibilityMenuController.cs" />
     <Compile Include="Forms\UserSettingsEnums.cs" />
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />

@@ -637,7 +637,6 @@
             this.backgroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.backgroundToolStripMenuItem.Text = "Background";
-            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
             // sprites1ToolStripMenuItem
             // 
@@ -647,7 +646,6 @@
             this.sprites1ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.sprites1ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites1ToolStripMenuItem.Text = "Sprites 1";
-            this.sprites1ToolStripMenuItem.Click += new System.EventHandler(this.sprites1ToolStripMenuItem_Click);
             // 
             // sprites2ToolStripMenuItem
             // 
@@ -657,7 +655,6 @@
             this.sprites2ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.sprites2ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites2ToolStripMenuItem.Text = "Sprites 2";
-            this.sprites2ToolStripMenuItem.Click += new System.EventHandler(this.sprites2ToolStripMenuItem_Click);
             // 
             // sprites3ToolStripMenuItem
             // 
@@ -667,7 +664,6 @@
             this.sprites3ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
             this.sprites3ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites3ToolStripMenuItem.Text = "Sprites 3";
-            this.sprites3ToolStripMenuItem.Click += new System.EventHandler(this.sprites3ToolStripMenuItem_Click);
             // 
             // sprites4ToolStripMenuItem
             // 
@@ -677,7 +673,6 @@
             this.sprites4ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
             this.sprites4ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites4ToolStripMenuItem.Text = "Sprites 4";
-            this.sprites4ToolStripMenuItem.Click += new System.EventHandler(this.sprites4ToolStripMenuItem_Click);
             // 
             // foregroundToolStripMenuItem
             // 
@@ -687,7 +682,6 @@
             this.foregroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
             this.foregroundToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.foregroundToolStripMenuItem.Text = "Foreground";
-            this.foregroundToolStripMenuItem.Click += new System.EventHandler(this.foregroundToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -700,7 +694,6 @@
             this.activateAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
             this.activateAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.activateAllToolStripMenuItem.Text = "Restore All";
-            this.activateAllToolStripMenuItem.Click += new System.EventHandler(this.activateAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
