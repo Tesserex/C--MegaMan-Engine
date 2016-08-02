@@ -318,7 +318,6 @@
             this.sq1MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
             this.sq1MenuItem.Size = new System.Drawing.Size(263, 22);
             this.sq1MenuItem.Text = "Toggle Square 1";
-            this.sq1MenuItem.Click += new System.EventHandler(this.sq1MenuItem_Click);
             // 
             // sq2MenuItem
             // 
@@ -326,7 +325,6 @@
             this.sq2MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
             this.sq2MenuItem.Size = new System.Drawing.Size(263, 22);
             this.sq2MenuItem.Text = "Toggle Square 2";
-            this.sq2MenuItem.Click += new System.EventHandler(this.sq2MenuItem_Click);
             // 
             // triMenuItem
             // 
@@ -334,7 +332,6 @@
             this.triMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
             this.triMenuItem.Size = new System.Drawing.Size(263, 22);
             this.triMenuItem.Text = "Toggle Triangle";
-            this.triMenuItem.Click += new System.EventHandler(this.triMenuItem_Click);
             // 
             // noiseMenuItem
             // 
@@ -342,7 +339,6 @@
             this.noiseMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
             this.noiseMenuItem.Size = new System.Drawing.Size(263, 22);
             this.noiseMenuItem.Text = "Toggle Noise";
-            this.noiseMenuItem.Click += new System.EventHandler(this.noiseMenuItem_Click);
             // 
             // toolStripSeparator3
             // 

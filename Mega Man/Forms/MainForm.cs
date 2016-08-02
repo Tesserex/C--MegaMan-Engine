@@ -414,7 +414,11 @@ namespace MegaMan.Engine
 
             this.controllers = new List<IMenuController>() {
                 b, s1, s2, s3, s4, f,
-                new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f)
+                new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f),
+                new AudioMenuController(sq1MenuItem, 1),
+                new AudioMenuController(sq2MenuItem, 2),
+                new AudioMenuController(triMenuItem, 3),
+                new AudioMenuController(noiseMenuItem, 4)
             };
         }
 
@@ -1012,54 +1016,12 @@ namespace MegaMan.Engine
 
         private void setSFX(bool value)
         {
-            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value; ;
+            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value;
         }
 
         private void sfxMenuItem_Click(object sender, EventArgs e)
         {
             setSFX(!sfxMenuItem.Checked);
-        }
-        #endregion
-
-        #region Second Section
-        private void setSq1(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked = value;
-        }
-
-        private void sq1MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq1(!sq1MenuItem.Checked);
-        }
-
-        private void setSq2(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked = value;
-        }
-
-        private void sq2MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq2(!sq2MenuItem.Checked);
-        }
-
-        private void setTri(bool value)
-        {
-            Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked = value;
-        }
-
-        private void triMenuItem_Click(object sender, EventArgs e)
-        {
-            setTri(!triMenuItem.Checked);
-        }
-
-        private void setNoise(bool value)
-        {
-            Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked = value;
-        }
-
-        private void noiseMenuItem_Click(object sender, EventArgs e)
-        {
-            setNoise(!noiseMenuItem.Checked);
         }
         #endregion
         
@@ -1477,10 +1439,6 @@ namespace MegaMan.Engine
             SetVolume(settings.Audio.Volume);
             setMusic(settings.Audio.Musics);
             setSFX(settings.Audio.Sound);
-            setSq1(settings.Audio.Square1);
-            setSq2(settings.Audio.Square2);
-            setTri(settings.Audio.Triangle);
-            setNoise(settings.Audio.Noise);
             #endregion
 
             #region Debug Menu
