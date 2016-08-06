@@ -81,6 +81,14 @@ namespace MegaMan.Engine
             }
         }
 
+        // this tracks how many pause requests have been made, a sort of stack for pausing.
+        // the engine will only run when pauseCount is 0.
+        private int pauseCount;
+
+        // becomes true if Start has been called, false if Stop is called.
+        // used to determine what to do when the engine is unpaused.
+        private bool runIfUnpaused;
+
         // this timer is used to control framerate.
         private readonly Stopwatch timer;
 
@@ -166,29 +174,47 @@ namespace MegaMan.Engine
             GraphicsDevice = args.Device;
             renderContext = new XnaRenderingContext(GraphicsDevice);
             initialized = true;
-            MainForm.startEngineIfFormAllowed(); // Do not start engine if it is supposed to be paused right now!
+            Start();
         }
 
         public void Start()
         {
-            if (!(MainForm.pauseEngine))
+            runIfUnpaused = true;
+
+            if (pauseCount == 0 && initialized && !running)
             {
-                if (initialized && running == false)
-                {
-                    running = true;
-                    timer.Start();
-                    soundsystem.Start();
-                }
+                running = true;
+                timer.Start();
+                soundsystem.Start();
             }
         }
 
         public void Stop()
         {
-            if (running == true)
+            runIfUnpaused = false;
+
+            if (running)
             {
                 running = false;
                 timer.Stop();
                 soundsystem.Stop();
+            }
+        }
+
+        public void Pause()
+        {
+            pauseCount++;
+            Stop();
+        }
+
+        public void Unpause()
+        {
+            if (pauseCount > 0)
+            {
+                pauseCount--;
+
+                if (pauseCount == 0 && runIfUnpaused)
+                    Start();
             }
         }
 

@@ -31,8 +31,6 @@ namespace MegaMan.Engine
                                                  // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
 
         ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
-
-        public static bool pauseEngine, enginePauseStatus; // enginePauseStatus informs if engine is currently in a pause status. This is used when opening a game: if engine is paused, don't activate engine.
         #endregion
 
         #region Constants
@@ -63,44 +61,19 @@ namespace MegaMan.Engine
         // Lots of functions used to determine what is happening and set engine activated/deactivated state
 
         /// <summary>
-        /// Request to start engine on, if form in a state that allows it.
-        /// </summary>
-        static public void startEngineIfFormAllowed()
-        {
-            if (!enginePauseStatus) Engine.Instance.Start();
-        }
-
-        /// <summary>
-        /// Called when form is in a state that sets engine on
-        /// </summary>
-        private void engineStart()
-        {
-            enginePauseStatus = false;
-            Engine.Instance.Start();
-        }
-
-        /// <summary>
-        /// Called when form is in a state that sets engine off
-        /// </summary>
-        private void engineStop()
-        {
-            enginePauseStatus = true;
-            Engine.Instance.Stop();
-        }
-
-        /// <summary>
         /// Function which is called by events, checks conditions to know if engine is active/unactive
         /// </summary>
         private void HandleEngineActivation()
         {
             altKeyDown = false;
 
-            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) engineStop();
+            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized)
+                Engine.Instance.Pause();
             else
             {
                 if (GetForegroundWindow() == this.Handle)
                 {
-                    engineStart();
+                    Engine.Instance.Unpause();
                 }
             }
         }
@@ -161,7 +134,6 @@ namespace MegaMan.Engine
             base.OnMove(e);
 
             menu = false; // Menu is sure to be closed.
-            engineStop();
         }
 
         /// <summary>
@@ -174,7 +146,7 @@ namespace MegaMan.Engine
 
             menu = false;
             gotFocus = true;
-            engineStart();
+            Engine.Instance.Pause();
         }
 
         /// <summary>
@@ -189,7 +161,7 @@ namespace MegaMan.Engine
             {
                 menu = false;
                 gotFocus = true;
-                engineStart();
+                Engine.Instance.Unpause();
             }
         }
 
@@ -305,15 +277,7 @@ namespace MegaMan.Engine
         /// </remarks>
         private void pauseOff()
         {
-            if (pauseEngineToolStripMenuItem.Checked == true)
-            {
-                pauseEngineToolStripMenuItem.Checked = pauseEngine = false;
-
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
+            pauseEngineToolStripMenuItem.Checked = false;
         }
         #endregion
 
@@ -516,17 +480,10 @@ namespace MegaMan.Engine
         {
             pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
 
-            pauseEngine = pauseEngineToolStripMenuItem.Checked;
-
-            if (pauseEngine) engineStop();
+            if (pauseEngineToolStripMenuItem.Checked)
+                Engine.Instance.Pause();
             else
-            {
-                engineStart();
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
+                Engine.Instance.Unpause();
         }
         #endregion
 
@@ -1006,7 +963,8 @@ namespace MegaMan.Engine
         #region First Section
         private void setMusic(bool value)
         {
-            if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
+            if (Engine.Instance.IsRunning)
+                Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
         }
 
         private void musicMenuItem_Click(object sender, EventArgs e)
