@@ -4,9 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using MegaMan.Engine.Forms;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms.Settings
 {
     #region Error Messages Constants
     #region Config Files Invalid Values
@@ -41,7 +40,6 @@ namespace MegaMan.Engine
         public class Paths
         {
             public static readonly string SettingFile = "settings.xml";
-            public static readonly string FileNameToPutDebuggingMsg = "debug.txt";
         }
         #endregion
         
@@ -190,11 +188,11 @@ namespace MegaMan.Engine
                     Select = Keys.Space
                 },
                 Screens = new LastScreen() {
-                    Size = UserSettingsEnums.Screen.X1,
+                    Size = Screen.X1,
                     Maximized = false,
                     HideMenu = false,
-                    Pixellated = UserSettingsEnums.PixellatedOrSmoothed.Pixellated,
-                    NTSC_Options = UserSettingsEnums.NTSC_Options.None,
+                    Pixellated = PixellatedOrSmoothed.Pixellated,
+                    NTSC_Options = NTSC_Options.None,
                     NTSC_Custom = new NTSC_CustomOptions() {
                         Hue = 0,
                         Saturation = 0,
@@ -296,11 +294,11 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastScreen
     {
-        public UserSettingsEnums.Screen Size { get; set; }
+        public Screen Size { get; set; }
         public bool Maximized { get; set; }
-        public UserSettingsEnums.NTSC_Options NTSC_Options { get; set; }
+        public NTSC_Options NTSC_Options { get; set; }
         public NTSC_CustomOptions NTSC_Custom { get; set; }
-        public UserSettingsEnums.PixellatedOrSmoothed Pixellated { get; set; }
+        public PixellatedOrSmoothed Pixellated { get; set; }
         public bool HideMenu { get; set; }
 
         public LastScreen()

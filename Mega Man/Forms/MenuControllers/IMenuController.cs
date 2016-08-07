@@ -1,4 +1,6 @@
-﻿namespace MegaMan.Engine.Forms.MenuControllers
+﻿using MegaMan.Engine.Forms.Settings;
+
+namespace MegaMan.Engine.Forms.MenuControllers
 {
     public interface IMenuController
     {

@@ -7,11 +7,11 @@ using System.Runtime.InteropServices; // To use DllImport
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
 using MegaMan.Engine.Forms;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
 using MegaMan.IO.Xml;
+using Screen = MegaMan.Engine.Forms.Settings.Screen;
 
 namespace MegaMan.Engine
 {
@@ -363,12 +363,12 @@ namespace MegaMan.Engine
 
         private void InitializeControllers()
         {
-            var b = new LayerVisibilityMenuController(backgroundToolStripMenuItem, UserSettingsEnums.Layers.Background);
-            var s1 = new LayerVisibilityMenuController(sprites1ToolStripMenuItem, UserSettingsEnums.Layers.Sprite1);
-            var s2 = new LayerVisibilityMenuController(sprites2ToolStripMenuItem, UserSettingsEnums.Layers.Sprite2);
-            var s3 = new LayerVisibilityMenuController(sprites3ToolStripMenuItem, UserSettingsEnums.Layers.Sprite3);
-            var s4 = new LayerVisibilityMenuController(sprites4ToolStripMenuItem, UserSettingsEnums.Layers.Sprite4);
-            var f = new LayerVisibilityMenuController(foregroundToolStripMenuItem, UserSettingsEnums.Layers.Foreground);
+            var b = new LayerVisibilityMenuController(backgroundToolStripMenuItem, Layers.Background);
+            var s1 = new LayerVisibilityMenuController(sprites1ToolStripMenuItem, Layers.Sprite1);
+            var s2 = new LayerVisibilityMenuController(sprites2ToolStripMenuItem, Layers.Sprite2);
+            var s3 = new LayerVisibilityMenuController(sprites3ToolStripMenuItem, Layers.Sprite3);
+            var s4 = new LayerVisibilityMenuController(sprites4ToolStripMenuItem, Layers.Sprite4);
+            var f = new LayerVisibilityMenuController(foregroundToolStripMenuItem, Layers.Foreground);
 
             this.controllers = new List<IMenuController>() {
                 b, s1, s2, s3, s4, f,
@@ -608,36 +608,36 @@ namespace MegaMan.Engine
         /// Screen option X1, X2, X3, X4, they use mostly similar code.
         /// </summary>
         /// <param name="index"></param>
-        private void screenSizeMenuSelected(UserSettingsEnums.Screen index)
+        private void screenSizeMenuSelected(Screen index)
         {
-            UserSettingsEnums.NTSC_Options ntscOption = UserSettingsEnums.NTSC_Options.None;
+            NTSC_Options ntscOption = NTSC_Options.None;
             snes_ntsc_setup_t ntscOptionParameters = null;
 
-            if (index == UserSettingsEnums.Screen.NTSC)
+            if (index == Screen.NTSC)
             {
                 #region NTSC
                 if (ntscComposite.Checked)
                 {
-                    ntscOption = UserSettingsEnums.NTSC_Options.Composite;
+                    ntscOption = NTSC_Options.Composite;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_composite;
                 }
                 else if (ntscSVideo.Checked)
                 {
-                    ntscOption = UserSettingsEnums.NTSC_Options.S_Video;
+                    ntscOption = NTSC_Options.S_Video;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_svideo;
                 }
                 else if (ntscRGB.Checked)
                 {
-                    ntscOption = UserSettingsEnums.NTSC_Options.RGB;
+                    ntscOption = NTSC_Options.RGB;
                     ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb;
                 }
                 else // (ntscCustom.Checked)
                 {
-                    ntscOption = UserSettingsEnums.NTSC_Options.Custom;
+                    ntscOption = NTSC_Options.Custom;
                     ntscOptionParameters = NtscCustomFromForm();
                 }
 
-                if (ntscOption == UserSettingsEnums.NTSC_Options.None || ntscOptionParameters == null)
+                if (ntscOption == NTSC_Options.None || ntscOptionParameters == null)
                 {
                     // This case is a programming error, alert!
                     // If NTSC is selected, 3 parameters must be sent to current function.
@@ -648,28 +648,28 @@ namespace MegaMan.Engine
                 ntscOptionSet(ntscOption, ntscOptionParameters);
                 #endregion
             }
-            if (index == UserSettingsEnums.Screen.X1)
+            if (index == Screen.X1)
             {
                 previousScreenSizeSelection = screen1XMenu;
                 widthZoom = heightZoom = 1;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == UserSettingsEnums.Screen.X2)
+            if (index == Screen.X2)
             {
                 previousScreenSizeSelection = screen2XMenu;
                 widthZoom = heightZoom = 2;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == UserSettingsEnums.Screen.X3)
+            if (index == Screen.X3)
             {
                 previousScreenSizeSelection = screen3XMenu;
                 widthZoom = heightZoom = 3;
                 ScreenSizeMultiple();
                 AllScreenResolutionOffBut(previousScreenSizeSelection);
             }
-            if (index == UserSettingsEnums.Screen.X4)
+            if (index == Screen.X4)
             {
                 previousScreenSizeSelection = screen4XMenu;
                 widthZoom = heightZoom = 4;
@@ -680,22 +680,22 @@ namespace MegaMan.Engine
 
         private void screen1XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X1);
+            screenSizeMenuSelected(Screen.X1);
         }
 
         private void screen2XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X2);
+            screenSizeMenuSelected(Screen.X2);
         }
 
         private void screen3XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X3);
+            screenSizeMenuSelected(Screen.X3);
         }
 
         private void screen4XMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X4);
+            screenSizeMenuSelected(Screen.X4);
         }
 
         #region NTSC Menu Clicked
@@ -714,7 +714,7 @@ namespace MegaMan.Engine
 
         private void screenNTSCMenu_Click(object sender, EventArgs e)
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.NTSC);
+            screenSizeMenuSelected(Screen.NTSC);
         }
         #endregion
         #endregion
@@ -764,30 +764,30 @@ namespace MegaMan.Engine
         /// <param name="NTSC_Option"></param>
         /// <param name="customParameters"></param>
         /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(UserSettingsEnums.NTSC_Options NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
+        private void ntscOptionSet(NTSC_Options NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
         {
             // Set parameters of Custom options
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
+            if (NTSC_Option == NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
+            if (NTSC_Option == NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
+            if (NTSC_Option == NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
+            if (NTSC_Option == NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
         }
         #endregion
 
         #region Button Click event of NTSC options
         private void ntscComposite_Click(object sender, EventArgs e)
         {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
+            ntscOptionSet(NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
         }
 
         private void ntscSVideo_Click(object sender, EventArgs e)
         {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
+            ntscOptionSet(NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
         }
 
         private void ntscRGB_Click(object sender, EventArgs e)
         {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
+            ntscOptionSet(NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
         }
 
         private void ntscCustom_Click(object sender, EventArgs e)
@@ -855,14 +855,14 @@ namespace MegaMan.Engine
         /// </summary>
         /// <param name="itemToKeepChecked"></param>
         /// <param name="samplerState"></param>
-        private void pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed index)
+        private void pixellatedVsSmoothedCode(PixellatedOrSmoothed index)
         {
-            if (index == UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
+            if (index == PixellatedOrSmoothed.Pixellated)
             {
                 Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
                 pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
             }
-            else if (index == UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
+            else if (index == PixellatedOrSmoothed.Smoothed)
             {
                 Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
                 pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
@@ -871,12 +871,12 @@ namespace MegaMan.Engine
 
         private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
+            pixellatedVsSmoothedCode(PixellatedOrSmoothed.Smoothed);
         }
 
         private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
+            pixellatedVsSmoothedCode(PixellatedOrSmoothed.Pixellated);
         }
         #endregion
         #endregion
@@ -1233,7 +1233,7 @@ namespace MegaMan.Engine
 
             #region Screen Menu
             // NTSC option is set before. So if menu selected is NTSC, options are set.
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screens.NTSC_Options))
+            if (!Enum.IsDefined(typeof(NTSC_Options), settings.Screens.NTSC_Options))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
                 settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
@@ -1267,14 +1267,14 @@ namespace MegaMan.Engine
             customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
             customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
 
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
+            if (!Enum.IsDefined(typeof(Screen), settings.Screens.Size))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
                 settings.Screens.Size = UserSettings.Default.Screens.Size;
             }
             screenSizeMenuSelected(settings.Screens.Size);
 
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screens.Pixellated))
+            if (!Enum.IsDefined(typeof(PixellatedOrSmoothed), settings.Screens.Pixellated))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
                 settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
@@ -1324,29 +1324,29 @@ namespace MegaMan.Engine
         }
 
         #region Functions to build datas for saving config
-        private UserSettingsEnums.Screen currentSize()
+        private Screen currentSize()
         {
-            if (screen2XMenu.Checked) return UserSettingsEnums.Screen.X2;
-            if (screen3XMenu.Checked) return UserSettingsEnums.Screen.X3;
-            if (screen4XMenu.Checked) return UserSettingsEnums.Screen.X4;
-            if (screenNTSCMenu.Checked) return UserSettingsEnums.Screen.NTSC;
+            if (screen2XMenu.Checked) return Screen.X2;
+            if (screen3XMenu.Checked) return Screen.X3;
+            if (screen4XMenu.Checked) return Screen.X4;
+            if (screenNTSCMenu.Checked) return Screen.NTSC;
 
-            return UserSettingsEnums.Screen.X1;
+            return Screen.X1;
         }
 
-        private UserSettingsEnums.NTSC_Options currentNTSC_Option()
+        private NTSC_Options currentNTSC_Option()
         {
-            if (ntscComposite.Checked) return UserSettingsEnums.NTSC_Options.Composite;
-            if (ntscSVideo.Checked) return UserSettingsEnums.NTSC_Options.S_Video;
-            if (ntscRGB.Checked) return UserSettingsEnums.NTSC_Options.RGB;
+            if (ntscComposite.Checked) return NTSC_Options.Composite;
+            if (ntscSVideo.Checked) return NTSC_Options.S_Video;
+            if (ntscRGB.Checked) return NTSC_Options.RGB;
 
-            return UserSettingsEnums.NTSC_Options.Custom;
+            return NTSC_Options.Custom;
         }
 
-        public UserSettingsEnums.PixellatedOrSmoothed currentPixellatedOrSmoothedOption()
+        public PixellatedOrSmoothed currentPixellatedOrSmoothedOption()
         {
-            if (pixellatedToolStripMenuItem.Checked) return UserSettingsEnums.PixellatedOrSmoothed.Pixellated;
-            return UserSettingsEnums.PixellatedOrSmoothed.Smoothed;
+            if (pixellatedToolStripMenuItem.Checked) return PixellatedOrSmoothed.Pixellated;
+            return PixellatedOrSmoothed.Smoothed;
         }
         #endregion
 

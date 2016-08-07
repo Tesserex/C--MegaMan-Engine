@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
+using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine.Forms.MenuControllers
 {
     public class LayerVisibilityMenuController : IMenuController
     {
         private readonly ToolStripMenuItem menuItem;
-        private readonly UserSettingsEnums.Layers layer;
+        private readonly Layers layer;
 
-        public LayerVisibilityMenuController(ToolStripMenuItem menuItem, UserSettingsEnums.Layers layer)
+        public LayerVisibilityMenuController(ToolStripMenuItem menuItem, Layers layer)
         {
             this.menuItem = menuItem;
             this.layer = layer;
@@ -29,17 +30,17 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public void LoadSettings(Setting settings)
         {
-            if (layer == UserSettingsEnums.Layers.Background)
+            if (layer == Layers.Background)
                 Set(settings.Debug.Layers.Background);
-            else if (layer == UserSettingsEnums.Layers.Sprite1)
+            else if (layer == Layers.Sprite1)
                 Set(settings.Debug.Layers.Sprites1);
-            else if (layer == UserSettingsEnums.Layers.Sprite2)
+            else if (layer == Layers.Sprite2)
                 Set(settings.Debug.Layers.Sprites2);
-            else if (layer == UserSettingsEnums.Layers.Sprite3)
+            else if (layer == Layers.Sprite3)
                 Set(settings.Debug.Layers.Sprites3);
-            else if (layer == UserSettingsEnums.Layers.Sprite4)
+            else if (layer == Layers.Sprite4)
                 Set(settings.Debug.Layers.Sprites4);
-            else if (layer == UserSettingsEnums.Layers.Foreground)
+            else if (layer == Layers.Foreground)
                 Set(settings.Debug.Layers.Foreground);
         }
     }

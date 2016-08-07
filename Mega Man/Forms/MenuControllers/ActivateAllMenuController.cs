@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine.Forms.MenuControllers
 {
