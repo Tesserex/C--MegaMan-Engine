@@ -1547,41 +1547,11 @@ namespace MegaMan.Engine
                 newHeight = height * heightZoom;
             }
 
-            // tell the image not to get crushed by the form
-            xnaImage.Dock = DockStyle.None;
-            
-            // tell the form to fit the image
-            if (fullScreenToolStripMenuItem.Checked)
-            {
-                menuStrip1.Visible = false;
-            }
+            int extraHeight = Height - xnaImage.Height;
+            int extraWidth = Width - xnaImage.Width;
 
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            xnaImage.Width = newWidth.Value;
-            xnaImage.Height = newHeight.Value;
-            // now remember the form size
-            int tempheight = Height;
-            int tempwidth = Width;
-            // now un-autosize to re-enable resizing
-            AutoSize = false;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            // reset the form size
-            if (debugBar.Visible)
-            {
-                tempheight += debugBar.Height;
-            }
-
-            // for some reason menu height is always still shown when the image is undocked
-            if (!menuStrip1.Visible)
-            {
-                tempheight -= menuStrip1.Height;
-            }
-
-            Height = tempheight;
-            Width = tempwidth;
-            // redock the image
-            xnaImage.Dock = DockStyle.Fill;
+            Height = extraHeight + newHeight.Value;
+            Width = extraWidth + newWidth.Value;
         }
 
         private void SetXnaSize(int width, int height)
