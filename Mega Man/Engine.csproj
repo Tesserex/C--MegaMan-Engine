@@ -202,6 +202,7 @@
     <Compile Include="Forms\MenuControllers\AudioMenuController.cs" />
     <Compile Include="Forms\MenuControllers\IMenuController.cs" />
     <Compile Include="Forms\MenuControllers\LayerVisibilityMenuController.cs" />
+    <Compile Include="Forms\Settings\SettingsService.cs" />
     <Compile Include="Forms\UserSettingsEnums.cs" />
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />

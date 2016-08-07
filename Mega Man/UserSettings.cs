@@ -15,7 +15,7 @@ namespace MegaMan.Engine
         public static readonly string Size = "Size value from configuration file is invalid. Default value will be used.";
         public static readonly string NTSC_Option = "NTSC_Option value from configuration file is invalid. Default value will be used.";
         public static readonly string PixellatedOrSmoothed = "Pixellated value from configuration file is invalid. Default value will be used.";
-        public static readonly string CannotDeserializeXML = "Cannot deserialized file Content. File renamed to Bad_XX_XX_XXXX_XX_XX_XX where X represent day, month, year, hour, minute, second.";
+        public static readonly string CannotDeserializeXML = "Cannot deserialize config file. File renamed to {0}.";
     }
     #endregion
     #endregion
@@ -178,6 +178,7 @@ namespace MegaMan.Engine
         static UserSettings()
         {
             Default = new Setting() {
+                GameFileName = "",
                 Keys = new UserKeys() {
                     Up = Keys.Up,
                     Down = Keys.Down,

@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using MegaMan.Engine.Forms;
 using MegaMan.Engine.Forms.MenuControllers;
+using MegaMan.Engine.Forms.Settings;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
@@ -19,33 +20,25 @@ namespace MegaMan.Engine
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
-        private List<IMenuController> controllers;
+        private const int WM_SYSKEYDOWN = 0x104;
+        private const int WM_INITMENUPOPUP = 0x0117;
+        private const int WM_UNINITMENUPOPUP = 0x0125;
 
-        #region Variables And Constants
-        #region Variables
-        private string settingsPath, lastGameWithPath, initialFolder;
+        private List<IMenuController> controllers;
+        private readonly SettingsService settingsService;
+
+        private string lastGameWithPath, initialFolder;
         private int widthZoom, heightZoom, width, height;
         private bool fullScreenToolStripMenuItem_IsMaximized;
         
         private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
-                                                 // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
 
         ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
-        #endregion
 
-        #region Constants
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private readonly Keyboard keyform = new Keyboard();
         private readonly LoadConfig loadConfigForm = new LoadConfig();
         private readonly DeleteConfigs deleteConfigsForm = new DeleteConfigs();
-
-        #region Code used by windows messages
-        private const int WM_SYSKEYDOWN = 0x104;
-        private const int WM_INITMENUPOPUP = 0x0117;
-        private const int WM_UNINITMENUPOPUP = 0x0125;
-        #endregion
-        #endregion
-        #endregion
 
         private string CurrentGamePath
         {
@@ -68,12 +61,12 @@ namespace MegaMan.Engine
             altKeyDown = false;
 
             if (menu || gotFocus == false || WindowState == FormWindowState.Minimized)
-                Engine.Instance.Pause();
+                Engine.Instance.Stop();
             else
             {
                 if (GetForegroundWindow() == this.Handle)
                 {
-                    Engine.Instance.Unpause();
+                    Engine.Instance.Start();
                 }
             }
         }
@@ -146,7 +139,7 @@ namespace MegaMan.Engine
 
             menu = false;
             gotFocus = true;
-            Engine.Instance.Pause();
+            Engine.Instance.Start();
         }
 
         /// <summary>
@@ -161,7 +154,7 @@ namespace MegaMan.Engine
             {
                 menu = false;
                 gotFocus = true;
-                Engine.Instance.Unpause();
+                Engine.Instance.Start();
             }
         }
 
@@ -286,6 +279,7 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
+            this.settingsService = new SettingsService();
             InitializeControllers();
 
             menu = gotFocus = altKeyDown = false;
@@ -323,7 +317,6 @@ namespace MegaMan.Engine
 
             try
             {
-                string autoLoadGame = GetAutoLoadGame();
                 var args = Environment.GetCommandLineArgs();
 
                 base.OnLoad(e);
@@ -339,8 +332,9 @@ namespace MegaMan.Engine
                 try
                 {
                     LoadGlobalConfigValues();
-                    LoadConfigFromXMLOrDefaultOneIfInvalidXML();
+                    LoadCurrentConfig();
 
+                    string autoLoadGame = settingsService.GetAutoLoadGame();
                     if (autoLoadGame != null)
                     {
                         if (!LoadGame(autoLoadGame, null, true))
@@ -447,7 +441,7 @@ namespace MegaMan.Engine
             {
                 AutosaveConfig();
                 lastGameWithPath = null;
-                LoadConfigFromXML();
+                LoadCurrentConfig();
 
                 Game.CurrentGame.Unload();
                 this.xnaImage.Clear();
@@ -509,9 +503,17 @@ namespace MegaMan.Engine
             AutosaveConfig();
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
             SaveGlobalConfigValues();
-            LoadConfigFromXML();
+            LoadCurrentConfig();
 
             SetLayersVisibilityFromSettings();
+        }
+
+        private void LoadCurrentConfig()
+        {
+            if (defaultConfigToolStripMenuItem.Checked)
+                LoadConfigFromSetting(this.settingsService.GetConfigForGame(""));
+            else
+                LoadConfigFromSetting(this.settingsService.GetConfigForGame(CurrentGamePath));
         }
 
         private void loadConfigSelectedInLoadConfigForm()
@@ -521,24 +523,7 @@ namespace MegaMan.Engine
 
         private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserSettings userSettingsToPass = new UserSettings();
-            Int16 errorCode = GetUserSettingsFromXML(ref userSettingsToPass);
-
-            if (errorCode == Constants.Errors.GetUserSettingsFromXML_CannotDeserialize)
-            {
-                MessageBox.Show("There was an error loading the config file.\n\nUser shouldn't modif setting file manually!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (errorCode == Constants.Errors.GetUserSettingsFromXML_FileNotFound)
-            {
-                MessageBox.Show("No config file!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (errorCode != 0)
-            {
-                MessageBox.Show("There was an error loading the config file. Error unknow, case should be handled by programmers", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            var userSettingsToPass = this.settingsService.GetSettings();
 
             loadConfigForm.Location = new Point(this.Location.X + (this.Size.Width - loadConfigForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - loadConfigForm.Size.Height) / 2);
             loadConfigForm.TopMost = this.TopMost;
@@ -552,28 +537,11 @@ namespace MegaMan.Engine
 
         private void deleteConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserSettings userSettingsToPass = new UserSettings();
-            Int16 errorCode = GetUserSettingsFromXML(ref userSettingsToPass);
-
-            if (errorCode == Constants.Errors.GetUserSettingsFromXML_CannotDeserialize)
-            {
-                MessageBox.Show("There was an error loading the config file.\n\nUser shouldn't modif setting file manually!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (errorCode == Constants.Errors.GetUserSettingsFromXML_FileNotFound)
-            {
-                MessageBox.Show("No config file!", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (errorCode != 0)
-            {
-                MessageBox.Show("There was an error loading the config file. Error unknow, case should be handled by programmers", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            var userSettingsToPass = this.settingsService.GetSettings();
 
             deleteConfigsForm.Location = new Point(this.Location.X + (this.Size.Width - deleteConfigsForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - deleteConfigsForm.Size.Height) / 2);
             deleteConfigsForm.TopMost = this.TopMost;
-            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, settingsPath, null);
+            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, this.settingsService.SettingsFilePath, null);
             deleteConfigsForm.TopMost = false;
         }
         #endregion
@@ -1135,7 +1103,7 @@ namespace MegaMan.Engine
                 Text = Game.CurrentGame.Name;
 
                 lastGameWithPath = path;
-                LoadConfigFromXML();
+                LoadCurrentConfig();
 
                 OnGameLoadedChanged();
 
@@ -1209,42 +1177,6 @@ namespace MegaMan.Engine
         }
 
         #region Configs Functions
-        /// <summary>
-        /// Returns UserSettings build from XML.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns>
-        /// OK: 
-        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
-        /// Error: 
-        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
-        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
-        /// </returns>
-        Int16 GetUserSettingsFromXML(ref UserSettings var, string fileName = null)
-        {
-            try
-            {
-                if (fileName == null) fileName = Constants.Paths.SettingFile;
-
-                settingsPath = Path.Combine(Application.StartupPath, fileName);
-                if (File.Exists(settingsPath))
-                {
-                    var serializer = new XmlSerializer(typeof(UserSettings));
-                    using (var file = File.Open(settingsPath, FileMode.Open))
-                    {
-                        var = (UserSettings)serializer.Deserialize(file);
-                    }
-                }
-                else return Constants.Errors.GetUserSettingsFromXML_FileNotFound;
-            }
-            catch (Exception)
-            {
-                var = null;
-                return Constants.Errors.GetUserSettingsFromXML_CannotDeserialize;
-            }
-
-            return Constants.Errors.GetUserSettingsFromXML_NoError;
-        }
 
         /// <summary>
         /// This is kind of a bad patch but found no better way to do it.
@@ -1267,56 +1199,23 @@ namespace MegaMan.Engine
             if (running) OnResizeCode();
         }
 
-        private Setting GetDefaultConfig()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>Does no valiation, if crashes just doesn't set param</remarks>
+        private void LoadGlobalConfigValues()
         {
-            Setting settings = new Setting();
+            try
+            {
+                var userSettings = this.settingsService.GetSettings();
 
-            settings.GameFileName = "";
-
-            #region Input Menu: Keys
-            settings.Keys.Up = UserSettings.Default.Keys.Up;
-            settings.Keys.Down = UserSettings.Default.Keys.Down;
-            settings.Keys.Left = UserSettings.Default.Keys.Left;
-            settings.Keys.Right = UserSettings.Default.Keys.Right;
-            settings.Keys.Jump = UserSettings.Default.Keys.Jump;
-            settings.Keys.Shoot = UserSettings.Default.Keys.Shoot;
-            settings.Keys.Start = UserSettings.Default.Keys.Start;
-            settings.Keys.Select = UserSettings.Default.Keys.Select;
-            #endregion
-
-            #region Screen Menu
-            settings.Screens.Size = UserSettings.Default.Screens.Size;
-            settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
-            settings.Screens.Maximized = UserSettings.Default.Screens.Maximized;
-            settings.Screens.NTSC_Custom = UserSettings.Default.Screens.NTSC_Custom;
-            settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
-            settings.Screens.HideMenu = UserSettings.Default.Screens.HideMenu;
-            #endregion
-
-            #region Audio Menu
-            settings.Audio.Volume = UserSettings.Default.Audio.Volume;
-            settings.Audio.Musics = UserSettings.Default.Audio.Musics;
-            settings.Audio.Sound = UserSettings.Default.Audio.Sound;
-            settings.Audio.Square1 = UserSettings.Default.Audio.Square1;
-            settings.Audio.Square2 = UserSettings.Default.Audio.Square2;
-            settings.Audio.Triangle = UserSettings.Default.Audio.Triangle;
-            settings.Audio.Noise = UserSettings.Default.Audio.Noise;
-            #endregion
-
-            #region Debug Menu
-            settings.Debug.ShowMenu = UserSettings.Default.Debug.ShowMenu;
-            settings.Debug.ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
-            settings.Debug.Framerate = UserSettings.Default.Debug.Framerate;
-            settings.Debug.Cheat = UserSettings.Default.Debug.Cheat;
-            settings.Debug.Layers = UserSettings.Default.Debug.Layers;
-            #endregion
-
-            #region Miscellaneous
-            settings.Miscellaneous.ScreenX_Coordinate = UserSettings.Default.Miscellaneous.ScreenX_Coordinate;
-            settings.Miscellaneous.ScreenY_Coordinate = UserSettings.Default.Miscellaneous.ScreenY_Coordinate;
-            #endregion
-
-            return settings;
+                autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
+                defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
+                autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
+                initialFolder = userSettings.InitialFolder;
+            }
+            catch (Exception) { }
         }
 
         private void LoadConfigFromSetting(Setting settings)
@@ -1424,115 +1323,6 @@ namespace MegaMan.Engine
                 c.LoadSettings(settings);
         }
 
-        private string GetAutoLoadGame(string XML_fileName = null)
-        {
-            UserSettings userSettings = null;
-
-            try
-            {
-                GetUserSettingsFromXML(ref userSettings, XML_fileName);
-
-                return userSettings.Autoload;
-            }
-            catch (Exception) { }
-            return null;
-        }
-        
-        /// <summary>
-         /// 
-         /// </summary>
-         /// <param name="XML_fileName"></param>
-         /// <returns></returns>
-         /// <remarks>Does no valiation, if crashes just doesn't set param</remarks>
-        private void LoadGlobalConfigValues(string XML_fileName = null)
-        {
-            UserSettings userSettings = null;
-
-            try
-            {
-                GetUserSettingsFromXML(ref userSettings, XML_fileName);
-
-                autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
-                defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
-                autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
-                initialFolder = userSettings.InitialFolder;
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="XML_fileName"></param>
-        /// <returns>
-        /// OK: 
-        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
-        /// Error: 
-        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
-        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
-        /// - Constants.Errors.LoadConfigFromXML_NoContentReadFromXML
-        /// - Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML
-        /// </returns>
-        private Int16 LoadConfigFromXML(string XML_fileName = null)
-        {
-            UserSettings settingsArray = null;
-            Setting settings = null;
-
-            Int16 errorCode = GetUserSettingsFromXML(ref settingsArray, XML_fileName);
-
-            if (errorCode != Constants.Errors.LoadConfigFromXML_NoError) return errorCode;
-
-            if (settingsArray == null) return Constants.Errors.LoadConfigFromXML_NoContentReadFromXML;
-
-            if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
-            else settings = settingsArray.GetSettingsForGame(CurrentGamePath);
-
-            if (settings == null) return Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML;
-            
-            // Here, there is a config. If a value is not valid, a default one is loaded instead
-            // It displays messages in such case but always complete well
-            LoadConfigFromSetting(settings);
-
-            return Constants.Errors.LoadConfigFromXML_NoError;
-        }
-
-        private Int16 LoadConfigFromXMLOrDefaultOneIfInvalidXML(string XML_fileName = null)
-        {
-            Int16 errorCode = LoadConfigFromXML(XML_fileName);
-            string newFileName = null, currentFileWithPath;
-            Setting settings = null;
-
-            if (XML_fileName == null) XML_fileName = Constants.Paths.SettingFile;
-            currentFileWithPath = Path.Combine(Application.StartupPath, XML_fileName);
-
-            if (errorCode == 0) return 0;
-
-            #region Error when loading config from XML
-
-            // If file is not readable, rename it to create a new one.
-            if (errorCode == Constants.Errors.LoadConfigFromXML_CannotDeserialize)
-            {
-                WrongConfigAlert(ConfigFileInvalidValuesMessages.CannotDeserializeXML);
-
-                // Will rename file to create a new one. So user can check it if he wants
-                newFileName = "Bad_" + DateTime.Now.Day.ToString("00") + "_" + DateTime.Now.Month.ToString("00") + "_" + DateTime.Now.Year.ToString("0000") + "_" + DateTime.Now.Hour.ToString("00") + "_" + DateTime.Now.Minute.ToString("00") + "_" + DateTime.Now.Second.ToString("00") + ".xml";
-
-                newFileName = Path.Combine(Application.StartupPath, newFileName);
-
-                File.Move(currentFileWithPath, newFileName);
-            }
-
-            // If here, it was not possible to load a config from XML. Load a default one
-            settings = GetDefaultConfig();
-            LoadConfigFromSetting(settings);
-
-            // Save the default config we just loaded
-            SaveConfig(XML_fileName, settings);
-
-            return 0;
-            #endregion
-        }
-
         #region Functions to build datas for saving config
         private UserSettingsEnums.Screen currentSize()
         {
@@ -1562,17 +1352,14 @@ namespace MegaMan.Engine
 
         private void SaveGlobalConfigValues(string fileName = null)
         {
-            UserSettings userSettings = null;
-
-            // This functions updates settingsPath
-            GetUserSettingsFromXML(ref userSettings);
+            var userSettings = this.settingsService.GetSettings();
 
             userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
             userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
             userSettings.Autoload = autoloadToolStripMenuItem.Checked ? lastGameWithPath : null;
             userSettings.InitialFolder = initialFolder;
 
-            XML.SaveToConfigXML(userSettings, settingsPath, fileName);
+            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
         }
 
         private void AutosaveConfig(string fileName = null)
@@ -1668,17 +1455,10 @@ namespace MegaMan.Engine
                 #endregion
             }
 
-            UserSettings userSettings = null;
-
-            // This functions updates settingsPath
-            GetUserSettingsFromXML(ref userSettings);
-
-            // If there is no file, or no config in file, it is null
-            if (userSettings == null) userSettings = new UserSettings();
-
+            var userSettings = this.settingsService.GetSettings();
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
-            XML.SaveToConfigXML(userSettings, settingsPath, fileName);
+            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
         }
         #endregion
 
