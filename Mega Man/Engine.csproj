@@ -200,8 +200,12 @@
     </Compile>
     <Compile Include="Forms\MenuControllers\ActivateAllMenuController.cs" />
     <Compile Include="Forms\MenuControllers\AudioMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\FullScreenMenuController.cs" />
     <Compile Include="Forms\MenuControllers\IMenuController.cs" />
     <Compile Include="Forms\MenuControllers\LayerVisibilityMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\NtscMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\ScreenSizeMenuController.cs" />
+    <Compile Include="Forms\ScreenScaleController.cs" />
     <Compile Include="Forms\Settings\SettingsService.cs" />
     <Compile Include="Forms\Settings\UserSettingsEnums.cs" />
     <Compile Include="GameHandlers\GameHandler.cs" />

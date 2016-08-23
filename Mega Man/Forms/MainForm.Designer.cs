@@ -388,28 +388,24 @@
             this.screen1XMenu.Name = "screen1XMenu";
             this.screen1XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen1XMenu.Text = "1x";
-            this.screen1XMenu.Click += new System.EventHandler(this.screen1XMenu_Click);
             // 
             // screen2XMenu
             // 
             this.screen2XMenu.Name = "screen2XMenu";
             this.screen2XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen2XMenu.Text = "2x";
-            this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
             // screen3XMenu
             // 
             this.screen3XMenu.Name = "screen3XMenu";
             this.screen3XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen3XMenu.Text = "3x";
-            this.screen3XMenu.Click += new System.EventHandler(this.screen3XMenu_Click);
             // 
             // screen4XMenu
             // 
             this.screen4XMenu.Name = "screen4XMenu";
             this.screen4XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen4XMenu.Text = "4x";
-            this.screen4XMenu.Click += new System.EventHandler(this.screen4XMenu_Click);
             // 
             // screenNTSCMenu
             // 
@@ -421,28 +417,24 @@
             this.screenNTSCMenu.Name = "screenNTSCMenu";
             this.screenNTSCMenu.Size = new System.Drawing.Size(154, 22);
             this.screenNTSCMenu.Text = "NTSC";
-            this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
             // 
             // ntscComposite
             // 
             this.ntscComposite.Name = "ntscComposite";
             this.ntscComposite.Size = new System.Drawing.Size(132, 22);
             this.ntscComposite.Text = "Composite";
-            this.ntscComposite.Click += new System.EventHandler(this.ntscComposite_Click);
             // 
             // ntscSVideo
             // 
             this.ntscSVideo.Name = "ntscSVideo";
             this.ntscSVideo.Size = new System.Drawing.Size(132, 22);
             this.ntscSVideo.Text = "S-Video";
-            this.ntscSVideo.Click += new System.EventHandler(this.ntscSVideo_Click);
             // 
             // ntscRGB
             // 
             this.ntscRGB.Name = "ntscRGB";
             this.ntscRGB.Size = new System.Drawing.Size(132, 22);
             this.ntscRGB.Text = "RGB";
-            this.ntscRGB.Click += new System.EventHandler(this.ntscRGB_Click);
             // 
             // ntscCustom
             // 
@@ -457,7 +449,6 @@
             this.fullScreenToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.fullScreenToolStripMenuItem.Text = "Full Screen";
-            this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.fullScreenToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

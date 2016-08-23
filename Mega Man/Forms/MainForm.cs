@@ -11,7 +11,6 @@ using MegaMan.Engine.Forms;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
 using MegaMan.IO.Xml;
-using Screen = MegaMan.Engine.Forms.Settings.Screen;
 
 namespace MegaMan.Engine
 {
@@ -29,11 +28,9 @@ namespace MegaMan.Engine
 
         private string lastGameWithPath, initialFolder;
         private int widthZoom, heightZoom, width, height;
-        private bool fullScreenToolStripMenuItem_IsMaximized;
+        private bool wasMaximizedBeforeFullscreen;
         
         private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
-
-        ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
 
         private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
         private readonly Keyboard keyform = new Keyboard();
@@ -81,6 +78,9 @@ namespace MegaMan.Engine
                 menu = false;
                 HandleEngineActivation();
             }
+
+            if (WindowState == FormWindowState.Maximized)
+                xnaImage.NTSC = false;
         }
 
         /// <summary>
@@ -370,14 +370,46 @@ namespace MegaMan.Engine
             var s4 = new LayerVisibilityMenuController(sprites4ToolStripMenuItem, Layers.Sprite4);
             var f = new LayerVisibilityMenuController(foregroundToolStripMenuItem, Layers.Foreground);
 
+            var scaleController = new ScreenScaleController();
+            var screen1xControl = new ScreenSizeMenuController(scaleController, screen1XMenu, ScreenScale.X1);
+            var screen2xControl = new ScreenSizeMenuController(scaleController, screen2XMenu, ScreenScale.X2);
+            var screen3xControl = new ScreenSizeMenuController(scaleController, screen3XMenu, ScreenScale.X3);
+            var screen4xControl = new ScreenSizeMenuController(scaleController, screen4XMenu, ScreenScale.X4);
+            var fullScreenControl = new FullScreenMenuController(scaleController, fullScreenToolStripMenuItem);
+
+            var compositeControl = new NtscMenuController(scaleController, ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite);
+            var svideoControl = new NtscMenuController(scaleController, ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo);
+            var rgbControl = new NtscMenuController(scaleController, ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb);
+
+            scaleController.SizeChanged += ScaleChanged;
+            scaleController.NtscSet += ScaleController_NtscSet;
+
             this.controllers = new List<IMenuController>() {
                 b, s1, s2, s3, s4, f,
                 new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f),
                 new AudioMenuController(sq1MenuItem, 1),
                 new AudioMenuController(sq2MenuItem, 2),
                 new AudioMenuController(triMenuItem, 3),
-                new AudioMenuController(noiseMenuItem, 4)
+                new AudioMenuController(noiseMenuItem, 4),
+                screen1xControl,
+                screen2xControl,
+                screen3xControl,
+                screen4xControl,
+                compositeControl,
+                svideoControl,
+                rgbControl,
+                fullScreenControl
             };
+        }
+
+        private void ScaleController_NtscSet(object sender, ScreenScaleNtscEventArgs e)
+        {
+            NtscScreen(e.Setup);
+        }
+
+        private void ScaleChanged(object sender, ScreenScaleChangedEventArgs e)
+        {
+            ScaleScreen(e.Scale);
         }
 
         /// <summary>
@@ -577,147 +609,90 @@ namespace MegaMan.Engine
 
         #region Screen Menu
         #region First Section
-        /// <summary>
-        /// 1X, 2X, 3X, 4X and NTSC are considered resolutions
-        /// </summary>
-        /// <param name="itemToKeepChecked"></param>
-        private void AllScreenResolutionOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
-            screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
 
-            itemToKeepChecked.Checked = true;
-        }
-        #region Size Selection
-        private void ScreenSizeMultiple()
+        public void ScaleScreen(ScreenScale scale)
         {
-            WindowState = FormWindowState.Normal;
+            if (scale == ScreenScale.Fullscreen)
+                SetFullscreen();
+            else
+                UnsetFullscreen();
+
+            if (scale == ScreenScale.X1)
+            {
+                widthZoom = heightZoom = 1;
+            }
+            else if (scale == ScreenScale.X2)
+            {
+                widthZoom = heightZoom = 2;
+            }
+            else if (scale == ScreenScale.X3)
+            {
+                widthZoom = heightZoom = 3;
+            }
+            else if (scale == ScreenScale.X4)
+            {
+                widthZoom = heightZoom = 4;
+            }
+
             if (Game.CurrentGame == null)
             {
                 DefaultScreen();
+                xnaImage.NTSC = false;
+            }
+            else if (scale == ScreenScale.NTSC)
+            {
+                NtscScreen();
             }
             else
             {
                 ResizeScreen();
-            }
-
-            xnaImage.NTSC = false;
+                xnaImage.NTSC = false;
+            }            
         }
 
-        /// <summary>
-        /// Screen option X1, X2, X3, X4, they use mostly similar code.
-        /// </summary>
-        /// <param name="index"></param>
-        private void screenSizeMenuSelected(Screen index)
+        private void NtscScreen(snes_ntsc_setup_t setup = null)
         {
-            NTSC_Options ntscOption = NTSC_Options.None;
-            snes_ntsc_setup_t ntscOptionParameters = null;
-
-            if (index == Screen.NTSC)
-            {
-                #region NTSC
-                if (ntscComposite.Checked)
-                {
-                    ntscOption = NTSC_Options.Composite;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_composite;
-                }
-                else if (ntscSVideo.Checked)
-                {
-                    ntscOption = NTSC_Options.S_Video;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_svideo;
-                }
-                else if (ntscRGB.Checked)
-                {
-                    ntscOption = NTSC_Options.RGB;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb;
-                }
-                else // (ntscCustom.Checked)
-                {
-                    ntscOption = NTSC_Options.Custom;
-                    ntscOptionParameters = NtscCustomFromForm();
-                }
-
-                if (ntscOption == NTSC_Options.None || ntscOptionParameters == null)
-                {
-                    // This case is a programming error, alert!
-                    // If NTSC is selected, 3 parameters must be sent to current function.
-                    Programming_Error_No_Shutdown("screenSizeMenuSelected called, NTSC selected, 3 parameters should be sent. ntscOption was " + ntscOption.ToString() + " ntscOptionParameters was " + ntscOptionParameters + ".");
-                    return;
-                }
-
-                ntscOptionSet(ntscOption, ntscOptionParameters);
-                #endregion
-            }
-            if (index == Screen.X1)
-            {
-                previousScreenSizeSelection = screen1XMenu;
-                widthZoom = heightZoom = 1;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == Screen.X2)
-            {
-                previousScreenSizeSelection = screen2XMenu;
-                widthZoom = heightZoom = 2;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == Screen.X3)
-            {
-                previousScreenSizeSelection = screen3XMenu;
-                widthZoom = heightZoom = 3;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == Screen.X4)
-            {
-                previousScreenSizeSelection = screen4XMenu;
-                widthZoom = heightZoom = 4;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-        }
-
-        private void screen1XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(Screen.X1);
-        }
-
-        private void screen2XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(Screen.X2);
-        }
-
-        private void screen3XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(Screen.X3);
-        }
-
-        private void screen4XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(Screen.X4);
-        }
-
-        #region NTSC Menu Clicked
-        private void screenNTSCSelected()
-        {
-            previousScreenSizeSelection = screenNTSCMenu;
-
             if (width != 256 || height != 224) return;
+
+            UnsetFullscreen();
+            this.WindowState = FormWindowState.Normal;
 
             widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
+            
+            if (setup != null)            
+                xnaImage.ntscInit(setup);
 
-            AllScreenResolutionOffBut(screenNTSCMenu);
             xnaImage.NTSC = true;
         }
 
-        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        private void UnsetFullscreen()
         {
-            screenSizeMenuSelected(Screen.NTSC);
+            this.TopMost = false;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+
+            if (wasMaximizedBeforeFullscreen) this.WindowState = FormWindowState.Maximized;
+            else this.WindowState = FormWindowState.Normal;
+
+            menuStrip1.Visible = !hideMenuItem.Checked;
+#if DEBUG
+            debugBar.Visible = true;
+#endif
         }
-        #endregion
-        #endregion
+
+        private void SetFullscreen()
+        {
+            wasMaximizedBeforeFullscreen = (this.WindowState == FormWindowState.Maximized);
+
+            xnaImage.NTSC = false;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            menuStrip1.Visible = false;
+#if DEBUG
+            debugBar.Visible = false;
+#endif
+        }
 
         #region NTSC Submenu
         #region NTSC Custom Functions
@@ -727,8 +702,6 @@ namespace MegaMan.Engine
         /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
-            ntscOptionCode(ntscCustom, NtscCustomFromForm());
-
             AutosaveConfig();
         }
 
@@ -739,57 +712,7 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        #region NTSC setting the option (once snes_ntsc_setup_t variable is build)
-        private void NTSC_OptionsOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        private void ntscOptionCode(ToolStripMenuItem menuClicked, snes_ntsc_setup_t snes_ntsc_type, bool setOption = true)
-        {
-            NTSC_OptionsOffBut(menuClicked);
-
-            if (setOption)
-            {
-                screenNTSCSelected();
-                xnaImage.ntscInit(snes_ntsc_type);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NTSC_Option"></param>
-        /// <param name="customParameters"></param>
-        /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(NTSC_Options NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
-        {
-            // Set parameters of Custom options
-            if (NTSC_Option == NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
-            if (NTSC_Option == NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
-            if (NTSC_Option == NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
-            if (NTSC_Option == NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
-        }
-        #endregion
-
         #region Button Click event of NTSC options
-        private void ntscComposite_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
-        }
-
-        private void ntscSVideo_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
-        }
-
-        private void ntscRGB_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
-        }
-
         private void ntscCustom_Click(object sender, EventArgs e)
         {
             customNtscForm.Location = new Point(this.Location.X + (this.Size.Width - customNtscForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - customNtscForm.Size.Height) / 2);
@@ -799,46 +722,6 @@ namespace MegaMan.Engine
         }
         #endregion
         #endregion
-
-        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fullScreenToolStripMenuItem.Checked = !fullScreenToolStripMenuItem.Checked;
-
-            if (fullScreenToolStripMenuItem.Checked)
-            {
-                fullScreenToolStripMenuItem_IsMaximized = (this.WindowState == FormWindowState.Maximized) ? true : false;
-
-                AllScreenResolutionOffBut(fullScreenToolStripMenuItem);
-                xnaImage.NTSC = false;
-                this.TopMost = true;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
-                menuStrip1.Visible = false;
-#if DEBUG
-                debugBar.Visible = false;
-#endif
-            }
-            else
-            {
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-                this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-
-                if (fullScreenToolStripMenuItem_IsMaximized) this.WindowState = FormWindowState.Maximized;
-                else this.WindowState = FormWindowState.Normal;
-
-                menuStrip1.Visible = !hideMenuItem.Checked;
-#if DEBUG
-                debugBar.Visible = true;
-#endif
-
-                // NTSC has special specifications
-                if (previousScreenSizeSelection.Name == screenNTSCMenu.Name)
-                {
-                    screenNTSCMenu_Click(sender, e);
-                }
-            }
-        }
         #endregion
 
         #region Second Section
@@ -1238,8 +1121,8 @@ namespace MegaMan.Engine
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
                 settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
             }
-            ntscOptionSet(
-                settings.Screens.NTSC_Options,
+            
+            xnaImage.ntscInit(
                 new snes_ntsc_setup_t(
                     settings.Screens.NTSC_Custom.Hue,
                     settings.Screens.NTSC_Custom.Saturation,
@@ -1252,9 +1135,7 @@ namespace MegaMan.Engine
                     settings.Screens.NTSC_Custom.Fringing,
                     settings.Screens.NTSC_Custom.Bleed,
                     settings.Screens.NTSC_Custom.Merge_Fields
-                ),
-                false
-                );
+                ));
 
             customNtscForm.Hue = settings.Screens.NTSC_Custom.Hue;
             customNtscForm.Saturation = settings.Screens.NTSC_Custom.Saturation;
@@ -1267,12 +1148,11 @@ namespace MegaMan.Engine
             customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
             customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
 
-            if (!Enum.IsDefined(typeof(Screen), settings.Screens.Size))
+            if (!Enum.IsDefined(typeof(ScreenScale), settings.Screens.Size))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
                 settings.Screens.Size = UserSettings.Default.Screens.Size;
             }
-            screenSizeMenuSelected(settings.Screens.Size);
 
             if (!Enum.IsDefined(typeof(PixellatedOrSmoothed), settings.Screens.Pixellated))
             {
@@ -1324,14 +1204,14 @@ namespace MegaMan.Engine
         }
 
         #region Functions to build datas for saving config
-        private Screen currentSize()
+        private ScreenScale currentSize()
         {
-            if (screen2XMenu.Checked) return Screen.X2;
-            if (screen3XMenu.Checked) return Screen.X3;
-            if (screen4XMenu.Checked) return Screen.X4;
-            if (screenNTSCMenu.Checked) return Screen.NTSC;
+            if (screen2XMenu.Checked) return ScreenScale.X2;
+            if (screen3XMenu.Checked) return ScreenScale.X3;
+            if (screen4XMenu.Checked) return ScreenScale.X4;
+            if (screenNTSCMenu.Checked) return ScreenScale.NTSC;
 
-            return Screen.X1;
+            return ScreenScale.X1;
         }
 
         private NTSC_Options currentNTSC_Option()
@@ -1397,7 +1277,7 @@ namespace MegaMan.Engine
                     Screens = new LastScreen()
                     {
                         Size = currentSize(),
-                        Maximized = WindowState == FormWindowState.Maximized ? true : false,
+                        Maximized = WindowState == FormWindowState.Maximized,
                         NTSC_Options = currentNTSC_Option(),
                         NTSC_Custom = new NTSC_CustomOptions()
                         {

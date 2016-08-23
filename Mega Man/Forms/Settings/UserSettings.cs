@@ -188,7 +188,7 @@ namespace MegaMan.Engine.Forms.Settings
                     Select = Keys.Space
                 },
                 Screens = new LastScreen() {
-                    Size = Screen.X1,
+                    Size = ScreenScale.X1,
                     Maximized = false,
                     HideMenu = false,
                     Pixellated = PixellatedOrSmoothed.Pixellated,
@@ -294,7 +294,7 @@ namespace MegaMan.Engine.Forms.Settings
     [Serializable]
     public class LastScreen
     {
-        public Screen Size { get; set; }
+        public ScreenScale Size { get; set; }
         public bool Maximized { get; set; }
         public NTSC_Options NTSC_Options { get; set; }
         public NTSC_CustomOptions NTSC_Custom { get; set; }

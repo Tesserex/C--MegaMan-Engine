@@ -1,12 +1,13 @@
 ﻿namespace MegaMan.Engine.Forms.Settings
 {
-    public enum Screen
+    public enum ScreenScale
     {
         X1,
         X2,
         X3,
         X4,
-        NTSC
+        NTSC,
+        Fullscreen
     }
 
     public enum NTSC_Options
