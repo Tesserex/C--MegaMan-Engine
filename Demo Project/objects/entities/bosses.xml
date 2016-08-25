@@ -91,7 +91,7 @@
 			<Collision><EnableBox name="Stand" /></Collision>
 			<Movement mode="Repeat"><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
 			<Trigger>
-				<Condition>StateTime >= 20 And PlayerDistX > 80 And GameEntity.NumAlive("BossCrystal") == 0</Condition>
+				<Condition>StateTime >= 20 And playerdistabsx > 80 And GameEntity.NumAlive("BossCrystal") == 0</Condition>
 				<Effect><State>CrystalJump</State></Effect>
 			</Trigger>
 			<Trigger condition="StateTime >= 20 And Random &lt; 0.3">
