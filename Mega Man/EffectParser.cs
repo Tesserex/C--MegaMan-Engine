@@ -221,10 +221,10 @@ namespace MegaMan.Engine
                     var playerPos = player.GetComponent<PositionComponent>();
                     if (playerPos != null)
                     {
-                        pdx = Math.Abs(playerPos.Position.X - pos.Position.X);
-                        pdy = Math.Abs(playerPos.Position.Y - pos.Position.Y);
-                        pdxAbs = playerPos.Position.X - pos.Position.X;
-                        pdyAbs = playerPos.Position.Y - pos.Position.Y;
+                        pdx = playerPos.Position.X - pos.Position.X;
+                        pdy = playerPos.Position.Y - pos.Position.Y;
+                        pdxAbs = Math.Abs(playerPos.Position.X - pos.Position.X);
+                        pdyAbs = Math.Abs(playerPos.Position.Y - pos.Position.Y);
                     }
                 }
 
