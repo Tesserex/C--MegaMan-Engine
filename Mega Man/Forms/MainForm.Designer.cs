@@ -460,14 +460,12 @@
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
             this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
-            this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
             // 
             // smoothedToolStripMenuItem
             // 
             this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
             this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.smoothedToolStripMenuItem.Text = "Smoothed";
-            this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 

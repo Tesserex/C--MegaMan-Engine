@@ -34,5 +34,10 @@ namespace MegaMan.Engine.Forms.MenuControllers
         {
             
         }
+
+        public void SaveSettings(Setting settings)
+        {
+            
+        }
     }
 }

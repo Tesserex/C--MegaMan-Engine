@@ -76,5 +76,14 @@ namespace MegaMan.Engine.Forms.MenuControllers
                     this.controller.Change(this.lastScale);
             }
         }
+
+        public void SaveSettings(Setting settings)
+        {
+            if (settings.Screens == null)
+                settings.Screens = new LastScreen();
+
+            if (this.item.Checked)
+                settings.Screens.Size = ScreenScale.Fullscreen;
+        }
     }
 }

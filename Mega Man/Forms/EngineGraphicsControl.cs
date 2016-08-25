@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using MegaMan.Engine.Forms.Settings;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -203,6 +204,12 @@ namespace MegaMan.Engine
             // default decoder matrix
             decoder_matrix = null;
         }
+
+        public snes_ntsc_setup_t(NTSC_CustomOptions options)
+            : this(options.Hue, options.Saturation, options.Contrast, options.Brightness,
+                  options.Sharpness, options.Gamma, options.Resolution, options.Artifacts,
+                  options.Fringing, options.Bleed, options.Merge_Fields)
+        { }
 
         public snes_ntsc_setup_t snes_ntsc_custom()
         {

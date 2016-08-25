@@ -6,5 +6,6 @@ namespace MegaMan.Engine.Forms.MenuControllers
     {
         void Set(bool value);
         void LoadSettings(Setting settings);
+        void SaveSettings(Setting settings);
     }
 }

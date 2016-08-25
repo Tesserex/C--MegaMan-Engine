@@ -47,5 +47,20 @@ namespace MegaMan.Engine.Forms.MenuControllers
             else if (channel == 4)
                 Engine.Instance.SoundSystem.Noise = value;
         }
+
+        public void SaveSettings(Setting settings)
+        {
+            if (settings.Audio == null)
+                settings.Audio = new LastAudio();
+
+            if (channel == 1)
+                settings.Audio.Square1 = this.menuItem.Checked;
+            else if (channel == 2)
+                settings.Audio.Square2 = this.menuItem.Checked;
+            else if (channel == 3)
+                settings.Audio.Triangle = this.menuItem.Checked;
+            else if (channel == 4)
+                settings.Audio.Noise = this.menuItem.Checked;
+        }
     }
 }

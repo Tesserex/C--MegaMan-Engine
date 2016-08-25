@@ -377,12 +377,14 @@ namespace MegaMan.Engine
             var screen4xControl = new ScreenSizeMenuController(scaleController, screen4XMenu, ScreenScale.X4);
             var fullScreenControl = new FullScreenMenuController(scaleController, fullScreenToolStripMenuItem);
 
-            var compositeControl = new NtscMenuController(scaleController, ntscComposite, snes_ntsc_setup_t.snes_ntsc_composite);
-            var svideoControl = new NtscMenuController(scaleController, ntscSVideo, snes_ntsc_setup_t.snes_ntsc_svideo);
-            var rgbControl = new NtscMenuController(scaleController, ntscRGB, snes_ntsc_setup_t.snes_ntsc_rgb);
+            var compositeControl = new NtscMenuController(scaleController, ntscComposite, NTSC_Options.Composite);
+            var svideoControl = new NtscMenuController(scaleController, ntscSVideo, NTSC_Options.S_Video);
+            var rgbControl = new NtscMenuController(scaleController, ntscRGB, NTSC_Options.RGB);
 
             scaleController.SizeChanged += ScaleChanged;
             scaleController.NtscSet += ScaleController_NtscSet;
+
+            var pixellatedCtrl = new ExclusiveController<PixellatedOrSmoothed>();
 
             this.controllers = new List<IMenuController>() {
                 b, s1, s2, s3, s4, f,
@@ -398,7 +400,9 @@ namespace MegaMan.Engine
                 compositeControl,
                 svideoControl,
                 rgbControl,
-                fullScreenControl
+                fullScreenControl,
+                new PixellatedMenuController(pixellatedToolStripMenuItem, PixellatedOrSmoothed.Pixellated, pixellatedCtrl),
+                new PixellatedMenuController(smoothedToolStripMenuItem, PixellatedOrSmoothed.Smoothed, pixellatedCtrl)
             };
         }
 
@@ -721,46 +725,6 @@ namespace MegaMan.Engine
             customNtscForm.TopMost = false;
         }
         #endregion
-        #endregion
-        #endregion
-
-        #region Second Section
-        #region Pixellated/Smoothed Section
-        private void pixellatedVsSmoothedAllOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            smoothedToolStripMenuItem.Checked = pixellatedToolStripMenuItem.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        /// <summary>
-        /// Function that execute code for Smoothed/Pixellated selection
-        /// </summary>
-        /// <param name="itemToKeepChecked"></param>
-        /// <param name="samplerState"></param>
-        private void pixellatedVsSmoothedCode(PixellatedOrSmoothed index)
-        {
-            if (index == PixellatedOrSmoothed.Pixellated)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
-                pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
-            }
-            else if (index == PixellatedOrSmoothed.Smoothed)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
-                pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
-            }
-        }
-
-        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode(PixellatedOrSmoothed.Smoothed);
-        }
-
-        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode(PixellatedOrSmoothed.Pixellated);
-        }
         #endregion
         #endregion
 
@@ -1122,31 +1086,8 @@ namespace MegaMan.Engine
                 settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
             }
             
-            xnaImage.ntscInit(
-                new snes_ntsc_setup_t(
-                    settings.Screens.NTSC_Custom.Hue,
-                    settings.Screens.NTSC_Custom.Saturation,
-                    settings.Screens.NTSC_Custom.Contrast,
-                    settings.Screens.NTSC_Custom.Brightness,
-                    settings.Screens.NTSC_Custom.Sharpness,
-                    settings.Screens.NTSC_Custom.Gamma,
-                    settings.Screens.NTSC_Custom.Resolution,
-                    settings.Screens.NTSC_Custom.Artifacts,
-                    settings.Screens.NTSC_Custom.Fringing,
-                    settings.Screens.NTSC_Custom.Bleed,
-                    settings.Screens.NTSC_Custom.Merge_Fields
-                ));
-
-            customNtscForm.Hue = settings.Screens.NTSC_Custom.Hue;
-            customNtscForm.Saturation = settings.Screens.NTSC_Custom.Saturation;
-            customNtscForm.Contrast = settings.Screens.NTSC_Custom.Contrast;
-            customNtscForm.Brightness = settings.Screens.NTSC_Custom.Brightness;
-            customNtscForm.Sharpness = settings.Screens.NTSC_Custom.Sharpness;
-            customNtscForm.Gamma = settings.Screens.NTSC_Custom.Gamma;
-            customNtscForm.Resolution = settings.Screens.NTSC_Custom.Resolution;
-            customNtscForm.Artifacts = settings.Screens.NTSC_Custom.Artifacts;
-            customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
-            customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
+            xnaImage.ntscInit(new snes_ntsc_setup_t(settings.Screens.NTSC_Custom));
+            customNtscForm.SetOptions(settings.Screens.NTSC_Custom);
 
             if (!Enum.IsDefined(typeof(ScreenScale), settings.Screens.Size))
             {
@@ -1159,7 +1100,6 @@ namespace MegaMan.Engine
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
                 settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
             }
-            pixellatedVsSmoothedCode(settings.Screens.Pixellated);
 
             hideMenu(settings.Screens.HideMenu);
 
@@ -1203,33 +1143,6 @@ namespace MegaMan.Engine
                 c.LoadSettings(settings);
         }
 
-        #region Functions to build datas for saving config
-        private ScreenScale currentSize()
-        {
-            if (screen2XMenu.Checked) return ScreenScale.X2;
-            if (screen3XMenu.Checked) return ScreenScale.X3;
-            if (screen4XMenu.Checked) return ScreenScale.X4;
-            if (screenNTSCMenu.Checked) return ScreenScale.NTSC;
-
-            return ScreenScale.X1;
-        }
-
-        private NTSC_Options currentNTSC_Option()
-        {
-            if (ntscComposite.Checked) return NTSC_Options.Composite;
-            if (ntscSVideo.Checked) return NTSC_Options.S_Video;
-            if (ntscRGB.Checked) return NTSC_Options.RGB;
-
-            return NTSC_Options.Custom;
-        }
-
-        public PixellatedOrSmoothed currentPixellatedOrSmoothedOption()
-        {
-            if (pixellatedToolStripMenuItem.Checked) return PixellatedOrSmoothed.Pixellated;
-            return PixellatedOrSmoothed.Smoothed;
-        }
-        #endregion
-
         private void SaveGlobalConfigValues(string fileName = null)
         {
             var userSettings = this.settingsService.GetSettings();
@@ -1257,8 +1170,6 @@ namespace MegaMan.Engine
         {
             if (settings == null)
             {
-                // Save current config
-                #region Creation of variable to save
                 settings = new Setting()
                 {
                     GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
@@ -1276,35 +1187,15 @@ namespace MegaMan.Engine
                     },
                     Screens = new LastScreen()
                     {
-                        Size = currentSize(),
                         Maximized = WindowState == FormWindowState.Maximized,
-                        NTSC_Options = currentNTSC_Option(),
-                        NTSC_Custom = new NTSC_CustomOptions()
-                        {
-                            Hue = customNtscForm.Hue,
-                            Saturation = customNtscForm.Saturation,
-                            Brightness = customNtscForm.Brightness,
-                            Contrast = customNtscForm.Contrast,
-                            Sharpness = customNtscForm.Sharpness,
-                            Gamma = customNtscForm.Gamma,
-                            Resolution = customNtscForm.Resolution,
-                            Artifacts = customNtscForm.Artifacts,
-                            Fringing = customNtscForm.Fringing,
-                            Bleed = customNtscForm.Bleed,
-                            Merge_Fields = true
-                        },
-                        Pixellated = currentPixellatedOrSmoothedOption(),
+                        NTSC_Custom = customNtscForm.GetOptions(),
                         HideMenu = hideMenuItem.Checked
                     },
                     Audio = new LastAudio()
                     {
                         Volume = Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
-                        Sound = sfxMenuItem.Checked,
-                        Square1 = sq1MenuItem.Checked,
-                        Square2 = sq2MenuItem.Checked,
-                        Triangle = triMenuItem.Checked,
-                        Noise = noiseMenuItem.Checked
+                        Sound = sfxMenuItem.Checked
                     },
                     Debug = new LastDebug()
                     {
@@ -1315,15 +1206,6 @@ namespace MegaMan.Engine
                         {
                             Invincibility = invincibilityToolStripMenuItem.Checked,
                             NoDamage = noDamageToolStripMenuItem.Checked
-                        },
-                        Layers = new LastLayers()
-                        {
-                            Background = backgroundToolStripMenuItem.Checked,
-                            Sprites1 = sprites1ToolStripMenuItem.Checked,
-                            Sprites2 = sprites2ToolStripMenuItem.Checked,
-                            Sprites3 = sprites3ToolStripMenuItem.Checked,
-                            Sprites4 = sprites4ToolStripMenuItem.Checked,
-                            Foreground = foregroundToolStripMenuItem.Checked
                         }
                     },
                     Miscellaneous = new LastMiscellaneous()
@@ -1332,7 +1214,9 @@ namespace MegaMan.Engine
                         ScreenY_Coordinate = this.Location.Y
                     }
                 };
-                #endregion
+
+                foreach (var c in this.controllers)
+                    c.SaveSettings(settings);
             }
 
             var userSettings = this.settingsService.GetSettings();
@@ -1342,7 +1226,6 @@ namespace MegaMan.Engine
         }
         #endregion
 
-        #region Errors
         private void Engine_Exception(Exception e)
         {
             MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
@@ -1359,7 +1242,6 @@ namespace MegaMan.Engine
         {
             MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
-        #endregion
         #endregion
 
         #region To sort!!!!!!

@@ -39,7 +39,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
             Set(!item.Checked);
         }
 
-        public void LoadSettings(Setting settings)
+        public virtual void LoadSettings(Setting settings)
         {
             Set(settings.Screens.Size == this.scale);
         }
@@ -51,6 +51,15 @@ namespace MegaMan.Engine.Forms.MenuControllers
             {
                 this.controller.Change(this.scale);
             }
+        }
+
+        public virtual void SaveSettings(Setting settings)
+        {
+            if (settings.Screens == null)
+                settings.Screens = new LastScreen();
+
+            if (this.item.Checked)
+                settings.Screens.Size = this.scale;
         }
     }
 }

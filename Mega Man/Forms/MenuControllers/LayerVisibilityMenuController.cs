@@ -43,5 +43,27 @@ namespace MegaMan.Engine.Forms.MenuControllers
             else if (layer == Layers.Foreground)
                 Set(settings.Debug.Layers.Foreground);
         }
+
+        public void SaveSettings(Setting settings)
+        {
+            if (settings.Debug == null)
+                settings.Debug = new LastDebug();
+
+            if (settings.Debug.Layers == null)
+                settings.Debug.Layers = new LastLayers();
+
+            if (layer == Layers.Background)
+                settings.Debug.Layers.Background = Engine.Instance.GetLayerVisibility((int)this.layer);
+            else if (layer == Layers.Sprite1)
+                settings.Debug.Layers.Sprites1 = Engine.Instance.GetLayerVisibility((int)this.layer);
+            else if (layer == Layers.Sprite2)
+                settings.Debug.Layers.Sprites2 = Engine.Instance.GetLayerVisibility((int)this.layer);
+            else if (layer == Layers.Sprite3)
+                settings.Debug.Layers.Sprites3 = Engine.Instance.GetLayerVisibility((int)this.layer);
+            else if (layer == Layers.Sprite4)
+                settings.Debug.Layers.Sprites4 = Engine.Instance.GetLayerVisibility((int)this.layer);
+            else if (layer == Layers.Foreground)
+                settings.Debug.Layers.Foreground = Engine.Instance.GetLayerVisibility((int)this.layer);
+        }
     }
 }
