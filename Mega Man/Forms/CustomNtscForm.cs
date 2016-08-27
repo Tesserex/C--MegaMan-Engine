@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine
 {
@@ -114,7 +115,7 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
-        /// Form isn't close, we just hide it and show it.
+        /// Form isn't closed, we just hide it and show it.
         /// </summary>
         /// <param name="e"></param>
         protected override void OnClosing(CancelEventArgs e)
@@ -212,6 +213,37 @@ namespace MegaMan.Engine
             {
                 apply();
             }
+        }
+
+        public NTSC_CustomOptions GetOptions()
+        {
+            return new NTSC_CustomOptions() {
+                Hue = this.Hue,
+                Saturation = this.Saturation,
+                Brightness = this.Brightness,
+                Contrast = this.Contrast,
+                Sharpness = this.Sharpness,
+                Gamma = this.Gamma,
+                Resolution = this.Resolution,
+                Artifacts = this.Artifacts,
+                Fringing = this.Fringing,
+                Bleed = this.Bleed,
+                Merge_Fields = true
+            };
+        }
+
+        public void SetOptions(NTSC_CustomOptions options)
+        {
+            this.Hue = options.Hue;
+            this.Saturation = options.Saturation;
+            this.Brightness = options.Brightness;
+            this.Contrast = options.Contrast;
+            this.Sharpness = options.Sharpness;
+            this.Gamma = options.Gamma;
+            this.Resolution = options.Resolution;
+            this.Artifacts = options.Artifacts;
+            this.Fringing = options.Fringing;
+            this.Bleed = options.Bleed;
         }
     }
 }

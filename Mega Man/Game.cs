@@ -199,8 +199,23 @@ namespace MegaMan.Engine
             _stateMachine.ProcessHandler(handler);
         }
 
-        #region Debug Menu
+        public static int DebugEntitiesAlive()
+        {
+            if (CurrentGame != null)
+                return CurrentGame._entityPool.GetTotalAlive();
+            else
+                return 0;
+        }
 
+        public static int XmlNumAlive(string name)
+        {
+            if (CurrentGame != null)
+                return CurrentGame._entityPool.GetNumberAlive(name);
+            else
+                return 0;
+        }
+
+#if DEBUG
         public void DebugEmptyHealth()
         {
             _stateMachine.DebugEmptyHealth();
@@ -221,14 +236,6 @@ namespace MegaMan.Engine
             _stateMachine.DebugFillWeapon();
         }
 
-        public static int DebugEntitiesAlive()
-        {
-            if (CurrentGame != null)
-                return CurrentGame._entityPool.GetTotalAlive();
-            else
-                return 0;
-        }
-
         public bool DebugFlipGravity()
         {
             return _stateMachine.DebugFlipGravity();
@@ -238,14 +245,6 @@ namespace MegaMan.Engine
         {
             return _stateMachine.GetFlipGravity();
         }
-
-        public static int XmlNumAlive(string name)
-        {
-            if (CurrentGame != null)
-                return CurrentGame._entityPool.GetNumberAlive(name);
-            else
-                return 0;
-        }
-        #endregion
+#endif
     }
 }

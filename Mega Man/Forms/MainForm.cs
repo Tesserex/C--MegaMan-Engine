@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices; // To use DllImport
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
 using MegaMan.Engine.Forms;
+using MegaMan.Engine.Forms.MenuControllers;
+using MegaMan.Engine.Forms.Settings;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
@@ -17,60 +19,36 @@ namespace MegaMan.Engine
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
-        #region Variables And Constants
-        #region Variables
-        private string settingsPath, currentGame, lastGameWithPath, initialFolder;
-        private int widthZoom, heightZoom, width, height;
-        private bool fullScreenToolStripMenuItem_IsMaximized;
-        
-        private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
-                                                 // altKeyDown is exclusively used to know if it is the menu bar is activated by alt key
-
-        ToolStripMenuItem previousScreenSizeSelection; // Remember previous screen selection to fullscreen option. Then when fullscreen is quitted, it goes back to this option
-
-        public static bool pauseEngine, enginePauseStatus; // enginePauseStatus informs if engine is currently in a pause status. This is used when opening a game: if engine is paused, don't activate engine.
-        #endregion
-
-        #region Constants
-        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
-        private readonly Keyboard keyform = new Keyboard();
-
-        #region Code used by windows messages
         private const int WM_SYSKEYDOWN = 0x104;
         private const int WM_INITMENUPOPUP = 0x0117;
         private const int WM_UNINITMENUPOPUP = 0x0125;
-        #endregion
-        #endregion
-        #endregion
+
+        private List<IMenuController> controllers;
+        private readonly SettingsService settingsService;
+
+        private string lastGameWithPath, initialFolder;
+        private int widthZoom, heightZoom, width, height;
+        private bool wasMaximizedBeforeFullscreen;
+        
+        private bool menu, altKeyDown, gotFocus; // menu is either used when context menu or title bar menu is opened
+
+        private readonly CustomNtscForm customNtscForm = new CustomNtscForm();
+        private readonly Keyboard keyform = new Keyboard();
+        private readonly LoadConfig loadConfigForm = new LoadConfig();
+        private readonly DeleteConfigs deleteConfigsForm = new DeleteConfigs();
+
+        private string CurrentGamePath
+        {
+            get { return Game.CurrentGame != null ? Game.CurrentGame.BasePath : string.Empty; }
+        }
+
+        private string CurrentGameTitle
+        {
+            get { return Game.CurrentGame != null ? Game.CurrentGame.Name : string.Empty; }
+        }
 
         #region Handle Engine pausing
         // Lots of functions used to determine what is happening and set engine activated/deactivated state
-
-        /// <summary>
-        /// Request to start engine on, if form in a state that allows it.
-        /// </summary>
-        static public void startEngineIfFormAllowed()
-        {
-            if (!enginePauseStatus) Engine.Instance.Start();
-        }
-
-        /// <summary>
-        /// Called when form is in a state that sets engine on
-        /// </summary>
-        private void engineStart()
-        {
-            enginePauseStatus = false;
-            Engine.Instance.Start();
-        }
-
-        /// <summary>
-        /// Called when form is in a state that sets engine off
-        /// </summary>
-        private void engineStop()
-        {
-            enginePauseStatus = true;
-            Engine.Instance.Stop();
-        }
 
         /// <summary>
         /// Function which is called by events, checks conditions to know if engine is active/unactive
@@ -79,12 +57,13 @@ namespace MegaMan.Engine
         {
             altKeyDown = false;
 
-            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized) engineStop();
+            if (menu || gotFocus == false || WindowState == FormWindowState.Minimized)
+                Engine.Instance.Stop();
             else
             {
                 if (GetForegroundWindow() == this.Handle)
                 {
-                    engineStart();
+                    Engine.Instance.Start();
                 }
             }
         }
@@ -99,6 +78,9 @@ namespace MegaMan.Engine
                 menu = false;
                 HandleEngineActivation();
             }
+
+            if (WindowState == FormWindowState.Maximized)
+                xnaImage.NTSC = false;
         }
 
         /// <summary>
@@ -145,7 +127,6 @@ namespace MegaMan.Engine
             base.OnMove(e);
 
             menu = false; // Menu is sure to be closed.
-            engineStop();
         }
 
         /// <summary>
@@ -158,7 +139,7 @@ namespace MegaMan.Engine
 
             menu = false;
             gotFocus = true;
-            engineStart();
+            Engine.Instance.Start();
         }
 
         /// <summary>
@@ -173,7 +154,7 @@ namespace MegaMan.Engine
             {
                 menu = false;
                 gotFocus = true;
-                engineStart();
+                Engine.Instance.Start();
             }
         }
 
@@ -225,6 +206,7 @@ namespace MegaMan.Engine
             menu = true;
             HandleEngineActivation();
 
+#if DEBUG
             try
             {
                 gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GetFlipGravity();
@@ -233,6 +215,7 @@ namespace MegaMan.Engine
             {
                 gravityFlipToolStripMenuItem.Checked = false;
             }
+#endif
         }
 
         /// <summary>
@@ -289,15 +272,7 @@ namespace MegaMan.Engine
         /// </remarks>
         private void pauseOff()
         {
-            if (pauseEngineToolStripMenuItem.Checked == true)
-            {
-                pauseEngineToolStripMenuItem.Checked = pauseEngine = false;
-
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
+            pauseEngineToolStripMenuItem.Checked = false;
         }
         #endregion
 
@@ -306,12 +281,22 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
+            this.settingsService = new SettingsService();
+            InitializeControllers();
+
             menu = gotFocus = altKeyDown = false;
             defaultConfigToolStripMenuItem.Checked = true;
-            currentGame = initialFolder= "";
+            initialFolder = "";
             lastGameWithPath = null;
 
-#if !DEBUG
+#if DEBUG
+            
+            this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
+            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
+            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
+            this.emptyWeaponMenuItem.Click += new System.EventHandler(this.emptyWeaponMenuItem_Click);
+            this.fillWeaponMenuIem.Click += new System.EventHandler(this.fillWeaponMenuIem_Click);
+#else
             debugBar.Hide();
             debugBar.Height = 0;
             menuStrip1.Items.Remove(debugToolStripMenuItem);
@@ -327,14 +312,20 @@ namespace MegaMan.Engine
             Engine.Instance.OnException += Engine_Exception;
 
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
+            loadConfigForm.Apply += loadConfigSelectedInLoadConfigForm;
             keyform.FormClosed += (s, e) => AutosaveConfig(null);
         }
 
         protected override void OnLoad(EventArgs e)
         {
+            this.Hide();
+            customNtscForm.StartPosition = FormStartPosition.Manual;
+            keyform.StartPosition = FormStartPosition.Manual;
+            loadConfigForm.StartPosition = FormStartPosition.Manual;
+            deleteConfigsForm.StartPosition = FormStartPosition.Manual;
+
             try
             {
-                string autoLoadGame = GetAutoLoadGame();
                 var args = Environment.GetCommandLineArgs();
 
                 base.OnLoad(e);
@@ -351,8 +342,9 @@ namespace MegaMan.Engine
                     try
                     {
                         LoadGlobalConfigValues();
-                        LoadConfigFromXMLOrDefaultOneIfInvalidXML();
+                        LoadCurrentConfig();
 
+                        string autoLoadGame = settingsService.GetAutoLoadGame();
                         if (autoLoadGame != null)
                         {
                             if (!LoadGame(autoLoadGame, null, true))
@@ -360,6 +352,10 @@ namespace MegaMan.Engine
                                 // Game we try to autoload failed. Now set autoload to when no game is loaded
                                 autoloadToolStripMenuItem.Checked = true;
                                 SaveGlobalConfigValues();
+                            }
+                            else
+                            {
+                                OnGameLoaded();
                             }
                         }
                     }
@@ -373,6 +369,61 @@ namespace MegaMan.Engine
             catch (Exception)
             {
             }
+        }
+
+        private void InitializeControllers()
+        {
+            var b = new LayerVisibilityMenuController(backgroundToolStripMenuItem, Layers.Background);
+            var s1 = new LayerVisibilityMenuController(sprites1ToolStripMenuItem, Layers.Sprite1);
+            var s2 = new LayerVisibilityMenuController(sprites2ToolStripMenuItem, Layers.Sprite2);
+            var s3 = new LayerVisibilityMenuController(sprites3ToolStripMenuItem, Layers.Sprite3);
+            var s4 = new LayerVisibilityMenuController(sprites4ToolStripMenuItem, Layers.Sprite4);
+            var f = new LayerVisibilityMenuController(foregroundToolStripMenuItem, Layers.Foreground);
+
+            var scaleController = new ScreenScaleController();
+            var screen1xControl = new ScreenSizeMenuController(scaleController, screen1XMenu, ScreenScale.X1);
+            var screen2xControl = new ScreenSizeMenuController(scaleController, screen2XMenu, ScreenScale.X2);
+            var screen3xControl = new ScreenSizeMenuController(scaleController, screen3XMenu, ScreenScale.X3);
+            var screen4xControl = new ScreenSizeMenuController(scaleController, screen4XMenu, ScreenScale.X4);
+            var fullScreenControl = new FullScreenMenuController(scaleController, fullScreenToolStripMenuItem);
+
+            var compositeControl = new NtscMenuController(scaleController, ntscComposite, NTSC_Options.Composite);
+            var svideoControl = new NtscMenuController(scaleController, ntscSVideo, NTSC_Options.S_Video);
+            var rgbControl = new NtscMenuController(scaleController, ntscRGB, NTSC_Options.RGB);
+
+            scaleController.SizeChanged += ScaleChanged;
+            scaleController.NtscSet += ScaleController_NtscSet;
+
+            var pixellatedCtrl = new ExclusiveController<PixellatedOrSmoothed>();
+
+            this.controllers = new List<IMenuController>() {
+                b, s1, s2, s3, s4, f,
+                new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f),
+                new AudioMenuController(sq1MenuItem, 1),
+                new AudioMenuController(sq2MenuItem, 2),
+                new AudioMenuController(triMenuItem, 3),
+                new AudioMenuController(noiseMenuItem, 4),
+                screen1xControl,
+                screen2xControl,
+                screen3xControl,
+                screen4xControl,
+                compositeControl,
+                svideoControl,
+                rgbControl,
+                fullScreenControl,
+                new PixellatedMenuController(pixellatedToolStripMenuItem, PixellatedOrSmoothed.Pixellated, pixellatedCtrl),
+                new PixellatedMenuController(smoothedToolStripMenuItem, PixellatedOrSmoothed.Smoothed, pixellatedCtrl)
+            };
+        }
+
+        private void ScaleController_NtscSet(object sender, ScreenScaleNtscEventArgs e)
+        {
+            NtscScreen(e.Setup);
+        }
+
+        private void ScaleChanged(object sender, ScreenScaleChangedEventArgs e)
+        {
+            ScaleScreen(e.Scale);
         }
 
         /// <summary>
@@ -428,16 +479,14 @@ namespace MegaMan.Engine
                 OnGameLoaded();
             }
         }
-
-        #region Close Game
+        
         private void CloseGame()
         {
             if (Game.CurrentGame != null)
             {
                 AutosaveConfig();
-                currentGame = "";
                 lastGameWithPath = null;
-                LoadConfigFromXML();
+                LoadCurrentConfig();
 
                 Game.CurrentGame.Unload();
                 this.xnaImage.Clear();
@@ -451,7 +500,6 @@ namespace MegaMan.Engine
         {
             CloseGame();
         }
-        #endregion
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -470,17 +518,10 @@ namespace MegaMan.Engine
         {
             pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
 
-            pauseEngine = pauseEngineToolStripMenuItem.Checked;
-
-            if (pauseEngine) engineStop();
+            if (pauseEngineToolStripMenuItem.Checked)
+                Engine.Instance.Pause();
             else
-            {
-                engineStart();
-                if (Engine.Instance.SoundSystem.MusicEnabled != musicMenuItem.Checked)
-                {
-                    Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked;
-                }
-            }
+                Engine.Instance.Unpause();
         }
         #endregion
 
@@ -506,18 +547,49 @@ namespace MegaMan.Engine
             AutosaveConfig();
             defaultConfigToolStripMenuItem.Checked = !defaultConfigToolStripMenuItem.Checked;
             SaveGlobalConfigValues();
-            LoadConfigFromXML();
+            LoadCurrentConfig();
 
             SetLayersVisibilityFromSettings();
         }
 
+        private void LoadCurrentConfig()
+        {
+            if (defaultConfigToolStripMenuItem.Checked)
+                LoadConfigFromSetting(this.settingsService.GetConfigForGame(""));
+            else
+                LoadConfigFromSetting(this.settingsService.GetConfigForGame(CurrentGamePath));
+        }
+
+        private void loadConfigSelectedInLoadConfigForm()
+        {
+            LoadConfigFromSetting(loadConfigForm.settingsSelected);
+        }
+
+        private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var userSettingsToPass = this.settingsService.GetSettings();
+
+            loadConfigForm.Location = new Point(this.Location.X + (this.Size.Width - loadConfigForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - loadConfigForm.Size.Height) / 2);
+            loadConfigForm.TopMost = this.TopMost;
+            loadConfigForm.showFormIfNeeded(CurrentGamePath, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
+            loadConfigForm.TopMost = false;
+        }
         private void saveConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveConfig();
         }
-        #endregion
 
-        #region Fourth Section
+        private void deleteConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var userSettingsToPass = this.settingsService.GetSettings();
+
+            deleteConfigsForm.Location = new Point(this.Location.X + (this.Size.Width - deleteConfigsForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - deleteConfigsForm.Size.Height) / 2);
+            deleteConfigsForm.TopMost = this.TopMost;
+            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, this.settingsService.SettingsFilePath, null);
+            deleteConfigsForm.TopMost = false;
+        }
+        #endregion
+        
         /// <summary>
         /// True for a game it autoloads when application starts (if none, this option is checked when no game is loaded)
         /// </summary>
@@ -525,7 +597,7 @@ namespace MegaMan.Engine
         /// <param name="e"></param>
         private void autoloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentGame == "") autoloadToolStripMenuItem.Checked = true;
+            if (CurrentGamePath == "") autoloadToolStripMenuItem.Checked = true;
             else
             {
                 autoloadToolStripMenuItem.Checked = !autoloadToolStripMenuItem.Checked;
@@ -534,315 +606,117 @@ namespace MegaMan.Engine
             SaveGlobalConfigValues();
         }
         #endregion
-        #endregion
-
-        #region Input Menu
+        
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            keyform.Show();
+            keyform.Location = new Point(this.Location.X + (this.Size.Width - keyform.Size.Width) / 2, this.Location.Y + (this.Size.Height - keyform.Size.Height) / 2);
+            keyform.TopMost = this.TopMost;
+            keyform.ShowDialog();
+            keyform.TopMost = false;
         }
-        #endregion
 
         #region Screen Menu
         #region First Section
-        /// <summary>
-        /// 1X, 2X, 3X, 4X and NTSC are considered resolutions
-        /// </summary>
-        /// <param name="itemToKeepChecked"></param>
-        private void AllScreenResolutionOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            fullScreenToolStripMenuItem.Checked = screenNTSCMenu.Checked = false;
-            screen1XMenu.Checked = screen2XMenu.Checked = screen3XMenu.Checked = screen4XMenu.Checked = false;
 
-            itemToKeepChecked.Checked = true;
-        }
-        #region Size Selection
-        private void ScreenSizeMultiple()
+        public void ScaleScreen(ScreenScale scale)
         {
-            WindowState = FormWindowState.Normal;
+            if (scale == ScreenScale.Fullscreen)
+                SetFullscreen();
+            else
+                UnsetFullscreen();
+
+            if (scale == ScreenScale.X1)
+            {
+                widthZoom = heightZoom = 1;
+            }
+            else if (scale == ScreenScale.X2)
+            {
+                widthZoom = heightZoom = 2;
+            }
+            else if (scale == ScreenScale.X3)
+            {
+                widthZoom = heightZoom = 3;
+            }
+            else if (scale == ScreenScale.X4)
+            {
+                widthZoom = heightZoom = 4;
+            }
+
             if (Game.CurrentGame == null)
             {
                 DefaultScreen();
+                xnaImage.NTSC = false;
+            }
+            else if (scale == ScreenScale.NTSC)
+            {
+                NtscScreen();
             }
             else
             {
                 ResizeScreen();
-            }
-
-            xnaImage.NTSC = false;
+                xnaImage.NTSC = false;
+            }            
         }
 
-        /// <summary>
-        /// Screen option X1, X2, X3, X4, they use mostly similar code.
-        /// </summary>
-        /// <param name="index"></param>
-        private void screenSizeMenuSelected(UserSettingsEnums.Screen index)
+        private void NtscScreen(snes_ntsc_setup_t setup = null)
         {
-            UserSettingsEnums.NTSC_Options ntscOption = UserSettingsEnums.NTSC_Options.None;
-            snes_ntsc_setup_t ntscOptionParameters = null;
-
-            if (index == UserSettingsEnums.Screen.NTSC)
-            {
-                #region NTSC
-                if (ntscComposite.Checked)
-                {
-                    ntscOption = UserSettingsEnums.NTSC_Options.Composite;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_composite;
-                }
-                else if (ntscSVideo.Checked)
-                {
-                    ntscOption = UserSettingsEnums.NTSC_Options.S_Video;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_svideo;
-                }
-                else if (ntscRGB.Checked)
-                {
-                    ntscOption = UserSettingsEnums.NTSC_Options.RGB;
-                    ntscOptionParameters = snes_ntsc_setup_t.snes_ntsc_rgb;
-                }
-                else // (ntscCustom.Checked)
-                {
-                    ntscOption = UserSettingsEnums.NTSC_Options.Custom;
-                    ntscOptionParameters = NtscCustomFromForm();
-                }
-
-                if (ntscOption == UserSettingsEnums.NTSC_Options.None || ntscOptionParameters == null)
-                {
-                    // This case is a programming error, alert!
-                    // If NTSC is selected, 3 parameters must be sent to current function.
-                    Programming_Error_No_Shutdown("screenSizeMenuSelected called, NTSC selected, 3 parameters should be sent. ntscOption was " + ntscOption.ToString() + " ntscOptionParameters was " + ntscOptionParameters + ".");
-                    return;
-                }
-
-                ntscOptionSet(ntscOption, ntscOptionParameters);
-                #endregion
-            }
-            if (index == UserSettingsEnums.Screen.X1)
-            {
-                previousScreenSizeSelection = screen1XMenu;
-                widthZoom = heightZoom = 1;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == UserSettingsEnums.Screen.X2)
-            {
-                previousScreenSizeSelection = screen2XMenu;
-                widthZoom = heightZoom = 2;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == UserSettingsEnums.Screen.X3)
-            {
-                previousScreenSizeSelection = screen3XMenu;
-                widthZoom = heightZoom = 3;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-            if (index == UserSettingsEnums.Screen.X4)
-            {
-                previousScreenSizeSelection = screen4XMenu;
-                widthZoom = heightZoom = 4;
-                ScreenSizeMultiple();
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-            }
-        }
-
-        private void screen1XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X1);
-        }
-
-        private void screen2XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X2);
-        }
-
-        private void screen3XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X3);
-        }
-
-        private void screen4XMenu_Click(object sender, EventArgs e)
-        {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.X4);
-        }
-
-        #region NTSC Menu Clicked
-        private void screenNTSCSelected()
-        {
-            previousScreenSizeSelection = screenNTSCMenu;
-
             if (width != 256 || height != 224) return;
+
+            UnsetFullscreen();
+            this.WindowState = FormWindowState.Normal;
 
             widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
+            
+            if (setup != null)            
+                xnaImage.ntscInit(setup);
 
-            AllScreenResolutionOffBut(screenNTSCMenu);
             xnaImage.NTSC = true;
         }
 
-        private void screenNTSCMenu_Click(object sender, EventArgs e)
+        private void UnsetFullscreen()
         {
-            screenSizeMenuSelected(UserSettingsEnums.Screen.NTSC);
+            this.TopMost = false;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+
+            if (wasMaximizedBeforeFullscreen) this.WindowState = FormWindowState.Maximized;
+            else this.WindowState = FormWindowState.Normal;
+
+            menuStrip1.Visible = !hideMenuItem.Checked;
+#if DEBUG
+            debugBar.Visible = true;
+#endif
         }
-        #endregion
-        #endregion
+
+        private void SetFullscreen()
+        {
+            wasMaximizedBeforeFullscreen = (this.WindowState == FormWindowState.Maximized);
+
+            xnaImage.NTSC = false;
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            menuStrip1.Visible = false;
+#if DEBUG
+            debugBar.Visible = false;
+#endif
+        }
 
         #region NTSC Submenu
-        #region NTSC Custom Functions
-        /// <summary>
-        /// Functions that prepares snes_ntsc_setup_t parameter and make function call to apply changes
-        /// Build a snes_ntsc_setup_t item from form parameters
-        /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
-            ntscOptionCode(ntscCustom, NtscCustomFromForm());
-
             AutosaveConfig();
         }
 
-        private snes_ntsc_setup_t NtscCustomFromForm()
-        {
-            return new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
-                            customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true);
-        }
-        #endregion
-
-        #region NTSC setting the option (once snes_ntsc_setup_t variable is build)
-        private void NTSC_OptionsOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            ntscComposite.Checked = ntscSVideo.Checked = ntscRGB.Checked = ntscCustom.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        private void ntscOptionCode(ToolStripMenuItem menuClicked, snes_ntsc_setup_t snes_ntsc_type, bool setOption = true)
-        {
-            NTSC_OptionsOffBut(menuClicked);
-
-            if (setOption)
-            {
-                screenNTSCSelected();
-                xnaImage.ntscInit(snes_ntsc_type);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NTSC_Option"></param>
-        /// <param name="customParameters"></param>
-        /// <param name="setOption">If not set, we only check the option</param>
-        private void ntscOptionSet(UserSettingsEnums.NTSC_Options NTSC_Option, snes_ntsc_setup_t ntscOption, bool setOption = true)
-        {
-            // Set parameters of Custom options
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Composite) ntscOptionCode(ntscComposite, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.S_Video) ntscOptionCode(ntscSVideo, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.RGB) ntscOptionCode(ntscRGB, ntscOption, setOption);
-            if (NTSC_Option == UserSettingsEnums.NTSC_Options.Custom) ntscOptionCode(ntscCustom, ntscOption, setOption);
-        }
-        #endregion
-
         #region Button Click event of NTSC options
-        private void ntscComposite_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.Composite, snes_ntsc_setup_t.snes_ntsc_composite);
-        }
-
-        private void ntscSVideo_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.S_Video, snes_ntsc_setup_t.snes_ntsc_svideo);
-        }
-
-        private void ntscRGB_Click(object sender, EventArgs e)
-        {
-            ntscOptionSet(UserSettingsEnums.NTSC_Options.RGB, snes_ntsc_setup_t.snes_ntsc_rgb);
-        }
-
         private void ntscCustom_Click(object sender, EventArgs e)
         {
-            customNtscForm.Show();
+            customNtscForm.Location = new Point(this.Location.X + (this.Size.Width - customNtscForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - customNtscForm.Size.Height) / 2);
+            customNtscForm.TopMost = this.TopMost;
+            customNtscForm.ShowDialog();
+            customNtscForm.TopMost = false;
         }
         #endregion
-        #endregion
-
-        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fullScreenToolStripMenuItem.Checked = !fullScreenToolStripMenuItem.Checked;
-
-            if (fullScreenToolStripMenuItem.Checked)
-            {
-                fullScreenToolStripMenuItem_IsMaximized = (this.WindowState == FormWindowState.Maximized) ? true : false;
-
-                AllScreenResolutionOffBut(fullScreenToolStripMenuItem);
-                xnaImage.NTSC = false;
-                this.TopMost = true;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
-                menuStrip1.Visible = false;
-#if DEBUG
-                debugBar.Visible = false;
-#endif
-            }
-            else
-            {
-                AllScreenResolutionOffBut(previousScreenSizeSelection);
-                this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-
-                if (fullScreenToolStripMenuItem_IsMaximized) this.WindowState = FormWindowState.Maximized;
-                else this.WindowState = FormWindowState.Normal;
-
-                menuStrip1.Visible = !hideMenuItem.Checked;
-#if DEBUG
-                debugBar.Visible = true;
-#endif
-
-                // NTSC has special specifications
-                if (previousScreenSizeSelection.Name == screenNTSCMenu.Name)
-                {
-                    screenNTSCMenu_Click(sender, e);
-                }
-            }
-        }
-        #endregion
-
-        #region Second Section
-        #region Pixellated/Smoothed Section
-        private void pixellatedVsSmoothedAllOffBut(ToolStripMenuItem itemToKeepChecked)
-        {
-            smoothedToolStripMenuItem.Checked = pixellatedToolStripMenuItem.Checked = false;
-
-            itemToKeepChecked.Checked = true;
-        }
-
-        /// <summary>
-        /// Function that execute code for Smoothed/Pixellated selection
-        /// </summary>
-        /// <param name="itemToKeepChecked"></param>
-        /// <param name="samplerState"></param>
-        private void pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed index)
-        {
-            if (index == UserSettingsEnums.PixellatedOrSmoothed.Pixellated)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
-                pixellatedVsSmoothedAllOffBut(pixellatedToolStripMenuItem);
-            }
-            else if (index == UserSettingsEnums.PixellatedOrSmoothed.Smoothed)
-            {
-                Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
-                pixellatedVsSmoothedAllOffBut(smoothedToolStripMenuItem);
-            }
-        }
-
-        private void smoothedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Smoothed);
-        }
-
-        private void pixellatedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pixellatedVsSmoothedCode(UserSettingsEnums.PixellatedOrSmoothed.Pixellated);
-        }
         #endregion
         #endregion
 
@@ -896,7 +770,8 @@ namespace MegaMan.Engine
         #region First Section
         private void setMusic(bool value)
         {
-            if (!pauseEngine) Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
+            if (Engine.Instance.IsRunning)
+                Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
         }
 
         private void musicMenuItem_Click(object sender, EventArgs e)
@@ -906,54 +781,12 @@ namespace MegaMan.Engine
 
         private void setSFX(bool value)
         {
-            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value; ;
+            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value;
         }
 
         private void sfxMenuItem_Click(object sender, EventArgs e)
         {
             setSFX(!sfxMenuItem.Checked);
-        }
-        #endregion
-
-        #region Second Section
-        private void setSq1(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareOne = sq1MenuItem.Checked = value;
-        }
-
-        private void sq1MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq1(!sq1MenuItem.Checked);
-        }
-
-        private void setSq2(bool value)
-        {
-            Engine.Instance.SoundSystem.SquareTwo = sq2MenuItem.Checked = value;
-        }
-
-        private void sq2MenuItem_Click(object sender, EventArgs e)
-        {
-            setSq2(!sq2MenuItem.Checked);
-        }
-
-        private void setTri(bool value)
-        {
-            Engine.Instance.SoundSystem.Triangle = triMenuItem.Checked = value;
-        }
-
-        private void triMenuItem_Click(object sender, EventArgs e)
-        {
-            setTri(!triMenuItem.Checked);
-        }
-
-        private void setNoise(bool value)
-        {
-            Engine.Instance.SoundSystem.Noise = noiseMenuItem.Checked = value;
-        }
-
-        private void noiseMenuItem_Click(object sender, EventArgs e)
-        {
-            setNoise(!noiseMenuItem.Checked);
         }
         #endregion
         
@@ -1025,6 +858,7 @@ namespace MegaMan.Engine
             setInvincibility(!invincibilityToolStripMenuItem.Checked);
         }
 
+#if DEBUG
         private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame == null) return;
@@ -1067,95 +901,16 @@ namespace MegaMan.Engine
                 Game.CurrentGame.DebugFillWeapon();
             }
         }
+#endif
         #endregion
 
-        #region Layer Submenu
-        private void setLayerVisibility(Int16 index, bool value)
-        {
-            if (index == (Int16)UserSettingsEnums.Layers.Background)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                backgroundToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite1)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites1ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite2)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites2ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite3)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites3ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Sprite4)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                sprites4ToolStripMenuItem.Checked = value;
-            }
-            else if (index == (Int16)UserSettingsEnums.Layers.Foreground)
-            {
-                Engine.Instance.SetLayerVisibility(index, value);
-                foregroundToolStripMenuItem.Checked = value;
-            }
-        }
-
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, !backgroundToolStripMenuItem.Checked);
-        }
-
-        private void sprites1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, !sprites1ToolStripMenuItem.Checked);
-        }
-
-        private void sprites2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, !sprites2ToolStripMenuItem.Checked);
-        }
-
-        private void sprites3ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, !sprites3ToolStripMenuItem.Checked);
-        }
-
-        private void sprites4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, !sprites4ToolStripMenuItem.Checked);
-        }
-
-        private void foregroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, !foregroundToolStripMenuItem.Checked);
-        }
-
-        private void activateAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!backgroundToolStripMenuItem.Checked) backgroundToolStripMenuItem_Click(sender, e);
-            if (!sprites1ToolStripMenuItem.Checked) sprites1ToolStripMenuItem_Click(sender, e);
-            if (!sprites2ToolStripMenuItem.Checked) sprites2ToolStripMenuItem_Click(sender, e);
-            if (!sprites3ToolStripMenuItem.Checked) sprites3ToolStripMenuItem_Click(sender, e);
-            if (!sprites4ToolStripMenuItem.Checked) sprites4ToolStripMenuItem_Click(sender, e);
-            if (!foregroundToolStripMenuItem.Checked) foregroundToolStripMenuItem_Click(sender, e);
-        }
-        #endregion
         #endregion
 
         #region Third Section
-
-        #region Framerate Setting
+        
         private void SetFrameRate(int framerate)
         {
             Engine.Instance.FPS = framerate;
-
-            if (Engine.Instance.FPS < Constants.EngineProperties.FramerateMin) Engine.Instance.FPS = Constants.EngineProperties.FramerateMin;
-            if (Engine.Instance.FPS > Constants.EngineProperties.FramerateMax) Engine.Instance.FPS = Constants.EngineProperties.FramerateMax;
-
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
 
@@ -1173,7 +928,6 @@ namespace MegaMan.Engine
         {
             SetFrameRate(UserSettings.Default.Debug.Framerate);
         }
-        #endregion
 
         #endregion
         #endregion
@@ -1190,8 +944,7 @@ namespace MegaMan.Engine
                 Text = Game.CurrentGame.Name;
 
                 lastGameWithPath = path;
-                currentGame = Path.GetFileName(path);
-                LoadConfigFromXML();
+                LoadCurrentConfig();
 
                 OnGameLoadedChanged();
 
@@ -1265,42 +1018,6 @@ namespace MegaMan.Engine
         }
 
         #region Configs Functions
-        /// <summary>
-        /// Returns UserSettings build from XML.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns>
-        /// OK: 
-        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
-        /// Error: 
-        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
-        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
-        /// </returns>
-        Int16 GetUserSettingsFromXML(ref UserSettings var, string fileName = null)
-        {
-            try
-            {
-                if (fileName == null) fileName = Constants.Paths.SettingFile;
-
-                settingsPath = Path.Combine(Application.StartupPath, fileName);
-                if (File.Exists(settingsPath))
-                {
-                    var serializer = new XmlSerializer(typeof(UserSettings));
-                    using (var file = File.Open(settingsPath, FileMode.Open))
-                    {
-                        var = (UserSettings)serializer.Deserialize(file);
-                    }
-                }
-                else return Constants.Errors.GetUserSettingsFromXML_FileNotFound;
-            }
-            catch (Exception)
-            {
-                var = null;
-                return Constants.Errors.GetUserSettingsFromXML_CannotDeserialize;
-            }
-
-            return Constants.Errors.GetUserSettingsFromXML_NoError;
-        }
 
         /// <summary>
         /// This is kind of a bad patch but found no better way to do it.
@@ -1314,61 +1031,32 @@ namespace MegaMan.Engine
         {
             bool running = Engine.Instance.IsRunning;
 
-            this.Location = new System.Drawing.Point(X, Y);
+            if (X < 0 || Y < 0)
+            {
+                this.CenterToScreen();
+            }
+            else this.Location = new System.Drawing.Point(X, Y);
 
             if (running) OnResizeCode();
         }
 
-        private Setting GetDefaultConfig()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>Does no valiation, if crashes just doesn't set param</remarks>
+        private void LoadGlobalConfigValues()
         {
-            Setting settings = new Setting();
+            try
+            {
+                var userSettings = this.settingsService.GetSettings();
 
-            settings.GameFileName = "";
-
-            #region Input Menu: Keys
-            settings.Keys.Up = UserSettings.Default.Keys.Up;
-            settings.Keys.Down = UserSettings.Default.Keys.Down;
-            settings.Keys.Left = UserSettings.Default.Keys.Left;
-            settings.Keys.Right = UserSettings.Default.Keys.Right;
-            settings.Keys.Jump = UserSettings.Default.Keys.Jump;
-            settings.Keys.Shoot = UserSettings.Default.Keys.Shoot;
-            settings.Keys.Start = UserSettings.Default.Keys.Start;
-            settings.Keys.Select = UserSettings.Default.Keys.Select;
-            #endregion
-
-            #region Screen Menu
-            settings.Screens.Size = UserSettings.Default.Screens.Size;
-            settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
-            settings.Screens.Maximized = UserSettings.Default.Screens.Maximized;
-            settings.Screens.NTSC_Custom = UserSettings.Default.Screens.NTSC_Custom;
-            settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
-            settings.Screens.HideMenu = UserSettings.Default.Screens.HideMenu;
-            #endregion
-
-            #region Audio Menu
-            settings.Audio.Volume = UserSettings.Default.Audio.Volume;
-            settings.Audio.Musics = UserSettings.Default.Audio.Musics;
-            settings.Audio.Sound = UserSettings.Default.Audio.Sound;
-            settings.Audio.Square1 = UserSettings.Default.Audio.Square1;
-            settings.Audio.Square2 = UserSettings.Default.Audio.Square2;
-            settings.Audio.Triangle = UserSettings.Default.Audio.Triangle;
-            settings.Audio.Noise = UserSettings.Default.Audio.Noise;
-            #endregion
-
-            #region Debug Menu
-            settings.Debug.ShowMenu = UserSettings.Default.Debug.ShowMenu;
-            settings.Debug.ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
-            settings.Debug.Framerate = UserSettings.Default.Debug.Framerate;
-            settings.Debug.Cheat = UserSettings.Default.Debug.Cheat;
-            settings.Debug.Layers = UserSettings.Default.Debug.Layers;
-            #endregion
-
-            #region Miscellaneous
-            settings.Miscellaneous.ScreenX_Coordinate = UserSettings.Default.Miscellaneous.ScreenX_Coordinate;
-            settings.Miscellaneous.ScreenY_Coordinate = UserSettings.Default.Miscellaneous.ScreenY_Coordinate;
-            #endregion
-
-            return settings;
+                autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
+                defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
+                autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
+                initialFolder = userSettings.InitialFolder;
+            }
+            catch (Exception) { }
         }
 
         private void LoadConfigFromSetting(Setting settings)
@@ -1386,53 +1074,26 @@ namespace MegaMan.Engine
 
             #region Screen Menu
             // NTSC option is set before. So if menu selected is NTSC, options are set.
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.NTSC_Options), settings.Screens.NTSC_Options))
+            if (!Enum.IsDefined(typeof(NTSC_Options), settings.Screens.NTSC_Options))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.NTSC_Option);
                 settings.Screens.NTSC_Options = UserSettings.Default.Screens.NTSC_Options;
             }
-            ntscOptionSet(
-                settings.Screens.NTSC_Options,
-                new snes_ntsc_setup_t(
-                    settings.Screens.NTSC_Custom.Hue,
-                    settings.Screens.NTSC_Custom.Saturation,
-                    settings.Screens.NTSC_Custom.Contrast,
-                    settings.Screens.NTSC_Custom.Brightness,
-                    settings.Screens.NTSC_Custom.Sharpness,
-                    settings.Screens.NTSC_Custom.Gamma,
-                    settings.Screens.NTSC_Custom.Resolution,
-                    settings.Screens.NTSC_Custom.Artifacts,
-                    settings.Screens.NTSC_Custom.Fringing,
-                    settings.Screens.NTSC_Custom.Bleed,
-                    settings.Screens.NTSC_Custom.Merge_Fields
-                ),
-                false
-                );
+            
+            xnaImage.ntscInit(new snes_ntsc_setup_t(settings.Screens.NTSC_Custom));
+            customNtscForm.SetOptions(settings.Screens.NTSC_Custom);
 
-            customNtscForm.Hue = settings.Screens.NTSC_Custom.Hue;
-            customNtscForm.Saturation = settings.Screens.NTSC_Custom.Saturation;
-            customNtscForm.Contrast = settings.Screens.NTSC_Custom.Contrast;
-            customNtscForm.Brightness = settings.Screens.NTSC_Custom.Brightness;
-            customNtscForm.Sharpness = settings.Screens.NTSC_Custom.Sharpness;
-            customNtscForm.Gamma = settings.Screens.NTSC_Custom.Gamma;
-            customNtscForm.Resolution = settings.Screens.NTSC_Custom.Resolution;
-            customNtscForm.Artifacts = settings.Screens.NTSC_Custom.Artifacts;
-            customNtscForm.Fringing = settings.Screens.NTSC_Custom.Fringing;
-            customNtscForm.Bleed = settings.Screens.NTSC_Custom.Bleed;
-
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.Screen), settings.Screens.Size))
+            if (!Enum.IsDefined(typeof(ScreenScale), settings.Screens.Size))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.Size);
                 settings.Screens.Size = UserSettings.Default.Screens.Size;
             }
-            screenSizeMenuSelected(settings.Screens.Size);
 
-            if (!Enum.IsDefined(typeof(UserSettingsEnums.PixellatedOrSmoothed), settings.Screens.Pixellated))
+            if (!Enum.IsDefined(typeof(PixellatedOrSmoothed), settings.Screens.Pixellated))
             {
                 WrongConfigAlert(ConfigFileInvalidValuesMessages.PixellatedOrSmoothed);
                 settings.Screens.Pixellated = UserSettings.Default.Screens.Pixellated;
             }
-            pixellatedVsSmoothedCode(settings.Screens.Pixellated);
 
             hideMenu(settings.Screens.HideMenu);
 
@@ -1443,10 +1104,6 @@ namespace MegaMan.Engine
             SetVolume(settings.Audio.Volume);
             setMusic(settings.Audio.Musics);
             setSFX(settings.Audio.Sound);
-            setSq1(settings.Audio.Square1);
-            setSq2(settings.Audio.Square2);
-            setTri(settings.Audio.Triangle);
-            setNoise(settings.Audio.Noise);
             #endregion
 
             #region Debug Menu
@@ -1470,188 +1127,26 @@ namespace MegaMan.Engine
             #endregion
 #endif
 
-            #region Layers
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Background, settings.Debug.Layers.Background);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite1, settings.Debug.Layers.Sprites1);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite2, settings.Debug.Layers.Sprites2);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite3, settings.Debug.Layers.Sprites3);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Sprite4, settings.Debug.Layers.Sprites4);
-            setLayerVisibility((Int16)UserSettingsEnums.Layers.Foreground, settings.Debug.Layers.Foreground);
-            #endregion
             #endregion
 
-            #region Miscellaneou
+            #region Miscellaneous
             ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
             #endregion
-        }
 
-        private string GetAutoLoadGame(string XML_fileName = null)
-        {
-            UserSettings userSettings = null;
-
-            try
-            {
-                GetUserSettingsFromXML(ref userSettings, XML_fileName);
-
-                return userSettings.Autoload;
-            }
-            catch (Exception) { }
-            return null;
-        }
-        
-        /// <summary>
-         /// 
-         /// </summary>
-         /// <param name="XML_fileName"></param>
-         /// <returns></returns>
-         /// <remarks>Does no valiation, if crashes just doesn't set param</remarks>
-        private void LoadGlobalConfigValues(string XML_fileName = null)
-        {
-            UserSettings userSettings = null;
-
-            try
-            {
-                GetUserSettingsFromXML(ref userSettings, XML_fileName);
-
-                autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
-                defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
-                autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
-                initialFolder = userSettings.InitialFolder;
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="XML_fileName"></param>
-        /// <returns>
-        /// OK: 
-        ///  - Constants.Errors.GetUserSettingsFromXML_NoError
-        /// Error: 
-        /// - Constants.Errors.GetUserSettingsFromXML_FileNotFound
-        /// - Constants.Errors.GetUserSettingsFromXML_CannotDeserialize
-        /// - Constants.Errors.LoadConfigFromXML_NoContentReadFromXML
-        /// - Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML
-        /// </returns>
-        private Int16 LoadConfigFromXML(string XML_fileName = null)
-        {
-            UserSettings settingsArray = null;
-            Setting settings = null;
-
-            Int16 errorCode = GetUserSettingsFromXML(ref settingsArray, XML_fileName);
-
-            if (errorCode != Constants.Errors.LoadConfigFromXML_NoError) return errorCode;
-
-            if (settingsArray == null) return Constants.Errors.LoadConfigFromXML_NoContentReadFromXML;
-
-            if (defaultConfigToolStripMenuItem.Checked) settings = settingsArray.GetSettingsForGame();
-            else settings = settingsArray.GetSettingsForGame(currentGame);
-
-            if (settings == null) return Constants.Errors.LoadConfigFromXML_NoDefaultValueInXML;
-            
-            // Here, there is a config. If a value is not valid, a default one is loaded instead
-            // It displays messages in such case but always complete well
-            LoadConfigFromSetting(settings);
-
-            return Constants.Errors.LoadConfigFromXML_NoError;
-        }
-
-        private Int16 LoadConfigFromXMLOrDefaultOneIfInvalidXML(string XML_fileName = null)
-        {
-            Int16 errorCode = LoadConfigFromXML(XML_fileName);
-            string newFileName = null, currentFileWithPath;
-            Setting settings = null;
-
-            if (XML_fileName == null) XML_fileName = Constants.Paths.SettingFile;
-            currentFileWithPath = Path.Combine(Application.StartupPath, XML_fileName);
-
-            if (errorCode == 0) return 0;
-
-            #region Error when loading config from XML
-
-            // If file is not readable, rename it to create a new one.
-            if (errorCode == Constants.Errors.LoadConfigFromXML_CannotDeserialize)
-            {
-                WrongConfigAlert(ConfigFileInvalidValuesMessages.CannotDeserializeXML);
-
-                // Will rename file to create a new one. So user can check it if he wants
-                newFileName = "Bad_" + DateTime.Now.Day.ToString("00") + "_" + DateTime.Now.Month.ToString("00") + "_" + DateTime.Now.Year.ToString("0000") + "_" + DateTime.Now.Hour.ToString("00") + "_" + DateTime.Now.Minute.ToString("00") + "_" + DateTime.Now.Second.ToString("00") + ".xml";
-
-                newFileName = Path.Combine(Application.StartupPath, newFileName);
-
-                File.Move(currentFileWithPath, newFileName);
-            }
-
-            // If here, it was not possible to load a config from XML. Load a default one
-            settings = GetDefaultConfig();
-            LoadConfigFromSetting(settings);
-
-            // Save the default config we just loaded
-            SaveConfig(XML_fileName, settings);
-
-            return 0;
-            #endregion
-        }
-
-        #region Functions to build datas for saving config
-        private UserSettingsEnums.Screen currentSize()
-        {
-            if (screen2XMenu.Checked) return UserSettingsEnums.Screen.X2;
-            if (screen3XMenu.Checked) return UserSettingsEnums.Screen.X3;
-            if (screen4XMenu.Checked) return UserSettingsEnums.Screen.X4;
-            if (screenNTSCMenu.Checked) return UserSettingsEnums.Screen.NTSC;
-
-            return UserSettingsEnums.Screen.X1;
-        }
-
-        private UserSettingsEnums.NTSC_Options currentNTSC_Option()
-        {
-            if (ntscComposite.Checked) return UserSettingsEnums.NTSC_Options.Composite;
-            if (ntscSVideo.Checked) return UserSettingsEnums.NTSC_Options.S_Video;
-            if (ntscRGB.Checked) return UserSettingsEnums.NTSC_Options.RGB;
-
-            return UserSettingsEnums.NTSC_Options.Custom;
-        }
-
-        public UserSettingsEnums.PixellatedOrSmoothed currentPixellatedOrSmoothedOption()
-        {
-            if (pixellatedToolStripMenuItem.Checked) return UserSettingsEnums.PixellatedOrSmoothed.Pixellated;
-            return UserSettingsEnums.PixellatedOrSmoothed.Smoothed;
-        }
-        #endregion
-
-        private void SaveToConfigXML(UserSettings userSettings, string fileName = null)
-        {
-            if (fileName == null) fileName = Constants.Paths.SettingFile;
-
-            var serializer = new XmlSerializer(typeof(UserSettings));
-            
-            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
-            {
-                Indentation = 1,
-                IndentChar = '\t',
-                Formatting = Formatting.Indented
-            };
-
-            serializer.Serialize(writer, userSettings);
-
-            writer.Close();
+            foreach (var c in this.controllers)
+                c.LoadSettings(settings);
         }
 
         private void SaveGlobalConfigValues(string fileName = null)
         {
-            UserSettings userSettings = null;
-
-            // This functions updates settingsPath
-            GetUserSettingsFromXML(ref userSettings);
+            var userSettings = this.settingsService.GetSettings();
 
             userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
             userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
-            userSettings.Autoload = autoloadToolStripMenuItem.Checked == true ? lastGameWithPath : null;
+            userSettings.Autoload = autoloadToolStripMenuItem.Checked ? lastGameWithPath : null;
             userSettings.InitialFolder = initialFolder;
 
-            SaveToConfigXML(userSettings, fileName);
+            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
         }
 
         private void AutosaveConfig(string fileName = null)
@@ -1669,11 +1164,10 @@ namespace MegaMan.Engine
         {
             if (settings == null)
             {
-                // Save current config
-                #region Creation of variable to save
                 settings = new Setting()
                 {
-                    GameFileName = defaultConfigToolStripMenuItem.Checked == true ? "" : currentGame,
+                    GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
+                    GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
                     Keys = new UserKeys()
                     {
                         Up = GameInputKeys.Up,
@@ -1687,35 +1181,15 @@ namespace MegaMan.Engine
                     },
                     Screens = new LastScreen()
                     {
-                        Size = currentSize(),
-                        Maximized = WindowState == FormWindowState.Maximized ? true : false,
-                        NTSC_Options = currentNTSC_Option(),
-                        NTSC_Custom = new NTSC_CustomOptions()
-                        {
-                            Hue = customNtscForm.Hue,
-                            Saturation = customNtscForm.Saturation,
-                            Brightness = customNtscForm.Brightness,
-                            Contrast = customNtscForm.Contrast,
-                            Sharpness = customNtscForm.Sharpness,
-                            Gamma = customNtscForm.Gamma,
-                            Resolution = customNtscForm.Resolution,
-                            Artifacts = customNtscForm.Artifacts,
-                            Fringing = customNtscForm.Fringing,
-                            Bleed = customNtscForm.Bleed,
-                            Merge_Fields = true
-                        },
-                        Pixellated = currentPixellatedOrSmoothedOption(),
+                        Maximized = WindowState == FormWindowState.Maximized,
+                        NTSC_Custom = customNtscForm.GetOptions(),
                         HideMenu = hideMenuItem.Checked
                     },
                     Audio = new LastAudio()
                     {
                         Volume = Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
-                        Sound = sfxMenuItem.Checked,
-                        Square1 = sq1MenuItem.Checked,
-                        Square2 = sq2MenuItem.Checked,
-                        Triangle = triMenuItem.Checked,
-                        Noise = noiseMenuItem.Checked
+                        Sound = sfxMenuItem.Checked
                     },
                     Debug = new LastDebug()
                     {
@@ -1726,15 +1200,6 @@ namespace MegaMan.Engine
                         {
                             Invincibility = invincibilityToolStripMenuItem.Checked,
                             NoDamage = noDamageToolStripMenuItem.Checked
-                        },
-                        Layers = new LastLayers()
-                        {
-                            Background = backgroundToolStripMenuItem.Checked,
-                            Sprites1 = sprites1ToolStripMenuItem.Checked,
-                            Sprites2 = sprites2ToolStripMenuItem.Checked,
-                            Sprites3 = sprites3ToolStripMenuItem.Checked,
-                            Sprites4 = sprites4ToolStripMenuItem.Checked,
-                            Foreground = foregroundToolStripMenuItem.Checked
                         }
                     },
                     Miscellaneous = new LastMiscellaneous()
@@ -1743,24 +1208,18 @@ namespace MegaMan.Engine
                         ScreenY_Coordinate = this.Location.Y
                     }
                 };
-                #endregion
+
+                foreach (var c in this.controllers)
+                    c.SaveSettings(settings);
             }
 
-            UserSettings userSettings = null;
-
-            // This functions updates settingsPath
-            GetUserSettingsFromXML(ref userSettings);
-
-            // If there is no file, or no config in file, it is null
-            if (userSettings == null) userSettings = new UserSettings();
-
+            var userSettings = this.settingsService.GetSettings();
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
-            SaveToConfigXML(userSettings, fileName);
+            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
         }
         #endregion
 
-        #region Errors
         private void Engine_Exception(Exception e)
         {
             MessageBox.Show(this, e.Message, "Game Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
@@ -1777,7 +1236,6 @@ namespace MegaMan.Engine
         {
             MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
-        #endregion
         #endregion
 
         #region To sort!!!!!!
@@ -1845,41 +1303,11 @@ namespace MegaMan.Engine
                 newHeight = height * heightZoom;
             }
 
-            // tell the image not to get crushed by the form
-            xnaImage.Dock = DockStyle.None;
-            
-            // tell the form to fit the image
-            if (fullScreenToolStripMenuItem.Checked)
-            {
-                menuStrip1.Visible = false;
-            }
+            int extraHeight = Height - xnaImage.Height;
+            int extraWidth = Width - xnaImage.Width;
 
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            xnaImage.Width = newWidth.Value;
-            xnaImage.Height = newHeight.Value;
-            // now remember the form size
-            int tempheight = Height;
-            int tempwidth = Width;
-            // now un-autosize to re-enable resizing
-            AutoSize = false;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            // reset the form size
-            if (debugBar.Visible)
-            {
-                tempheight += debugBar.Height;
-            }
-
-            // for some reason menu height is always still shown when the image is undocked
-            if (!menuStrip1.Visible)
-            {
-                tempheight -= menuStrip1.Height;
-            }
-
-            Height = tempheight;
-            Width = tempwidth;
-            // redock the image
-            xnaImage.Dock = DockStyle.Fill;
+            Height = extraHeight + newHeight.Value;
+            Width = extraWidth + newWidth.Value;
         }
 
         private void SetXnaSize(int width, int height)

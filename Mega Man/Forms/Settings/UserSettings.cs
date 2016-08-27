@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using MegaMan.Engine.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms.Settings
 {
     #region Error Messages Constants
     #region Config Files Invalid Values
@@ -12,7 +14,7 @@ namespace MegaMan.Engine
         public static readonly string Size = "Size value from configuration file is invalid. Default value will be used.";
         public static readonly string NTSC_Option = "NTSC_Option value from configuration file is invalid. Default value will be used.";
         public static readonly string PixellatedOrSmoothed = "Pixellated value from configuration file is invalid. Default value will be used.";
-        public static readonly string CannotDeserializeXML = "Cannot deserialized file Content. File renamed to Bad_XX_XX_XXXX_XX_XX_XX where X represent day, month, year, hour, minute, second.";
+        public static readonly string CannotDeserializeXML = "Cannot deserialize config file. File renamed to {0}.";
     }
     #endregion
     #endregion
@@ -38,18 +40,34 @@ namespace MegaMan.Engine
         public class Paths
         {
             public static readonly string SettingFile = "settings.xml";
-            public static readonly string FileNameToPutDebuggingMsg = "debug.txt";
         }
         #endregion
-        #region Engine Properties
-        public class EngineProperties
-        {
-            public static readonly Int16 FramerateMin = 1;
-            public static readonly Int32 FramerateMax = 500;
-        }
-        #endregion
+        
+        public static readonly string noGameConfigNameToDisplayToUser = "No Game";
+        public static readonly string settingNameForFactorySettings = "Default Settings";
     }
     #endregion
+
+    public static class XML
+    {
+        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath, string fileName = null)
+        {
+            if (fileName == null) fileName = Constants.Paths.SettingFile;
+
+            var serializer = new XmlSerializer(typeof(UserSettings));
+
+            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            {
+                Indentation = 1,
+                IndentChar = '\t',
+                Formatting = Formatting.Indented
+            };
+
+            serializer.Serialize(writer, userSettings);
+
+            writer.Close();
+        }
+    }
 
     #region Settings Serialization Class
     [Serializable]
@@ -69,6 +87,40 @@ namespace MegaMan.Engine
         public UserSettings(UserKeys keys)
         {
             
+        }
+
+        public void deleteSetting(int index)
+        {
+            try
+            {
+                Settings.RemoveAt(index);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public void deleteAllSetting()
+        {
+            try
+            {
+                Settings = null;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public Setting GetSettingByIndex(int index)
+        {
+            try
+            {
+                return Settings[index];
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public Setting GetSettingsForGame(string gameName = "")
@@ -111,11 +163,20 @@ namespace MegaMan.Engine
             Settings.Add(newSetting);
         }
 
+        public List<string> GetAllConfigsGameNameFromCurrentUserSettings()
+        {
+            if (Settings != null)
+                return Settings.Select(s => s.GameTitle).ToList();
+            else
+                return null;
+        }
+
         public static Setting Default { get; private set; }
 
         static UserSettings()
         {
             Default = new Setting() {
+                GameFileName = "",
                 Keys = new UserKeys() {
                     Up = Keys.Up,
                     Down = Keys.Down,
@@ -127,11 +188,11 @@ namespace MegaMan.Engine
                     Select = Keys.Space
                 },
                 Screens = new LastScreen() {
-                    Size = UserSettingsEnums.Screen.X1,
+                    Size = ScreenScale.X1,
                     Maximized = false,
                     HideMenu = false,
-                    Pixellated = UserSettingsEnums.PixellatedOrSmoothed.Pixellated,
-                    NTSC_Options = UserSettingsEnums.NTSC_Options.None,
+                    Pixellated = PixellatedOrSmoothed.Pixellated,
+                    NTSC_Options = NTSC_Options.None,
                     NTSC_Custom = new NTSC_CustomOptions() {
                         Hue = 0,
                         Saturation = 0,
@@ -173,8 +234,8 @@ namespace MegaMan.Engine
                     }
                 },
                 Miscellaneous = new LastMiscellaneous() {
-                    ScreenX_Coordinate = 800,
-                    ScreenY_Coordinate = 400
+                    ScreenX_Coordinate = -1,        // -1 means centered
+                    ScreenY_Coordinate = -1
                 }
             };
         }
@@ -184,6 +245,7 @@ namespace MegaMan.Engine
     public class Setting
     {
         public string GameFileName { get; set; }
+        public string GameTitle { get; set; }
         public UserKeys Keys { get; set; }
         public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
@@ -232,11 +294,11 @@ namespace MegaMan.Engine
     [Serializable]
     public class LastScreen
     {
-        public UserSettingsEnums.Screen Size { get; set; }
+        public ScreenScale Size { get; set; }
         public bool Maximized { get; set; }
-        public UserSettingsEnums.NTSC_Options NTSC_Options { get; set; }
+        public NTSC_Options NTSC_Options { get; set; }
         public NTSC_CustomOptions NTSC_Custom { get; set; }
-        public UserSettingsEnums.PixellatedOrSmoothed Pixellated { get; set; }
+        public PixellatedOrSmoothed Pixellated { get; set; }
         public bool HideMenu { get; set; }
 
         public LastScreen()
