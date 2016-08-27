@@ -23,12 +23,12 @@ namespace MegaMan.Engine.Entities.Effects
 
             Effect action = entity => { };
 
-            if (movement.Flying.HasValue)
+            if (movement.Floating.HasValue)
             {
-                bool f = movement.Flying.Value;
+                bool f = movement.Floating.Value;
                 action += entity => {
                     MovementComponent mov = entity.GetComponent<MovementComponent>();
-                    if (mov != null) mov.Flying = f;
+                    if (mov != null) mov.Floating = f;
                 };
             }
 

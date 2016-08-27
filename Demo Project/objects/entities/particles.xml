@@ -15,7 +15,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
 			<Trigger>
 				<Condition>StateTime>=14</Condition>
@@ -54,7 +54,7 @@
         <Y base="Inherit" />
       </Position>
       <Movement>
-        <Flying>true</Flying>
+        <Floating>true</Floating>
       </Movement>
       <Trigger>
         <Condition>StateTime>=23</Condition>
@@ -82,7 +82,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
 		</State>
 		<State name="Up"><Movement><X magnitude="0" /><Y magnitude="1" direction="Up" /></Movement></State>
@@ -117,7 +117,7 @@
 				<X offset="-12" direction="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
 			<Trigger>
 				<Condition>StateTime>=18</Condition>
@@ -139,7 +139,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
 			<Trigger>
 				<Condition>StateTime>=24</Condition>
@@ -178,7 +178,7 @@
 				<Y base="Inherit" />
 			</Position>
             <Movement mode="repeat">
-                <Flying>True</Flying>
+                <Floating>True</Floating>
                 <Y magnitude="1" direction="Up" />
             </Movement>
             <Trigger><Condition>Movement.TileType != "Water"</Condition>
@@ -209,7 +209,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
 		</State>
 		<State name="UpLeft">

@@ -85,7 +85,7 @@
 			<Frame x="64" y="0" duration="5" />
 		</Sprite>
 		<Position persistoffscreen="true" />
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
 		<Collision>
 			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="block">
 				<Group>Block</Group>
@@ -110,7 +110,7 @@
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 		</Sprite>
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
 		<State name="Start">
 			<Collision>
 				<Hitbox x="0" y="0" width="16" height="16" properties="conveyright">
@@ -138,7 +138,7 @@
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 		</Sprite>
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
 		<State name="Show">
 			<Sprite><Visible>True</Visible></Sprite>
 			<Collision>
@@ -160,7 +160,7 @@
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
 		<State name="Hide">
 			<Sprite><Visible>True</Visible></Sprite>
 			<Collision>
@@ -258,7 +258,7 @@
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 		<Position persistoffscreen="true" />
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
 		<Collision><Enabled>True</Enabled></Collision>
 		<State name="Start">
 			<Sprite><Name>Show</Name></Sprite>

@@ -73,7 +73,7 @@
 		</Collision>
 		<State name="Start">
 			<Movement mode="Repeat">
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 				<Velocity magnitude="0.4" direction="Player" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -120,7 +120,7 @@
 			<Timer><Start>Bob</Start></Timer>
 			<Movement>
 				<FlipSprite>True</FlipSprite>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="0.5" direction="Down" /><X magnitude="0" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -199,7 +199,7 @@
         </Collision>
 		<State name="Start">
 			<Movement>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Sprite><Name>Sit</Name></Sprite>
@@ -278,7 +278,7 @@
         </Collision>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0.5" direction="Right" />
 			</Movement>
 			<Collision>
@@ -345,7 +345,7 @@
 		<State name="Start">
 			<Sprite><Name>Down</Name></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Collision><EnableBox name="Down" /></Collision>
@@ -415,7 +415,7 @@
 		</Collision>
 		<State name="Start">
 			<Collision><EnableBox name="H" /></Collision>
-			<Movement><Flying>True</Flying></Movement>
+			<Movement><Floating>True</Floating></Movement>
 			<Trigger><Condition>Collision.BlockBottom</Condition><Effect><State>Right</State></Effect></Trigger>
 			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Down</State></Effect></Trigger>
 			<Trigger><Condition>Collision.BlockTop</Condition><Effect><State>Left</State></Effect></Trigger>
@@ -477,7 +477,7 @@
 			<Sprite><Name>Move</Name></Sprite>
 			<Movement mode="Repeat">
 				<FlipSprite>True</FlipSprite>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="2" direction="Right" /><Y magnitude="0" />
 			</Movement>
 			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>TurnLeft</State></Effect></Trigger>
@@ -609,7 +609,7 @@
 				</Hitbox>
         </Collision>
 		<State name="Start">
-			<Movement><Flying>False</Flying></Movement>
+			<Movement><Floating>False</Floating></Movement>
 			<Sprite><Name>Stand</Name></Sprite>
 			<Collision>
 				<EnableBox name="Up" />

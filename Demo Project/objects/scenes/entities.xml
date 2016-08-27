@@ -6,7 +6,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement mode="repeat">
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="2" direction="Left" />
 				<Y magnitude="2" direction="Down" />
 			</Movement>
@@ -29,7 +29,7 @@
 		<State name="Start">
 			<Timer><Start>T</Start></Timer>
 			<Movement mode="repeat">
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="1" direction="Left" />
 				<Y magnitude="1" direction="Down" />
 			</Movement>
@@ -52,7 +52,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="2.5" direction="Down" />
 			</Movement>
 			<Trigger>
@@ -73,7 +73,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="2.5" direction="Up" />
 			</Movement>
 			<Trigger>
@@ -93,7 +93,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="2.5" direction="Down" />
 			</Movement>
 			<Trigger>
@@ -114,7 +114,7 @@
 		</Sprite>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="2.5" direction="Up" />
 			</Movement>
 			<Trigger>
