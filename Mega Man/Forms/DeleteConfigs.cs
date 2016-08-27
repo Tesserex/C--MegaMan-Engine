@@ -47,7 +47,7 @@ namespace MegaMan.Engine.Forms
 
                 for (int x = 0; x < configNames.Count; x++)
                 {
-                    if (configNames[x] == "") configNames[x] = Constants.noGameConfigNameToDisplayToUser;
+                    if (string.IsNullOrWhiteSpace(configNames[x])) configNames[x] = Constants.noGameConfigNameToDisplayToUser;
                     cbxConfigToDelete.Items.Add(configNames[x]);
                 }
 
