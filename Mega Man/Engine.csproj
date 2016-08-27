@@ -198,7 +198,18 @@
     <Compile Include="Forms\LoadConfig.Designer.cs">
       <DependentUpon>LoadConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserSettingsEnums.cs" />
+    <Compile Include="Forms\MenuControllers\ActivateAllMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\AudioMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\ExclusiveController.cs" />
+    <Compile Include="Forms\MenuControllers\FullScreenMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\IMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\LayerVisibilityMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\NtscMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\PixellatedMenuController.cs" />
+    <Compile Include="Forms\MenuControllers\ScreenSizeMenuController.cs" />
+    <Compile Include="Forms\ScreenScaleController.cs" />
+    <Compile Include="Forms\Settings\SettingsService.cs" />
+    <Compile Include="Forms\Settings\UserSettingsEnums.cs" />
     <Compile Include="GameHandlers\GameHandler.cs" />
     <Compile Include="GameHandlers\HanderObjects.cs" />
     <Compile Include="GameHandlers\NullTiledScreen.cs" />
@@ -256,7 +267,7 @@
     <Compile Include="StateMachine\IStateMachine.cs" />
     <Compile Include="StateMachine\PopStateTransition.cs" />
     <Compile Include="StateMachine\PushStateTransition.cs" />
-    <Compile Include="UserSettings.cs" />
+    <Compile Include="Forms\Settings\UserSettings.cs" />
     <EmbeddedResource Include="Forms\CustomNtscForm.resx">
       <DependentUpon>CustomNtscForm.cs</DependentUpon>
       <SubType>Designer</SubType>
