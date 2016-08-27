@@ -206,6 +206,7 @@ namespace MegaMan.Engine
             menu = true;
             HandleEngineActivation();
 
+#if DEBUG
             try
             {
                 gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GetFlipGravity();
@@ -214,6 +215,7 @@ namespace MegaMan.Engine
             {
                 gravityFlipToolStripMenuItem.Checked = false;
             }
+#endif
         }
 
         /// <summary>
@@ -287,7 +289,14 @@ namespace MegaMan.Engine
             initialFolder = "";
             lastGameWithPath = null;
 
-#if !DEBUG
+#if DEBUG
+            
+            this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
+            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
+            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
+            this.emptyWeaponMenuItem.Click += new System.EventHandler(this.emptyWeaponMenuItem_Click);
+            this.fillWeaponMenuIem.Click += new System.EventHandler(this.fillWeaponMenuIem_Click);
+#else
             debugBar.Hide();
             debugBar.Height = 0;
             menuStrip1.Items.Remove(debugToolStripMenuItem);
@@ -469,8 +478,7 @@ namespace MegaMan.Engine
                 OnGameLoaded();
             }
         }
-
-        #region Close Game
+        
         private void CloseGame()
         {
             if (Game.CurrentGame != null)
@@ -491,7 +499,6 @@ namespace MegaMan.Engine
         {
             CloseGame();
         }
-        #endregion
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -581,8 +588,7 @@ namespace MegaMan.Engine
             deleteConfigsForm.TopMost = false;
         }
         #endregion
-
-        #region Fourth Section
+        
         /// <summary>
         /// True for a game it autoloads when application starts (if none, this option is checked when no game is loaded)
         /// </summary>
@@ -599,9 +605,7 @@ namespace MegaMan.Engine
             SaveGlobalConfigValues();
         }
         #endregion
-        #endregion
-
-        #region Input Menu
+        
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             keyform.Location = new Point(this.Location.X + (this.Size.Width - keyform.Size.Width) / 2, this.Location.Y + (this.Size.Height - keyform.Size.Height) / 2);
@@ -609,7 +613,6 @@ namespace MegaMan.Engine
             keyform.ShowDialog();
             keyform.TopMost = false;
         }
-        #endregion
 
         #region Screen Menu
         #region First Section
@@ -699,22 +702,10 @@ namespace MegaMan.Engine
         }
 
         #region NTSC Submenu
-        #region NTSC Custom Functions
-        /// <summary>
-        /// Functions that prepares snes_ntsc_setup_t parameter and make function call to apply changes
-        /// Build a snes_ntsc_setup_t item from form parameters
-        /// </summary>
         private void customNtscForm_ApplyFromForm()
         {
             AutosaveConfig();
         }
-
-        private snes_ntsc_setup_t NtscCustomFromForm()
-        {
-            return new snes_ntsc_setup_t(customNtscForm.Hue, customNtscForm.Saturation, customNtscForm.Contrast, customNtscForm.Brightness,
-                            customNtscForm.Sharpness, customNtscForm.Gamma, customNtscForm.Resolution, customNtscForm.Artifacts, customNtscForm.Fringing, customNtscForm.Bleed, true);
-        }
-        #endregion
 
         #region Button Click event of NTSC options
         private void ntscCustom_Click(object sender, EventArgs e)
@@ -866,6 +857,7 @@ namespace MegaMan.Engine
             setInvincibility(!invincibilityToolStripMenuItem.Checked);
         }
 
+#if DEBUG
         private void gravityFlipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Game.CurrentGame == null) return;
@@ -908,6 +900,7 @@ namespace MegaMan.Engine
                 Game.CurrentGame.DebugFillWeapon();
             }
         }
+#endif
         #endregion
 
         #endregion

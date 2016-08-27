@@ -563,7 +563,6 @@
             this.gravityFlipToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
             this.gravityFlipToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.gravityFlipToolStripMenuItem.Text = "Gravity Flip";
-            this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
             // 
             // emptyHealthMenuItem
             // 
@@ -571,7 +570,6 @@
             this.emptyHealthMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
             this.emptyHealthMenuItem.Size = new System.Drawing.Size(214, 22);
             this.emptyHealthMenuItem.Text = "Empty Health (Kill)";
-            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
             // 
             // fillHealthMenuItem
             // 
@@ -580,7 +578,6 @@
             | System.Windows.Forms.Keys.K)));
             this.fillHealthMenuItem.Size = new System.Drawing.Size(214, 22);
             this.fillHealthMenuItem.Text = "Fill Health";
-            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
             // 
             // emptyWeaponMenuItem
             // 
@@ -588,7 +585,6 @@
             this.emptyWeaponMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
             this.emptyWeaponMenuItem.Size = new System.Drawing.Size(214, 22);
             this.emptyWeaponMenuItem.Text = "Empty Weapon";
-            this.emptyWeaponMenuItem.Click += new System.EventHandler(this.emptyWeaponMenuItem_Click);
             // 
             // fillWeaponMenuIem
             // 
@@ -597,7 +593,6 @@
             | System.Windows.Forms.Keys.W)));
             this.fillWeaponMenuIem.Size = new System.Drawing.Size(214, 22);
             this.fillWeaponMenuIem.Text = "Fill Weapon";
-            this.fillWeaponMenuIem.Click += new System.EventHandler(this.fillWeaponMenuIem_Click);
             // 
             // layersToolStripMenuItem
             // 
