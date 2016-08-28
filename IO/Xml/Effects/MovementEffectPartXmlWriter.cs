@@ -7,7 +7,7 @@ namespace MegaMan.IO.Xml.Effects
     {
         internal void Write(MovementEffectPartInfo info, XmlWriter writer)
         {
-            writer.WriteElementString("Flying", info.Flying.ToString());
+            writer.WriteElementString("Floating", info.Floating.ToString());
             writer.WriteElementString("FlipSprite", info.FlipSprite.ToString());
 
             if (info.X != null)

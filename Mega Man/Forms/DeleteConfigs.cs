@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine.Forms
 {
@@ -46,7 +47,7 @@ namespace MegaMan.Engine.Forms
 
                 for (int x = 0; x < configNames.Count; x++)
                 {
-                    if (configNames[x] == "") configNames[x] = Constants.noGameConfigNameToDisplayToUser;
+                    if (string.IsNullOrWhiteSpace(configNames[x])) configNames[x] = Constants.noGameConfigNameToDisplayToUser;
                     cbxConfigToDelete.Items.Add(configNames[x]);
                 }
 

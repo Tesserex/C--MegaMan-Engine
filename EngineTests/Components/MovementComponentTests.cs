@@ -87,7 +87,7 @@ namespace MegaMan.Engine.Tests.Components
             _movement.Start(_container);
             Assert.AreEqual(0, _movement.VelocityX);
             Assert.AreEqual(0, _movement.VelocityY);
-            _movement.Flying = false;
+            _movement.Floating = false;
 
             _container.Tick();
             Assert.AreEqual(_container.Gravity, _movement.VelocityY);
@@ -98,7 +98,7 @@ namespace MegaMan.Engine.Tests.Components
         public void Movement_TerminalVelocity()
         {
             _movement.Start(_container);
-            _movement.Flying = false;
+            _movement.Floating = false;
 
             while (_movement.VelocityY < Const.TerminalVel)
                 _container.Tick();
@@ -113,7 +113,7 @@ namespace MegaMan.Engine.Tests.Components
         {
             _container.IsGravityFlipped = true;
             _movement.Start(_container);
-            _movement.Flying = false;
+            _movement.Floating = false;
 
             _container.Tick();
             Assert.IsTrue(_movement.VelocityY < 0);
@@ -130,7 +130,7 @@ namespace MegaMan.Engine.Tests.Components
         public void Movement_FlyingUnaffectedByGravity()
         {
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _container.Tick();
 
@@ -141,7 +141,7 @@ namespace MegaMan.Engine.Tests.Components
         public void Movement_Push()
         {
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _movement.PushX(3.5f);
             _movement.PushY(2.6f);
@@ -166,7 +166,7 @@ namespace MegaMan.Engine.Tests.Components
         public void Movement_OppositePushes()
         {
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _movement.PushX(3.5f);
             _movement.PushY(2.6f);
@@ -184,7 +184,7 @@ namespace MegaMan.Engine.Tests.Components
         public void Movement_ComplimentaryPushes()
         {
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _movement.PushX(3.5f);
             _movement.PushY(-2.6f);
@@ -204,7 +204,7 @@ namespace MegaMan.Engine.Tests.Components
             // drag hinders acceleration
 
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _movement.DragX(0.8f);
             _movement.VelocityX = 10;
@@ -229,7 +229,7 @@ namespace MegaMan.Engine.Tests.Components
             // resist slows you down after movement has occured
 
             _movement.Start(_container);
-            _movement.Flying = true;
+            _movement.Floating = true;
 
             _movement.ResistX(0.8f);
             _movement.VelocityX = 10;

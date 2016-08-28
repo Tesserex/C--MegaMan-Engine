@@ -318,7 +318,6 @@
             this.sq1MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
             this.sq1MenuItem.Size = new System.Drawing.Size(263, 22);
             this.sq1MenuItem.Text = "Toggle Square 1";
-            this.sq1MenuItem.Click += new System.EventHandler(this.sq1MenuItem_Click);
             // 
             // sq2MenuItem
             // 
@@ -326,7 +325,6 @@
             this.sq2MenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
             this.sq2MenuItem.Size = new System.Drawing.Size(263, 22);
             this.sq2MenuItem.Text = "Toggle Square 2";
-            this.sq2MenuItem.Click += new System.EventHandler(this.sq2MenuItem_Click);
             // 
             // triMenuItem
             // 
@@ -334,7 +332,6 @@
             this.triMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
             this.triMenuItem.Size = new System.Drawing.Size(263, 22);
             this.triMenuItem.Text = "Toggle Triangle";
-            this.triMenuItem.Click += new System.EventHandler(this.triMenuItem_Click);
             // 
             // noiseMenuItem
             // 
@@ -342,7 +339,6 @@
             this.noiseMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
             this.noiseMenuItem.Size = new System.Drawing.Size(263, 22);
             this.noiseMenuItem.Text = "Toggle Noise";
-            this.noiseMenuItem.Click += new System.EventHandler(this.noiseMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -392,28 +388,24 @@
             this.screen1XMenu.Name = "screen1XMenu";
             this.screen1XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen1XMenu.Text = "1x";
-            this.screen1XMenu.Click += new System.EventHandler(this.screen1XMenu_Click);
             // 
             // screen2XMenu
             // 
             this.screen2XMenu.Name = "screen2XMenu";
             this.screen2XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen2XMenu.Text = "2x";
-            this.screen2XMenu.Click += new System.EventHandler(this.screen2XMenu_Click);
             // 
             // screen3XMenu
             // 
             this.screen3XMenu.Name = "screen3XMenu";
             this.screen3XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen3XMenu.Text = "3x";
-            this.screen3XMenu.Click += new System.EventHandler(this.screen3XMenu_Click);
             // 
             // screen4XMenu
             // 
             this.screen4XMenu.Name = "screen4XMenu";
             this.screen4XMenu.Size = new System.Drawing.Size(154, 22);
             this.screen4XMenu.Text = "4x";
-            this.screen4XMenu.Click += new System.EventHandler(this.screen4XMenu_Click);
             // 
             // screenNTSCMenu
             // 
@@ -425,28 +417,24 @@
             this.screenNTSCMenu.Name = "screenNTSCMenu";
             this.screenNTSCMenu.Size = new System.Drawing.Size(154, 22);
             this.screenNTSCMenu.Text = "NTSC";
-            this.screenNTSCMenu.Click += new System.EventHandler(this.screenNTSCMenu_Click);
             // 
             // ntscComposite
             // 
             this.ntscComposite.Name = "ntscComposite";
             this.ntscComposite.Size = new System.Drawing.Size(132, 22);
             this.ntscComposite.Text = "Composite";
-            this.ntscComposite.Click += new System.EventHandler(this.ntscComposite_Click);
             // 
             // ntscSVideo
             // 
             this.ntscSVideo.Name = "ntscSVideo";
             this.ntscSVideo.Size = new System.Drawing.Size(132, 22);
             this.ntscSVideo.Text = "S-Video";
-            this.ntscSVideo.Click += new System.EventHandler(this.ntscSVideo_Click);
             // 
             // ntscRGB
             // 
             this.ntscRGB.Name = "ntscRGB";
             this.ntscRGB.Size = new System.Drawing.Size(132, 22);
             this.ntscRGB.Text = "RGB";
-            this.ntscRGB.Click += new System.EventHandler(this.ntscRGB_Click);
             // 
             // ntscCustom
             // 
@@ -461,7 +449,6 @@
             this.fullScreenToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.fullScreenToolStripMenuItem.Text = "Full Screen";
-            this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.fullScreenToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -473,14 +460,12 @@
             this.pixellatedToolStripMenuItem.Name = "pixellatedToolStripMenuItem";
             this.pixellatedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pixellatedToolStripMenuItem.Text = "Pixellated";
-            this.pixellatedToolStripMenuItem.Click += new System.EventHandler(this.pixellatedToolStripMenuItem_Click);
             // 
             // smoothedToolStripMenuItem
             // 
             this.smoothedToolStripMenuItem.Name = "smoothedToolStripMenuItem";
             this.smoothedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.smoothedToolStripMenuItem.Text = "Smoothed";
-            this.smoothedToolStripMenuItem.Click += new System.EventHandler(this.smoothedToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -578,7 +563,6 @@
             this.gravityFlipToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
             this.gravityFlipToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.gravityFlipToolStripMenuItem.Text = "Gravity Flip";
-            this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
             // 
             // emptyHealthMenuItem
             // 
@@ -586,7 +570,6 @@
             this.emptyHealthMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
             this.emptyHealthMenuItem.Size = new System.Drawing.Size(214, 22);
             this.emptyHealthMenuItem.Text = "Empty Health (Kill)";
-            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
             // 
             // fillHealthMenuItem
             // 
@@ -595,7 +578,6 @@
             | System.Windows.Forms.Keys.K)));
             this.fillHealthMenuItem.Size = new System.Drawing.Size(214, 22);
             this.fillHealthMenuItem.Text = "Fill Health";
-            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
             // 
             // emptyWeaponMenuItem
             // 
@@ -603,7 +585,6 @@
             this.emptyWeaponMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
             this.emptyWeaponMenuItem.Size = new System.Drawing.Size(214, 22);
             this.emptyWeaponMenuItem.Text = "Empty Weapon";
-            this.emptyWeaponMenuItem.Click += new System.EventHandler(this.emptyWeaponMenuItem_Click);
             // 
             // fillWeaponMenuIem
             // 
@@ -612,7 +593,6 @@
             | System.Windows.Forms.Keys.W)));
             this.fillWeaponMenuIem.Size = new System.Drawing.Size(214, 22);
             this.fillWeaponMenuIem.Text = "Fill Weapon";
-            this.fillWeaponMenuIem.Click += new System.EventHandler(this.fillWeaponMenuIem_Click);
             // 
             // layersToolStripMenuItem
             // 
@@ -637,7 +617,6 @@
             this.backgroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.backgroundToolStripMenuItem.Text = "Background";
-            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
             // sprites1ToolStripMenuItem
             // 
@@ -647,7 +626,6 @@
             this.sprites1ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.sprites1ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites1ToolStripMenuItem.Text = "Sprites 1";
-            this.sprites1ToolStripMenuItem.Click += new System.EventHandler(this.sprites1ToolStripMenuItem_Click);
             // 
             // sprites2ToolStripMenuItem
             // 
@@ -657,7 +635,6 @@
             this.sprites2ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.sprites2ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites2ToolStripMenuItem.Text = "Sprites 2";
-            this.sprites2ToolStripMenuItem.Click += new System.EventHandler(this.sprites2ToolStripMenuItem_Click);
             // 
             // sprites3ToolStripMenuItem
             // 
@@ -667,7 +644,6 @@
             this.sprites3ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
             this.sprites3ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites3ToolStripMenuItem.Text = "Sprites 3";
-            this.sprites3ToolStripMenuItem.Click += new System.EventHandler(this.sprites3ToolStripMenuItem_Click);
             // 
             // sprites4ToolStripMenuItem
             // 
@@ -677,7 +653,6 @@
             this.sprites4ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
             this.sprites4ToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.sprites4ToolStripMenuItem.Text = "Sprites 4";
-            this.sprites4ToolStripMenuItem.Click += new System.EventHandler(this.sprites4ToolStripMenuItem_Click);
             // 
             // foregroundToolStripMenuItem
             // 
@@ -687,7 +662,6 @@
             this.foregroundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
             this.foregroundToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.foregroundToolStripMenuItem.Text = "Foreground";
-            this.foregroundToolStripMenuItem.Click += new System.EventHandler(this.foregroundToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -700,7 +674,6 @@
             this.activateAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
             this.activateAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.activateAllToolStripMenuItem.Text = "Restore All";
-            this.activateAllToolStripMenuItem.Click += new System.EventHandler(this.activateAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 

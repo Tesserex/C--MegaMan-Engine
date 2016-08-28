@@ -17,7 +17,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 			<Trigger>
@@ -67,7 +67,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 			<Trigger>
@@ -118,7 +118,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 			<Trigger>
@@ -169,7 +169,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 			<Trigger>
@@ -219,7 +219,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 			<Trigger>
@@ -270,7 +270,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 		</State>
@@ -298,7 +298,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 		</State>
@@ -326,7 +326,7 @@
 			</Position>
 			<Movement>
 				<Blocking>True</Blocking>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
 		</State>

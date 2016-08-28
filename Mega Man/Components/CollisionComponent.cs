@@ -221,8 +221,6 @@ namespace MegaMan.Engine
             if (MovementSrc != null)
             {
                 if (BlockTop && MovementSrc.VelocityY < 0) MovementSrc.VelocityY = 0;
-                if (BlockLeft && MovementSrc.VelocityX < 0) MovementSrc.VelocityX = 0;
-                if (BlockRight && MovementSrc.VelocityX > 0) MovementSrc.VelocityX = 0;
                 if (BlockBottom && MovementSrc.VelocityY > 0) MovementSrc.VelocityY = 0;
             }
 
