@@ -11,7 +11,7 @@
 			<Frame x="128" y="0" duration="4" />
 		</Sprite>
 		<Collision>
-			<Hitbox name="Environment" x="-7" y="0" width="14" height="16" environment="true"></Hitbox>
+			<Hitbox name="Environment" x="-11" y="0" width="22" height="16" environment="true"></Hitbox>
 			<Hitbox name="Horizontal" x="-10" y="-12" width="20" height="24" damage="4" environment="false">
 				<Hits>Player</Hits><Group>Enemy</Group>
 			</Hitbox>
