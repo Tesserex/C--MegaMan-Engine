@@ -23,7 +23,7 @@
 			</Collision>
 			<Movement>
 				<FlipSprite>True</FlipSprite>
-				<X direction="Player" />
+				<X direction="Player" magnitude="0.5"/>
 			</Movement>
 			<Trigger><Condition>True</Condition>
 				<Effect>
@@ -32,10 +32,7 @@
 			</Trigger>			
 		</State>
 		<State name="Toward_Player">
-			<Movement mode="Repeat">
-				<X magnitude="0.5"/>
-			</Movement>
-			<Trigger><Condition>Collision.BlockRight Or Collision.BlockLeft</Condition><Effect><Movement><X magnitude="0.5" direction="Reverse" /></Movement></Effect></Trigger>
+			<Trigger><Condition>Collision.BlockRight Or Collision.BlockLeft</Condition><Effect><Movement><X direction="Reverse" /></Movement></Effect></Trigger>
 		</State>
 		<Health><Max>3</Max><Flash>8</Flash></Health>
 		<Trigger>

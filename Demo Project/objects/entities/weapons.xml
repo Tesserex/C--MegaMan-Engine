@@ -571,7 +571,7 @@
 				<X magnitude="0.5" direction="Inherit" /><X magnitude="0" /><Y magnitude="8" direction="Down" />
 				<FlipSprite>True</FlipSprite>
 			</Movement>
-			<Trigger condition="PlayerDistY &lt; 8">
+			<Trigger condition="playerdistabsy &lt; 8">
 				<Effect>
 					<Collision>
 						<EnableBox name="Warp" />
@@ -697,12 +697,12 @@
 			<Trigger condition="True">
 				<Effect><Position><Y offset="6" direction="Down" /></Position></Effect>
 			</Trigger>
-			<Trigger condition="PlayerDistY &lt; 16">
+			<Trigger condition="playerdistabsy &lt; 16">
 				<Effect>
 					<Collision><Enabled>True</Enabled><EnableBox name="DetectFloor" /></Collision>
 				</Effect>
 			</Trigger>
-			<Trigger condition="PlayerDistY &lt; 4 And Collision.Enabled And !Collision.BlockBottom And !Collision.BlockTop">
+			<Trigger condition="playerdistabsy &lt; 4 And Collision.Enabled And !Collision.BlockBottom And !Collision.BlockTop">
 				<Effect><State>WarpEnd</State></Effect>
 			</Trigger>
 		</State>
