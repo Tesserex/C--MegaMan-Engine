@@ -40,7 +40,7 @@
 				<X magnitude="0.5" direction="Left" />
 			</Movement>
 			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Right</State></Effect></Trigger>
-			<Trigger><Condition>PlayerDistAbsX &lt; 16</Condition><Effect><State>LeftStayClose</State></Effect></Trigger>
+			<Trigger><Condition>PlayerDistAbsX &lt; 16 Or StateTime > 100</Condition><Effect><State>LeftStayClose</State></Effect></Trigger>
 		</State>
 		<State name="LeftStayClose">
 			<Movement mode="Repeat">
@@ -53,7 +53,7 @@
 				<X magnitude="0.5" direction="Right" />
 			</Movement>
 			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>Left</State></Effect></Trigger>
-			<Trigger><Condition>PlayerDistAbsX &lt; 16</Condition><Effect><State>RightStayClose</State></Effect></Trigger>
+			<Trigger><Condition>PlayerDistAbsX &lt; 16 Or StateTime > 100</Condition><Effect><State>RightStayClose</State></Effect></Trigger>
 		</State>
 		<State name="RightStayClose">
 			<Movement mode="Repeat">
