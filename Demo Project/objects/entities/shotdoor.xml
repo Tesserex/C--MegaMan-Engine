@@ -19,7 +19,7 @@
 			<Frame x="16" y="0" duration="12" />
 		</Sprite>
 		<Position persistoffscreen="true" />
-		<Movement><Flying>True</Flying></Movement>
+		<Movement><Floating>True</Floating></Movement>
         <Collision>
 			<Hitbox name="H" x="0" y="0" width="16" height="32" properties="block">
 				<Group>Block</Group>

@@ -73,7 +73,7 @@
 		</Collision>
 		<State name="Start">
 			<Movement mode="Repeat">
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 				<Velocity magnitude="0.4" direction="Player" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -120,7 +120,7 @@
 			<Timer><Start>Bob</Start></Timer>
 			<Movement>
 				<FlipSprite>True</FlipSprite>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Y magnitude="0.5" direction="Down" /><X magnitude="0" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -199,12 +199,12 @@
         </Collision>
 		<State name="Start">
 			<Movement>
-				<Flying>False</Flying>
+				<Floating>False</Floating>
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Sprite><Name>Sit</Name></Sprite>
 			<Collision><Enabled>True</Enabled><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime >= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64">
+			<Trigger condition="StateTime >= 120 And playerdistabsx &lt; 96 And playerdistabsy &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -258,11 +258,11 @@
 			<Frame x="16" y="0" duration="4" />
 		</Sprite>
 		<Health><Max>1</Max></Health>
-		<Trigger condition="PlayerDistY &lt; 8">
+		<Trigger condition="playerdistabsy &lt; 8">
 			<States>Start, Left</States>
 			<Effect><Movement><X magnitude="2" /></Movement></Effect>
 		</Trigger>
-		<Trigger condition="PlayerDistY >= 8">
+		<Trigger condition="playerdistabsy >= 8">
 			<States>Start, Left</States>
 			<Effect><Movement><X magnitude="0.5" /></Movement></Effect>
 		</Trigger>
@@ -278,7 +278,7 @@
         </Collision>
 		<State name="Start">
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0.5" direction="Right" />
 			</Movement>
 			<Collision>
@@ -345,11 +345,11 @@
 		<State name="Start">
 			<Sprite><Name>Down</Name></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Collision><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime > 20 And PlayerDistX &lt; 128 And PlayerDistY &lt; 64">
+			<Trigger condition="StateTime > 20 And playerdistabsx &lt; 128 And playerdistabsy &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -415,7 +415,7 @@
 		</Collision>
 		<State name="Start">
 			<Collision><EnableBox name="H" /></Collision>
-			<Movement><Flying>True</Flying></Movement>
+			<Movement><Floating>True</Floating></Movement>
 			<Trigger><Condition>Collision.BlockBottom</Condition><Effect><State>Right</State></Effect></Trigger>
 			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Down</State></Effect></Trigger>
 			<Trigger><Condition>Collision.BlockTop</Condition><Effect><State>Left</State></Effect></Trigger>
@@ -477,7 +477,7 @@
 			<Sprite><Name>Move</Name></Sprite>
 			<Movement mode="Repeat">
 				<FlipSprite>True</FlipSprite>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="2" direction="Right" /><Y magnitude="0" />
 			</Movement>
 			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>TurnLeft</State></Effect></Trigger>
@@ -609,12 +609,12 @@
 				</Hitbox>
         </Collision>
 		<State name="Start">
-			<Movement><Flying>False</Flying></Movement>
+			<Movement><Floating>False</Floating></Movement>
 			<Sprite><Name>Stand</Name></Sprite>
 			<Collision>
 				<EnableBox name="Up" />
 			</Collision>
-			<Trigger condition="PlayerDistY &lt; 64 And PlayerDistX &lt; 96">
+			<Trigger condition="playerdistabsy &lt; 64 And playerdistabsx &lt; 96">
 				<Effect>
 					<State>Fall</State>
 				</Effect>

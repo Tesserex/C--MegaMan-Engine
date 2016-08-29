@@ -1,0 +1,75 @@
+<Entities>
+	<Entity name="Peterchy">
+		<GravityFlip>True</GravityFlip>
+		<Tilesheet pallete="Default">images\enemies\Mega Man 3\Peterchy.png</Tilesheet>
+		<Sprite width="32" height="32" reversed="true">
+			<Hotspot x="16" y="16" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="32" y="0" duration="4" />
+			<Frame x="64" y="0" duration="4" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="128" y="0" duration="4" />
+		</Sprite>
+		<Collision>
+			<Hitbox name="Environment" x="-11" y="0" width="22" height="16" environment="true"></Hitbox>
+			<Hitbox name="Horizontal" x="-10" y="-12" width="20" height="24" damage="4" environment="false">
+				<Hits>Player</Hits><Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<State name="Start">
+			<Collision>
+				<EnableBox name="Environment" />
+				<EnableBox name="Horizontal" />
+			</Collision>
+			<Movement>
+				<FlipSprite>True</FlipSprite>
+			</Movement>
+			<Trigger><Condition>PlayerDistX &gt;= 0</Condition>
+				<Effect>
+					<State>Left</State>
+				</Effect>
+			</Trigger>
+			<Trigger><Condition>PlayerDistX &lt; 0</Condition>
+				<Effect>
+					<State>Right</State>
+				</Effect>
+			</Trigger>	
+		</State>
+		<State name="Left">
+			<Movement mode="Repeat">
+				<X magnitude="0.5" direction="Left" />
+			</Movement>
+			<Trigger><Condition>Collision.BlockLeft</Condition><Effect><State>Right</State></Effect></Trigger>
+			<Trigger><Condition>PlayerDistAbsX &lt; 16 Or StateTime > 100</Condition><Effect><State>LeftStayClose</State></Effect></Trigger>
+		</State>
+		<State name="LeftStayClose">
+			<Movement mode="Repeat">
+				<X magnitude="0.5" />
+			</Movement>
+			<Trigger><Condition>Collision.BlockLeft Or PlayerDistX &lt;= -48</Condition><Effect><State>Right</State></Effect></Trigger>
+		</State>
+		<State name="Right">
+			<Movement mode="Repeat">
+				<X magnitude="0.5" direction="Right" />
+			</Movement>
+			<Trigger><Condition>Collision.BlockRight</Condition><Effect><State>Left</State></Effect></Trigger>
+			<Trigger><Condition>PlayerDistAbsX &lt; 16 Or StateTime > 100</Condition><Effect><State>RightStayClose</State></Effect></Trigger>
+		</State>
+		<State name="RightStayClose">
+			<Movement mode="Repeat">
+				<X magnitude="0.5" />
+			</Movement>
+			<Trigger><Condition>Collision.BlockRight Or PlayerDistX &gt;= 48</Condition><Effect><State>Left</State></Effect></Trigger>
+		</State>
+		<Health><Max>3</Max><Flash>8</Flash></Health>
+		<Trigger>
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" />
+			</Effect>
+		</Trigger>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+</Entities>

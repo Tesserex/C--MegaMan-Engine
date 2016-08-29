@@ -373,14 +373,14 @@
 	<State name="Start">
 		<Collision><Enabled>True</Enabled></Collision>
 		<Movement>
-			<Flying>False</Flying>
+			<Floating>False</Floating>
 			<FlipSprite>True</FlipSprite>
 		</Movement>
 	</State>
 	<State name="Teleport">
 		<Sprite><Name>Teleport</Name><Playing>False</Playing></Sprite>
 		<Movement>
-			<Flying>True</Flying>
+			<Floating>True</Floating>
 			<X magnitude="0" /><Y magnitude="8" direction="Down" />
 		</Movement>
 		<Collision><Enabled>False</Enabled></Collision>
@@ -389,7 +389,7 @@
 		<Sprite><Name>Teleport</Name><Playing>False</Playing></Sprite>
 		<Sound name="TeleportOut" />
 		<Movement>
-			<Flying>True</Flying>
+			<Floating>True</Floating>
 			<X magnitude="0" /><Y magnitude="10" direction="Up" />
 		</Movement>
 		<Collision><Enabled>False</Enabled></Collision>
@@ -397,7 +397,7 @@
 	<State name="TeleportStart">
 		<Sprite><Name>TeleportStart</Name><Playing>True</Playing></Sprite>
 		<Movement>
-			<Flying>True</Flying>
+			<Floating>True</Floating>
 		</Movement>
 		<Collision><Enabled>False</Enabled></Collision>
 		<Trigger><Condition>StateTime >= 12</Condition><Effect><State>TeleportOut</State></Effect></Trigger>
@@ -405,7 +405,7 @@
 	<State name="TeleportBlink">
 		<Sprite><Name>TeleportStart</Name><Playing>True</Playing></Sprite>
 		<Movement>
-			<Flying>True</Flying>
+			<Floating>True</Floating>
 		</Movement>
 		<Collision><Enabled>False</Enabled></Collision>
 		<Trigger><Condition>StateTime >= 12</Condition><Effect><State>Teleport</State></Effect></Trigger>
@@ -420,7 +420,7 @@
 			<Condition>StateTime > 7</Condition>
 			<Effect>
 				<Movement>
-					<Flying>False</Flying>
+					<Floating>False</Floating>
 				</Movement>
 				<Collision>
 					<Enabled>True</Enabled>
@@ -485,7 +485,7 @@
 	</Trigger>
 	<State name="Air">
 		<Sprite><Name>Air</Name></Sprite>
-		<Movement><Flying>False</Flying></Movement>
+		<Movement><Floating>False</Floating></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 		</Collision>
@@ -565,7 +565,7 @@
 	</State>
 	<State name="RushJet">
 		<Sprite><Name>Standing</Name></Sprite>
-		<Movement mode="Repeat"><Flying>True</Flying><Y magnitude="0" /><X magnitude="1.375" /></Movement>
+		<Movement mode="Repeat"><Floating>True</Floating><Y magnitude="0" /><X magnitude="1.375" /></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 			<EnableBox name="PlayerRush" />
@@ -581,7 +581,7 @@
 	</State>
 	<State name="Climbing">
 		<Sprite><Name>Climbing</Name></Sprite>
-		<Movement><Flying>True</Flying><X magnitude="0" /></Movement>
+		<Movement><Floating>True</Floating><X magnitude="0" /></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 		</Collision>
@@ -589,7 +589,7 @@
 			<Condition>GravityFlip? Collision.BlockTop : Collision.BlockBottom</Condition>
 			<Effect>
 				<State>Standing</State>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 				<Sprite><Playing>True</Playing></Sprite>
 				<Ladder>LetGo</Ladder>
 			</Effect>
@@ -598,7 +598,7 @@
 			<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
 			<Effect>
 				<State>Air</State>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 				<Ladder>LetGo</Ladder>
 				<Sprite><Playing>True</Playing></Sprite>
 			</Effect>
@@ -659,7 +659,7 @@
 	</State>
 	<State name="ClimbTop">
 		<Sprite><Name>ClimbTop</Name></Sprite>
-		<Movement><Flying>True</Flying><X magnitude="0" /></Movement>
+		<Movement><Floating>True</Floating><X magnitude="0" /></Movement>
 		<Collision>
 			<EnableBox name="Slide" />
 		</Collision>
@@ -667,7 +667,7 @@
 			<Condition>Input.Jump == True</Condition>
 			<Effect>
 				<State>Air</State>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 				<Ladder>LetGo</Ladder>
 				<Sprite><Playing>True</Playing></Sprite>
 			</Effect>
@@ -676,7 +676,7 @@
 			<Condition>Ladder.InReach == False And Ladder.AboveLadder == True</Condition>
 			<Effect>
 				<State>Standing</State>
-				<Movement><Flying>False</Flying><Y magnitude="0" /></Movement>
+				<Movement><Floating>False</Floating><Y magnitude="0" /></Movement>
 				<Ladder>StandOn</Ladder>
 				<Sprite><Playing>True</Playing></Sprite>
 			</Effect>
@@ -717,7 +717,7 @@
 	</State>
 	<State name="ShootRushJet">
 		<Sprite><Name>ShootStanding</Name></Sprite>
-		<Movement mode="Repeat"><Flying>True</Flying><Y magnitude="0" /><X magnitude="1.375" /></Movement>
+		<Movement mode="Repeat"><Floating>True</Floating><Y magnitude="0" /><X magnitude="1.375" /></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 			<EnableBox name="PlayerRush" />
@@ -752,7 +752,7 @@
 	</State>
 	<State name="ShootAir">
 		<Sprite><Name>ShootAir</Name></Sprite>
-		<Movement><Flying>False</Flying></Movement>
+		<Movement><Floating>False</Floating></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 		</Collision>
@@ -826,7 +826,7 @@
 	</Trigger>
 	<State name="ShootClimbing">
 		<Sprite><Name>ShootClimbing</Name></Sprite>
-		<Movement><Flying>True</Flying><X magnitude="0" /><Y magnitude="0" /></Movement>
+		<Movement><Floating>True</Floating><X magnitude="0" /><Y magnitude="0" /></Movement>
 		<Collision>
 			<EnableBox name="Stand" />
 		</Collision>
@@ -841,7 +841,7 @@
 			<Condition>Collision.BlockBottom == True</Condition>
 			<Effect>
 				<State>ShootStanding</State>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 				<Sprite><Playing>True</Playing></Sprite>
 				<Ladder>LetGo</Ladder>
 			</Effect>
@@ -850,7 +850,7 @@
 			<Condition>Ladder.InReach == False Or Input.Jump == True</Condition>
 			<Effect>
 				<State>ShootAir</State>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 				<Ladder>LetGo</Ladder>
 				<Sprite><Playing>True</Playing></Sprite>
 			</Effect>
@@ -963,7 +963,7 @@
 		<Trigger condition="Position.Position.Y >= 106 And Movement.VelocityY > 0">
 			<Effect>
 				<Position><Y base="108" /></Position>
-				<Movement><Flying>True</Flying><Y magnitude="0" /></Movement>
+				<Movement><Floating>True</Floating><Y magnitude="0" /></Movement>
 				<State>Powerup</State>
 			</Effect>
 		</Trigger>
@@ -987,7 +987,7 @@
 		<Trigger>
 			<Condition>StateTime == 220</Condition>
 			<Effect>
-				<Movement><Flying>False</Flying></Movement>
+				<Movement><Floating>False</Floating></Movement>
 			</Effect>
 		</Trigger>
 		<Trigger>
@@ -1012,7 +1012,7 @@
 		<Condition>Health.Hit == True</Condition>
 		<Effect>
 			<Sprite><Playing>True</Playing></Sprite>
-			<Movement><Flying>False</Flying></Movement>
+			<Movement><Floating>False</Floating></Movement>
 			<State>Hurt</State>
 			<Sound name="MMHurt" />
 			<Spawn name="Spark" />
