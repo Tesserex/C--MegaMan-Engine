@@ -13,6 +13,7 @@ namespace MegaMan.Engine
         private HealthMeter meter;
         private int flashtime;
         private int flashing;
+        private bool clearHitNextFrame;
 
         public float Health
         {
@@ -103,10 +104,11 @@ namespace MegaMan.Engine
                 if (Engine.Instance.Invincible && Parent.Name == "Player") return;
 
                 DamageMessage damage = (DamageMessage)msg;
-
-                Health -= damage.Damage;
+                if (!Engine.Instance.NoDamage)
+                    Health -= damage.Damage;
 
                 Hit = true;
+                clearHitNextFrame = false;
                 flashing = flashtime;
             }
             else if (msg is HealMessage)
@@ -119,8 +121,11 @@ namespace MegaMan.Engine
 
         protected override void Update()
         {
-            Hit = false;
-
+            if (clearHitNextFrame)
+                Hit = false;
+            else
+                clearHitNextFrame = true;
+            
             if (flashing > 0)
             {
                 flashing--;

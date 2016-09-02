@@ -67,16 +67,27 @@ namespace MegaMan.Engine
             get { return instance ?? (instance = new Engine()); }
         }
 
+        private static readonly int MIN_FPS = 10;
+        private static readonly int MAX_FPS = 500;
+
         private int fps;
         public int FPS
         {
             get { return fps; }
             set
             {
-                fps = value;
+                fps = Math.Max(MIN_FPS, Math.Min(MAX_FPS, value));
                 frameTicks = (long)(Stopwatch.Frequency / (float)fps);
             }
         }
+
+        // this tracks how many pause requests have been made, a sort of stack for pausing.
+        // the engine will only run when pauseCount is 0.
+        private int pauseCount;
+
+        // becomes true if Start has been called, false if Stop is called.
+        // used to determine what to do when the engine is unpaused.
+        private bool runIfUnpaused;
 
         // this timer is used to control framerate.
         private readonly Stopwatch timer;
@@ -106,6 +117,7 @@ namespace MegaMan.Engine
         // these are the flags for the debug menu stuff
         public bool DrawHitboxes { get; set; }
         public bool Invincible { get; set; }
+        public bool NoDamage { get; set; }
 
         public SamplerState FilterState { get; set; }
 
@@ -167,24 +179,42 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            if (!(MainForm.pauseEngine))
+            runIfUnpaused = true;
+
+            if (pauseCount == 0 && initialized && !running)
             {
-                if (initialized && running == false)
-                {
-                    running = true;
-                    timer.Start();
-                    soundsystem.Start();
-                }
+                running = true;
+                timer.Start();
+                soundsystem.Start();
             }
         }
 
         public void Stop()
         {
-            if (running == true)
+            runIfUnpaused = false;
+
+            if (running)
             {
                 running = false;
                 timer.Stop();
                 soundsystem.Stop();
+            }
+        }
+
+        public void Pause()
+        {
+            pauseCount++;
+            Stop();
+        }
+
+        public void Unpause()
+        {
+            if (pauseCount > 0)
+            {
+                pauseCount--;
+
+                if (pauseCount == 0 && runIfUnpaused)
+                    Start();
             }
         }
 
@@ -313,12 +343,6 @@ namespace MegaMan.Engine
         public void SetLayerVisibility(int layer, bool visibility)
         {
             layerVisibility[layer] = visibility;
-            RenderContext(layer);
-        }
-
-        public void ToggleLayerVisibility(int layer)
-        {
-            layerVisibility[layer] = !layerVisibility[layer];
             RenderContext(layer);
         }
 

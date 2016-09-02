@@ -67,9 +67,10 @@ namespace MegaMan.Editor.AppData
             }
         }
 
-        private static string GetFilePath()
+        private static string GetFilePath(string settingFilePath = null)
         {
-            var file = Path.Combine(GetDirectory(), "settings.xml");
+            if (settingFilePath == null) settingFilePath = Constants.Paths.SettingFile;
+            var file = Path.Combine(GetDirectory(), settingFilePath);
             return file;
         }
 

@@ -26,9 +26,23 @@ namespace MegaMan.Engine
             get { return musicEnabled; }
             set 
             {
-                musicEnabled = value;
-                if (value) AudioManager.Instance.ResumeBGMPlayback();
-                else AudioManager.Instance.PauseBGMPlayback();
+                if (musicEnabled != value)
+                {
+                    musicEnabled = value;
+                    if (Engine.Instance.IsRunning)
+                        ApplyMusicSetting();
+                }
+            }
+        }
+
+        private int volume;
+        public int Volume
+        {
+            get { return volume; }
+            set
+            {
+                volume = Math.Max(0, Math.Min(100, value));
+                AudioManager.Instance.ChangeVolume(volume / 100f);
             }
         }
 
@@ -46,25 +60,25 @@ namespace MegaMan.Engine
         public bool SquareOne
         {
             get { return AudioManager.Instance.Muted[0]; }
-            set { AudioManager.Instance.MuteChannel(0, !value); }
+            set { if (bgm != null) AudioManager.Instance.MuteChannel(0, !value); }
         }
 
         public bool SquareTwo
         {
             get { return AudioManager.Instance.Muted[1]; }
-            set { AudioManager.Instance.MuteChannel(1, !value); }
+            set { if (bgm != null) AudioManager.Instance.MuteChannel(1, !value); }
         }
 
         public bool Triangle
         {
             get { return AudioManager.Instance.Muted[2]; }
-            set { AudioManager.Instance.MuteChannel(2, !value); }
+            set { if (bgm != null) AudioManager.Instance.MuteChannel(2, !value); }
         }
 
         public bool Noise
         {
             get { return AudioManager.Instance.Muted[3]; }
-            set { AudioManager.Instance.MuteChannel(3, !value); }
+            set { if (bgm != null) AudioManager.Instance.MuteChannel(3, !value); }
         }
 
         public SoundSystem()
@@ -93,16 +107,21 @@ namespace MegaMan.Engine
         {
             updateTimer.Start();
             if (AudioManager.Instance.Paused)
-            {
-                if (musicEnabled) AudioManager.Instance.ResumeBGMPlayback();
-                else AudioManager.Instance.PauseBGMPlayback();
-            }
+                ApplyMusicSetting();
         }
 
         public void Stop()
         {
             updateTimer.Stop();
             AudioManager.Instance.PauseBGMPlayback();
+        }
+
+        public void ApplyMusicSetting()
+        {
+            if (MusicEnabled)
+                AudioManager.Instance.ResumeBGMPlayback();
+            else
+                AudioManager.Instance.PauseBGMPlayback();
         }
 
         public void LoadEffectsFromInfo(IEnumerable<SoundInfo> sounds)

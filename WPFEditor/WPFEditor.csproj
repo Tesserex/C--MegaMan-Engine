@@ -311,6 +311,7 @@
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
+    <Compile Include="UserSettings.cs" />
     <Page Include="Controls\Dialogs\AddStageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
