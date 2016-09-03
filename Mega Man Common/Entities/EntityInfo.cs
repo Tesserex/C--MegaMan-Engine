@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common.Entities
 {
-    public class EntityInfo
+    public class EntityInfo : IncludedObject
     {
         public string Name { get; set; }
         public int MaxAlive { get; set; }

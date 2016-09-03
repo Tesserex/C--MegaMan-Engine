@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -26,14 +22,14 @@ namespace MegaMan.IO.Xml.Effects
             var posNodeY = partNode.Element("Y");
 
             if (posNodeX != null)
-                ParsePositionBehavior(info, posNodeX, Axis.X);
+                info.X = ParsePositionBehavior(info, posNodeX);
             if (posNodeY != null)
-                ParsePositionBehavior(info, posNodeY, Axis.Y);
+                info.Y = ParsePositionBehavior(info, posNodeY);
 
             return info;
         }
 
-        private void ParsePositionBehavior(PositionEffectPartInfo info, XElement prop, Axis axis)
+        private PositionEffectAxisInfo ParsePositionBehavior(PositionEffectPartInfo info, XElement prop)
         {
             var axisInfo = new PositionEffectAxisInfo();
 
@@ -46,24 +42,24 @@ namespace MegaMan.IO.Xml.Effects
                     axisInfo.Base = prop.TryAttribute<float>("base");
             }
 
+            axisInfo.BaseVar = prop.TryAttribute<string>("baseVar");
+
             if (prop.Attribute("offset") != null)
             {
                 axisInfo.Offset = prop.TryAttribute<float?>("offset");
-                XAttribute offdirattr = prop.RequireAttribute("direction");
 
                 try
                 {
-                    axisInfo.OffsetDirection = (OffsetDirection)Enum.Parse(typeof(OffsetDirection), offdirattr.Value, true);
+                    axisInfo.OffsetDirection = prop.GetAttribute<OffsetDirection>("direction");
                 } catch
                 {
-                    throw new GameXmlException(offdirattr, "Position offset direction was not valid!");
+                    throw new GameXmlException(prop, "Position offset direction was not valid!");
                 }
             }
 
-            if (axis == Axis.X)
-                info.X = axisInfo;
-            else if (axis == Axis.Y)
-                info.Y = axisInfo;
+            axisInfo.OffsetVar = prop.TryAttribute<string>("offsetVar");
+
+            return axisInfo;
         }
     }
 }

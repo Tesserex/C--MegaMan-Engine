@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml.Handlers
@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml.Handlers
             _commandReader = commandReader;
         }
 
-        public void Load(Project project, XElement node)
+        public IIncludedObject Load(Project project, XElement node)
         {
             var scene = new SceneInfo();
 
@@ -38,6 +38,7 @@ namespace MegaMan.IO.Xml.Handlers
             }
 
             project.AddScene(scene);
+            return scene;
         }
 
         private KeyFrameInfo LoadKeyFrame(XElement node, string basePath)

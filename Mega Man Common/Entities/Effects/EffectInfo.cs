@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common.Entities.Effects
 {
-    public class EffectInfo
+    public class EffectInfo : IncludedObject
     {
         public string Name { get; set; }
+        public EntityFilterInfo Filter { get; set; }
         public IEnumerable<IEffectPartInfo> Parts { get; set; }
     }
 }

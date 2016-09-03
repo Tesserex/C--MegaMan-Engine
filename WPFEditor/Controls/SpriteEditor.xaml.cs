@@ -48,11 +48,8 @@ namespace MegaMan.Editor.Controls
             if (snapSheet.IsChecked == true)
             {
                 var viewModel = DataContext as SpriteEditorViewModel;
-                int snapGapValue = 0;
-
-                if (snapGap.Value != null) snapGapValue = snapGap.Value.Value;
                 
-                var spacing = sheetHighlight.Width + (snapGapValue * viewModel.SheetZoom);
+                var spacing = sheetHighlight.Width + ((snapGap.Value ?? 0) * viewModel.SheetZoom);
 
                 pos = new Point(Math.Floor(pos.X / spacing) * spacing, Math.Floor(pos.Y / spacing) * spacing);
             }

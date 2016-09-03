@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Services
@@ -12,5 +8,6 @@ namespace MegaMan.Editor.Services
         void SaveProject(ProjectDocument project);
         void SaveStage(StageDocument stage);
         void SaveTileset(TilesetDocument tileset);
+        void SaveEntity(EntityInfo entity, string path);
     }
 }

@@ -17,6 +17,9 @@ namespace MegaMan.Engine
             }
         }
 
+        public float X { get { return Position.X; } }
+        public float Y { get { return Position.Y; } }
+
         public PositionComponent()
         {
             

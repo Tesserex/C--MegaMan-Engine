@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMan.Common
+namespace MegaMan.Common.IncludedObjects
 {
     public class MenuInfo : HandlerInfo
     {

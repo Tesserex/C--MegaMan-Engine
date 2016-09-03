@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml
         public void Save(StageInfo stage)
         {
             this._stageInfo = stage;
-            _writer = new XmlTextWriter(Path.Combine(_stageInfo.StagePath.Absolute, "map.xml"), Encoding.Default);
+            _writer = new XmlTextWriter(Path.Combine(_stageInfo.StoragePath.Absolute, "map.xml"), Encoding.Default);
             _writer.Formatting = Formatting.Indented;
             _writer.Indentation = 1;
             _writer.IndentChar = '\t';
@@ -127,7 +127,7 @@ namespace MegaMan.IO.Xml
 
             foreach (var layer in screen.Layers)
             {
-                layer.Tiles.Save(Path.Combine(_stageInfo.StagePath.Absolute, layer.Name + ".scn"));
+                layer.Tiles.Save(Path.Combine(_stageInfo.StoragePath.Absolute, layer.Name + ".scn"));
             }
         }
 

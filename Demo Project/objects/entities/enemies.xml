@@ -204,7 +204,7 @@
 			</Movement>
 			<Sprite><Name>Sit</Name></Sprite>
 			<Collision><Enabled>True</Enabled><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime >= 120 And playerdistabsx &lt; 96 And playerdistabsy &lt; 64">
+			<Trigger condition="StateTime >= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -298,7 +298,7 @@
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Collision><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime > 20 And playerdistabsx &lt; 128 And playerdistabsy &lt; 64">
+			<Trigger condition="StateTime > 20 And PlayerDistX &lt; 128 And PlayerDistY &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -563,7 +563,7 @@
 			<Collision>
 				<EnableBox name="Up" />
 			</Collision>
-			<Trigger condition="playerdistabsy &lt; 64 And playerdistabsx &lt; 96">
+			<Trigger condition="PlayerDistY &lt; 64 And PlayerDistX &lt; 96">
 				<Effect>
 					<State>Fall</State>
 				</Effect>

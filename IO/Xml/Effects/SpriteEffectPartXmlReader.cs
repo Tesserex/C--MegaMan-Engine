@@ -20,13 +20,19 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new SpriteEffectPartInfo()
+            try
             {
-                Name = partNode.TryElementValue<string>("Name"),
-                Playing = partNode.TryElementValue<bool?>("Playing"),
-                Visible = partNode.TryElementValue<bool?>("Visible"),
-                Facing = (partNode.TryElementValue<string>("Facing") == null) ? null : (FacingValues?)Enum.Parse(typeof(FacingValues), partNode.TryElementValue<string>("Facing"), true)
-            };
+                return new SpriteEffectPartInfo() {
+                    Name = partNode.TryElementValue<string>("Name"),
+                    Playing = partNode.TryElementValue<bool?>("Playing"),
+                    Visible = partNode.TryElementValue<bool?>("Visible"),
+                    Facing = partNode.TryElementValue<FacingValues>("Facing")
+                };
+            }
+            catch (ArgumentException)
+            {
+                throw new GameXmlException(partNode, "An invalid value was given for this sprite effect.");
+            }
         }
     }
 }

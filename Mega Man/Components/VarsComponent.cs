@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MegaMan.Engine
 {
-    class VarsComponent : Component
+    public class VarsComponent : Component
     {
         private Dictionary<string, string> _vars = new Dictionary<string,string>();
 

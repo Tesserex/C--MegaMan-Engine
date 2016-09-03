@@ -17,7 +17,25 @@ namespace MegaMan.Engine.Entities.Effects
         {
             var varInfo = (VarsEffectPartInfo)info;
 
-            return e => { e.GetComponent<VarsComponent>().Set(varInfo.Name, varInfo.Value); };
+            if (varInfo.Call != null)
+            {
+                Query getVal = EffectParser.CompileQuery(varInfo.Call);
+                return e => {
+                    var target = e;
+
+                    if (varInfo.EntityName != null)
+                        target = e.Entities.GetEntityById(varInfo.EntityName);
+                    
+                    var val = getVal(target).ToString();
+                    e.GetComponent<VarsComponent>().Set(varInfo.Name, val);
+                };
+            }
+            else
+            {
+                return e => {
+                    e.GetComponent<VarsComponent>().Set(varInfo.Name, varInfo.Value);
+                };
+            }
         }
     }
 }

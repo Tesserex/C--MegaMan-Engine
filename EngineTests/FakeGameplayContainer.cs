@@ -70,12 +70,10 @@ namespace MegaMan.Engine.Tests
 
         public void StopInput()
         {
-            throw new NotImplementedException();
         }
 
         public void StartInput()
         {
-            throw new NotImplementedException();
         }
     }
 }

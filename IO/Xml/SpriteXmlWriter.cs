@@ -9,6 +9,9 @@ namespace MegaMan.IO.Xml
         {
             writer.WriteStartElement("Sprite");
 
+            if (sprite.Name != null)
+                writer.WriteAttributeString("name", sprite.Name);
+
             if (sprite.PaletteName != null)
                 writer.WriteAttributeString("palette", sprite.PaletteName);
 

@@ -35,16 +35,16 @@ namespace MegaMan.IO.Xml
         public StageInfo Load(FilePath path)
         {
             _info = new StageInfo();
+            
+            _info.StoragePath = path;
 
-            _info.StagePath = path;
-
-            var mapPath = Path.Combine(_info.StagePath.Absolute, "map.xml");
-            var stream = _dataSource.GetData(FilePath.FromAbsolute(mapPath, _info.StagePath.BasePath));
+            var mapPath = Path.Combine(_info.StoragePath.Absolute, "map.xml");
+            var stream = _dataSource.GetData(FilePath.FromAbsolute(mapPath, _info.StoragePath.BasePath));
             var mapXml = XElement.Load(stream);
-            _info.Name = Path.GetFileNameWithoutExtension(_info.StagePath.Absolute);
+            _info.Name = Path.GetFileNameWithoutExtension(_info.StoragePath.Absolute);
 
             string tilePathRel = mapXml.Attribute("tiles").Value;
-            var tilePath = FilePath.FromRelative(tilePathRel, _info.StagePath.BasePath);
+            var tilePath = FilePath.FromRelative(tilePathRel, _info.StoragePath.BasePath);
 
             var tileReader = _readerProvider.GetTilesetReader(tilePath);
             var tileset = tileReader.Load(tilePath);
@@ -127,8 +127,8 @@ namespace MegaMan.IO.Xml
             {
                 var intro = music.Element("Intro");
                 var loop = music.Element("Loop");
-                _info.MusicIntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, _info.StagePath.BasePath) : null;
-                _info.MusicLoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, _info.StagePath.BasePath) : null;
+                _info.MusicIntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, _info.StoragePath.BasePath) : null;
+                _info.MusicLoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, _info.StoragePath.BasePath) : null;
                 _info.MusicNsfTrack = music.TryAttribute<int>("nsftrack");
             }
         }
@@ -140,7 +140,7 @@ namespace MegaMan.IO.Xml
         {
             foreach (XElement screen in mapXml.Elements("Screen"))
             {
-                ScreenInfo s = LoadScreenXml(screen, _info.StagePath, _info.Tileset);
+                ScreenInfo s = LoadScreenXml(screen, _info.StoragePath, _info.Tileset);
                 _info.Screens.Add(s.Name, s);
             }
         }

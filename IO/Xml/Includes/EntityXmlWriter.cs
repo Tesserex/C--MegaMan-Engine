@@ -7,7 +7,7 @@ using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
-    internal class EntityXmlWriter
+    public class EntityXmlWriter : IEntityWriter
     {
         public void Write(EntityInfo entity, string filepath)
         {
@@ -16,6 +16,13 @@ namespace MegaMan.IO.Xml.Includes
             writer.Indentation = 1;
             writer.IndentChar = '\t';
 
+            Write(entity, writer);
+
+            writer.Close();
+        }
+
+        internal void Write(EntityInfo entity, XmlWriter writer)
+        {
             writer.WriteStartElement("Entity");
             writer.WriteAttributeString("name", entity.Name);
             writer.WriteAttributeString("maxAlive", entity.MaxAlive.ToString());
@@ -30,15 +37,16 @@ namespace MegaMan.IO.Xml.Includes
                     writer.WriteAttributeString("defaultSprite", entity.DefaultSprite.Name);
 
                 writer.WriteAttributeString("hide", entity.EditorData.HideFromPlacement.ToString());
+                writer.WriteEndElement();
             }
 
             foreach (var component in entity.Components)
                 WritePart(component, writer);
 
-            writer.Close();
+            writer.WriteEndElement();
         }
 
-        public void WritePart(IComponentInfo info, XmlWriter writer)
+        internal void WritePart(IComponentInfo info, XmlWriter writer)
         {
             if (!ComponentWriters.ContainsKey(info.GetType()))
                 throw new Exception("No xml writer for component type: " + info.GetType().Name);

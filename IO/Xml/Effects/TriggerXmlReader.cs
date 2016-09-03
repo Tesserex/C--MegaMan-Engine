@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
-using MegaMan.Common;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.IO.Xml.Effects
@@ -25,9 +23,12 @@ namespace MegaMan.IO.Xml.Effects
             var effectNode = triggerNode.Element("Effect");
             var effect = _effectReader.Load(effectNode);
 
+            var priority = triggerNode.TryAttribute<int?>("priority");
+
             return new TriggerInfo() {
                 Condition = conditionString,
-                Effect = effect
+                Effect = effect,
+                Priority = priority
             };
         }
     }

@@ -8,6 +8,8 @@ using System.Windows.Input;
 using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Factories;
+using MegaMan.Editor.Controls.Dialogs;
+using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
 using Microsoft.Win32;
@@ -197,6 +199,10 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             if (project != null)
             {
+                var proceed = CheckProjectForDuplicateIncludes(project);
+                if (!proceed)
+                    return;
+
                 var args = new ProjectOpenedEventArgs() { Project = project };
                 ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
             }
@@ -345,6 +351,41 @@ namespace MegaMan.Editor.Controls.ViewModels
                 AppData.EngineAbsolutePath = dialog.FileName;
                 AppData.Save();
             }
+        }
+
+        private bool CheckProjectForDuplicateIncludes(ProjectDocument project)
+        {
+            if (project == null)
+                return true;
+
+            var duplicates = project.Entities.GroupBy(e => e.Name)
+                .Where(g => g.Count() > 1);
+
+            foreach (var dupe in duplicates)
+            {
+                var dialogModel = new DuplicateObjectsDialogViewModel(dupe.Key, dupe.AsEnumerable());
+                var dialog = new DuplicateObjectsDialog();
+                dialog.DataContext = dialogModel;
+                dialog.ShowDialog();
+
+                if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+                {
+                    var toRemove = dupe.Where(e => e.StoragePath.Relative != dialogModel.SelectedFile).ToList();
+                    foreach (var entity in toRemove)
+                    {
+                        if (dialogModel.DeleteDuplicates)
+                            project.RemoveEntity(entity);
+                        else
+                            project.UnloadEntity(entity);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

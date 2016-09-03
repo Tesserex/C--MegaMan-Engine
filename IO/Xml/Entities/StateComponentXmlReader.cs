@@ -40,7 +40,10 @@ namespace MegaMan.IO.Xml.Entities
                 var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
 
                 var trigger = _triggerReader.Load(triggerInfo);
-                trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
+
+                if (trigger.Priority == null)
+                    trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
+
                 comp.Triggers.Add(new MultiStateTriggerInfo() {
                     States = states,
                     Trigger = trigger
@@ -64,13 +67,22 @@ namespace MegaMan.IO.Xml.Entities
                 {
                     case "Trigger":
                         var t = _triggerReader.Load(child);
-                        t.Priority = ((IXmlLineInfo)child).LineNumber;
+
+                        if (t.Priority == null)
+                            t.Priority = ((IXmlLineInfo)child).LineNumber;
+
                         info.Triggers.Add(t);
                         break;
 
-                    default:
-                        var compName = child.Name.LocalName;
+                    case "Initialize":
+                        init.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        break;
 
+                    case "Logic":
+                        logic.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        break;
+
+                    default:
                         var mode = child.TryAttribute<string>("mode");
                         if (mode != null && mode.ToUpper() == "REPEAT")
                             logic.Add(_effectReader.LoadPart(child));

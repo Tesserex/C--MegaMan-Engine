@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class PositionEffectPartInfo : IEffectPartInfo
     {
@@ -15,6 +10,8 @@ namespace MegaMan.Common.Entities.Effects
     {
         public float? Base { get; set; }
         public float? Offset { get; set; }
+        public string BaseVar { get; set; }
+        public string OffsetVar { get; set; }
         public OffsetDirection OffsetDirection { get; set; }
     }
 

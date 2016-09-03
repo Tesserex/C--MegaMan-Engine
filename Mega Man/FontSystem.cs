@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using MegaMan.Common;
-using MegaMan.Common.Rendering;
+﻿using System.Collections.Generic;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.IncludedObjects;
+using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {

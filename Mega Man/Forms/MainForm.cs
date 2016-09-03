@@ -614,6 +614,7 @@ namespace MegaMan.Engine
             keyform.TopMost = this.TopMost;
             keyform.ShowDialog();
             keyform.TopMost = false;
+            if (autosaveToolStripMenuItem.Checked) SaveConfig();
         }
 
         #region Screen Menu
