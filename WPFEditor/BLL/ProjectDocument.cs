@@ -29,7 +29,7 @@ namespace MegaMan.Editor.Bll
 
         #region Game XML File Stuff
 
-        private Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
+        private Dictionary<string, EntityInfo> entities;
         private List<EntityInfo> unloadedEntities = new List<EntityInfo>();
 
         public IEnumerable<EntityInfo> Entities
@@ -199,8 +199,11 @@ namespace MegaMan.Editor.Bll
 
             foreach (var entity in project.Entities)
             {
-                ((App)App.Current).AnimateSprite(entity.DefaultSprite);
-                entity.DefaultSprite.Play();
+                if (entity.DefaultSprite != null)
+                {
+                    ((App)App.Current).AnimateSprite(entity.DefaultSprite);
+                    entity.DefaultSprite.Play();
+                }
             }
         }
 
@@ -221,7 +224,7 @@ namespace MegaMan.Editor.Bll
 
         public EntityInfo EntityByName(string name)
         {
-            if (entities == null)
+            if (entities == null || entities.Count != Project.Entities.Count())
                 entities = Project.Entities.ToDictionary(e => e.Name, e => e);
 
             if (entities.ContainsKey(name))

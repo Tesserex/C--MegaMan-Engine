@@ -37,6 +37,15 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public EntityPlacementControlViewModel(EntityPlacement placement, EntityInfo entityInfo, ScreenDocument screen)
         {
+            if (placement == null)
+                throw new ArgumentNullException("placement");
+
+            if (entityInfo == null)
+                throw new ArgumentNullException("entityInfo");
+
+            if (screen == null)
+                throw new ArgumentNullException("screen");
+
             this.Placement = placement;
             this._entityInfo = entityInfo;
             this._screen = screen;
