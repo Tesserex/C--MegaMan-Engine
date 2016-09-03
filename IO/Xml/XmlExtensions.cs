@@ -110,6 +110,10 @@ namespace MegaMan.IO.Xml
             {
                 return (T)Convert.ChangeType(value, underlyingType, System.Globalization.CultureInfo.InvariantCulture);
             }
+            else if (typeof(T).IsEnum)
+            {
+                return (T)Enum.Parse(typeof(T), value, true);
+            }
             else
             {
                 return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
