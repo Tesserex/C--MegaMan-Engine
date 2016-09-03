@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -613,6 +614,7 @@ namespace MegaMan.Engine
             keyform.TopMost = this.TopMost;
             keyform.ShowDialog();
             keyform.TopMost = false;
+            if (autosaveToolStripMenuItem.Checked) SaveConfig();
         }
 
         #region Screen Menu
@@ -990,6 +992,17 @@ namespace MegaMan.Engine
                 if (silenceErrorMessages == false)
                 {
                     MessageBox.Show("There was an error loading the game.\n\n" + ex.Message, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+#if DEBUG
+                    // Get stack trace for the exception with source file information
+                    var st = new StackTrace(ex, true);
+                    // Get the top stack frame
+                    var frame = st.GetFrame(0);
+                    // Get the line number from the stack frame
+                    var line = frame.GetFileLineNumber();
+
+                    MessageBox.Show("StackTrace: " + st + " Frame: " + frame + " Line: " + line, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+#endif
                 }
                 Game.CurrentGame.Unload();
             }

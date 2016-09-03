@@ -18,7 +18,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             var info = new MovementEffectPartInfo();
 
-            info.Flying = partNode.TryElementValue<bool?>("Flying");
+            info.Floating = partNode.TryElementValue<bool?>("Floating");
             info.FlipSprite = partNode.TryElementValue<bool?>("FlipSprite");
 
             info.X = LoadVelocity(partNode.Element("X"));

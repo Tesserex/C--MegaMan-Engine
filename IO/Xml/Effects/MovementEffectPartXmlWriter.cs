@@ -23,7 +23,8 @@ namespace MegaMan.IO.Xml.Effects
         {
             writer.WriteStartElement("Movement");
 
-            writer.WriteElementString("Flying", info.Flying.ToString());
+            writer.WriteElementString("Floating", info.Floating.ToString());
+
             writer.WriteElementString("FlipSprite", info.FlipSprite.ToString());
 
             if (info.X != null)

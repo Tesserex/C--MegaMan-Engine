@@ -36,7 +36,7 @@
 					<Y base="Inherit" />
 				</Position>
 				<Movement>
-					<Flying>True</Flying>
+					<Floating>True</Floating>
 					<FlipSprite>True</FlipSprite>
 					<X direction="Inherit" magnitude="6" />
 					<Y magnitude="0" />
@@ -134,7 +134,7 @@
 		<State name="Start">
 			<Initialize>
 				<Movement>
-					<Flying>True</Flying>
+					<Floating>True</Floating>
 					<FlipSprite>True</FlipSprite>
 					<X direction="Inherit" magnitude="1" />
 					<Y magnitude="0" />

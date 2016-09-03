@@ -1,203 +1,128 @@
 <Entities>
-	<Entity name="BigStar" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="2" height="2" tilesheet="images/cutscenes/boss/big.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="BigStar">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/boss/big.png" width="2" height="2">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Initialize />
-			<Logic>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<X direction="Left" magnitude="2" />
-					<Y direction="Down" magnitude="2" />
-				</Movement>
-			</Logic>
-			<Trigger priority="23">
-				<Condition>Position.Position.Y &gt; 224</Condition>
+			<Movement mode="repeat">
+				<Floating>True</Floating>
+				<X magnitude="2" direction="Left" />
+				<Y magnitude="2" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y > 224</Condition>
 				<Effect>
 					<Position>
-						<X base="Inherit" offset="448" direction="Up" />
-						<Y base="Inherit" offset="448" direction="Right" />
+						<X offset="448" direction="Up" />
+						<Y offset="448" direction="Right" />
 					</Position>
 				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-	<Entity name="SmallStar" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="1" height="1" tilesheet="images/cutscenes/boss/small.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="SmallStar">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/boss/small.png" width="1" height="1">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Initialize>
-				<Timer>
-					<Start>T</Start>
-				</Timer>
-			</Initialize>
-			<Logic>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<X direction="Left" magnitude="1" />
-					<Y direction="Down" magnitude="1" />
-				</Movement>
-			</Logic>
-			<Trigger priority="59">
-				<Condition>Position.Position.Y &gt; 224</Condition>
+			<Timer><Start>T</Start></Timer>
+			<Movement mode="repeat">
+				<Floating>True</Floating>
+				<X magnitude="1" direction="Left" />
+				<Y magnitude="1" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y > 224</Condition>
 				<Effect>
 					<Position>
-						<X base="Inherit" offset="448" direction="Up" />
-						<Y base="Inherit" offset="448" direction="Right" />
+						<X offset="448" direction="Up" />
+						<Y offset="448" direction="Right" />
 					</Position>
 				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-	<Entity name="TopBorder" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="256" height="24" tilesheet="images/cutscenes/borders.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="TopBorder">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
 			<Frame x="0" y="0" duration="10" />
 			<Frame x="256" y="0" duration="10" />
 		</Sprite>
 		<State name="Start">
-			<Initialize>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<Y direction="Down" magnitude="2.5" />
-				</Movement>
-			</Initialize>
-			<Logic />
-			<Trigger priority="91">
-				<Condition>Position.Position.Y &gt;= 48</Condition>
+			<Movement>
+				<Floating>True</Floating>
+				<Y magnitude="2.5" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y >= 48</Condition>
 				<Effect>
 					<Movement>
-						<Flying />
-						<FlipSprite />
-						<Y magnitude="0" />
+						<Y magnitude="0"/>
 					</Movement>
 				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-	<Entity name="BottomBorder" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="256" height="24" tilesheet="images/cutscenes/borders.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="BottomBorder">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/borders.png" width="256" height="24">
 			<Frame x="0" y="24" duration="10" />
 			<Frame x="256" y="24" duration="10" />
 		</Sprite>
 		<State name="Start">
-			<Initialize>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<Y direction="Up" magnitude="2.5" />
-				</Movement>
-			</Initialize>
-			<Logic />
-			<Trigger priority="124">
+			<Movement>
+				<Floating>True</Floating>
+				<Y magnitude="2.5" direction="Up" />
+			</Movement>
+			<Trigger>
 				<Condition>Position.Position.Y &lt;= 142</Condition>
 				<Effect>
 					<Movement>
-						<Flying />
-						<FlipSprite />
-						<Y magnitude="0" />
+						<Y magnitude="0"/>
 					</Movement>
 				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-	<Entity name="TopWeaponBorder" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="256" height="23" tilesheet="images/cutscenes/getweapon.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="TopWeaponBorder">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Initialize>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<Y direction="Down" magnitude="2.5" />
-				</Movement>
-			</Initialize>
-			<Logic />
-			<Trigger priority="156">
-				<Condition>Position.Position.Y &gt;= 48</Condition>
+			<Movement>
+				<Floating>True</Floating>
+				<Y magnitude="2.5" direction="Down" />
+			</Movement>
+			<Trigger>
+				<Condition>Position.Position.Y >= 48</Condition>
 				<Effect>
-					<Position>
-						<Y base="48" />
-					</Position>
+					<Position><Y base="48" /></Position>
 					<Movement>
-						<Flying />
-						<FlipSprite />
-						<Y magnitude="0" />
+						<Y magnitude="0"/>
 					</Movement>
 				</Effect>
 			</Trigger>
 		</State>
 	</Entity>
-	<Entity name="BottomWeaponBorder" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
-		<Movement>
-			<Flying />
-			<FlipSprite />
-		</Movement>
-		<Sprite width="256" height="23" tilesheet="images/cutscenes/getweapon.png">
-			<Hotspot x="0" y="0" />
+	<Entity name="BottomWeaponBorder">
+		<EditorData hide="true" />
+		<Sprite tilesheet="images/cutscenes/getweapon.png" width="256" height="23">
 			<Frame x="0" y="23" duration="0" />
 		</Sprite>
 		<State name="Start">
-			<Initialize>
-				<Movement>
-					<Flying>True</Flying>
-					<FlipSprite />
-					<Y direction="Up" magnitude="2.5" />
-				</Movement>
-			</Initialize>
-			<Logic />
-			<Trigger priority="191">
+			<Movement>
+				<Floating>True</Floating>
+				<Y magnitude="2.5" direction="Up" />
+			</Movement>
+			<Trigger>
 				<Condition>Position.Position.Y &lt;= 142</Condition>
 				<Effect>
-					<Position>
-						<Y base="142" />
-					</Position>
+					<Position><Y base="142" /></Position>
 					<Movement>
-						<Flying />
-						<FlipSprite />
-						<Y magnitude="0" />
+						<Y magnitude="0"/>
 					</Movement>
 				</Effect>
 			</Trigger>

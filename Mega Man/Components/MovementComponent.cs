@@ -14,7 +14,7 @@ namespace MegaMan.Engine
         private float pushX, pushY;
 
         private float vx, vy, pendingVx, pendingVy;
-        public bool Flying { get; set; }
+        public bool Floating { get; set; }
         public float VelocityX
         {
             get { return vx; }
@@ -60,7 +60,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            MovementComponent newone = new MovementComponent {Flying = this.Flying, CanMove = this.CanMove};
+            MovementComponent newone = new MovementComponent { Floating = this.Floating, CanMove = this.CanMove};
 
             return newone;
         }
@@ -102,7 +102,7 @@ namespace MegaMan.Engine
             float accelY = (pendingVy - vy) * dragY;
             vy += accelY;
 
-            if (!Flying)
+            if (!Floating)
             {
                 float gmult = (overTile != null) ? overTile.Properties.GravityMult : 1;
 

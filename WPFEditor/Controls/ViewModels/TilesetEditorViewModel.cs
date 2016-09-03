@@ -148,7 +148,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddTile()
         {
             var tile = _tileset.AddTile();
-            _observedTiles.Add(tile);
             ((App)App.Current).AnimateSprite(tile.Sprite);
             this._project.Dirty = true;
         }

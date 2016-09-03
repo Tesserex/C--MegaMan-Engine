@@ -26,6 +26,8 @@ namespace MegaMan.Engine
             int lifetime,
             float playerdx,
             float playerdy,
+            float playerdabsx,
+            float playerdabsy,
             bool gravflip,
             double random,
             Player player
@@ -80,6 +82,8 @@ namespace MegaMan.Engine
         private static readonly ParameterExpression healthParam;
         private static readonly ParameterExpression playerXParam;
         private static readonly ParameterExpression playerYParam;
+        private static readonly ParameterExpression playerXAbsParam;
+        private static readonly ParameterExpression playerYAbsParam;
         private static readonly ParameterExpression gravParam;
         private static readonly ParameterExpression randParam;
         private static readonly ParameterExpression playerParam;
@@ -107,6 +111,8 @@ namespace MegaMan.Engine
             lifeParam = Expression.Parameter(typeof(int), "LifeTime");
             playerXParam = Expression.Parameter(typeof(float), "PlayerDistX");
             playerYParam = Expression.Parameter(typeof(float), "PlayerDistY");
+            playerXAbsParam = Expression.Parameter(typeof(float), "PlayerDistAbsX");
+            playerYAbsParam = Expression.Parameter(typeof(float), "PlayerDistAbsY");
             gravParam = Expression.Parameter(typeof(bool), "GravityFlip");
             randParam = Expression.Parameter(typeof(double), "Random");
             playerParam = Expression.Parameter(typeof(Player), "Game");
@@ -130,7 +136,7 @@ namespace MegaMan.Engine
         public static Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, gravParam, randParam, playerParam },
+                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, playerXAbsParam, playerYAbsParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
@@ -241,7 +247,7 @@ namespace MegaMan.Engine
                 if (entity == null)
                 {
                     return split(
-                        null, null, null, null, null, null, null, null, null, null, 0, 0, 0, 0,
+                        null, null, null, null, null, null, null, null, null, null, 0, 0, 0, 0, 0, 0,
                         entity != null ? entity.Container.IsGravityFlipped : false,
                         0,
                         Game.CurrentGame.Player
@@ -252,14 +258,18 @@ namespace MegaMan.Engine
 
                 float pdx = 0;
                 float pdy = 0;
+                float pdxAbs = 0;
+                float pdyAbs = 0;
                 GameEntity player = entity.Entities.GetEntityById("Player");
                 if (player != null)
                 {
                     var playerPos = player.GetComponent<PositionComponent>();
                     if (playerPos != null)
                     {
-                        pdx = Math.Abs(playerPos.Position.X - pos.Position.X);
-                        pdy = Math.Abs(playerPos.Position.Y - pos.Position.Y);
+                        pdx = pos.Position.X - playerPos.Position.X;
+                        pdy = pos.Position.Y - playerPos.Position.Y;
+                        pdxAbs = Math.Abs(playerPos.Position.X - pos.Position.X);
+                        pdyAbs = Math.Abs(playerPos.Position.Y - pos.Position.Y);
                     }
                 }
 
@@ -278,6 +288,8 @@ namespace MegaMan.Engine
                     (entity.GetComponent<StateComponent>()).Lifetime,
                     pdx,
                     pdy,
+                    pdxAbs,
+                    pdyAbs,
                     entity.Container.IsGravityFlipped,
                     (entity.GetComponent<StateComponent>()).FrameRand,
                     Game.CurrentGame.Player

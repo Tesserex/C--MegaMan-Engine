@@ -47,14 +47,13 @@ namespace MegaMan.IO.Xml.Effects
             if (prop.Attribute("offset") != null)
             {
                 axisInfo.Offset = prop.TryAttribute<float?>("offset");
-                XAttribute offdirattr = prop.RequireAttribute("direction");
 
                 try
                 {
-                    axisInfo.OffsetDirection = (OffsetDirection)Enum.Parse(typeof(OffsetDirection), offdirattr.Value, true);
+                    axisInfo.OffsetDirection = prop.GetAttribute<OffsetDirection>("direction");
                 } catch
                 {
-                    throw new GameXmlException(offdirattr, "Position offset direction was not valid!");
+                    throw new GameXmlException(prop, "Position offset direction was not valid!");
                 }
             }
 

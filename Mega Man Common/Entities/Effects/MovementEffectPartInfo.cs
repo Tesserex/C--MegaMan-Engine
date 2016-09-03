@@ -2,7 +2,7 @@
 {
     public class MovementEffectPartInfo : IEffectPartInfo
     {
-        public bool? Flying { get; set; }
+        public bool? Floating { get; set; }
         public bool? FlipSprite { get; set; }
         public VelocityEffectInfo X { get; set; }
         public VelocityEffectInfo Y { get; set; }
