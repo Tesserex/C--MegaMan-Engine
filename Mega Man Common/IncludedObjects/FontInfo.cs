@@ -1,12 +1,9 @@
-﻿using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using MegaMan.Common.Geometry;
 
-namespace MegaMan.Common
+namespace MegaMan.Common.IncludedObjects
 {
-    public class FontInfo
+    public class FontInfo : IncludedObject
     {
         private Dictionary<char, Point> chars = new Dictionary<char,Point>();
 

@@ -1,5 +1,4 @@
 ﻿using MegaMan.Common;
-using MegaMan.IO;
 
 namespace MegaMan.Editor.Bll.Factories
 {
@@ -31,13 +30,7 @@ namespace MegaMan.Editor.Bll.Factories
             var project = _core.Reader.GetProjectReader().Load();
             var structure = new ProjectFileStructure(project);
             var projectDocument = new ProjectDocument(structure, project, _stageFactory);
-            LoadIncludes(projectDocument, project);
             return projectDocument;
-        }
-
-        private void LoadIncludes(ProjectDocument projectDocument, Project project)
-        {
-
         }
     }
 }

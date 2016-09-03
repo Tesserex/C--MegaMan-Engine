@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common
 {

@@ -36,7 +36,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         private void Item_Click(object sender, EventArgs e)
         {
-            Set(!item.Checked);
+            Set(true);
         }
 
         public virtual void LoadSettings(Setting settings)

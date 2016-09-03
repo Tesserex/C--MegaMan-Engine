@@ -1,5 +1,4 @@
 <Entities>
-
 	<Entity name="CrystalMan">
 		<GravityFlip>True</GravityFlip>
 		<Position persistoffscreen="true" />
@@ -278,5 +277,4 @@
 			<Effect><Remove /></Effect>
 		</Trigger>
 	</Entity>
-
 </Entities>

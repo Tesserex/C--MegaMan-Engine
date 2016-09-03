@@ -1,13 +1,13 @@
-﻿using MegaMan.Common;
-using MegaMan.Engine.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MegaMan.Common.Entities.Effects;
 using System.Reflection;
-using Ninject;
+using MegaMan.Common;
+using MegaMan.Common.Entities.Effects;
+using MegaMan.Engine.Entities;
 using MegaMan.Engine.Entities.Effects;
+using Ninject;
 
 namespace MegaMan.Engine
 {
@@ -19,6 +19,7 @@ namespace MegaMan.Engine
             CollisionComponent col,
             LadderComponent lad,
             TimerComponent timer,
+            VarsComponent vars,
             HealthComponent health,
             WeaponComponent weapon,
             int statetime,
@@ -46,8 +47,23 @@ namespace MegaMan.Engine
         Player player
     );
 
+    public delegate object SplitQuery(
+        PositionComponent pos,
+        MovementComponent mov,
+        SpriteComponent spr,
+        InputComponent inp,
+        CollisionComponent col,
+        LadderComponent lad,
+        TimerComponent timer,
+        HealthComponent health,
+        StateComponent state,
+        WeaponComponent weapon,
+        Player player
+    );
+
     public delegate bool Condition(IEntity entity);
     public delegate void Effect(IEntity entity);
+    public delegate object Query(IEntity entity);
 
     public static class EffectParser
     {
@@ -60,6 +76,7 @@ namespace MegaMan.Engine
         private static readonly ParameterExpression weaponParam;
         private static readonly ParameterExpression ladderParam;
         private static readonly ParameterExpression timerParam;
+        private static readonly ParameterExpression varsParam;
         private static readonly ParameterExpression stParam;
         private static readonly ParameterExpression lifeParam;
         private static readonly ParameterExpression healthParam;
@@ -86,6 +103,7 @@ namespace MegaMan.Engine
             collParam = Expression.Parameter(typeof(CollisionComponent), "Collision");
             ladderParam = Expression.Parameter(typeof(LadderComponent), "Ladder");
             timerParam = Expression.Parameter(typeof(TimerComponent), "Timer");
+            varsParam = Expression.Parameter(typeof(VarsComponent), "Vars");
             healthParam = Expression.Parameter(typeof(HealthComponent), "Health");
             stateParam = Expression.Parameter(typeof(StateComponent), "State");
             weaponParam = Expression.Parameter(typeof(WeaponComponent), "Weapon");
@@ -118,7 +136,7 @@ namespace MegaMan.Engine
         public static Condition ParseCondition(string conditionString)
         {
             LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
-                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, playerXAbsParam, playerYAbsParam, gravParam, randParam, playerParam },
+                new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, playerXAbsParam, playerYAbsParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
@@ -171,10 +189,26 @@ namespace MegaMan.Engine
 
         private static Effect LoadEffect(EffectInfo info)
         {
-            return info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
+            var effect = info.Parts.Aggregate(new Effect(e => { }), (c, part) => c + LoadEffectPart(part));
+
+            if (info.Filter != null)
+            {
+                var filter = info.Filter;
+                return e => {
+                    var targets = GetFilteredEntities(e.Entities, filter);
+                    foreach (var target in targets)
+                    {
+                        effect(target);
+                    }
+                };
+            }
+            else
+            {
+                return effect;
+            }
         }
 
-        public static Effect LoadEffectPart(IEffectPartInfo partInfo)
+        private static Effect LoadEffectPart(IEffectPartInfo partInfo)
         {
             var t = partInfo.GetType();
             if (!effectLoaders.ContainsKey(t))
@@ -195,6 +229,17 @@ namespace MegaMan.Engine
             return CloseEffect((SplitEffect)lambda.Compile());
         }
 
+        public static Query CompileQuery(string st)
+        {
+            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+                            new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
+                            typeof(SplitQuery),
+                            typeof(object),
+                            st,
+                            dirDict);
+            return CloseQuery((SplitQuery)lambda.Compile());
+        }
+
         // provides a closure around a split condition
         private static Condition CloseCondition(SplitCondition split)
         {
@@ -202,7 +247,7 @@ namespace MegaMan.Engine
                 if (entity == null)
                 {
                     return split(
-                        null, null, null, null, null, null, null, null, null, 0, 0, 0, 0, 0, 0,
+                        null, null, null, null, null, null, null, null, null, null, 0, 0, 0, 0, 0, 0,
                         entity != null ? entity.Container.IsGravityFlipped : false,
                         0,
                         Game.CurrentGame.Player
@@ -236,6 +281,7 @@ namespace MegaMan.Engine
                     entity.GetComponent<CollisionComponent>(),
                     entity.GetComponent<LadderComponent>(),
                     entity.GetComponent<TimerComponent>(),
+                    entity.GetComponent<VarsComponent>(),
                     entity.GetComponent<HealthComponent>(),
                     entity.GetComponent<WeaponComponent>(),
                     (entity.GetComponent<StateComponent>()).StateFrames,
@@ -267,6 +313,70 @@ namespace MegaMan.Engine
                 entity.GetComponent<WeaponComponent>(),
                 Game.CurrentGame.Player
             );
+        }
+
+        // provides a closure around a split query
+        private static Query CloseQuery(SplitQuery split)
+        {
+            return entity => split(
+                entity.GetComponent<PositionComponent>(),
+                entity.GetComponent<MovementComponent>(),
+                entity.GetComponent<SpriteComponent>(),
+                entity.GetComponent<InputComponent>(),
+                entity.GetComponent<CollisionComponent>(),
+                entity.GetComponent<LadderComponent>(),
+                entity.GetComponent<TimerComponent>(),
+                entity.GetComponent<HealthComponent>(),
+                entity.GetComponent<StateComponent>(),
+                entity.GetComponent<WeaponComponent>(),
+                Game.CurrentGame.Player
+            );
+        }
+
+        private static IEnumerable<IEntity> GetFilteredEntities(IEntityPool pool, EntityFilterInfo filter)
+        {
+            var entities = pool.GetAll();
+
+            if (filter.Type != null)
+                entities = entities.Where(e => e.Name == filter.Type);
+
+            if (filter.Direction != null)
+                entities = entities.Where(e => e.Direction == filter.Direction);
+
+            if (filter.Position != null)
+            {
+                if (filter.Position.X != null)
+                {
+                    if (filter.Position.X.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.X >= filter.Position.X.Min.Value;
+                        });
+
+                    if (filter.Position.X.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.X <= filter.Position.X.Max.Value;
+                        });
+                }
+
+                if (filter.Position.Y != null)
+                {
+                    if (filter.Position.Y.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.Y >= filter.Position.Y.Min.Value;
+                        });
+
+                    if (filter.Position.Y.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var pos = e.GetComponent<PositionComponent>();
+                            return pos == null || pos.Y <= filter.Position.Y.Max.Value;
+                        });
+                }
+            }
+
+            return entities;
         }
 
         public static void Unload()

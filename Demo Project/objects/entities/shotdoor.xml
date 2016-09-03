@@ -24,74 +24,130 @@
 			<Hitbox name="H" x="0" y="0" width="16" height="32" properties="block">
 				<Group>Block</Group>
 				<Hits>Solid</Hits>
+				<Group>Block</Group>
 				<Resist name="ALL" multiply="0" />
 			</Hitbox>
-			<Hitbox name="DeflectHigh" x="0" y="0" width="16" height="8" properties="block">
+			<Hitbox name="DeflectHigh" x="0" y="0" width="16" height="8" properties="block" environment="True" pushaway="True">
 				<Group>Deflect</Group>
 				<Resist name="ALL" multiply="0" />
 			</Hitbox>
-			<Hitbox name="Target" x="0" y="14" width="16" height="4">
+			<Hitbox name="Target" x="0" y="14" width="16" height="4" properties="Default" environment="True" pushaway="True">
 				<Group>Block</Group>
 				<Group>KillProjectile</Group>
 			</Hitbox>
-			<Hitbox name="DeflectLow" x="0" y="24" width="16" height="8" properties="block">
+			<Hitbox name="DeflectLow" x="0" y="24" width="16" height="8" properties="block" environment="True" pushaway="True">
 				<Group>Deflect</Group>
 				<Resist name="ALL" multiply="0" />
 			</Hitbox>
 		</Collision>
-		<Health><Max>-1</Max></Health>
+		<Health max="-1" flash="0" />
 		<State name="Start">
-			<Sprite><Name>Red</Name></Sprite>
-			<Movement><Y magnitude="0" /></Movement>
-			<Collision>
-				<EnableBox name="H" />
-				<EnableBox name="DeflectHigh" />
-				<EnableBox name="DeflectLow" />
-				<EnableBox name="Target" />
-			</Collision>
-			<Trigger><Condition>Health.Hit == True</Condition>
-				<Effect><State>Opening</State><Sound name="EnemyHurt" /></Effect>
+			<Initialize>
+				<Sprite>
+					<Name>Red</Name>
+				</Sprite>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<Y magnitude="0" />
+				</Movement>
+				<Collision>
+					<EnableBox name="H" />
+					<EnableBox name="DeflectHigh" />
+					<EnableBox name="DeflectLow" />
+					<EnableBox name="Target" />
+				</Collision>
+			</Initialize>
+			<Logic />
+			<Trigger priority="52">
+				<Condition>Health.Hit == True</Condition>
+				<Effect>
+					<State>Opening</State>
+					<Sound name="EnemyHurt" playing="True" />
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Opening">
-			<Sprite><Name>White</Name></Sprite>
-			<Movement><Y magnitude="2" direction="Up" /></Movement>
-			<Trigger>
+			<Initialize>
+				<Sprite>
+					<Name>White</Name>
+				</Sprite>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<Y direction="Up" magnitude="2" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="59">
 				<Condition>StateTime == 16</Condition>
-				<Effect><State>Open</State></Effect>
+				<Effect>
+					<State>Open</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Open">
-			<Sprite><Name>White</Name></Sprite>
-			<Timer><Start>OpenTimer</Start></Timer>
-			<Movement><Y magnitude="0" /></Movement>
-			<Trigger>
+			<Initialize>
+				<Sprite>
+					<Name>White</Name>
+				</Sprite>
+				<Timer>
+					<Start>OpenTimer</Start>
+				</Timer>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<Y magnitude="0" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="68">
 				<Condition>Timer.Value("OpenTimer") == 180</Condition>
 				<Effect>
-					<Sprite><Name>Blink</Name></Sprite>
+					<Sprite>
+						<Name>Blink</Name>
+					</Sprite>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="74">
 				<Condition>Timer.Value("OpenTimer") == 300</Condition>
 				<Effect>
-					<Timer><Delete>OpenTimer</Delete></Timer>
+					<Timer>
+						<Delete>OpenTimer</Delete>
+					</Timer>
 					<State>Closing</State>
 				</Effect>
 			</Trigger>
-			<Trigger><Condition>Health.Hit == True</Condition>
+			<Trigger priority="81">
+				<Condition>Health.Hit == True</Condition>
 				<Effect>
-					<Sound name="EnemyHurt" />
-					<Timer><Reset>OpenTimer</Reset></Timer>
-					<Sprite><Name>White</Name></Sprite>
+					<Sound name="EnemyHurt" playing="True" />
+					<Timer>
+						<Reset>OpenTimer</Reset>
+					</Timer>
+					<Sprite>
+						<Name>White</Name>
+					</Sprite>
 				</Effect>
 			</Trigger>
 		</State>
 		<State name="Closing">
-			<Sprite><Name>Red</Name></Sprite>
-			<Movement><Y magnitude="2" direction="Down" /></Movement>
-			<Trigger>
+			<Initialize>
+				<Sprite>
+					<Name>Red</Name>
+				</Sprite>
+				<Movement>
+					<Flying />
+					<FlipSprite />
+					<Y direction="Down" magnitude="2" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="92">
 				<Condition>StateTime == 16</Condition>
-				<Effect><State>Start</State></Effect>
+				<Effect>
+					<State>Start</State>
+				</Effect>
 			</Trigger>
 		</State>
 	</Entity>

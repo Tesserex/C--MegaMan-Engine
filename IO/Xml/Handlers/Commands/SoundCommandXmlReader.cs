@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Handlers.Commands
 {

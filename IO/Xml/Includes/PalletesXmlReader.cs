@@ -1,18 +1,22 @@
-﻿using MegaMan.Common;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Includes
 {
     internal class PalletesXmlReader : IIncludeXmlReader
     {
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
+            var group = new IncludedObjectGroup();
             foreach (var node in xmlNode.Elements("Palette"))
             {
                 var palette = PaletteFromXml(node, project.BaseDir);
-
+                group.Add(palette);
                 project.AddPalette(palette);
             }
+
+            return group;
         }
 
         private PaletteInfo PaletteFromXml(XElement node, string baseDir)

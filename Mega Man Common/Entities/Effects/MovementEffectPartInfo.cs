@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class MovementEffectPartInfo : IEffectPartInfo
     {
@@ -18,6 +13,7 @@ namespace MegaMan.Common.Entities.Effects
     {
         public MovementEffectDirection Direction { get; set; }
         public float? Magnitude { get; set; }
+        public string MagnitudeVarName { get; set; }
     }
 
     public enum MovementEffectDirection

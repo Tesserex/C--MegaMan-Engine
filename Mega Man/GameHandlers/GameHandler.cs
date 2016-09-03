@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine

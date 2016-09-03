@@ -25,9 +25,7 @@ namespace MegaMan.IO.Xml.Entities
 
             if (move.EffectInfo != null)
             {
-                writer.WriteStartElement("Movement");
                 _effectWriter.Write(move.EffectInfo, writer);
-                writer.WriteEndElement();
             }
         }
     }

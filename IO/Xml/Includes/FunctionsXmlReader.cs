@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -24,12 +21,15 @@ namespace MegaMan.IO.Xml.Includes
             }
         }
 
-        public void Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode)
         {
+            var group = new IncludedObjectGroup();
             foreach (var el in xmlNode.Elements("Function"))
             {
-                _functionReader.Load(project, el);
+                group.Add(_functionReader.Load(project, el));
             }
+
+            return group;
         }
     }
 }

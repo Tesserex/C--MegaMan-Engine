@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMan.Common
+namespace MegaMan.Common.IncludedObjects
 {
     public interface IHandlerObjectInfo
     {
@@ -13,7 +13,7 @@ namespace MegaMan.Common
         public string Name { get { return Sprite.Name; } }
     }
 
-    public abstract class HandlerInfo
+    public abstract class HandlerInfo : IncludedObject
     {
         public string Name { get; set; }
         public Dictionary<string, IHandlerObjectInfo> Objects { get; private set; }

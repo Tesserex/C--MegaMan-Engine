@@ -4,8 +4,6 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
-using MegaMan.IO;
-using MegaMan.IO.Xml;
 
 namespace MegaMan.Editor.Bll
 {
@@ -31,11 +29,17 @@ namespace MegaMan.Editor.Bll
 
         #region Game XML File Stuff
 
-        private readonly Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
+        private Dictionary<string, EntityInfo> entities = new Dictionary<string, EntityInfo>();
+        private List<EntityInfo> unloadedEntities = new List<EntityInfo>();
 
         public IEnumerable<EntityInfo> Entities
         {
-            get { return entities.Values; }
+            get { return Project.Entities; }
+        }
+
+        public IEnumerable<EntityInfo> UnloadedEntities
+        {
+            get { return unloadedEntities.AsReadOnly(); }
         }
 
         private string BaseDir
@@ -193,7 +197,6 @@ namespace MegaMan.Editor.Bll
             FileStructure = fileStructure;
             _stageFactory = stageFactory;
 
-            entities = project.Entities.ToDictionary(e => e.Name, e => e);
             foreach (var entity in project.Entities)
             {
                 ((App)App.Current).AnimateSprite(entity.DefaultSprite);
@@ -218,6 +221,9 @@ namespace MegaMan.Editor.Bll
 
         public EntityInfo EntityByName(string name)
         {
+            if (entities == null)
+                entities = Project.Entities.ToDictionary(e => e.Name, e => e);
+
             if (entities.ContainsKey(name))
                 return entities[name];
             else
@@ -250,6 +256,19 @@ namespace MegaMan.Editor.Bll
         public void AddEntity(EntityInfo entity)
         {
             this.Project.AddEntity(entity);
+            Dirty = true;
+        }
+
+        public void RemoveEntity(EntityInfo entity)
+        {
+            this.Project.RemoveEntity(entity);
+            Dirty = true;
+        }
+
+        public void UnloadEntity(EntityInfo entity)
+        {
+            this.Project.RemoveEntity(entity);
+            this.unloadedEntities.Add(entity);
             Dirty = true;
         }
 

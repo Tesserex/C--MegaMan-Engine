@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml

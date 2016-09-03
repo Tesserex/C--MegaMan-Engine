@@ -51,7 +51,7 @@
         <Func>Health.Add(28)</Func>
         <RemoveInventory item="EnergyTank" quantity="1" />
     </Function>
-	
+
 	<Function name="Darken">
 		<Palette name="Tiles" index="1" />
 		<Delay frames="6">
@@ -61,7 +61,7 @@
 			<Palette name="Tiles" index="3" />
 		</Delay>
 	</Function>
-	
+
 	<Function name="Lighten">
 		<Palette name="Tiles" index="2" />
 		<Delay frames="6">
@@ -70,5 +70,16 @@
 		<Delay frames="12">
 			<Palette name="Tiles" index="0" />
 		</Delay>
+	</Function>
+
+	<Function name="TossMets">
+		<EntityFilter>
+			<Type>Metool</Type>
+			<Direction>Left</Direction>
+			<Position><X min="64" max="128" /></Position>
+		</EntityFilter>
+		<Movement>
+			<Y magnitude="4" direction="Up" />
+		</Movement>
 	</Function>
 </Functions>
