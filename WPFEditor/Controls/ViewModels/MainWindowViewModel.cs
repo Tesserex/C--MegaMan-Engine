@@ -173,7 +173,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void OpenRecentProject(object param)
         {
             TryOpenProject(param.ToString());
-            ShowBackstage = false;
         }
 
         private void TryOpenProject(string filename)
@@ -181,6 +180,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             try
             {
                 OpenProject(filename);
+                ShowBackstage = false;
             }
             catch (IOException ex)
             {
