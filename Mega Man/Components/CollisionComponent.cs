@@ -160,15 +160,60 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
+        /// See returns
+        /// </summary>
+        /// <param name="tileProperty">Tile property to check</param>
+        /// <param name="property">Property to check as a string</param>
+        /// <returns>True property of tile requested in property param</returns>
+        public bool checkTileProperty(TileProperties tileProperty, string property)
+        {
+            if (property == "Blocking")
+            {
+                return tileProperty.Blocking;
+            }
+            else if (property == "Climbable")
+            {
+                return tileProperty.Climbable;
+            }
+            else if (property == "Lethal")
+            {
+                return tileProperty.Lethal;
+            }
+            else if (property == "Sinking")
+            {
+                return (tileProperty.Sinking != 0) ? true : false;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Function to check RealTime collision (not in game loop) must have be falled before.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>True if RealTime collision hit the type received</returns>
+        public bool CheckRealTimeCollisionIfTileReceivedHit(string property)
+        {
+            if (hitSquaresForFunctionThatChecksCollisions == null) return false; // foreach is stupid and will crash if object is null
+
+            foreach (MapSquare hit in hitSquaresForFunctionThatChecksCollisions)
+            {
+                if (checkTileProperty(hit.Properties, property)) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// See return value. Also fill hitSquaresForFunctionThatChecksCollisions with blocks hit
         /// </summary>
         /// <param name="boxName">Box name for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
         /// <returns>True if a solid block is hit</returns>
-        public bool CollisionWithTiles(string boxName)
+        public bool CollisionWithTiles(string boxName, string property)
         {
             CollisionBox Box = null;
             hitSquaresForFunctionThatChecksCollisions = new List<MapSquare>(); // hitSquares: those touching
-
+            
             foreach (CollisionBox hitbox in hitboxes)   // Find hitbox with named received
             {
                 if (hitbox.Name == boxName)
@@ -183,12 +228,18 @@ namespace MegaMan.Engine
 
             CheckEnvironment(hitSquaresForFunctionThatChecksCollisions, Box, false);
 
-            foreach (MapSquare hit in hitSquaresForFunctionThatChecksCollisions)
-            {
-                if (hit.Properties.Blocking) return true;
-            }
+            return CheckRealTimeCollisionIfTileReceivedHit(property);
+        }
 
-            return false;
+        /// <summary>
+        /// Since xml parser from Microsoft is used, overloading the function is needed.
+        /// The signature with optional parameter isn't recognised by parser. Example: Function(string a, string b = "")
+        /// </summary>
+        /// <param name="boxName"></param>
+        /// <returns></returns>
+        public bool CollisionWithTiles(string boxName)
+        {
+            return CollisionWithTiles(boxName, "Blocking");
         }
 
         protected override void Update()
