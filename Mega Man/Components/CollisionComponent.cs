@@ -92,6 +92,7 @@ namespace MegaMan.Engine
             {
                 if (!enabledBoxes.Contains(hitbox.ID)) continue;
 
+                hitbox.SetParent(this);
                 RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
 
