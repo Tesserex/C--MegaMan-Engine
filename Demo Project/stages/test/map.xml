@@ -4,7 +4,7 @@
 	<Screen id="Start">
 		<Entity entity="MirrorTestLocal" x="96" y="0" respawn="Offscreen" />
 		<Entity id="2f79c18c-a29d-40fb-b4e5-4eab61091dfb" entity="Lightswitch" x="864" y="96" direction="Unknown" respawn="Offscreen" />
-		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732da" entity="UpDownSpawner" x="203" y="196" direction="Unknown" respawn="Offscreen" />
+		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732da" entity="Up'n'DownSpawner" x="203" y="196" direction="Unknown" respawn="Offscreen" />
 		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732db" entity="ShieldShooter" x="203" y="144" direction="Unknown" respawn="Offscreen" />
 		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732dc" entity="Peterchy" x="230" y="100" direction="Unknown" respawn="Offscreen" />
 		<Entity id="9ab42d64-8972-4ee9-a37e-234b92e732dd" entity="Peterchy" x="350" y="100" direction="Unknown" respawn="Offscreen" />

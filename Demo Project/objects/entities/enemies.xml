@@ -204,7 +204,7 @@
 			</Movement>
 			<Sprite><Name>Sit</Name></Sprite>
 			<Collision><Enabled>True</Enabled><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime >= 120 And PlayerDistX &lt; 96 And PlayerDistY &lt; 64">
+			<Trigger condition="StateTime >= 120 And playerdistabsx &lt; 96 And playerdistabsy &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -249,7 +249,58 @@
 			<Call>EnemyDeath</Call>
 		</Death>
 	</Entity>
-	
+
+	<Entity name="FloorBlade" group="Enemy">
+		<Tilesheet>images\enemies\floorblade.png</Tilesheet>
+		<Sprite width="16" height="16">
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="16" y="0" duration="4" />
+		</Sprite>
+		<Health><Max>1</Max></Health>
+		<Trigger condition="playerdistabsy &lt; 8">
+			<States>Start, Left</States>
+			<Effect><Movement><X magnitude="2" /></Movement></Effect>
+		</Trigger>
+		<Trigger condition="playerdistabsy >= 8">
+			<States>Start, Left</States>
+			<Effect><Movement><X magnitude="0.5" /></Movement></Effect>
+		</Trigger>
+       <Collision>
+            <Enabled>True</Enabled>
+            <Hitbox name="H" damage="2" x="-8" y="-8" width="16" height="16">
+                <Hits>Player</Hits>
+                <Group>Enemy</Group>
+                <Group>Deflect</Group>
+                <Resist name="ALL" multiply="0" />
+                <Resist name="MetalBlade" multiply="1" />
+            </Hitbox>
+        </Collision>
+		<State name="Start">
+			<Movement>
+				<Floating>True</Floating>
+				<X magnitude="0.5" direction="Right" />
+			</Movement>
+			<Collision>
+				<EnableBox name="H" />
+			</Collision>
+			<Trigger condition="StateTime>4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Right) Or Collision.BlockRight == True">
+				<Effect><State>Left</State></Effect>
+			</Trigger>
+		</State>
+		<State name="Left">
+			<Movement>
+				<X direction="Left" />
+			</Movement>
+			<Trigger condition="StateTime>4 And (Collision.BlockBottomWidth &lt; 16 and Movement.Direction == Left) Or Collision.BlockLeft == True">
+				<Effect><State>Start</State></Effect>
+			</Trigger>
+		</State>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+
 	<Entity name="GroundCannon" group="Enemy">
 		<Tilesheet>images\enemies\groundcannon.png</Tilesheet>
 		<Sprite name="Down" width="24" height="32">
@@ -298,7 +349,7 @@
 				<FlipSprite>True</FlipSprite>
 			</Movement>
 			<Collision><EnableBox name="Down" /></Collision>
-			<Trigger condition="StateTime > 20 And PlayerDistX &lt; 128 And PlayerDistY &lt; 64">
+			<Trigger condition="StateTime > 20 And playerdistabsx &lt; 128 And playerdistabsy &lt; 64">
 				<Effect>
 					<State>Up</State>
 					<Movement><X magnitude="1" direction="Player" /><X magnitude="0" /></Movement>
@@ -563,7 +614,7 @@
 			<Collision>
 				<EnableBox name="Up" />
 			</Collision>
-			<Trigger condition="PlayerDistY &lt; 64 And PlayerDistX &lt; 96">
+			<Trigger condition="playerdistabsy &lt; 64 And playerdistabsx &lt; 96">
 				<Effect>
 					<State>Fall</State>
 				</Effect>
