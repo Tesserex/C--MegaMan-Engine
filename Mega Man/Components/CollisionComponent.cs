@@ -303,6 +303,30 @@ namespace MegaMan.Engine
             return CollisionWithAllEntities_RealTime(boxName, property, true);
         }
 
+        /// <summary>
+        /// Check collisions with solid entities and tiles</summary>
+        /// <param name="boxName">Box name for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <returns>True if a solid entity is hit</returns>
+        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property)
+        {
+            if (CollisionWithAllEntities_RealTime(boxName, property, true)) return true;
+
+            return CollisionWithTiles_RealTime(boxName, property);
+        }
+
+        /// <summary>
+        /// Check collisions with solid entities and tiles</summary>
+        /// <param name="boxName">Box name for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <returns>True if a solid entity is hit</returns>
+        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property)
+        {
+            if (CollisionWithAllEntities_RealTime(boxName, property, false)) return true;
+
+            return CollisionWithTiles_RealTime(boxName, property);
+        }
+
         protected override void Update()
         {
             hitSquaresForFunctionThatChecksCollisions = null;
