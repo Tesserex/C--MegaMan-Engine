@@ -34,6 +34,9 @@ namespace MegaMan.Engine
         private readonly HashSet<int> enabledBoxes = new HashSet<int>();
         private readonly Dictionary<string, int> boxIDsByName = new Dictionary<string, int>();
 
+        private List<MapSquare> hitSquaresForFunctionThatChecksCollisions = null; // Using Func, user can call a function anytime that sets tiles it
+        private List<Collision> hitBlockEntities = new List<Collision>(); // Using Func, user can call a function anytime that sets solid objects hit
+
         public float DamageDealt { get; private set; }
 
         public bool Enabled { get; set; }
@@ -157,8 +160,42 @@ namespace MegaMan.Engine
             if (box.Name != null) boxIDsByName.Add(box.Name, box.ID);
         }
 
+        /// <summary>
+        /// See return value. Also fill hitSquaresForFunctionThatChecksCollisions with blocks hit
+        /// </summary>
+        /// <param name="boxName">Box name for which to check collisions</param>
+        /// <returns>True if a solid block is hit</returns>
+        public bool CollisionWithTiles(string boxName)
+        {
+            CollisionBox Box = null;
+            hitSquaresForFunctionThatChecksCollisions = new List<MapSquare>(); // hitSquares: those touching
+
+            foreach (CollisionBox hitbox in hitboxes)   // Find hitbox with named received
+            {
+                if (hitbox.Name == boxName)
+                {
+                    Box = hitbox;
+                    Box.SetParent(this);
+                    break;
+                }
+            }
+
+            if (Box == null) return false;  // Name received correspond to no hitbox
+
+            CheckEnvironment(hitSquaresForFunctionThatChecksCollisions, Box, false);
+
+            foreach (MapSquare hit in hitSquaresForFunctionThatChecksCollisions)
+            {
+                if (hit.Properties.Blocking) return true;
+            }
+
+            return false;
+        }
+
         protected override void Update()
         {
+            hitSquaresForFunctionThatChecksCollisions = null;
+
             DamageDealt = 0;
             BlockTop = BlockRight = BlockLeft = BlockBottom = false;
             blockBottomMin = blockLeftMin = blockRightMin = blockTopMin = float.PositiveInfinity;
@@ -282,10 +319,10 @@ namespace MegaMan.Engine
             return boundBox;
         }
 
-        private void CheckEnvironment(List<MapSquare> hitSquares, CollisionBox hitbox)
+        private void CheckEnvironment(List<MapSquare> hitSquares, CollisionBox hitbox, bool pushAway = true)
         {
             PointF offset = new PointF(0, 0);
-            RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);
+            RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);    // Absolute positions of collision box
 
             // this bounds checking prevents needlessly checking collisions way too far away
             // it's a very effective optimization (brings busy time from ~60% down to 45%!)
@@ -298,13 +335,13 @@ namespace MegaMan.Engine
                     var tile = Parent.Screen.SquareAt(x, y);
                     if (tile == null) continue;
 
-                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset);
+                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset, pushAway);
                 }
 
                 var rightEdge = Parent.Screen.SquareAt(hitRect.Right, y);
                 if (rightEdge != null)
                 {
-                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, rightEdge, ref offset);
+                    CheckEnvironmentTile(hitSquares, hitbox, hitRect, rightEdge, ref offset, pushAway);
                 }
             }
 
@@ -313,22 +350,22 @@ namespace MegaMan.Engine
                 var tile = Parent.Screen.SquareAt(x, hitRect.Bottom);
                 if (tile == null) continue;
 
-                CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset);
+                CheckEnvironmentTile(hitSquares, hitbox, hitRect, tile, ref offset, pushAway);
             }
 
             var lastCorner = Parent.Screen.SquareAt(hitRect.Right, hitRect.Bottom);
             if (lastCorner != null)
             {
-                CheckEnvironmentTile(hitSquares, hitbox, hitRect, lastCorner, ref offset);
+                CheckEnvironmentTile(hitSquares, hitbox, hitRect, lastCorner, ref offset, pushAway);
             }
         }
 
-        private void CheckEnvironmentTile(List<MapSquare> hitSquares, CollisionBox hitbox, RectangleF hitRect, MapSquare tile, ref PointF offset)
+        private void CheckEnvironmentTile(List<MapSquare> hitSquares, CollisionBox hitbox, RectangleF hitRect, MapSquare tile, ref PointF offset, bool pushAway)
         {
             if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
             {
                 hitSquares.Add(tile);
-                if (hitbox.PushAway) PositionSrc.Offset(offset.X, offset.Y);
+                if (hitbox.PushAway && pushAway) PositionSrc.Offset(offset.X, offset.Y);
             }
             else if (hitRect.IntersectsWith(tile.BoundBox))
             {
@@ -336,7 +373,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox)
+        private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox, bool pushAway = true)
         {
             foreach (var entity in Parent.Entities.GetAll())
             {
@@ -359,7 +396,7 @@ namespace MegaMan.Engine
                     {
                         blockEntities.Add(new Collision(hitbox, targetBox, coll));
 
-                        if (hitbox.PushAway)
+                        if (hitbox.PushAway && pushAway)
                         {
                             float vx, vy;
                             MovementComponent mov = entity.GetComponent<MovementComponent>();
