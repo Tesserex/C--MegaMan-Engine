@@ -17,6 +17,10 @@
 			</Hitbox>
 		</Collision>
 		<State name="Start">
+			<Position>
+				<X base="Inherit" />
+				<Y base="Inherit" />
+			</Position>
 			<Collision>
 				<EnableBox name="Environment" />
 				<EnableBox name="Horizontal" />
@@ -74,8 +78,11 @@
 	</Entity>
 
 	<Entity name="PeterchySpawner">
+		<Movement>
+			<Floating>true</Floating>
+		</Movement>
 		<State name="Start">
-			<Trigger condition="StateTime % 120 == 0">
+			<Trigger condition="(StateTime % 120) = 0">
 				<Effect><Spawn name="Peterchy"></Spawn></Effect>
 			</Trigger>
 		</State>
