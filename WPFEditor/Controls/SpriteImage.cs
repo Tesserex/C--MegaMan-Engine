@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls {
     public class SpriteImage : Grid
@@ -11,7 +12,7 @@ namespace MegaMan.Editor.Controls {
         public static readonly DependencyProperty FlippedProperty = DependencyProperty.Register("Flipped", typeof(bool), typeof(SpriteImage), new PropertyMetadata(false));
 
         protected Image _image;
-        private Sprite _sprite;
+        private SpriteModel _sprite;
         
         public double Zoom
         {
@@ -41,17 +42,18 @@ namespace MegaMan.Editor.Controls {
 
         protected virtual void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!(e.NewValue is Sprite))
-                return;
+            if (e.NewValue is Sprite)
+                SetSprite(new SpriteModel((Sprite)e.NewValue));
 
-            SetSprite((Sprite)e.NewValue);
+            if (e.NewValue is SpriteModel)
+                SetSprite((SpriteModel)e.NewValue);
         }
 
-        protected void SetSprite(Sprite s)
+        protected void SetSprite(SpriteModel s)
         {
             _sprite = s;
-            _image.Width = _sprite.Width * Zoom;
-            _image.Height = _sprite.Height * Zoom;
+            _image.Width = s.Width * Zoom;
+            _image.Height = s.Height * Zoom;
             this.Width = _image.Width;
             this.Height = _image.Height;
         }
@@ -71,11 +73,7 @@ namespace MegaMan.Editor.Controls {
             if (_sprite == null)
                 return;
 
-            var location = _sprite.CurrentFrame.SheetLocation;
-
-            var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
-            if (Zoom != 1)
-                image = SpriteBitmapCache.Scale(image, Zoom);
+            var image = _sprite.GetImageSource(Zoom);
 
             if (_sprite.Reversed ^ Flipped)
                 _image.RenderTransform = new ScaleTransform(-1, 1);

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows.Media;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Tools
 {
     public class SpriteCursor : ImageCursor
     {
-        private Sprite _sprite;
+        private SpriteModel _sprite;
         private int _snapWidth;
         private int _snapHeight;
 
-        public SpriteCursor(Sprite sprite, int snapWidth = 1, int snapHeight = 1) : base(sprite.HotSpot)
+        public SpriteCursor(SpriteModel sprite, int snapWidth = 1, int snapHeight = 1) : base(sprite.HotSpot)
         {
             _sprite = sprite;
             _snapWidth = snapWidth;
@@ -23,8 +24,7 @@ namespace MegaMan.Editor.Tools
             get
             {
                 var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
-                var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, _sprite.CurrentFrame.SheetLocation);
-                return SpriteBitmapCache.Scale(image, zoom);
+                return _sprite.GetImageSource(zoom);
             }
         }
 

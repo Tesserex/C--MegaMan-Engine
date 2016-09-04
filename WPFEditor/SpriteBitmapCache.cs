@@ -30,13 +30,18 @@ namespace MegaMan.Editor
                 if (File.Exists(absolutePath))
                     image = new BitmapImage(new Uri(absolutePath));
                 else
-                    image = new BitmapImage(new Uri("pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/tile_unknown.png"));
+                    image = GetResource("tile_unknown.png");
 
                 image.Freeze();
                 images[absolutePath] = image;
             }
 
             return images[absolutePath];
+        }
+
+        public static BitmapImage GetResource(string name)
+        {
+            return new BitmapImage(new Uri("pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/" + name));
         }
 
         public static BitmapSource GetOrLoadImageGrayscale(string absolutePath)

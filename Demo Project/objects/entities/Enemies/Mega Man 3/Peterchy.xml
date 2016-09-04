@@ -33,7 +33,7 @@
 				<Effect>
 					<State>Right</State>
 				</Effect>
-			</Trigger>	
+			</Trigger>
 		</State>
 		<State name="Left">
 			<Movement mode="Repeat">
@@ -71,5 +71,13 @@
 		<Death>
 			<Call>EnemyDeath</Call>
 		</Death>
+	</Entity>
+
+	<Entity name="PeterchySpawner">
+		<State name="Start">
+			<Trigger condition="StateTime % 120 == 0">
+				<Effect><Spawn name="Peterchy"></Spawn></Effect>
+			</Trigger>
+		</State>
 	</Entity>
 </Entities>

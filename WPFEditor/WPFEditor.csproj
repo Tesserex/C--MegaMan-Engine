@@ -154,6 +154,7 @@
     <Compile Include="Bll\Factories\TilesetDocumentFactory.cs" />
     <Compile Include="Bll\IProjectFileStructure.cs" />
     <Compile Include="Bll\ProjectFileStructure.cs" />
+    <Compile Include="Bll\SpriteModel.cs" />
     <Compile Include="Bll\TilesetDocument.cs" />
     <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
     <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\EntityViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
@@ -611,6 +613,7 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\spawn.png" />
     <Resource Include="Resources\pencil.png" />
     <Resource Include="Resources\check.png" />
     <Resource Include="Resources\wilybrows.gif" />
