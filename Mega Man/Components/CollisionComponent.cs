@@ -209,8 +209,9 @@ namespace MegaMan.Engine
         /// </summary>
         /// <param name="boxName">Box name for which to check collisions</param>
         /// <param name="property">Property to check for</param>
+        /// <param name="pushAway">Solve collisions</param>
         /// <returns>True if a solid block is hit</returns>
-        public bool CollisionWithTiles_RealTime(string boxName, string property)
+        private bool CollisionWithTiles_CanSolveCollisions_RealTime(string boxName, string property, bool pushAway = false)
         {
             CollisionBox Box = null;
             hitSquaresForFunctionThatChecksCollisions = new List<MapSquare>(); // hitSquares: those touching
@@ -227,9 +228,31 @@ namespace MegaMan.Engine
 
             if (Box == null) return false;  // Name received correspond to no hitbox
 
-            CheckEnvironment(hitSquaresForFunctionThatChecksCollisions, Box, false);
+            CheckEnvironment(hitSquaresForFunctionThatChecksCollisions, Box, pushAway);
 
             return CheckIfOneTileHitContainProperty_RealTime(property);
+        }
+
+        /// <summary>
+        /// See function with same name, 3 parameters
+        /// </summary>
+        /// <param name="boxName">Box name for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <returns>True if a solid block is hit</returns>
+        public bool CollisionWithTiles_RealTime(string boxName, string property)
+        {
+            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, false);
+        }
+
+        /// <summary>
+        /// See function with same name, 3 parameters
+        /// </summary>
+        /// <param name="boxName">Box name for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <returns>True if a solid block is hit</returns>
+        public bool CollisionWithTiles_SolveCollisions_RealTime(string boxName, string property)
+        {
+            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, true);
         }
 
         /// <summary>
@@ -251,12 +274,18 @@ namespace MegaMan.Engine
 
         /// <summary>
         /// See return value. Fills hitBlockEntities with all/solid (see param solidOnly) entities hit
+        /// This functions is called by four subfunction which only sets parameters
+        /// - CollisionWithAllEntities_RealTime
+        /// - CollisionWithAllEntities_SolveCollisions_RealTime
+        /// - CollisionWithSolidEntities_RealTime
+        /// - CollisionWithSolidEntities_SolveCollisions_RealTime
         /// </summary>
         /// <param name="boxName">Box name for which to check collisions</param>
         /// <param name="property">Property to check for</param>
         /// <param name="solidOnly">Only checks for solid entities</param>
+        /// <param name="pushAway">Solve collisions</param>
         /// <returns>True if an entity solid/not (see param solidOnly) is hit</returns>
-        private bool CollisionWithAllEntities_RealTime(string boxName, string property, bool solidOnly = true)
+        private bool CollisionWithAllEntities_CanSolveCollisions_RealTime(string boxName, string property, bool solidOnly = true, bool pushAway = false)
         {
             CollisionBox Box = null;
 
@@ -275,58 +304,40 @@ namespace MegaMan.Engine
             RectangleF boundbox = Box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
             hitBlockEntities = new List<Collision>();
 
-            boundbox = CheckEntityCollisions(hitBlockEntities, Box, boundbox, false, solidOnly);
+            boundbox = CheckEntityCollisions(hitBlockEntities, Box, boundbox, pushAway, solidOnly);
 
             return CheckIfOneEntityHitContainProperty_RealTime(property);
         }
 
+        private bool CollisionWithAllEntities_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, false); }
+        private bool CollisionWithAllEntities_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, false, true); }
+        private bool CollisionWithSolidEntities_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, true);}
+        private bool CollisionWithSolidEntities_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, true, true);}
+
         /// <summary>
-        /// Since xml parser from Microsoft is used, overloading the function is needed.
-        /// The signature with optional parameter isn't recognised by parser. Example: Function(string a, string b = "")
+        /// Check collisions with entities and tiles
+        /// This functions is called by four subfunction which only sets parameters
+        /// - CollisionWithAllEntities_RealTime
+        /// - CollisionWithAllEntities_SolveCollisions_RealTime
+        /// - CollisionWithSolidEntities_RealTime
+        /// - CollisionWithSolidEntities_SolveCollisions_RealTime
         /// </summary>
         /// <param name="boxName">Box name for which to check collisions</param>
         /// <param name="property">Property to check for</param>
+        /// <param name="solidOnly">Only checks for solid entities</param>
+        /// <param name="pushAway">Solve collisions</param>
         /// <returns>True if a solid entity is hit</returns>
-        public bool CollisionWithAllEntities_RealTime(string boxName, string property)
+        private bool CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(string boxName, string property, bool solidOnly, bool pushAway = false)
         {
-            return CollisionWithAllEntities_RealTime(boxName, property, false);
+            if (CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, solidOnly, pushAway)) return true;
+
+            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, pushAway);
         }
 
-        /// <summary>
-        /// Since xml parser from Microsoft is used, overloading the function is needed.
-        /// The signature with optional parameter isn't recognised by parser. Example: Function(string a, string b = "")
-        /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <returns>True if a solid entity is hit</returns>
-        public bool CollisionWithSolidEntities_RealTime(string boxName, string property)
-        {
-            return CollisionWithAllEntities_RealTime(boxName, property, true);
-        }
-
-        /// <summary>
-        /// Check collisions with solid entities and tiles</summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <returns>True if a solid entity is hit</returns>
-        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property)
-        {
-            if (CollisionWithAllEntities_RealTime(boxName, property, true)) return true;
-
-            return CollisionWithTiles_RealTime(boxName, property);
-        }
-
-        /// <summary>
-        /// Check collisions with solid entities and tiles</summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <returns>True if a solid entity is hit</returns>
-        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property)
-        {
-            if (CollisionWithAllEntities_RealTime(boxName, property, false)) return true;
-
-            return CollisionWithTiles_RealTime(boxName, property);
-        }
+        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, false); }
+        public bool CollisionWithAllEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, true); }
+        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, false); }
+        public bool CollisionWithSolidEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, true); }
 
         protected override void Update()
         {
