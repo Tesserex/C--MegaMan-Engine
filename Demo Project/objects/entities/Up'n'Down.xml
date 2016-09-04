@@ -1,5 +1,5 @@
 <Entities>
-	<Entity name="UpDown">
+	<Entity name="Up'n'Down">
 		<Tilesheet pallete="Default">images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
 		<Sprite width="16" height="16" reversed="true">
 			<Hotspot x="8" y="8" />
@@ -9,18 +9,19 @@
 		</Sprite>
 		<Collision>
 			<Enabled>True</Enabled>
-			<Hitbox name="Body" x="0" y="0" width="10" height="10" damage="1">
+			<Hitbox name="Body" x="0" y="0" width="10" height="10" damage="3" environment="false">
 				<Hits>Player</Hits><Group>Enemy</Group>
 			</Hitbox>
 		</Collision>
 		<State name="Start">
+			<Sprite><Facing>Player</Facing></Sprite>
 			<Position>
 				<X base="Inherit" />
 				<Y base="Inherit" />
 			</Position>
+			<Collision><EnableBox name="Body" /></Collision>
 			<Movement>
-				<FlipSprite>True</FlipSprite>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 				<Y magnitude="3" direction="Up" /><X magnitude="0" />
 			</Movement>
 			<Trigger>
@@ -58,31 +59,31 @@
 			</Trigger>
 		</State>
 		<State name="DownLeft">
-			<Trigger><Condition>StateTime == 24</Condition>
+			<Trigger><Condition>StateTime == 11</Condition>
 			<Effect>
 				<State>DownRightRight</State>
 				<Movement>
-					<X magnitude="0.2" direction="Right" />
+					<X magnitude="0.34765625" direction="Right" />
 				</Movement>
 			</Effect>
 			</Trigger>
 		</State>
 		<State name="DownRightRight">
-			<Trigger><Condition>StateTime == 48</Condition>
+			<Trigger><Condition>StateTime == 22</Condition>
 			<Effect>
 				<State>DownLeftLeft</State>
 				<Movement>
-					<X magnitude="0.2" direction="Left" />
+					<X magnitude="0.34765625" direction="Left" />
 				</Movement>
 			</Effect>
 			</Trigger>
 		</State>
 		<State name="DownLeftLeft">
-			<Trigger><Condition>StateTime == 48</Condition>
+			<Trigger><Condition>StateTime == 22</Condition>
 			<Effect>
 				<State>DownRightRight</State>
 				<Movement>
-					<X magnitude="0.2" direction="Right" />
+					<X magnitude="0.34765625" direction="Right" />
 				</Movement>
 			</Effect>
 			</Trigger>
@@ -99,34 +100,28 @@
 		</Death>
 	</Entity>
 
-	<Entity name="UpDownSpawner">
-		<Position />
+	<Entity name="Up'n'DownSpawner">
 		<State name="Start">
 			<Movement>
-				<Flying>true</Flying>
+				<Floating>true</Floating>
 			</Movement>
-			<Trigger condition="PlayerDistX &lt; 32">
+			<Trigger condition="PlayerDistAbsX &lt; 32">
 				<Effect>
-					<Spawn name="UpDown" />
+					<Spawn name="Up'n'Down" />
 					<State>Loop</State>
 				</Effect>
 			</Trigger>
 		</State>
 		<State name="Loop">
-			<Trigger condition="PlayerDistX &gt; 32">
-				<Effect>
-					<Timer><Delete>counter</Delete></Timer>
-				</Effect>
-			</Trigger>
 			<Trigger>
-				<Condition>PlayerDistX &lt; 32 And Not Timer.Exists("counter")</Condition>
+				<Condition>PlayerDistAbsX &lt; 32 And Not Timer.Exists("counter")</Condition>
 				<Effect>
 					<Timer><Start>counter</Start></Timer>
 				</Effect>
 			</Trigger>
-			<Trigger><Condition>Timer.Value("counter") == 240</Condition>
+			<Trigger><Condition>PlayerDistAbsX &lt; 32 And Timer.Value("counter") >= 120</Condition>
 				<Effect>
-					<Spawn name="UpDown" />
+					<Spawn name="Up'n'Down" />
 					<Timer><Reset>counter</Reset></Timer>
 				</Effect>
 			</Trigger>
