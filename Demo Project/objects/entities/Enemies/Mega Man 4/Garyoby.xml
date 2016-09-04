@@ -44,7 +44,7 @@
 				<EnableBox name="Horizontal" />
 			</Collision>
 			<Movement><X direction="Left"/></Movement>
-			<Trigger condition="Collision.BlockLeft == True Or Collision.CollisionWithTiles(&quot;FloorFront&quot;) == False">
+			<Trigger condition="Collision.BlockLeft == True Or Collision.CollisionWithTiles_RealTime(&quot;FloorFront&quot;, &quot;Blocking&quot;) == False">
 				<Effect><State>Right</State></Effect>
 			</Trigger>
 		</State>
@@ -54,7 +54,7 @@
 				<EnableBox name="Horizontal" />
 			</Collision>
 			<Movement><X direction="Right"/></Movement>
-			<Trigger condition="Collision.BlockRight == True Or Collision.CollisionWithTiles(&quot;FloorFront&quot;) == False">
+			<Trigger condition="Collision.BlockRight == True Or Collision.CollisionWithTiles_RealTime(&quot;FloorFront&quot;, &quot;Blocking&quot;) == False">
 				<Effect><State>Left</State></Effect>
 			</Trigger>
 		</State>
