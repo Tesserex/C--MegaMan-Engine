@@ -211,7 +211,7 @@ namespace MegaMan.Engine
         /// <param name="property">Property to check for</param>
         /// <param name="pushAway">Solve collisions</param>
         /// <returns>True if a solid block is hit</returns>
-        private bool CollisionWithTiles_CanSolveCollisions_RealTime(string boxName, string property, bool pushAway = false)
+        private bool CollisionWithTiles_RealTime(string boxName, string property, bool pushAway = false)
         {
             CollisionBox Box = null;
             hitSquaresForFunctionThatChecksCollisions = new List<MapSquare>(); // hitSquares: those touching
@@ -234,28 +234,6 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
-        /// See function with same name, 3 parameters
-        /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <returns>True if a solid block is hit</returns>
-        public bool CollisionWithTiles_RealTime(string boxName, string property)
-        {
-            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, false);
-        }
-
-        /// <summary>
-        /// See function with same name, 3 parameters
-        /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <returns>True if a solid block is hit</returns>
-        public bool CollisionWithTiles_SolveCollisions_RealTime(string boxName, string property)
-        {
-            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, true);
-        }
-
-        /// <summary>
         /// Function to check RealTime collision (not in game loop). CollisionWithAllEntities_RealTime Must have been called before.
         /// </summary>
         /// <param name="property"></param>
@@ -274,18 +252,13 @@ namespace MegaMan.Engine
 
         /// <summary>
         /// See return value. Fills hitBlockEntities with all/solid (see param solidOnly) entities hit
-        /// This functions is called by four subfunction which only sets parameters
-        /// - CollisionWithAllEntities_RealTime
-        /// - CollisionWithAllEntities_SolveCollisions_RealTime
-        /// - CollisionWithSolidEntities_RealTime
-        /// - CollisionWithSolidEntities_SolveCollisions_RealTime
         /// </summary>
         /// <param name="boxName">Box name for which to check collisions</param>
         /// <param name="property">Property to check for</param>
         /// <param name="solidOnly">Only checks for solid entities</param>
         /// <param name="pushAway">Solve collisions</param>
         /// <returns>True if an entity solid/not (see param solidOnly) is hit</returns>
-        private bool CollisionWithAllEntities_CanSolveCollisions_RealTime(string boxName, string property, bool solidOnly = true, bool pushAway = false)
+        private bool CollisionWithAllEntities_RealTime(string boxName, string property, bool solidOnly = true, bool pushAway = false)
         {
             CollisionBox Box = null;
 
@@ -309,103 +282,70 @@ namespace MegaMan.Engine
             return CheckIfOneEntityHitContainProperty_RealTime(property);
         }
 
-        private bool CollisionWithAllEntities_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, false); }
-        private bool CollisionWithAllEntities_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, false, true); }
-        private bool CollisionWithSolidEntities_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, true);}
-        private bool CollisionWithSolidEntities_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, true, true);}
+        /// <summary>
+        /// Returns list of boxes to check. If boxName is nulled, fetch active boxes of entity, else only return boxName.
+        /// </summary>
+        /// <param name="boxName"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private List<string> CollisionBoxToCheck(string boxName, string entity)
+        {
+            List<string> boxList = new List<string>();
+
+            if (boxName != null)
+            {
+                boxList.Add(boxName);
+                return boxList;
+            }
+
+            foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+            {
+                if (enabledBoxes.Contains(hitbox.ID)) continue;
+                boxList.Add(hitbox.Name);
+            }
+
+            return boxList;
+        }
 
         /// <summary>
-        /// Check collisions with entities and tiles
-        /// This functions is called by four subfunction which only sets parameters
-        /// - CollisionWithAllEntities_RealTime
-        /// - CollisionWithAllEntities_SolveCollisions_RealTime
-        /// - CollisionWithSolidEntities_RealTime
-        /// - CollisionWithSolidEntities_SolveCollisions_RealTime
+        /// Function that checks collision with tiles and/or entities.
+        /// Stops the checks as soon as one collision is found
         /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <param name="solidOnly">Only checks for solid entities</param>
-        /// <param name="pushAway">Solve collisions</param>
-        /// <returns>True if a solid entity is hit</returns>
-        private bool CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(string boxName, string property, bool solidOnly, bool pushAway = false)
+        /// <param name="boxName">If null, pick every active box of entity picked</param>
+        /// <param name="entity">If null, current entity</param>
+        /// <param name="property">Example: Blocking</param>
+        /// <param name="pushAway">If a collision is found, need to push entity away?</param>
+        /// <param name="solidOnly">Applies to entities. Check only solid ones?</param>
+        /// <param name="checkTilesForCollisions"></param>
+        /// <param name="checkEntitiesForCollisions"></param>
+        /// <returns>True if one collision at least</returns>
+        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string entity, string property, bool pushAway, bool solidOnly, bool checkTilesForCollisions, bool checkEntitiesForCollisions)
         {
-            if (CollisionWithAllEntities_CanSolveCollisions_RealTime(boxName, property, solidOnly, pushAway)) return true;
+            bool returnVal = false; // As soon as one collision is detected, will always contain true
+            bool lastFunctionCallReturnValue = false;
+            List<string> boxList = CollisionBoxToCheck(boxName, entity);
 
-            return CollisionWithTiles_CanSolveCollisions_RealTime(boxName, property, pushAway);
-        }
-
-        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, false); }
-        public bool CollisionWithAllEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, true); }
-        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, false); }
-        public bool CollisionWithSolidEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, true); }
-
-        // Same as above but for a given entity
-        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property, string entity)
-        {
-            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, false);
-            else
+            foreach (string hitboxName in boxList)
             {
-                bool returnVal = false;
-                bool callVal = false;
-                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
-                {
-                    if (enabledBoxes.Contains(hitbox.ID)) continue;
-                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, false, false);
-                    returnVal = (returnVal) ? true : callVal;
-                }
-                return returnVal;
-            }
-        }
+                lastFunctionCallReturnValue = false;
 
-        public bool CollisionWithAllEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property, string entity)
-        {
-            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, true);
-            else
-            {
-                bool returnVal = false;
-                bool callVal = false;
-                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                if (checkTilesForCollisions)
                 {
-                    if (enabledBoxes.Contains(hitbox.ID)) continue;
-                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, false, true);
-                    returnVal = (returnVal) ? true : callVal;
+                    lastFunctionCallReturnValue = (entity == null) ? CollisionWithTiles_RealTime(hitboxName, property, pushAway) : Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithTiles_RealTime(hitboxName, property, pushAway);
                 }
-                return returnVal;
-            }
-        }
 
-        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property, string entity)
-        {
-            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, false);
-            else
-            {
-                bool returnVal = false;
-                bool callVal = false;
-                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
-                {
-                    if (enabledBoxes.Contains(hitbox.ID)) continue;
-                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, true, false);
-                    returnVal = (returnVal) ? true : callVal;
-                }
-                return returnVal;
-            }
-        }
+                returnVal = (returnVal) ? true : lastFunctionCallReturnValue;
 
-        public bool CollisionWithSolidEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property, string entity)
-        {
-            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, true);
-            else
-            {
-                bool returnVal = false;
-                bool callVal = false;
-                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                if (checkEntitiesForCollisions)
                 {
-                    if (enabledBoxes.Contains(hitbox.ID)) continue;
-                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, true, true);
-                    returnVal = (returnVal) ? true : callVal;
+                    lastFunctionCallReturnValue = (entity == null) ? CollisionWithAllEntities_RealTime(hitboxName, property, solidOnly, pushAway) : Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithAllEntities_RealTime(hitboxName, property, solidOnly, pushAway);
                 }
-                return returnVal;
+
+                returnVal = (returnVal) ? true : lastFunctionCallReturnValue;
+                if (returnVal) return returnVal;
+
             }
+            return returnVal;
         }
 
         protected override void Update()
