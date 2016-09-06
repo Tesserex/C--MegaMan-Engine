@@ -319,6 +319,7 @@ namespace MegaMan.Engine
         /// <param name="checkTilesForCollisions"></param>
         /// <param name="checkEntitiesForCollisions"></param>
         /// <returns>True if one collision at least</returns>
+        /// <remarks>IF MANY ENTITIES, ONLY FIRST ON IN LIST IS CHECKED</remarks>
         public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string entity, string property, bool pushAway, bool solidOnly, bool checkTilesForCollisions, bool checkEntitiesForCollisions)
         {
             bool returnVal = false; // As soon as one collision is detected, will always contain true
