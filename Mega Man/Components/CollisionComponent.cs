@@ -339,6 +339,75 @@ namespace MegaMan.Engine
         public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, false); }
         public bool CollisionWithSolidEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property) { return CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, true); }
 
+        // Same as above but for a given entity
+        public bool CollisionWithAllEntitiesAndTiles_RealTime(string boxName, string property, string entity)
+        {
+            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, false);
+            else
+            {
+                bool returnVal = false;
+                bool callVal = false;
+                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                {
+                    if (enabledBoxes.Contains(hitbox.ID)) continue;
+                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, false, false);
+                    returnVal = (returnVal) ? true : callVal;
+                }
+                return returnVal;
+            }
+        }
+
+        public bool CollisionWithAllEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property, string entity)
+        {
+            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, false, true);
+            else
+            {
+                bool returnVal = false;
+                bool callVal = false;
+                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                {
+                    if (enabledBoxes.Contains(hitbox.ID)) continue;
+                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, false, true);
+                    returnVal = (returnVal) ? true : callVal;
+                }
+                return returnVal;
+            }
+        }
+
+        public bool CollisionWithSolidEntitiesAndTiles_RealTime(string boxName, string property, string entity)
+        {
+            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, false);
+            else
+            {
+                bool returnVal = false;
+                bool callVal = false;
+                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                {
+                    if (enabledBoxes.Contains(hitbox.ID)) continue;
+                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, true, false);
+                    returnVal = (returnVal) ? true : callVal;
+                }
+                return returnVal;
+            }
+        }
+
+        public bool CollisionWithSolidEntitiesAndTiles_SolveCollisions_RealTime(string boxName, string property, string entity)
+        {
+            if (boxName != null) return Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(boxName, property, true, true);
+            else
+            {
+                bool returnVal = false;
+                bool callVal = false;
+                foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
+                {
+                    if (enabledBoxes.Contains(hitbox.ID)) continue;
+                    callVal = Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithEntitiesAndTiles_CanSolveCollisions_RealTime(hitbox.Name, property, true, true);
+                    returnVal = (returnVal) ? true : callVal;
+                }
+                return returnVal;
+            }
+        }
+
         protected override void Update()
         {
             hitSquaresForFunctionThatChecksCollisions = null;
