@@ -254,7 +254,7 @@ namespace MegaMan.Engine
             bool lastFunctionCallReturnValue = false;
             var boxList = CollisionBoxToCheck(boxName, entity);
 
-            var collComponent = (entity != null) ? this : Parent.Entities.GetEntityById(entity)?.GetComponent<CollisionComponent>();
+            var collComponent = (entity == null) ? this : Parent.Entities.GetEntityById(entity)?.GetComponent<CollisionComponent>();
             if (collComponent == null)
                 return false;
 
