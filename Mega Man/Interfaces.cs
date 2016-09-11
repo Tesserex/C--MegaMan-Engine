@@ -26,7 +26,7 @@ namespace MegaMan.Engine
 
         bool IsGravityFlipped { get; set; }
 
-        bool DidGravityFlipThisFrame { get; }
+        bool DidGravityFlipPreviousFrame { get; }
 
         event Action GameThink;
 

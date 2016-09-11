@@ -19,10 +19,11 @@ namespace MegaMan.Engine
         public abstract ITiledScreen Screen { get; }
 
         public float Gravity { get { return 0.25f; } }
-        public bool IsGravityFlipped { get; set; }
 
         private bool _previousGravityFlip;
-        public bool DidGravityFlipThisFrame { get { return IsGravityFlipped != _previousGravityFlip; } }
+        public bool IsGravityFlipped { get; set; }
+        
+        public bool DidGravityFlipPreviousFrame { get; private set; }
 
         public event Action GameThink;
         public event Action GameAct;
@@ -98,12 +99,13 @@ namespace MegaMan.Engine
 
         protected virtual void Tick(GameTickEventArgs e)
         {
-            _previousGravityFlip = IsGravityFlipped;
-
             if (GameThink != null) GameThink();
             if (GameAct != null) GameAct();
             if (GameReact != null) GameReact();
             if (GameCleanup != null) GameCleanup();
+
+            DidGravityFlipPreviousFrame = (IsGravityFlipped != _previousGravityFlip);
+            _previousGravityFlip = IsGravityFlipped;
         }
 
         protected virtual void GameRender(GameRenderEventArgs e)
