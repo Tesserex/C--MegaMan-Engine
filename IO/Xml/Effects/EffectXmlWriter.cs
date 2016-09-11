@@ -11,7 +11,19 @@ namespace MegaMan.IO.Xml.Effects
         public void Write(EffectInfo effect, XmlWriter writer)
         {
             writer.WriteStartElement("Effect");
+            WriteEffectContents(effect, writer);
+            writer.WriteEndElement();
+        }
 
+        public void WriteElse(EffectInfo effect, XmlWriter writer)
+        {
+            writer.WriteStartElement("Else");
+            WriteEffectContents(effect, writer);
+            writer.WriteEndElement();
+        }
+
+        private void WriteEffectContents(EffectInfo effect, XmlWriter writer)
+        {
             if (!string.IsNullOrWhiteSpace(effect.Name))
                 writer.WriteAttributeString("name", effect.Name);
 
@@ -39,8 +51,6 @@ namespace MegaMan.IO.Xml.Effects
 
             foreach (var part in effect.Parts)
                 WritePart(part, writer);
-
-            writer.WriteEndElement();
         }
 
         public void WriteRangeFilter(string tag, XmlWriter writer, RangeFilter filter)

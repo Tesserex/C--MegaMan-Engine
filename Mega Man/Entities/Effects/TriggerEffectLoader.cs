@@ -22,9 +22,11 @@ namespace MegaMan.Engine.Entities.Effects
 
             Condition condition = EffectParser.ParseCondition(triggerInfo.Trigger.Condition);
             Effect triggerEffect = EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Effect);
+            Effect elseEffect = (triggerInfo.Trigger.Else != null) ? EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Else) : null;
             return e =>
             {
                 if (condition(e)) triggerEffect(e);
+                else if (elseEffect != null) elseEffect(e);
             };
         }
     }

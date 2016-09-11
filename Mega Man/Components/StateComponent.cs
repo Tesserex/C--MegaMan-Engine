@@ -153,7 +153,8 @@ namespace MegaMan.Engine
             {
                 var condition = EffectParser.ParseCondition(info.Condition);
                 var effect = EffectParser.LoadTriggerEffect(info.Effect);
-                return new Trigger { Condition = condition, Effect = effect, ConditionString = info.Condition, Priority = info.Priority ?? 0 };
+                var elseEffect = (info.Else != null) ? EffectParser.LoadTriggerEffect(info.Else) : null;
+                return new Trigger { Condition = condition, Effect = effect, Else = elseEffect, ConditionString = info.Condition, Priority = info.Priority ?? 0 };
             }
             catch (Exception e)
             {
@@ -167,6 +168,7 @@ namespace MegaMan.Engine
             public string EffectString;
             public Condition Condition;
             public Effect Effect;
+            public Effect Else;
             public int Priority;
         }
 
@@ -222,6 +224,12 @@ namespace MegaMan.Engine
                     if (result)
                     {
                         trigger.Effect(entity);
+                        if (statecomp.currentState != state)
+                            break;
+                    }
+                    else if (trigger.Else != null)
+                    {
+                        trigger.Else(entity);
                         if (statecomp.currentState != state)
                             break;
                     }
