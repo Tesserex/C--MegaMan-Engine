@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
+using MegaMan.Editor.Controls.ViewModels.Entities;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Tools;
 
@@ -12,7 +14,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class EntityTrayViewModel : INotifyPropertyChanged, IToolProvider
     {
-        public IEnumerable<EntityInfo> Entities
+        public IEnumerable<EntityViewModel> Entities
         {
             get;
             private set;
@@ -20,11 +22,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private IToolCursor _toolCursor;
         private IToolBehavior _toolBehavior;
-        private EntityInfo _selectedEntity;
+        private EntityViewModel _selectedEntity;
+        private ProjectDocument _currentProject;
 
         public ICommand ChangeToolCommand { get; set; }
 
-        public EntityInfo SelectedEntity
+        public EntityViewModel SelectedEntity
         {
             get { return _selectedEntity; }
             private set
@@ -64,8 +67,8 @@ namespace MegaMan.Editor.Controls.ViewModels
                     break;
 
                 case "Entity":
-                    _toolCursor = new SpriteCursor(_selectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
-                    _toolBehavior = new EntityToolBehavior(_selectedEntity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                    _toolCursor = new SpriteCursor(SelectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                    _toolBehavior = new EntityToolBehavior(SelectedEntity.Entity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
                     ActiveIcon = "";
                     break;
             }
@@ -135,7 +138,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
         {
-            Entities = e.Project.Entities.Where(x => x.EditorData == null || !x.EditorData.HideFromPlacement);
+            _currentProject = e.Project;
+
+            Entities = e.Project.Entities
+                .Where(x => x.EditorData == null || !x.EditorData.HideFromPlacement)
+                .Select(x => new EntityViewModel(x, e.Project));
+
             OnPropertyChanged("Entities");
         }
 

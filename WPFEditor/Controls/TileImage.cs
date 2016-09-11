@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls
 {
@@ -14,7 +15,7 @@ namespace MegaMan.Editor.Controls
         {
             var tile = (Tile)e.NewValue;
 
-            SetSprite(tile.Sprite);
+            SetSprite(new SpriteModel(tile.Sprite));
         }
     }
 }

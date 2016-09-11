@@ -37,6 +37,15 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public EntityPlacementControlViewModel(EntityPlacement placement, EntityInfo entityInfo, ScreenDocument screen)
         {
+            if (placement == null)
+                throw new ArgumentNullException("placement");
+
+            if (entityInfo == null)
+                throw new ArgumentNullException("entityInfo");
+
+            if (screen == null)
+                throw new ArgumentNullException("screen");
+
             this.Placement = placement;
             this._entityInfo = entityInfo;
             this._screen = screen;
@@ -89,22 +98,24 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("Zoom");
         }
 
-        public Sprite DefaultSprite
+        public SpriteModel DefaultSprite
         {
             get
             {
-                if (_entityInfo.SpriteComponent == null || !_entityInfo.SpriteComponent.Sprites.Any())
-                    return null;
+                var hasSprites = _entityInfo.SpriteComponent != null && _entityInfo.SpriteComponent.Sprites.Any();
 
-                var state = _entityInfo.StateComponent.States.SingleOrDefault(s => s.Name == StartState);
-                if (state != null)
+                if (hasSprites)
                 {
-                    var stateSprite = state.Initializer.Parts.OfType<SpriteEffectPartInfo>().FirstOrDefault();
-                    if (stateSprite != null && stateSprite.Name != null && _entityInfo.SpriteComponent.Sprites.ContainsKey(stateSprite.Name))
-                        return _entityInfo.SpriteComponent.Sprites[stateSprite.Name];
+                    var state = _entityInfo.StateComponent.States.SingleOrDefault(s => s.Name == StartState);
+                    if (state != null)
+                    {
+                        var stateSprite = state.Initializer.Parts.OfType<SpriteEffectPartInfo>().FirstOrDefault();
+                        if (stateSprite != null && stateSprite.Name != null && _entityInfo.SpriteComponent.Sprites.ContainsKey(stateSprite.Name))
+                            return new SpriteModel(_entityInfo.SpriteComponent.Sprites[stateSprite.Name]);
+                    }
                 }
 
-                return _entityInfo.DefaultSprite;
+                return SpriteModel.ForEntity(_entityInfo, _screen.Stage.Project);
             }
         }
 

@@ -53,7 +53,7 @@ namespace MegaMan.IO.Xml.Includes
                 }
             }
 
-            if (info.PositionComponent == null && info.SpriteComponent != null)
+            if (info.PositionComponent == null)
                 info.Components.Add(new PositionComponentInfo());
 
             if (info.MovementComponent == null && HasMovementEffects(info))

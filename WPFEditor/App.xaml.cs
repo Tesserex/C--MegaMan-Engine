@@ -55,8 +55,11 @@ namespace MegaMan.Editor
 
         public void AnimateSprite(Sprite sprite)
         {
-            Tick -= sprite.Update;
-            Tick += sprite.Update;
+            if (sprite != null)
+            {
+                Tick -= sprite.Update;
+                Tick += sprite.Update;
+            }
         }
     }
 }

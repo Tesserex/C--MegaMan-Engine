@@ -173,7 +173,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void OpenRecentProject(object param)
         {
             TryOpenProject(param.ToString());
-            ShowBackstage = false;
         }
 
         private void TryOpenProject(string filename)
@@ -181,11 +180,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             try
             {
                 OpenProject(filename);
+                ShowBackstage = false;
             }
-            catch (FileNotFoundException)
+            catch (IOException ex)
             {
-                CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
-
+                if (ex is FileNotFoundException || ex is DirectoryNotFoundException)
+                    CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
+                else
+                    throw;
             }
             catch (MegaMan.IO.Xml.GameXmlException)
             {

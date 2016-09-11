@@ -21,7 +21,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private StageDocument _currentStage;
 
-        private Sprite _playerSprite;
+        private SpriteModel _playerSprite;
 
         private string _activeIcon;
 
@@ -202,7 +202,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 var player = _currentStage.Project.EntityByName("Player");
                 if (player != null)
                 {
-                    _playerSprite = player.DefaultSprite;
+                    _playerSprite = SpriteModel.ForEntity(player, _currentStage.Project);
                 }
             }
 
