@@ -172,30 +172,40 @@ namespace MegaMan.Engine
         public bool CheckIfOneTileHitContainProperty(string property)
         {
             if (hitSquares == null) return false; // foreach is stupid and will crash if object is null
-
-            foreach (MapSquare hit in hitSquares)
-            {
-                if (CheckTileProperty(hit.Properties, property)) return true;
-            }
-
-            return false;
+            return hitSquares.Any(h => CheckTileProperty(h.Properties, property));
         }
 
         /// <summary>
-        /// Function to check  collision with solid objects which occured during game tick.
+        /// Function to check collision with solid objects which occured during game tick.
         /// </summary>
         /// <param name="property"></param>
         /// <returns>True if RealTime entity collision hit the type received</returns>
         public bool CheckIfOneEntityHitContainProperty(string property)
         {
             if (hitBlockEntities == null) return false; // foreach is stupid and will crash if object is null
+            return hitBlockEntities.Any(h => CheckTileProperty(h.targetBox.Properties, property));
+        }
 
-            foreach (Collision hit in hitBlockEntities)
-            {
-                if (CheckTileProperty(hit.targetBox.Properties, property)) return true;
-            }
+        /// <summary>
+        /// Function to check RealTime collision (not in game loop). CollisionWithTiles_RealTime Must have been called before.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>True if RealTime tile collision hit the type received</returns>
+        public bool CheckIfOneTileHitContainProperty_RealTime(string property)
+        {
+            if (hitSquares_RealTime == null) return false; // foreach is stupid and will crash if object is null
+            return hitSquares_RealTime.Any(h => CheckTileProperty(h.Properties, property));
+        }
 
-            return false;
+        /// <summary>
+        /// Function to check RealTime collision with solid objects. (not in game loop). CollisionWithAllEntities_RealTime Must have been called before.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>True if RealTime entity collision hit the type received</returns>
+        public bool CheckIfOneEntityHitContainProperty_RealTime(string property)
+        {
+            if (hitBlockEntities_RealTime == null) return false; // foreach is stupid and will crash if object is null
+            return hitBlockEntities_RealTime.Any(h => CheckTileProperty(h.targetBox.Properties, property));
         }
 
         /// <summary>
@@ -226,126 +236,6 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
-        /// Function to check RealTime collision (not in game loop). CollisionWithTiles_RealTime Must have been called before.
-        /// </summary>
-        /// <param name="property"></param>
-        /// <returns>True if RealTime tile collision hit the type received</returns>
-        public bool CheckIfOneTileHitContainProperty_RealTime(string property)
-        {
-            if (hitSquares_RealTime == null) return false; // foreach is stupid and will crash if object is null
-
-            foreach (MapSquare hit in hitSquares_RealTime)
-            {
-                if (CheckTileProperty(hit.Properties, property)) return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// See return value. Fills hitSquaresForFunctionThatChecksCollisions with blocks hit
-        /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <param name="pushAway">Solve collisions</param>
-        /// <returns>True if a solid block is hit</returns>
-        private bool CollisionWithTiles_RealTime(string boxName, string property, bool pushAway = false)
-        {
-            CollisionBox Box = null;
-            hitSquares_RealTime = new List<MapSquare>(); // hitSquares: those touching
-            
-            foreach (CollisionBox hitbox in hitboxes)   // Find hitbox with named received
-            {
-                if (hitbox.Name == boxName)
-                {
-                    Box = hitbox;
-                    Box.SetParent(this);
-                    break;
-                }
-            }
-
-            if (Box == null) return false;  // Name received correspond to no hitbox
-
-            CheckEnvironment(hitSquares_RealTime, Box, pushAway);
-
-            return CheckIfOneTileHitContainProperty_RealTime(property);
-        }
-
-        /// <summary>
-        /// Function to check RealTime collision with solid objects. (not in game loop). CollisionWithAllEntities_RealTime Must have been called before.
-        /// </summary>
-        /// <param name="property"></param>
-        /// <returns>True if RealTime entity collision hit the type received</returns>
-        public bool CheckIfOneEntityHitContainProperty_RealTime(string property)
-        {
-            if (hitBlockEntities_RealTime == null) return false; // foreach is stupid and will crash if object is null
-
-            foreach (Collision hit in hitBlockEntities_RealTime)
-            {
-                if (CheckTileProperty(hit.targetBox.Properties, property)) return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// See return value. Fills hitBlockEntities with all/solid (see param solidOnly) entities hit
-        /// </summary>
-        /// <param name="boxName">Box name for which to check collisions</param>
-        /// <param name="property">Property to check for</param>
-        /// <param name="solidOnly">Only checks for solid entities</param>
-        /// <param name="pushAway">Solve collisions</param>
-        /// <returns>True if an entity solid/not (see param solidOnly) is hit</returns>
-        private bool CollisionWithAllEntities_RealTime(string boxName, string property, bool solidOnly = true, bool pushAway = false)
-        {
-            CollisionBox Box = null;
-
-            foreach (CollisionBox hitbox in hitboxes)   // Find hitbox with named received
-            {
-                if (hitbox.Name == boxName)
-                {
-                    Box = hitbox;
-                    Box.SetParent(this);
-                    break;
-                }
-            }
-
-            if (Box == null) return false;  // Name received correspond to no hitbox
-
-            RectangleF boundbox = Box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
-            hitBlockEntities_RealTime = new List<Collision>();
-
-            boundbox = CheckEntityCollisions(hitBlockEntities_RealTime, Box, boundbox, pushAway, solidOnly);
-
-            return CheckIfOneEntityHitContainProperty_RealTime(property);
-        }
-
-        /// <summary>
-        /// Returns list of boxes to check. If boxName is nulled, fetch active boxes of entity, else only return boxName.
-        /// </summary>
-        /// <param name="boxName"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        private List<string> CollisionBoxToCheck(string boxName, string entity)
-        {
-            List<string> boxList = new List<string>();
-
-            if (boxName != null)
-            {
-                boxList.Add(boxName);
-                return boxList;
-            }
-
-            foreach (CollisionBox hitbox in Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().hitboxes)
-            {
-                if (enabledBoxes.Contains(hitbox.ID)) continue;
-                boxList.Add(hitbox.Name);
-            }
-
-            return boxList;
-        }
-
-        /// <summary>
         /// Function that checks collision with tiles and/or entities.
         /// Stops the checks as soon as one collision is found
         /// </summary>
@@ -362,30 +252,92 @@ namespace MegaMan.Engine
         {
             bool returnVal = false; // As soon as one collision is detected, will always contain true
             bool lastFunctionCallReturnValue = false;
-            List<string> boxList = CollisionBoxToCheck(boxName, entity);
+            var boxList = CollisionBoxToCheck(boxName, entity);
 
-            foreach (string hitboxName in boxList)
+            var collComponent = (entity != null) ? this : Parent.Entities.GetEntityById(entity)?.GetComponent<CollisionComponent>();
+            if (collComponent == null)
+                return false;
+
+            foreach (var collisionBox in boxList)
             {
                 lastFunctionCallReturnValue = false;
 
                 if (checkTilesForCollisions)
                 {
-                    lastFunctionCallReturnValue = (entity == null) ? CollisionWithTiles_RealTime(hitboxName, property, pushAway) : Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithTiles_RealTime(hitboxName, property, pushAway);
+                    lastFunctionCallReturnValue = collComponent.CollisionWithTiles_RealTime(collisionBox, property, pushAway);
                 }
 
                 returnVal = (returnVal) ? true : lastFunctionCallReturnValue;
 
                 if (checkEntitiesForCollisions)
                 {
-                    lastFunctionCallReturnValue = (entity == null) ? CollisionWithAllEntities_RealTime(hitboxName, property, solidOnly, pushAway) : Parent.Entities.GetEntityById(entity).GetComponent<CollisionComponent>().CollisionWithAllEntities_RealTime(hitboxName, property, solidOnly, pushAway);
+                    lastFunctionCallReturnValue = collComponent.CollisionWithAllEntities_RealTime(collisionBox, property, solidOnly, pushAway);
                 }
 
                 returnVal = (returnVal) ? true : lastFunctionCallReturnValue;
                 if (returnVal) return returnVal;
-
             }
             return returnVal;
         }
+
+        /// <summary>
+        /// Returns list of boxes to check. If boxName is nulled, fetch active boxes of entity, else only return boxName.
+        /// </summary>
+        /// <param name="boxName"></param>
+        /// <param name="entityId"></param>
+        /// <returns></returns>
+        private List<CollisionBox> CollisionBoxToCheck(string boxName, string entityId)
+        {
+            var entityHitboxes = (entityId != null) ? Parent.Entities.GetEntityById(entityId)?.GetComponent<CollisionComponent>()?.hitboxes : this.hitboxes;
+            if (entityHitboxes != null)
+            {
+                if (boxName != null)
+                    return entityHitboxes.Where(h => h.Name == boxName).ToList();
+                else
+                    return entityHitboxes.Where(h => enabledBoxes.Contains(h.ID)).ToList();
+            }
+            else
+            {
+                return new List<CollisionBox>();
+            }
+        }
+
+        /// <summary>
+        /// See return value. Fills hitBlockEntities with all/solid (see param solidOnly) entities hit
+        /// </summary>
+        /// <param name="box">Box for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <param name="solidOnly">Only checks for solid entities</param>
+        /// <param name="pushAway">Solve collisions</param>
+        /// <returns>True if an entity solid/not (see param solidOnly) is hit</returns>
+        private bool CollisionWithAllEntities_RealTime(CollisionBox box, string property, bool solidOnly = true, bool pushAway = false)
+        {
+            box.SetParent(this);
+
+            RectangleF boundbox = box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
+            hitBlockEntities_RealTime = new List<Collision>();
+
+            boundbox = CheckEntityCollisions(hitBlockEntities_RealTime, box, boundbox, pushAway, solidOnly);
+
+            return CheckIfOneEntityHitContainProperty_RealTime(property);
+        }
+
+        /// <summary>
+        /// See return value. Fills hitSquaresForFunctionThatChecksCollisions with blocks hit
+        /// </summary>
+        /// <param name="box">Box for which to check collisions</param>
+        /// <param name="property">Property to check for</param>
+        /// <param name="pushAway">Solve collisions</param>
+        /// <returns>True if a solid block is hit</returns>
+        private bool CollisionWithTiles_RealTime(CollisionBox box, string property, bool pushAway = false)
+        {
+            hitSquares_RealTime = new List<MapSquare>(); // hitSquares: those touching
+            box.SetParent(this);
+            CheckEnvironment(hitSquares_RealTime, box, pushAway);
+
+            return CheckIfOneTileHitContainProperty_RealTime(property);
+        }        
+
 
         protected override void Update()
         {
