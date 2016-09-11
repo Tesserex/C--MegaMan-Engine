@@ -34,8 +34,12 @@ namespace MegaMan.Engine
         private readonly HashSet<int> enabledBoxes = new HashSet<int>();
         private readonly Dictionary<string, int> boxIDsByName = new Dictionary<string, int>();
 
-        private List<MapSquare> hitSquaresForFunctionThatChecksCollisions = null; // Using Func, user can call a function anytime that sets tiles it
-        private List<Collision> hitBlockEntities = new List<Collision>(); // Using Func, user can call a function anytime that sets solid objects hit
+        private List<MapSquare> hitSquares = null;
+        private List<Collision> hitBlockEntities = null;
+        
+        // Real time is when function to check collision is called function from xml. Collision are checked on call.
+        private List<MapSquare> hitSquares_RealTime = null;
+        private List<Collision> hitBlockEntities_RealTime = null;
 
         public float DamageDealt { get; private set; }
 
@@ -161,6 +165,40 @@ namespace MegaMan.Engine
         }
 
         /// <summary>
+        /// Function to check collisions with tiles that occured during tick.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>True if RealTime tile collision hit the type received</returns>
+        public bool CheckIfOneTileHitContainProperty(string property)
+        {
+            if (hitSquares == null) return false; // foreach is stupid and will crash if object is null
+
+            foreach (MapSquare hit in hitSquares)
+            {
+                if (CheckTileProperty(hit.Properties, property)) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Function to check  collision with solid objects which occured during game tick.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>True if RealTime entity collision hit the type received</returns>
+        public bool CheckIfOneEntityHitContainProperty(string property)
+        {
+            if (hitBlockEntities == null) return false; // foreach is stupid and will crash if object is null
+
+            foreach (Collision hit in hitBlockEntities)
+            {
+                if (CheckTileProperty(hit.targetBox.Properties, property)) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// See returns
         /// </summary>
         /// <param name="tileProperty">Tile property to check</param>
@@ -194,9 +232,9 @@ namespace MegaMan.Engine
         /// <returns>True if RealTime tile collision hit the type received</returns>
         public bool CheckIfOneTileHitContainProperty_RealTime(string property)
         {
-            if (hitSquaresForFunctionThatChecksCollisions == null) return false; // foreach is stupid and will crash if object is null
+            if (hitSquares_RealTime == null) return false; // foreach is stupid and will crash if object is null
 
-            foreach (MapSquare hit in hitSquaresForFunctionThatChecksCollisions)
+            foreach (MapSquare hit in hitSquares_RealTime)
             {
                 if (CheckTileProperty(hit.Properties, property)) return true;
             }
@@ -214,7 +252,7 @@ namespace MegaMan.Engine
         private bool CollisionWithTiles_RealTime(string boxName, string property, bool pushAway = false)
         {
             CollisionBox Box = null;
-            hitSquaresForFunctionThatChecksCollisions = new List<MapSquare>(); // hitSquares: those touching
+            hitSquares_RealTime = new List<MapSquare>(); // hitSquares: those touching
             
             foreach (CollisionBox hitbox in hitboxes)   // Find hitbox with named received
             {
@@ -228,21 +266,21 @@ namespace MegaMan.Engine
 
             if (Box == null) return false;  // Name received correspond to no hitbox
 
-            CheckEnvironment(hitSquaresForFunctionThatChecksCollisions, Box, pushAway);
+            CheckEnvironment(hitSquares_RealTime, Box, pushAway);
 
             return CheckIfOneTileHitContainProperty_RealTime(property);
         }
 
         /// <summary>
-        /// Function to check RealTime collision (not in game loop). CollisionWithAllEntities_RealTime Must have been called before.
+        /// Function to check RealTime collision with solid objects. (not in game loop). CollisionWithAllEntities_RealTime Must have been called before.
         /// </summary>
         /// <param name="property"></param>
         /// <returns>True if RealTime entity collision hit the type received</returns>
         public bool CheckIfOneEntityHitContainProperty_RealTime(string property)
         {
-            if (hitBlockEntities == null) return false; // foreach is stupid and will crash if object is null
+            if (hitBlockEntities_RealTime == null) return false; // foreach is stupid and will crash if object is null
 
-            foreach (Collision hit in hitBlockEntities)
+            foreach (Collision hit in hitBlockEntities_RealTime)
             {
                 if (CheckTileProperty(hit.targetBox.Properties, property)) return true;
             }
@@ -275,9 +313,9 @@ namespace MegaMan.Engine
             if (Box == null) return false;  // Name received correspond to no hitbox
 
             RectangleF boundbox = Box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
-            hitBlockEntities = new List<Collision>();
+            hitBlockEntities_RealTime = new List<Collision>();
 
-            boundbox = CheckEntityCollisions(hitBlockEntities, Box, boundbox, pushAway, solidOnly);
+            boundbox = CheckEntityCollisions(hitBlockEntities_RealTime, Box, boundbox, pushAway, solidOnly);
 
             return CheckIfOneEntityHitContainProperty_RealTime(property);
         }
@@ -351,7 +389,7 @@ namespace MegaMan.Engine
 
         protected override void Update()
         {
-            hitSquaresForFunctionThatChecksCollisions = null;
+            hitSquares = hitSquares_RealTime = null;
 
             DamageDealt = 0;
             BlockTop = BlockRight = BlockLeft = BlockBottom = false;
@@ -361,8 +399,8 @@ namespace MegaMan.Engine
             if (!Enabled) return;
 
             // first run through, resolve intersections only
-            List<MapSquare> hitSquares = new List<MapSquare>();
-            List<Collision> blockEntities = new List<Collision>();
+            hitSquares = new List<MapSquare>();
+            
             foreach (CollisionBox hitbox in hitboxes)
             {
                 if (!enabledBoxes.Contains(hitbox.ID)) continue;
@@ -374,11 +412,12 @@ namespace MegaMan.Engine
                 }
 
                 RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position);
+                hitBlockEntities = new List<Collision>();
 
                 // now check with entity blocks
                 if (MovementSrc != null)
                 {
-                    boundbox = CheckEntityCollisions(blockEntities, hitbox, boundbox);
+                    boundbox = CheckEntityCollisions(hitBlockEntities, hitbox, boundbox);
                 }
             }
 
@@ -386,7 +425,7 @@ namespace MegaMan.Engine
             HashSet<TileProperties> hitTypes = new HashSet<TileProperties>();
 
             // first, as an aside, if i'm still touching a blocking entity, i need to react to that
-            foreach (Collision collision in blockEntities)
+            foreach (Collision collision in hitBlockEntities)
             {
                 RectangleF boundBox = collision.myBox.BoxAt(PositionSrc.Position);
                 RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
