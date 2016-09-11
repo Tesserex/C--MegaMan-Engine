@@ -7,6 +7,8 @@ namespace MegaMan.Engine.Tests
 {
     public class FakeGameplayContainer : IGameplayContainer
     {
+        private bool _previousGravityFlip;
+
         public Entities.IEntityPool Entities
         {
             get;
@@ -22,6 +24,8 @@ namespace MegaMan.Engine.Tests
         public float Gravity { get { return 0.25f; } }
 
         public bool IsGravityFlipped { get; set; }
+
+        public bool DidGravityFlipPreviousFrame { get; private set; }
 
         public event Action GameThink;
 
@@ -41,6 +45,9 @@ namespace MegaMan.Engine.Tests
             if (GameAct != null) GameAct();
             if (GameReact != null) GameReact();
             if (GameCleanup != null) GameCleanup();
+
+            DidGravityFlipPreviousFrame = (IsGravityFlipped != _previousGravityFlip);
+            _previousGravityFlip = IsGravityFlipped;
         }
 
         public void StartHandler(Entities.IEntityPool entityPool)
