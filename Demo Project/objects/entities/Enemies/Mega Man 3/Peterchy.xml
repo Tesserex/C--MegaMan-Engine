@@ -32,11 +32,9 @@
 				<Effect>
 					<State>Left</State>
 				</Effect>
-			</Trigger>
-			<Trigger><Condition>PlayerDistX &lt; 0</Condition>
-				<Effect>
+				<Else>
 					<State>Right</State>
-				</Effect>
+				</Else>
 			</Trigger>
 		</State>
 		<State name="Left">
