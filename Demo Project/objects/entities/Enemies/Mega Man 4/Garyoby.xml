@@ -24,7 +24,7 @@
 		<Trigger condition="PlayerDistAbsY &lt; 8">
 			<Effect><Movement><X magnitude="2" /></Movement></Effect>
 		</Trigger>
-		
+
 		<State name="Start">
 			<Movement><Floating>True</Floating></Movement>
 			<Trigger><Condition>PlayerDistX &gt;= 0</Condition>
