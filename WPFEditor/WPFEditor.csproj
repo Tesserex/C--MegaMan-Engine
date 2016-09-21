@@ -270,6 +270,7 @@
     <Compile Include="Controls\ViewModels\SpriteEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\ZoomLevel.cs" />
+    <Compile Include="Converters\StringComparisonConverter.cs" />
     <Compile Include="Mediator\LayoutScreenDroppedEventArgs.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\NewEntityEventArgs.cs" />

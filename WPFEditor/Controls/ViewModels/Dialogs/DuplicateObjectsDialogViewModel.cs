@@ -5,13 +5,24 @@ using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Controls.ViewModels.Dialogs
 {
-    public class DuplicateObjectsDialogViewModel
+    public class DuplicateObjectsDialogViewModel : ViewModelBase
     {
         private IEnumerable<EntityInfo> entities;
         private string name;
 
         // this will change in the future as other objects are loaded.
         private string objectType = "entities";
+
+        private string selectedPath;
+        public string SelectedPath
+        {
+            get { return selectedPath; }
+            set
+            {
+                selectedPath = value;
+                OnPropertyChanged();
+            }
+        }
 
         public IEnumerable<DuplicateObjectViewModel> DuplicateEntries { get; set; }
 
