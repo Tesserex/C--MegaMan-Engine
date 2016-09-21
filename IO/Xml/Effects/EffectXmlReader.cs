@@ -18,7 +18,8 @@ namespace MegaMan.IO.Xml.Effects
             if (filterNode != null)
             {
                 info.Filter = new EntityFilterInfo() {
-                    Type = filterNode.TryElementValue<string>("Type")
+                    Type = filterNode.TryElementValue<string>("Type") ?? filterNode.TryAttribute<string>("type"),
+                    State = filterNode.TryElementValue<string>("State") ?? filterNode.TryAttribute<string>("state")
                 };
 
                 var direction = filterNode.TryElementValue<string>("Direction");
@@ -40,6 +41,29 @@ namespace MegaMan.IO.Xml.Effects
                     info.Filter.Position = new PositionFilter() {
                         X = LoadRangeFilter(positionNode.Element("X")),
                         Y = LoadRangeFilter(positionNode.Element("Y"))
+                    };
+                }
+
+                var movementNode = filterNode.Element("Movement");
+                if (movementNode != null)
+                {
+                    info.Filter.Movement = new MovementFilter() {
+                        X = LoadRangeFilter(movementNode.Element("X")),
+                        Y = LoadRangeFilter(movementNode.Element("Y")),
+                        Total = LoadRangeFilter(movementNode.Element("Total"))
+                    };
+                }
+
+                info.Filter.Health = LoadRangeFilter(filterNode.Element("Health"));
+
+                var collisionNode = filterNode.Element("Collision");
+                if (collisionNode != null)
+                {
+                    info.Filter.Collision = new CollisionFilter() {
+                        BlockTop = collisionNode.TryElementValue<bool?>("Top") ?? collisionNode.TryAttribute<bool?>("top"),
+                        BlockBottom = collisionNode.TryElementValue<bool?>("Bottom") ?? collisionNode.TryAttribute<bool?>("bottom"),
+                        BlockLeft = collisionNode.TryElementValue<bool?>("Left") ?? collisionNode.TryAttribute<bool?>("left"),
+                        BlockRight = collisionNode.TryElementValue<bool?>("Right") ?? collisionNode.TryAttribute<bool?>("right")
                     };
                 }
             }

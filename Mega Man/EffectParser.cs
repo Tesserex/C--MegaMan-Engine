@@ -155,7 +155,7 @@ namespace MegaMan.Engine
 
             return effect;
         }
-        
+
         public static void LoadEffectsList(IEnumerable<EffectInfo> effects)
         {
             foreach (var effectInfo in effects)
@@ -164,7 +164,7 @@ namespace MegaMan.Engine
                 SaveEffect(effectInfo.Name, effect);
             }
         }
-        
+
         public static void SaveEffect(string name, Effect effect)
         {
             storedEffects.Add(name, effect);
@@ -340,6 +340,12 @@ namespace MegaMan.Engine
             if (filter.Type != null)
                 entities = entities.Where(e => e.Name == filter.Type);
 
+            if (filter.State != null)
+                entities = entities.Where(e => {
+                    var stateComp = e.GetComponent<StateComponent>();
+                    return stateComp == null || stateComp.CurrentState == filter.State;
+                });
+
             if (filter.Direction != null)
                 entities = entities.Where(e => e.Direction == filter.Direction);
 
@@ -374,6 +380,76 @@ namespace MegaMan.Engine
                             return pos == null || pos.Y <= filter.Position.Y.Max.Value;
                         });
                 }
+            }
+
+            if (filter.Movement != null)
+            {
+                if (filter.Movement.X != null)
+                {
+                    if (filter.Movement.X.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var mov = e.GetComponent<MovementComponent>();
+                            return mov == null || mov.VelocityX >= filter.Movement.X.Min.Value;
+                        });
+
+                    if (filter.Movement.X.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var mov = e.GetComponent<MovementComponent>();
+                            return mov == null || mov.VelocityX <= filter.Movement.X.Max.Value;
+                        });
+                }
+
+                if (filter.Movement.Y != null)
+                {
+                    if (filter.Movement.Y.Min.HasValue)
+                        entities = entities.Where(e => {
+                            var mov = e.GetComponent<MovementComponent>();
+                            return mov == null || mov.VelocityY >= filter.Movement.Y.Min.Value;
+                        });
+
+                    if (filter.Movement.Y.Max.HasValue)
+                        entities = entities.Where(e => {
+                            var mov = e.GetComponent<MovementComponent>();
+                            return mov == null || mov.VelocityY <= filter.Movement.Y.Max.Value;
+                        });
+                }
+            }
+
+            if (filter.Collision != null)
+            {
+                entities = entities.Where(e => {
+                    var coll = e.GetComponent<CollisionComponent>();
+                    var r = true;
+
+                    if (filter.Collision.BlockTop.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockTop.Value);
+
+                    if (filter.Collision.BlockBottom.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockBottom.Value);
+
+                    if (filter.Collision.BlockLeft.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockLeft.Value);
+
+                    if (filter.Collision.BlockRight.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockRight.Value);
+
+                    return r;
+                });
+            }
+
+            if (filter.Health != null)
+            {
+                if (filter.Health.Min.HasValue)
+                    entities = entities.Where(e => {
+                        var health = e.GetComponent<HealthComponent>();
+                        return health == null || health.Health >= filter.Health.Min.Value;
+                    });
+
+                if (filter.Health.Max.HasValue)
+                    entities = entities.Where(e => {
+                        var health = e.GetComponent<HealthComponent>();
+                        return health == null || health.Health <= filter.Health.Max.Value;
+                    });
             }
 
             return entities;
