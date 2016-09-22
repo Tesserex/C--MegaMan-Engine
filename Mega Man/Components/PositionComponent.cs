@@ -8,7 +8,6 @@ namespace MegaMan.Engine
     public class PositionComponent : Component
     {
         public bool PersistOffScreen { get; set; }
-        public PointF Position { get; private set; }
         public bool IsOffScreen
         {
             get
@@ -17,8 +16,10 @@ namespace MegaMan.Engine
             }
         }
 
-        public float X { get { return Position.X; } }
-        public float Y { get { return Position.Y; } }
+        public float X { get; private set; }
+        public float Y { get; private set; }
+
+        public PointF Position { get { return new PointF(X, Y); } }
 
         public PositionComponent()
         {
@@ -54,9 +55,8 @@ namespace MegaMan.Engine
         public void SetPosition(PointF pos)
         {
             // fix float errors by rounding
-            pos.X = (float)Math.Round(pos.X, 3);
-            pos.Y = (float)Math.Round(pos.Y, 3);
-            Position = pos;
+            X = (float)Math.Round(pos.X, 3);
+            Y = (float)Math.Round(pos.Y, 3);
         }
 
         protected override void Update()
@@ -75,7 +75,8 @@ namespace MegaMan.Engine
 
         public void Offset(float x, float y)
         {
-            Position = new PointF(Position.X + x, Position.Y + y);
+            X += x;
+            Y += y;
         }
 
         internal void LoadInfo(PositionComponentInfo info)
