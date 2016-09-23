@@ -11,31 +11,31 @@ namespace MegaMan.Engine
         public int Y { get; private set; }
 
         private IScreenLayer layer;
-        private float screenX;
-        private float screenY;
-        public float ScreenX { get { return screenX + layer.LocationX; } }
-        public float ScreenY { get { return screenY + layer.LocationY; } }
+        private int screenX;
+        private int screenY;
+        public int ScreenX { get { return screenX + layer.LocationX; } }
+        public int ScreenY { get { return screenY + layer.LocationY; } }
 
-        private readonly RectangleF blockBox;
-        private RectangleF ladderBox;
-        private RectangleF flipLadderBox;
+        private readonly Rectangle blockBox;
+        private Rectangle ladderBox;
+        private Rectangle flipLadderBox;
         private bool ladderBoxesLoaded;
 
-        public RectangleF BoundBox
+        public Rectangle BoundBox
         {
             get
             {
                 var box = blockBox;
                 box.Offset(ScreenX, ScreenY);
                 return box;
-            } 
+            }
         }
 
-        public RectangleF BlockBox
+        public Rectangle BlockBox
         {
             get
             {
-                RectangleF box;
+                Rectangle box;
 
                 if (Tile.Properties.Blocking)
                 {
@@ -59,7 +59,7 @@ namespace MegaMan.Engine
                 }
                 else
                 {
-                    box = RectangleF.Empty;
+                    box = Rectangle.Empty;
                 }
 
                 box.Offset(ScreenX, ScreenY);
@@ -78,7 +78,7 @@ namespace MegaMan.Engine
 
             var commonBox = Tile.Sprite.BoundBox;
 
-            blockBox = new RectangleF(commonBox.X, commonBox.Y, commonBox.Width, commonBox.Height);
+            blockBox = new Rectangle(commonBox.X, commonBox.Y, commonBox.Width, commonBox.Height);
             blockBox.Offset(-Tile.Sprite.HotSpot.X, -Tile.Sprite.HotSpot.Y);
         }
 
@@ -93,7 +93,7 @@ namespace MegaMan.Engine
                 flipLadderBox.Offset(0, flipLadderBox.Height - 4);
                 flipLadderBox.Height = 4;
             }
-            else flipLadderBox = RectangleF.Empty;
+            else flipLadderBox = Rectangle.Empty;
 
             MapSquare above = layer.SquareAt(ScreenX, ScreenY - tilesize);
             if (above != null && !above.Tile.Properties.Climbable)
@@ -101,7 +101,7 @@ namespace MegaMan.Engine
                 ladderBox = blockBox;
                 ladderBox.Height = 4;
             }
-            else ladderBox = RectangleF.Empty;
+            else ladderBox = Rectangle.Empty;
 
             ladderBoxesLoaded = true;
         }

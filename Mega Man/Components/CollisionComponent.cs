@@ -314,7 +314,7 @@ namespace MegaMan.Engine
         {
             box.SetParent(this);
 
-            RectangleF boundbox = box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
+            Rectangle boundbox = box.BoxAt(PositionSrc.Position); //calculate boundbox absolute coordinate
             hitBlockEntities_RealTime = new List<Collision>();
 
             boundbox = CheckEntityCollisions(hitBlockEntities_RealTime, box, boundbox, pushAway, solidOnly);
@@ -363,7 +363,7 @@ namespace MegaMan.Engine
                     CheckEnvironment(hitSquares, hitbox);
                 }
 
-                RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position);
+                Rectangle boundbox = hitbox.BoxAt(PositionSrc.Position);
                 hitBlockEntities = new List<Collision>();
 
                 // now check with entity blocks
@@ -469,16 +469,16 @@ namespace MegaMan.Engine
 
         private void CheckEnvironment(List<MapSquare> hitSquares, CollisionBox hitbox, bool pushAway = true)
         {
-            PointF offset = new PointF(0, 0);
-            RectangleF hitRect = hitbox.BoxAt(PositionSrc.Position);    // Absolute positions of collision box
+            Point offset = new Point(0, 0);
+            Rectangle hitRect = hitbox.BoxAt(PositionSrc.Position);    // Absolute positions of collision box
 
             // this bounds checking prevents needlessly checking collisions way too far away
             // it's a very effective optimization (brings busy time from ~60% down to 45%!)
             int size = Parent.Screen.TileSize;
 
-            for (float y = hitRect.Top - size; y < hitRect.Bottom; y += size)
+            for (int y = hitRect.Top - size; y < hitRect.Bottom; y += size)
             {
-                for (float x = hitRect.Left - size; x < hitRect.Right; x += size)
+                for (int x = hitRect.Left - size; x < hitRect.Right; x += size)
                 {
                     var tile = Parent.Screen.SquareAt(x, y);
                     if (tile == null) continue;
@@ -493,7 +493,7 @@ namespace MegaMan.Engine
                 }
             }
 
-            for (float x = hitRect.Left - size; x < hitRect.Right; x += size)
+            for (int x = hitRect.Left - size; x < hitRect.Right; x += size)
             {
                 var tile = Parent.Screen.SquareAt(x, hitRect.Bottom);
                 if (tile == null) continue;
@@ -508,7 +508,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private void CheckEnvironmentTile(List<MapSquare> hitSquares, CollisionBox hitbox, RectangleF hitRect, MapSquare tile, ref PointF offset, bool pushAway)
+        private void CheckEnvironmentTile(List<MapSquare> hitSquares, CollisionBox hitbox, Rectangle hitRect, MapSquare tile, ref Point offset, bool pushAway)
         {
             if (hitbox.EnvironmentCollisions(PositionSrc.Position, tile, ref offset))
             {
@@ -521,7 +521,7 @@ namespace MegaMan.Engine
             }
         }
 
-        private RectangleF CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, RectangleF boundbox, bool pushAway = true, bool solidOnly = true)
+        private Rectangle CheckEntityCollisions(List<Collision> blockEntities, CollisionBox hitbox, Rectangle boundbox, bool pushAway = true, bool solidOnly = true)
         {
             foreach (var entity in Parent.Entities.GetAll())
             {
@@ -535,13 +535,8 @@ namespace MegaMan.Engine
                 {
                     // if he's blocking, check for collision and maybe push me away
 
-                    RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
-                    RectangleF adjustrect = rect;
-                    adjustrect.X -= Const.PixelEpsilon;
-                    adjustrect.Y -= Const.PixelEpsilon;
-                    adjustrect.Width += 2 * Const.PixelEpsilon;
-                    adjustrect.Height += 2 - Const.PixelEpsilon;
-                    RectangleF intersection = RectangleF.Intersect(boundbox, adjustrect);
+                    Rectangle rect = targetBox.BoxAt(coll.PositionSrc.Position);
+                    Rectangle intersection = Rectangle.Intersect(boundbox, rect);
                     if (intersection.Width != 0 || intersection.Height != 0)
                     {
                         blockEntities.Add(new Collision(hitbox, targetBox, coll));
@@ -558,7 +553,7 @@ namespace MegaMan.Engine
                                 vy -= mov.VelocityY;
                             }
 
-                            PointF offset = hitbox.GetIntersectionOffset(rect, boundbox, vx, vy, false, false);
+                            Point offset = hitbox.GetIntersectionOffset(rect, boundbox, vx, vy, false, false);
                             if (offset.X != 0 || offset.Y != 0)
                             {
                                 PositionSrc.Offset(offset.X, offset.Y);

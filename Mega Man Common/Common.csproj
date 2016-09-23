@@ -139,13 +139,16 @@
     <Compile Include="Enums\Axis.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="FilePath.cs" />
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\PointF.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\RectangleF.cs" />
     <Compile Include="IncludedObjects\FontInfo.cs" />
     <Compile Include="IncludedObjects\HandlerInfo.cs" />
     <Compile Include="HandlerTransfer.cs" />
     <Compile Include="IncludedObjects\IIncludedObject.cs" />
     <Compile Include="IncludedObjects\IncludedObject.cs" />
     <Compile Include="IncludedObjects\IncludedObjectGroup.cs" />
-    <Compile Include="Math.cs" />
     <Compile Include="PaletteCollection.cs" />
     <Compile Include="Rendering\IRenderingContext.cs" />
     <Compile Include="Rendering\IResourceImage.cs" />
