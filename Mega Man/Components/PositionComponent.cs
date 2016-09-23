@@ -1,10 +1,9 @@
-﻿using System;
-using MegaMan.Common.Entities;
+﻿using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
+    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = ({realX},{realY})")]
     public class PositionComponent : Component
     {
         public bool PersistOffScreen { get; set; }
@@ -12,23 +11,26 @@ namespace MegaMan.Engine
         {
             get
             {
-                return !Parent.Screen.IsOnScreen(Position.X, Position.Y);
+                return !Parent.Screen.IsOnScreen(X, Y);
             }
         }
 
-        public float X { get; private set; }
-        public float Y { get; private set; }
+        private float realX;
+        private float realY;
 
-        public PointF Position { get { return new PointF(X, Y); } }
+        public int X { get { return (int)realX; } }
+        public int Y { get { return (int)realY; } }
+
+        public Point Position { get { return new Point(X, Y); } }
 
         public PositionComponent()
         {
-            
+
         }
 
         public override Component Clone()
         {
-            PositionComponent copy = new PositionComponent {PersistOffScreen = this.PersistOffScreen};
+            PositionComponent copy = new PositionComponent { PersistOffScreen = this.PersistOffScreen };
             return copy;
         }
 
@@ -44,19 +46,28 @@ namespace MegaMan.Engine
 
         public override void Message(IGameMessage msg)
         {
-            
+
+        }
+
+        public void SetX(float x)
+        {
+            realX = x;
+        }
+
+        public void SetY(float y)
+        {
+            realY = y;
         }
 
         public void SetPosition(float x, float y)
         {
-            SetPosition(new PointF(x, y));
+            realX = x;
+            realY = y;
         }
 
         public void SetPosition(PointF pos)
         {
-            // fix float errors by rounding
-            X = (float)Math.Round(pos.X, 3);
-            Y = (float)Math.Round(pos.Y, 3);
+            SetPosition(pos.X, pos.Y);
         }
 
         protected override void Update()
@@ -70,13 +81,13 @@ namespace MegaMan.Engine
 
         public override void RegisterDependencies(Component component)
         {
-            
+
         }
 
         public void Offset(float x, float y)
         {
-            X += x;
-            Y += y;
+            realX += x;
+            realY += y;
         }
 
         internal void LoadInfo(PositionComponentInfo info)

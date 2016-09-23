@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Engine.Entities.Effects
@@ -19,7 +16,7 @@ namespace MegaMan.Engine.Entities.Effects
         public Effect Load(IEffectPartInfo info)
         {
             var sprite = (SpriteEffectPartInfo)info;
-            
+
             Effect action = entity => { };
             if (sprite.Name != null)
             {
@@ -62,7 +59,7 @@ namespace MegaMan.Engine.Entities.Effects
                     if (facing == FacingValues.Left) spritecomp.HorizontalFlip = true;
                     else
                     {
-                        bool leftFromPlayer = (positioncomp.Position.X <= playerPos.Position.X);
+                        bool leftFromPlayer = (positioncomp.X <= playerPos.X);
                         if (facing == FacingValues.Player) spritecomp.HorizontalFlip = !leftFromPlayer;
                         else if (facing == FacingValues.PlayerOpposite) spritecomp.HorizontalFlip = leftFromPlayer;
                     }

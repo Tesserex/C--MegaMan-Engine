@@ -89,7 +89,7 @@ namespace MegaMan.Engine
             Player.SendMessage(msg);
             Action teleport = () => { };
             teleport += () => {
-                if (PlayerPos.Position.Y >= startY)
+                if (PlayerPos.Y >= startY)
                 {
                     PlayerPos.SetPosition(new PointF(startX, startY));
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
@@ -239,11 +239,11 @@ namespace MegaMan.Engine
                             ChangeScreen(screens[info.TargetScreen]);
                             PlayerPos.SetPosition(new Point(info.To.X, info.To.Y)); // do it here so drawing is correct for fade-in
                         }, () => {
-                        (Player.GetComponent<SpriteComponent>()).Visible = true;
-                        Player.SendMessage(new StateMessage(null, "TeleportEnd"));
-                        (Player.GetComponent<MovementComponent>()).CanMove = true;
-                        teleporting = false;
-                    });
+                            (Player.GetComponent<SpriteComponent>()).Visible = true;
+                            Player.SendMessage(new StateMessage(null, "TeleportEnd"));
+                            (Player.GetComponent<MovementComponent>()).CanMove = true;
+                            teleporting = false;
+                        });
                 };
             }
             (Player.GetComponent<MovementComponent>()).CanMove = false;

@@ -136,13 +136,13 @@ namespace MegaMan.Engine
 
                 if (teleportEnabled[i])
                 {
-                    if (Math.Abs(playerPos.Position.X - teleport.From.X) <= 2 && Math.Abs(playerPos.Position.Y - teleport.From.Y) <= 8)
+                    if (Math.Abs(playerPos.X - teleport.From.X) <= 2 && Math.Abs(playerPos.Y - teleport.From.Y) <= 8)
                     {
                         if (Teleport != null) Teleport(teleport);
                         break;
                     }
                 }
-                else if (Math.Abs(playerPos.Position.X - teleport.From.X) >= 16 || Math.Abs(playerPos.Position.Y - teleport.From.Y) >= 16)
+                else if (Math.Abs(playerPos.X - teleport.From.X) >= 16 || Math.Abs(playerPos.Y - teleport.From.Y) >= 16)
                 {
                     teleportEnabled[i] = true;
                 }
@@ -161,7 +161,7 @@ namespace MegaMan.Engine
             }
             else if (autoscrollX.HasValue)
             {
-                if (playerPos.Position.X >= autoscrollX.Value)
+                if (playerPos.X >= autoscrollX.Value)
                 {
                     isAutoscrolling = true;
                 }
@@ -185,26 +185,26 @@ namespace MegaMan.Engine
                 }
 
                 // now if we aren't scrolling, hold the player at the screen borders
-                if (playerPos.Position.X >= rightBound)
+                if (playerPos.X >= rightBound)
                 {
-                    playerPos.SetPosition(new PointF(rightBound, playerPos.Position.Y));
+                    playerPos.SetX(rightBound);
                 }
-                else if (playerPos.Position.X <= leftBound)
+                else if (playerPos.X <= leftBound)
                 {
-                    playerPos.SetPosition(new PointF(leftBound, playerPos.Position.Y));
+                    playerPos.SetX(leftBound);
                 }
 
-                if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
+                if (playerPos.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
                 {
-                    if (!container.IsGravityFlipped && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
+                    if (!container.IsGravityFlipped && playerPos.Y > Game.CurrentGame.PixelsDown + 32)
                     {
                         // bottomless pit death!
                         playerPos.Parent.Die();
                     }
                 }
-                else if (playerPos.Position.Y < Const.PlayerScrollTrigger)
+                else if (playerPos.Y < Const.PlayerScrollTrigger)
                 {
-                    if (container.IsGravityFlipped && playerPos.Position.Y < -32)
+                    if (container.IsGravityFlipped && playerPos.Y < -32)
                     {
                         playerPos.Parent.Die();
                     }

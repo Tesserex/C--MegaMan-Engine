@@ -77,7 +77,7 @@ namespace MegaMan.Engine
         {
             if (stopped) return;
 
-            float px = playerPos.Position.X;
+            var px = playerPos.X;
             if (px >= leftBoundary && px <= rightBoundary)
             {
                 if (!running) Run();
