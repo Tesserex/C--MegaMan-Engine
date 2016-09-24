@@ -36,7 +36,7 @@ namespace MegaMan.Engine
 
         private List<MapSquare> hitSquares = null;
         private List<Collision> hitBlockEntities = null;
-        
+
         // Real time is when function to check collision is called function from xml. Collision are checked on call.
         private List<MapSquare> hitSquares_RealTime = null;
         private List<Collision> hitBlockEntities_RealTime = null;
@@ -68,8 +68,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            CollisionComponent copy = new CollisionComponent
-            {
+            CollisionComponent copy = new CollisionComponent {
                 Enabled = Enabled,
                 hitboxes = new List<CollisionBox>()
             };
@@ -100,7 +99,7 @@ namespace MegaMan.Engine
                 if (!enabledBoxes.Contains(hitbox.ID)) continue;
 
                 hitbox.SetParent(this);
-                RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
+                var boundBox = hitbox.BoxAt(PositionSrc.Position);
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
 
                 if (rectTex == null)
@@ -336,7 +335,7 @@ namespace MegaMan.Engine
             CheckEnvironment(hitSquares_RealTime, box, pushAway);
 
             return CheckIfOneTileHitContainProperty_RealTime(property);
-        }        
+        }
 
 
         protected override void Update()
@@ -352,7 +351,7 @@ namespace MegaMan.Engine
 
             // first run through, resolve intersections only
             hitSquares = new List<MapSquare>();
-            
+
             foreach (CollisionBox hitbox in hitboxes)
             {
                 if (!enabledBoxes.Contains(hitbox.ID)) continue;
@@ -379,8 +378,8 @@ namespace MegaMan.Engine
             // first, as an aside, if i'm still touching a blocking entity, i need to react to that
             foreach (Collision collision in hitBlockEntities)
             {
-                RectangleF boundBox = collision.myBox.BoxAt(PositionSrc.Position);
-                RectangleF rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
+                Rectangle boundBox = collision.myBox.BoxAt(PositionSrc.Position);
+                Rectangle rect = collision.targetBox.BoxAt(collision.targetColl.PositionSrc.Position);
                 if (BlockByIntersection(boundBox, rect, false, false))
                 {
                     collision.targetColl.Touch(collision.myBox, collision.targetBox);
@@ -421,17 +420,17 @@ namespace MegaMan.Engine
         {
             hitbox.SetParent(this);
 
-            RectangleF boundBox = hitbox.BoxAt(PositionSrc.Position);
+            var boundBox = hitbox.BoxAt(PositionSrc.Position);
 
             if (hitbox.Environment)
             {
                 foreach (MapSquare tile in hitSquares)
                 {
-                    RectangleF tileBox = tile.BlockBox;
+                    var tileBox = tile.BlockBox;
                     bool downonly = (!Parent.Container.IsGravityFlipped && tile.Tile.Properties.Climbable);
                     bool uponly = (Parent.Container.IsGravityFlipped && tile.Tile.Properties.Climbable);
 
-                    bool hit = (tile.BlockBox != RectangleF.Empty) ? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
+                    bool hit = (tile.BlockBox != Rectangle.Empty) ? BlockByIntersection(boundBox, tileBox, uponly, downonly) : boundBox.IntersectsWith(tile.BoundBox);
 
                     if (hitbox.PushAway && (hit || boundBox.IntersectsWith(tile.BoundBox)))    // the environment touched me!
                     {
@@ -455,9 +454,9 @@ namespace MegaMan.Engine
             }
         }
 
-        private RectangleF CheckTargetBox(CollisionBox hitbox, RectangleF boundBox, IEntity entity, CollisionComponent coll, CollisionBox targetBox)
+        private Rectangle CheckTargetBox(CollisionBox hitbox, Rectangle boundBox, IEntity entity, CollisionComponent coll, CollisionBox targetBox)
         {
-            RectangleF rect = targetBox.BoxAt(coll.PositionSrc.Position);
+            var rect = targetBox.BoxAt(coll.PositionSrc.Position);
             if (boundBox.IntersectsWith(rect))
             {
                 coll.Touch(hitbox, targetBox);
@@ -680,33 +679,12 @@ namespace MegaMan.Engine
             if (properties.Lethal && Parent.Name == "Player") Parent.SendMessage(new DamageMessage(null, float.PositiveInfinity));
         }
 
-        private static RectangleF FloatCorrect(RectangleF rect)
+        private bool BlockByIntersection(Rectangle myBox, Rectangle targetBox, bool uponly, bool downonly)
         {
-            int rleft = (int)Math.Round(rect.Left);
-            int rtop = (int)Math.Round(rect.Top);
-
-            if (Math.Abs(rleft - rect.Left) < Const.PixelEpsilon) rect.X = rleft;
-            if (Math.Abs(rtop - rect.Top) < Const.PixelEpsilon) rect.Y = rtop;
-
-            int rright = (int)Math.Round(rect.Right);
-            int rbottom = (int)Math.Round(rect.Bottom);
-
-            if (Math.Abs(rright - rect.Right) < Const.PixelEpsilon) rect.Width = rright - rleft;
-            if (Math.Abs(rbottom - rect.Bottom) < Const.PixelEpsilon) rect.Height = rbottom - rtop;
-
-            return rect;
-        }
-
-        private bool BlockByIntersection(RectangleF myBox, RectangleF targetBox, bool uponly, bool downonly)
-        {
-            // correct floating point errors
-            myBox = FloatCorrect(myBox);
-            targetBox = FloatCorrect(targetBox);
-
-            RectangleF intersection = RectangleF.Intersect(myBox, targetBox);
+            var intersection = Rectangle.Intersect(myBox, targetBox);
             bool ret = false;
 
-            if (intersection.Height > Const.PixelEpsilon)
+            if (intersection.Height > 0)
             {
                 if (intersection.Left == myBox.Left && !downonly && !uponly) BlockLeft = true;
                 if (intersection.Right == myBox.Right && !downonly && !uponly) BlockRight = true;
@@ -722,7 +700,7 @@ namespace MegaMan.Engine
                 }
                 ret = true;
             }
-            if (intersection.Width > Const.PixelEpsilon)
+            if (intersection.Width > 0)
             {
                 if (intersection.Top == myBox.Top && !downonly) BlockTop = (uponly && MovementSrc != null) ? (MovementSrc.VelocityY * -1 > intersection.Height) : true;
                 if (intersection.Bottom == myBox.Bottom && !uponly) BlockBottom = (downonly && MovementSrc != null) ? (MovementSrc.VelocityY > intersection.Height) : true;
@@ -759,7 +737,7 @@ namespace MegaMan.Engine
             DamageDealt = Math.Min(damage, prevhealth);
         }
 
-        public static bool VerticalApproach(RectangleF intersection, RectangleF boundBox, float vx, float vy)
+        public static bool VerticalApproach(Rectangle intersection, Rectangle boundBox, float vx, float vy)
         {
             if ((vx == 0 && intersection.Width > 0) || intersection.Height == 0) return true;
             if ((vy == 0 && intersection.Height > 0) || intersection.Width == 0) return false;
@@ -769,7 +747,7 @@ namespace MegaMan.Engine
             if ((intersection.Left == boundBox.Left && vx > 0) ||
                 (intersection.Right == boundBox.Right && vx < 0))
                 return true;
-            
+
             float velocitySlope = Math.Abs(vy) / Math.Abs(vx);
             float collisionSlope = intersection.Height / intersection.Width;
             return (velocitySlope >= collisionSlope);

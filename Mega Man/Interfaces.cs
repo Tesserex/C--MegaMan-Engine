@@ -8,8 +8,8 @@ namespace MegaMan.Engine
     public interface ITiledScreen
     {
         int TileSize { get; }
-        float OffsetX { get; }
-        float OffsetY { get; }
+        int OffsetX { get; }
+        int OffsetY { get; }
         MapSquare SquareAt(float px, float py);
         IEnumerable<MapSquare> Tiles { get; }
         MegaMan.Common.Tile TileAt(float px, float py);

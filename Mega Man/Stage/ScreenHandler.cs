@@ -27,10 +27,10 @@ namespace MegaMan.Engine
 
         private float _offsetX, _offsetY;
 
-        public float OffsetX
+        private float offsetXF
         {
             get { return _offsetX; }
-            private set
+            set
             {
                 _offsetX = value;
                 foreach (var layer in layers)
@@ -40,10 +40,10 @@ namespace MegaMan.Engine
             }
         }
 
-        public float OffsetY
+        private float offsetYF
         {
             get { return _offsetY; }
-            private set
+            set
             {
                 _offsetY = value;
                 foreach (var layer in layers)
@@ -51,6 +51,16 @@ namespace MegaMan.Engine
                     layer.OffsetY = value;
                 }
             }
+        }
+
+        public int OffsetX
+        {
+            get { return (int)offsetXF; }
+        }
+
+        public int OffsetY
+        {
+            get { return (int)offsetYF; }
         }
 
         public int TileSize { get { return Screen.Tileset.TileSize; } }
@@ -152,11 +162,11 @@ namespace MegaMan.Engine
             {
                 if (OffsetX >= Screen.PixelWidth - Game.CurrentGame.PixelsAcross)
                 {
-                    OffsetX = Screen.PixelWidth - Game.CurrentGame.PixelsAcross;
+                    offsetXF = Screen.PixelWidth - Game.CurrentGame.PixelsAcross;
                 }
                 else
                 {
-                    OffsetX += autoscrollSpeed;
+                    offsetXF += autoscrollSpeed;
                 }
             }
             else if (autoscrollX.HasValue)
@@ -308,28 +318,28 @@ namespace MegaMan.Engine
 
             if (!isAutoscrolling)
             {
-                OffsetX = OffsetY = 0;
+                offsetXF = offsetYF = 0;
 
                 centerX = playerPos.X + adj_x;
                 centerY = playerPos.Y + adj_y;
 
                 if (centerX > Game.CurrentGame.PixelsAcross / 2)
                 {
-                    OffsetX = centerX - Game.CurrentGame.PixelsAcross / 2;
-                    if (OffsetX > width - Game.CurrentGame.PixelsAcross)
-                        OffsetX = width - Game.CurrentGame.PixelsAcross;
+                    offsetXF = centerX - Game.CurrentGame.PixelsAcross / 2;
+                    if (offsetXF > width - Game.CurrentGame.PixelsAcross)
+                        offsetXF = width - Game.CurrentGame.PixelsAcross;
                 }
 
                 if (centerY > Game.CurrentGame.PixelsDown / 2)
                 {
-                    OffsetY = centerY - Game.CurrentGame.PixelsDown / 2;
-                    if (OffsetY > height - Game.CurrentGame.PixelsDown)
-                        OffsetY = height - Game.CurrentGame.PixelsDown;
-                    if (OffsetY < 0) OffsetY = 0;
+                    offsetYF = centerY - Game.CurrentGame.PixelsDown / 2;
+                    if (offsetYF > height - Game.CurrentGame.PixelsDown)
+                        offsetYF = height - Game.CurrentGame.PixelsDown;
+                    if (offsetYF < 0) offsetYF = 0;
                 }
 
-                OffsetX += off_x;
-                OffsetY += off_y;
+                offsetXF += off_x;
+                offsetYF += off_y;
             }
 
             foreach (var layer in this.layers)
