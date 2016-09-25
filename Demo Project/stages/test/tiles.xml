@@ -33,6 +33,7 @@
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
+		<Group>Water</Group>
 	</Tile>
 	<Tile id="4" name="" properties="GravUp">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
@@ -42,6 +43,7 @@
 			<Frame x="32" y="16" duration="6" />
 			<Frame x="48" y="16" duration="6" />
 		</Sprite>
+		<Group>Gravity</Group>
 	</Tile>
 	<Tile id="5" name="" properties="GravDown">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
@@ -51,6 +53,7 @@
 			<Frame x="32" y="32" duration="6" />
 			<Frame x="48" y="32" duration="6" />
 		</Sprite>
+		<Group>Gravity</Group>
 	</Tile>
 	<Tile id="6" name="" properties="Water">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
@@ -59,6 +62,7 @@
 			<Frame x="64" y="16" duration="12" />
 			<Frame x="64" y="32" duration="12" />
 		</Sprite>
+		<Group>Water</Group>
 	</Tile>
 	<Tile id="7" name="" properties="Water">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
@@ -67,6 +71,7 @@
 			<Frame x="80" y="16" duration="12" />
 			<Frame x="80" y="32" duration="12" />
 		</Sprite>
+		<Group>Water</Group>
 	</Tile>
 	<Tile id="8" name="" properties="Sand">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">

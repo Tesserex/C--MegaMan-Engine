@@ -168,18 +168,24 @@ namespace MegaMan.Engine
         /// Function to check collisions with tiles that occured during tick.
         /// </summary>
         /// <param name="property"></param>
-        /// <returns>True if RealTime tile collision hit the type received</returns>
+        /// <returns>True if tile collision hit the type received</returns>
         public bool CheckIfOneTileHitContainProperty(string property)
         {
             if (hitSquares == null) return false; // foreach is stupid and will crash if object is null
             return hitSquares.Any(h => CheckTileProperty(h.Properties, property));
         }
 
+        public bool CheckIfHitTileGroup(string group)
+        {
+            if (hitSquares == null) return false;
+            return hitSquares.Any(h => h.Tile.Groups.Contains(group));
+        }
+
         /// <summary>
         /// Function to check collision with solid objects which occured during game tick.
         /// </summary>
         /// <param name="property"></param>
-        /// <returns>True if RealTime entity collision hit the type received</returns>
+        /// <returns>True if entity collision hit the type received</returns>
         public bool CheckIfOneEntityHitContainProperty(string property)
         {
             if (hitBlockEntities == null) return false; // foreach is stupid and will crash if object is null
@@ -195,6 +201,12 @@ namespace MegaMan.Engine
         {
             if (hitSquares_RealTime == null) return false; // foreach is stupid and will crash if object is null
             return hitSquares_RealTime.Any(h => CheckTileProperty(h.Properties, property));
+        }
+
+        public bool CheckIfHitTileGroup_RealTime(string group)
+        {
+            if (hitSquares_RealTime == null) return false;
+            return hitSquares_RealTime.Any(h => h.Tile.Groups.Contains(group));
         }
 
         /// <summary>
