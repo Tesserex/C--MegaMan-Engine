@@ -11,7 +11,7 @@
 		<Health max="1" flash="0" />
 		<Input />
 		<Movement>
-			<Flying />
+			<Floating />
 			<FlipSprite />
 		</Movement>
 		<Sprite name="Blue" width="16" height="7" tilesheet="images\weapons\portal.png">
@@ -118,7 +118,7 @@
 			</Hitbox>
 		</Collision>
 		<Movement>
-			<Flying />
+			<Floating />
 			<FlipSprite />
 		</Movement>
 		<Sprite name="Blue" width="9" height="14" tilesheet="images\weapons\portal.png">

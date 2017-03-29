@@ -1,72 +1,114 @@
 <Entities>
-	<Entity name="Garyoby" group="Enemy">
+	<Entity name="Garyoby" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="H" x="-5" y="-5" width="10" height="10" properties="Default" damage="2" environment="False" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+				<Group>Deflect</Group>
+				<Resist name="ALL" multiply="0" />
+				<Resist name="MetalBlade" multiply="1" />
+			</Hitbox>
+			<Hitbox name="Horizontal" x="-8" y="-7" width="16" height="14" properties="Default" environment="True" pushaway="True" />
+			<Hitbox name="FloorFront" x="7" y="0" width="1" height="11" properties="Default" environment="True" pushaway="True" />
+		</Collision>
+		<Health max="3" flash="8" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\enemies\Mega Man 4\Garyoby.png</Tilesheet>
-		<Sprite width="16" height="16">
+		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Garyoby.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="16" y="0" duration="4" />
 		</Sprite>
-       <Collision>
-            <Enabled>True</Enabled>
-            <Hitbox name="H" damage="2" x="-5" y="-5" width="10" height="10" environment="false">
-                <Hits>Player</Hits>
-                <Group>Enemy</Group>
-                <Group>Deflect</Group>
-                <Resist name="ALL" multiply="0" />
-                <Resist name="MetalBlade" multiply="1" />
-            </Hitbox>
-			<Hitbox name="Horizontal" x="-8" y="-7" width="16" height="14" environment="true"></Hitbox>
-			<Hitbox name="FloorFront" x="7" y="0" width="1" height="11" environment="true"></Hitbox>
-        </Collision>
-		<Trigger condition="PlayerDistAbsY &gt;= 8">
-			<Effect><Movement><X magnitude="0.75" /></Movement></Effect>
-		</Trigger>
-		<Trigger condition="PlayerDistAbsY &lt; 8">
-			<Effect><Movement><X magnitude="2" /></Movement></Effect>
-		</Trigger>
-
 		<State name="Start">
-			<Movement><Floating>True</Floating></Movement>
-			<Trigger><Condition>PlayerDistX &gt;= 0</Condition>
+			<Initialize>
+				<Movement>
+					<Floating>True</Floating>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="30">
+				<Condition>PlayerDistX &gt;= 0</Condition>
 				<Effect>
 					<State>Left</State>
 				</Effect>
 			</Trigger>
-			<Trigger><Condition>PlayerDistX &lt; 0</Condition>
+			<Trigger priority="35">
+				<Condition>PlayerDistX &lt; 0</Condition>
 				<Effect>
 					<State>Right</State>
 				</Effect>
 			</Trigger>
 		</State>
 		<State name="Left">
-			<Collision>
-				<EnableBox name="H" />
-				<EnableBox name="Horizontal" />
-			</Collision>
-			<Movement><X direction="Left"/></Movement>
-			<Trigger condition="Collision.BlockLeft == True Or Collision.CollisionWithAllEntitiesAndTiles_RealTime(&quot;FloorFront&quot;, null, &quot;Blocking&quot;, False, True, True, False) == False">
-				<Effect><State>Right</State></Effect>
+			<Initialize>
+				<Collision>
+					<EnableBox name="H" />
+					<EnableBox name="Horizontal" />
+				</Collision>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X direction="Left" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="47">
+				<Condition>Collision.BlockLeft == True Or Collision.CollisionWithAllEntitiesAndTiles_RealTime("FloorFront", null, "Blocking", False, True, True, False) == False</Condition>
+				<Effect>
+					<State>Right</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Right">
-			<Collision>
-				<EnableBox name="H" />
-				<EnableBox name="Horizontal" />
-			</Collision>
-			<Movement><X direction="Right"/></Movement>
-			<Trigger condition="Collision.BlockRight == True Or Collision.CollisionWithAllEntitiesAndTiles_RealTime(&quot;FloorFront&quot;, null, &quot;Blocking&quot;, False, True, True, False) == False">
-				<Effect><State>Left</State></Effect>
+			<Initialize>
+				<Collision>
+					<EnableBox name="H" />
+					<EnableBox name="Horizontal" />
+				</Collision>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X direction="Right" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="57">
+				<Condition>Collision.BlockRight == True Or Collision.CollisionWithAllEntitiesAndTiles_RealTime("FloorFront", null, "Blocking", False, True, True, False) == False</Condition>
+				<Effect>
+					<State>Left</State>
+				</Effect>
 			</Trigger>
 		</State>
-		<Health><Max>3</Max><Flash>8</Flash></Health>
-		<Trigger>
-			<Condition>Health.Hit == True</Condition>
+		<Trigger priority="21">
+			<Condition>PlayerDistAbsY &gt;= 8</Condition>
 			<Effect>
-				<Sound name="EnemyHurt" />
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X magnitude="0.75" />
+				</Movement>
 			</Effect>
 		</Trigger>
-		<Death>
-			<Call>EnemyDeath</Call>
-		</Death>
+		<Trigger priority="24">
+			<Condition>PlayerDistAbsY &lt; 8</Condition>
+			<Effect>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X magnitude="2" />
+				</Movement>
+			</Effect>
+		</Trigger>
+		<Trigger priority="62">
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" playing="True" />
+			</Effect>
+		</Trigger>
 	</Entity>
 </Entities>

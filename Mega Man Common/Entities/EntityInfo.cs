@@ -7,6 +7,11 @@ namespace MegaMan.Common.Entities
 {
     public class EntityInfo : IncludedObject
     {
+        public EntityInfo()
+        {
+            Components = new List<Entities.IComponentInfo>();
+        }
+
         public string Name { get; set; }
         public int MaxAlive { get; set; }
         public bool GravityFlip { get; set; }
@@ -15,14 +20,6 @@ namespace MegaMan.Common.Entities
         public EffectInfo Death { get; set; }
 
         public List<IComponentInfo> Components { get; set; }
-
-        public SpriteComponentInfo SpriteComponent
-        {
-            get
-            {
-                return Components.OfType<SpriteComponentInfo>().SingleOrDefault();
-            }
-        }
 
         public Sprite DefaultSprite
         {
@@ -38,6 +35,7 @@ namespace MegaMan.Common.Entities
             }
         }
 
+        public SpriteComponentInfo SpriteComponent { get { return Components.OfType<SpriteComponentInfo>().SingleOrDefault(); } }
         public PositionComponentInfo PositionComponent { get { return Components.OfType<PositionComponentInfo>().SingleOrDefault(); } }
         public InputComponentInfo InputComponent { get { return Components.OfType<InputComponentInfo>().SingleOrDefault(); } }
         public CollisionComponentInfo CollisionComponent { get { return Components.OfType<CollisionComponentInfo>().SingleOrDefault(); } }
