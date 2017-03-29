@@ -83,8 +83,8 @@ namespace MegaMan.Editor.Bll
 
         public FilePath Path
         {
-            get { return _map.StagePath; }
-            set { _map.StagePath = value; Dirty = true; }
+            get { return _map.StoragePath; }
+            set { _map.StoragePath = value; Dirty = true; }
         }
 
         public TilesetDocument Tileset { get; private set; }

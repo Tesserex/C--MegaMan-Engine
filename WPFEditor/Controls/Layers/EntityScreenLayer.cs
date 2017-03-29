@@ -80,11 +80,20 @@ namespace MegaMan.Editor.Controls
 
         private void PositionControl(EntityPlacementControl ctrl, EntityPlacementControlViewModel viewModel)
         {
-            bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
-            var offset = flipHorizontal ? viewModel.DefaultSprite.Width - viewModel.DefaultSprite.HotSpot.X : viewModel.DefaultSprite.HotSpot.X;
+            if (viewModel.DefaultSprite != null)
+            {
+                bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
+                var offset = flipHorizontal ? viewModel.DefaultSprite.Width - viewModel.DefaultSprite.HotSpot.X : viewModel.DefaultSprite.HotSpot.X;
 
-            Canvas.SetLeft(ctrl, Zoom * (viewModel.Placement.screenX - offset));
-            Canvas.SetTop(ctrl, Zoom * (viewModel.Placement.screenY - viewModel.DefaultSprite.HotSpot.Y));
+                Canvas.SetLeft(ctrl, Zoom * (viewModel.Placement.screenX - offset));
+                Canvas.SetTop(ctrl, Zoom * (viewModel.Placement.screenY - viewModel.DefaultSprite.HotSpot.Y));
+            }
+            else
+            {
+                Canvas.SetLeft(ctrl, Zoom * viewModel.Placement.screenX);
+                Canvas.SetTop(ctrl, Zoom * viewModel.Placement.screenY);
+            }
+
             InvalidateVisual();
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FMOD;
 using MegaMan.Common;
+using MegaMan.Common.IncludedObjects;
 using MegaManR.Audio;
 
 namespace MegaMan.Engine
@@ -25,9 +26,12 @@ namespace MegaMan.Engine
             get { return musicEnabled; }
             set 
             {
-                musicEnabled = value;
-                if (value) AudioManager.Instance.ResumeBGMPlayback();
-                else AudioManager.Instance.PauseBGMPlayback();
+                if (musicEnabled != value)
+                {
+                    musicEnabled = value;
+                    if (Engine.Instance.IsRunning)
+                        ApplyMusicSetting();
+                }
             }
         }
 
@@ -103,16 +107,21 @@ namespace MegaMan.Engine
         {
             updateTimer.Start();
             if (AudioManager.Instance.Paused)
-            {
-                if (musicEnabled) AudioManager.Instance.ResumeBGMPlayback();
-                else AudioManager.Instance.PauseBGMPlayback();
-            }
+                ApplyMusicSetting();
         }
 
         public void Stop()
         {
             updateTimer.Stop();
             AudioManager.Instance.PauseBGMPlayback();
+        }
+
+        public void ApplyMusicSetting()
+        {
+            if (MusicEnabled)
+                AudioManager.Instance.ResumeBGMPlayback();
+            else
+                AudioManager.Instance.PauseBGMPlayback();
         }
 
         public void LoadEffectsFromInfo(IEnumerable<SoundInfo> sounds)

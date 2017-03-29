@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class MovementEffectPartInfo : IEffectPartInfo
     {
-        public bool? Flying { get; set; }
+        public bool? Floating { get; set; }
         public bool? FlipSprite { get; set; }
         public VelocityEffectInfo X { get; set; }
         public VelocityEffectInfo Y { get; set; }
@@ -18,6 +13,7 @@ namespace MegaMan.Common.Entities.Effects
     {
         public MovementEffectDirection Direction { get; set; }
         public float? Magnitude { get; set; }
+        public string MagnitudeVarName { get; set; }
     }
 
     public enum MovementEffectDirection

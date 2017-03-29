@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -19,7 +18,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             var info = new MovementEffectPartInfo();
 
-            info.Flying = partNode.TryElementValue<bool?>("Flying");
+            info.Floating = partNode.TryElementValue<bool?>("Floating");
             info.FlipSprite = partNode.TryElementValue<bool?>("FlipSprite");
 
             info.X = LoadVelocity(partNode.Element("X"));
@@ -37,6 +36,7 @@ namespace MegaMan.IO.Xml.Effects
             var dir = prop.TryAttribute<string>("direction", "Same");
             return new VelocityEffectInfo() {
                 Magnitude = prop.TryAttribute<float?>("magnitude"),
+                MagnitudeVarName = prop.TryAttribute<string>("magnitudeVar"),
                 Direction = (MovementEffectDirection)Enum.Parse(typeof(MovementEffectDirection), dir)
             };
         }

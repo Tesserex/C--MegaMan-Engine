@@ -47,6 +47,28 @@ namespace MegaMan.Engine.Entities.Effects
                 };
             }
 
+            if (sprite.Facing != null)
+            {
+                FacingValues facing = sprite.Facing.Value;
+                action += entity => {
+                    GameEntity player = entity.Entities.GetEntityById("Player");
+                    PositionComponent playerPos = player.GetComponent<PositionComponent>();
+
+                    SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
+                    PositionComponent positioncomp = entity.GetComponent<PositionComponent>();
+
+                    spritecomp.HorizontalFlip = false;  // Skip cases to set it to false
+
+                    if (facing == FacingValues.Left) spritecomp.HorizontalFlip = true;
+                    else
+                    {
+                        bool leftFromPlayer = (positioncomp.Position.X <= playerPos.Position.X);
+                        if (facing == FacingValues.Player) spritecomp.HorizontalFlip = !leftFromPlayer;
+                        else if (facing == FacingValues.PlayerOpposite) spritecomp.HorizontalFlip = leftFromPlayer;
+                    }
+                };
+            }
+
             return action;
         }
     }

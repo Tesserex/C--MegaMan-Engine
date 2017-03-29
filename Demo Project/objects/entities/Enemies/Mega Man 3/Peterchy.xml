@@ -1,0 +1,153 @@
+<Entities>
+	<Entity name="Peterchy" maxAlive="50">
+		<GravityFlip>True</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="Environment" x="-11" y="0" width="22" height="16" properties="Default" environment="True" pushaway="True" />
+			<Hitbox name="Horizontal" x="-10" y="-12" width="20" height="24" properties="Default" damage="4" environment="False" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<Health max="3" flash="8" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Tilesheet>images\enemies\Mega Man 3\Peterchy.png</Tilesheet>
+		<Sprite width="32" height="32" tilesheet="images\enemies\Mega Man 3\Peterchy.png">
+			<Hotspot x="16" y="16" />
+			<Frame x="0" y="0" duration="4" />
+			<Frame x="32" y="0" duration="4" />
+			<Frame x="64" y="0" duration="4" />
+			<Frame x="96" y="0" duration="4" />
+			<Frame x="128" y="0" duration="4" />
+		</Sprite>
+		<State name="Start">
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Collision>
+					<EnableBox name="Environment" />
+					<EnableBox name="Horizontal" />
+				</Collision>
+				<Movement>
+					<Floating />
+					<FlipSprite>True</FlipSprite>
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="31">
+				<Condition>PlayerDistX &gt;= 0</Condition>
+				<Effect>
+					<State>Left</State>
+				</Effect>
+				<Else>
+					<State>Right</State>
+				</Else>
+			</Trigger>
+		</State>
+		<State name="Left">
+			<Initialize />
+			<Logic>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X direction="Left" magnitude="0.5" />
+				</Movement>
+			</Logic>
+			<Trigger priority="44">
+				<Condition>Collision.BlockLeft</Condition>
+				<Effect>
+					<State>Right</State>
+				</Effect>
+			</Trigger>
+			<Trigger priority="45">
+				<Condition>PlayerDistAbsX &lt; 16 Or StateTime &gt; 100</Condition>
+				<Effect>
+					<State>LeftStayClose</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="LeftStayClose">
+			<Initialize />
+			<Logic>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X magnitude="0.5" />
+				</Movement>
+			</Logic>
+			<Trigger priority="51">
+				<Condition>Collision.BlockLeft Or PlayerDistX &lt;= -48</Condition>
+				<Effect>
+					<State>Right</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Right">
+			<Initialize />
+			<Logic>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X direction="Right" magnitude="0.5" />
+				</Movement>
+			</Logic>
+			<Trigger priority="57">
+				<Condition>Collision.BlockRight</Condition>
+				<Effect>
+					<State>Left</State>
+				</Effect>
+			</Trigger>
+			<Trigger priority="58">
+				<Condition>PlayerDistAbsX &lt; 16 Or StateTime &gt; 100</Condition>
+				<Effect>
+					<State>RightStayClose</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="RightStayClose">
+			<Initialize />
+			<Logic>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+					<X magnitude="0.5" />
+				</Movement>
+			</Logic>
+			<Trigger priority="64">
+				<Condition>Collision.BlockRight Or PlayerDistX &gt;= 48</Condition>
+				<Effect>
+					<State>Left</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<Trigger priority="67">
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" playing="True" />
+			</Effect>
+		</Trigger>
+	</Entity>
+	<Entity name="PeterchySpawner" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Movement>
+			<Floating>True</Floating>
+			<FlipSprite />
+		</Movement>
+		<State name="Start">
+			<Initialize />
+			<Logic />
+			<Trigger priority="83">
+				<Condition>(StateTime % 120) = 0</Condition>
+				<Effect>
+					<Spawn name="Peterchy" state="Start">
+						<Position />
+					</Spawn>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+</Entities>

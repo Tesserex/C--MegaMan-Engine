@@ -1,9 +1,4 @@
 ﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MegaMan.Editor.Bll
 {
@@ -11,5 +6,6 @@ namespace MegaMan.Editor.Bll
     {
         FilePath CreateStagePath(string stageName);
         FilePath CreateTilesetPath(string tilesetName);
+        FilePath CreateEntityPath(string entityName);
     }
 }

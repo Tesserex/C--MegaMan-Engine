@@ -1,10 +1,8 @@
-﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.IO;
@@ -30,6 +28,22 @@ namespace MegaMan.Editor.Services
             {
                 var stage = project.StageByName(stageName);
                 SaveStage(stage);
+            }
+
+            var allEntities = project.Entities.Concat(project.UnloadedEntities).ToList();
+
+            foreach (var entity in allEntities)
+            {
+                if (entity.StoragePath == null)
+                    entity.StoragePath = project.FileStructure.CreateEntityPath(entity.Name);
+            }
+
+            var entityFileGroups = allEntities
+                .GroupBy(e => e.StoragePath.Absolute);
+
+            foreach (var group in entityFileGroups)
+            {
+                SaveEntities(group, group.Key);
             }
         }
 
@@ -66,7 +80,7 @@ namespace MegaMan.Editor.Services
         {
             string path = GetBrushFilePath(tileset);
 
-            using (var stream = new System.IO.StreamWriter(path, false))
+            using (var stream = new StreamWriter(path, false))
             {
                 foreach (var brush in tileset.Brushes)
                 {
@@ -86,9 +100,9 @@ namespace MegaMan.Editor.Services
 
         private string GetBrushFilePath(TilesetDocument tileset)
         {
-            string dir = System.IO.Path.GetDirectoryName(tileset.Tileset.FilePath.Absolute);
-            string file = System.IO.Path.GetFileNameWithoutExtension(tileset.Tileset.FilePath.Absolute);
-            string path = System.IO.Path.Combine(dir, file + "_brushes.xml");
+            string dir = Path.GetDirectoryName(tileset.Tileset.FilePath.Absolute);
+            string file = Path.GetFileNameWithoutExtension(tileset.Tileset.FilePath.Absolute);
+            string path = Path.Combine(dir, file + "_brushes.xml");
             return path;
         }
 
@@ -96,9 +110,9 @@ namespace MegaMan.Editor.Services
         {
             var path = GetBrushFilePath(tileset);
 
-            if (!System.IO.File.Exists(path)) return;
+            if (!File.Exists(path)) return;
 
-            using (var stream = new System.IO.StreamReader(path))
+            using (var stream = new StreamReader(path))
             {
                 while (!stream.EndOfStream)
                 {
@@ -126,6 +140,18 @@ namespace MegaMan.Editor.Services
                     tileset.AddBrush(brush);
                 }
             }
+        }
+
+        private void SaveEntities(IEnumerable<EntityInfo> entities, string path)
+        {
+            var writer = _writerProvider.GetEntityGroupWriter();
+            writer.Write(entities, path);
+        }
+
+        public void SaveEntity(EntityInfo entity, string path)
+        {
+            var writer = _writerProvider.GetEntityWriter();
+            writer.Write(entity, path);
         }
     }
 }

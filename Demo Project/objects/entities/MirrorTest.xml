@@ -1,0 +1,32 @@
+<Entities>
+	<Entity name="MirrorTestLocal" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Position persistoffscreen="True" />
+		<Sprite width="8" height="8" tilesheet="images\weapons\basic.png">
+			<Hotspot x="4" y="4" />
+			<Frame x="32" y="0" duration="0" />
+		</Sprite>
+		<State name="Start">
+			<Initialize />
+			<Logic>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+				</Movement>
+				<Vars name="PlayerX" call="Position.X" entity="Player" />
+				<Vars name="PlayerY" call="Position.Y - 16" entity="Player" />
+				<Vars name="PlayerVX" call="Movement.VelocityX" entity="Player" />
+				<Vars name="PlayerVY" call="Movement.VelocityY" entity="Player" />
+			</Logic>
+		</State>
+	</Entity>
+</Entities>

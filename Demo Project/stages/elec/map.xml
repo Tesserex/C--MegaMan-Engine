@@ -1,13 +1,13 @@
 <Map name="Elec" tiles="stages\elec\tiles.xml">
 	<Start screen="1" x="112" y="180" />
 	<Screen id="1">
-		<Entity id="d671d8c1-2a03-41f8-a196-af3606875c5f" entity="FloorBlade" x="101" y="136" direction="Unknown" respawn="Offscreen" />
-		<Entity id="b73966a6-b9b3-4c46-bcf8-73161e772831" entity="FloorBlade" x="170" y="104" direction="Unknown" respawn="Offscreen" />
-		<Entity id="cce72c9f-3a24-4d30-9307-6476a8c70b36" entity="FloorBlade" x="56" y="72" direction="Unknown" respawn="Offscreen" />
+		<Entity id="d671d8c1-2a03-41f8-a196-af3606875c5f" entity="Garyoby" x="101" y="137" direction="Unknown" respawn="Offscreen" />
+		<Entity id="b73966a6-b9b3-4c46-bcf8-73161e772831" entity="Garyoby" x="170" y="105" direction="Unknown" respawn="Offscreen" />
+		<Entity id="cce72c9f-3a24-4d30-9307-6476a8c70b36" entity="Garyoby" x="56" y="73" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="2">
-		<Entity id="7c6f9ba8-e472-4963-918f-45535f0964ac" entity="FloorBlade" x="137" y="136" direction="Unknown" respawn="Offscreen" />
-		<Entity id="b21ad759-0c91-4dee-8574-49a4fe7a9ea1" entity="FloorBlade" x="91" y="104" direction="Unknown" respawn="Offscreen" />
+		<Entity id="7c6f9ba8-e472-4963-918f-45535f0964ac" entity="Garyoby" x="137" y="137" direction="Unknown" respawn="Offscreen" />
+		<Entity id="b21ad759-0c91-4dee-8574-49a4fe7a9ea1" entity="Garyoby" x="91" y="105" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="3">
 		<Entity id="808cdf65-7d5e-4628-a391-0ec133e72b03" entity="BoltOne" x="160" y="144" direction="Unknown" respawn="Offscreen" />
@@ -26,9 +26,9 @@
 	</Screen>
 	<Screen id="9" />
 	<Screen id="10">
-		<Entity id="84053f09-9566-46ce-951c-9f37626bbbc5" entity="FloorBlade" x="42" y="120" direction="Unknown" respawn="Offscreen" />
-		<Entity id="5526d3ed-2a54-42a6-b2aa-c926c4118090" entity="FloorBlade" x="48" y="56" direction="Unknown" respawn="Offscreen" />
-		<Entity id="db6e58b6-bddf-4667-ba85-38d92d86be7f" entity="FloorBlade" x="117" y="88" direction="Unknown" respawn="Offscreen" />
+		<Entity id="84053f09-9566-46ce-951c-9f37626bbbc5" entity="Garyoby" x="42" y="121" direction="Unknown" respawn="Offscreen" />
+		<Entity id="5526d3ed-2a54-42a6-b2aa-c926c4118090" entity="Garyoby" x="48" y="57" direction="Unknown" respawn="Offscreen" />
+		<Entity id="db6e58b6-bddf-4667-ba85-38d92d86be7f" entity="Garyoby" x="117" y="89" direction="Unknown" respawn="Offscreen" />
 		<Entity id="59774289-2060-43ef-953f-526c4cf5ea17" entity="BoltOne" x="160" y="112" direction="Unknown" respawn="Offscreen" />
 		<Entity id="96046106-8af0-4aa8-8e85-50dbaa04d92c" entity="BoltTwo" x="160" y="48" direction="Unknown" respawn="Offscreen" />
 	</Screen>

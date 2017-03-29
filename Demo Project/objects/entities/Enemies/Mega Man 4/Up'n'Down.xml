@@ -1,0 +1,183 @@
+<Entities>
+	<Entity name="Up'n'Down" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="Body" x="0" y="0" width="10" height="10" properties="Default" damage="3" environment="False" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<Health max="1" flash="8" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Tilesheet>images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
+		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
+			<Hotspot x="8" y="8" />
+			<Frame x="0" y="0" duration="2" />
+			<Frame x="16" y="0" duration="2" />
+			<Frame x="32" y="0" duration="2" />
+		</Sprite>
+		<State name="Start">
+			<Initialize>
+				<Sprite>
+					<Name />
+				</Sprite>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Collision>
+					<EnableBox name="Body" />
+				</Collision>
+				<Movement>
+					<Floating>True</Floating>
+					<FlipSprite />
+					<X magnitude="0" />
+					<Y direction="Up" magnitude="3" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="27">
+				<Condition>Math.Floor(Random * 3) == 0</Condition>
+				<Effect>
+					<Vars name="count" value="42" />
+				</Effect>
+			</Trigger>
+			<Trigger priority="33">
+				<Condition>Math.Floor(Random * 3) == 1</Condition>
+				<Effect>
+					<Vars name="count" value="53" />
+				</Effect>
+			</Trigger>
+			<Trigger priority="39">
+				<Condition>Math.Floor(Random * 3) == 2</Condition>
+				<Effect>
+					<Vars name="count" value="64" />
+				</Effect>
+			</Trigger>
+			<Trigger priority="45">
+				<Condition>true</Condition>
+				<Effect>
+					<State>Up</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Up">
+			<Initialize />
+			<Logic />
+			<Trigger priority="51">
+				<Condition>StateTime.ToString() == Vars.Get("count")</Condition>
+				<Effect>
+					<State>DownLeft</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Left" magnitude="0.2" />
+						<Y direction="Down" magnitude="0.6992" />
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="DownLeft">
+			<Initialize />
+			<Logic />
+			<Trigger priority="62">
+				<Condition>StateTime == 11</Condition>
+				<Effect>
+					<State>DownRightRight</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Right" magnitude="0.3476563" />
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="DownRightRight">
+			<Initialize />
+			<Logic />
+			<Trigger priority="72">
+				<Condition>StateTime == 22</Condition>
+				<Effect>
+					<State>DownLeftLeft</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Left" magnitude="0.3476563" />
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="DownLeftLeft">
+			<Initialize />
+			<Logic />
+			<Trigger priority="82">
+				<Condition>StateTime == 22</Condition>
+				<Effect>
+					<State>DownRightRight</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Right" magnitude="0.3476563" />
+					</Movement>
+				</Effect>
+			</Trigger>
+		</State>
+		<Trigger priority="92">
+			<Condition>Health.Hit == True</Condition>
+			<Effect>
+				<Sound name="EnemyHurt" playing="True" />
+			</Effect>
+		</Trigger>
+	</Entity>
+	<Entity name="Up'n'DownSpawner" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<State name="Start">
+			<Initialize>
+				<Movement>
+					<Floating>True</Floating>
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="108">
+				<Condition>PlayerDistAbsX &lt; 32</Condition>
+				<Effect>
+					<Spawn name="Up'n'Down" state="Start">
+						<Position />
+					</Spawn>
+					<State>Loop</State>
+				</Effect>
+			</Trigger>
+		</State>
+		<State name="Loop">
+			<Initialize />
+			<Logic />
+			<Trigger priority="116">
+				<Condition>PlayerDistAbsX &lt; 32 And Not Timer.Exists("counter")</Condition>
+				<Effect>
+					<Timer>
+						<Start>counter</Start>
+					</Timer>
+				</Effect>
+			</Trigger>
+			<Trigger priority="122">
+				<Condition>PlayerDistAbsX &lt; 32 And Timer.Value("counter") &gt;= 120</Condition>
+				<Effect>
+					<Spawn name="Up'n'Down" state="Start">
+						<Position />
+					</Spawn>
+					<Timer>
+						<Reset>counter</Reset>
+					</Timer>
+				</Effect>
+			</Trigger>
+		</State>
+	</Entity>
+</Entities>

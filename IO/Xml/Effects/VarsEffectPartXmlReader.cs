@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Effects
 {
@@ -22,7 +17,9 @@ namespace MegaMan.IO.Xml.Effects
         {
             return new VarsEffectPartInfo() {
                 Name = partNode.GetAttribute<string>("name"),
-                Value = partNode.GetAttribute<string>("value")
+                Value = partNode.TryAttribute<string>("value"),
+                Call = partNode.TryAttribute<string>("call"),
+                EntityName = partNode.TryAttribute<string>("entity")
             };
         }
     }

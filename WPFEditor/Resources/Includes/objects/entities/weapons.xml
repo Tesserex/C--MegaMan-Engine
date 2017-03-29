@@ -17,7 +17,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="2" direction="Inherit" /><Y magnitude="0" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -42,7 +42,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<Velocity magnitude="4" direction="Player" />
 			</Movement>
 			<Collision><EnableBox name="H" /></Collision>
@@ -70,7 +70,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="4" direction="Inherit" />
 				<Y magnitude="0" />
 			</Movement>
@@ -117,7 +117,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<FlipSprite>True</FlipSprite>
 				<X magnitude="5" direction="Inherit" />
 				<Y magnitude="0" />
@@ -167,7 +167,7 @@
 				<Y base="Inherit" />
 			</Position>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<FlipSprite>True</FlipSprite>
 				<X magnitude="5" direction="Inherit" />
 				<Y magnitude="0" />
@@ -231,7 +231,7 @@
 			</Position>
 			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
 			<Movement mode="Repeat">
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0.5" direction="Inherit" /><X magnitude="0" /><Y magnitude="8" direction="Down" />
 				<FlipSprite>True</FlipSprite>
 			</Movement>
@@ -260,7 +260,7 @@
 				<Condition>StateTime > 7</Condition>
 				<Effect>
 					<Movement>
-						<Flying>False</Flying>
+						<Floating>False</Floating>
 					</Movement>
 					<State>Standing</State>
 				</Effect>
@@ -269,7 +269,7 @@
 		<State name="WarpStart">
 			<Sprite><Name>WarpStart</Name><Playing>True</Playing></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 			</Movement>
 			<Collision><Enabled>False</Enabled></Collision>
 			<Trigger><Condition>StateTime >= 12</Condition><Effect><State>WarpUp</State></Effect></Trigger>
@@ -277,7 +277,7 @@
 		<State name="WarpUp">
 			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0" /><Y magnitude="4" direction="Up" />
 			</Movement>
 			<Collision><Enabled>False</Enabled></Collision>
@@ -355,7 +355,7 @@
 			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
 			<Movement>
 				<FlipSprite>True</FlipSprite>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="1" direction="Inherit" /><X magnitude="0" />
 			</Movement>
 			<Trigger condition="True">
@@ -386,7 +386,7 @@
 		<State name="WarpStart">
 			<Sprite><Name>WarpStart</Name><Playing>True</Playing></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0" /><Y magnitude="0" />
 			</Movement>
 			<Collision><Enabled>False</Enabled><Clear /></Collision>
@@ -396,13 +396,13 @@
 		<State name="WarpUp">
 			<Sprite><Name>Warp</Name><Playing>False</Playing></Sprite>
 			<Movement>
-				<Flying>True</Flying>
+				<Floating>True</Floating>
 				<X magnitude="0" /><Y magnitude="6" direction="Up" />
 			</Movement>
 		</State>
 		<State name="Down">
 			<Sprite><Name>Down</Name></Sprite>
-			<Movement><Flying>True</Flying></Movement>
+			<Movement><Floating>True</Floating></Movement>
 			<Trigger condition="Movement.Direction==Right">
 				<Effect>
 					<Collision>
