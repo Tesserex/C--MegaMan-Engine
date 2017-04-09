@@ -133,6 +133,15 @@ namespace MegaMan.Editor.Controls
             _toolProvider.Tool.Move(this, MouseLocation(mousePoint));
         }
 
+        protected override void OnContextMenuOpening(ContextMenuEventArgs e) {
+            if (_toolProvider.Tool != null && _toolProvider.Tool.SuppressContextMenu)
+            {
+                e.Handled = true;
+            }
+
+            base.OnContextMenuOpening(e);
+        }
+
         private Common.Geometry.Point MouseLocation(Point mousePoint)
         {
             return new Common.Geometry.Point((int)(mousePoint.X / this.Zoom), (int)(mousePoint.Y / this.Zoom));

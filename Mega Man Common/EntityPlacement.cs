@@ -52,5 +52,17 @@ namespace MegaMan.Common
         {
             return Id.GetHashCode();
         }
+
+        public EntityPlacement Clone()
+        {
+            return new EntityPlacement() {
+                entity = this.entity,
+                direction = this.direction,
+                state = this.state,
+                respawn = this.respawn,
+                screenX = this.screenX,
+                screenY = this.screenY
+            };
+        }
     }
 }

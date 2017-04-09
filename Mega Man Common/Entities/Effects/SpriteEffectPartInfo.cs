@@ -19,5 +19,15 @@ namespace MegaMan.Common.Entities.Effects
         public bool? Playing { get; set; }
         public bool? Visible { get; set; }
         public FacingValues? Facing { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new SpriteEffectPartInfo() {
+                Name = this.Name,
+                Playing = this.Playing,
+                Visible = this.Visible,
+                Facing = this.Facing
+            };
+        }
     }
 }

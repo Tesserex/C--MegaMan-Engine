@@ -9,5 +9,13 @@ namespace MegaMan.Common.Entities.Effects
     {
         public string Name { get; set; }
         public string Value { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new SetVarEffectPartInfo() {
+                Name = this.Name,
+                Value = this.Value
+            };
+        }
     }
 }

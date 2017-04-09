@@ -48,5 +48,7 @@ namespace MegaMan.Editor.Bll.Tools
         {
             surface.Screen.SetSelection(0, 0, 0, 0);
         }
+
+        public bool SuppressContextMenu { get { return true; } }
     }
 }

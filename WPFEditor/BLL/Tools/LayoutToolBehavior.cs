@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Mediator;
@@ -9,6 +10,8 @@ namespace MegaMan.Editor.Bll.Tools
     {
         private bool _dragging;
         private Vector _dragAnchorOffset;
+
+        public bool SuppressContextMenu { get { return false; } }
 
         public void Click(ScreenCanvas canvas, Common.Geometry.Point location)
         {
@@ -41,7 +44,6 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void RightClick(ScreenCanvas canvas, Common.Geometry.Point location)
         {
-
         }
     }
 }

@@ -9,5 +9,13 @@ namespace MegaMan.Common.Entities.Effects
     {
         public string Name { get; set; }
         public bool Playing { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new SoundEffectPartInfo() {
+                Name = this.Name,
+                Playing = this.Playing
+            };
+        }
     }
 }

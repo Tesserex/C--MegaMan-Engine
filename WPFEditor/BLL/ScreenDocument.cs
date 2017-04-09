@@ -156,6 +156,13 @@ namespace MegaMan.Editor.Bll
             }
         }
 
+        public ScreenInfo CloneInfo()
+        {
+            var info = this.screen.Clone();
+            info.Name = this.Stage.FindNextScreenId().ToString();
+            return info;
+        }
+
         public EntityPlacement AddEntity(EntityInfo entity, Point location)
         {
             var info = new EntityPlacement {

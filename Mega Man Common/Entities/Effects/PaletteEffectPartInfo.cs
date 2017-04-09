@@ -9,5 +9,13 @@ namespace MegaMan.Common.Entities.Effects
     {
         public string PaletteName { get; set; }
         public int PaletteIndex { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new PaletteEffectPartInfo() {
+                PaletteIndex = this.PaletteIndex,
+                PaletteName = this.PaletteName
+            };
+        }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
+using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {
-    public class LayoutScreenCanvas : ScreenCanvas
+    public partial class LayoutScreenCanvas : ScreenCanvas
     {
         private ScreenResizeAdorner _adorner;
         private LayoutObjectsLayer _objectsLayer;
@@ -13,6 +16,8 @@ namespace MegaMan.Editor.Controls
         public LayoutScreenCanvas(IToolProvider toolProvider)
             : base(toolProvider)
         {
+            InitializeComponent();
+
             _objectsLayer = new LayoutObjectsLayer();
             this.Children.Insert(1, _objectsLayer);
 
@@ -120,6 +125,11 @@ namespace MegaMan.Editor.Controls
             base.OnMouseLeave(e);
 
             _tiles.RenderGrayscale();
+        }
+
+        private void CloneClicked(object sender, RoutedEventArgs e)
+        {
+            this.Screen.Stage.AddScreen(this.Screen.CloneInfo());
         }
     }
 }

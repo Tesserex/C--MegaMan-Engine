@@ -10,5 +10,14 @@ namespace MegaMan.Common.Entities.Effects
         public string Name { get; set; }
         public string State { get; set; }
         public PositionEffectPartInfo Position { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new SpawnEffectPartInfo() {
+                Name = this.Name,
+                State = this.State,
+                Position = (PositionEffectPartInfo)this.Position.Clone()
+            };
+        }
     }
 }

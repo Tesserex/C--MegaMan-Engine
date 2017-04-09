@@ -9,5 +9,13 @@ namespace MegaMan.Common.Entities.Effects
     {
         public int DelayFrames { get; set; }
         public EffectInfo Effect { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new DelayedEffectPartInfo() {
+                DelayFrames = this.DelayFrames,
+                Effect = this.Effect.Clone()
+            };
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common
@@ -39,6 +40,14 @@ namespace MegaMan.Common
             Commands = new List<SceneCommandInfo>();
         }
 
-        
+        public ScreenInfo Clone()
+        {
+            return new ScreenInfo(this.Name, this.Tileset) {
+                BlockPatterns = this.BlockPatterns.Select(x => x.Clone()).ToList(),
+                Commands = this.Commands.Select(x => x.Clone()).ToList(),
+                Layers = this.Layers.Select(x => x.Clone()).ToList(),
+                Teleports = new List<TeleportInfo>(this.Teleports)
+            };
+        }
     }
 }

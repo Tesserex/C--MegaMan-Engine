@@ -32,5 +32,7 @@ namespace MegaMan.Editor.Bll.Tools
         public void RightClick(Controls.ScreenCanvas canvas, Common.Geometry.Point location)
         {
         }
+
+        public bool SuppressContextMenu { get { return false; } }
     }
 }

@@ -111,5 +111,7 @@ namespace MegaMan.Editor.Bll.Tools
         {
 
         }
+
+        public bool SuppressContextMenu { get { return false; } }
     }
 }

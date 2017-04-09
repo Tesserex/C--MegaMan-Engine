@@ -113,5 +113,7 @@ namespace MegaMan.Editor.Bll.Tools
             var changed = _brush.DrawOn(screen, tile_x, tile_y);
             changes.AddRange(changed);
         }
+
+        public bool SuppressContextMenu { get { return true; } }
     }
 }

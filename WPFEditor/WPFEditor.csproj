@@ -166,6 +166,9 @@
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
     <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
     <Compile Include="Bll\UnknownTile.cs" />
+    <Compile Include="Controls\Canvases\LayoutScreenCanvas.xaml.cs">
+      <DependentUpon>LayoutScreenCanvas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Converters\BoolInverterConverter.cs" />
     <Compile Include="Controls\Converters\PropertyToBoolConverter.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
@@ -303,7 +306,6 @@
     <Compile Include="Mediator\StageChangedEventArgs.cs" />
     <Compile Include="Bll\Tools\TileBrush.cs" />
     <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
-    <Compile Include="Controls\Canvases\LayoutScreenCanvas.cs" />
     <Compile Include="Controls\StageControl.cs" />
     <Compile Include="Controls\StageLayoutControl.cs" />
     <Compile Include="Controls\StageTileControl.cs" />
@@ -314,6 +316,10 @@
     <Compile Include="SpriteBitmapCache.cs" />
     <Compile Include="Tools\SingleTileCursor.cs" />
     <Compile Include="UserSettings.cs" />
+    <Page Include="Controls\Canvases\LayoutScreenCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\AddStageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

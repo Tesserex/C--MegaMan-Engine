@@ -28,5 +28,7 @@ namespace MegaMan.Editor.Bll.Tools
         public void RightClick(ScreenCanvas canvas, Point location)
         {
         }
+
+        public bool SuppressContextMenu { get { return false; } }
     }
 }

@@ -9,5 +9,13 @@ namespace MegaMan.Common.Entities.Effects
     {
         public string ItemName { get; set; }
         public int Quantity { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new RemoveInventoryEffectPartInfo() {
+                ItemName = this.ItemName,
+                Quantity = this.Quantity
+            };
+        }
     }
 }

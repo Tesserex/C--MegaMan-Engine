@@ -21,6 +21,19 @@ namespace MegaMan.Common.Entities
 
         public bool PushAway { get; set; }
 
+        public HitBoxInfo Clone()
+        {
+            return new HitBoxInfo() {
+                Name = this.Name,
+                Box = this.Box,
+                Hits = new List<string>(this.Hits),
+                Groups = new List<string>(this.Groups),
+                Resistance = new Dictionary<string, float>(this.Resistance),
+                ContactDamage = this.ContactDamage,
+                PropertiesName = this.PropertiesName
+            };
+        }
+
         public HitBoxInfo()
         {
             Hits = new List<string>();

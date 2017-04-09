@@ -117,5 +117,10 @@ namespace MegaMan.Common
         {
             return this.Absolute.GetHashCode();
         }
+
+        public FilePath Clone()
+        {
+            return new FilePath(this.absolute, this.basepath);
+        }
     }
 }

@@ -10,5 +10,14 @@ namespace MegaMan.Common.Entities.Effects
         public List<string> Start { get; set; }
         public List<string> Reset { get; set; }
         public List<string> Delete { get; set; }
+
+        public IEffectPartInfo Clone()
+        {
+            return new TimerEffectPartInfo() {
+                Start = new List<string>(this.Start),
+                Reset = new List<string>(this.Reset),
+                Delete = new List<string>(this.Delete)
+            };
+        }
     }
 }

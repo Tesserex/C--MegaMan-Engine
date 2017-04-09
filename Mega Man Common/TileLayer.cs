@@ -31,6 +31,11 @@ namespace MegaMan.Common
             return Tileset.SingleOrDefault(t => t.Id == tiles[x,y]);
         }
 
+        public TileLayer Clone()
+        {
+            return new TileLayer((int[,])this.tiles.Clone(), this.Tileset, this.BaseX, this.BaseY);
+        }
+
         public void Save(string filepath)
         {
             using (FileStream f = File.Open(filepath, FileMode.Create))
