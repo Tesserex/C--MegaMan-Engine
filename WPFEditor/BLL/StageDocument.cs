@@ -48,7 +48,8 @@ namespace MegaMan.Editor.Bll
             // this should be the only time MegaMan.Screen's are touched directly
             foreach (var pair in _map.Screens)
             {
-                WrapScreen(pair.Value);
+                var doc = WrapScreen(pair.Value);
+                screens.Add(doc.Name, doc);
             }
         }
 
@@ -159,25 +160,23 @@ namespace MegaMan.Editor.Bll
 
             screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<ScreenLayerKeyframe>()));
 
-            _map.Screens.Add(name, screen);
+            return AddScreen(screen);
+        }
 
-            if (StartScreen == null)
-            {
-                _map.StartScreen = _map.Screens.Keys.First();
-                Dirty = true;
-            }
+        public ScreenDocument AddScreen(ScreenInfo screen)
+        {
+            var doc = WrapScreen(screen);
+            AddScreenDocumentWithoutHistory(doc);
 
-            ScreenDocument doc = WrapScreen(screen);
-            
-            if (ScreenAdded != null) ScreenAdded(doc);
+            PushHistoryAction(new AddScreenAction(doc));
 
             return doc;
         }
 
-        public void AddScreen(ScreenInfo screen)
+        public void AddScreenDocumentWithoutHistory(ScreenDocument doc)
         {
-            var doc = WrapScreen(screen);
-            _map.Screens.Add(screen.Name, screen);
+            _map.Screens.Add(doc.Name, doc.Info);
+            screens.Add(doc.Name, doc);
 
             if (StartScreen == null)
             {
@@ -190,13 +189,31 @@ namespace MegaMan.Editor.Bll
 
         public void RemoveScreen(ScreenDocument screen)
         {
+            RemoveScreenWithoutHistory(screen);
+            PushHistoryAction(new RemoveScreenAction(screen));
+        }
+
+        public void RemoveScreenWithoutHistory(ScreenDocument screen)
+        {
             screen.Renamed -= ScreenRenamed;
             screen.TileChanged -= () => Dirty = true;
             screen.Resized -= (w, h) => OnScreenResized(screen, w, h);
 
             screens.Remove(screen.Name);
+            _map.Screens.Remove(screen.Name);
+
+            if (StartScreen == screen.Name)
+            {
+                _map.StartScreen = _map.Screens.Keys.FirstOrDefault();
+                Dirty = true;
+            }
 
             if (ScreenRemoved != null) ScreenRemoved(screen);
+        }
+
+        public void RemoveScreen(ScreenInfo info)
+        {
+
         }
 
         public void AddJoin(Join join)
@@ -231,7 +248,6 @@ namespace MegaMan.Editor.Bll
         private ScreenDocument WrapScreen(MegaMan.Common.ScreenInfo screen)
         {
             ScreenDocument doc = new ScreenDocument(screen, this);
-            screens.Add(screen.Name, doc);
             doc.Renamed += ScreenRenamed;
             doc.TileChanged += () => Dirty = true;
             doc.Resized += (w, h) => OnScreenResized(doc, w, h);

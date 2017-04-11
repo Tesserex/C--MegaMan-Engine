@@ -129,7 +129,7 @@ namespace MegaMan.Editor.Controls
 
         private void CloneClicked(object sender, RoutedEventArgs e)
         {
-            this.Screen.Stage.AddScreen(this.Screen.CloneInfo());
+            this.Screen.Clone();
         }
     }
 }

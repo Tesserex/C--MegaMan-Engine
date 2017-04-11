@@ -11,6 +11,7 @@ namespace MegaMan.Editor.Bll
     public class ScreenDocument
     {
         private readonly ScreenInfo screen;
+        public ScreenInfo Info { get { return screen; } }
 
         private int? selectedEntityIndex;
 
@@ -156,11 +157,12 @@ namespace MegaMan.Editor.Bll
             }
         }
 
-        public ScreenInfo CloneInfo()
+        public void Clone()
         {
             var info = this.screen.Clone();
             info.Name = this.Stage.FindNextScreenId().ToString();
-            return info;
+
+            this.Stage.AddScreen(info);
         }
 
         public EntityPlacement AddEntity(EntityInfo entity, Point location)

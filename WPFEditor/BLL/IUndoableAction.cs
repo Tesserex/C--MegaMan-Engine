@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 
@@ -121,6 +122,50 @@ namespace MegaMan.Editor.Bll
         public IUndoableAction Reverse()
         {
             return new AddEntityAction(entity, screen);
+        }
+    }
+
+    public class AddScreenAction : IUndoableAction
+    {
+        private readonly ScreenDocument screen;
+
+        public AddScreenAction(ScreenDocument screen)
+        {
+            this.screen = screen;
+        }
+
+        public string Name { get { return "Add Screen"; } }
+
+        public void Execute()
+        {
+            this.screen.Stage.AddScreenDocumentWithoutHistory(this.screen);
+        }
+
+        public IUndoableAction Reverse()
+        {
+            return new RemoveScreenAction(this.screen);
+        }
+    }
+
+    public class RemoveScreenAction : IUndoableAction
+    {
+        private readonly ScreenDocument screen;
+
+        public RemoveScreenAction(ScreenDocument screen)
+        {
+            this.screen = screen;
+        }
+
+        public string Name { get { return "Remove Screen"; } }
+
+        public void Execute()
+        {
+            this.screen.Stage.RemoveScreenWithoutHistory(this.screen);
+        }
+
+        public IUndoableAction Reverse()
+        {
+            return new AddScreenAction(this.screen);
         }
     }
 }
