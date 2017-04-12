@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -242,18 +243,32 @@ namespace MegaMan.Editor.Bll
                 Name = name
             };
 
-            openStages.Add(name, stage);
+            var info = new StageLinkInfo { Name = stage.Name, StagePath = stage.Path };
 
-            var info = new StageLinkInfo { Name = name, StagePath = stagePath };
-            Project.AddStage(info);
-
-            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = info });
-
-            CheckStartHandler();
-
-            Dirty = true;
+            AddStageToProject(stage, info);
 
             return stage;
+        }
+
+        public void LinkStage(string fileName)
+        {
+            var linkName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+            var info = new StageLinkInfo { Name = linkName, StagePath = FilePath.FromAbsolute(fileName, this.BaseDir) };
+            StageDocument stage = _stageFactory.Load(this, info);
+
+            var copyPath = FileStructure.CreateStagePath(stage.Name);
+            stage.Path = copyPath;
+
+            AddStageToProject(stage, info);
+        }
+
+        private void AddStageToProject(StageDocument stage, StageLinkInfo linkInfo)
+        {
+            openStages.Add(stage.Name, stage);
+            Project.AddStage(linkInfo);
+            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = linkInfo });
+            CheckStartHandler();
+            Dirty = true;
         }
 
         public void AddEntity(EntityInfo entity)

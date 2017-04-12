@@ -38,7 +38,11 @@
                 </Fluent:RibbonGroupBox>
                 
                 <Fluent:RibbonGroupBox>
-                    <Fluent:Button Icon="/Resources/auto.png" LargeIcon="/Resources/auto.png" Header="Add Stage" Command="{Binding ElementName=MainWindow1, Path=AddStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
+                    <Fluent:Button Icon="/Resources/stage_add.png" LargeIcon="/Resources/stage_add.png" Header="Add New Stage" Command="{Binding ElementName=MainWindow1, Path=AddStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
+                </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Icon="/Resources/stage_link.png" LargeIcon="/Resources/stage_link.png" Header="Add Existing Stage" Command="{Binding ElementName=MainWindow1, Path=LinkStageCommand}" CommandTarget="{Binding ElementName=MainWindow1}" />
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox>

@@ -5,6 +5,7 @@ using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Ninject;
 
 namespace MegaMan.Editor
@@ -20,6 +21,7 @@ namespace MegaMan.Editor
         public ICommand EditTilesetCommand { get; private set; }
         public ICommand EditStageCommand { get; private set; }
         public ICommand AddStageCommand { get; private set; }
+        public ICommand LinkStageCommand { get; private set; }
         public ICommand StagePropertiesCommand { get; private set; }
         public ICommand ImportTilesCommand { get; private set; }
 
@@ -41,6 +43,7 @@ namespace MegaMan.Editor
 
                 OpenProjectSettingsCommand = new RelayCommand(OpenProjectSettings, p => IsProjectOpen());
                 AddStageCommand = new RelayCommand(AddStage, p => IsProjectOpen());
+                LinkStageCommand = new RelayCommand(LinkStage, p => IsProjectOpen());
                 EditTilesetCommand = new RelayCommand(EditTileset, p => IsStageOpen());
                 EditStageCommand = new RelayCommand(EditStage, p => IsStageOpen());
                 StagePropertiesCommand = new RelayCommand(ShowStageProperties, p => IsStageOpen());
@@ -111,6 +114,25 @@ namespace MegaMan.Editor
         private void AddStage(object param)
         {
             this.addStagePane.IsSelected = true;
+        }
+
+        private void LinkStage(object param)
+        {
+            var dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            dialog.InitialDirectory = _viewModel.ProjectViewModel.Project.Project.BaseDir;
+            dialog.Title = "Select Stage Folder";
+            dialog.EnsureFileExists = true;
+            dialog.EnsurePathExists = true;
+            dialog.EnsureReadOnly = false;
+            dialog.EnsureValidNames = true;
+            dialog.Multiselect = false;
+            dialog.ShowPlacesList = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                _viewModel.ProjectViewModel.Project.LinkStage(dialog.FileName);
+            }
         }
 
         private void RibbonTabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

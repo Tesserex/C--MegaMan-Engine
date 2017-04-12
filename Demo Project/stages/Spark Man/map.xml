@@ -1,0 +1,4 @@
+<Map name="Spark Man" tiles="tilesets\Spark Man\tiles.xml">
+	<Start screen="1" x="0" y="0" />
+	<Screen id="1" />
+</Map>

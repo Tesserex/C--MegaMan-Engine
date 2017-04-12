@@ -619,6 +619,8 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\stage_link.png" />
+    <Resource Include="Resources\stage_add.png" />
     <Resource Include="Resources\spawn.png" />
     <Resource Include="Resources\pencil.png" />
     <Resource Include="Resources\check.png" />
