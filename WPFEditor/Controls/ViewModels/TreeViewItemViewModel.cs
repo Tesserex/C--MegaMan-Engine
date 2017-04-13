@@ -36,6 +36,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             get { return _children; }
         }
 
+        public ICollectionView ChildrenView { get; protected set; }
+
         public bool IsSelected
         {
             get { return _isSelected; }

@@ -31,5 +31,12 @@ namespace MegaMan.Editor.Controls
             stageInfo.IsSelected = true;
             _viewModel.ChangeStage(stageInfo.StageName);
         }
+
+        private void EntityClick(object sender, ExecutedRoutedEventArgs e)
+        {
+            var info = (EntityTreeItemViewModel)e.Parameter;
+            info.IsSelected = true;
+            _viewModel.SelectEntity(info.EntityName);
+        }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Data;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 using MegaMan.IO.Xml;
@@ -31,8 +34,10 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 _children.Clear();
 
-                if (_project != null)
+                if (_project != null) {
                     _children.Add(new StagesRootViewModel(this, _project.Project.Stages));
+                    _children.Add(new EntitiesRootViewModel(this, _project.Entities));
+                }
 
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, new StageChangedEventArgs(null));
             }
@@ -64,6 +69,12 @@ namespace MegaMan.Editor.Controls.ViewModels
                 CustomMessageBox.ShowError(ex.Message, this.Project.Name);
             }
         }
+
+        public void SelectEntity(string entityName)
+        {
+            var info = _project.EntityByName(entityName);
+            ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Raise(this, new EntitySelectedEventArgs(info));
+        }
     }
 
     public class StagesRootViewModel : TreeViewItemViewModel
@@ -72,6 +83,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             : base(parent)
         {
             _children = new ObservableCollection<TreeViewItemViewModel>(stages.Select(s => new StageTreeItemViewModel(this, s)));
+            ChildrenView = CollectionViewSource.GetDefaultView(_children);
+            ChildrenView.SortDescriptions.Add(new SortDescription("StageName", ListSortDirection.Ascending));
 
             ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Subscribe(StageAdded);
         }
@@ -95,6 +108,40 @@ namespace MegaMan.Editor.Controls.ViewModels
             : base(parent)
         {
             _stage = stage;
+        }
+    }
+
+    public class EntitiesRootViewModel : TreeViewItemViewModel
+    {
+        public EntitiesRootViewModel(TreeViewItemViewModel parent, IEnumerable<EntityInfo> entities)
+            : base(parent)
+        {
+            _children = new ObservableCollection<TreeViewItemViewModel>(entities.OrderBy(e => e.Name).Select(e => new EntityTreeItemViewModel(this, e)));
+            ViewModelMediator.Current.GetEvent<EntityAddedEventArgs>().Subscribe(EntityAdded);
+
+            ChildrenView = CollectionViewSource.GetDefaultView(_children);
+            ChildrenView.SortDescriptions.Add(new SortDescription("EntityName", ListSortDirection.Ascending));
+        }
+
+        private void EntityAdded(object sender, EntityAddedEventArgs e)
+        {
+            _children.Add(new EntityTreeItemViewModel(this, e.Entity));
+        }
+    }
+
+    public class EntityTreeItemViewModel : TreeViewItemViewModel
+    {
+        private EntityInfo _entity;
+
+        public string EntityName
+        {
+            get { return _entity.Name; }
+        }
+
+        public EntityTreeItemViewModel(TreeViewItemViewModel parent, EntityInfo entity)
+            : base(parent)
+        {
+            _entity = entity;
         }
     }
 }

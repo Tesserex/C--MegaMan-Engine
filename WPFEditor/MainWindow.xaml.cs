@@ -50,6 +50,7 @@ namespace MegaMan.Editor
                 ImportTilesCommand = new RelayCommand(ImportTiles);
 
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
+                ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
 
                 this.Closing += MainWindow_Closing;
             }
@@ -77,6 +78,14 @@ namespace MegaMan.Editor
                 ribbonStage.IsSelected = true;
 
             this.editorPane.IsActive = true;
+        }
+
+        private void EntitySelected(object sender, EntitySelectedEventArgs e)
+        {
+            if (e.Entity != null)
+                ribbonEntities.IsSelected = true;
+
+            this.entityEditorPane.IsActive = true;
         }
 
         private bool IsProjectOpen()

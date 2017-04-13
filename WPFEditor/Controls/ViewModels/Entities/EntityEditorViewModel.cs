@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -127,8 +128,14 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
+            ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
             EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
             GoBackCommand = new RelayCommand(x => GoBack(), null);
+        }
+
+        private void EntitySelected(object sender, EntitySelectedEventArgs e)
+        {
+            CurrentEntity = e.Entity;
         }
 
         private void NewEntity(object sender, NewEntityEventArgs e)

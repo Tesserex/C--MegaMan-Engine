@@ -32,9 +32,15 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type local:StagesRootViewModel}" ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate DataType="{x:Type local:StagesRootViewModel}" ItemsSource="{Binding ChildrenView}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Stages" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:EntitiesRootViewModel}" ItemsSource="{Binding ChildrenView}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Entities" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
@@ -47,6 +53,18 @@
                             <MouseBinding Command="c:ProjectTree.ClickCommand" MouseAction="LeftClick" CommandParameter="{Binding}" />
                         </StackPanel.InputBindings>
                         <TextBlock Text="{Binding StageName}" />
+                    </StackPanel>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type local:EntityTreeItemViewModel}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.CommandBindings>
+                            <CommandBinding Command="c:ProjectTree.ClickCommand" Executed="EntityClick" />
+                        </StackPanel.CommandBindings>
+                        <StackPanel.InputBindings>
+                            <MouseBinding Command="c:ProjectTree.ClickCommand" MouseAction="LeftClick" CommandParameter="{Binding}" />
+                        </StackPanel.InputBindings>
+                        <TextBlock Text="{Binding EntityName}" />
                     </StackPanel>
                 </DataTemplate>
             </TreeView.Resources>

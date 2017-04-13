@@ -274,6 +274,7 @@ namespace MegaMan.Editor.Bll
         public void AddEntity(EntityInfo entity)
         {
             this.Project.AddEntity(entity);
+            ViewModelMediator.Current.GetEvent<EntityAddedEventArgs>().Raise(this, new EntityAddedEventArgs() { Entity = entity });
             Dirty = true;
         }
 
