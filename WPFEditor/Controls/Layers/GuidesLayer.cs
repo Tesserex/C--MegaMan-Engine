@@ -79,13 +79,13 @@ namespace MegaMan.Editor.Controls
                     {
                         _propertiesBitmap.FillRectangle(x * size, y * size, (x + 1) * size, (y + 1) * size, Colors.Purple);
                     }
-                    else if (tile.Properties.Blocking)
-                    {
-                        _propertiesBitmap.FillRectangle(x * size, y * size, (x + 1) * size, (y + 1) * size, Colors.Green);
-                    }
                     else if (tile.Properties.Lethal)
                     {
                         _propertiesBitmap.FillRectangle(x * size, y * size, (x + 1) * size, (y + 1) * size, Colors.Red);
+                    }
+                    else if (tile.Properties.Blocking)
+                    {
+                        _propertiesBitmap.FillRectangle(x * size, y * size, (x + 1) * size, (y + 1) * size, Colors.Green);
                     }
                     else if (tile.Properties.Climbable)
                     {
