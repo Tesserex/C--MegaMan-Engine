@@ -26,7 +26,7 @@ namespace MegaMan.IO.Xml.Effects
                     Name = partNode.TryElementValue<string>("Name"),
                     Playing = partNode.TryElementValue<bool?>("Playing"),
                     Visible = partNode.TryElementValue<bool?>("Visible"),
-                    Facing = partNode.TryElementValue<FacingValues>("Facing")
+                    Facing = partNode.TryElementValue<FacingValues?>("Facing")
                 };
             }
             catch (ArgumentException)
