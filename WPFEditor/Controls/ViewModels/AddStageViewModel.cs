@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
 using MegaMan.IO;
@@ -13,7 +12,6 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class AddStageViewModel : StagePropertiesViewModel
     {
         private ProjectDocument _project;
-        private ITilesetDocumentFactory _tilesetFactory;
         private IDataAccessService _dataService;
 
         private string _tilesetPath;
@@ -68,9 +66,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand BrowseTilesetCommand { get; set; }
         public ICommand BrowseTilesheetCommand { get; set; }
 
-        public AddStageViewModel(ITilesetDocumentFactory tilesetFactory, IDataAccessService dataService)
+        public AddStageViewModel(IDataAccessService dataService)
         {
-            _tilesetFactory = tilesetFactory;
             _dataService = dataService;
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectChanged);
@@ -141,7 +138,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
 
                 var path = FilePath.FromAbsolute(TilesetPath, _project.Project.BaseDir);
-                var tileset = _tilesetFactory.Load(path);
+                var tileset = _dataService.LoadTileset(path);
                 AddStageToProject(tileset);
             }
             else
@@ -153,7 +150,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
 
                 var tilesetFilePath = _project.FileStructure.CreateTilesetPath(Name);
-                var tileset = _tilesetFactory.CreateNew(tilesetFilePath);
+                var tileset = _dataService.CreateTileset(tilesetFilePath);
                 tileset.Tileset.ChangeSheetPath(TilesheetPath);
                 AddStageToProject(tileset);
             }

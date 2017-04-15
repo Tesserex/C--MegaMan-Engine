@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MegaMan.IO.DataSources
 {
-    internal class XmlFileSourceLoader : FileSourceLoader
+    internal class XmlFileSource : FileSource
     {
         public override string Extension { get { return ".xml"; } }
     }

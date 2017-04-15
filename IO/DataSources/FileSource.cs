@@ -3,7 +3,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.DataSources
 {
-    internal abstract class FileSourceLoader : IDataSourceLoader
+    internal abstract class FileSource : IDataSource
     {
         private string _gameFile;
 

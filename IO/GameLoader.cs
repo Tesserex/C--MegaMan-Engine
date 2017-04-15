@@ -26,11 +26,11 @@ namespace MegaMan.IO
             return readerProvider;
         }
 
-        private static Dictionary<string, IDataSourceLoader> Loaders;
+        private static Dictionary<string, IDataSource> Loaders;
 
         static GameLoader()
         {
-            Loaders = Extensions.GetImplementersOf<IDataSourceLoader>()
+            Loaders = Extensions.GetImplementersOf<IDataSource>()
                 .ToDictionary(r => r.Extension);   
         }
     }

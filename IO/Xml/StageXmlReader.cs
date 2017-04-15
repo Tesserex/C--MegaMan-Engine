@@ -18,9 +18,9 @@ namespace MegaMan.IO.Xml
         private readonly EntityPlacementXmlReader _entityReader;
         private readonly HandlerCommandXmlReader _commandReader;
         private BlockPatternXmlReader _blockReader = new BlockPatternXmlReader();
-        private IDataSourceLoader _dataSource;
+        private IDataSource _dataSource;
 
-        public void Init(IDataSourceLoader dataSource)
+        public void Init(IDataSource dataSource)
         {
             this._dataSource = dataSource;
         }

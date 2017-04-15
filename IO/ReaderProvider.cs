@@ -11,10 +11,10 @@ namespace MegaMan.IO
 {
     internal class ReaderProvider : IReaderProvider
     {
-        private readonly IDataSourceLoader _dataSource;
+        private readonly IDataSource _dataSource;
         private readonly Dictionary<string, IProjectReader> ProjectReaders;
 
-        public ReaderProvider(IDataSourceLoader dataSource)
+        public ReaderProvider(IDataSource dataSource)
         {
             _dataSource = dataSource;
 

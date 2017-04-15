@@ -1,5 +1,4 @@
 ﻿using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
 using System;
 using System.Collections.Generic;
@@ -60,15 +59,13 @@ namespace MegaMan.Editor.Controls.ViewModels
                 OnPropertyChanged("CreateProjectDirectory");
             }
         }
-
-        private IProjectDocumentFactory _projectFactory;
+        
         private IDataAccessService _dataService;
 
         public ICommand CreateCommand { get; private set; }
 
-        public NewProjectViewModel(IProjectDocumentFactory projectFactory, IDataAccessService dataService)
+        public NewProjectViewModel(IDataAccessService dataService)
         {
-            _projectFactory = projectFactory;
             _dataService = dataService;
 
             CreateCommand = new RelayCommand(Create);
@@ -117,7 +114,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 fullProjectPath = System.IO.Path.Combine(fullProjectPath, nameFolder);
             }
 
-            var document = _projectFactory.CreateNew(fullProjectPath);
+            var document = _dataService.CreateProject(fullProjectPath);
 
             document.Name = Name;
             document.Author = Author;

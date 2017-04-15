@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Windows.Input;
 using MegaMan.Editor.AppData;
 using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Controls.Dialogs;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
@@ -20,7 +19,6 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private IProjectDocumentFactory _projectFactory;
         private IDialogService _dialogService;
         private IDataAccessService _dataService;
 
@@ -109,9 +107,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public MainWindowViewModel(IProjectDocumentFactory projectFactory, IDialogService dialogService, IDataAccessService dataService)
+        public MainWindowViewModel(IDialogService dialogService, IDataAccessService dataService)
         {
-            _projectFactory = projectFactory;
             _dialogService = dialogService;
             _dataService = dataService;
 
@@ -198,7 +195,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void OpenProject(string filename)
         {
-            var project = _projectFactory.Load(filename);
+            var project = _dataService.LoadProject(filename);
 
             if (project != null)
             {

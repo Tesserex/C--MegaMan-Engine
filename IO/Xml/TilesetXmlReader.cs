@@ -7,7 +7,7 @@ namespace MegaMan.IO.Xml
 {
     public class TilesetXmlReader : ITilesetReader
     {
-        private IDataSourceLoader _dataSource;
+        private IDataSource _dataSource;
         private readonly SpriteXmlReader _spriteReader;
 
         public TilesetXmlReader()
@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml
             _spriteReader = new SpriteXmlReader();
         }
 
-        public void Init(IDataSourceLoader dataSource)
+        public void Init(IDataSource dataSource)
         {
             this._dataSource = dataSource;
         }

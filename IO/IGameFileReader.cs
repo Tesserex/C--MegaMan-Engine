@@ -8,6 +8,6 @@ namespace MegaMan.IO
 {
     public interface IGameFileReader
     {
-        void Init(IDataSourceLoader dataSource);
+        void Init(IDataSource dataSource);
     }
 }

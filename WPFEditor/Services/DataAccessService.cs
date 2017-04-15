@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Tools;
@@ -12,10 +13,33 @@ namespace MegaMan.Editor.Services
     public class DataAccessService : IDataAccessService
     {
         private readonly IWriterProvider _writerProvider;
+        private readonly IGameLoader _gameLoader;
+        public IReaderProvider Reader { get; private set; }
 
-        public DataAccessService(IWriterProvider writerProvider)
+        public DataAccessService(IGameLoader gameLoader, IWriterProvider writerProvider)
         {
+            _gameLoader = gameLoader;
             _writerProvider = writerProvider;
+        }
+
+        public ProjectDocument CreateProject(string directory)
+        {
+            var project = new Project()
+            {
+                GameFile = FilePath.FromRelative("game.xml", directory)
+            };
+
+            var p = new ProjectDocument(new ProjectFileStructure(project), project, this);
+            return p;
+        }
+
+        public ProjectDocument LoadProject(string filePath)
+        {
+            Reader = _gameLoader.Load(filePath);
+            var project = Reader.GetProjectReader().Load();
+            var structure = new ProjectFileStructure(project);
+            var projectDocument = new ProjectDocument(structure, project, this);
+            return projectDocument;
         }
 
         public void SaveProject(ProjectDocument project)
@@ -47,12 +71,50 @@ namespace MegaMan.Editor.Services
             }
         }
 
+        public StageDocument LoadStage(ProjectDocument project, StageLinkInfo linkInfo)
+        {
+            var reader = Reader.GetStageReader(linkInfo.StagePath);
+            var stage = reader.Load(linkInfo.StagePath);
+            var document = new StageDocument(project, stage, linkInfo);
+            return document;
+        }
+
         public void SaveStage(StageDocument stage)
         {
             var stageWriter = _writerProvider.GetStageWriter();
             stageWriter.Save(stage.Info);
             stage.Dirty = false;
             SaveTileset(stage.Tileset);
+        }
+
+        public TilesetDocument LoadTileset(FilePath filePath)
+        {
+            var tilesetReader = Reader.GetTilesetReader(filePath);
+            var tileset = tilesetReader.Load(filePath);
+            var tilesetDocument = new TilesetDocument(tileset);
+            return tilesetDocument;
+        }
+
+        public TilesetDocument CreateTileset(FilePath filePath)
+        {
+            var tileset = new Tileset()
+            {
+                FilePath = filePath,
+                TileSize = 16
+            };
+
+            var document = new TilesetDocument(tileset);
+            AddDefaultTileProperties(document);
+
+            return document;
+        }
+
+        private void AddDefaultTileProperties(TilesetDocument tileset)
+        {
+            tileset.AddBlockProperty();
+            tileset.AddSpikeProperty();
+            tileset.AddLadderProperty();
+            tileset.AddWaterProperty();
         }
 
         public void SaveTileset(TilesetDocument tileset)

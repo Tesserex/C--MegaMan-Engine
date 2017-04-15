@@ -10,7 +10,7 @@ namespace MegaMan.IO.Xml
     internal class ProjectXmlReader : IProjectReader
     {
         private Project _project;
-        private IDataSourceLoader _dataSource;
+        private IDataSource _dataSource;
         private readonly HandlerTransferXmlReader _transferReader;
 
         public ProjectXmlReader(HandlerTransferXmlReader transferReader)
@@ -20,7 +20,7 @@ namespace MegaMan.IO.Xml
 
         public string Extension { get { return ".xml"; } }
 
-        public void Init(IDataSourceLoader dataSource)
+        public void Init(IDataSource dataSource)
         {
             this._dataSource = dataSource;
         }

@@ -7,7 +7,7 @@ using MegaMan.Common;
 
 namespace MegaMan.IO.DataSources
 {
-    public interface IDataSourceLoader
+    public interface IDataSource
     {
         string Extension { get; }
         void Init(string path);

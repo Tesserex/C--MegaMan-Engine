@@ -66,9 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSources\FileSourceLoader.cs" />
-    <Compile Include="DataSources\IDataSourceLoader.cs" />
-    <Compile Include="DataSources\XmlFileSourceLoader.cs" />
+    <Compile Include="DataSources\FileSource.cs" />
+    <Compile Include="DataSources\IDataSource.cs" />
+    <Compile Include="DataSources\XmlFileSource.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IGameFileReader.cs" />
     <Compile Include="Injector.cs" />

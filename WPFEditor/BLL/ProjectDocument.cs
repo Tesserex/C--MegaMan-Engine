@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
-using MegaMan.Editor.Bll.Factories;
 using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Bll
 {
     public class ProjectDocument
     {
-        private readonly IStageDocumentFactory _stageFactory;
+        private readonly IDataAccessService _dataService;
 
         public IProjectFileStructure FileStructure { get; private set; }
         public Project Project { get; private set; }
@@ -192,11 +192,11 @@ namespace MegaMan.Editor.Bll
 
         #endregion
 
-        public ProjectDocument(IProjectFileStructure fileStructure, Project project, IStageDocumentFactory stageFactory)
+        public ProjectDocument(IProjectFileStructure fileStructure, Project project, IDataAccessService dataService)
         {
             Project = project;
             FileStructure = fileStructure;
-            _stageFactory = stageFactory;
+            _dataService = dataService;
 
             foreach (var entity in project.Entities)
             {
@@ -215,7 +215,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (info.Name == name)
                 {
-                    StageDocument stage = _stageFactory.Load(this, info);
+                    StageDocument stage = _dataService.LoadStage(this, info);
                     openStages.Add(name, stage);
                     return stage;
                 }
@@ -254,7 +254,7 @@ namespace MegaMan.Editor.Bll
         {
             var linkName = System.IO.Path.GetFileNameWithoutExtension(fileName);
             var info = new StageLinkInfo { Name = linkName, StagePath = FilePath.FromAbsolute(fileName, this.BaseDir) };
-            StageDocument stage = _stageFactory.Load(this, info);
+            StageDocument stage = _dataService.LoadStage(this, info);
 
             var copyPath = FileStructure.CreateStagePath(stage.Name);
             stage.Path = copyPath;
