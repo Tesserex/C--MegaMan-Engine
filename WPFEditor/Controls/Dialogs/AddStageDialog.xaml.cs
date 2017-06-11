@@ -35,11 +35,6 @@ namespace MegaMan.Editor.Controls
             }
         }
 
-        private void CancelClick(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ClickCreateTileset(object sender, RoutedEventArgs e)
         {
             _viewModel.CreateTileset = true;

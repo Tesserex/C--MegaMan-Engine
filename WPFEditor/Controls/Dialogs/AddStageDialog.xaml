@@ -34,9 +34,8 @@
             </StackPanel>
 
 
-            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="0,20" HorizontalAlignment="Right">
                 <Button Width="80" Height="24" HorizontalAlignment="Left" Command="{Binding AddStageCommand}">Ok</Button>
-                <Button Width="80" Height="24" HorizontalAlignment="Left" Click="CancelClick">Cancel</Button>
             </StackPanel>
         </Grid>
     </DockPanel>
