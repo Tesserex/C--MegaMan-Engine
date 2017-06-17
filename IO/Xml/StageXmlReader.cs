@@ -41,7 +41,7 @@ namespace MegaMan.IO.Xml
             var mapPath = Path.Combine(_info.StoragePath.Absolute, "map.xml");
             var stream = _dataSource.GetData(FilePath.FromAbsolute(mapPath, _info.StoragePath.BasePath));
             var mapXml = XElement.Load(stream);
-            _info.Name = Path.GetFileNameWithoutExtension(_info.StoragePath.Absolute);
+            _info.Name = mapXml.TryAttribute("name", Path.GetFileNameWithoutExtension(_info.StoragePath.Absolute));
 
             string tilePathRel = mapXml.Attribute("tiles").Value;
             var tilePath = FilePath.FromRelative(tilePathRel, _info.StoragePath.BasePath);
