@@ -20,8 +20,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
         public INotifyPropertyChanged ComponentViewModel { get; private set; }
 
-        public IEnumerable<EntityInfo> EntityList { get; private set; }
-
         private EntityInfo _currentEntity;
         public EntityInfo CurrentEntity
         {
@@ -51,6 +49,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 OnPropertyChanged("ShowPlacement");
                 OnPropertyChanged("SpriteTabVisibility");
                 OnPropertyChanged("Sprites");
+                OnPropertyChanged("MovementEnabled");
+                OnPropertyChanged("MovementFloating");
+                OnPropertyChanged("MovementFlipSprite");
             }
         }
 
@@ -68,6 +69,54 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 sprites.Add(new SpriteListItemViewModel(null));
 
                 return sprites;
+            }
+        }
+
+        public bool MovementEnabled
+        {
+            get
+            {
+                return _currentEntity != null && _currentEntity.MovementComponent != null;
+            }
+            set
+            {
+                if (_currentEntity == null)
+                    return;
+
+                if (value && _currentEntity.MovementComponent == null)
+                {
+                    _currentEntity.Components.Add(new MovementComponentInfo());
+                }
+                else if (!value && _currentEntity.MovementComponent != null)
+                {
+                    _currentEntity.Components.Remove(_currentEntity.MovementComponent);
+                }
+
+                OnPropertyChanged("MovementEnabled");
+            }
+        }
+
+        public bool MovementFloating
+        {
+            get { return (_currentEntity != null && _currentEntity.MovementComponent != null) ? _currentEntity.MovementComponent.EffectInfo.Floating == true : false; }
+            set
+            {
+                if (_currentEntity != null && _currentEntity.MovementComponent != null)
+                {
+                    _currentEntity.MovementComponent.EffectInfo.Floating = value;
+                }
+            }
+        }
+
+        public bool MovementFlipSprite
+        {
+            get { return (_currentEntity != null && _currentEntity.MovementComponent != null) ? _currentEntity.MovementComponent.EffectInfo.FlipSprite == true : false; }
+            set
+            {
+                if (_currentEntity != null && _currentEntity.MovementComponent != null)
+                {
+                    _currentEntity.MovementComponent.EffectInfo.FlipSprite = value;
+                }
             }
         }
 
@@ -205,14 +254,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
         {
             _project = e.Project;
-
-            EntityList = e.Project.Entities
-                .OrderBy(x => x.Name)
-                .ToList();
-
-            OnPropertyChanged("EntityList");
-
-            CurrentEntity = EntityList.FirstOrDefault();
         }
 
         private void Save()

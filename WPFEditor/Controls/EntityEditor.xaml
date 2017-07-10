@@ -94,6 +94,24 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </TabItem>
+
+                    <TabItem Header="Movement" Visibility="{Binding MovementTabVisibility}">
+                        <StackPanel Orientation="Vertical" Margin="10,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <CheckBox IsChecked="{Binding MovementEnabled}"></CheckBox>
+                                <TextBlock>Has Movement</TextBlock>
+                            </StackPanel>
+                            <Label>Initial State</Label>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <CheckBox IsChecked="{Binding MovementFloating}" IsEnabled="{Binding MovementEnabled}"></CheckBox>
+                                <TextBlock>Floating</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <CheckBox IsChecked="{Binding MovementFlipSprite}" IsEnabled="{Binding MovementEnabled}"></CheckBox>
+                                <TextBlock>Flip Sprite</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
                 </TabControl>
             </DockPanel>
         </DockPanel>
