@@ -7,6 +7,7 @@ using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Controls.ViewModels.Entities.Components;
 using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities
@@ -16,8 +17,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private ProjectDocument _project;
 
         public ICommand GoBackCommand { get; private set; }
-        public ICommand EditSpriteCommand { get; private set; }
 
+        public ICommand EditSpriteCommand { get; private set; }
         public INotifyPropertyChanged ComponentViewModel { get; private set; }
 
         private EntityInfo _currentEntity;
@@ -49,76 +50,16 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 OnPropertyChanged("ShowPlacement");
                 OnPropertyChanged("SpriteTabVisibility");
                 OnPropertyChanged("Sprites");
-                OnPropertyChanged("MovementEnabled");
-                OnPropertyChanged("MovementFloating");
-                OnPropertyChanged("MovementFlipSprite");
+
+                Sprite.Entity = value;
+                Movement.Entity = value;
+                Collision.Entity = value;
             }
         }
 
-        public IEnumerable<SpriteListItemViewModel> Sprites
-        {
-            get
-            {
-                if (_currentEntity == null || _currentEntity.SpriteComponent == null)
-                    return null;
-
-                var sprites = _currentEntity.SpriteComponent.Sprites.Values
-                    .Select(s => new SpriteListItemViewModel(s))
-                    .ToList();
-
-                sprites.Add(new SpriteListItemViewModel(null));
-
-                return sprites;
-            }
-        }
-
-        public bool MovementEnabled
-        {
-            get
-            {
-                return _currentEntity != null && _currentEntity.MovementComponent != null;
-            }
-            set
-            {
-                if (_currentEntity == null)
-                    return;
-
-                if (value && _currentEntity.MovementComponent == null)
-                {
-                    _currentEntity.Components.Add(new MovementComponentInfo());
-                }
-                else if (!value && _currentEntity.MovementComponent != null)
-                {
-                    _currentEntity.Components.Remove(_currentEntity.MovementComponent);
-                }
-
-                OnPropertyChanged("MovementEnabled");
-            }
-        }
-
-        public bool MovementFloating
-        {
-            get { return (_currentEntity != null && _currentEntity.MovementComponent != null) ? _currentEntity.MovementComponent.EffectInfo.Floating == true : false; }
-            set
-            {
-                if (_currentEntity != null && _currentEntity.MovementComponent != null)
-                {
-                    _currentEntity.MovementComponent.EffectInfo.Floating = value;
-                }
-            }
-        }
-
-        public bool MovementFlipSprite
-        {
-            get { return (_currentEntity != null && _currentEntity.MovementComponent != null) ? _currentEntity.MovementComponent.EffectInfo.FlipSprite == true : false; }
-            set
-            {
-                if (_currentEntity != null && _currentEntity.MovementComponent != null)
-                {
-                    _currentEntity.MovementComponent.EffectInfo.FlipSprite = value;
-                }
-            }
-        }
+        public SpriteComponentEditorViewModel Sprite { get; private set; }
+        public MovementComponentEditorViewModel Movement { get; private set; }
+        public CollisionComponentEditorViewModel Collision { get; private set; }
 
         public Sprite DefaultSprite
         {
@@ -165,21 +106,30 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public Visibility SpriteTabVisibility
-        {
-            get
-            {
-                return (_currentEntity != null && _currentEntity.SpriteComponent != null && _currentEntity.SpriteComponent.Sprites.Any()) ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
         public EntityEditorViewModel()
         {
+            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
+            Sprite = new SpriteComponentEditorViewModel();
+            Movement = new MovementComponentEditorViewModel();
+            Collision = new CollisionComponentEditorViewModel();
+
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
-            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
+            
             GoBackCommand = new RelayCommand(x => GoBack(), null);
+        }
+
+        private void EditSprite(SpriteListItemViewModel sprite)
+        {
+            var vm = sprite.Sprite;
+            if (vm == null)
+            {
+                vm = Sprite.AddSprite();
+            }
+
+            ComponentViewModel = new SpriteEditorViewModel(vm, _project);
+            OnPropertyChanged("ComponentViewModel");
         }
 
         private void EntitySelected(object sender, EntitySelectedEventArgs e)
@@ -194,55 +144,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             };
 
             _project.AddEntity(CurrentEntity);
-        }
-
-        private void AddSprite()
-        {
-            Sprite sprite = CreateEmptySprite();
-
-            _currentEntity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
-            ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite), _project);
-            OnPropertyChanged("ComponentViewModel");
-            OnPropertyChanged("Sprites");
-        }
-
-        private Sprite CreateEmptySprite()
-        {
-            var size = ModeOf(_currentEntity.SpriteComponent.Sprites
-                .Select(s => new Common.Geometry.Point(s.Value.Width, s.Value.Height)));
-
-            var sprite = new Sprite(size.X, size.Y);
-            sprite.Name = GetNewSpriteName();
-
-            sprite.SheetPath = _currentEntity.SpriteComponent.SheetPath;
-            sprite.AddFrame();
-            return sprite;
-        }
-
-        private string GetNewSpriteName()
-        {
-            var i = 0;
-            var name = string.Empty;
-            do
-            {
-                i++;
-                name = "NewSprite" + i.ToString();
-            } while (_currentEntity.SpriteComponent.Sprites.ContainsKey(name));
-
-            return name;
-        }
-
-        public void EditSprite(SpriteListItemViewModel sprite)
-        {
-            if (sprite.Sprite == null)
-            {
-                AddSprite();
-            }
-            else
-            {
-                ComponentViewModel = new SpriteEditorViewModel(sprite.Sprite, _project);
-                OnPropertyChanged("ComponentViewModel");
-            }
         }
 
         public void GoBack()
@@ -271,15 +172,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 handler(this, new PropertyChangedEventArgs(property));
             }
-        }
-
-        private T ModeOf<T>(IEnumerable<T> sequence)
-        {
-            return sequence
-                .GroupBy(x => x)
-                .OrderByDescending(g => g.Count())
-                .First()
-                .Key;
         }
     }
 }

@@ -251,6 +251,10 @@
     <Compile Include="Controls\ViewModels\Dialogs\ProgressDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\Components\CollisionComponentEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\Components\ComponentEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\Components\MovementComponentEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\Components\SpriteComponentEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
