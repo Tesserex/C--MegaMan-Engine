@@ -57,164 +57,170 @@ namespace MegaMan.Engine.Entities.Effects
             float? mag = info.Magnitude;
             var magVar = info.MagnitudeVarName;
 
-            if (mag == 0)
+            switch (info.Direction)
             {
-                if (axis == Axis.X)
+                case MovementEffectDirection.Up:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityY = -1 * (mag ?? Math.Abs(mov.VelocityY));
+                    };
+                    break;
+
+                case MovementEffectDirection.Down:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityY = (mag ?? Math.Abs(mov.VelocityY));
+                    };
+                    break;
+
+                case MovementEffectDirection.Left:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
+                        if (mov.VelocityX == 0) mov.Direction = Direction.Left;
+                    };
+                    break;
+
+                case MovementEffectDirection.Right:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov != null) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+                        if (mov.VelocityX == 0) mov.Direction = Direction.Right;
+                    };
+                    break;
+
+                case MovementEffectDirection.Same:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        if (mag == null) return;
+                        float fmag = mag ?? 0;
+
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov == null) return;
+                        Direction dir = mov.Direction;
+
+                        if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Right) ? fmag : ((dir == Direction.Left) ? -fmag : 0);
+                        if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? fmag : ((dir == Direction.Up) ? -fmag : 0);
+                    };
+                    break;
+
+                case MovementEffectDirection.Reverse:
+                    action = entity => {
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+                        if (mag == null) return;
+                        float fmag = mag ?? 0;
+
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        if (mov == null) return;
+                        Direction dir = mov.Direction;
+
+                        if (axis != Axis.Y)
+                        {
+                            mov.VelocityX = (dir == Direction.Left) ? fmag : ((dir == Direction.Right) ? -fmag : 0);
+                            if (mov.VelocityX == 0) mov.Direction = (dir == Direction.Left) ? Direction.Right : Direction.Left;
+                        }
+
+                        if (axis != Axis.X) mov.VelocityY = (dir == Direction.Up) ? fmag : ((dir == Direction.Down) ? -fmag : 0);
+                    };
+                    break;
+
+                case MovementEffectDirection.Inherit:
                     action = entity => {
                         MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        if (mov != null) mov.VelocityX = 0;
-                    };
-                else
-                    action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        if (mov != null) mov.VelocityY = 0;
-                    };
-            }
-            else
-            {
-                switch (info.Direction)
-                {
-                    case MovementEffectDirection.Up:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov != null) mov.VelocityY = -1 * (mag ?? Math.Abs(mov.VelocityY));
-                        };
-                        break;
-
-                    case MovementEffectDirection.Down:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov != null) mov.VelocityY = (mag ?? Math.Abs(mov.VelocityY));
-                        };
-                        break;
-
-                    case MovementEffectDirection.Left:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov != null) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
-                        };
-                        break;
-
-                    case MovementEffectDirection.Right:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov != null) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
-                        };
-                        break;
-
-                    case MovementEffectDirection.Same:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            if (mag == null) return;
-                            float fmag = mag ?? 0;
-
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov == null) return;
-                            Direction dir = mov.Direction;
-
-                            if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Right) ? fmag : ((dir == Direction.Left) ? -fmag : 0);
-                            if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? fmag : ((dir == Direction.Up) ? -fmag : 0);
-                        };
-                        break;
-
-                    case MovementEffectDirection.Reverse:
-                        action = entity => {
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                            if (mag == null) return;
-                            float fmag = mag ?? 0;
-
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov == null) return;
-                            Direction dir = mov.Direction;
-
-                            if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Left) ? fmag : ((dir == Direction.Right) ? -fmag : 0);
-                            if (axis != Axis.X) mov.VelocityY = (dir == Direction.Up) ? fmag : ((dir == Direction.Down) ? -fmag : 0);
-                        };
-                        break;
-
-                    case MovementEffectDirection.Inherit:
-                        action = entity => {
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            if (mov == null) return;
-                            if (entity.Parent != null)
-                            {
-                                Direction dir = entity.Parent.Direction;
-                                mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-
-                                if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Right) ? (mag ?? Math.Abs(mov.VelocityX)) : ((dir == Direction.Left) ? (-mag ?? -1 * Math.Abs(mov.VelocityX)) : 0);
-                                if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? (mag ?? Math.Abs(mov.VelocityY)) : ((dir == Direction.Up) ? (-mag ?? -1 * Math.Abs(mov.VelocityY)) : 0);
-                            }
-                            else mov.VelocityY = 0;
-                        };
-                        break;
-
-                    case MovementEffectDirection.Input:
-                        action = entity => {
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            InputComponent input = entity.GetComponent<InputComponent>();
-                            if (mov == null || input == null) return;
-
+                        if (mov == null) return;
+                        if (entity.Parent != null)
+                        {
+                            Direction dir = entity.Parent.Direction;
                             mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                             if (axis != Axis.Y)
                             {
-                                if (input.Left) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
-                                else if (input.Right) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+                                mov.VelocityX = (dir == Direction.Right) ? (mag ?? Math.Abs(mov.VelocityX)) : ((dir == Direction.Left) ? (-mag ?? -1 * Math.Abs(mov.VelocityX)) : 0);
+                                if (mov.VelocityX == 0) mov.Direction = dir;
                             }
-                            if (axis != Axis.X)
+
+                            if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? (mag ?? Math.Abs(mov.VelocityY)) : ((dir == Direction.Up) ? (-mag ?? -1 * Math.Abs(mov.VelocityY)) : 0);
+                        }
+                        else mov.VelocityY = 0;
+                    };
+                    break;
+
+                case MovementEffectDirection.Input:
+                    action = entity => {
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        InputComponent input = entity.GetComponent<InputComponent>();
+                        if (mov == null || input == null) return;
+
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+
+                        if (axis != Axis.Y)
+                        {
+                            if (input.Left) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
+                            else if (input.Right) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+
+                            if (mov.VelocityX == 0 && input.Left) mov.Direction = Direction.Left;
+                            else if (mov.VelocityX == 0 && input.Right) mov.Direction = Direction.Right;
+                        }
+                        if (axis != Axis.X)
+                        {
+                            if (input.Down) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
+                            else if (input.Up) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
+                            else mov.VelocityY = 0;
+                        }
+                    };
+                    break;
+
+                case MovementEffectDirection.Player:
+                    action = entity => {
+                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        PositionComponent pos = entity.GetComponent<PositionComponent>();
+                        if (mov == null || pos == null) return;
+
+                        GameEntity player = entity.Entities.GetEntityById("Player");
+
+                        if (player == null)
+                            return;
+
+                        PositionComponent playerPos = player.GetComponent<PositionComponent>();
+                        mag = CheckMagnitudeVar(entity, magVar) ?? mag;
+
+                        if (axis == Axis.X)
+                        {
+                            if (pos.Position.X > playerPos.Position.X)
                             {
-                                if (input.Down) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
-                                else if (input.Up) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
-                                else mov.VelocityY = 0;
+                                mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
+                                if (mov.VelocityX == 0) mov.Direction = Direction.Left;
                             }
-                        };
-                        break;
-
-                    case MovementEffectDirection.Player:
-                        action = entity => {
-                            MovementComponent mov = entity.GetComponent<MovementComponent>();
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
-                            if (mov == null || pos == null) return;
-
-                            GameEntity player = entity.Entities.GetEntityById("Player");
-
-                            if (player == null)
-                                return;
-
-                            PositionComponent playerPos = player.GetComponent<PositionComponent>();
-                            mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-
-                            if (axis == Axis.X)
+                            else if (pos.Position.X < playerPos.Position.X)
                             {
-                                if (pos.Position.X > playerPos.Position.X) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
-                                else if (pos.Position.X < playerPos.Position.X) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+                                mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+                                if (mov.VelocityX == 0) mov.Direction = Direction.Right;
                             }
-                            else if (axis == Axis.Y)
-                            {
-                                if (pos.Position.Y > playerPos.Position.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
-                                else if (pos.Position.Y < playerPos.Position.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
-                            }
-                            else
-                            {
-                                float dx = playerPos.Position.X - pos.Position.X;
-                                float dy = playerPos.Position.Y - pos.Position.Y;
-                                double hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
-                                hyp = Math.Pow(hyp, 0.5);
+                        }
+                        else if (axis == Axis.Y)
+                        {
+                            if (pos.Position.Y > playerPos.Position.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
+                            else if (pos.Position.Y < playerPos.Position.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
+                        }
+                        else
+                        {
+                            float dx = playerPos.Position.X - pos.Position.X;
+                            float dy = playerPos.Position.Y - pos.Position.Y;
+                            double hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
+                            hyp = Math.Pow(hyp, 0.5);
 
-                                mov.VelocityX = (float)(mag * dx / hyp);
-                                mov.VelocityY = (float)(mag * dy / hyp);
-                            }
-                        };
-                        break;
+                            mov.VelocityX = (float)(mag * dx / hyp);
+                            mov.VelocityY = (float)(mag * dy / hyp);
+                        }
+                    };
+                    break;
 
-                    default: action = new Effect(entity => { }); break;
-                }
+                default: action = new Effect(entity => { }); break;
             }
-            
 
             return action;
         }

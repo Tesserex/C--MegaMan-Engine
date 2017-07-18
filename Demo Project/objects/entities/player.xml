@@ -1518,7 +1518,7 @@
 				<Movement>
 					<Floating />
 					<FlipSprite />
-					<X direction="Input" magnitude="1" />
+					<X direction="Input" />
 				</Movement>
 			</Effect>
 		</Trigger>
