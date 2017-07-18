@@ -10,7 +10,7 @@
 		</Collision>
 		<Health max="3" flash="8" />
 		<Tilesheet>images\enemies\Mega Man 3\Peterchy.png</Tilesheet>
-		<Sprite width="32" height="32" tilesheet="images\enemies\Mega Man 3\Peterchy.png">
+		<Sprite reversed="true" width="32" height="32" tilesheet="images\enemies\Mega Man 3\Peterchy.png">
 			<Hotspot x="16" y="16" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="32" y="0" duration="4" />

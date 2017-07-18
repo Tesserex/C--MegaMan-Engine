@@ -15,19 +15,19 @@
 		</Health>
 		<Position persistoffscreen="True" />
 		<Tilesheet>images\enemies\crystalman.png</Tilesheet>
-		<Sprite name="Drop" width="30" height="30" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Drop" reversed="true" width="30" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
 			<Frame x="0" y="5" duration="0" />
 		</Sprite>
-		<Sprite name="Stand" width="30" height="30" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Stand" reversed="true" width="30" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
 			<Frame x="33" y="5" duration="0" />
 		</Sprite>
-		<Sprite name="Jump" width="30" height="36" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Jump" reversed="true" width="30" height="36" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="11" y="16" />
 			<Frame x="171" y="0" duration="0" />
 		</Sprite>
-		<Sprite name="Crystal" width="30" height="36" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Crystal" reversed="true" width="30" height="36" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="11" y="16" />
 			<Frame x="200" y="0" duration="12" />
 			<Frame x="228" y="0" duration="5" />
@@ -38,7 +38,7 @@
 			<Frame x="257" y="0" duration="5" />
 			<Frame x="228" y="0" duration="40" />
 		</Sprite>
-		<Sprite name="Pose" width="32" height="30" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Pose" reversed="true" width="32" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
 			<Frame x="0" y="5" duration="4" />
 			<Frame x="33" y="5" duration="10" />
@@ -49,7 +49,7 @@
 			<Frame x="134" y="5" duration="4" />
 			<Frame x="99" y="5" duration="120" />
 		</Sprite>
-		<Sprite name="Ready" width="32" height="46" tilesheet="images\enemies\crystalman.png">
+		<Sprite name="Ready" reversed="true" width="32" height="46" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="12" y="23" />
 			<Frame x="196" y="110" duration="0" />
 		</Sprite>

@@ -15,6 +15,9 @@ namespace MegaMan.IO.Xml
             if (sprite.PaletteName != null)
                 writer.WriteAttributeString("palette", sprite.PaletteName);
 
+            if (sprite.Reversed)
+                writer.WriteAttributeString("reversed", "true");
+
             writer.WriteAttributeString("width", sprite.Width.ToString());
             writer.WriteAttributeString("height", sprite.Height.ToString());
 

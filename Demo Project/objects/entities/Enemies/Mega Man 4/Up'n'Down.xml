@@ -9,7 +9,7 @@
 		</Collision>
 		<Health max="1" flash="8" />
 		<Tilesheet>images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
-		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
+		<Sprite reversed="true" width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="16" y="0" duration="2" />

@@ -186,11 +186,11 @@
 		</Collision>
 		<Health max="2" flash="8" />
 		<Tilesheet>images\enemies\annoyingseeker.png</Tilesheet>
-		<Sprite name="Closed" width="16" height="14" tilesheet="images\enemies\annoyingseeker.png">
+		<Sprite name="Closed" reversed="true" width="16" height="14" tilesheet="images\enemies\annoyingseeker.png">
 			<Hotspot x="8" y="7" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
-		<Sprite name="Open" width="16" height="20" tilesheet="images\enemies\annoyingseeker.png">
+		<Sprite name="Open" reversed="true" width="16" height="20" tilesheet="images\enemies\annoyingseeker.png">
 			<Hotspot x="8" y="7" />
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
@@ -843,12 +843,12 @@
 		<Health max="6" flash="8" />
 		<Position persistoffscreen="True" />
 		<Tilesheet>images\enemies\shieldguy.png</Tilesheet>
-		<Sprite name="Move" width="24" height="33" tilesheet="images\enemies\shieldguy.png">
+		<Sprite name="Move" reversed="true" width="24" height="33" tilesheet="images\enemies\shieldguy.png">
 			<Hotspot x="12" y="16" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="30" y="-1" duration="4" />
 		</Sprite>
-		<Sprite name="Turn" width="24" height="32" tilesheet="images\enemies\shieldguy.png">
+		<Sprite name="Turn" reversed="true" width="24" height="32" tilesheet="images\enemies\shieldguy.png">
 			<Hotspot x="12" y="16" />
 			<Frame x="58" y="0" duration="6" />
 			<Frame x="84" y="0" duration="6" />
@@ -973,7 +973,7 @@
 		</Collision>
 		<Health max="2" flash="8" />
 		<Tilesheet>images\enemies\shieldshooter.png</Tilesheet>
-		<Sprite width="27" height="32" tilesheet="images\enemies\shieldshooter.png">
+		<Sprite reversed="true" width="27" height="32" tilesheet="images\enemies\shieldshooter.png">
 			<Hotspot x="17" y="16" />
 			<Frame x="0" y="0" duration="120" />
 			<Frame x="33" y="0" duration="8" />
