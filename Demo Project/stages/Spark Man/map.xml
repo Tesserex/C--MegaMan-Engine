@@ -1,6 +1,6 @@
 <Map name="Spark Man" tiles="tilesets\Spark Man\tiles.xml">
 	<Start screen="1" x="0" y="0" />
 	<Screen id="1">
-		<Entity id="4b3eae56-7bcd-44e3-abb1-e6c80bb0c15b" entity="ShotDoor" state="" x="16" y="128" direction="Left" respawn="Offscreen" />
+		<Entity id="4b3eae56-7bcd-44e3-abb1-e6c80bb0c15b" entity="ShotDoor" x="16" y="128" direction="Left" respawn="Offscreen" />
 	</Screen>
 </Map>

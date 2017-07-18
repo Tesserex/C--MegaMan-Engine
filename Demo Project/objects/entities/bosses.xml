@@ -13,10 +13,6 @@
 				<Sound name="MeterTick" loop="False" volume="1" />
 			</Meter>
 		</Health>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Position persistoffscreen="True" />
 		<Tilesheet>images\enemies\crystalman.png</Tilesheet>
 		<Sprite name="Drop" width="30" height="30" tilesheet="images\enemies\crystalman.png">
@@ -313,6 +309,62 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Spawn name="MegaManDeath" state="Up">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Down">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Left">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Right">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpLeft">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpRight">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownLeft">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownRight">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="LeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="RightFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpLeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpRightFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownLeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownRightFast">
+				<Position />
+			</Spawn>
+			<Sound name="MMDeath" playing="True" />
+			<Next mode="Push" pause="False" type="Scene" name="BossDefeated" fade="False" />
+		</Death>
 	</Entity>
 	<Entity name="BossCrystal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -324,10 +376,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="80" y="0" duration="8" />
@@ -474,5 +522,9 @@
 				<Remove />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
 </Entities>

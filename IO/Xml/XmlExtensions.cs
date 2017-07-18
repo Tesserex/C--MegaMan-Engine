@@ -105,18 +105,15 @@ namespace MegaMan.IO.Xml
 
         private static T ConvertValue<T>(string value)
         {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
-            if (underlyingType != null)
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+            if (underlyingType.IsEnum)
             {
-                return (T)Convert.ChangeType(value, underlyingType, System.Globalization.CultureInfo.InvariantCulture);
-            }
-            else if (typeof(T).IsEnum)
-            {
-                return (T)Enum.Parse(typeof(T), value, true);
+                return (T)Enum.Parse(underlyingType, value, true);
             }
             else
             {
-                return (T)Convert.ChangeType(value, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
+                return (T)Convert.ChangeType(value, underlyingType, System.Globalization.CultureInfo.InvariantCulture);
             }
         }
     }

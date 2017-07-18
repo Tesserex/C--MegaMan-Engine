@@ -8,10 +8,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
 			<Hotspot x="8" y="8" />
@@ -131,13 +127,16 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
-	</Entity>
-	<Entity name="Up'n'DownSpawner" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
 		<Movement>
 			<Floating />
 			<FlipSprite />
 		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
+	</Entity>
+	<Entity name="Up'n'DownSpawner" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
 		<State name="Start">
 			<Initialize>
 				<Movement>
@@ -179,5 +178,9 @@
 				</Effect>
 			</Trigger>
 		</State>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
 </Entities>

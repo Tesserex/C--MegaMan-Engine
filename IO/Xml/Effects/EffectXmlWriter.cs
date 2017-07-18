@@ -22,7 +22,7 @@ namespace MegaMan.IO.Xml.Effects
             writer.WriteEndElement();
         }
 
-        private void WriteEffectContents(EffectInfo effect, XmlWriter writer)
+        public void WriteEffectContents(EffectInfo effect, XmlWriter writer)
         {
             if (!string.IsNullOrWhiteSpace(effect.Name))
                 writer.WriteAttributeString("name", effect.Name);

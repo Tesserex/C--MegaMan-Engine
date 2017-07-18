@@ -138,10 +138,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\propfollower.png</Tilesheet>
 		<Sprite width="24" height="16" tilesheet="images\enemies\propfollower.png">
 			<Hotspot x="12" y="8" />
@@ -172,6 +168,13 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="Seeker" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -182,10 +185,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="2" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\annoyingseeker.png</Tilesheet>
 		<Sprite name="Closed" width="16" height="14" tilesheet="images\enemies\annoyingseeker.png">
 			<Hotspot x="8" y="7" />
@@ -275,6 +274,13 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="Metool" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -307,10 +313,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\metool.png</Tilesheet>
 		<Sprite name="Sit" width="18" height="19" tilesheet="images\enemies\metool.png">
 			<Hotspot x="9" y="15" />
@@ -408,6 +410,13 @@
 				</Effect>
 			</Trigger>
 		</State>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="FloorBlade" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -421,10 +430,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\floorblade.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\enemies\floorblade.png">
 			<Hotspot x="8" y="8" />
@@ -488,6 +493,13 @@
 				</Movement>
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="GroundCannon" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -510,10 +522,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="2" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\groundcannon.png</Tilesheet>
 		<Sprite name="Down" width="24" height="32" tilesheet="images\enemies\groundcannon.png">
 			<Hotspot x="12" y="14" />
@@ -648,6 +656,13 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="WallSpike" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -659,10 +674,6 @@
 				<Resist name="ALL" multiply="0" />
 			</Hitbox>
 		</Collision>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Position persistoffscreen="True" />
 		<Sprite width="16" height="16" tilesheet="images\enemies\wallspike.png">
 			<Hotspot x="8" y="8" />
@@ -810,6 +821,10 @@
 				</Effect>
 			</Trigger>
 		</State>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
 	<Entity name="ShieldGuy" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -826,10 +841,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="6" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Position persistoffscreen="True" />
 		<Tilesheet>images\enemies\shieldguy.png</Tilesheet>
 		<Sprite name="Move" width="24" height="33" tilesheet="images\enemies\shieldguy.png">
@@ -934,6 +945,13 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="ShieldShooter" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -954,10 +972,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="2" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\shieldshooter.png</Tilesheet>
 		<Sprite width="27" height="32" tilesheet="images\enemies\shieldshooter.png">
 			<Hotspot x="17" y="16" />
@@ -995,7 +1009,10 @@
 				<Condition>StateTime == 134</Condition>
 				<Effect>
 					<Spawn name="EnemyShot" state="Start">
-						<Position />
+						<Position>
+							<X base="Inherit" offset="8" direction="Inherit" />
+							<Y base="Inherit" offset="5" direction="Down" />
+						</Position>
 					</Spawn>
 				</Effect>
 			</Trigger>
@@ -1031,6 +1048,13 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 	<Entity name="Collapser" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -1049,10 +1073,6 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="8" />
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\enemies\collapser.png</Tilesheet>
 		<Sprite name="Stand" width="16" height="22" tilesheet="images\enemies\collapser.png">
 			<Hotspot x="8" y="22" />
@@ -1145,5 +1165,12 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Call>EnemyDeath</Call>
+		</Death>
 	</Entity>
 </Entities>

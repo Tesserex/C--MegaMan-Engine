@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using MegaMan.Common.Entities;
+using MegaMan.IO.Xml.Effects;
 using MegaMan.IO.Xml.Entities;
 
 namespace MegaMan.IO.Xml.Includes
 {
     public class EntityXmlWriter : IEntityWriter
     {
+        private EffectXmlWriter _effectWriter;
+
+        public EntityXmlWriter()
+        {
+            _effectWriter = new EffectXmlWriter();
+        }
+
         public void Write(EntityInfo entity, string filepath)
         {
             XmlTextWriter writer = new XmlTextWriter(filepath, null);
@@ -42,6 +50,13 @@ namespace MegaMan.IO.Xml.Includes
 
             foreach (var component in entity.Components)
                 WritePart(component, writer);
+
+            if (entity.Death != null)
+            {
+                writer.WriteStartElement("Death");
+                _effectWriter.WriteEffectContents(entity.Death, writer);
+                writer.WriteEndElement();
+            }
 
             writer.WriteEndElement();
         }

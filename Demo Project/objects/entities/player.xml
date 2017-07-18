@@ -25,10 +25,6 @@
 		<Ladder>
 			<Hitbox x="-7.5" y="-10" width="15" height="14" properties="Default" environment="True" pushaway="True" />
 		</Ladder>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\megaman.png</Tilesheet>
 		<Sprite name="Teleport" palette="MegaMan" width="24" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="12" />
@@ -1518,7 +1514,7 @@
 				<Movement>
 					<Floating />
 					<FlipSprite />
-					<X direction="Input" />
+					<X direction="Input" magnitude="1" />
 				</Movement>
 			</Effect>
 		</Trigger>
@@ -1629,5 +1625,60 @@
 				<Meter name="" x="9" y="16" image="images\meters\napalmhealth.png" background="images\meters\healthmeter_back.png" orientation="vertical" tickX="0" tickY="0" />
 			</Weapon>
 		</Weapons>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
+		<Death>
+			<Spawn name="MegaManDeath" state="Up">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Down">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Left">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="Right">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpLeft">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpRight">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownLeft">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownRight">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="LeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="RightFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpLeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="UpRightFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownLeftFast">
+				<Position />
+			</Spawn>
+			<Spawn name="MegaManDeath" state="DownRightFast">
+				<Position />
+			</Spawn>
+			<Sound name="MMDeath" playing="True" />
+		</Death>
 	</Entity>
 </Entities>
