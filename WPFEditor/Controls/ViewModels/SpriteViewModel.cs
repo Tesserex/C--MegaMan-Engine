@@ -78,6 +78,19 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public bool Reversed
+        {
+            get
+            {
+                return Sprite.Reversed;
+            }
+            set
+            {
+                Sprite.Reversed = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void InsertFrame(int index)
         {
             Sprite.InsertFrame(index);

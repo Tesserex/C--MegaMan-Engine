@@ -105,11 +105,11 @@
                             <Label>Initial State</Label>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <CheckBox IsChecked="{Binding Floating}" IsEnabled="{Binding Enabled}"></CheckBox>
-                                <TextBlock>Floating</TextBlock>
+                                <TextBlock>Floating (Unaffected by gravity)</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <CheckBox IsChecked="{Binding FlipSprite}" IsEnabled="{Binding Enabled}"></CheckBox>
-                                <TextBlock>Flip Sprite</TextBlock>
+                                <TextBlock>Flip sprite to match entity direction</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>

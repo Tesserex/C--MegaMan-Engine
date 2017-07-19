@@ -128,11 +128,14 @@
                     </Rectangle>
                 </Grid>
             </ScrollViewer>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Width</Label>
                 <xctk:IntegerUpDown Value="{Binding SpriteWidth}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Height</Label>
                 <xctk:IntegerUpDown Value="{Binding SpriteHeight}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+                <CheckBox IsChecked="{Binding Reversed}">Sprite is facing Left</CheckBox>
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0">

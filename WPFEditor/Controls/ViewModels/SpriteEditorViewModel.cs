@@ -241,6 +241,21 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public bool Reversed
+        {
+            get
+            {
+                return _sprite.Reversed;
+            }
+            set
+            {
+                _sprite.Reversed = value;
+
+                if (_project != null)
+                    _project.Dirty = true;
+            }
+        }
+
         public BitmapSource SheetImageSource
         {
             get
