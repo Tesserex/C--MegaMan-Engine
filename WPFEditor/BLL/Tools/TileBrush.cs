@@ -127,19 +127,27 @@ namespace MegaMan.Editor.Bll.Tools
         {
             List<TileChange> undo = new List<TileChange>();
             bool changed = false;
+            var selection = screen.Selection;
+
             foreach (TileBrushCell[] col in _cells)
             {
                 foreach (TileBrushCell cell in col)
                 {
                     var old = screen.TileAt(cell.x + tile_x, cell.y + tile_y);
 
-                    if (old == null) continue;
+                    if (old == null || old.Id == -1) continue;
 
-                    undo.Add(new TileChange(screen, cell.x, cell.y, old.Id, cell.tile.Id));
+                    if (selection != null)
+                    {
+                        // only paint inside selection
+                        if (!selection.Value.Contains(cell.x + tile_x, cell.y + tile_y)) continue;
+                    }
+
                     if (old.Id != cell.tile.Id)
                     {
                         changed = true;
                         screen.ChangeTile(cell.x + tile_x, cell.y + tile_y, cell.tile.Id);
+                        undo.Add(new TileChange(screen, tile_x + cell.x, tile_y + cell.y, old.Id, cell.tile.Id));
                     }
                 }
             }
