@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 
@@ -7,6 +8,7 @@ namespace MegaMan.Editor.Bll.Tools
     public interface ITileBrush
     {
         IEnumerable<TileChange> DrawOn(ScreenDocument screen, int tile_x, int tile_y);
+        IEnumerable<TileChange> DrawCellOn(ScreenDocument screen, int tile_x, int tile_y, int brush_x, int brush_y);
         TileBrushCell[][] Cells { get; }
         int Width { get; }
         int Height { get; }
@@ -78,6 +80,11 @@ namespace MegaMan.Editor.Bll.Tools
 
             return new[] { new TileChange(screen, tile_x, tile_y, old.Id, _tile.Id) };
         }
+
+        public IEnumerable<TileChange> DrawCellOn(ScreenDocument screen, int tile_x, int tile_y, int brush_x, int brush_y)
+        {
+            return DrawOn(screen, tile_x, tile_y);
+        }
     }
 
     public class MultiTileBrush : ITileBrush
@@ -139,7 +146,6 @@ namespace MegaMan.Editor.Bll.Tools
 
                     if (selection != null)
                     {
-                        // only paint inside selection
                         if (!selection.Value.Contains(cell.x + tile_x, cell.y + tile_y)) continue;
                     }
 
@@ -155,6 +161,33 @@ namespace MegaMan.Editor.Bll.Tools
             if (changed)
             {
                 return undo;
+            }
+
+            return Enumerable.Empty<TileChange>();
+        }
+
+        public IEnumerable<TileChange> DrawCellOn(ScreenDocument screen, int tile_x, int tile_y, int brush_x, int brush_y)
+        {
+            if (brush_x < 0 || brush_y < 0 || brush_x >= Width || brush_y >= Height)
+                return Enumerable.Empty<TileChange>();
+
+            var old = screen.TileAt(tile_x, tile_y);
+
+            if (old == null || old.Id == -1)
+                return Enumerable.Empty<TileChange>();
+
+            var selection = screen.Selection;
+            if (selection != null)
+            {
+                if (!selection.Value.Contains(tile_x, tile_y))
+                    return Enumerable.Empty<TileChange>();
+            }
+
+            var cell = _cells[brush_x][brush_y];
+            if (old.Id != cell.tile.Id)
+            {
+                screen.ChangeTile(tile_x, tile_y, cell.tile.Id);
+                return new List<TileChange>() { new TileChange(screen, tile_x, tile_y, old.Id, cell.tile.Id) };
             }
 
             return Enumerable.Empty<TileChange>();

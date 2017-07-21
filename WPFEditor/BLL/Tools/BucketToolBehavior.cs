@@ -38,7 +38,7 @@ namespace MegaMan.Editor.Bll.Tools
             changes.Clear();
         }
 
-        private void Flood(ScreenCanvas canvas, int tile_x, int tile_y, int tile_id, int brush_x, int brush_y)
+        private void Flood(ScreenCanvas canvas, int tile_x, int tile_y, int previousTileId, int brush_x, int brush_y)
         {
             var selection = canvas.Screen.Selection;
             if (selection != null)
@@ -53,15 +53,15 @@ namespace MegaMan.Editor.Bll.Tools
             var old = canvas.Screen.TileAt(tile_x, tile_y);
             // checking whether this is already the new tile prevents infinite recursion, but
             // it can prevent filling a solid area with a brush that uses that same tile
-            if (old == null || old.Id != tile_id || old.Id == _brush.Cells[brush_x][brush_y].tile.Id) return;
+            if (old == null || old.Id != previousTileId) return;
 
-            _brush.DrawOn(canvas.Screen, tile_x, tile_y);
-            changes.Add(new TileChange(canvas.Screen, tile_x, tile_y, tile_id, _brush.Cells[brush_x][brush_y].tile.Id));
+            var changed = _brush.DrawCellOn(canvas.Screen, tile_x, tile_y, brush_x, brush_y);
+            changes.AddRange(changed);
 
-            Flood(canvas, tile_x - 1, tile_y, tile_id, (brush_x == 0) ? width - 1 : brush_x - 1, brush_y);
-            Flood(canvas, tile_x + 1, tile_y, tile_id, (brush_x == width - 1) ? 0 : brush_x + 1, brush_y);
-            Flood(canvas, tile_x, tile_y - 1, tile_id, brush_x, (brush_y == 0) ? height - 1 : brush_y - 1);
-            Flood(canvas, tile_x, tile_y + 1, tile_id, brush_x, (brush_y == height - 1) ? 0 : brush_y + 1);
+            Flood(canvas, tile_x - 1, tile_y, previousTileId, (brush_x == 0) ? width - 1 : brush_x - 1, brush_y);
+            Flood(canvas, tile_x + 1, tile_y, previousTileId, (brush_x == width - 1) ? 0 : brush_x + 1, brush_y);
+            Flood(canvas, tile_x, tile_y - 1, previousTileId, brush_x, (brush_y == 0) ? height - 1 : brush_y - 1);
+            Flood(canvas, tile_x, tile_y + 1, previousTileId, brush_x, (brush_y == height - 1) ? 0 : brush_y + 1);
         }
 
         public void Move(ScreenCanvas canvas, Point location)

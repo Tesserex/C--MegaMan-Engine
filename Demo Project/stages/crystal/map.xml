@@ -21,10 +21,15 @@
 		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" entity="EnergyTank" x="48" y="105" direction="Unknown" respawn="Stage" />
 		<Entity id="bf372b36-c2df-46da-bb45-166ef9f747f8" entity="ShieldGuy" x="52" y="161" direction="Unknown" respawn="Offscreen" />
 		<Entity id="fe638d02-7b5f-40fd-9e1f-82b23d9eb7d4" entity="ShieldShooter" x="160" y="80" direction="Right" respawn="Offscreen" />
+		<Entity id="a4aa1176-e961-41f6-9fec-93758481ca93" entity="Seeker" x="62" y="45" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="Tunnel" />
+	<Screen id="6" />
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
 	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
 	<Join type="vertical" s1="4" s2="Tunnel" offset1="8" offset2="8" size="3" direction="forward" />
 	<Join type="vertical" s1="Tunnel" s2="Boss" offset1="8" offset2="8" size="3" direction="forward" />
+	<Join type="horizontal" s1="4" s2="6" offset1="0" offset2="0" size="16" direction="both" />
+	<Join type="vertical" s1="6" s2="Tunnel" offset1="0" offset2="14" size="0" direction="both" />
+	<Join type="horizontal" s1="Tunnel" s2="6" offset1="0" offset2="16" size="0" direction="both" />
 </Map>
