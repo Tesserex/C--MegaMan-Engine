@@ -9,6 +9,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="3" flash="8" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\enemies\Mega Man 3\Peterchy.png</Tilesheet>
 		<Sprite reversed="true" width="32" height="32" tilesheet="images\enemies\Mega Man 3\Peterchy.png">
 			<Hotspot x="16" y="16" />
@@ -126,10 +130,6 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Call>EnemyDeath</Call>
 		</Death>

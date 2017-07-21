@@ -2,6 +2,10 @@
 	<Entity name="DeathPop" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\enemy_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="2" />
@@ -29,14 +33,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="DeathPopBig" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="56" height="56" tilesheet="images\particles\enemy_death_large.png">
 			<Hotspot x="28" y="28" />
 			<Frame x="0" y="0" duration="2" />
@@ -78,14 +82,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="MegaManDeath" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="0" y="0" duration="4" />
@@ -284,13 +288,13 @@
 			</Initialize>
 			<Logic />
 		</State>
+	</Entity>
+	<Entity name="Dust" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
 		<Movement>
 			<Floating />
 			<FlipSprite />
 		</Movement>
-	</Entity>
-	<Entity name="Dust" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
 		<Sprite width="8" height="8" tilesheet="images\particles\dust_-_spark.png">
 			<Hotspot x="4" y="-5" />
 			<Frame x="0" y="8" duration="1" />
@@ -317,13 +321,13 @@
 				</Effect>
 			</Trigger>
 		</State>
+	</Entity>
+	<Entity name="Spark" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
 		<Movement>
 			<Floating />
 			<FlipSprite />
 		</Movement>
-	</Entity>
-	<Entity name="Spark" maxAlive="50">
-		<GravityFlip>False</GravityFlip>
 		<Sprite width="29" height="12" tilesheet="images\particles\spark.png">
 			<Hotspot x="14" y="26" />
 			<Frame x="58" y="0" duration="8" />
@@ -349,10 +353,6 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="Splash" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -383,6 +383,10 @@
 	<Entity name="Bubble" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="4" height="4" tilesheet="images\particles\bubble.png">
 			<Hotspot x="2" y="2" />
 			<Frame x="0" y="0" duration="0" />
@@ -424,14 +428,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="PowerAbsorb" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
 			<Frame x="96" y="0" duration="4" />
@@ -515,9 +519,5 @@
 				<Die />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>

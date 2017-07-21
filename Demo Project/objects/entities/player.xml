@@ -25,6 +25,10 @@
 		<Ladder>
 			<Hitbox x="-7.5" y="-10" width="15" height="14" properties="Default" environment="True" pushaway="True" />
 		</Ladder>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\megaman.png</Tilesheet>
 		<Sprite name="Teleport" palette="MegaMan" width="24" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="12" />
@@ -1625,10 +1629,6 @@
 				<Meter name="" x="9" y="16" image="images\meters\napalmhealth.png" background="images\meters\healthmeter_back.png" orientation="vertical" tickX="0" tickY="0" />
 			</Weapon>
 		</Weapons>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Spawn name="MegaManDeath" state="Up">
 				<Position />

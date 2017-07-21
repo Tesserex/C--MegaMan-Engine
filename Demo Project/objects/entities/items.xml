@@ -7,6 +7,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
@@ -76,10 +80,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="BigHealth" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -89,6 +89,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" width="16" height="16" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
@@ -158,10 +162,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="SmallWeapon" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -172,6 +172,10 @@
 				<Group>SmallWeapon</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
@@ -241,10 +245,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="BigWeapon" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -255,6 +255,10 @@
 				<Group>BigWeapon</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="16" height="12" tilesheet="images\items.png">
 			<Hotspot x="8" y="6" />
@@ -324,10 +328,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="ExtraLife" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -337,6 +337,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="16" height="15" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
@@ -407,10 +411,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="EnergyTank" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -420,6 +420,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite name="normal" palette="MegaMan" width="16" height="16" tilesheet="images\items.png">
 			<Hotspot x="8" y="8" />
@@ -450,10 +454,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="SmallBolt" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -463,6 +463,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite width="8" height="8" tilesheet="images\items.png">
 			<Hotspot x="4" y="4" />
@@ -492,10 +496,6 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="LargeBolt" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -505,6 +505,10 @@
 				<Group>Item</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\items.png</Tilesheet>
 		<Sprite width="16" height="12" tilesheet="images\items.png">
 			<Hotspot x="8" y="6" />
@@ -533,9 +537,5 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>

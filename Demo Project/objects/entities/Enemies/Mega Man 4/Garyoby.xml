@@ -13,6 +13,10 @@
 			<Hitbox name="FloorFront" x="7" y="0" width="1" height="11" properties="Default" environment="True" pushaway="True" />
 		</Collision>
 		<Health max="3" flash="8" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\enemies\Mega Man 4\Garyoby.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Garyoby.png">
 			<Hotspot x="8" y="8" />
@@ -106,10 +110,6 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Call>EnemyDeath</Call>
 		</Death>

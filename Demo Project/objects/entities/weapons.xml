@@ -8,6 +8,10 @@
 				<Group>Projectile</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="32" y="0" duration="0" />
@@ -30,10 +34,6 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="SeekPlayerShot" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -44,6 +44,10 @@
 				<Group>Projectile</Group>
 			</Hitbox>
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="32" y="0" duration="0" />
@@ -65,10 +69,6 @@
 			</Initialize>
 			<Logic />
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="MBuster" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -82,6 +82,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="8" height="6" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="3" />
 			<Frame x="0" y="0" duration="0" />
@@ -134,10 +138,6 @@
 				<Die />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="ChargeLow" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -149,6 +149,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="2" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="16" height="16" tilesheet="images\weapons\basic.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="6" duration="4" />
@@ -196,10 +200,6 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="ChargeFull" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -211,6 +211,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="4" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="31" height="30" tilesheet="images\weapons\basic.png">
 			<Hotspot x="15" y="15" />
 			<Frame x="0" y="22" duration="4" />
@@ -260,10 +264,6 @@
 				</Movement>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="Gyro" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -276,6 +276,10 @@
 		</Collision>
 		<Health max="1" flash="0" />
 		<Input />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="21" height="10" tilesheet="images\weapons\weapons.png">
 			<Hotspot x="11" y="5" />
 			<Frame x="0" y="16" duration="2" />
@@ -371,10 +375,6 @@
 				</Timer>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="Crystal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -387,6 +387,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="3" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite name="Big" width="16" height="16" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="8" />
@@ -486,10 +490,6 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="SmallCrystal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -502,6 +502,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="80" y="0" duration="8" />
@@ -696,10 +700,6 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="Napalm" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -712,6 +712,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="2" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\weapons\napalm.png</Tilesheet>
 		<Sprite name="Right" width="14" height="14" tilesheet="images\weapons\napalm.png">
 			<Hotspot x="7" y="7" />
@@ -836,10 +840,6 @@
 				</Func>
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Spawn name="DeathPopBig" state="Start">
 				<Position />
@@ -858,6 +858,10 @@
 			</Hitbox>
 			<Hitbox name="Floor" x="-4" y="-4" width="4" height="4" properties="Default" environment="True" pushaway="True" />
 		</Collision>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 		<Sprite name="Warp" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="32" />
@@ -1032,10 +1036,6 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="RushJet" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
@@ -1060,6 +1060,10 @@
 			</Hitbox>
 		</Collision>
 		<Input />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 		<Sprite name="Warp" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="24" />
@@ -1310,9 +1314,5 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>

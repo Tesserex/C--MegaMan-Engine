@@ -1,6 +1,7 @@
 <Entities>
 	<Entity name="CrystalMan" maxAlive="50">
 		<GravityFlip>True</GravityFlip>
+		<EditorData defaultSprite="Drop" hide="False" />
 		<Collision Enabled="False">
 			<Hitbox name="Stand" x="-12" y="-14" width="24" height="27" properties="Default" damage="5" environment="True" pushaway="True">
 				<Hits>Player</Hits>
@@ -13,6 +14,10 @@
 				<Sound name="MeterTick" loop="False" volume="1" />
 			</Meter>
 		</Health>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Position persistoffscreen="True" />
 		<Tilesheet>images\enemies\crystalman.png</Tilesheet>
 		<Sprite name="Drop" reversed="true" width="30" height="30" tilesheet="images\enemies\crystalman.png">
@@ -52,6 +57,10 @@
 		<Sprite name="Ready" reversed="true" width="32" height="46" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="12" y="23" />
 			<Frame x="196" y="110" duration="0" />
+		</Sprite>
+		<Sprite name="NewSprite1" width="30" height="40" tilesheet="images\enemies\crystalman.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
 			<Initialize>
@@ -309,10 +318,6 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Spawn name="MegaManDeath" state="Up">
 				<Position />
@@ -376,6 +381,10 @@
 			</Hitbox>
 		</Collision>
 		<Health max="1" flash="0" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="4" y="4" />
 			<Frame x="80" y="0" duration="8" />
@@ -522,9 +531,5 @@
 				<Remove />
 			</Effect>
 		</Trigger>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>

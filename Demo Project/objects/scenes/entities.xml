@@ -2,6 +2,10 @@
 	<Entity name="BigStar" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="2" height="2" tilesheet="images/cutscenes/boss/big.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
@@ -26,14 +30,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="SmallStar" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="1" height="1" tilesheet="images/cutscenes/boss/small.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
@@ -62,14 +66,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="TopBorder" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="256" height="24" tilesheet="images/cutscenes/borders.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="10" />
@@ -95,14 +99,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="BottomBorder" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="256" height="24" tilesheet="images/cutscenes/borders.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="24" duration="10" />
@@ -128,14 +132,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="TopWeaponBorder" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="256" height="23" tilesheet="images/cutscenes/getweapon.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
@@ -163,14 +167,14 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 	<Entity name="BottomWeaponBorder" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
 		<EditorData defaultSprite="" hide="True" />
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Sprite width="256" height="23" tilesheet="images/cutscenes/getweapon.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="23" duration="0" />
@@ -198,9 +202,5 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>
