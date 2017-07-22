@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="24" d:DesignWidth="300">
     <DockPanel>
@@ -20,6 +21,18 @@
             <RadioButton ToolTip="Rectangle" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Rectangle">
                 <Image Source="{Binding RectangleIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
+            <ComboBox SelectedValue="{Binding BucketModeGlobal, Mode=TwoWay}" SelectedValuePath="Tag" Visibility="{Binding BucketOptionVisibility}">
+                <ComboBoxItem Content="Contiguous">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>False</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Global">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>True</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+            </ComboBox>
         </ToolBar>
     </DockPanel>
 </UserControl>

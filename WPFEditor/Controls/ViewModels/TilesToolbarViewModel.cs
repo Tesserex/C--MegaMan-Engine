@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using MegaMan.Editor.Bll.Tools;
 using MegaMan.Editor.Mediator;
@@ -12,6 +13,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private IToolBehavior _currentTool;
         private IToolCursor _currentCursor;
         private string _activeIcon;
+        private bool _bucketGlobal;
 
         public event EventHandler<ToolChangedEventArgs> ToolChanged;
 
@@ -55,6 +57,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 OnPropertyChanged("BucketIcon");
                 OnPropertyChanged("SelectionIcon");
                 OnPropertyChanged("RectangleIcon");
+                OnPropertyChanged("BucketOptionVisibility");
             }
         }
 
@@ -82,7 +85,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                     break;
 
                 case "Bucket":
-                    Tool = new BucketToolBehavior(_currentBrush);
+                    Tool = new BucketToolBehavior(_currentBrush) { IsGlobal = BucketModeGlobal };
                     ToolCursor = new TileBrushCursor(_currentBrush);
                     break;
 
@@ -115,6 +118,25 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             ActiveIcon = toolName.ToString();
             ConstructTool();
+        }
+
+        public bool BucketModeGlobal
+        {
+            get { return _bucketGlobal; }
+            set
+            {
+                _bucketGlobal = value;
+                if (Tool is BucketToolBehavior)
+                {
+                    ((BucketToolBehavior)Tool).IsGlobal = value;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility BucketOptionVisibility
+        {
+            get { return (ActiveIcon == "Bucket") ? Visibility.Visible : Visibility.Collapsed; }
         }
     }
 }
