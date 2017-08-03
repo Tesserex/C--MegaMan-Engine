@@ -20,8 +20,8 @@
                                                      HorizontalAlignment="Center"
                                                      ContentSource="Header"
                                                      Margin="30,10,30,10"
-                                                     TextBlock.FontSize="18"
-                                                     TextBlock.FontFamily="../Resources/#MegaMan 2" />
+                                                     TextBlock.FontSize="16"
+                                                     TextBlock.FontFamily="../Resources/#Mega Man 10" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="DarkGoldenrod"/>
@@ -50,7 +50,7 @@
         </TabItem>
         <TabItem>
             <TabItem.Header>
-                Tiling
+                Tiles
             </TabItem.Header>
             <DockPanel>
                 <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
