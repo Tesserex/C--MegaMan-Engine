@@ -54,7 +54,19 @@
                         <CheckBox IsChecked="{Binding ShowPlacement}"></CheckBox>
                     </StackPanel>
                 </StackPanel>
-                <local:SpriteImage DataContext="{Binding DefaultSprite}" HorizontalAlignment="Stretch" Background="Magenta"></local:SpriteImage>
+                <DockPanel Background="White">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                        <TextBlock>Sprite</TextBlock>
+                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
+                        <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
+                            <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
+                            <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
+                    <local:SpriteImage DataContext="{Binding ViewingSprite}" Zoom="{Binding DataContext.ViewSpriteZoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" HorizontalAlignment="Center" Background="Magenta"></local:SpriteImage>
+                </DockPanel>
             </DockPanel>
             <DockPanel Background="WhiteSmoke" VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" DockPanel.Dock="Top">
                 <Label DockPanel.Dock="Top">Components</Label>

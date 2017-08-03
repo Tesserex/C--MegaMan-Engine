@@ -17,8 +17,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private ProjectDocument _project;
 
         public ICommand GoBackCommand { get; private set; }
-
         public ICommand EditSpriteCommand { get; private set; }
+        public ICommand ZoomOutViewSpriteCommand { get; private set; }
+        public ICommand ZoomInViewSpriteCommand { get; private set; }
         public INotifyPropertyChanged ComponentViewModel { get; private set; }
 
         private EntityInfo _currentEntity;
@@ -41,6 +42,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                             sprite.Play();
                             ((App)App.Current).AnimateSprite(sprite);
                         }
+
+                        ViewingSprite = _currentEntity.DefaultSprite;
                     }
                 }
 
@@ -93,6 +96,28 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
+        private Sprite _viewingSprite;
+        public Sprite ViewingSprite
+        {
+            get { return _viewingSprite; }
+            set
+            {
+                _viewingSprite = value;
+                OnPropertyChanged("ViewingSprite");
+            }
+        }
+
+        private int _viewSpriteZoom;
+        public int ViewSpriteZoom
+        {
+            get { return _viewSpriteZoom; }
+            set
+            {
+                _viewSpriteZoom = value;
+                OnPropertyChanged("ViewSpriteZoom");
+            }
+        }
+
         public bool ShowPlacement
         {
             get
@@ -109,9 +134,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         public EntityEditorViewModel()
         {
             EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
+            ZoomOutViewSpriteCommand = new RelayCommand(x => ZoomOutViewSprite(), arg => _currentEntity != null);
+            ZoomInViewSpriteCommand = new RelayCommand(x => ZoomInViewSprite(), arg => _currentEntity != null);
             Sprite = new SpriteComponentEditorViewModel();
             Movement = new MovementComponentEditorViewModel();
             Collision = new CollisionComponentEditorViewModel();
+
+            ViewSpriteZoom = 1;
 
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
@@ -130,6 +159,16 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
             ComponentViewModel = new SpriteEditorViewModel(vm, _project);
             OnPropertyChanged("ComponentViewModel");
+        }
+
+        private void ZoomOutViewSprite()
+        {
+            ViewSpriteZoom = Math.Max(1, ViewSpriteZoom / 2);
+        }
+
+        private void ZoomInViewSprite()
+        {
+            ViewSpriteZoom = Math.Min(4, ViewSpriteZoom * 2);
         }
 
         private void EntitySelected(object sender, EntitySelectedEventArgs e)
