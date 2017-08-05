@@ -24,6 +24,6 @@ namespace MegaMan.Editor
             "ButtonRadius",
             typeof(CornerRadius),
             typeof(ThemeProperties),
-            new FrameworkPropertyMetadata(new CornerRadius(4)));
+            new FrameworkPropertyMetadata(new CornerRadius(2)));
     }
 }

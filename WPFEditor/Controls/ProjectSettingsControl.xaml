@@ -27,11 +27,6 @@
                     <Setter Property="Width" Value="300" />
                     <Setter Property="HorizontalAlignment" Value="Left" />
                 </Style>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="Margin" Value="8,6" />
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                </Style>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="VerticalAlignment" Value="Center" />
                     <Setter Property="Margin" Value="8,0,0,0" />

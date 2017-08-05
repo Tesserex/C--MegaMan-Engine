@@ -55,10 +55,9 @@
                         </Grid>
                         <Border x:Name="ContentPanel" 
                                 VerticalAlignment="Stretch" 
-                                HorizontalAlignment="Stretch"  
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}" 
+                                HorizontalAlignment="Stretch"
+                                BorderThickness="0"
+                                Background="Transparent" 
                                 Grid.Column="0" 
                                 KeyboardNavigation.DirectionalNavigation="Contained" 
                                 Grid.Row="1"

@@ -30,9 +30,6 @@
         </Grid.RowDefinitions>
 
         <Fluent:Ribbon Grid.Row="0" SelectedTabChanged="RibbonTabChanged">
-            <Fluent:Ribbon.QuickAccessItems>
-                
-            </Fluent:Ribbon.QuickAccessItems>
             <!--Tabs-->
             <Fluent:RibbonTabItem Header="Home" x:Name="ribbonHome">
                 <Fluent:RibbonGroupBox>
@@ -87,7 +84,7 @@
                 <Fluent:Backstage x:Name="ribbonBackstage" IsOpen="{Binding ShowBackstage, Mode=TwoWay}">
                     <Fluent:BackstageTabControl>
                         <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
-                        <Fluent:BackstageTabItem Header="Recent Projects" Background="White">
+                        <Fluent:BackstageTabItem Header="Recent" Background="White">
                             <StackPanel Orientation="Vertical" Margin="30">
                                 <Label Style="{StaticResource H1}">RECENT PROJECTS</Label>
                                 <ItemsControl ItemsSource="{Binding Path=AppData.RecentProjects}">
@@ -108,7 +105,7 @@
                                 </ItemsControl>
                             </StackPanel>
                         </Fluent:BackstageTabItem>
-                        <Fluent:BackstageTabItem Header="New Project">
+                        <Fluent:BackstageTabItem Header="New">
                             <c:NewProjectDialog />
                         </Fluent:BackstageTabItem>
                         <Fluent:Button Header="Save" Icon="Resources/saveHS.png" Command="{Binding SaveProjectCommand}" />
@@ -118,7 +115,8 @@
             </Fluent:Ribbon.Menu>
         </Fluent:Ribbon>
 
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1" Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}"
+        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1" Background="Black"
+                                   Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}"
                                     c:AvalonDockLayoutSerializer.LoadLayoutCommand="{Binding ADLayout.LoadLayoutCommand}"
                                     c:AvalonDockLayoutSerializer.SaveLayoutCommand="{Binding ADLayout.SaveLayoutCommand}">
             <avalonDock:LayoutRoot>
@@ -151,12 +149,14 @@
                             <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
                         </avalonDock:LayoutDocument>
                         <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
-                            <DockPanel>
-                                <StackPanel DockPanel.Dock="Bottom">
-                                    <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
-                                </StackPanel>
-                                <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
-                            </DockPanel>
+                            <ContentControl Style="{StaticResource MegaBorder}" HorizontalAlignment="Stretch">
+                                <DockPanel Background="{StaticResource BackgroundBrush}">
+                                    <StackPanel DockPanel.Dock="Bottom">
+                                        <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
+                                    </StackPanel>
+                                    <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
+                                </DockPanel>
+                            </ContentControl>
                         </avalonDock:LayoutDocument>
                     </avalonDock:LayoutDocumentPane>
                 </avalonDock:LayoutPanel>
