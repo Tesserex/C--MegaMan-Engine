@@ -168,6 +168,9 @@
     <Compile Include="Controls\Canvases\LayoutScreenCanvas.xaml.cs">
       <DependentUpon>LayoutScreenCanvas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Components\HitboxEditor.xaml.cs">
+      <DependentUpon>HitboxEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Converters\BoolInverterConverter.cs" />
     <Compile Include="Controls\Converters\PropertyToBoolConverter.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
@@ -259,6 +262,7 @@
     <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\Components\CollisionComponentEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\Components\ComponentEditorViewModel.cs" />
+    <Compile Include="Controls\ViewModels\Entities\Components\HitboxEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\Components\MovementComponentEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\Components\SpriteComponentEditorViewModel.cs" />
     <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
@@ -322,6 +326,10 @@
     <Compile Include="Tools\SingleTileCursor.cs" />
     <Compile Include="UserSettings.cs" />
     <Page Include="Controls\Canvases\LayoutScreenCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Components\HitboxEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

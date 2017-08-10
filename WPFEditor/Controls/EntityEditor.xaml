@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:comp="clr-namespace:MegaMan.Editor.Controls.Components"
              xmlns:vm="clr-namespace:MegaMan.Editor.Controls.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
@@ -50,7 +51,15 @@
                             <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
-                    <local:SpriteImage DataContext="{Binding ViewingSprite}" Zoom="{Binding DataContext.ViewSpriteZoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" HorizontalAlignment="Center" Background="Magenta"></local:SpriteImage>
+                    <Grid>
+                        <local:SpriteImage Visibility="{Binding DataContext.PreviewVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                                           DataContext="{Binding ViewingSprite}"
+                                           Zoom="{Binding DataContext.ViewSpriteZoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                                           HorizontalAlignment="Center" Background="Magenta"></local:SpriteImage>
+                        <comp:HitboxEditor Visibility="{Binding DataContext.HitboxEditorVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                                           DataContext="{Binding HitBoxEditor}"
+                                           HorizontalAlignment="Center"></comp:HitboxEditor>
+                    </Grid>
                 </DockPanel>
             </DockPanel>
             <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" DockPanel.Dock="Top">

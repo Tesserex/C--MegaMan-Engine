@@ -57,12 +57,17 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 Sprite.Entity = value;
                 Movement.Entity = value;
                 Collision.Entity = value;
+
+                HitBoxEditor.ChangeHitbox(null);
+                showHitboxEditor = false;
+                UpdatePreview();
             }
         }
 
         public SpriteComponentEditorViewModel Sprite { get; private set; }
         public MovementComponentEditorViewModel Movement { get; private set; }
         public CollisionComponentEditorViewModel Collision { get; private set; }
+        public HitboxEditorViewModel HitBoxEditor { get; private set; }
 
         public Sprite DefaultSprite
         {
@@ -103,6 +108,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             set
             {
                 _viewingSprite = value;
+                HitBoxEditor.ChangeSprite(value);
                 OnPropertyChanged("ViewingSprite");
             }
         }
@@ -114,6 +120,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             set
             {
                 _viewSpriteZoom = value;
+                HitBoxEditor.Zoom = value;
                 OnPropertyChanged("ViewSpriteZoom");
             }
         }
@@ -131,6 +138,20 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
+        public Visibility PreviewVisibility
+        {
+            get { return (HitboxEditorVisibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
+        private bool showHitboxEditor;
+        public Visibility HitboxEditorVisibility
+        {
+            get
+            {
+                return showHitboxEditor ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public EntityEditorViewModel()
         {
             EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
@@ -139,6 +160,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             Sprite = new SpriteComponentEditorViewModel();
             Movement = new MovementComponentEditorViewModel();
             Collision = new CollisionComponentEditorViewModel();
+            HitBoxEditor = new HitboxEditorViewModel();
 
             ViewSpriteZoom = 1;
 
@@ -147,6 +169,20 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
             
             GoBackCommand = new RelayCommand(x => GoBack(), null);
+            Collision.HitBoxEdit += Collision_HitBoxEdit;
+        }
+
+        private void Collision_HitBoxEdit(HitBoxInfo hitbox)
+        {
+            HitBoxEditor.ChangeHitbox(hitbox);
+            showHitboxEditor = true;
+            UpdatePreview();
+        }
+
+        private void UpdatePreview()
+        {
+            OnPropertyChanged("HitboxEditorVisibility");
+            OnPropertyChanged("PreviewVisibility");
         }
 
         private void EditSprite(SpriteListItemViewModel sprite)
@@ -194,6 +230,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
         {
             _project = e.Project;
+            HitBoxEditor.ChangeProject(_project);
         }
 
         private void Save()

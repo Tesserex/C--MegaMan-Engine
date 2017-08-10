@@ -18,6 +18,18 @@
         <Setter Property="FontSize" Value="20" />
     </Style>
 
+    <Style x:Key="DefaultTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Margin" Value="8,6" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}" />
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="MegaBorder" TargetType="{x:Type ContentControl}">
         <Setter Property="Template">
             <Setter.Value>

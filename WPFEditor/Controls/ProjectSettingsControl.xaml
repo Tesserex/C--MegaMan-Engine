@@ -20,12 +20,8 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.Resources>
-                <Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Margin" Value="8,6" />
-                    <Setter Property="FontSize" Value="14" />
+                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
                     <Setter Property="Width" Value="300" />
-                    <Setter Property="Width" Value="300" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
                 </Style>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="VerticalAlignment" Value="Center" />

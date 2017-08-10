@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="MegaMan.Editor.Controls.Components.HitboxEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MegaMan.Editor.Controls.Components"
+             xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:vm="clr-namespace:MegaMan.Editor.Controls.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
+            <Setter Property="Width" Value="100" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0">Name</Label>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"></TextBox>
+
+                <Label Grid.Column="0" Grid.Row="1">Properties</Label>
+                <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedPropertiesName}" />
+
+                <Label Grid.Column="0" Grid.Row="2">Contact Damage</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding ContactDamage}" Width="50"></xctk:IntegerUpDown>
+
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Grid.Column="0" Grid.Row="0" IsChecked="{Binding Environment, Mode=TwoWay}" />
+                <Label Grid.Column="1" Grid.Row="0">Reacts to Environment Tiles</Label>
+
+                <CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding PushAway, Mode=TwoWay}" />
+                <Label Grid.Column="1" Grid.Row="1">Resolves Collisions</Label>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding SpriteWidth}" Height="{Binding SpriteHeight}">
+                <c:SpriteImage Canvas.Top="0"
+                               Canvas.Left="0"
+                               DataContext="{Binding DataContext.ViewingSprite, RelativeSource={RelativeSource AncestorType={x:Type c:EntityEditor}}}"
+                               Zoom="{Binding DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}"></c:SpriteImage>
+                <Canvas Canvas.Top="{Binding SpriteTop}" Canvas.Left="{Binding SpriteLeft}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Rectangle Fill="#aaff8800" Width="{Binding ZoomWidth}" Height="{Binding ZoomHeight}" Canvas.Top="{Binding ZoomTop}" Canvas.Left="{Binding ZoomLeft}"></Rectangle>
+                </Canvas>
+            </Canvas>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="4">
+                <Label>Top</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Top}"></xctk:IntegerUpDown>
+
+                <Label>Left</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Left}"></xctk:IntegerUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="4">
+                <Label>Width</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Width}"></xctk:IntegerUpDown>
+                <Label>Height</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Height}"></xctk:IntegerUpDown>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
