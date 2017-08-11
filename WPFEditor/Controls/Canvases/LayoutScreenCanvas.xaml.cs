@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
-using MegaMan.Editor.Controls.ViewModels;
+using MegaMan.Editor.Controls.Adorners;
 using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls

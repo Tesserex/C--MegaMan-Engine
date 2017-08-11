@@ -47,6 +47,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -58,6 +59,42 @@
 
                 <CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding PushAway, Mode=TwoWay}" />
                 <Label Grid.Column="1" Grid.Row="1">Resolves Collisions</Label>
+
+                <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
+                    <Label HorizontalAlignment="Center">Weapon Resistance</Label>
+                    <ListView ItemsSource="{Binding Resistance}" HorizontalAlignment="Center">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding Name}" Margin="0,0,4,0" Padding="0" />
+                                    <xctk:DoubleUpDown Value="{Binding Value}" Margin="0" Padding="0" />
+                                    <Button Command="{Binding DataContext.DeleteResistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}" CommandParameter="{Binding}">
+                                        <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBox Text="{Binding AddResistName}" Margin="0,0,4,0" Padding="0" />
+                        <xctk:DoubleUpDown Value="{Binding AddResistValue}" Margin="0" Padding="0" />
+                        <Button Command="{Binding AddResistCommand}">
+                            <Image Source="/Resources/check.png" Width="16" Height="16"></Image>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </StackPanel>
 
@@ -68,16 +105,18 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding SpriteWidth}" Height="{Binding SpriteHeight}">
-                <c:SpriteImage Canvas.Top="0"
-                               Canvas.Left="0"
-                               DataContext="{Binding DataContext.ViewingSprite, RelativeSource={RelativeSource AncestorType={x:Type c:EntityEditor}}}"
-                               Zoom="{Binding DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}"></c:SpriteImage>
-                <Canvas Canvas.Top="{Binding SpriteTop}" Canvas.Left="{Binding SpriteLeft}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Rectangle Fill="#aaff8800" Width="{Binding ZoomWidth}" Height="{Binding ZoomHeight}" Canvas.Top="{Binding ZoomTop}" Canvas.Left="{Binding ZoomLeft}"></Rectangle>
+            <AdornerDecorator>
+                <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding SpriteWidth}" Height="{Binding SpriteHeight}">
+                    <c:SpriteImage Canvas.Top="0"
+                                   Canvas.Left="0"
+                                   DataContext="{Binding DataContext.ViewingSprite, RelativeSource={RelativeSource AncestorType={x:Type c:EntityEditor}}}"
+                                   Zoom="{Binding DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}"></c:SpriteImage>
+                    <Canvas Canvas.Top="{Binding SpriteTop}" Canvas.Left="{Binding SpriteLeft}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Rectangle x:Name="hitboxRect" Fill="#aaff8800" Width="{Binding ZoomWidth}" Height="{Binding ZoomHeight}" Canvas.Top="{Binding ZoomTop}" Canvas.Left="{Binding ZoomLeft}"></Rectangle>
+                    </Canvas>
                 </Canvas>
-            </Canvas>
-            
+            </AdornerDecorator>
+
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="4">
                 <Label>Top</Label>
                 <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Top}"></xctk:IntegerUpDown>

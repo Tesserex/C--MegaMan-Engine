@@ -165,6 +165,7 @@
     <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
     <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
     <Compile Include="Bll\UnknownTile.cs" />
+    <Compile Include="Controls\Adorners\HitboxResizeAdorner.cs" />
     <Compile Include="Controls\Canvases\LayoutScreenCanvas.xaml.cs">
       <DependentUpon>LayoutScreenCanvas.xaml</DependentUpon>
     </Compile>
@@ -231,7 +232,7 @@
     <Compile Include="Controls\ProjectSettingsControl.xaml.cs">
       <DependentUpon>ProjectSettingsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ScreenResizeAdorner.cs" />
+    <Compile Include="Controls\Adorners\ScreenResizeAdorner.cs" />
     <Compile Include="Controls\SpriteEditor.xaml.cs">
       <DependentUpon>SpriteEditor.xaml</DependentUpon>
     </Compile>

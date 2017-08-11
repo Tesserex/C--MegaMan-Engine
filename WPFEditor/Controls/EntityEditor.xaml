@@ -18,9 +18,21 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
-        <DockPanel Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
-            <DockPanel DockPanel.Dock="Top">
-                <StackPanel Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0,0,10,0">
+        <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
                     <Label Style="{StaticResource Header}">Entity Information</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Name</TextBlock>
@@ -40,10 +52,13 @@
                         <CheckBox IsChecked="{Binding ShowPlacement}"></CheckBox>
                     </StackPanel>
                 </StackPanel>
-                <DockPanel Background="White">
+
+                <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <DockPanel Grid.Column="2" Background="White">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                         <TextBlock>Sprite</TextBlock>
-                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
+                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
                         <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
                             <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
@@ -61,8 +76,11 @@
                                            HorizontalAlignment="Center"></comp:HitboxEditor>
                     </Grid>
                 </DockPanel>
-            </DockPanel>
-            <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" DockPanel.Dock="Top">
+            </Grid>
+
+            <GridSplitter Grid.Row="1" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            
+            <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" Grid.Row="2">
                 <Label DockPanel.Dock="Top" Style="{StaticResource Header}">Components</Label>
                 <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13">
                     
@@ -139,7 +157,7 @@
                     
                 </TabControl>
             </DockPanel>
-        </DockPanel>
+        </Grid>
         <ContentControl Content="{Binding ComponentViewModel}" Panel.ZIndex="1" />
     </Grid>
 </UserControl>

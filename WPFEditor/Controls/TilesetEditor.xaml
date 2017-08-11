@@ -38,7 +38,7 @@
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                     <Button Style="{StaticResource LeftButton}" Height="20" Command="{Binding DataContext.EditTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
-                                        <Image Source="/Resources/edit.png" Width="16" Height="16"></Image>
+                                        <Image Source="/Resources/pencil.png" Width="16" Height="16"></Image>
                                     </Button>
                                     <Button Style="{StaticResource RightButton}" HorizontalContentAlignment="Stretch" Height="20" Command="{Binding DataContext.DeleteTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
                                         <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
