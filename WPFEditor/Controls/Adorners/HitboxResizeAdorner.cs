@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using MegaMan.Editor.Controls.ViewModels.Entities.Components;
 
-namespace MegaMan.Editor.Controls.Adorners {
+namespace MegaMan.Editor.Controls.Adorners
+{
     public class HitboxResizeAdorner : Adorner
     {
         private HitboxEditorViewModel viewModel;
@@ -48,28 +49,33 @@ namespace MegaMan.Editor.Controls.Adorners {
             this.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        protected override void OnMouseEnter(MouseEventArgs e) {
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
             base.OnMouseEnter(e);
             this.Visibility = System.Windows.Visibility.Visible;
             InvalidateVisual();
         }
 
-        protected override void OnMouseLeave(MouseEventArgs e) {
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
             base.OnMouseLeave(e);
             this.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        void adornedElement_MouseLeave(object sender, MouseEventArgs e) {
+        void adornedElement_MouseLeave(object sender, MouseEventArgs e)
+        {
             this.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        void adornedElement_MouseEnter(object sender, MouseEventArgs e) {
+        void adornedElement_MouseEnter(object sender, MouseEventArgs e)
+        {
             this.Visibility = System.Windows.Visibility.Visible;
             InvalidateVisual();
         }
 
         // Handler for resizing from the bottom-right.
-        void HandleBottomRight(object sender, DragDeltaEventArgs args) {
+        void HandleBottomRight(object sender, DragDeltaEventArgs args)
+        {
             FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
@@ -82,7 +88,8 @@ namespace MegaMan.Editor.Controls.Adorners {
         }
 
         // Handler for resizing from the top-right.
-        void HandleTopRight(object sender, DragDeltaEventArgs args) {
+        void HandleTopRight(object sender, DragDeltaEventArgs args)
+        {
             FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
@@ -100,7 +107,8 @@ namespace MegaMan.Editor.Controls.Adorners {
         }
 
         // Handler for resizing from the top-left.
-        void HandleTopLeft(object sender, DragDeltaEventArgs args) {
+        void HandleTopLeft(object sender, DragDeltaEventArgs args)
+        {
             FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
@@ -123,7 +131,8 @@ namespace MegaMan.Editor.Controls.Adorners {
         }
 
         // Handler for resizing from the bottom-left.
-        void HandleBottomLeft(object sender, DragDeltaEventArgs args) {
+        void HandleBottomLeft(object sender, DragDeltaEventArgs args)
+        {
             FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
@@ -141,7 +150,8 @@ namespace MegaMan.Editor.Controls.Adorners {
         }
 
         // Arrange the Adorners.
-        protected override Size ArrangeOverride(Size finalSize) {
+        protected override Size ArrangeOverride(Size finalSize)
+        {
             // desiredWidth and desiredHeight are the width and height of the element that's being adorned.  
             // These will be used to place the ResizingAdorner at the corners of the adorned element.  
             var desiredWidth = AdornedElement.DesiredSize.Width;
@@ -161,7 +171,8 @@ namespace MegaMan.Editor.Controls.Adorners {
 
         // Helper method to instantiate the corner Thumbs, set the Cursor property, 
         // set some appearance properties, and add the elements to the visual tree.
-        void BuildAdornerCorner(ref Thumb cornerThumb, Cursor customizedCursor) {
+        void BuildAdornerCorner(ref Thumb cornerThumb, Cursor customizedCursor)
+        {
             if (cornerThumb != null) return;
 
             cornerThumb = new Thumb();

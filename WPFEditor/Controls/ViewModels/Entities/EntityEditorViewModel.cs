@@ -167,7 +167,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
-            
+
             GoBackCommand = new RelayCommand(x => GoBack(), null);
             Collision.HitBoxEdit += Collision_HitBoxEdit;
         }

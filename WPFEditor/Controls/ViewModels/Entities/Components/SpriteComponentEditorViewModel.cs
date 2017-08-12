@@ -34,7 +34,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             var vm = new SpriteViewModel(sprite);
 
             Entity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
-            
+
             OnPropertyChanged("Sprites");
 
             return vm;
