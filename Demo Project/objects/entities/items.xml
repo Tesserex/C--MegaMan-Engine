@@ -414,6 +414,7 @@
 	</Entity>
 	<Entity name="EnergyTank" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="normal" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" environment="True" pushaway="True">
 				<Hits>Player</Hits>
@@ -457,6 +458,7 @@
 	</Entity>
 	<Entity name="SmallBolt" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" environment="True" pushaway="True">
 				<Hits>Player</Hits>
@@ -499,6 +501,7 @@
 	</Entity>
 	<Entity name="LargeBolt" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-6" width="16" height="12" properties="Default" environment="True" pushaway="True">
 				<Hits>Player</Hits>

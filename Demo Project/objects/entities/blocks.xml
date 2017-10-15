@@ -1,6 +1,7 @@
 <Entities>
 	<Entity name="Disappear" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Visible" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="0" width="16" height="16" properties="block" environment="True" pushaway="True">
 				<Hits>Solid</Hits>
@@ -48,6 +49,7 @@
 	</Entity>
 	<Entity name="ElecYoku" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Visible" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="0" width="16" height="16" properties="block" environment="True" pushaway="True">
 				<Hits>Solid</Hits>
@@ -284,6 +286,7 @@
 	</Entity>
 	<Entity name="SpikeBlock" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Horiz" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="body" x="-8" y="-8" width="16" height="16" properties="block" environment="True" pushaway="True">
 				<Hits>Solid</Hits>
@@ -503,7 +506,7 @@
 	</Entity>
 	<Entity name="BossDoor" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Closed" hide="True" />
+		<EditorData defaultSprite="Closed" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="0" width="16" height="64" properties="block" environment="False" pushaway="True">
 				<Hits>Player</Hits>
@@ -588,7 +591,7 @@
 	</Entity>
 	<Entity name="CrystalDoor" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Closed" hide="True" />
+		<EditorData defaultSprite="Closed" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="0" width="16" height="64" properties="block" environment="False" pushaway="True">
 				<Hits>Solid</Hits>
@@ -672,7 +675,7 @@
 	</Entity>
 	<Entity name="BossDoorH" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Closed" hide="True" />
+		<EditorData defaultSprite="Closed" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox x="0" y="0" width="64" height="16" properties="block" environment="False" pushaway="True">
 				<Hits>Player</Hits>

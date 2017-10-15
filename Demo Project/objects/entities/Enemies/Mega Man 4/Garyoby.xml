@@ -1,6 +1,7 @@
 <Entities>
 	<Entity name="Garyoby" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-5" y="-5" width="10" height="10" properties="Default" damage="2" environment="False" pushaway="True">
 				<Hits>Player</Hits>

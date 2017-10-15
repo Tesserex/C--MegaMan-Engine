@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="EnemyShot" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="1" environment="False" pushaway="True">
 				<Hits>Player</Hits>
@@ -37,7 +37,7 @@
 	</Entity>
 	<Entity name="SeekPlayerShot" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="4" environment="False" pushaway="True">
 				<Hits>Player</Hits>
@@ -72,7 +72,7 @@
 	</Entity>
 	<Entity name="MBuster" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="True" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="1" environment="False" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -141,7 +141,7 @@
 	</Entity>
 	<Entity name="ChargeLow" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" damage="2" environment="False" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -203,7 +203,7 @@
 	</Entity>
 	<Entity name="ChargeFull" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-12" y="-15" width="24" height="30" properties="Default" damage="4" environment="False" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -267,7 +267,7 @@
 	</Entity>
 	<Entity name="Gyro" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="True" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-5" y="-4" width="10" height="8" properties="Default" damage="1" environment="False" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -378,7 +378,7 @@
 	</Entity>
 	<Entity name="Crystal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Big" hide="True" />
+		<EditorData defaultSprite="Big" hide="True" isProjectile="True" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" damage="3" environment="True" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -493,7 +493,7 @@
 	</Entity>
 	<Entity name="SmallCrystal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="True" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="1" environment="True" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -703,7 +703,7 @@
 	</Entity>
 	<Entity name="Napalm" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Right" hide="True" />
+		<EditorData defaultSprite="Right" hide="True" isProjectile="True" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-4" y="-4" width="8" height="8" properties="Default" damage="2" environment="True" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -849,7 +849,7 @@
 	</Entity>
 	<Entity name="RushCoil" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Warp" hide="True" />
+		<EditorData defaultSprite="Warp" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="Warp" x="-4" y="-4" width="4" height="4" properties="Default" environment="True" pushaway="False" />
 			<Hitbox name="Spring" x="-10" y="-24" width="16" height="8" properties="Default" environment="False" pushaway="True">
@@ -1039,7 +1039,7 @@
 	</Entity>
 	<Entity name="RushJet" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Warp" hide="True" />
+		<EditorData defaultSprite="Warp" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="DetectFloor" x="-11" y="-1" width="28" height="9" properties="Default" environment="True" pushaway="False" />
 			<Hitbox name="ContactRight" x="-11" y="-3" width="28" height="8" properties="block" environment="True" pushaway="True">

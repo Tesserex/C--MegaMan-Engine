@@ -51,6 +51,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 OnPropertyChanged("DefaultSpriteName");
                 OnPropertyChanged("DefaultSprite");
                 OnPropertyChanged("ShowPlacement");
+                OnPropertyChanged("IsProjectile");
                 OnPropertyChanged("SpriteTabVisibility");
                 OnPropertyChanged("Sprites");
 
@@ -94,6 +95,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 if (_currentEntity != null && value != null)
                 {
                     _currentEntity.EditorData.DefaultSpriteName = value;
+                    _project.Dirty = true;
                     _currentEntity.DefaultSprite.Play();
                     OnPropertyChanged("DefaultSpriteName");
                     OnPropertyChanged("DefaultSprite");
@@ -134,7 +136,26 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             set
             {
                 if (_currentEntity != null)
+                {
                     _currentEntity.EditorData.HideFromPlacement = !value;
+                    _project.Dirty = true;
+                }
+            }
+        }
+
+        public bool IsProjectile
+        {
+            get
+            {
+                return _currentEntity != null ? _currentEntity.EditorData.IsProjectile : false;
+            }
+            set
+            {
+                if (_currentEntity != null)
+                {
+                    _currentEntity.EditorData.IsProjectile = value;
+                    _project.Dirty = true;
+                }
             }
         }
 

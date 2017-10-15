@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="DeathPop" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -36,7 +36,7 @@
 	</Entity>
 	<Entity name="DeathPopBig" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -85,7 +85,7 @@
 	</Entity>
 	<Entity name="MegaManDeath" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -291,6 +291,7 @@
 	</Entity>
 	<Entity name="Dust" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="False" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -324,6 +325,7 @@
 	</Entity>
 	<Entity name="Spark" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="" hide="False" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -356,7 +358,7 @@
 	</Entity>
 	<Entity name="Splash" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Sprite width="30" height="16" tilesheet="images\particles\splash.png">
 			<Hotspot x="15" y="14" />
 			<Frame x="-1" y="0" duration="6" />
@@ -382,7 +384,7 @@
 	</Entity>
 	<Entity name="Bubble" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />
@@ -431,7 +433,7 @@
 	</Entity>
 	<Entity name="PowerAbsorb" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />

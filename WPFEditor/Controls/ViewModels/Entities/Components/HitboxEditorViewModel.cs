@@ -53,6 +53,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             this.project = project;
             ChangeHitbox(null);
             OnPropertyChanged("TileProperties");
+            OnPropertyChanged("WeaponsList");
         }
 
         public void ChangeSprite(Sprite sprite)
@@ -81,6 +82,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             OnPropertyChanged("ZoomTop");
             OnPropertyChanged("ZoomWidth");
             OnPropertyChanged("ZoomHeight");
+            OnPropertyChanged("WeaponsList");
         }
 
         public string Name
@@ -90,6 +92,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Name = value;
+                project.Dirty = true;
                 OnPropertyChanged();
             }
         }
@@ -101,6 +104,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.PropertiesName = value;
+                project.Dirty = true;
                 OnPropertyChanged();
             }
         }
@@ -112,6 +116,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.ContactDamage = value;
+                project.Dirty = true;
                 OnPropertyChanged();
             }
         }
@@ -123,6 +128,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Environment = value;
+                project.Dirty = true;
                 OnPropertyChanged();
             }
         }
@@ -134,6 +140,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.PushAway = value;
+                project.Dirty = true;
                 OnPropertyChanged();
             }
         }
@@ -152,10 +159,27 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return Enumerable.Empty<ResistanceModel>();
                 return hitbox.Resistance
-                    .Select(r => new ResistanceModel(hitbox) {
+                    .Select(r => new ResistanceModel(hitbox, project) {
                         Name = r.Key
                     }).OrderBy(p => p.Name)
                     .ToList();
+            }
+        }
+
+        public IEnumerable<string> WeaponsList
+        {
+            get
+            {
+                if (this.project == null) return Enumerable.Empty<string>();
+
+                var names = this.project.Entities
+                    .Where(e => e.EditorData != null && e.EditorData.IsProjectile)
+                    .Select(e => e.Name)
+                    .ToList();
+
+                names.Insert(0, "ALL");
+
+                return names;
             }
         }
 
@@ -166,6 +190,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Box = new RectangleF(value, hitbox.Box.Top, hitbox.Box.Width, hitbox.Box.Height);
+                project.Dirty = true;
                 OnPropertyChanged("Left");
                 OnPropertyChanged("ZoomLeft");
             }
@@ -178,6 +203,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Box = new RectangleF(hitbox.Box.X, value, hitbox.Box.Width, hitbox.Box.Height);
+                project.Dirty = true;
                 OnPropertyChanged("Top");
                 OnPropertyChanged("ZoomTop");
             }
@@ -190,6 +216,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Box = new RectangleF(hitbox.Box.X, hitbox.Box.Y, value, hitbox.Box.Height);
+                project.Dirty = true;
                 OnPropertyChanged("Width");
                 OnPropertyChanged("ZoomWidth");
             }
@@ -202,6 +229,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (hitbox == null) return;
                 hitbox.Box = new RectangleF(hitbox.Box.X, hitbox.Box.Y, hitbox.Box.Width, value);
+                project.Dirty = true;
                 OnPropertyChanged("Height");
                 OnPropertyChanged("ZoomHeight");
             }
@@ -249,11 +277,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         public class ResistanceModel
         {
             private readonly HitBoxInfo hitbox;
+            private readonly ProjectDocument project;
             private string name;
 
-            public ResistanceModel(HitBoxInfo hitbox)
+            public ResistanceModel(HitBoxInfo hitbox, ProjectDocument project)
             {
                 this.hitbox = hitbox;
+                this.project = project;
             }
 
             public string Name
@@ -266,6 +296,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
                         var val = hitbox.Resistance[name];
                         hitbox.Resistance.Remove(this.name);
                         hitbox.Resistance[value] = val;
+                        project.Dirty = true;
                     }
 
                     name = value;
@@ -275,7 +306,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             public float Value
             {
                 get { return hitbox.Resistance[name]; }
-                set { hitbox.Resistance[name] = value; }
+                set
+                {
+                    hitbox.Resistance[name] = value;
+                    project.Dirty = true;
+                }
             }
         }
     }

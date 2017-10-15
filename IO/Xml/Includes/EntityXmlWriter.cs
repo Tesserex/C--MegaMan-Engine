@@ -45,6 +45,8 @@ namespace MegaMan.IO.Xml.Includes
                     writer.WriteAttributeString("defaultSprite", entity.DefaultSprite.Name);
 
                 writer.WriteAttributeString("hide", entity.EditorData.HideFromPlacement.ToString());
+                writer.WriteAttributeString("isProjectile", entity.EditorData.IsProjectile.ToString());
+
                 writer.WriteEndElement();
             }
 

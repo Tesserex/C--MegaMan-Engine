@@ -80,7 +80,8 @@ namespace MegaMan.IO.Xml.Includes
             {
                 info.EditorData = new EntityEditorData() {
                     DefaultSpriteName = editorData.TryAttribute<string>("defaultSprite"),
-                    HideFromPlacement = editorData.TryAttribute<bool>("hide", false)
+                    HideFromPlacement = editorData.TryAttribute<bool>("hide", false),
+                    IsProjectile = editorData.TryAttribute<bool>("isProjectile", false)
                 };
             }
         }

@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="Player" maxAlive="50">
 		<GravityFlip>True</GravityFlip>
-		<EditorData defaultSprite="Standing" hide="True" />
+		<EditorData defaultSprite="Standing" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="Stand" x="-7.5" y="-9" width="15" height="21" properties="Default" environment="True" pushaway="True">
 				<Group>Solid</Group>

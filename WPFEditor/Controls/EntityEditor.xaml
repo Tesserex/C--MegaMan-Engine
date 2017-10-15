@@ -48,8 +48,12 @@
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <CheckBox IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
                         <TextBlock>Show in Entity Placement Panel</TextBlock>
-                        <CheckBox IsChecked="{Binding ShowPlacement}"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <CheckBox IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
+                        <TextBlock>Projectile (Suggest in Damage List)</TextBlock>
                     </StackPanel>
                 </StackPanel>
 
@@ -141,7 +145,7 @@
                     <TabItem Header="Collision" DataContext="{Binding Collision}">
                         <StackPanel Orientation="Vertical" Margin="10,0">
                             <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <CheckBox IsChecked="{Binding CollisionEnabled}"></CheckBox>
+                                <CheckBox IsChecked="{Binding Enabled}"></CheckBox>
                                 <TextBlock>Has Collision</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">

@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="MirrorTestLocal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="" hide="True" />
+		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Movement>
 			<Floating />
 			<FlipSprite />

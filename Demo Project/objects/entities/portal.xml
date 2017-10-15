@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="PortalShot" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Blue" hide="True" />
+		<EditorData defaultSprite="Blue" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-8" width="16" height="16" properties="Default" damage="1" environment="True" pushaway="True">
 				<Hits>Enemy</Hits>
@@ -102,7 +102,7 @@
 	</Entity>
 	<Entity name="Portal" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
-		<EditorData defaultSprite="Blue" hide="True" />
+		<EditorData defaultSprite="Blue" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="-7" width="7" height="14" properties="Default" environment="False" pushaway="True">
 				<Hits>Player</Hits>

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MegaMan.Editor.Controls.Components"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
-             xmlns:vm="clr-namespace:MegaMan.Editor.Controls.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
@@ -55,14 +54,14 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Grid.Column="0" Grid.Row="0" IsChecked="{Binding Environment, Mode=TwoWay}" />
-                <Label Grid.Column="1" Grid.Row="0">Reacts to Environment Tiles</Label>
+                <Label Grid.Column="1" Grid.Row="0">Collides with Environment</Label>
 
                 <CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding PushAway, Mode=TwoWay}" />
                 <Label Grid.Column="1" Grid.Row="1">Resolves Collisions</Label>
 
                 <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
-                    <Label HorizontalAlignment="Center">Weapon Resistance</Label>
-                    <ListView ItemsSource="{Binding Resistance}" HorizontalAlignment="Center">
+                    <Label HorizontalAlignment="Center">Weapon Damage Multipliers</Label>
+                    <ListView ItemsSource="{Binding Resistance}" HorizontalAlignment="Stretch">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="Background" Value="Transparent" />
@@ -77,23 +76,33 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Margin="0,0,4,0" Padding="0" />
-                                    <xctk:DoubleUpDown Value="{Binding Value}" Margin="0" Padding="0" />
-                                    <Button Command="{Binding DataContext.DeleteResistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}" CommandParameter="{Binding}">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox Grid.Column="0" Text="{Binding Name}" Margin="0,0,4,0" Padding="0" HorizontalAlignment="Stretch" ItemsSource="{Binding WeaponsList}" IsEditable="true" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" />
+                                    <xctk:DoubleUpDown Grid.Column="1" Value="{Binding Value}" Margin="0" Padding="0" />
+                                    <Button Grid.Column="2" Command="{Binding DataContext.DeleteResistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}" CommandParameter="{Binding}">
                                         <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
                                     </Button>
-                                </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBox Text="{Binding AddResistName}" Margin="0,0,4,0" Padding="0" />
-                        <xctk:DoubleUpDown Value="{Binding AddResistValue}" Margin="0" Padding="0" />
-                        <Button Command="{Binding AddResistCommand}">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding AddResistName, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding WeaponsList}" Margin="0,0,4,0" Padding="0" IsEditable="true" IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True" />
+                        <xctk:DoubleUpDown Grid.Column="1" Value="{Binding AddResistValue}" Margin="0" Padding="0" />
+                        <Button Grid.Column="2" Command="{Binding AddResistCommand}">
                             <Image Source="/Resources/check.png" Width="16" Height="16"></Image>
                         </Button>
-                    </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </StackPanel>

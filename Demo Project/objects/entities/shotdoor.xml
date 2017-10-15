@@ -1,6 +1,7 @@
 <Entities>
 	<Entity name="ShotDoor" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Red" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="0" y="0" width="16" height="32" properties="block" environment="True" pushaway="True">
 				<Hits>Solid</Hits>
