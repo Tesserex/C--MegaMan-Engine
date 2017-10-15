@@ -152,6 +152,7 @@
                                 <TextBlock>HitBoxes</TextBlock>
                                 <ComboBox ItemsSource="{Binding HitBoxes}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedHitBox, Mode=TwoWay}"></ComboBox>
                                 <Button Command="{Binding EditHitBoxCommand}">Edit</Button>
+                                <Button Command="{Binding DeleteHitBoxCommand}">Delete</Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <Button Command="{Binding AddHitBoxCommand}">Add HitBox</Button>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {
@@ -14,11 +15,20 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         public ICommand AddHitBoxCommand { get; private set; }
         public ICommand EditHitBoxCommand { get; private set; }
+        public ICommand DeleteHitBoxCommand { get; private set; }
 
         public CollisionComponentEditorViewModel()
         {
             AddHitBoxCommand = new RelayCommand(x => AddHitbox(), x => Entity != null);
             EditHitBoxCommand = new RelayCommand(x => EditHitbox(), x => Entity != null && SelectedHitBox != null);
+            DeleteHitBoxCommand = new RelayCommand(x => DeleteHitbox(), x => Entity != null && SelectedHitBox != null);
+        }
+
+        private void DeleteHitbox()
+        {
+            Entity.CollisionComponent.HitBoxes.Remove(SelectedHitBox);
+            this.Project.Dirty = true;
+            UpdateProperties();
         }
 
         private void AddHitbox()
@@ -28,6 +38,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             var hitbox = new HitBoxInfo();
             Entity.CollisionComponent.HitBoxes.Add(hitbox);
             SelectedHitBox = hitbox;
+            this.Project.Dirty = true;
 
             EditHitbox();
         }
@@ -40,8 +51,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         protected override void UpdateProperties()
         {
             SelectedHitBox = null;
-            OnPropertyChanged("HitBoxes");
             OnPropertyChanged("SelectedHitBox");
+            OnPropertyChanged("HitBoxes");
         }
 
         public IEnumerable<HitBoxInfo> HitBoxes
@@ -49,9 +60,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             get
             {
                 if (Entity == null || Entity.CollisionComponent == null)
-                    return null;
+                    return Enumerable.Empty<HitBoxInfo>();
 
-                return Entity.CollisionComponent.HitBoxes;
+                // for some reason this copying is necessary for clearing the list when deleting a box
+                return new List<HitBoxInfo>(Entity.CollisionComponent.HitBoxes);
             }
         }
 

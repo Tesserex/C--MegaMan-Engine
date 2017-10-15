@@ -5,12 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {
     public abstract class ComponentEditorViewModel<TComponent> : INotifyPropertyChanged where TComponent : IComponentInfo, new()
     {
         private EntityInfo _currentEntity;
+
+        public ComponentEditorViewModel()
+        {
+            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+        }
+
+        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        {
+            this.Project = e.Project;
+        }
+
+        protected ProjectDocument Project { get; private set; }
 
         public EntityInfo Entity
         {
