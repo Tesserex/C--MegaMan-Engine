@@ -14,7 +14,6 @@ namespace MegaMan.Editor.Controls.ViewModels
     public class HistoryControlViewModel : INotifyPropertyChanged
     {
         private History _history;
-
         private Dictionary<Type, ImageSource> _icons;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -32,6 +31,11 @@ namespace MegaMan.Editor.Controls.ViewModels
                     Background = (i > _history.CurrentIndex) ? Brushes.LightGray : Brushes.Transparent
                 }).ToList();
             }
+        }
+
+        public void MoveHistory(int index)
+        {
+            _history.MoveTo(index);
         }
 
         private ImageSource PickIcon(System.Type type)

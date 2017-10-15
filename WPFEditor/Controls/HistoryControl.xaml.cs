@@ -15,5 +15,10 @@ namespace MegaMan.Editor.Controls
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
                 this.DataContext = new HistoryControlViewModel();
         }
+
+        private void ChangeHistorySelection(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ((HistoryControlViewModel)this.DataContext).MoveHistory(listView.SelectedIndex);
+        }
     }
 }

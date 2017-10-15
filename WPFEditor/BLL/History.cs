@@ -57,5 +57,23 @@ namespace MegaMan.Editor.Bll
                     Updated(this, new EventArgs());
             }
         }
+
+        public void MoveTo(int index)
+        {
+            if (index > CurrentIndex)
+            {
+                while (CurrentIndex < index && CurrentIndex < Actions.Count - 1)
+                {
+                    Redo();
+                }
+            }
+            else if (index < CurrentIndex)
+            {
+                while (CurrentIndex > index && CurrentIndex >= 0)
+                {
+                    Undo();
+                }
+            }
+        }
     }
 }
