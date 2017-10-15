@@ -149,7 +149,18 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         {
             get
             {
-                return this.project != null ? this.project.Project.EntityProperties.Keys : Enumerable.Empty<string>();
+                if (this.project == null)
+                {
+                    yield return "";
+                }
+                else
+                {
+                    yield return "";
+                    foreach (var k in this.project.Project.EntityProperties.Keys)
+                    {
+                        yield return k;
+                    }
+                }
             }
         }
 
