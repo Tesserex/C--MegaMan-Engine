@@ -93,7 +93,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             AnimateTilesCommand = new RelayCommand(AnimateTiles, x => MultiSelectedTiles.Any());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
 
             ShowSpriteEditor = System.Windows.Visibility.Visible;
             ShowPropEditor = System.Windows.Visibility.Collapsed;
@@ -104,7 +104,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             _project = e.Project;
         }

@@ -16,10 +16,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         public ComponentEditorViewModel()
         {
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             this.Project = e.Project;
         }

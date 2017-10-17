@@ -129,7 +129,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ProjectSettingsViewModel(ProjectDocument project)
         {
             SetProject(project);
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe((s, e) => SetProject(e.Project));
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe((s, e) => SetProject(e.Project));
 
             AddIncludeFolderCommand = new RelayCommand(AddIncludeFolder, o => _project != null);
             AddIncludeFileCommand = new RelayCommand(AddIncludeFile, o => _project != null);

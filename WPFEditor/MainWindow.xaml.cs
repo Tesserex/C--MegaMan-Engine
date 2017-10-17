@@ -58,7 +58,7 @@ namespace MegaMan.Editor
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (_viewModel.ProjectViewModel.Project != null && _viewModel.ProjectViewModel.Project.Dirty)
+            if (_viewModel.CurrentProject != null && _viewModel.CurrentProject.Dirty)
             {
                 var result = CustomMessageBox.ShowSavePrompt();
                 if (result == System.Windows.MessageBoxResult.Cancel)
@@ -90,12 +90,12 @@ namespace MegaMan.Editor
 
         private bool IsProjectOpen()
         {
-            return (_viewModel.ProjectViewModel.Project != null);
+            return (_viewModel.CurrentProject != null);
         }
 
         private void OpenProjectSettings(object param)
         {
-            this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.ProjectViewModel.Project);
+            this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.CurrentProject);
             this.projectSettingsPane.IsSelected = true;
         }
 
@@ -129,7 +129,7 @@ namespace MegaMan.Editor
         {
             var dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
-            dialog.InitialDirectory = _viewModel.ProjectViewModel.Project.Project.BaseDir;
+            dialog.InitialDirectory = _viewModel.CurrentProject.Project.BaseDir;
             dialog.Title = "Select Stage Folder";
             dialog.EnsureFileExists = true;
             dialog.EnsurePathExists = true;
@@ -140,7 +140,7 @@ namespace MegaMan.Editor
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                _viewModel.ProjectViewModel.Project.LinkStage(dialog.FileName);
+                _viewModel.CurrentProject.LinkStage(dialog.FileName);
             }
         }
 

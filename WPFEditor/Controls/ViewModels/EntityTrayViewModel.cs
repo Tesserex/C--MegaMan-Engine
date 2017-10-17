@@ -130,19 +130,26 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public EntityTrayViewModel()
         {
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ChangeToolCommand = new RelayCommand(UpdateTool);
             _horizSnapAmount = 8;
             _vertSnapAmount = 8;
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             _currentProject = e.Project;
 
-            Entities = e.Project.Entities
-                .Where(x => x.EditorData == null || !x.EditorData.HideFromPlacement)
-                .Select(x => new EntityViewModel(x, e.Project));
+            if (_currentProject != null)
+            {
+                Entities = e.Project.Entities
+                    .Where(x => x.EditorData == null || !x.EditorData.HideFromPlacement)
+                    .Select(x => new EntityViewModel(x, e.Project));
+            }
+            else
+            {
+                Entities = Enumerable.Empty<EntityViewModel>();
+            }
 
             OnPropertyChanged("Entities");
         }

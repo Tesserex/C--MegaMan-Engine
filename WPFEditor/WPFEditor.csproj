@@ -290,7 +290,7 @@
     <Compile Include="Mediator\LayoutScreenDroppedEventArgs.cs" />
     <Compile Include="Mediator\MediatedEvent.cs" />
     <Compile Include="Mediator\NewEntityEventArgs.cs" />
-    <Compile Include="Mediator\ProjectOpenedEventArgs.cs" />
+    <Compile Include="Mediator\ProjectChangedEventArgs.cs" />
     <Compile Include="Mediator\LayerVisibilityChangedEventArgs.cs" />
     <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
     <Compile Include="Mediator\StageAddedEventArgs.cs" />

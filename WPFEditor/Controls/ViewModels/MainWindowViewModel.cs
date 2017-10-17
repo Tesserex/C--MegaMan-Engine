@@ -22,7 +22,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private IDialogService _dialogService;
         private IDataAccessService _dataService;
 
-        private ProjectDocument _openProject;
+        public ProjectDocument CurrentProject { get; private set; }
 
         public string ApplicationName { get; private set; }
 
@@ -114,7 +114,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             ProjectViewModel = new ProjectViewModel();
 
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(this.ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(this.ProjectChanged);
             ViewModelMediator.Current.GetEvent<TestLocationSelectedEventArgs>().Subscribe(this.TestLocationSelected);
 
             AppData = StoredAppData.Load();
@@ -125,15 +125,15 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             OpenProjectCommand = new RelayCommand(OpenProjectDialog, null);
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
-            SaveProjectCommand = new RelayCommand(x => SaveProject(), o => _openProject != null);
-            CloseProjectCommand = new RelayCommand(CloseProject, o => _openProject != null);
-            TestCommand = new RelayCommand(TestProject, o => _openProject != null);
-            TestStageCommand = new RelayCommand(TestStage, o => _openProject != null);
-            TestLocationCommand = new RelayCommand(TestLocation, o => _openProject != null);
+            SaveProjectCommand = new RelayCommand(x => SaveProject(), o => CurrentProject != null);
+            CloseProjectCommand = new RelayCommand(CloseProject, o => CurrentProject != null);
+            TestCommand = new RelayCommand(TestProject, o => CurrentProject != null);
+            TestStageCommand = new RelayCommand(TestStage, o => CurrentProject != null);
+            TestLocationCommand = new RelayCommand(TestLocation, o => CurrentProject != null);
             UndoCommand = new RelayCommand(Undo, p => ProjectViewModel.CurrentStage != null);
             RedoCommand = new RelayCommand(Redo, p => ProjectViewModel.CurrentStage != null);
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
-            NewEntityCommand = new RelayCommand(NewEntity);
+            NewEntityCommand = new RelayCommand(NewEntity, p => CurrentProject != null);
             UpdateLayerVisibilityCommand = new RelayCommand(UpdateLayerVisibility);
 
             ShowBackstage = true;
@@ -203,56 +203,51 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (!proceed)
                     return;
 
-                var args = new ProjectOpenedEventArgs() { Project = project };
-                ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
+                var args = new ProjectChangedEventArgs() { Project = project };
+                ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
             }
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs args)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs args)
         {
-            SetupProjectDependencies(args.Project);
+            CurrentProject = args.Project;
 
-            AppData.AddRecentProject(args.Project);
-            AppData.Save();
+            if (CurrentProject != null)
+            {
+                WindowTitle = CurrentProject.Name + " - " + ApplicationName;
+                AppData.AddRecentProject(args.Project);
+                AppData.Save();
+            }
+            else
+            {
+                WindowTitle = ApplicationName;
+            }
 
             ShowBackstage = false;
         }
 
-        private void SetupProjectDependencies(ProjectDocument project)
-        {
-            _openProject = project;
-            ProjectViewModel.Project = project;
-            WindowTitle = project.Name + " - " + ApplicationName;
-        }
-
-        private void DestroyProjectDependencies()
-        {
-            ProjectViewModel.Project = null;
-            WindowTitle = ApplicationName;
-        }
-
         public void SaveProject()
         {
-            if (_openProject != null)
+            if (CurrentProject != null)
             {
-                _dataService.SaveProject(_openProject);
+                _dataService.SaveProject(CurrentProject);
             }
         }
 
         public void CloseProject(object arg)
         {
-            if (_openProject != null)
+            if (CurrentProject != null)
             {
-                DestroyProjectDependencies();
-                _openProject = null;
+                var args = new ProjectChangedEventArgs() { Project = null };
+                ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
             }
         }
 
         public void TestProject(object arg)
         {
-            if (_openProject != null)
+            if (CurrentProject != null)
             {
-                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var projectPath = Path.Combine(CurrentProject.Project.BaseDir, "game.xml");
                 RunTest(string.Format("\"{0}\"", projectPath));
             }
         }
@@ -272,9 +267,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void TestStage(object arg)
         {
-            if (_openProject != null && ProjectViewModel.CurrentStage != null)
+            if (CurrentProject != null && ProjectViewModel.CurrentStage != null)
             {
-                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var projectPath = Path.Combine(CurrentProject.Project.BaseDir, "game.xml");
                 var stage = ProjectViewModel.CurrentStage.LinkName;
 
                 RunTest(string.Format("\"{0}\" \"STAGE\\{1}\"", projectPath, stage));
@@ -283,7 +278,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void TestLocation(object arg)
         {
-            if (_openProject != null && ProjectViewModel.CurrentStage != null)
+            if (CurrentProject != null && ProjectViewModel.CurrentStage != null)
             {
                 ViewModelMediator.Current.GetEvent<TestLocationClickedEventArgs>().Raise(this, new TestLocationClickedEventArgs());
             }
@@ -291,9 +286,9 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void TestLocationSelected(object sender, TestLocationSelectedEventArgs args)
         {
-            if (_openProject != null && ProjectViewModel.CurrentStage != null)
+            if (CurrentProject != null && ProjectViewModel.CurrentStage != null)
             {
-                var projectPath = Path.Combine(_openProject.Project.BaseDir, "game.xml");
+                var projectPath = Path.Combine(CurrentProject.Project.BaseDir, "game.xml");
                 var stage = ProjectViewModel.CurrentStage.LinkName;
 
                 RunTest(string.Format("\"{0}\" \"STAGE\\{1}\" \"{2}\" \"{3},{4}\"", projectPath, stage, args.Screen, args.X, args.Y));

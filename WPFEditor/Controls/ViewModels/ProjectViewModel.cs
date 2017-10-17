@@ -20,6 +20,12 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ProjectViewModel()
             : base(null)
         {
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
+        }
+
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
+        {
+            this.Project = e.Project;
         }
 
         public ProjectDocument Project

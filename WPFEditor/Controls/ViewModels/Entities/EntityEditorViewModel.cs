@@ -46,6 +46,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                         ViewingSprite = _currentEntity.DefaultSprite;
                     }
                 }
+                else
+                {
+                    ViewingSprite = null;
+                }
 
                 OnPropertyChanged("CurrentEntity");
                 OnPropertyChanged("DefaultSpriteName");
@@ -185,7 +189,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
             ViewSpriteZoom = 1;
 
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
 
@@ -235,6 +239,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
         private void NewEntity(object sender, NewEntityEventArgs e)
         {
+            if (_project == null)
+                return;
+
             CurrentEntity = new EntityInfo() {
                 Name = e.Name
             };
@@ -248,9 +255,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             OnPropertyChanged("ComponentViewModel");
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             _project = e.Project;
+            CurrentEntity = null;
             HitBoxEditor.ChangeProject(_project);
         }
 

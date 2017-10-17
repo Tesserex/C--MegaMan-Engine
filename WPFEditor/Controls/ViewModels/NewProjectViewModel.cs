@@ -148,8 +148,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             document.MusicNsf = document.EffectsNsf = fullProjectPath + "/sound/mm5.nsf";
             _dataService.SaveProject(document);
 
-            var args = new ProjectOpenedEventArgs() { Project = document };
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Raise(this, args);
+            var args = new ProjectChangedEventArgs() { Project = document };
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
         }
 
         private string EmbedPathToFilePath(string embedPath, string key)

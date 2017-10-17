@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
 
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectOpened);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
             PlayCommand = new RelayCommand(Play, o => bgm != null && (!AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
@@ -75,15 +75,23 @@ namespace MegaMan.Editor.Controls.ViewModels
             Track = 1;
         }
 
-        private void ProjectOpened(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             MaxTrack = 0;
 
-            if (e.Project.MusicNsf != null)
+            if (e.Project != null)
             {
-                bgm = new BackgroundMusic(AudioContainer.LoadContainer(e.Project.MusicNsf));
-                AudioManager.Instance.LoadBackgroundMusic(bgm);
-                MaxTrack = bgm.AudioContainer.TrackCount;
+                if (e.Project.MusicNsf != null)
+                {
+                    bgm = new BackgroundMusic(AudioContainer.LoadContainer(e.Project.MusicNsf));
+                    AudioManager.Instance.LoadBackgroundMusic(bgm);
+                    MaxTrack = bgm.AudioContainer.TrackCount;
+                }
+            }
+            else
+            {
+                bgm = null;
+                AudioManager.Instance.StopBGMPlayback();
             }
 
             OnPropertyChanged("MaxTrack");

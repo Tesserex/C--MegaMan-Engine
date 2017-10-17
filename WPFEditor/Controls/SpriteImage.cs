@@ -47,6 +47,15 @@ namespace MegaMan.Editor.Controls {
 
             if (e.NewValue is SpriteModel)
                 SetSprite((SpriteModel)e.NewValue);
+
+            if (e.NewValue == null)
+            {
+                _sprite = null;
+                _image.Width = 0;
+                _image.Height = 0;
+                this.Width = 0;
+                this.Height = 0;
+            }
         }
 
         protected void SetSprite(SpriteModel s)

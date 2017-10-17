@@ -70,7 +70,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             _dataService = dataService;
 
-            ViewModelMediator.Current.GetEvent<ProjectOpenedEventArgs>().Subscribe(ProjectChanged);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
 
             AddStageCommand = new RelayCommand(AddStage);
             BrowseTilesetCommand = new RelayCommand(BrowseTileset);
@@ -166,7 +166,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Raise(this, args);
         }
 
-        private void ProjectChanged(object sender, ProjectOpenedEventArgs e)
+        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
             _project = e.Project;
         }
