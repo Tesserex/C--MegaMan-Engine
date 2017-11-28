@@ -33,7 +33,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
-                    <Label Style="{StaticResource Header}">Entity Information</Label>
+                    <Label Style="{StaticResource Header}">ENTITY INFORMATION</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Name</TextBlock>
                         <TextBox Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
@@ -42,7 +42,7 @@
                         <TextBlock>Max Alive</TextBlock>
                         <xctk:IntegerUpDown Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
                     </StackPanel>
-                    <Label Style="{StaticResource Header}">Editor Preferences</Label>
+                    <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock>Default Sprite</TextBlock>
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
@@ -63,10 +63,10 @@
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                         <TextBlock>Sprite</TextBlock>
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
-                        <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
+                        <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center">
                             <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
+                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center">
                             <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
@@ -85,7 +85,7 @@
             <GridSplitter Grid.Row="1" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             
             <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" Grid.Row="2">
-                <Label DockPanel.Dock="Top" Style="{StaticResource Header}">Components</Label>
+                <Label DockPanel.Dock="Top" Style="{StaticResource Header}" HorizontalAlignment="Left">COMPONENTS</Label>
                 <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13">
                     
                     <TabItem Header="Sprites" DataContext="{Binding Sprite}">
@@ -115,7 +115,7 @@
                                         </Grid.ColumnDefinitions>
                                         <DockPanel>
                                             <Label DockPanel.Dock="Top" FontSize="16" Content="{Binding Path=Sprite.Name}" HorizontalAlignment="Center"></Label>
-                                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}" Content="{Binding ButtonText}"></Button>
+                                            <Button DockPanel.Dock="Bottom" Style="{StaticResource TextButton}" HorizontalAlignment="Center" Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}" CommandParameter="{Binding}" Content="{Binding ButtonText}"></Button>
                                             <local:SpriteImage DataContext="{Binding Path=Sprite.Sprite}" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Center"></local:SpriteImage>
                                         </DockPanel>
                                     </Grid>
@@ -151,11 +151,11 @@
                             <StackPanel Orientation="Horizontal" Margin="0,5">
                                 <TextBlock>HitBoxes</TextBlock>
                                 <ComboBox ItemsSource="{Binding HitBoxes}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedHitBox, Mode=TwoWay}"></ComboBox>
-                                <Button Command="{Binding EditHitBoxCommand}">Edit</Button>
-                                <Button Command="{Binding DeleteHitBoxCommand}">Delete</Button>
+                                <Button Command="{Binding EditHitBoxCommand}" Style="{StaticResource TextButton}">EDIT</Button>
+                                <Button Command="{Binding DeleteHitBoxCommand}" Style="{StaticResource TextButton}">DELETE</Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Button Command="{Binding AddHitBoxCommand}">Add HitBox</Button>
+                                <Button Command="{Binding AddHitBoxCommand}" Style="{StaticResource TextButton}">ADD HITBOX</Button>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>

@@ -9,43 +9,49 @@
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="410" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
                 <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Command="{Binding PlayCommand}" Style="{StaticResource LeftButton}" HorizontalAlignment="Right">
+                    <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
                         <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Height="24" Padding="0" Command="{Binding PauseCommand}" Style="{StaticResource RightButton}" HorizontalAlignment="Right">
+                    <Button Height="24" Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
                         <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </StackPanel>
             </DockPanel>
             
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding DeleteFrameCommand}">Delete Frame</Button>
-                <Button Command="{Binding PreviousFrameCommand}">Previous</Button>
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding PreviousFrameCommand}" Style="{StaticResource TextButton}" Margin="0,0,0,8">PREV</Button>
+                    <Button Command="{Binding NextFrameCommand}" Style="{StaticResource TextButton}">NEXT</Button>
+                </StackPanel>
+
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0">
                     <WrapPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,10,0">Frame:</TextBlock>
                         <TextBlock Text="{Binding FrameNumber}" />
                     </WrapPanel>
                 </Label>
-                <Button Command="{Binding NextFrameCommand}">Next</Button>
-                <Button Command="{Binding AddFrameCommand}">Add Frame</Button>
+
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding AddFrameCommand}" Style="{StaticResource TextButton}" Margin="0,0,0,8">ADD</Button>
+                    <Button Command="{Binding DeleteFrameCommand}" Style="{StaticResource TextButton}">DELETE</Button>
+                </StackPanel>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0">Frame Duration:</Label>
                 <xctk:IntegerUpDown Value="{Binding FrameDuration}" Height="20" Minimum="0"></xctk:IntegerUpDown>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource LeftButton}">
+                <Button Command="{Binding ZoomOutCommand}" Margin="0,0,8,0">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Command="{Binding ZoomInCommand}" Style="{StaticResource RightButton}">
+                <Button Command="{Binding ZoomInCommand}">
                     <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
@@ -146,10 +152,10 @@
                     <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                    <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Style="{StaticResource LeftButton}">
+                    <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Margin="0,0,8,0">
                         <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center" Style="{StaticResource RightButton}">
+                    <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center">
                         <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </StackPanel>

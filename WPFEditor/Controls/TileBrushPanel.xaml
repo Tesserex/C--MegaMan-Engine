@@ -13,10 +13,10 @@
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,5" VerticalAlignment="Top">
-            <Button Command="{Binding ZoomInCommand}" Style="{StaticResource LeftButton}">
+            <Button Command="{Binding ZoomInCommand}">
                 <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource RightButton}">
+            <Button Command="{Binding ZoomOutCommand}">
                 <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>

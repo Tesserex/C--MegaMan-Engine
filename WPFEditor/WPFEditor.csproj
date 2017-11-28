@@ -503,6 +503,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Resources\Includes\sound\mm5.nsf" />
+    <Resource Include="Resources\OpenSansCondensed-Bold.ttf" />
     <Resource Include="Resources\Mega Man 10.ttf" />
   </ItemGroup>
   <ItemGroup>

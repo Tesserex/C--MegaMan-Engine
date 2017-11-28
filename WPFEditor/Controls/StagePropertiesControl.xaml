@@ -22,11 +22,11 @@
 
             <Label Grid.Column="0" Grid.Row="1">Music Track</Label>
             <DockPanel Grid.Column="1" Grid.Row="1">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="24" Margin="8">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8">
                     <xctk:IntegerUpDown Value="{Binding Track}" Minimum="1" Maximum="{Binding MaxTrack}" Increment="1"></xctk:IntegerUpDown>
-                    <Button Command="{Binding PlayCommand}">Play</Button>
-                    <Button Command="{Binding PauseCommand}">Pause</Button>
-                    <Button Command="{Binding StopCommand}">Stop</Button>
+                    <Button Command="{Binding PlayCommand}" Style="{StaticResource TextButton}">PLAY</Button>
+                    <Button Command="{Binding PauseCommand}" Style="{StaticResource TextButton}">PAUSE</Button>
+                    <Button Command="{Binding StopCommand}" Style="{StaticResource TextButton}">STOP</Button>
                 </StackPanel>
             </DockPanel>
         </Grid>

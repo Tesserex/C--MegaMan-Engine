@@ -8,26 +8,26 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="1000">
     <DockPanel Background="WhiteSmoke">
         <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
             <DockPanel Margin="5">
-                <Button Command="{Binding ChangeTilesetCommand}" DockPanel.Dock="Right">Change Tileset</Button>
-                <Button DockPanel.Dock="Right" Command="{Binding Path=ImportTilesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:MainWindow}}}" CommandParameter="{Binding Tileset}">Import...</Button>
+                <Button Command="{Binding ChangeTilesetCommand}" DockPanel.Dock="Right" Style="{StaticResource TextButton}">CHANGE TILESET</Button>
+                <Button DockPanel.Dock="Right" Style="{StaticResource TextButton}" Command="{Binding Path=ImportTilesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:MainWindow}}}" CommandParameter="{Binding Tileset}">IMPORT...</Button>
                 <StackPanel Orientation="Horizontal">
                     <Label FontSize="14" FontWeight="Bold">Image:</Label>
                     <Label Content="{Binding RelSheetPath}" FontSize="12" Margin="5,0,20,0"></Label>
-                    <Button Command="{Binding ChangeSheetCommand}" Padding="6,2" Margin="0,0,40,0">Change...</Button>
-                    <Button Command="{Binding AddTileCommand}" Padding="6,2">Add Tile</Button>
-                    <Button Command="{Binding DeleteTileCommand}" Padding="6,2">Delete Selected</Button>
-                    <Button Command="{Binding AnimateTilesCommand}">Animate Selected</Button>
+                    <Button Command="{Binding ChangeSheetCommand}" Style="{StaticResource TextButton}" Margin="0,0,40,0">CHANGE...</Button>
+                    <Button Command="{Binding AddTileCommand}" Style="{StaticResource TextButton}">ADD TILE</Button>
+                    <Button Command="{Binding DeleteTileCommand}" Style="{StaticResource TextButton}">DELETE SELECTED</Button>
+                    <Button Command="{Binding AnimateTilesCommand}" Style="{StaticResource TextButton}">ANIMATE SELECTED</Button>
                 </StackPanel>
             </DockPanel>
         </Border>
         <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="0">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="150">
                 <DockPanel Margin="5">
-                    <Button Command="{Binding AddTilePropertiesCommand}" Margin="10,0,0,0" DockPanel.Dock="Right" Height="24">
+                    <Button Command="{Binding AddTilePropertiesCommand}" Margin="10,0,0,0" DockPanel.Dock="Right" Height="32">
                         <Image Source="/Resources/add_brush.png" Width="16" Height="16"></Image>
                     </Button>
                     <Label DockPanel.Dock="Left" FontWeight="Bold" HorizontalAlignment="Left" HorizontalContentAlignment="Center">Tile Properties</Label>
@@ -37,10 +37,10 @@
                         <DataTemplate>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                    <Button Style="{StaticResource LeftButton}" Height="20" Command="{Binding DataContext.EditTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
+                                    <Button Height="20" Command="{Binding DataContext.EditTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
                                         <Image Source="/Resources/pencil.png" Width="16" Height="16"></Image>
                                     </Button>
-                                    <Button Style="{StaticResource RightButton}" HorizontalContentAlignment="Stretch" Height="20" Command="{Binding DataContext.DeleteTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
+                                    <Button HorizontalContentAlignment="Stretch" Height="20" Command="{Binding DataContext.DeleteTilePropertiesCommand, RelativeSource={RelativeSource AncestorType={x:Type c:TilesetEditor}}}" CommandParameter="{Binding}">
                                         <Image Source="/Resources/Remove.png" Width="16" Height="16"></Image>
                                     </Button>
                                 </StackPanel>
