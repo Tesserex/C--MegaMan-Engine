@@ -4,26 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MegaMan.Editor
 {
     public static class ThemeProperties
     {
-        public static CornerRadius GetButtonRadius(DependencyObject obj)
+        public static Brush GetFaceBrush(DependencyObject obj)
         {
-            return (CornerRadius)obj.GetValue(ButtonRadiusProperty);
+            return (Brush)obj.GetValue(FaceBrushProperty);
         }
 
-        public static void SetButtonRadius(DependencyObject obj, CornerRadius value)
+        public static void SetFaceBrush(DependencyObject obj, Brush value)
         {
-            obj.SetValue(ButtonRadiusProperty, value);
+            obj.SetValue(FaceBrushProperty, value);
         }
 
-        public static readonly DependencyProperty ButtonRadiusProperty =
+        public static Brush GetShadowBrush(DependencyObject obj)
+        {
+            return (Brush)obj.GetValue(ShadowBrushProperty);
+        }
+
+        public static void SetShadowBrush(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(ShadowBrushProperty, value);
+        }
+
+        public static readonly DependencyProperty FaceBrushProperty =
         DependencyProperty.RegisterAttached(
-            "ButtonRadius",
-            typeof(CornerRadius),
+            "FaceBrush",
+            typeof(Brush),
             typeof(ThemeProperties),
-            new FrameworkPropertyMetadata(new CornerRadius(2)));
+            new FrameworkPropertyMetadata());
+
+        public static readonly DependencyProperty ShadowBrushProperty =
+        DependencyProperty.RegisterAttached(
+            "ShadowBrush",
+            typeof(Brush),
+            typeof(ThemeProperties),
+            new FrameworkPropertyMetadata());
     }
 }

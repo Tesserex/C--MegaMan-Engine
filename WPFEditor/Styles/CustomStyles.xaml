@@ -79,7 +79,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="6" />
                         </Grid.ColumnDefinitions>
-                        <Path Grid.Row="0" Grid.Column="0" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="0" Grid.Column="0" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -91,7 +91,7 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Grid.Row="0" Grid.Column="2" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="0" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -103,7 +103,7 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Grid.Row="2" Grid.Column="0" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="2" Grid.Column="0" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -115,7 +115,7 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Grid.Row="2" Grid.Column="2" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="2" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -129,7 +129,7 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Grid.Row="1" Grid.Column="2" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="1" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -142,7 +142,7 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Grid.Row="2" Grid.Column="1" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                        <Path Grid.Row="2" Grid.Column="1" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
@@ -155,11 +155,11 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
-                        <Rectangle Grid.Row="2" Grid.Column="1" Fill="{StaticResource ActiveShadowBrush}" Margin="3,0,0,0" Height="6" />
-                        <Rectangle Grid.Row="1" Grid.Column="2" Fill="{StaticResource ActiveShadowBrush}" Margin="0,3,0,0" Width="6" />
-                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="{StaticResource ActiveShadowBrush}" />
-                        <Rectangle Grid.Row="1" Grid.Column="0" Fill="{StaticResource ActiveShadowBrush}" />
-                        <Grid Grid.Row="1" Grid.Column="1" Background="{StaticResource ActiveButtonBackground}">
+                        <Rectangle Grid.Row="2" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="3,0,0,0" Height="6" />
+                        <Rectangle Grid.Row="1" Grid.Column="2" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="0,3,0,0" Width="6" />
+                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+                        <Rectangle Grid.Row="1" Grid.Column="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+                        <Grid Grid.Row="1" Grid.Column="1" Background="{TemplateBinding my:ThemeProperties.FaceBrush}">
                             <ContentPresenter Margin="6,2" x:Name="contentPresenter"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -171,9 +171,13 @@
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="true">
+                            <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
+                            <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ActiveShadowBrush}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-
-                            <Setter Property="Foreground" Value="{StaticResource NesDarkGrayBrush}" />
+                            <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource DisabledButtonBackground}" />
+                            <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource NesDarkGrayBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -182,7 +186,8 @@
                                 <Condition Property="IsEnabled"
                                Value="True" />
                             </MultiTrigger.Conditions>
-
+                            <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource HoverButtonBackground}" />
+                            <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

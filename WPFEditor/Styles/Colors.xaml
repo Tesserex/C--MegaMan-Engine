@@ -5,15 +5,17 @@
     <Color x:Key="NesLightBlue">#FF419dd7</Color>
     <Color x:Key="NesLightBlueShade">#FF3195d4</Color>
     <Color x:Key="NesCyan">#FF00FCFC</Color>
-    <Color x:Key="NesLightGray">#FFBCBCBC</Color>
-    <Color x:Key="NesDarkGray">#FF4E4E4E</Color>
+    <Color x:Key="NesLightGray">#FF848484</Color>
+    <Color x:Key="NesLightGrayShade">#FF7B7B7B</Color>
+    <Color x:Key="NesDarkGray">#FF525252</Color>
     <Color x:Key="NesRed">#FF701008</Color>
     <Color x:Key="NesYellow">#FFE4DCA8</Color>
 
     <Color x:Key="BorderColor">Black</Color>
     <Color x:Key="HighlightColor">#FF3CBCFC</Color>
     <Color x:Key="ActiveShadowColor">#FF405d6f</Color>
-    <Color x:Key="ShadowColor">#FF0078F8</Color>
+    <Color x:Key="ShadowColor">#FF575757</Color>
+    <Color x:Key="HoverShadowColor">#FF4D6D81</Color>
     <Color x:Key="BackgroundColor">White</Color>
     <Color x:Key="AccentBackgroundColor">White</Color>
     <Color x:Key="ForegroundColor">Black</Color>
@@ -23,6 +25,7 @@
     <SolidColorBrush x:Key="NesLightBlueShadeBrush" Color="{StaticResource NesLightBlueShade}" />
     <SolidColorBrush x:Key="NesCyanBrush" Color="{StaticResource NesCyan}" />
     <SolidColorBrush x:Key="NesLightGrayBrush" Color="{StaticResource NesLightGray}" />
+    <SolidColorBrush x:Key="NesLightGrayShadeBrush" Color="{StaticResource NesLightGrayShade}" />
     <SolidColorBrush x:Key="NesDarkGrayBrush" Color="{StaticResource NesDarkGray}" />
     <SolidColorBrush x:Key="NesRedBrush" Color="{StaticResource NesRed}" />
     <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource NesYellow}" />
@@ -34,6 +37,7 @@
     <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}" />
     <SolidColorBrush x:Key="ShadowBrush" Color="{StaticResource ShadowColor}" />
     <SolidColorBrush x:Key="ActiveShadowBrush" Color="{StaticResource ActiveShadowColor}" />
+    <SolidColorBrush x:Key="HoverShadowBrush" Color="{StaticResource HoverShadowColor}" />
 
     <LinearGradientBrush x:Key="WhiteBorder" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="Black" Offset="0" />
@@ -61,5 +65,19 @@
         <GradientStop Color="{StaticResource NesLightBlue}" Offset="0.5"/>
         <GradientStop Color="{StaticResource NesLightBlueShade}" Offset="0.5"/>
         <GradientStop Color="{StaticResource NesLightBlueShade}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DisabledButtonBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="{StaticResource NesLightGray}" Offset="0"/>
+        <GradientStop Color="{StaticResource NesLightGray}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource NesLightGrayShade}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource NesLightGrayShade}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HoverButtonBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#FF4EB3E8" Offset="0"/>
+        <GradientStop Color="#FF4EB3E8" Offset="0.5"/>
+        <GradientStop Color="#FF3BAAE6" Offset="0.5"/>
+        <GradientStop Color="#FF3BAAE6" Offset="1"/>
     </LinearGradientBrush>
 </ResourceDictionary>
