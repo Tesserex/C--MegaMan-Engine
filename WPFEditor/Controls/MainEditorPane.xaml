@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
-    <TabControl DockPanel.Dock="Top" x:Name="editingTabWindow">
+             d:DesignHeight="400" d:DesignWidth="600"
+             Background="{StaticResource NesDarkGrayBrush}">
+    <TabControl DockPanel.Dock="Top" x:Name="editingTabWindow" Background="Transparent">
         <TabControl.Resources>
             <Style TargetType="{x:Type TabPanel}">
                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -19,15 +20,15 @@
                                                      VerticalAlignment="Center"
                                                      HorizontalAlignment="Center"
                                                      ContentSource="Header"
-                                                     Margin="30,10,30,10"
-                                                     TextBlock.FontSize="16"
-                                                     TextBlock.FontFamily="../Resources/#Mega Man 10" />
+                                                     Margin="20,5"
+                                                     TextBlock.FontSize="24"
+                                                     TextBlock.FontFamily="../Resources/#Open Sans Condensed" />
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="DarkGoldenrod"/>
+                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="White"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="False">
-                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="Black"/>
+                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{StaticResource NesLightGrayBrush}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -41,7 +42,7 @@
         </TabControl.Resources>
         <TabItem>
             <TabItem.Header>
-                Layout
+                LAYOUT
             </TabItem.Header>
             <DockPanel>
                 <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
@@ -50,7 +51,7 @@
         </TabItem>
         <TabItem>
             <TabItem.Header>
-                Tiles
+                TILES
             </TabItem.Header>
             <DockPanel>
                 <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
@@ -68,7 +69,7 @@
         </TabItem>
         <TabItem>
             <TabItem.Header>
-                Entities
+                ENTITIES
             </TabItem.Header>
             <DockPanel>
                 <c:EntityToolbar x:Name="entityToolbar" DockPanel.Dock="Top"></c:EntityToolbar>

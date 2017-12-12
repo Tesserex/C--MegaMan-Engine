@@ -7,19 +7,28 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="24" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
+            <Setter Property="Stretch" Value="Uniform" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+    </UserControl.Resources>
     <DockPanel>
         <ToolBar DockPanel.Dock="Left">
-            <RadioButton ToolTip="Place Tiles" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Brush">
-                <Image Source="{Binding BrushIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <RadioButton ToolTip="Place Tiles" Padding="0" Margin="0,0,2,0" Width="40" Height="40" Command="{Binding ChangeToolCommand}" CommandParameter="Brush">
+                <Image Source="{Binding BrushIcon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </RadioButton>
-            <RadioButton ToolTip="Fill Tiles" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Bucket">
-                <Image Source="{Binding BucketIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Fill Tiles" Padding="0" Margin="0,0,2,0" Width="40" Height="40" Command="{Binding ChangeToolCommand}" CommandParameter="Bucket">
+                <Image Source="{Binding BucketIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
-            <RadioButton ToolTip="Selection" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Selection">
-                <Image Source="{Binding SelectionIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Selection" Padding="0" Margin="0,0,2,0" Width="40" Height="40" Command="{Binding ChangeToolCommand}" CommandParameter="Selection">
+                <Image Source="{Binding SelectionIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
-            <RadioButton ToolTip="Rectangle" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Rectangle">
-                <Image Source="{Binding RectangleIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Rectangle" Padding="0" Margin="0,0,2,0" Width="40" Height="40" Command="{Binding ChangeToolCommand}" CommandParameter="Rectangle">
+                <Image Source="{Binding RectangleIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
             <ComboBox SelectedValue="{Binding BucketModeGlobal, Mode=TwoWay}" SelectedValuePath="Tag" Visibility="{Binding BucketOptionVisibility}">
                 <ComboBoxItem Content="Contiguous">

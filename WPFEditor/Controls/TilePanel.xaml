@@ -35,7 +35,7 @@
         </ListView.Resources>
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
-                <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="WhiteSmoke" />
+                <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="Transparent" />
             </ItemsPanelTemplate>
         </ListView.ItemsPanel>
     </ListView>

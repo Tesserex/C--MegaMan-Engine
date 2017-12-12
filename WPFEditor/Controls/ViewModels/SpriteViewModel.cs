@@ -1,11 +1,14 @@
 ﻿using System;
 using MegaMan.Common;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteViewModel : ViewModelBase
     {
         public Sprite Sprite { get; private set; }
+
+        public SpriteModel Model { get { return new SpriteModel(Sprite); } }
 
         public SpriteViewModel(Sprite sprite)
         {

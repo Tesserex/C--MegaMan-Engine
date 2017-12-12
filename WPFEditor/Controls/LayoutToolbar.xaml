@@ -5,20 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="28" d:DesignWidth="500">
+             d:DesignHeight="50" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
+            <Setter Property="Stretch" Value="Uniform" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+    </UserControl.Resources>
     <ToolBarTray Orientation="Horizontal">
         <ToolBar Band="1" BandIndex="1">
-            <RadioButton ToolTip="Arrange Screens" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
-                <Image Source="{Binding CursorIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <RadioButton ToolTip="Arrange Screens" Padding="0" Margin="0,0,2,0" Width="34" Height="34" Command="{Binding ChangeToolCommand}" CommandParameter="Hand">
+                <Image Source="{Binding CursorIcon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </RadioButton>
-            <RadioButton ToolTip="Split Screen" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="VSplit">
-                <Image Source="{Binding CleaveIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Split Screen" Padding="0" Margin="0,0,2,0" Width="34" Height="34" Command="{Binding ChangeToolCommand}" CommandParameter="VSplit">
+                <Image Source="{Binding CleaveIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
-            <RadioButton ToolTip="Start Point" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Start">
-                <Image Source="{Binding StartIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Start Point" Padding="0" Margin="0,0,2,0" Width="34" Height="34" Command="{Binding ChangeToolCommand}" CommandParameter="Start">
+                <Image Source="{Binding StartIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
-            <RadioButton ToolTip="Continue Point" Padding="0" Margin="0,0,2,0" Width="20" Height="20" Command="{Binding ChangeToolCommand}" CommandParameter="Continue">
-                <Image Source="{Binding ContinueIcon}" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <RadioButton ToolTip="Continue Point" Padding="0" Margin="0,0,2,0" Width="34" Height="34" Command="{Binding ChangeToolCommand}" CommandParameter="Continue">
+                <Image Source="{Binding ContinueIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </RadioButton>
         </ToolBar>
         <ToolBar Band="1" BandIndex="2">

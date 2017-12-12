@@ -144,6 +144,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 Entities = e.Project.Entities
                     .Where(x => x.EditorData == null || !x.EditorData.HideFromPlacement)
+                    .OrderBy(x => x.Name)
                     .Select(x => new EntityViewModel(x, e.Project));
             }
             else

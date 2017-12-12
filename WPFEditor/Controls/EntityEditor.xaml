@@ -64,11 +64,11 @@
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                         <TextBlock>Sprite</TextBlock>
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
+                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Margin="8,0">
+                            <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
                         <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center">
                             <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
-                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center">
-                            <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
                     <Grid>
@@ -114,7 +114,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition SharedSizeGroup="Foo" />
                                         </Grid.ColumnDefinitions>
-                                        <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite.Sprite}"
+                                        <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite.Model}"
                                                          Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                                          CommandParameter="{Binding}"
                                                          ButtonText="{Binding ButtonText}" />

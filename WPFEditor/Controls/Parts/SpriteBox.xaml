@@ -7,15 +7,7 @@
              xmlns:controls="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="100">
-    <Border CornerRadius="6,6,6,6">
-        <Border.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="{StaticResource DarkShadowColor}" Offset="0" />
-                <GradientStop Color="{StaticResource DarkShadowColor}" Offset="0.5" />
-                <GradientStop Color="#2676A8" Offset="0.5" />
-                <GradientStop Color="#2676A8" Offset="1" />
-            </LinearGradientBrush>
-        </Border.Background>
+    <Border CornerRadius="6,6,6,6" Background="{Binding TitleBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -23,21 +15,28 @@
             </Grid.RowDefinitions>
             <Label FontSize="16" Grid.Row="0" Style="{StaticResource DefaultLabel}" Padding="6,2" HorizontalContentAlignment="Center" Content="{Binding Title}"></Label>
 
-            <Border Background="{StaticResource NesDarkGrayBrush}" Grid.Row="1" CornerRadius="6,6,6,6" Margin="0,0,0,4">
+            <Border Background="{Binding BackgroundBrush}" Grid.Row="1" CornerRadius="6,6,6,6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <controls:SpriteImage Margin="0,8,0,0" VerticalAlignment="Center" DataContext="{Binding Sprite}"></controls:SpriteImage>
+                    <controls:SpriteImage Grid.Row="0" Margin="0,8,0,8" VerticalAlignment="Center" DataContext="{Binding Sprite}"></controls:SpriteImage>
 
-                    <Border Grid.Row="1" Background="{StaticResource NesLightBlueBrush}">
-                        <Border Background="{StaticResource NesDarkGrayBrush}" Height="8" CornerRadius="0,0,6,6"></Border>
-                    </Border>
-                    <Border Grid.Row="2" Background="{StaticResource NesLightBlueBrush}" CornerRadius="0,0,6,6">
-                        <Button Style="{StaticResource PlainButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Transparent" Command="{Binding Command}" CommandParameter="{Binding CommandParameter}" Content="{Binding ButtonText}" />
+                    <Border Grid.Row="1" Background="#2676A8" Visibility="{Binding ButtonVisible}" CornerRadius="0,0,6,6">
+                        <Grid Margin="0,0,0,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Background="{StaticResource NesLightBlueBrush}">
+                                <Border Background="{Binding BackgroundBrush}" Height="8" CornerRadius="0,0,6,6"></Border>
+                            </Border>
+                            <Border Grid.Row="1" Background="{StaticResource NesLightBlueBrush}" CornerRadius="0,0,6,6">
+                                <Button Style="{StaticResource PlainButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Transparent" Command="{Binding Command}" CommandParameter="{Binding CommandParameter}" Content="{Binding ButtonText}" />
+                            </Border>
+                        </Grid>
                     </Border>
                 </Grid>
             </Border>
