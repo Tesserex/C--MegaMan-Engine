@@ -52,6 +52,11 @@ namespace MegaMan.Editor.Controls
             if (_screen == null)
                 return;
 
+            OnZoomChanged();
+        }
+
+        protected virtual void OnZoomChanged()
+        {
             Width = MaxWidth = MinWidth = _screen.PixelWidth * this.Zoom;
             Height = MaxHeight = MinHeight = _screen.PixelHeight * this.Zoom;
             InvalidateMeasure();
