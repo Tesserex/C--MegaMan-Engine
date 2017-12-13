@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -11,12 +12,20 @@ namespace MegaMan.Editor.Tools
     public abstract class ImageCursor : IToolCursor
     {
         private static ToolCursorAdorner _cursorAdorner;
+        private static Cursor _dotCursor;
 
         private FrameworkElement _element;
         private int _hotX = 0, _hotY = 0;
 
         private static Pen outlinePen = new Pen(new SolidColorBrush(Colors.Silver) { Opacity = 0.5 }, 2);
         private static Pen shadowPen = new Pen(new SolidColorBrush(Colors.Black) { Opacity = 0.5 }, 2);
+
+        static ImageCursor()
+        {
+            var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Resources/dot.cur"));
+            _dotCursor = new Cursor(stream.Stream);
+            
+        }
 
         protected ImageCursor(Common.Geometry.Point? hotspot = null)
         {
@@ -52,7 +61,7 @@ namespace MegaMan.Editor.Tools
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseEnter", MouseEnter);
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseLeave", MouseLeave);
 
-            element.Cursor = Cursors.Cross;
+            element.Cursor = _dotCursor;
             if (hideCursor)
                 _cursorAdorner.Visibility = Visibility.Hidden;
         }
