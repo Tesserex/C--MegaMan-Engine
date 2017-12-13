@@ -21,6 +21,8 @@ namespace MegaMan.Editor.Bll
         private readonly int oldTileId;
         private readonly int newTileId;
 
+        public ScreenDocument Screen { get { return screen; } }
+
         public TileChange(ScreenDocument screen, int tx, int ty, int oldId, int newId)
         {
             this.screen = screen;
@@ -44,6 +46,8 @@ namespace MegaMan.Editor.Bll
     public class DrawAction : IUndoableAction
     {
         private readonly List<TileChange> changes;
+        private readonly List<ScreenDocument> screens;
+
         public string Name
         {
             get;
@@ -54,6 +58,7 @@ namespace MegaMan.Editor.Bll
         {
             this.Name = name;
             this.changes = new List<TileChange>(changes);
+            this.screens = changes.Select(c => c.Screen).Distinct().ToList();
         }
 
         public override string ToString()
@@ -63,10 +68,14 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
+            foreach (var screen in screens)
+                screen.BeginDrawBatch();
+
             foreach (TileChange change in changes)
-            {
                 change.Apply();
-            }
+
+            foreach (var screen in screens)
+                screen.EndDrawBatch();
         }
 
         public IUndoableAction Reverse()

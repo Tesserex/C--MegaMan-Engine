@@ -33,10 +33,14 @@ namespace MegaMan.Editor.Bll.Tools
 
             var old = canvas.Screen.TileAt(tile_x, tile_y);
 
+            canvas.Screen.BeginDrawBatch();
+
             if (IsGlobal)
                 Global(canvas, tile_x, tile_y, old.Id);
             else
                 Flood(canvas, tile_x, tile_y, old.Id, 0, 0);
+
+            canvas.Screen.EndDrawBatch();
 
             canvas.Screen.Stage.PushHistoryAction(new DrawAction("Fill", changes));
 

@@ -14,6 +14,7 @@ namespace MegaMan.Editor.Bll
         public ScreenInfo Info { get { return screen; } }
 
         private int? selectedEntityIndex;
+        private bool drawBatch;
 
         public StageDocument Stage { get; private set; }
 
@@ -112,7 +113,25 @@ namespace MegaMan.Editor.Bll
         {
             screen.Layers[0].Tiles.ChangeTile(tile_x, tile_y, tile_id);
             Dirty = true;
-            if (TileChanged != null) TileChanged();
+
+            if (!drawBatch)
+            {
+                TileChanged?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Prevents the TileChanged event from being raised until EndDrawBatch is called. Improves performance.
+        /// </summary>
+        public void BeginDrawBatch()
+        {
+            drawBatch = true;
+        }
+
+        public void EndDrawBatch()
+        {
+            drawBatch = false;
+            TileChanged?.Invoke();
         }
 
         public void CleaveVertically(int leftHalfTileWidth)

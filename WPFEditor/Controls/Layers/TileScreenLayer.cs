@@ -31,11 +31,13 @@ namespace MegaMan.Editor.Controls
         protected override void UnbindScreen(ScreenDocument oldScreen)
         {
             oldScreen.TileChanged -= Update;
+            oldScreen.Resized -= (x,y) => Update();
         }
 
         protected override void BindScreen(ScreenDocument newScreen)
         {
             newScreen.TileChanged += Update;
+            newScreen.Resized += (x, y) => Update();
         }
 
         protected override void Update()
@@ -83,6 +85,7 @@ namespace MegaMan.Editor.Controls
             }
 
             _colorBitmap = bitmap;
+            _colorBitmap.Freeze();
 
             var grayscale = new FormatConvertedBitmap(bitmap, PixelFormats.Gray16, BitmapPalettes.Gray256, 1);
             var bmp = BitmapFactory.ConvertToPbgra32Format(grayscale);
