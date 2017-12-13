@@ -52,7 +52,7 @@ namespace MegaMan.Editor.Tools
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseEnter", MouseEnter);
             WeakEventManager<FrameworkElement, MouseEventArgs>.AddHandler(element, "MouseLeave", MouseLeave);
 
-            element.Cursor = Cursors.None;
+            element.Cursor = Cursors.Cross;
             if (hideCursor)
                 _cursorAdorner.Visibility = Visibility.Hidden;
         }

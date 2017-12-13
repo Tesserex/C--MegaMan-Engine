@@ -23,6 +23,7 @@ namespace MegaMan.Editor.Controls
             UseLayoutRounding = true;
 
             ((App)App.Current).Tick += Tick;
+            adornedElement.MouseMove += (s, e) => Tick();
         }
 
         private void Tick()
