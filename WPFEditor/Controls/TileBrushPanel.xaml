@@ -32,8 +32,8 @@
             </TabItem>
             <TabItem Header="Brushes">
                 <DockPanel>
-                    <StackPanel Height="24" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,5">
-                        <Button Command="{Binding CreateBrushSelectionCommand}" Margin="0">Create From Selection</Button>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,4,4,8">
+                        <Button Command="{Binding CreateBrushSelectionCommand}" Margin="0">CREATE FROM SELECTION</Button>
                     </StackPanel>
                     <ListView DockPanel.Dock="Top" ItemsSource="{Binding Path=Brushes}" SelectedItem="{Binding SelectedBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListView.Resources>

@@ -129,7 +129,14 @@ namespace MegaMan.Editor
                 _resizes[image] = new Dictionary<double, WriteableBitmap>();
 
             if (!_resizes[image].ContainsKey(scale))
-                _resizes[image][scale] = image.Resize((int)(image.PixelWidth * scale), (int)(image.PixelHeight * scale), WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+            {
+                var scaled = image.Resize((int)(image.PixelWidth * scale), (int)(image.PixelHeight * scale), WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                if (scaled.CanFreeze)
+                {
+                    scaled.Freeze();
+                }
+                _resizes[image][scale] = scaled;
+            }
 
             return _resizes[image][scale];
         }

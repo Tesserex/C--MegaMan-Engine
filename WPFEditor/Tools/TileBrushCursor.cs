@@ -9,39 +9,38 @@ namespace MegaMan.Editor.Tools
     public class TileBrushCursor : ImageCursor
     {
         private ITileBrush _brush;
+        private WriteableBitmap _image;
 
         public TileBrushCursor(ITileBrush brush)
         {
             _brush = brush;
 
-            var image = new WriteableBitmap((int)Width, (int)Height, 96, 96, PixelFormats.Pbgra32, null);
+            _image = new WriteableBitmap((int)Width, (int)Height, 96, 96, PixelFormats.Pbgra32, null);
+
+            var width = _brush.Cells.Length;
+            var height = _brush.Cells[0].Length;
+
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    var cell = _brush.Cells[x][y];
+                    var size = cell.tile.Width;
+                    var location = cell.tile.Sprite[0].SheetLocation;
+                    var rect = new Rect(0, 0, location.Width, location.Height);
+                    var source = SpriteBitmapCache.GetOrLoadFrame(cell.tile.Sprite.SheetPath.Absolute, location);
+
+                    _image.Blit(new Rect(x * size, y * size, size, size), source, rect);
+                }
+            }
         }
 
         protected override ImageSource CursorImage
         {
             get
             {
-                var cursor = new WriteableBitmap((int)Width, (int)Height, 96, 96, PixelFormats.Pbgra32, null);
-
-                var width = _brush.Cells.Length;
-                var height = _brush.Cells[0].Length;
-
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        var cell = _brush.Cells[x][y];
-                        var size = cell.tile.Width;
-                        var location = cell.tile.Sprite.CurrentFrame.SheetLocation;
-                        var rect = new Rect(0, 0, location.Width, location.Height);
-                        var source = SpriteBitmapCache.GetOrLoadFrame(cell.tile.Sprite.SheetPath.Absolute, location);
-
-                        cursor.Blit(new Rect(x * size, y * size, size, size), source, rect);
-                    }
-                }
-
                 var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
-                return SpriteBitmapCache.Scale(cursor, zoom);
+                return SpriteBitmapCache.Scale(_image, zoom);
             }
         }
 
