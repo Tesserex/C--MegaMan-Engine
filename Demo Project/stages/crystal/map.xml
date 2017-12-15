@@ -19,7 +19,7 @@
 	</Screen>
 	<Screen id="4">
 		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" entity="EnergyTank" x="48" y="105" direction="Unknown" respawn="Stage" />
-		<Entity id="bf372b36-c2df-46da-bb45-166ef9f747f8" entity="ShieldGuy" x="52" y="161" direction="Unknown" respawn="Offscreen" />
+		<Entity id="bf372b36-c2df-46da-bb45-166ef9f747f8" entity="ShieldGuy" x="123" y="157" direction="Unknown" respawn="Offscreen" />
 		<Entity id="fe638d02-7b5f-40fd-9e1f-82b23d9eb7d4" entity="ShieldShooter" x="160" y="80" direction="Right" respawn="Offscreen" />
 		<Entity id="a4aa1176-e961-41f6-9fec-93758481ca93" entity="Seeker" x="62" y="45" direction="Unknown" respawn="Offscreen" />
 	</Screen>

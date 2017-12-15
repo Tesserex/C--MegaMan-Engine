@@ -1,7 +1,7 @@
 <Entities>
 	<Entity name="CrystalMan" maxAlive="50">
 		<GravityFlip>True</GravityFlip>
-		<EditorData defaultSprite="Drop" hide="False" />
+		<EditorData defaultSprite="Drop" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="Stand" x="-12" y="-14" width="24" height="27" properties="Default" damage="5" environment="True" pushaway="True">
 				<Hits>Player</Hits>

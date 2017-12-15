@@ -840,4 +840,10 @@
 			<Frame x="160" y="176" duration="0" />
 		</Sprite>
 	</Tile>
+	<Tile id="143" name="" properties="Default">
+		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
+			<Hotspot x="0" y="0" />
+			<Frame x="176" y="176" duration="0" />
+		</Sprite>
+	</Tile>
 </Tileset>
