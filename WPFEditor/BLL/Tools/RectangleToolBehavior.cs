@@ -59,6 +59,8 @@ namespace MegaMan.Editor.Bll.Tools
             int y_start = Math.Min(ty1, ty2);
             int y_end = Math.Max(ty1, ty2) - 1;
 
+            canvas.Screen.BeginDrawBatch();
+
             for (int y = y_start; y <= y_end; y += brush.Cells[0].Length)
             {
                 for (int x = x_start; x <= x_end; x += brush.Cells.Length)
@@ -66,6 +68,8 @@ namespace MegaMan.Editor.Bll.Tools
                     Draw(canvas, x, y);
                 }
             }
+
+            canvas.Screen.EndDrawBatch();
 
             canvas.Screen.Stage.PushHistoryAction(new DrawAction("Rectangle", changes));
             canvas.Screen.SetSelection(0, 0, 0, 0);

@@ -86,7 +86,7 @@
                         <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
                         <Fluent:BackstageTabItem Header="Recent" Background="White">
                             <StackPanel Orientation="Vertical" Margin="30">
-                                <Label Style="{StaticResource H1}">RECENT PROJECTS</Label>
+                                <Label Style="{StaticResource H1}" Margin="0,0,0,16">RECENT PROJECTS</Label>
                                 <ItemsControl ItemsSource="{Binding Path=AppData.RecentProjects}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>

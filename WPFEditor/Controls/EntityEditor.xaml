@@ -36,25 +36,25 @@
                 <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
                     <Label Style="{StaticResource Header}">ENTITY INFORMATION</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock>Name</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Name</TextBlock>
                         <TextBox Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock>Max Alive</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
                         <xctk:IntegerUpDown Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
                     </StackPanel>
                     <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock>Default Sprite</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <CheckBox IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock>Show in Entity Placement Panel</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <CheckBox IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock>Projectile (Suggest in Damage List)</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
                     </StackPanel>
                 </StackPanel>
 
@@ -62,7 +62,7 @@
 
                 <DockPanel Grid.Column="2" Background="White">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                        <TextBlock>Sprite</TextBlock>
+                        <TextBlock Style="{StaticResource ControlLabel}">Sprite</TextBlock>
                         <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
                         <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Margin="8,0">
                             <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>

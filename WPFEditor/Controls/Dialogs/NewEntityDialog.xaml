@@ -29,20 +29,18 @@
                 <Label Grid.Column="0" Grid.Row="0">Name</Label>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name}"></TextBox>
             </Grid>
-            <Grid Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MinHeight="49">
-                <DockPanel Margin="5,0">
+            <Grid Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                <DockPanel Margin="5,10">
 
                     <!-- Cancel Button -->
-                    <Button Name="Button_Cancel" MinWidth="88" MaxWidth="160" Height="26" Margin="5,0" HorizontalAlignment="Right" IsCancel="True"
-                            DockPanel.Dock="Right" Click="Button_Cancel_Click">
-                        <Label Name="Label_Cancel" Padding="0" Margin="10,0">_Cancel</Label>
+                    <Button Name="Button_Cancel" MinWidth="88" MaxWidth="160" Margin="5,0" HorizontalAlignment="Right" IsCancel="True"
+                            DockPanel.Dock="Right" Click="Button_Cancel_Click">CANCEL
                     </Button>
                     <!-- End Cancel Button -->
 
                     <!-- OK Button -->
-                    <Button Name="Button_OK" MinWidth="88" MaxWidth="160" Margin="35,0,5,0" HorizontalAlignment="Right" Height="26"
-                            Click="Button_OK_Click">
-                        <Label Name="Label_Ok" Padding="0" Margin="10,0">_OK</Label>
+                    <Button Name="Button_OK" MinWidth="88" MaxWidth="160" Margin="35,0,5,0" HorizontalAlignment="Right"
+                            Click="Button_OK_Click">OK
                     </Button>
                     <!-- End OK Button -->
 

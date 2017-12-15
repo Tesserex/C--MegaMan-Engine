@@ -110,8 +110,10 @@ namespace MegaMan.Editor.Bll.Tools
 
         private void Draw(ScreenDocument screen, int tile_x, int tile_y)
         {
+            screen.BeginDrawBatch();
             var changed = _brush.DrawOn(screen, tile_x, tile_y);
             changes.AddRange(changed);
+            screen.EndDrawBatch();
         }
 
         public bool SuppressContextMenu { get { return true; } }

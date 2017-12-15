@@ -31,13 +31,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="0">Name</Label>
+                <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="0" Grid.Row="0">Name</TextBlock>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"></TextBox>
 
-                <Label Grid.Column="0" Grid.Row="1">Properties</Label>
+                <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="0" Grid.Row="1">Properties</TextBlock>
                 <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding TileProperties}" SelectedItem="{Binding SelectedPropertiesName}" />
 
-                <Label Grid.Column="0" Grid.Row="2">Contact Damage</Label>
+                <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="0" Grid.Row="2">Contact Damage</TextBlock>
                 <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding ContactDamage}" Width="50"></xctk:IntegerUpDown>
 
             </Grid>
@@ -54,13 +54,13 @@
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Grid.Column="0" Grid.Row="0" IsChecked="{Binding Environment, Mode=TwoWay}" />
-                <Label Grid.Column="1" Grid.Row="0">Collides with Environment</Label>
+                <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="1" Grid.Row="0">Collides with Environment</TextBlock>
 
                 <CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding PushAway, Mode=TwoWay}" />
-                <Label Grid.Column="1" Grid.Row="1">Resolves Collisions</Label>
+                <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="1" Grid.Row="1">Resolves Collisions</TextBlock>
 
                 <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
-                    <Label HorizontalAlignment="Center">Weapon Damage Multipliers</Label>
+                    <Label HorizontalAlignment="Center" Margin="0,10,0,5">Weapon Damage Multipliers</Label>
                     <ListView ItemsSource="{Binding Resistance}" HorizontalAlignment="Stretch">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
