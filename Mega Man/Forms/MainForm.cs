@@ -772,8 +772,7 @@ namespace MegaMan.Engine
         #region First Section
         private void setMusic(bool value)
         {
-            if (Engine.Instance.IsRunning)
-                Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
+            Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
         }
 
         private void musicMenuItem_Click(object sender, EventArgs e)
