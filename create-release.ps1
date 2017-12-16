@@ -12,4 +12,5 @@ Get-ChildItem Releases/$v -r -include *.vshost.* -Force | Remove-Item -r -Force
 Copy-Item "Demo Project" "Releases/$v" -recurse
 
 Add-Type -assembly "system.io.compression.filesystem"
-[io.compression.zipfile]::CreateFromDirectory("Releases\$v", "Releases\CME-$v.zip")
+$dir = Convert-Path .
+[io.compression.zipfile]::CreateFromDirectory("$dir\Releases\$v", "$dir\Releases\CME-$v.zip")
