@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
 {
     public partial class Keyboard : Form
     {
-        private GameInput waitKey;
+        private GameInputs waitKey;
         private Label waitLabel;
         private Button previousSelection = null;
 
@@ -18,15 +19,21 @@ namespace MegaMan.Engine
 
         protected override void OnShown(EventArgs e)
         {
-            upkeylabel.Text = GameInputKeys.Up.ToString();
-            downkeylabel.Text = GameInputKeys.Down.ToString();
-            leftkeylabel.Text = GameInputKeys.Left.ToString();
-            rightkeylabel.Text = GameInputKeys.Right.ToString();
-            jumpkeylabel.Text = GameInputKeys.Jump.ToString();
-            shootkeylabel.Text = GameInputKeys.Shoot.ToString();
-            startkeylabel.Text = GameInputKeys.Start.ToString();
-            selectkeylabel.Text = GameInputKeys.Select.ToString();
+            upkeylabel.Text = GetBindingDisplay(GameInputs.Up);
+            downkeylabel.Text = GetBindingDisplay(GameInputs.Down);
+            leftkeylabel.Text = GetBindingDisplay(GameInputs.Left);
+            rightkeylabel.Text = GetBindingDisplay(GameInputs.Right);
+            jumpkeylabel.Text = GetBindingDisplay(GameInputs.Jump);
+            shootkeylabel.Text = GetBindingDisplay(GameInputs.Shoot);
+            startkeylabel.Text = GetBindingDisplay(GameInputs.Start);
+            selectkeylabel.Text = GetBindingDisplay(GameInputs.Select);
             base.OnShown(e);
+        }
+
+        private string GetBindingDisplay(GameInputs input)
+        {
+            var binding = GameInput.GetBinding(input);
+            return binding != null ? binding.ToString() : "NONE";
         }
 
         /// <summary>
@@ -46,17 +53,7 @@ namespace MegaMan.Engine
             {
                 if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift))
                 {
-                    switch (waitKey)
-                    {
-                        case GameInput.Up: GameInputKeys.Up = keyData; break;
-                        case GameInput.Down: GameInputKeys.Down = keyData; break;
-                        case GameInput.Left: GameInputKeys.Left = keyData; break;
-                        case GameInput.Right: GameInputKeys.Right = keyData; break;
-                        case GameInput.Jump: GameInputKeys.Jump = keyData; break;
-                        case GameInput.Shoot: GameInputKeys.Shoot = keyData; break;
-                        case GameInput.Start: GameInputKeys.Start = keyData; break;
-                        case GameInput.Select: GameInputKeys.Select = keyData; break;
-                    }
+                    GameInput.SetBinding(waitKey, new KeyboardInputBinding(keyData));
                     waitLabel.Text = keyData.ToString();
                     waitLabel = null;
                     return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
@@ -85,7 +82,7 @@ namespace MegaMan.Engine
 
             previousSelection = button1;
             upkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Up;
+            waitKey = GameInputs.Up;
             waitLabel = upkeylabel;
         }
 
@@ -99,7 +96,7 @@ namespace MegaMan.Engine
 
             previousSelection = button2;
             startkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Start;
+            waitKey = GameInputs.Start;
             waitLabel = startkeylabel;
         }
 
@@ -113,7 +110,7 @@ namespace MegaMan.Engine
 
             previousSelection = button3;
             selectkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Select;
+            waitKey = GameInputs.Select;
             waitLabel = selectkeylabel;
         }
 
@@ -127,7 +124,7 @@ namespace MegaMan.Engine
 
             previousSelection = button4;
             shootkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Shoot;
+            waitKey = GameInputs.Shoot;
             waitLabel = shootkeylabel;
         }
 
@@ -141,7 +138,7 @@ namespace MegaMan.Engine
 
             previousSelection = button5;
             rightkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Right;
+            waitKey = GameInputs.Right;
             waitLabel = rightkeylabel;
         }
 
@@ -155,7 +152,7 @@ namespace MegaMan.Engine
 
             previousSelection = button6;
             downkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Down;
+            waitKey = GameInputs.Down;
             waitLabel = downkeylabel;
         }
 
@@ -169,7 +166,7 @@ namespace MegaMan.Engine
 
             previousSelection = button7;
             jumpkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Jump;
+            waitKey = GameInputs.Jump;
             waitLabel = jumpkeylabel;
         }
 
@@ -183,7 +180,7 @@ namespace MegaMan.Engine
 
             previousSelection = button8;
             leftkeylabel.Text = "Waiting...";
-            waitKey = GameInput.Left;
+            waitKey = GameInputs.Left;
             waitLabel = leftkeylabel;
         }
     }

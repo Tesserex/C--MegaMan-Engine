@@ -11,6 +11,7 @@ using System.Xml;
 using MegaMan.Engine.Forms;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
+using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine
@@ -935,8 +936,7 @@ namespace MegaMan.Engine
 
         #endregion
         #endregion
-
-        #region Functions Used By Many
+        
         private bool LoadGame(string path, List<string> pathArgs = null, bool silenceErrorMessages = false)
         {
             try
@@ -1029,8 +1029,6 @@ namespace MegaMan.Engine
             Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
         }
 
-        #region Configs Functions
-
         /// <summary>
         /// This is kind of a bad patch but found no better way to do it.
         /// OnMove function is used when user is moving the form, and OnResizeEnd is used for when he finish.
@@ -1074,14 +1072,10 @@ namespace MegaMan.Engine
         private void LoadConfigFromSetting(Setting settings)
         {
             #region Input Menu: Keys
-            GameInputKeys.Up = settings.Keys.Up;
-            GameInputKeys.Down = settings.Keys.Down;
-            GameInputKeys.Left = settings.Keys.Left;
-            GameInputKeys.Right = settings.Keys.Right;
-            GameInputKeys.Jump = settings.Keys.Jump;
-            GameInputKeys.Shoot = settings.Keys.Shoot;
-            GameInputKeys.Start = settings.Keys.Start;
-            GameInputKeys.Select = settings.Keys.Select;
+            foreach (var binding in settings.KeyBindings)
+            {
+                GameInput.SetBinding(binding.Input, binding.GetGameInputBinding());
+            }
             #endregion
 
             #region Screen Menu
@@ -1180,17 +1174,7 @@ namespace MegaMan.Engine
                 {
                     GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
                     GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
-                    Keys = new UserKeys()
-                    {
-                        Up = GameInputKeys.Up,
-                        Down = GameInputKeys.Down,
-                        Left = GameInputKeys.Left,
-                        Right = GameInputKeys.Right,
-                        Jump = GameInputKeys.Jump,
-                        Shoot = GameInputKeys.Shoot,
-                        Start = GameInputKeys.Start,
-                        Select = GameInputKeys.Select
-                    },
+                    KeyBindings = GetKeyBindingSettings(),
                     Screens = new LastScreen()
                     {
                         Maximized = WindowState == FormWindowState.Maximized,
@@ -1230,7 +1214,23 @@ namespace MegaMan.Engine
 
             XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
         }
-        #endregion
+
+        private List<UserKeyBindingSetting> GetKeyBindingSettings()
+        {
+            var result = new List<UserKeyBindingSetting>();
+            foreach (var input in Enum.GetValues(typeof(GameInputs)).Cast<GameInputs>())
+            {
+                var binding = GameInput.GetBinding(input);
+                if (binding != null)
+                {
+                    if (binding is KeyboardInputBinding)
+                    {
+                        result.Add(new UserKeyBindingSetting() { Input = input, Key = ((KeyboardInputBinding)binding).Key });
+                    }
+                }
+            }
+            return result;
+        }
 
         private void Engine_Exception(Exception e)
         {
@@ -1248,9 +1248,7 @@ namespace MegaMan.Engine
         {
             MessageBox.Show(this, message, "Config File Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
-        #endregion
-
-        #region To sort!!!!!!
+        
         /// <summary>
         /// Anytime game loaded is changed
         /// </summary>
@@ -1345,6 +1343,5 @@ namespace MegaMan.Engine
             entityLabel.Text = "Entities: " + Game.DebugEntitiesAlive();
             fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
         }
-        #endregion
     }
 }

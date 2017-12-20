@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
+using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
 {
     public class InputComponent : Component
     {
-        private readonly Dictionary<GameInput, bool> activeKeys = new Dictionary<GameInput, bool>();
-        private readonly Dictionary<GameInput, bool> backupKeys = new Dictionary<GameInput, bool>();
+        private readonly Dictionary<GameInputs, bool> activeKeys = new Dictionary<GameInputs, bool>();
+        private readonly Dictionary<GameInputs, bool> backupKeys = new Dictionary<GameInputs, bool>();
 
-        public bool Left { get { return KeyVal(GameInput.Left); } }
-        public bool Right { get { return KeyVal(GameInput.Right); } }
-        public bool Up { get { return KeyVal(GameInput.Up); } }
-        public bool Down { get { return KeyVal(GameInput.Down); } }
+        public bool Left { get { return KeyVal(GameInputs.Left); } }
+        public bool Right { get { return KeyVal(GameInputs.Right); } }
+        public bool Up { get { return KeyVal(GameInputs.Up); } }
+        public bool Down { get { return KeyVal(GameInputs.Down); } }
         public bool Shoot { get; private set; }
-        public bool ShootHeld { get { return KeyVal(GameInput.Shoot); } }
+        public bool ShootHeld { get { return KeyVal(GameInputs.Shoot); } }
         public bool Jump { get; private set; }
-        public bool JumpHeld { get { return KeyVal(GameInput.Jump); } }
+        public bool JumpHeld { get { return KeyVal(GameInputs.Jump); } }
         public bool StartKey { get; private set; }
         public bool Select { get; private set; }
 
@@ -28,18 +29,18 @@ namespace MegaMan.Engine
                 if (value)
                 {
                     backupKeys.Clear();
-                    foreach (KeyValuePair<GameInput, bool> pair in activeKeys) backupKeys[pair.Key] = pair.Value;
-                    activeKeys[GameInput.Left] = activeKeys[GameInput.Right] = activeKeys[GameInput.Up] = activeKeys[GameInput.Down] = false;
+                    foreach (KeyValuePair<GameInputs, bool> pair in activeKeys) backupKeys[pair.Key] = pair.Value;
+                    activeKeys[GameInputs.Left] = activeKeys[GameInputs.Right] = activeKeys[GameInputs.Up] = activeKeys[GameInputs.Down] = false;
                 }
                 else // move backup to active
                 {
                     activeKeys.Clear();
-                    foreach (KeyValuePair<GameInput, bool> pair in backupKeys) activeKeys[pair.Key] = pair.Value;
+                    foreach (KeyValuePair<GameInputs, bool> pair in backupKeys) activeKeys[pair.Key] = pair.Value;
                 }
             }
         }
 
-        private bool KeyVal(GameInput key)
+        private bool KeyVal(GameInputs key)
         {
             return (!Paused && activeKeys.ContainsKey(key))? activeKeys[key] : false;
         }
@@ -102,25 +103,25 @@ namespace MegaMan.Engine
             {
                 switch (e.Input)
                 {
-                    case GameInput.Shoot:
+                    case GameInputs.Shoot:
                         Shoot = e.Pressed;
                         break;
 
-                    case GameInput.Jump:
+                    case GameInputs.Jump:
                         Jump = e.Pressed;
                         break;
 
-                    case GameInput.Start:
+                    case GameInputs.Start:
                         StartKey = e.Pressed;
                         break;
 
-                    case GameInput.Select:
+                    case GameInputs.Select:
                         Select = e.Pressed;
                         break;
                 }
             }
         }
 
-        private static readonly Dictionary<GameInput, bool> globalKeys = new Dictionary<GameInput, bool>();
+        private static readonly Dictionary<GameInputs, bool> globalKeys = new Dictionary<GameInputs, bool>();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
 using MegaMan.Engine.Entities;
+using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
 {
@@ -44,12 +45,12 @@ namespace MegaMan.Engine
         {
             if (waiting)
             {
-                if (e.Input == GameInput.Shoot || e.Input == GameInput.Jump || e.Input == GameInput.Start)
+                if (e.Input == GameInputs.Shoot || e.Input == GameInputs.Jump || e.Input == GameInputs.Start)
                 {
                     waiting = false;
                 }
             }
-            else if (info.CanSkip && e.Pressed && e.Input == GameInput.Start)
+            else if (info.CanSkip && e.Pressed && e.Input == GameInputs.Start)
             {
                 Finish(info.NextHandler);
             }

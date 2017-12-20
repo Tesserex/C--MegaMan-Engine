@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using MegaMan.Common.Rendering;
+using MegaMan.Engine.Input;
 using MegaMan.Engine.Rendering;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,9 +12,9 @@ namespace MegaMan.Engine
 {
     public class GameInputEventArgs : EventArgs
     {
-        public GameInput Input { get; private set; }
+        public GameInputs Input { get; private set; }
         public bool Pressed { get; private set; }
-        public GameInputEventArgs(GameInput input, bool pressed)
+        public GameInputEventArgs(GameInputs input, bool pressed)
         {
             Input = input;
             Pressed = pressed;
@@ -98,10 +99,6 @@ namespace MegaMan.Engine
         // this is just used as a pre-calculated number so the division isn't done every frame.
         // Premature optimization at its finest.
         private readonly float invFreq = 1 / (float)Stopwatch.Frequency;
-
-        // this holds the key pressed state of all input keys, so that when they change,
-        // they can be translated into a GameInput event.
-        private readonly Dictionary<Keys, bool> inputFlags = new Dictionary<Keys, bool>();
 
         private List<bool> layerVisibility;
 
@@ -307,11 +304,6 @@ namespace MegaMan.Engine
         {
             FPS = Const.FPS;
 
-            foreach (Keys key in GameInputKeys.Instance)
-            {
-                inputFlags[key] = false;
-            }
-
             Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
 
             timer = new Stopwatch();
@@ -350,21 +342,10 @@ namespace MegaMan.Engine
         // If a key state changed, a GameInputReceived event is fired.
         private void CheckInput()
         {
-            foreach (Keys key in GameInputKeys.Instance)
+            var changes = GameInput.GetChangedInputs();
+            foreach (var key in changes.Keys)
             {
-                if (Program.KeyDown(key))
-                {
-                    if (!inputFlags.ContainsKey(key) || inputFlags[key] == false)
-                    {
-                        inputFlags[key] = true;
-                        if (GameInputReceived != null) GameInputReceived(new GameInputEventArgs(KeyToInput(key), true));
-                    }
-                }
-                else if (inputFlags.ContainsKey(key) && inputFlags[key])
-                {
-                    inputFlags[key] = false;
-                    if (GameInputReceived != null) GameInputReceived(new GameInputEventArgs(KeyToInput(key), false));
-                }
+                GameInputReceived?.Invoke(new GameInputEventArgs(key, changes[key]));
             }
         }
 
@@ -419,24 +400,6 @@ namespace MegaMan.Engine
             if (GameRenderEnd != null) GameRenderEnd(r);
 
             return false;
-        }
-
-        // Looking at this now, it seems like an unnecessary extra level of abstraction
-        // from the keyboard keys. But maybe not. This translates the Keys enum value
-        // stored in the GameInputKeys class to a GameInput enum value.
-        private static GameInput KeyToInput(Keys key)
-        {
-            // does not work with switch statement - "A constant value is expected"
-            if (key == GameInputKeys.Down) return GameInput.Down;
-            if (key == GameInputKeys.Jump) return GameInput.Jump;
-            if (key == GameInputKeys.Left) return GameInput.Left;
-            if (key == GameInputKeys.Right) return GameInput.Right;
-            if (key == GameInputKeys.Shoot) return GameInput.Shoot;
-            if (key == GameInputKeys.Up) return GameInput.Up;
-            if (key == GameInputKeys.Start) return GameInput.Start;
-            if (key == GameInputKeys.Select) return GameInput.Select;
-
-            return GameInput.None;
         }
     }
 }

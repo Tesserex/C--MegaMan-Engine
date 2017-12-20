@@ -4,6 +4,7 @@ using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.IncludedObjects;
 using MegaMan.Engine.Entities;
+using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
 {
@@ -87,7 +88,7 @@ namespace MegaMan.Engine
             int id = selectedId;
             int min = int.MaxValue;
 
-            if (e.Input == GameInput.Start)
+            if (e.Input == GameInputs.Start)
             {
                 var select = this.options[selectedId].SelectEvent;
                 if (select != null)
@@ -95,7 +96,7 @@ namespace MegaMan.Engine
                     RunCommands(select);
                 }
             }
-            else if (e.Input == GameInput.Down)
+            else if (e.Input == GameInputs.Down)
             {
                 for (var i = 0; i < options.Count; i++)
                 {
@@ -117,7 +118,7 @@ namespace MegaMan.Engine
                     }
                 }
             }
-            else if (e.Input == GameInput.Up)
+            else if (e.Input == GameInputs.Up)
             {
                 for (var i = 0; i < options.Count; i++)
                 {
@@ -138,7 +139,7 @@ namespace MegaMan.Engine
                     }
                 }
             }
-            else if (e.Input == GameInput.Right)
+            else if (e.Input == GameInputs.Right)
             {
                 for (var i = 0; i < options.Count; i++)
                 {
@@ -158,7 +159,7 @@ namespace MegaMan.Engine
                     }
                 }
             }
-            else if (e.Input == GameInput.Left)
+            else if (e.Input == GameInputs.Left)
             {
                 for (var i = 0; i < options.Count; i++)
                 {

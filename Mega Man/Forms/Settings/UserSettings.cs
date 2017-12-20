@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine.Forms.Settings
 {
@@ -83,11 +84,6 @@ namespace MegaMan.Engine.Forms.Settings
         /// Default constructor must exist to used deserialization
         /// </summary>
         public UserSettings() { }
-
-        public UserSettings(UserKeys keys)
-        {
-            
-        }
 
         public void deleteSetting(int index)
         {
@@ -177,15 +173,15 @@ namespace MegaMan.Engine.Forms.Settings
         {
             Default = new Setting() {
                 GameFileName = "",
-                Keys = new UserKeys() {
-                    Up = Keys.Up,
-                    Down = Keys.Down,
-                    Left = Keys.Left,
-                    Right = Keys.Right,
-                    Jump = Keys.A,
-                    Shoot = Keys.S,
-                    Start = Keys.Enter,
-                    Select = Keys.Space
+                KeyBindings = new List<UserKeyBindingSetting>() {
+                    new UserKeyBindingSetting() { Input = GameInputs.Up, Key = Keys.Up },
+                    new UserKeyBindingSetting() { Input = GameInputs.Down, Key = Keys.Down },
+                    new UserKeyBindingSetting() { Input = GameInputs.Left, Key = Keys.Left },
+                    new UserKeyBindingSetting() { Input = GameInputs.Right, Key = Keys.Right },
+                    new UserKeyBindingSetting() { Input = GameInputs.Jump, Key = Keys.A },
+                    new UserKeyBindingSetting() { Input = GameInputs.Shoot, Key = Keys.S },
+                    new UserKeyBindingSetting() { Input = GameInputs.Start, Key = Keys.Enter },
+                    new UserKeyBindingSetting() { Input = GameInputs.Select, Key = Keys.Space }
                 },
                 Screens = new LastScreen() {
                     Size = ScreenScale.X1,
@@ -246,7 +242,7 @@ namespace MegaMan.Engine.Forms.Settings
     {
         public string GameFileName { get; set; }
         public string GameTitle { get; set; }
-        public UserKeys Keys { get; set; }
+        public List<UserKeyBindingSetting> KeyBindings { get; set; }
         public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
         public LastDebug Debug { get; set; }
@@ -254,25 +250,30 @@ namespace MegaMan.Engine.Forms.Settings
 
         public Setting()
         {
-            Keys = new UserKeys();
+            KeyBindings = new List<UserKeyBindingSetting>();
             Screens = new LastScreen();
             Audio = new LastAudio();
             Debug = new LastDebug();
             Miscellaneous = new LastMiscellaneous();
         }
     }
+    
+    public interface IUserInputBindingSetting
+    {
+        GameInputs Input { get; set; }
+        IGameInputBinding GetGameInputBinding();
+    }
 
     [Serializable]
-    public class UserKeys
+    public class UserKeyBindingSetting : IUserInputBindingSetting
     {
-        public Keys Up { get; set; }
-        public Keys Down { get; set; }
-        public Keys Left { get; set; }
-        public Keys Right { get; set; }
-        public Keys Jump { get; set; }
-        public Keys Shoot { get; set; }
-        public Keys Start { get; set; }
-        public Keys Select { get; set; }
+        public GameInputs Input { get; set; }
+        public Keys Key { get; set; }
+
+        public IGameInputBinding GetGameInputBinding()
+        {
+            return new KeyboardInputBinding(this.Key);
+        }
     }
 
     [Serializable]

@@ -317,7 +317,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Keyboard";
-            this.Text = "Keyboard Options";
+            this.Text = "Input Bindings";
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
