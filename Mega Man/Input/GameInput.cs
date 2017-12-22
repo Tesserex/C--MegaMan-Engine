@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Xna.Framework.Input;
+using SharpDX.DirectInput;
 
 namespace MegaMan.Engine.Input
 {
@@ -26,55 +28,100 @@ namespace MegaMan.Engine.Input
         // they can be translated into a GameInput event.
         private static readonly Dictionary<GameInputs, bool> inputFlags = new Dictionary<GameInputs, bool>();
 
-        private static Dictionary<GameInputs, IGameInputBinding> bindings = new Dictionary<GameInputs, IGameInputBinding>();
+        private static List<IGameInputBinding> bindings = new List<IGameInputBinding>();
 
-        public static void SetBinding(GameInputs input, IGameInputBinding binding)
+        public static void AddBinding(IGameInputBinding binding)
         {
-            bindings[input] = binding;
+            bindings.Add(binding);
         }
 
-        public static IGameInputBinding GetBinding(GameInputs input)
+        public static void ClearBinding(GameInputs input)
         {
-            return bindings.ContainsKey(input) ? bindings[input] : null;
+            bindings.RemoveAll(b => b.Input == input);
+        }
+
+        public static IEnumerable<IGameInputBinding> GetBindings(GameInputs input)
+        {
+            return bindings.Where(b => b.Input == input);
+        }
+
+        public static IEnumerable<KeyboardInputBinding> GetKeyBindings()
+        {
+            return bindings.OfType<KeyboardInputBinding>();
+        }
+
+        public static IEnumerable<JoystickInputBinding> GetJoystickBindings()
+        {
+            return bindings.OfType<JoystickInputBinding>();
         }
 
         public static Dictionary<GameInputs, bool> GetChangedInputs()
         {
             var result = new Dictionary<GameInputs, bool>();
 
-            foreach (var input in bindings.Keys)
+            foreach (var binding in bindings)
             {
-                var binding = bindings[input];
                 if (binding.IsPressed)
                 {
-                    if (!inputFlags.ContainsKey(input) || inputFlags[input] == false)
+                    if (!inputFlags.ContainsKey(binding.Input) || inputFlags[binding.Input] == false)
                     {
-                        inputFlags[input] = true;
-                        result[input] = true;
+                        inputFlags[binding.Input] = true;
+                        result[binding.Input] = true;
                     }
                 }
-                else if (inputFlags.ContainsKey(input) && inputFlags[input])
+                else if (inputFlags.ContainsKey(binding.Input) && inputFlags[binding.Input])
                 {
-                    inputFlags[input] = false;
-                    result[input] = false;
+                    inputFlags[binding.Input] = false;
+                    result[binding.Input] = false;
                 }
             }
 
             return result;
         }
+
+        static GameInput()
+        {
+            DeviceManager.Instance.JoystickButtonPressed += JoystickButtonPressed;
+            DeviceManager.Instance.JoystickAxisPressed += JoystickAxisPressed;
+        }
+
+        private static void JoystickAxisPressed(object sender, JoystickAxisPressedEventArgs e)
+        {
+            var matches = bindings.OfType<JoystickInputBinding>()
+                .Where(b => b.DeviceGuid == e.Button.DeviceGuid && b.Button == e.Button.ButtonOffset);
+
+            foreach (var binding in matches)
+            {
+                binding.IsPressed = (binding.Value == e.Value);
+            }
+        }
+
+        private static void JoystickButtonPressed(object sender, JoystickButtonPressedEventArgs e)
+        {
+            var matches = bindings.OfType<JoystickInputBinding>()
+                .Where(b => b.DeviceGuid == e.Button.DeviceGuid && b.Button == e.Button.ButtonOffset);
+
+            foreach (var binding in matches)
+            {
+                binding.IsPressed = e.Pressed;
+            }
+        }
     }
 
     public interface IGameInputBinding
     {
+        GameInputs Input { get; }
         bool IsPressed { get; }
     }
 
     public class KeyboardInputBinding : IGameInputBinding
     {
-        public Keys Key { get; private set; }
+        public GameInputs Input { get; private set; }
+        public System.Windows.Forms.Keys Key { get; private set; }
 
-        public KeyboardInputBinding(Keys key)
+        public KeyboardInputBinding(GameInputs input, System.Windows.Forms.Keys key)
         {
+            this.Input = input;
             this.Key = key;
         }
 
@@ -82,7 +129,60 @@ namespace MegaMan.Engine.Input
 
         public override string ToString()
         {
-            return this.Key.ToString();
+            return "Key " + this.Key.ToString();
+        }
+    }
+
+    public class JoystickInputBinding : IGameInputBinding
+    {
+        public GameInputs Input { get; private set; }
+        public JoystickOffset Button { get; private set; }
+        public Guid DeviceGuid { get; private set; }
+        public int Value { get; private set; }
+
+        public JoystickInputBinding(GameInputs input, Guid guid, JoystickOffset button, int value = 0)
+        {
+            this.Input = input;
+            this.DeviceGuid = guid;
+            this.Button = button;
+            this.Value = value;
+        }
+
+        public bool IsPressed { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Joystick {0} {1}", this.Button.ToString(), this.Value != 0 ? this.Value.ToString() : "");
+        }
+    }
+
+    public class GamepadInputBinding : IGameInputBinding
+    {
+        public GameInputs Input { get; private set; }
+        public Buttons Button { get; private set; }
+
+        public GamepadInputBinding(GameInputs input, Buttons button)
+        {
+            this.Input = input;
+            this.Button = button;
+        }
+
+        public bool IsPressed
+        {
+            get
+            {
+                var capabilities = GamePad.GetCapabilities(Microsoft.Xna.Framework.PlayerIndex.One);
+                if (capabilities.IsConnected)
+                {
+                    return GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One).IsButtonDown(this.Button);
+                }
+                return false;
+            }
+        }
+
+        public override string ToString()
+        {
+            return "Gamepad " + this.Button.ToString();
         }
     }
 }

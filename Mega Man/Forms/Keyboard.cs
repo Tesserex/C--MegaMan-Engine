@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using MegaMan.Engine.Input;
 
@@ -27,12 +28,16 @@ namespace MegaMan.Engine
             shootkeylabel.Text = GetBindingDisplay(GameInputs.Shoot);
             startkeylabel.Text = GetBindingDisplay(GameInputs.Start);
             selectkeylabel.Text = GetBindingDisplay(GameInputs.Select);
+
+            DeviceManager.Instance.JoystickButtonPressed += JoystickButtonPressed;
+            DeviceManager.Instance.JoystickAxisPressed += JoystickAxisPressed;
+
             base.OnShown(e);
         }
 
         private string GetBindingDisplay(GameInputs input)
         {
-            var binding = GameInput.GetBinding(input);
+            var binding = GameInput.GetBindings(input).FirstOrDefault();
             return binding != null ? binding.ToString() : "NONE";
         }
 
@@ -43,6 +48,8 @@ namespace MegaMan.Engine
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;    // If closing it, there will be a failure on call of show method.
+            DeviceManager.Instance.JoystickButtonPressed -= JoystickButtonPressed;
+            DeviceManager.Instance.JoystickAxisPressed -= JoystickAxisPressed;
             base.OnClosing(e);
             this.Hide();
         }
@@ -53,8 +60,10 @@ namespace MegaMan.Engine
             {
                 if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift))
                 {
-                    GameInput.SetBinding(waitKey, new KeyboardInputBinding(keyData));
-                    waitLabel.Text = keyData.ToString();
+                    var binding = new KeyboardInputBinding(waitKey, keyData);
+                    GameInput.ClearBinding(waitKey);
+                    GameInput.AddBinding(binding);
+                    waitLabel.Text = binding.ToString();
                     waitLabel = null;
                     return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
                 }
@@ -66,11 +75,36 @@ namespace MegaMan.Engine
                     else if (keyData.HasFlag(Keys.Alt)) key = "Alt";
                     else if (keyData.HasFlag(Keys.Shift)) key = "Shift";
 
-                    MessageBox.Show(this, "Key " + key + " is not allowed.", "Unhauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show(this, "Key " + key + " is not allowed.", "Unauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        private void JoystickButtonPressed(object sender, JoystickButtonPressedEventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                var binding = new JoystickInputBinding(waitKey, e.Button.DeviceGuid, e.Button.ButtonOffset);
+                GameInput.ClearBinding(waitKey);
+                GameInput.AddBinding(binding);
+                waitLabel.Text = binding.ToString();
+                waitLabel = null;
+            }
+        }
+
+        private void JoystickAxisPressed(object sender, JoystickAxisPressedEventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                var binding = new JoystickInputBinding(waitKey, e.Button.DeviceGuid, e.Button.ButtonOffset, e.Value);
+                GameInput.ClearBinding(waitKey);
+                GameInput.AddBinding(binding);
+                waitLabel.Text = binding.ToString();
+                waitLabel = null;
+            }
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

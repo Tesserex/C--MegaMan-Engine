@@ -58,7 +58,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 10);
+            this.label1.Location = new System.Drawing.Point(21, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 0;
@@ -66,18 +66,18 @@
             // 
             // upkeylabel
             // 
-            this.upkeylabel.AutoSize = true;
-            this.upkeylabel.Location = new System.Drawing.Point(45, 10);
+            this.upkeylabel.Location = new System.Drawing.Point(50, 10);
             this.upkeylabel.Name = "upkeylabel";
-            this.upkeylabel.Size = new System.Drawing.Size(35, 13);
+            this.upkeylabel.Size = new System.Drawing.Size(120, 13);
             this.upkeylabel.TabIndex = 1;
             this.upkeylabel.Text = "label2";
+            this.upkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 35);
+            this.label3.Location = new System.Drawing.Point(15, 35);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 2;
@@ -85,18 +85,18 @@
             // 
             // leftkeylabel
             // 
-            this.leftkeylabel.AutoSize = true;
-            this.leftkeylabel.Location = new System.Drawing.Point(45, 35);
+            this.leftkeylabel.Location = new System.Drawing.Point(50, 35);
             this.leftkeylabel.Name = "leftkeylabel";
-            this.leftkeylabel.Size = new System.Drawing.Size(35, 13);
+            this.leftkeylabel.Size = new System.Drawing.Size(120, 13);
             this.leftkeylabel.TabIndex = 3;
             this.leftkeylabel.Text = "label4";
+            this.leftkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 59);
+            this.label5.Location = new System.Drawing.Point(8, 110);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 13);
             this.label5.TabIndex = 4;
@@ -104,18 +104,18 @@
             // 
             // jumpkeylabel
             // 
-            this.jumpkeylabel.AutoSize = true;
-            this.jumpkeylabel.Location = new System.Drawing.Point(45, 59);
+            this.jumpkeylabel.Location = new System.Drawing.Point(50, 110);
             this.jumpkeylabel.Name = "jumpkeylabel";
-            this.jumpkeylabel.Size = new System.Drawing.Size(35, 13);
+            this.jumpkeylabel.Size = new System.Drawing.Size(120, 13);
             this.jumpkeylabel.TabIndex = 5;
             this.jumpkeylabel.Text = "label6";
+            this.jumpkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(3, 85);
+            this.label7.Location = new System.Drawing.Point(8, 160);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(34, 13);
             this.label7.TabIndex = 6;
@@ -123,18 +123,18 @@
             // 
             // startkeylabel
             // 
-            this.startkeylabel.AutoSize = true;
-            this.startkeylabel.Location = new System.Drawing.Point(45, 85);
+            this.startkeylabel.Location = new System.Drawing.Point(50, 160);
             this.startkeylabel.Name = "startkeylabel";
-            this.startkeylabel.Size = new System.Drawing.Size(35, 13);
+            this.startkeylabel.Size = new System.Drawing.Size(120, 13);
             this.startkeylabel.TabIndex = 7;
             this.startkeylabel.Text = "label8";
+            this.startkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(173, 10);
+            this.label9.Location = new System.Drawing.Point(5, 85);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(39, 13);
             this.label9.TabIndex = 8;
@@ -142,18 +142,18 @@
             // 
             // downkeylabel
             // 
-            this.downkeylabel.AutoSize = true;
-            this.downkeylabel.Location = new System.Drawing.Point(218, 10);
+            this.downkeylabel.Location = new System.Drawing.Point(50, 85);
             this.downkeylabel.Name = "downkeylabel";
-            this.downkeylabel.Size = new System.Drawing.Size(41, 13);
+            this.downkeylabel.Size = new System.Drawing.Size(120, 13);
             this.downkeylabel.TabIndex = 9;
             this.downkeylabel.Text = "label10";
+            this.downkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(175, 35);
+            this.label11.Location = new System.Drawing.Point(7, 60);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(37, 13);
             this.label11.TabIndex = 10;
@@ -161,18 +161,18 @@
             // 
             // rightkeylabel
             // 
-            this.rightkeylabel.AutoSize = true;
-            this.rightkeylabel.Location = new System.Drawing.Point(218, 35);
+            this.rightkeylabel.Location = new System.Drawing.Point(50, 60);
             this.rightkeylabel.Name = "rightkeylabel";
-            this.rightkeylabel.Size = new System.Drawing.Size(41, 13);
+            this.rightkeylabel.Size = new System.Drawing.Size(120, 13);
             this.rightkeylabel.TabIndex = 11;
             this.rightkeylabel.Text = "label12";
+            this.rightkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(172, 59);
+            this.label13.Location = new System.Drawing.Point(4, 135);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(40, 13);
             this.label13.TabIndex = 12;
@@ -180,18 +180,18 @@
             // 
             // shootkeylabel
             // 
-            this.shootkeylabel.AutoSize = true;
-            this.shootkeylabel.Location = new System.Drawing.Point(218, 59);
+            this.shootkeylabel.Location = new System.Drawing.Point(50, 135);
             this.shootkeylabel.Name = "shootkeylabel";
-            this.shootkeylabel.Size = new System.Drawing.Size(41, 13);
+            this.shootkeylabel.Size = new System.Drawing.Size(120, 13);
             this.shootkeylabel.TabIndex = 13;
             this.shootkeylabel.Text = "label14";
+            this.shootkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(169, 85);
+            this.label15.Location = new System.Drawing.Point(1, 185);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(43, 13);
             this.label15.TabIndex = 14;
@@ -199,16 +199,16 @@
             // 
             // selectkeylabel
             // 
-            this.selectkeylabel.AutoSize = true;
-            this.selectkeylabel.Location = new System.Drawing.Point(218, 85);
+            this.selectkeylabel.Location = new System.Drawing.Point(50, 185);
             this.selectkeylabel.Name = "selectkeylabel";
-            this.selectkeylabel.Size = new System.Drawing.Size(41, 13);
+            this.selectkeylabel.Size = new System.Drawing.Size(120, 13);
             this.selectkeylabel.TabIndex = 15;
             this.selectkeylabel.Text = "label16";
+            this.selectkeylabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(92, 5);
+            this.button1.Location = new System.Drawing.Point(177, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(57, 23);
             this.button1.TabIndex = 1;
@@ -218,7 +218,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(92, 80);
+            this.button2.Location = new System.Drawing.Point(177, 155);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(57, 23);
             this.button2.TabIndex = 7;
@@ -228,7 +228,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(265, 80);
+            this.button3.Location = new System.Drawing.Point(177, 180);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(57, 23);
             this.button3.TabIndex = 8;
@@ -238,7 +238,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(265, 54);
+            this.button4.Location = new System.Drawing.Point(177, 130);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(57, 23);
             this.button4.TabIndex = 6;
@@ -248,7 +248,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(265, 30);
+            this.button5.Location = new System.Drawing.Point(177, 55);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(57, 23);
             this.button5.TabIndex = 4;
@@ -258,7 +258,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(265, 5);
+            this.button6.Location = new System.Drawing.Point(177, 80);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(57, 23);
             this.button6.TabIndex = 2;
@@ -268,7 +268,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(92, 54);
+            this.button7.Location = new System.Drawing.Point(177, 105);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(57, 23);
             this.button7.TabIndex = 5;
@@ -278,7 +278,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(92, 30);
+            this.button8.Location = new System.Drawing.Point(177, 30);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(57, 23);
             this.button8.TabIndex = 3;
@@ -290,7 +290,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 111);
+            this.ClientSize = new System.Drawing.Size(242, 211);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);

@@ -1074,7 +1074,11 @@ namespace MegaMan.Engine
             #region Input Menu: Keys
             foreach (var binding in settings.KeyBindings)
             {
-                GameInput.SetBinding(binding.Input, binding.GetGameInputBinding());
+                GameInput.AddBinding(binding.GetGameInputBinding());
+            }
+            foreach (var binding in settings.JoystickBindings)
+            {
+                GameInput.AddBinding(binding.GetGameInputBinding());
             }
             #endregion
 
@@ -1175,6 +1179,7 @@ namespace MegaMan.Engine
                     GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
                     GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
                     KeyBindings = GetKeyBindingSettings(),
+                    JoystickBindings = GetJoystickBindingSettings(),
                     Screens = new LastScreen()
                     {
                         Maximized = WindowState == FormWindowState.Maximized,
@@ -1217,19 +1222,12 @@ namespace MegaMan.Engine
 
         private List<UserKeyBindingSetting> GetKeyBindingSettings()
         {
-            var result = new List<UserKeyBindingSetting>();
-            foreach (var input in Enum.GetValues(typeof(GameInputs)).Cast<GameInputs>())
-            {
-                var binding = GameInput.GetBinding(input);
-                if (binding != null)
-                {
-                    if (binding is KeyboardInputBinding)
-                    {
-                        result.Add(new UserKeyBindingSetting() { Input = input, Key = ((KeyboardInputBinding)binding).Key });
-                    }
-                }
-            }
-            return result;
+            return GameInput.GetKeyBindings().Select(x => new UserKeyBindingSetting() { Input = x.Input, Key = x.Key }).ToList();
+        }
+
+        private List<UserJoystickBindingSetting> GetJoystickBindingSettings()
+        {
+            return GameInput.GetJoystickBindings().Select(x => new UserJoystickBindingSetting() { Input = x.Input, DeviceGuid = x.DeviceGuid, Button = x.Button, Value = x.Value }).ToList();
         }
 
         private void Engine_Exception(Exception e)
