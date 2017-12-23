@@ -1080,6 +1080,10 @@ namespace MegaMan.Engine
             {
                 GameInput.AddBinding(binding.GetGameInputBinding());
             }
+            foreach (var binding in settings.GamepadBindings)
+            {
+                GameInput.AddBinding(binding.GetGameInputBinding());
+            }
             #endregion
 
             #region Screen Menu
@@ -1180,6 +1184,7 @@ namespace MegaMan.Engine
                     GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
                     KeyBindings = GetKeyBindingSettings(),
                     JoystickBindings = GetJoystickBindingSettings(),
+                    GamepadBindings = GetGamepadBindingSettings(),
                     Screens = new LastScreen()
                     {
                         Maximized = WindowState == FormWindowState.Maximized,
@@ -1228,6 +1233,11 @@ namespace MegaMan.Engine
         private List<UserJoystickBindingSetting> GetJoystickBindingSettings()
         {
             return GameInput.GetJoystickBindings().Select(x => new UserJoystickBindingSetting() { Input = x.Input, DeviceGuid = x.DeviceGuid, Button = x.Button, Value = x.Value }).ToList();
+        }
+
+        private List<UserGamepadBindingSetting> GetGamepadBindingSettings()
+        {
+            return GameInput.GetGamepadBindings().Select(x => new UserGamepadBindingSetting() { Input = x.Input, Button = x.Button }).ToList();
         }
 
         private void Engine_Exception(Exception e)

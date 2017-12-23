@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Xna.Framework.Input;
 using SharpDX.DirectInput;
+using SharpDX.XInput;
 
 namespace MegaMan.Engine.Input
 {
@@ -55,6 +55,11 @@ namespace MegaMan.Engine.Input
             return bindings.OfType<JoystickInputBinding>();
         }
 
+        public static IEnumerable<GamepadInputBinding> GetGamepadBindings()
+        {
+            return bindings.OfType<GamepadInputBinding>();
+        }
+
         public static Dictionary<GameInputs, bool> GetChangedInputs()
         {
             var result = new Dictionary<GameInputs, bool>();
@@ -83,6 +88,18 @@ namespace MegaMan.Engine.Input
         {
             DeviceManager.Instance.JoystickButtonPressed += JoystickButtonPressed;
             DeviceManager.Instance.JoystickAxisPressed += JoystickAxisPressed;
+            DeviceManager.Instance.GamepadButtonPressed += GamepadButtonPressed;
+        }
+
+        private static void GamepadButtonPressed(object sender, GamepadButtonPressedEventArgs e)
+        {
+            var matches = bindings.OfType<GamepadInputBinding>()
+                .Where(b => b.Button == e.Button);
+
+            foreach (var binding in matches)
+            {
+                binding.IsPressed = e.Pressed;
+            }
         }
 
         private static void JoystickAxisPressed(object sender, JoystickAxisPressedEventArgs e)
@@ -159,26 +176,15 @@ namespace MegaMan.Engine.Input
     public class GamepadInputBinding : IGameInputBinding
     {
         public GameInputs Input { get; private set; }
-        public Buttons Button { get; private set; }
+        public GamepadButtonFlags Button { get; private set; }
 
-        public GamepadInputBinding(GameInputs input, Buttons button)
+        public GamepadInputBinding(GameInputs input, GamepadButtonFlags button)
         {
             this.Input = input;
             this.Button = button;
         }
 
-        public bool IsPressed
-        {
-            get
-            {
-                var capabilities = GamePad.GetCapabilities(Microsoft.Xna.Framework.PlayerIndex.One);
-                if (capabilities.IsConnected)
-                {
-                    return GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One).IsButtonDown(this.Button);
-                }
-                return false;
-            }
-        }
+        public bool IsPressed { get; set; }
 
         public override string ToString()
         {

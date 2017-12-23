@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpDX.DirectInput;
+using SharpDX.XInput;
 
 namespace MegaMan.Engine.Input
 {
@@ -24,16 +25,18 @@ namespace MegaMan.Engine.Input
             }
         }
 
+        private Controller controller;
+        private GamepadButtonFlags padButtonStates;
         private List<Joystick> joysticks;
 
         public event EventHandler<JoystickButtonPressedEventArgs> JoystickButtonPressed;
         public event EventHandler<JoystickAxisPressedEventArgs> JoystickAxisPressed;
+        public event EventHandler<GamepadButtonPressedEventArgs> GamepadButtonPressed;
 
         private DeviceManager()
         {
             var directinput = new DirectInput();
-            var gamepads = directinput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices);
-            var joyInstances = directinput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices);
+            var joyInstances = directinput.GetDevices(SharpDX.DirectInput.DeviceType.Joystick, DeviceEnumerationFlags.AllDevices);
 
             this.joysticks = new List<Joystick>();
             foreach (var joy in joyInstances)
@@ -43,6 +46,8 @@ namespace MegaMan.Engine.Input
                 stick.Acquire();
                 this.joysticks.Add(stick);
             }
+
+            this.controller = new Controller(UserIndex.One);
 
             Task.Factory.StartNew(PollJoysticks, TaskCreationOptions.LongRunning);
         }
@@ -84,6 +89,23 @@ namespace MegaMan.Engine.Input
                         }
                     }
                 }
+
+                if (this.controller.IsConnected)
+                {
+                    var padState = this.controller.GetState().Gamepad;
+                    var buttonChanges = padState.Buttons ^ this.padButtonStates;
+
+                    foreach (var button in Enum.GetValues(typeof(GamepadButtonFlags)).Cast<GamepadButtonFlags>())
+                    {
+                        if ((buttonChanges & button) > 0)
+                        {
+                            bool currentState = (padState.Buttons & button) > 0;
+                            RaiseEventOnUIThread(GamepadButtonPressed, this, new GamepadButtonPressedEventArgs() { Button = button, Pressed = currentState });
+                        }
+                    }
+
+                    this.padButtonStates = padState.Buttons;
+                }
             }
         }
 
@@ -118,6 +140,12 @@ namespace MegaMan.Engine.Input
     {
         public JoystickButton Button { get; set; }
         public sbyte Value { get; set; }
+    }
+
+    public class GamepadButtonPressedEventArgs
+    {
+        public GamepadButtonFlags Button { get; set; }
+        public bool Pressed { get; set; }
     }
 
     public class JoystickButton

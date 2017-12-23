@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using MegaMan.Engine.Input;
 using SharpDX.DirectInput;
+using SharpDX.XInput;
 
 namespace MegaMan.Engine.Forms.Settings
 {
@@ -245,6 +246,7 @@ namespace MegaMan.Engine.Forms.Settings
         public string GameTitle { get; set; }
         public List<UserKeyBindingSetting> KeyBindings { get; set; }
         public List<UserJoystickBindingSetting> JoystickBindings { get; set; }
+        public List<UserGamepadBindingSetting> GamepadBindings { get; set; }
         public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
         public LastDebug Debug { get; set; }
@@ -254,6 +256,7 @@ namespace MegaMan.Engine.Forms.Settings
         {
             KeyBindings = new List<UserKeyBindingSetting>();
             JoystickBindings = new List<UserJoystickBindingSetting>();
+            GamepadBindings = new List<UserGamepadBindingSetting>();
             Screens = new LastScreen();
             Audio = new LastAudio();
             Debug = new LastDebug();
@@ -290,6 +293,18 @@ namespace MegaMan.Engine.Forms.Settings
         public IGameInputBinding GetGameInputBinding()
         {
             return new JoystickInputBinding(Input, DeviceGuid, Button, Value);
+        }
+    }
+
+    [Serializable]
+    public class UserGamepadBindingSetting : IUserInputBindingSetting
+    {
+        public GameInputs Input { get; set; }
+        public GamepadButtonFlags Button { get; set; }
+
+        public IGameInputBinding GetGameInputBinding()
+        {
+            return new GamepadInputBinding(Input, Button);
         }
     }
 

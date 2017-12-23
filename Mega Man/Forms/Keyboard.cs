@@ -31,6 +31,7 @@ namespace MegaMan.Engine
 
             DeviceManager.Instance.JoystickButtonPressed += JoystickButtonPressed;
             DeviceManager.Instance.JoystickAxisPressed += JoystickAxisPressed;
+            DeviceManager.Instance.GamepadButtonPressed += GamepadButtonPressed;
 
             base.OnShown(e);
         }
@@ -50,6 +51,7 @@ namespace MegaMan.Engine
             e.Cancel = true;    // If closing it, there will be a failure on call of show method.
             DeviceManager.Instance.JoystickButtonPressed -= JoystickButtonPressed;
             DeviceManager.Instance.JoystickAxisPressed -= JoystickAxisPressed;
+            DeviceManager.Instance.GamepadButtonPressed -= GamepadButtonPressed;
             base.OnClosing(e);
             this.Hide();
         }
@@ -105,6 +107,17 @@ namespace MegaMan.Engine
             }
         }
 
+        private void GamepadButtonPressed(object sender, GamepadButtonPressedEventArgs e)
+        {
+            if (waitLabel != null)
+            {
+                var binding = new GamepadInputBinding(waitKey, e.Button);
+                GameInput.ClearBinding(waitKey);
+                GameInput.AddBinding(binding);
+                waitLabel.Text = binding.ToString();
+                waitLabel = null;
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
