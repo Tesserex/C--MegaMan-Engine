@@ -1084,6 +1084,7 @@ namespace MegaMan.Engine
             {
                 GameInput.AddBinding(binding.GetGameInputBinding());
             }
+            GameInput.ActiveType = settings.ActiveInput;
             #endregion
 
             #region Screen Menu
@@ -1185,6 +1186,7 @@ namespace MegaMan.Engine
                     KeyBindings = GetKeyBindingSettings(),
                     JoystickBindings = GetJoystickBindingSettings(),
                     GamepadBindings = GetGamepadBindingSettings(),
+                    ActiveInput = GameInput.ActiveType,
                     Screens = new LastScreen()
                     {
                         Maximized = WindowState == FormWindowState.Maximized,

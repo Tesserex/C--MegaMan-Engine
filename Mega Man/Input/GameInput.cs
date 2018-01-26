@@ -22,6 +22,13 @@ namespace MegaMan.Engine.Input
         None
     }
 
+    public enum InputTypes
+    {
+        Keyboard,
+        Gamepad,
+        Joystick
+    }
+
     public static class GameInput
     {
         // this holds the key pressed state of all input keys, so that when they change,
@@ -30,8 +37,11 @@ namespace MegaMan.Engine.Input
 
         private static List<IGameInputBinding> bindings = new List<IGameInputBinding>();
 
+        public static InputTypes ActiveType { get; set; }
+
         public static void AddBinding(IGameInputBinding binding)
         {
+            bindings.RemoveAll(x => x.Input == binding.Input && x.GetType() == binding.GetType());
             bindings.Add(binding);
         }
 
@@ -64,7 +74,8 @@ namespace MegaMan.Engine.Input
         {
             var result = new Dictionary<GameInputs, bool>();
 
-            foreach (var binding in bindings)
+            var active = bindings.Where(x => x.InputType == ActiveType);
+            foreach (var binding in active)
             {
                 if (binding.IsPressed)
                 {
@@ -128,12 +139,14 @@ namespace MegaMan.Engine.Input
     public interface IGameInputBinding
     {
         GameInputs Input { get; }
+        InputTypes InputType { get; }
         bool IsPressed { get; }
     }
 
     public class KeyboardInputBinding : IGameInputBinding
     {
         public GameInputs Input { get; private set; }
+        public InputTypes InputType { get { return InputTypes.Keyboard; } }
         public System.Windows.Forms.Keys Key { get; private set; }
 
         public KeyboardInputBinding(GameInputs input, System.Windows.Forms.Keys key)
@@ -146,13 +159,14 @@ namespace MegaMan.Engine.Input
 
         public override string ToString()
         {
-            return "Key " + this.Key.ToString();
+            return this.Key.ToString();
         }
     }
 
     public class JoystickInputBinding : IGameInputBinding
     {
         public GameInputs Input { get; private set; }
+        public InputTypes InputType { get { return InputTypes.Joystick; } }
         public JoystickOffset Button { get; private set; }
         public Guid DeviceGuid { get; private set; }
         public int Value { get; private set; }
@@ -169,13 +183,14 @@ namespace MegaMan.Engine.Input
 
         public override string ToString()
         {
-            return string.Format("Joystick {0} {1}", this.Button.ToString(), this.Value != 0 ? this.Value.ToString() : "");
+            return string.Format("{0} {1}", this.Button.ToString(), this.Value != 0 ? this.Value.ToString() : "");
         }
     }
 
     public class GamepadInputBinding : IGameInputBinding
     {
         public GameInputs Input { get; private set; }
+        public InputTypes InputType { get { return InputTypes.Gamepad; } }
         public GamepadButtonFlags Button { get; private set; }
 
         public GamepadInputBinding(GameInputs input, GamepadButtonFlags button)
@@ -188,7 +203,7 @@ namespace MegaMan.Engine.Input
 
         public override string ToString()
         {
-            return "Gamepad " + this.Button.ToString();
+            return this.Button.ToString();
         }
     }
 }

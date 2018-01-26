@@ -8,9 +8,7 @@ namespace MegaMan.Engine
 {
     public partial class Keyboard : Form
     {
-        private GameInputs waitKey;
-        private Label waitLabel;
-        private Button previousSelection = null;
+        private GameInputs? waitKey;
 
         public Keyboard()
         {
@@ -20,26 +18,33 @@ namespace MegaMan.Engine
 
         protected override void OnShown(EventArgs e)
         {
-            upkeylabel.Text = GetBindingDisplay(GameInputs.Up);
-            downkeylabel.Text = GetBindingDisplay(GameInputs.Down);
-            leftkeylabel.Text = GetBindingDisplay(GameInputs.Left);
-            rightkeylabel.Text = GetBindingDisplay(GameInputs.Right);
-            jumpkeylabel.Text = GetBindingDisplay(GameInputs.Jump);
-            shootkeylabel.Text = GetBindingDisplay(GameInputs.Shoot);
-            startkeylabel.Text = GetBindingDisplay(GameInputs.Start);
-            selectkeylabel.Text = GetBindingDisplay(GameInputs.Select);
+            SetLabels(GameInputs.Up);
+            SetLabels(GameInputs.Down);
+            SetLabels(GameInputs.Left);
+            SetLabels(GameInputs.Right);
+            SetLabels(GameInputs.Jump);
+            SetLabels(GameInputs.Shoot);
+            SetLabels(GameInputs.Start);
+            SetLabels(GameInputs.Select);
+
+            switch (GameInput.ActiveType)
+            {
+                case InputTypes.Keyboard:
+                    btnKeyboard.Checked = true;
+                    break;
+                case InputTypes.Gamepad:
+                    btnGamepad.Checked = true;
+                    break;
+                case InputTypes.Joystick:
+                    btnJoystick.Checked = true;
+                    break;
+            }
 
             DeviceManager.Instance.JoystickButtonPressed += JoystickButtonPressed;
             DeviceManager.Instance.JoystickAxisPressed += JoystickAxisPressed;
             DeviceManager.Instance.GamepadButtonPressed += GamepadButtonPressed;
 
             base.OnShown(e);
-        }
-
-        private string GetBindingDisplay(GameInputs input)
-        {
-            var binding = GameInput.GetBindings(input).FirstOrDefault();
-            return binding != null ? binding.ToString() : "NONE";
         }
 
         /// <summary>
@@ -58,15 +63,14 @@ namespace MegaMan.Engine
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
                 if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift))
                 {
-                    var binding = new KeyboardInputBinding(waitKey, keyData);
-                    GameInput.ClearBinding(waitKey);
+                    var binding = new KeyboardInputBinding(waitKey.Value, keyData);
                     GameInput.AddBinding(binding);
-                    waitLabel.Text = binding.ToString();
-                    waitLabel = null;
+                    SetLabels(waitKey.Value);
+                    waitKey = null;
                     return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
                 }
                 else
@@ -85,150 +89,169 @@ namespace MegaMan.Engine
 
         private void JoystickButtonPressed(object sender, JoystickButtonPressedEventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                var binding = new JoystickInputBinding(waitKey, e.Button.DeviceGuid, e.Button.ButtonOffset);
-                GameInput.ClearBinding(waitKey);
+                var binding = new JoystickInputBinding(waitKey.Value, e.Button.DeviceGuid, e.Button.ButtonOffset);
                 GameInput.AddBinding(binding);
-                waitLabel.Text = binding.ToString();
-                waitLabel = null;
+                SetLabels(waitKey.Value);
+                waitKey = null;
             }
         }
 
         private void JoystickAxisPressed(object sender, JoystickAxisPressedEventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                var binding = new JoystickInputBinding(waitKey, e.Button.DeviceGuid, e.Button.ButtonOffset, e.Value);
-                GameInput.ClearBinding(waitKey);
+                var binding = new JoystickInputBinding(waitKey.Value, e.Button.DeviceGuid, e.Button.ButtonOffset, e.Value);
                 GameInput.AddBinding(binding);
-                waitLabel.Text = binding.ToString();
-                waitLabel = null;
+                SetLabels(waitKey.Value);
+                waitKey = null;
             }
         }
 
         private void GamepadButtonPressed(object sender, GamepadButtonPressedEventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                var binding = new GamepadInputBinding(waitKey, e.Button);
-                GameInput.ClearBinding(waitKey);
+                var binding = new GamepadInputBinding(waitKey.Value, e.Button);
                 GameInput.AddBinding(binding);
-                waitLabel.Text = binding.ToString();
-                waitLabel = null;
+                SetLabels(waitKey.Value);
+                waitKey = null;
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSetUp_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button1;
-            upkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Up;
-            waitLabel = upkeylabel;
+            SetWaiting();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnSetStart_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button2;
-            startkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Start;
-            waitLabel = startkeylabel;
+            SetWaiting();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnSetSelect_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button3;
-            selectkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Select;
-            waitLabel = selectkeylabel;
+            SetWaiting();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnSetShoot_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button4;
-            shootkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Shoot;
-            waitLabel = shootkeylabel;
+            SetWaiting();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnSetRight_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button5;
-            rightkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Right;
-            waitLabel = rightkeylabel;
+            SetWaiting();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void btnSetDown_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button6;
-            downkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Down;
-            waitLabel = downkeylabel;
+            SetWaiting();
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void btnSetJump_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button7;
-            jumpkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Jump;
-            waitLabel = jumpkeylabel;
+            SetWaiting();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void btnSetLeft_Click(object sender, EventArgs e)
         {
-            if (waitLabel != null)
+            if (waitKey != null)
             {
-                previousSelection.Select();
-                return;
+                SetLabels(waitKey.Value);
             }
-
-            previousSelection = button8;
-            leftkeylabel.Text = "Waiting...";
+            
             waitKey = GameInputs.Left;
-            waitLabel = leftkeylabel;
+            SetWaiting();
+        }
+
+        private void SetWaiting()
+        {
+            if (waitKey != null)
+            {
+                var labels = this.Controls.OfType<Label>()
+                    .Where(x => x.Name.ToUpper().Contains(this.waitKey.ToString().ToUpper()));
+
+                foreach (var label in labels)
+                {
+                    label.Text = "Waiting...";
+                }
+            }
+        }
+
+        private void SetLabels(GameInputs input)
+        {
+            var types = new[] { "KEY", "PAD", "JOY" };
+            var bindings = GameInput.GetBindings(input);
+            var labels = this.Controls.OfType<Label>().Where(x => x.Name.ToUpper().Contains(input.ToString().ToUpper()));
+
+            foreach (var t in types)
+            {
+                var typeLabel = labels.Single(x => x.Name.ToUpper().Contains(t));
+                var typeBinding = bindings.FirstOrDefault(x => x.GetType().ToString().ToUpper().Contains(t));
+                typeLabel.Text = typeBinding != null ? typeBinding.ToString() : "NONE";
+            }
+        }
+
+        private void btnKeyboard_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnKeyboard.Checked)
+                GameInput.ActiveType = InputTypes.Keyboard;
+        }
+
+        private void btnGamepad_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnGamepad.Checked)
+                GameInput.ActiveType = InputTypes.Gamepad;
+        }
+
+        private void btnJoystick_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnJoystick.Checked)
+                GameInput.ActiveType = InputTypes.Joystick;
         }
     }
 }

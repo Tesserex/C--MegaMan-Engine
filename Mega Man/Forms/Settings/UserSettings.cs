@@ -247,6 +247,7 @@ namespace MegaMan.Engine.Forms.Settings
         public List<UserKeyBindingSetting> KeyBindings { get; set; }
         public List<UserJoystickBindingSetting> JoystickBindings { get; set; }
         public List<UserGamepadBindingSetting> GamepadBindings { get; set; }
+        public InputTypes ActiveInput { get; set; }
         public LastScreen Screens { get; set; }
         public LastAudio Audio { get; set; }
         public LastDebug Debug { get; set; }
@@ -257,6 +258,7 @@ namespace MegaMan.Engine.Forms.Settings
             KeyBindings = new List<UserKeyBindingSetting>();
             JoystickBindings = new List<UserJoystickBindingSetting>();
             GamepadBindings = new List<UserGamepadBindingSetting>();
+            ActiveInput = InputTypes.Keyboard;
             Screens = new LastScreen();
             Audio = new LastAudio();
             Debug = new LastDebug();
