@@ -27,7 +27,7 @@ namespace MegaMan.Common
 
         public Tile AddTile()
         {
-            var nextId = this.Max(t => t.Id) + 1;
+            var nextId = this.Any() ? this.Max(t => t.Id) + 1 : 1;
             var sprite = new TileSprite(this);
             var tile = new Tile(nextId, sprite);
             base.Add(tile);
