@@ -49,7 +49,7 @@ namespace MegaMan.Engine.Forms.Settings
         {
             get
             {
-                return Path.Combine(Application.StartupPath, Constants.Paths.SettingFile);
+                return Path.Combine(Application.UserAppDataPath, Constants.Paths.SettingFile);
             }
         }
 
