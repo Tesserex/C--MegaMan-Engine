@@ -43,6 +43,9 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseMove(object sender, MouseEventArgs e)
         {
+            if (DataContext == null)
+                return;
+
             var pos = e.GetPosition(sheetImage);
 
             if (snapSheet.IsChecked == true)
@@ -70,6 +73,9 @@ namespace MegaMan.Editor.Controls
 
         private void SheetMouseLeave(object sender, MouseEventArgs e)
         {
+            if (DataContext == null)
+                return;
+
             sheetHighlight.Visibility = Visibility.Hidden;
         }
 
