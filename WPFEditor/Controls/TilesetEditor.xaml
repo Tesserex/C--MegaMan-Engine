@@ -12,7 +12,6 @@
     <DockPanel Background="WhiteSmoke">
         <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
             <DockPanel Margin="5">
-                <Button Command="{Binding ChangeTilesetCommand}" DockPanel.Dock="Right" Style="{StaticResource TextButton}" Margin="12,0,0,0">CHANGE TILESET</Button>
                 <Button DockPanel.Dock="Right" Style="{StaticResource TextButton}" Command="{Binding Path=ImportTilesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:MainWindow}}}" CommandParameter="{Binding Tileset}">IMPORT...</Button>
                 <StackPanel Orientation="Horizontal">
                     <Label FontSize="14" FontWeight="Bold">Image:</Label>

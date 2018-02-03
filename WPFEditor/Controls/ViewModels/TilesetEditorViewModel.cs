@@ -89,7 +89,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
             HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
-            ChangeTilesetCommand = new RelayCommand(ChangeTileset);
             AnimateTilesCommand = new RelayCommand(AnimateTiles, x => MultiSelectedTiles.Any());
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
@@ -97,11 +96,6 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             ShowSpriteEditor = System.Windows.Visibility.Visible;
             ShowPropEditor = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ChangeTileset(object obj)
-        {
-
         }
 
         private void ProjectChanged(object sender, ProjectChangedEventArgs e)
