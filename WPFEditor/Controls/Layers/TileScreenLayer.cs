@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Editor.Bll;
@@ -10,10 +11,12 @@ namespace MegaMan.Editor.Controls
         private bool _grayscale;
         private WriteableBitmap _colorBitmap;
         private WriteableBitmap _grayBitmap;
+        private static WriteableBitmap _blankTileImage;
 
         static TileScreenLayer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TileScreenLayer), new FrameworkPropertyMetadata(typeof(TileScreenLayer)));
+            _blankTileImage = BitmapFactory.ConvertToPbgra32Format(SpriteBitmapCache.GetResource("blank_tile.png"));
         }
 
         public void RenderColor()
@@ -76,11 +79,17 @@ namespace MegaMan.Editor.Controls
                 for (int x = 0; x < Screen.Width; x++)
                 {
                     var tile = Screen.TileAt(x, y);
-                    var location = tile.Sprite.CurrentFrame.SheetLocation;
-                    var rect = new Rect(0, 0, location.Width, location.Height);
-
-                    var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
-                    bitmap.Blit(new Rect(x * size, y * size, size, size), image, rect);
+                    if (tile != null && tile.Id >= 0)
+                    {
+                        var location = tile.Sprite.CurrentFrame.SheetLocation;
+                        var rect = new Rect(0, 0, location.Width, location.Height);
+                        var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), image, rect);
+                    }
+                    else
+                    {
+                        bitmap.Blit(new Rect(x * size, y * size, size, size), _blankTileImage, new Rect(0, 0, 16, 16));
+                    }
                 }
             }
 
