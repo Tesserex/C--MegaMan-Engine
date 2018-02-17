@@ -62,7 +62,7 @@ namespace MegaMan.Common
             if (y < 0 || y >= Height || x < 0 || x >= Width)
                 return;
 
-            if (!Tileset.Any(t => t.Id == tile))
+            if (!Tileset.Any(t => t.Id == tile) && tile != -1)
                 return;
 
             tiles[x,y] = tile;
