@@ -63,7 +63,7 @@ namespace MegaMan.Common
                 return;
 
             if (!Tileset.Any(t => t.Id == tile))
-                throw new ArgumentException("Tile is not within tileset range");
+                return;
 
             tiles[x,y] = tile;
         }

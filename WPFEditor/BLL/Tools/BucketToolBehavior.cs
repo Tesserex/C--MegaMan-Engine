@@ -49,6 +49,11 @@ namespace MegaMan.Editor.Bll.Tools
 
         private void Flood(ScreenCanvas canvas, int tile_x, int tile_y, int previousTileId, int brush_x, int brush_y)
         {
+            if (tile_x < 0 || tile_y < 0 || tile_x >= canvas.Screen.Width || tile_y >= canvas.Screen.Height)
+            {
+                return;
+            }
+
             var selection = canvas.Screen.Selection;
             if (selection != null)
             {
@@ -62,7 +67,7 @@ namespace MegaMan.Editor.Bll.Tools
             var old = canvas.Screen.TileAt(tile_x, tile_y);
             // checking whether this is already the new tile prevents infinite recursion, but
             // it can prevent filling a solid area with a brush that uses that same tile
-            if (old == null || old.Id == -1 || old.Id != previousTileId) return;
+            if (old == null || old.Id != previousTileId) return;
 
             var changed = _brush.DrawCellOn(canvas.Screen, tile_x, tile_y, brush_x, brush_y);
             changes.AddRange(changed);
