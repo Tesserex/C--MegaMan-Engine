@@ -6,6 +6,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteViewModel : ViewModelBase
     {
+        private SpriteAnimator animator;
+
         public Sprite Sprite { get; private set; }
 
         public SpriteModel Model { get { return new SpriteModel(Sprite); } }
@@ -16,6 +18,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 throw new ArgumentNullException("sprite");
 
             Sprite = sprite;
+            animator = new SpriteAnimator(sprite);
         }
 
         public string Name
@@ -32,11 +35,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Sprite.CurrentIndex;
+                return animator.CurrentIndex;
             }
             set
             {
-                Sprite.CurrentIndex = value;
+                animator.CurrentIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -47,13 +50,13 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Sprite.CurrentFrame;
+                return animator.CurrentFrame;
             }
         }
 
         public FilePath SheetPath { get { return Sprite.SheetPath; } }
 
-        public bool Playing { get { return Sprite.Playing; } }
+        public bool Playing { get { return animator.Playing; } }
 
         public int Width
         {
@@ -108,12 +111,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public void Play()
         {
-            Sprite.Play();
+            animator.Play();
         }
 
         public void Pause()
         {
-            Sprite.Pause();
+            animator.Pause();
         }
     }
 }

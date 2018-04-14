@@ -7,10 +7,12 @@ namespace MegaMan.Editor.Tools
     public class SingleTileCursor : ImageCursor
     {
         private Tile _tile;
+        private TilesetAnimator _animator;
 
-        public SingleTileCursor(Tile tile)
+        public SingleTileCursor(Tile tile, TilesetAnimator animator)
         {
             _tile = tile;
+            _animator = animator;
         }
 
         protected override ImageSource CursorImage
@@ -18,7 +20,7 @@ namespace MegaMan.Editor.Tools
             get
             {
                 var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
-                var image = SpriteBitmapCache.GetOrLoadFrame(_tile.Sprite.SheetPath.Absolute, _tile.Sprite.CurrentFrame.SheetLocation);
+                var image = SpriteBitmapCache.GetOrLoadFrame(_tile.Sprite.SheetPath.Absolute, _animator.GetFrame(_tile.Id).SheetLocation);
                 return SpriteBitmapCache.Scale(image, zoom);
             }
         }

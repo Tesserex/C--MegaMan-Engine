@@ -19,6 +19,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         protected ObservableCollection<Tile> _observedTiles;
 
+        protected TilesetAnimator _animator;
+
         public string SheetPath
         {
             get
@@ -77,13 +79,17 @@ namespace MegaMan.Editor.Controls.ViewModels
         protected virtual void SetTileset(TilesetDocument tileset)
         {
             if (_tileset != null)
+            {
                 _tileset.TilesetModified -= Update;
+                _animator.Stop();
+            }
 
             _tileset = tileset;
 
             if (_tileset != null)
             {
                 _observedTiles = new ObservableCollection<Tile>(_tileset.Tiles);
+                _animator = new TilesetAnimator(_tileset.Tileset);
 
                 if (_tileset.Tiles.Any())
                     ChangeTile(_tileset.Tiles.First());
@@ -91,7 +97,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                     ChangeTile(null);
 
                 _tileset.TilesetModified += Update;
-                ((App)App.Current).AnimateTileset(_tileset.Tileset);
+                ((App)App.Current).AnimateTileset(_animator);
             }
             else
             {

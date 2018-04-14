@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common.Geometry;
@@ -11,14 +11,24 @@ namespace MegaMan.Common
     /// </summary>
     public class Sprite : ICollection<SpriteFrame>
     {
+        private Guid? id;
         private List<SpriteFrame> frames;
-        private int currentFrame;
-        private int lastFrameTime;
 
         private int width;
         private int height;
 
         private IResourceImage texture;
+
+        public Guid Id
+        {
+            get
+            {
+                if (id == null)
+                    id = Guid.NewGuid();
+
+                return id.Value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the direction in which to play the sprite animation.
@@ -77,26 +87,10 @@ namespace MegaMan.Common
         /// </summary>
         public int Count { get { return frames.Count; } }
 
-        public int CurrentIndex { get { return this.currentFrame; } set { this.currentFrame = value; } }
-
-        public SpriteFrame CurrentFrame
-        {
-            get
-            {
-                return frames[currentFrame];
-            }
-        }
-
-        public int FrameTime { get { return this.lastFrameTime; } set { this.lastFrameTime = value; } }
-
+        
         public string Name { get; set; }
         public string Part { get; set; }
         public string PaletteName { get; set; }
-
-        /// <summary>
-        /// Gets whether or not the sprite animation is currently playing.
-        /// </summary>
-        public bool Playing { get; protected set; }
 
         public bool HorizontalFlip { get; set; }
 
@@ -115,8 +109,6 @@ namespace MegaMan.Common
         /// </summary>
         public bool Reversed { get; set; }
 
-        public event Action Stopped;
-
         /// <summary>
         /// Creates a new Sprite object with the given width and height, and no frames.
         /// </summary>
@@ -126,11 +118,8 @@ namespace MegaMan.Common
             this.Width = width;
             frames = new List<SpriteFrame>();
 
-            this.currentFrame = 0;
-            this.lastFrameTime = 0;
             this.HotSpot = new Point(0, 0);
             this.BoundBox = new RectangleF(0, 0, width, height);
-            this.Playing = false;
             this.Visible = true;
             this.AnimDirection = AnimationDirection.Forward;
             this.AnimStyle = AnimationStyle.Repeat;
@@ -144,13 +133,10 @@ namespace MegaMan.Common
 
             this.Height = copy.Height;
             this.Width = copy.Width;
-            this.tickable = copy.tickable;
+            this.Tickable = copy.Tickable;
             this.frames = copy.frames;
-            this.currentFrame = 0;
-            this.lastFrameTime = 0;
             this.HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
             this.BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
-            this.Playing = false;
             this.Visible = true;
             this.AnimDirection = copy.AnimDirection;
             this.AnimStyle = copy.AnimStyle;
@@ -212,129 +198,16 @@ namespace MegaMan.Common
             CheckTickable();
         }
 
-        /// <summary>
-        /// Advances the sprite animation by one tick. This should be the default if Update is called once per game step.
-        /// </summary>
-        public void Update() { Update(1); }
-
-        /// <summary>
-        /// Advances the sprite animation, if it is currently playing.
-        /// </summary>
-        /// <param name="ticks">The number of steps, or ticks, to advance the animation.</param>
-        public void Update(int ticks)
-        {
-            if (!Playing || !tickable) return;
-
-            this.lastFrameTime += ticks;
-            int neededTime = frames[currentFrame].Duration;
-
-            while (this.lastFrameTime >= neededTime)
-            {
-                this.lastFrameTime -= neededTime;
-                this.TickFrame();
-
-                neededTime = frames[currentFrame].Duration;
-            }
-        }
-
-        private bool tickable;
+        public bool Tickable { get; private set; }
 
         internal void CheckTickable()
         {
-            tickable = false;
+            Tickable = false;
             if (frames.Count <= 1)
                 return;
             else if (frames.Any(frame => frame.Duration > 0))
             {
-                tickable = true;
-            }
-        }
-
-        /// <summary>
-        /// Begins playing the animation from the beginning.
-        /// </summary>
-        public virtual void Play()
-        {
-            Playing = true;
-            Reset();
-        }
-
-        /// <summary>
-        /// Stops and resets the animation.
-        /// </summary>
-        public virtual void Stop()
-        {
-            this.Playing = false;
-            this.Reset();
-            if (Stopped != null) Stopped();
-        }
-
-        /// <summary>
-        /// Resumes playing the animation from the current frame.
-        /// </summary>
-        public virtual void Resume() { this.Playing = true; }
-
-        /// <summary>
-        /// Pauses the animation at the current frame.
-        /// </summary>
-        public virtual void Pause() { this.Playing = false; }
-
-        /// <summary>
-        /// Restarts the animation to the first frame or the last, based on the value of AnimDirection.
-        /// </summary>
-        public void Reset()
-        {
-            if (AnimDirection == AnimationDirection.Forward) currentFrame = 0;
-            else currentFrame = Count - 1;
-
-            lastFrameTime = 0;
-        }
-
-        private void TickFrame()
-        {
-            switch (this.AnimDirection)
-            {
-                case AnimationDirection.Forward:
-                    this.currentFrame++;
-                    break;
-                case AnimationDirection.Backward:
-                    this.currentFrame--;
-                    break;
-            }
-
-            if (this.currentFrame >= this.Count)
-            {
-                switch (this.AnimStyle)
-                {
-                    case AnimationStyle.PlayOnce:
-                        this.currentFrame--;
-                        this.Pause();
-                        break;
-                    case AnimationStyle.Repeat:
-                        this.currentFrame = 0;
-                        break;
-                    case AnimationStyle.Bounce:
-                        this.currentFrame -= 2;
-                        this.AnimDirection = AnimationDirection.Backward;
-                        break;
-                }
-            }
-            else if (this.currentFrame < 0)
-            {
-                switch (this.AnimStyle)
-                {
-                    case AnimationStyle.PlayOnce:
-                        this.currentFrame++;
-                        this.Pause();
-                        break;
-                    case AnimationStyle.Repeat:
-                        this.currentFrame = this.Count - 1;
-                        break;
-                    case AnimationStyle.Bounce:
-                        this.currentFrame = 1;
-                        this.AnimDirection = AnimationDirection.Forward;
-                        break;
-                }
+                Tickable = true;
             }
         }
 
@@ -349,7 +222,7 @@ namespace MegaMan.Common
             }
         }
 
-        public void Draw(IRenderingContext context, int layer, float positionX, float positionY)
+        public void Draw(IRenderingContext context, int layer, float positionX, float positionY, int frameIndex)
         {
             if (!Visible || Count == 0 || context == null) return;
 
@@ -363,10 +236,11 @@ namespace MegaMan.Common
             int hy = VerticalFlip ? Height - HotSpot.Y : HotSpot.Y;
 
             var drawTexture = this.texture;
+            var frame = this[frameIndex];
 
             context.Draw(drawTexture, layer,
                 new Common.Geometry.Point((int)(positionX - hx), (int)(positionY - hy)),
-                new Common.Geometry.Rectangle(CurrentFrame.SheetLocation.X, CurrentFrame.SheetLocation.Y, CurrentFrame.SheetLocation.Width, CurrentFrame.SheetLocation.Height),
+                new Common.Geometry.Rectangle(frame.SheetLocation.X, frame.SheetLocation.Y, frame.SheetLocation.Width, frame.SheetLocation.Height),
                 flipHorizontal, flipVertical);
         }
 
@@ -383,7 +257,7 @@ namespace MegaMan.Common
         public void Clear()
         {
             frames.Clear();
-            tickable = false;
+            Tickable = false;
         }
 
         public bool Contains(SpriteFrame item)
@@ -404,7 +278,6 @@ namespace MegaMan.Common
         public bool Remove(SpriteFrame item)
         {
             var result = frames.Remove(item);
-            currentFrame = Math.Max(Math.Min(frames.Count - 1, currentFrame), 0);
             return result;
         }
 

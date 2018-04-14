@@ -272,7 +272,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(GameRenderEventArgs renderArgs, int screenPixelWidth)
+        public void Draw(GameRenderEventArgs renderArgs, int screenPixelWidth, TilesetAnimator tilesetAnimator)
         {
             if (_info.Parallax)
             {
@@ -286,22 +286,22 @@ namespace MegaMan.Engine
                     trueOffset = offsetRatio * parallaxDistance;
                 }
 
-                this.Draw(renderArgs.RenderContext, -trueOffset, 0);
+                this.Draw(renderArgs.RenderContext, -trueOffset, 0, tilesetAnimator);
             }
             else
             {
                 this.Draw(renderArgs.RenderContext,
-                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY));
+                    (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), tilesetAnimator);
             }
         }
 
-        private void Draw(IRenderingContext context, float off_x, float off_y)
+        private void Draw(IRenderingContext context, float off_x, float off_y, TilesetAnimator tilesetAnimator)
         {
             if (this._info.Tiles.Tileset == null)
                 throw new InvalidOperationException("Screen has no tileset to draw with.");
 
             var layer = _info.Foreground ? 5 : 0;
-
+            
             var tileSize = this._info.Tiles.Tileset.TileSize;
 
             for (int y = 0; y < this._info.Tiles.Height; y++)
@@ -313,7 +313,12 @@ namespace MegaMan.Engine
 
                     if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
                     if (xpos > Game.CurrentGame.PixelsAcross || ypos > Game.CurrentGame.PixelsDown) continue;
-                    this._squares[y][x].Draw(context, layer, xpos, ypos);
+
+                    var square = this._squares[y][x];
+                    if (square.Tile.Sprite != null)
+                    {
+                        square.Tile.Sprite.Draw(context, square.Tile.Sprite.Layer, xpos, ypos, tilesetAnimator.GetFrameIndex(square.Tile.Id));
+                    }
                 }
             }
         }

@@ -18,7 +18,8 @@ namespace MegaMan.Engine
 
     public class HandlerSprite : IHandlerObject
     {
-        private Sprite sprite;
+        private readonly Sprite sprite;
+        private readonly SpriteAnimator animator;
 
         private float x, y;
         private float vx, vy, duration;
@@ -27,9 +28,10 @@ namespace MegaMan.Engine
         public HandlerSprite(Sprite sprite, Point location)
         {
             this.sprite = new Sprite(sprite);
+            this.animator = new SpriteAnimator(this.sprite);
             this.x = location.X;
             this.y = location.Y;
-            this.sprite.Play();
+            this.animator.Play();
         }
 
         public void Start()
@@ -42,14 +44,9 @@ namespace MegaMan.Engine
             Engine.Instance.GameLogicTick -= Update;
         }
 
-        public void Reset()
-        {
-            sprite.Reset();
-        }
-
         private void Update(GameTickEventArgs e)
         {
-            sprite.Update();
+            animator.Update();
         }
 
         public void Move(int nx, int ny, int duration)
@@ -80,7 +77,7 @@ namespace MegaMan.Engine
 
         public void Draw(IRenderingContext renderContext)
         {
-            sprite.Draw(renderContext, sprite.Layer, x, y);
+            sprite.Draw(renderContext, sprite.Layer, x, y, animator.CurrentIndex);
         }
     }
 

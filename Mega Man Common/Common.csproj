@@ -150,6 +150,8 @@
     <Compile Include="Rendering\IRenderingContext.cs" />
     <Compile Include="Rendering\IResourceImage.cs" />
     <Compile Include="ScreenLayerInfo.cs" />
+    <Compile Include="Sprite\SpriteAnimator.cs" />
+    <Compile Include="Sprite\TilesetAnimator.cs" />
     <Compile Include="Sprite\TileSprite.cs" />
     <Compile Include="StageInfo.cs" />
     <Compile Include="IncludedObjects\MenuInfo.cs" />

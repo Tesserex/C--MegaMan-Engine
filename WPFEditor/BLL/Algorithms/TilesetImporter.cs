@@ -154,7 +154,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 tilesheet.Blit(dest, frame, source);
 
                 var tile = Tileset.AddTile();
-                tile.Sprite.CurrentFrame.SetSheetPosition(x, y);
+                tile.Sprite[0].SetSheetPosition(x, y);
 
                 if (x < 16 * (tileWidth - 1))
                 {

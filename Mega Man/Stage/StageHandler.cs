@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Stage;
 
 namespace MegaMan.Engine
 {
@@ -17,6 +18,7 @@ namespace MegaMan.Engine
         private int startX, startY;
 
         private readonly Music music;
+        private readonly TilesetAnimator tilesetAnimator;
 
         private ScreenHandler _currentScreen;
 
@@ -25,7 +27,7 @@ namespace MegaMan.Engine
         private JoinHandler currentJoin;
         private ScreenHandler nextScreen;
 
-        private StageInfo info;
+        private readonly StageInfo info;
 
         public HandlerTransfer WinHandler { get; set; }
 
@@ -46,6 +48,8 @@ namespace MegaMan.Engine
             info = stage;
             Info = stage;
             startScreen = info.StartScreen;
+            tilesetAnimator = new TilesetAnimator(stage.Tileset);
+            tilesetAnimator.Play();
 
             if (string.IsNullOrEmpty(startScreen)) startScreen = info.Screens.Keys.First();
             startX = info.PlayerStartX;
@@ -102,7 +106,7 @@ namespace MegaMan.Engine
 
         private void DrawScreen(GameRenderEventArgs renderArgs)
         {
-            _currentScreen.Draw(renderArgs, PlayerPos.Position);
+            _currentScreen.Draw(renderArgs, PlayerPos.Position, new ScreenDrawingCoords(), this.tilesetAnimator);
         }
 
         private void DeadUpdate()
@@ -187,8 +191,13 @@ namespace MegaMan.Engine
 
         private void DrawJoin(GameRenderEventArgs renderArgs)
         {
-            _currentScreen.Draw(renderArgs, PlayerPos.Position, 0, 0, currentJoin.OffsetX, currentJoin.OffsetY);
-            nextScreen.Draw(renderArgs, PlayerPos.Position, currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY);
+            _currentScreen.Draw(renderArgs, PlayerPos.Position,
+                new ScreenDrawingCoords(0, 0, currentJoin.OffsetX, currentJoin.OffsetY),
+                this.tilesetAnimator);
+
+            nextScreen.Draw(renderArgs, PlayerPos.Position,
+                new ScreenDrawingCoords(currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY),
+                this.tilesetAnimator);
         }
 
         private void StartScreen()
@@ -342,10 +351,7 @@ namespace MegaMan.Engine
         {
             if (updateFunc != null) updateFunc();
 
-            foreach (Tile t in info.Tileset)
-            {
-                t.Sprite.Update();
-            }
+            this.tilesetAnimator.Update();
 
             base.Tick(e);
         }

@@ -37,12 +37,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
                     if (_currentEntity.SpriteComponent != null)
                     {
-                        foreach (var sprite in _currentEntity.SpriteComponent.Sprites.Values)
-                        {
-                            sprite.Play();
-                            ((App)App.Current).AnimateSprite(sprite);
-                        }
-
                         ViewingSprite = _currentEntity.DefaultSprite;
                     }
                 }
@@ -100,7 +94,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 {
                     _currentEntity.EditorData.DefaultSpriteName = value;
                     _project.Dirty = true;
-                    _currentEntity.DefaultSprite.Play();
                     OnPropertyChanged("DefaultSpriteName");
                     OnPropertyChanged("DefaultSprite");
                 }

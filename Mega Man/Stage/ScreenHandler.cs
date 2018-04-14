@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Engine.Stage;
 
 namespace MegaMan.Engine
 {
@@ -301,7 +302,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public void Draw(GameRenderEventArgs renderArgs, PointF playerPos, float adj_x = 0, float adj_y = 0, float off_x = 0, float off_y = 0)
+        public void Draw(GameRenderEventArgs renderArgs, PointF playerPos, ScreenDrawingCoords coords, TilesetAnimator tilesetAnimator)
         {
             int width = Screen.PixelWidth;
             int height = Screen.PixelHeight;
@@ -310,8 +311,8 @@ namespace MegaMan.Engine
             {
                 OffsetX = OffsetY = 0;
 
-                centerX = playerPos.X + adj_x;
-                centerY = playerPos.Y + adj_y;
+                centerX = playerPos.X + coords.AdjustX;
+                centerY = playerPos.Y + coords.AdjustY;
 
                 if (centerX > Game.CurrentGame.PixelsAcross / 2)
                 {
@@ -328,13 +329,13 @@ namespace MegaMan.Engine
                     if (OffsetY < 0) OffsetY = 0;
                 }
 
-                OffsetX += off_x;
-                OffsetY += off_y;
+                OffsetX += coords.OffsetX;
+                OffsetY += coords.OffsetY;
             }
 
             foreach (var layer in this.layers)
             {
-                layer.Draw(renderArgs, this.Screen.PixelWidth);
+                layer.Draw(renderArgs, this.Screen.PixelWidth, tilesetAnimator);
             }
         }
     }

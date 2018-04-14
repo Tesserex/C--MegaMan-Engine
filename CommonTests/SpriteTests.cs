@@ -10,51 +10,55 @@ namespace MegaMan.Common.Tests
         public void Update_Playing_Runs()
         {
             var sprite = GetEmptySprite(5);
+            var animator = new SpriteAnimator(sprite);
 
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Play();
-            sprite.Update();
+            animator.Play();
+            animator.Update();
 
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
         public void Update_GreaterThanOne_SkipsFrames()
         {
             var sprite = GetEmptySprite(4);
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            sprite.Update(3);
+            animator.Update(3);
 
-            Assert.AreEqual(3, sprite.CurrentIndex);
+            Assert.AreEqual(3, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
         public void Update_Stopped_DoesntRun()
         {
             var sprite = GetEmptySprite(5);
-            sprite.Play();
-            sprite.Update();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
+            animator.Update();
 
             // should be at 1...
 
-            sprite.Pause();
-            sprite.Update();
+            animator.Pause();
+            animator.Update();
 
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
         public void Update_Stop_Resets()
         {
             var sprite = GetEmptySprite(5);
-            sprite.Play();
-            sprite.Update();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
+            animator.Update();
 
-            sprite.Stop();
+            animator.Stop();
 
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            Assert.AreEqual(0, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -62,13 +66,14 @@ namespace MegaMan.Common.Tests
         {
             var sprite = GetEmptySprite(5);
             sprite[0].Duration = 2;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -77,18 +82,19 @@ namespace MegaMan.Common.Tests
             var sprite = GetEmptySprite(3);
             sprite.AnimDirection = AnimationDirection.Forward;
             sprite.AnimStyle = AnimationStyle.PlayOnce;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(2, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -97,18 +103,19 @@ namespace MegaMan.Common.Tests
             var sprite = GetEmptySprite(3);
             sprite.AnimDirection = AnimationDirection.Backward;
             sprite.AnimStyle = AnimationStyle.PlayOnce;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -117,21 +124,22 @@ namespace MegaMan.Common.Tests
             var sprite = GetEmptySprite(3);
             sprite.AnimDirection = AnimationDirection.Forward;
             sprite.AnimStyle = AnimationStyle.Repeat;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -140,21 +148,22 @@ namespace MegaMan.Common.Tests
             var sprite = GetEmptySprite(3);
             sprite.AnimDirection = AnimationDirection.Backward;
             sprite.AnimStyle = AnimationStyle.Repeat;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         [TestMethod, TestCategory("Sprite")]
@@ -163,24 +172,25 @@ namespace MegaMan.Common.Tests
             var sprite = GetEmptySprite(3);
             sprite.AnimDirection = AnimationDirection.Forward;
             sprite.AnimStyle = AnimationStyle.Bounce;
-            sprite.Play();
+            var animator = new SpriteAnimator(sprite);
+            animator.Play();
 
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(2, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(2, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(0, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(0, animator.CurrentIndex);
 
-            sprite.Update();
-            Assert.AreEqual(1, sprite.CurrentIndex);
+            animator.Update();
+            Assert.AreEqual(1, animator.CurrentIndex);
         }
 
         private static Sprite GetEmptySprite(int frames)

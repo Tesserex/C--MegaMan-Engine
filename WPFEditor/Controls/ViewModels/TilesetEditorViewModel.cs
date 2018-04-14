@@ -148,7 +148,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddTile()
         {
             var tile = _tileset.AddTile();
-            ((App)App.Current).AnimateSprite(tile.Sprite);
+            _animator.Add(tile);
             this._project.Dirty = true;
         }
 
@@ -270,9 +270,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                     }
 
                     _tileset.RemoveTile(tile);
+                    _animator.Remove(tile);
                 }
 
-                first.Sprite.Play();
+                _animator.Add(first);
                 ChangeTile(first);
             }
         }

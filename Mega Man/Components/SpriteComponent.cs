@@ -11,6 +11,7 @@ namespace MegaMan.Engine
     public class SpriteComponent : Component
     {
         private readonly Dictionary<string, SpriteGroup> _sprites;
+        private readonly Dictionary<Guid, SpriteAnimator> _animators;
         private FilePath _sheetPath;
 
         private SpriteGroup currentSpriteGroup;
@@ -29,8 +30,9 @@ namespace MegaMan.Engine
                 {
                     foreach (var sprite in currentSpriteGroup)
                     {
-                        if (playing) sprite.Resume();
-                        else sprite.Pause();
+                        var animator = _animators[sprite.Id];
+                        if (playing) animator.Resume();
+                        else animator.Pause();
                     }
                 }
             }
@@ -57,6 +59,7 @@ namespace MegaMan.Engine
         public SpriteComponent()
         {
             _sprites = new Dictionary<string, SpriteGroup>();
+            _animators = new Dictionary<Guid, SpriteAnimator>();
 
             Playing = true;
             Visible = true;
@@ -124,10 +127,12 @@ namespace MegaMan.Engine
             }
 
             group.Add(sprite, partName);
+            var animator = new SpriteAnimator(sprite);
+            _animators.Add(sprite.Id, animator);
 
             if (group == currentSpriteGroup)
             {
-                sprite.Play();
+                animator.Play();
             }
         }
 
@@ -149,7 +154,7 @@ namespace MegaMan.Engine
 
             foreach (var sprite in currentSpriteGroup)
             {
-                sprite.Stop();
+                _animators[sprite.Id].Stop();
             }
 
             currentSpriteGroup = _sprites[name];
@@ -158,7 +163,7 @@ namespace MegaMan.Engine
             {
                 foreach (var sprite in currentSpriteGroup)
                 {
-                    sprite.Play();
+                    _animators[sprite.Id].Play();
                 }
             }
         }
@@ -169,7 +174,7 @@ namespace MegaMan.Engine
             {
                 foreach (var sprite in currentSpriteGroup)
                 {
-                    sprite.Update();
+                    _animators[sprite.Id].Update();
                 }
             }
         }
@@ -218,7 +223,7 @@ namespace MegaMan.Engine
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : verticalFlip;
-                sprite.Draw(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y);
+                sprite.Draw(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y, _animators[sprite.Id].CurrentIndex);
             }
         }
 

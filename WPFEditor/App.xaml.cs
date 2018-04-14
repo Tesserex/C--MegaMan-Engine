@@ -44,21 +44,16 @@ namespace MegaMan.Editor
             Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.IGameLoader)).SelectAllClasses().BindAllInterfaces());
         }
 
-        public void AnimateTileset(Tileset tileset)
+        public void AnimateTileset(TilesetAnimator animator)
         {
-            foreach (var tile in tileset)
-            {
-                AnimateSprite(tile.Sprite);
-            }
+            Tick -= animator.Update;
+            Tick += animator.Update;
         }
 
-        public void AnimateSprite(Sprite sprite)
+        public void AnimateSprite(SpriteAnimator animator)
         {
-            if (sprite != null)
-            {
-                Tick -= sprite.Update;
-                Tick += sprite.Update;
-            }
+            Tick -= animator.Update;
+            Tick += animator.Update;
         }
 
         void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

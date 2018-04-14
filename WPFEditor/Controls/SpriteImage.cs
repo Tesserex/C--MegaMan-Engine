@@ -82,7 +82,7 @@ namespace MegaMan.Editor.Controls {
             if (_sprite == null)
                 return;
 
-            var image = _sprite.GetImageSource(Zoom);
+            var image = _sprite.GetImageSource(Zoom, 0);
 
             if (_sprite.Reversed ^ Flipped)
                 _image.RenderTransform = new ScaleTransform(-1, 1);

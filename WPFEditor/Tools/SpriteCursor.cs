@@ -24,7 +24,7 @@ namespace MegaMan.Editor.Tools
             get
             {
                 var zoom = Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1);
-                return _sprite.GetImageSource(zoom);
+                return _sprite.GetImageSource(zoom, 0);
             }
         }
 
