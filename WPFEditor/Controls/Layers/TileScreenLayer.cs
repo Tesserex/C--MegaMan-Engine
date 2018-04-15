@@ -77,7 +77,7 @@ namespace MegaMan.Editor.Controls
                 for (int x = 0; x < Screen.Width; x++)
                 {
                     var tile = Screen.TileAt(x, y);
-                    var location = tilesetDocument.Animator.GetFrame(tile.Id).SheetLocation;
+                    var location = tile.Sprite[0].SheetLocation;
                     var rect = new Rect(0, 0, location.Width, location.Height);
 
                     var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);

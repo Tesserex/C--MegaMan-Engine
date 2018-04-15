@@ -32,8 +32,11 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void Tick(object sender, EventArgs e)
         {
-            OnPropertyChanged("CurrentIndex");
-            OnPropertyChanged("CurrentFrame");
+            if (Model.Playing)
+            {
+                OnPropertyChanged("CurrentIndex");
+                OnPropertyChanged("CurrentFrame");
+            }
         }
 
         public string Name

@@ -17,8 +17,7 @@ namespace MegaMan.Editor.Bll
     {
         private Sprite _sprite;
         private SpriteAnimator _animator;
-
-        // remove this when this class is merged with SpriteViewModel
+        
         public Sprite Sprite => _sprite;
 
         public SpriteModel(Sprite sprite)

@@ -11,7 +11,6 @@ namespace MegaMan.Editor.Bll
         public event EventHandler TilesheetModified;
 
         public Tileset Tileset { get; private set; }
-        public TilesetAnimator Animator { get; private set; }
 
         public bool IsSheetDirty { get; set; }
 
@@ -48,7 +47,6 @@ namespace MegaMan.Editor.Bll
         public TilesetDocument(Tileset tileset)
         {
             Tileset = tileset;
-            Animator = new TilesetAnimator(tileset);
             _brushes = new List<MultiTileBrush>();
             LoadBrushes();
         }
