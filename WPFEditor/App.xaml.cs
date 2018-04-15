@@ -40,12 +40,6 @@ namespace MegaMan.Editor
             Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.IGameLoader)).SelectAllClasses().BindAllInterfaces());
         }
 
-        public void AnimateTileset(TilesetAnimator animator)
-        {
-            Tick -= (s,e) => animator.Update();
-            Tick += (s,e) => animator.Update();
-        }
-
         void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
 #if DEBUG   // In debug mode do not custom-handle the exception, let Visual Studio handle it
