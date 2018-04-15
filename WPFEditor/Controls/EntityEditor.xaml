@@ -114,7 +114,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition SharedSizeGroup="Foo" />
                                         </Grid.ColumnDefinitions>
-                                        <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite.Model}"
+                                        <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite}"
                                                          Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                                          CommandParameter="{Binding}"
                                                          ButtonText="{Binding ButtonText}" />

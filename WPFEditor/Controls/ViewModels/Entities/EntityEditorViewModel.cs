@@ -205,13 +205,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
         private void EditSprite(SpriteListItemViewModel sprite)
         {
-            var vm = sprite.Sprite;
-            if (vm == null)
+            var model = sprite.Sprite;
+            if (model == null)
             {
-                vm = Sprite.AddSprite();
+                model = Sprite.AddSprite();
             }
 
-            ComponentViewModel = new SpriteEditorViewModel(vm, _project);
+            ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(model), _project);
             OnPropertyChanged("ComponentViewModel");
         }
 

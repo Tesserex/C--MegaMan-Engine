@@ -30,7 +30,7 @@ namespace MegaMan.Editor.Controls {
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                ((App)App.Current).Tick += Tick;
+                ((App)App.Current).Tick += (s, e) => Tick();
 
                 this.DataContextChanged += SpriteImage_DataContextChanged;
             }
@@ -82,7 +82,7 @@ namespace MegaMan.Editor.Controls {
             if (_sprite == null)
                 return;
 
-            var image = _sprite.GetImageSource(Zoom, 0);
+            var image = _sprite.GetImageSource(Zoom);
 
             if (_sprite.Reversed ^ Flipped)
                 _image.RenderTransform = new ScaleTransform(-1, 1);

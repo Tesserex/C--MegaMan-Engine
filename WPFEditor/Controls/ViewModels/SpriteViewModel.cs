@@ -1,6 +1,7 @@
 ﻿using System;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -10,7 +11,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public Sprite Sprite { get; private set; }
 
-        public SpriteModel Model { get { return new SpriteModel(Sprite); } }
+        public SpriteModel Model { get; private set; }
 
         public SpriteViewModel(Sprite sprite)
         {
@@ -18,7 +19,27 @@ namespace MegaMan.Editor.Controls.ViewModels
                 throw new ArgumentNullException("sprite");
 
             Sprite = sprite;
+            Model = new SpriteModel(Sprite);
             animator = new SpriteAnimator(sprite);
+            TickWeakEventManager.AddHandler(Tick);
+        }
+
+        public SpriteViewModel(SpriteModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            Sprite = model.Sprite;
+            Model = model;
+            animator = new SpriteAnimator(Sprite);
+            TickWeakEventManager.AddHandler(Tick);
+        }
+
+        private void Tick(object sender, EventArgs e)
+        {
+            animator.Update();
+            OnPropertyChanged("CurrentIndex");
+            OnPropertyChanged("CurrentFrame");
         }
 
         public string Name

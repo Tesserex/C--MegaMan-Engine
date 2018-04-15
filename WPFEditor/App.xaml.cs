@@ -19,7 +19,7 @@ namespace MegaMan.Editor
     {
         public static IKernel Container { get; private set; }
 
-        public event Action Tick;
+        public event EventHandler Tick;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -30,11 +30,7 @@ namespace MegaMan.Editor
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
             timer.Tick += (s, ev) => {
-                if (Tick != null)
-                {
-                    Tick();
-                    Tick();
-                }
+                Tick?.Invoke(this, ev);
             };
             timer.Start();
 
@@ -46,14 +42,8 @@ namespace MegaMan.Editor
 
         public void AnimateTileset(TilesetAnimator animator)
         {
-            Tick -= animator.Update;
-            Tick += animator.Update;
-        }
-
-        public void AnimateSprite(SpriteAnimator animator)
-        {
-            Tick -= animator.Update;
-            Tick += animator.Update;
+            Tick -= (s,e) => animator.Update();
+            Tick += (s,e) => animator.Update();
         }
 
         void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

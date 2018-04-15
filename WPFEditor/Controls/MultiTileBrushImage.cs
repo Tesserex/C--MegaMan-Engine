@@ -31,7 +31,7 @@ namespace MegaMan.Editor.Controls
 
         public MultiTileBrushImage()
         {
-            ((App)App.Current).Tick += Tick;
+            ((App)App.Current).Tick += (s, e) => Tick();
             
             this.DataContextChanged += Image_DataContextChanged;
 

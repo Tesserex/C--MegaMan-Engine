@@ -9,12 +9,17 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.Geometry;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Bll
 {
     public class SpriteModel
     {
         private Sprite _sprite;
+        private SpriteAnimator _animator;
+
+        // remove this when this class is merged with SpriteViewModel
+        public Sprite Sprite => _sprite;
 
         public SpriteModel(Sprite sprite)
         {
@@ -22,16 +27,24 @@ namespace MegaMan.Editor.Bll
                 throw new ArgumentNullException("sprite");
 
             _sprite = sprite;
+            _animator = new SpriteAnimator(sprite);
+            TickWeakEventManager.AddHandler(this.Tick);
         }
 
+        private void Tick(object sender, EventArgs e)
+        {
+            _animator.Update();
+        }
+
+        public string Name { get { return _sprite.Name; } }
         public int Width { get { return _sprite.Width; } }
         public int Height { get { return _sprite.Height; } }
         public bool Reversed { get { return _sprite.Reversed; } }
         public Point HotSpot { get { return _sprite.HotSpot; } }
 
-        public virtual WriteableBitmap GetImageSource(double zoom, int frameIndex)
+        public virtual WriteableBitmap GetImageSource(double zoom)
         {
-            var location = _sprite[frameIndex].SheetLocation;
+            var location = _animator.CurrentFrame.SheetLocation;
 
             var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
             if (zoom != 1)
@@ -68,10 +81,10 @@ namespace MegaMan.Editor.Bll
             _overlay = BitmapFactory.ConvertToPbgra32Format(SpriteBitmapCache.GetResource(overlayPath));
         }
 
-        public override WriteableBitmap GetImageSource(double zoom, int frameIndex)
+        public override WriteableBitmap GetImageSource(double zoom)
         {
             var scaledOverlay = SpriteBitmapCache.Scale(_overlay, zoom);
-            var spriteImg = BitmapFactory.ConvertToPbgra32Format(base.GetImageSource(zoom, frameIndex));
+            var spriteImg = BitmapFactory.ConvertToPbgra32Format(base.GetImageSource(zoom));
             var centerX = (spriteImg.Width - scaledOverlay.Width) / 2;
             var centerY = (spriteImg.Height - scaledOverlay.Height) / 2;
             var destRect = new System.Windows.Rect(centerX, centerY, scaledOverlay.Width, scaledOverlay.Height);

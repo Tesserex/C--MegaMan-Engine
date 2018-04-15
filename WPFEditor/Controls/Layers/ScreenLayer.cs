@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Controls
             InvalidateMeasure();
         }
 
-        private void ScreenLayer_Tick()
+        private void ScreenLayer_Tick(object sender, EventArgs e)
         {
             InvalidateVisual();
         }
