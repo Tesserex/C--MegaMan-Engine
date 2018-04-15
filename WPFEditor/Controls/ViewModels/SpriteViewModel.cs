@@ -7,8 +7,6 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteViewModel : ViewModelBase
     {
-        private SpriteAnimator animator;
-
         public Sprite Sprite { get; private set; }
 
         public SpriteModel Model { get; private set; }
@@ -20,8 +18,6 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             Sprite = sprite;
             Model = new SpriteModel(Sprite);
-            animator = new SpriteAnimator(sprite);
-            TickWeakEventManager.AddHandler(Tick);
         }
 
         public SpriteViewModel(SpriteModel model)
@@ -31,13 +27,11 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             Sprite = model.Sprite;
             Model = model;
-            animator = new SpriteAnimator(Sprite);
             TickWeakEventManager.AddHandler(Tick);
         }
 
         private void Tick(object sender, EventArgs e)
         {
-            animator.Update();
             OnPropertyChanged("CurrentIndex");
             OnPropertyChanged("CurrentFrame");
         }
@@ -56,11 +50,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return animator.CurrentIndex;
+                return Model.CurrentIndex;
             }
             set
             {
-                animator.CurrentIndex = value;
+                Model.CurrentIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -71,13 +65,23 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return animator.CurrentFrame;
+                return Model.CurrentFrame;
             }
         }
 
         public FilePath SheetPath { get { return Sprite.SheetPath; } }
 
-        public bool Playing { get { return animator.Playing; } }
+        public bool Playing { get { return Model.Playing; } }
+
+        public void Play()
+        {
+            Model.Play();
+        }
+
+        public void Pause()
+        {
+            Model.Pause();
+        }
 
         public int Width
         {
@@ -128,16 +132,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             Sprite.Remove(frame);
             OnPropertyChanged("Count");
-        }
-
-        public void Play()
-        {
-            animator.Play();
-        }
-
-        public void Pause()
-        {
-            animator.Pause();
         }
     }
 }

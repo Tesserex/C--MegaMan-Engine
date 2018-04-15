@@ -42,6 +42,32 @@ namespace MegaMan.Editor.Bll
         public bool Reversed { get { return _sprite.Reversed; } }
         public Point HotSpot { get { return _sprite.HotSpot; } }
 
+        public void Play()
+        {
+            _animator.Play();
+        }
+
+        public void Pause()
+        {
+            _animator.Pause();
+        }
+
+        public int CurrentIndex
+        {
+            get
+            {
+                return _animator.CurrentIndex;
+            }
+            set
+            {
+                _animator.CurrentIndex = value;
+            }
+        }
+        
+        public SpriteFrame CurrentFrame { get { return _animator.CurrentFrame; } }
+
+        public bool Playing { get { return _animator.Playing; } }
+
         public virtual WriteableBitmap GetImageSource(double zoom)
         {
             var location = _animator.CurrentFrame.SheetLocation;
