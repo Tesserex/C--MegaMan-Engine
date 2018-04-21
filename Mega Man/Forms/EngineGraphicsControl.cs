@@ -123,9 +123,6 @@ namespace MegaMan.Engine
 
         private void DrawMasterTargetToBatch()
         {
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.Black);
-
             Texture2D drawTexture = masterRenderingTarget;
 
             if (NTSC)
@@ -138,6 +135,9 @@ namespace MegaMan.Engine
 
                 drawTexture = ntscTexture;
             }
+
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Black);
 
             masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
             masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, Width, Height), Color.White);

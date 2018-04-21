@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
@@ -119,17 +119,15 @@ namespace WinFormsGraphicsDevice {
 
 
 		/// <summary>
-		/// Resets the graphics device to whichever is bigger out of the specified
-		/// resolution or its current size. This behavior means the device will
-		/// demand-grow to the largest of all its GraphicsDeviceControl clients.
+		/// Resets the graphics device to the specified resolution.
 		/// </summary>
 		public void ResetDevice(int width, int height) {
 			if (DeviceResetting != null) {
 				DeviceResetting(this, EventArgs.Empty);
 			}
 
-			parameters.BackBufferWidth = Math.Max(parameters.BackBufferWidth, width);
-			parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height * 2);
+			parameters.BackBufferWidth = width;
+			parameters.BackBufferHeight = height;
 
 			graphicsDevice.Reset(parameters);
 
