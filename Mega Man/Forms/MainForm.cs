@@ -354,10 +354,6 @@ namespace MegaMan.Engine
                                 autoloadToolStripMenuItem.Checked = true;
                                 SaveGlobalConfigValues();
                             }
-                            else
-                            {
-                                OnGameLoaded();
-                            }
                         }
                     }
                     catch (Exception x)
@@ -949,6 +945,10 @@ namespace MegaMan.Engine
 
                 OnGameLoadedChanged();
 
+                var userSettings = this.settingsService.GetSettings();
+                userSettings.AddRecentGame(Game.CurrentGame.Name, path);
+                XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath);
+
                 return true;
             }
             catch (GameXmlException ex)
@@ -1067,6 +1067,15 @@ namespace MegaMan.Engine
                 defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
                 autoloadToolStripMenuItem.Checked = lastGameWithPath == userSettings.Autoload ? true : false;
                 initialFolder = userSettings.InitialFolder;
+
+                openRecentToolStripMenuItem.DropDownItems.Clear();
+                foreach (var recent in userSettings.RecentGames)
+                {
+                    var path = recent.Path;
+                    openRecentToolStripMenuItem.DropDownItems.Add(recent.Name, null, (s, e) => {
+                        LoadGame(path);
+                    });
+                }
             }
             catch (Exception) { }
         }

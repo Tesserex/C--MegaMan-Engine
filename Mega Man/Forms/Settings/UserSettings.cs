@@ -77,6 +77,7 @@ namespace MegaMan.Engine.Forms.Settings
         public bool UseDefaultSettings { get; set; }
         public string Autoload { get; set; } // Game with his path to load on startup
         public string InitialFolder { get; set; } // Always remember last place navigating with open folder.
+        public List<RecentGame> RecentGames { get; set; } 
         public List<Setting> Settings { get; set; }
 
         /// <summary>
@@ -109,6 +110,26 @@ namespace MegaMan.Engine.Forms.Settings
             catch (Exception)
             {
             }
+        }
+
+        public void AddRecentGame(string name, string path)
+        {
+            if (RecentGames == null)
+            {
+                RecentGames = new List<RecentGame>();
+            }
+
+            var existing = RecentGames.FirstOrDefault(x => x.Path == path);
+            if (existing == null)
+            {
+                existing = new RecentGame() { Name = name, Path = path };
+            }
+            else
+            {
+                RecentGames.Remove(existing);
+            }
+
+            RecentGames.Insert(0, existing);
         }
 
         public Setting GetSettingByIndex(int index)
@@ -358,6 +379,13 @@ namespace MegaMan.Engine.Forms.Settings
     {
         public int ScreenX_Coordinate { get; set; }
         public int ScreenY_Coordinate { get; set; }
+    }
+
+    [Serializable]
+    public class RecentGame
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
     }
     #endregion
 }
