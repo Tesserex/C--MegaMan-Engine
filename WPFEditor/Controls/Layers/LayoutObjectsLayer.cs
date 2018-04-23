@@ -32,7 +32,7 @@ namespace MegaMan.Editor.Controls
         {
             base.OnRender(dc);
 
-            var image = SpriteBitmapCache.GetOrLoadFrame(_playerSprite.SheetPath.Absolute, _playerSprite.CurrentFrame.SheetLocation);
+            var image = SpriteBitmapCache.GetOrLoadFrame(_playerSprite.SheetPath.Absolute, _playerSprite[0].SheetLocation);
             image = SpriteBitmapCache.Scale(image, this.Zoom);
 
             if (Screen.Name == Screen.Stage.StartScreen)

@@ -307,6 +307,7 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IDataAccessService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\TickWeakEventManager.cs" />
     <Compile Include="ThemeProperties.cs" />
     <Compile Include="Tools\CombinedToolProvider.cs" />
     <Compile Include="Tools\ImageCursor.cs" />

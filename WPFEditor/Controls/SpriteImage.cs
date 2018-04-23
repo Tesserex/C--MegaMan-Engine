@@ -30,7 +30,7 @@ namespace MegaMan.Editor.Controls {
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                ((App)App.Current).Tick += Tick;
+                ((App)App.Current).Tick += (s, e) => Tick();
 
                 this.DataContextChanged += SpriteImage_DataContextChanged;
             }

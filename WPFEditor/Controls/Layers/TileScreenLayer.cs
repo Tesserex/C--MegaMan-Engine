@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls
@@ -71,8 +72,8 @@ namespace MegaMan.Editor.Controls
         private void RenderScreen()
         {
             var bitmap = new WriteableBitmap((int)(Screen.PixelWidth * this.Zoom), (int)(Screen.PixelHeight * this.Zoom), 96, 96, PixelFormats.Pbgra32, null);
-
-            var size = Screen.Tileset.TileSize * this.Zoom;
+            var tilesetDocument = Screen.Stage.Tileset;
+            var size = tilesetDocument.Tileset.TileSize * this.Zoom;
 
             for (int y = 0; y < Screen.Height; y++)
             {
@@ -81,7 +82,7 @@ namespace MegaMan.Editor.Controls
                     var tile = Screen.TileAt(x, y);
                     if (tile != null && tile.Id >= 0)
                     {
-                        var location = tile.Sprite.CurrentFrame.SheetLocation;
+                        var location = tile.Sprite[0].SheetLocation;
                         var rect = new Rect(0, 0, location.Width, location.Height);
                         var image = SpriteBitmapCache.GetOrLoadFrame(Screen.Tileset.SheetPath.Absolute, location);
                         bitmap.Blit(new Rect(x * size, y * size, size, size), image, rect);

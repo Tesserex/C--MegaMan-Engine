@@ -261,6 +261,7 @@
     <Compile Include="Rendering\XnaResourceImage.cs" />
     <Compile Include="Stage\IMapSquare.cs" />
     <Compile Include="Stage\IScreenLayer.cs" />
+    <Compile Include="Stage\ScreenDrawingCoords.cs" />
     <Compile Include="Stage\ScreenLayer.cs" />
     <Compile Include="Stage\StageFactory.cs" />
     <Compile Include="Stage\StageHandler.cs" />

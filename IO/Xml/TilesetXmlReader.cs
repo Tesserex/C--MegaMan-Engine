@@ -70,8 +70,6 @@ namespace MegaMan.IO.Xml
                     propName = propAttr.Value;
 
                 tile.Properties = tileset.GetProperties(propName);
-
-                tile.Sprite.Play();
                 tileset.Add(tile);
             }
 

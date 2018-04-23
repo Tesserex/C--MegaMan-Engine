@@ -106,14 +106,6 @@ namespace MegaMan.Engine
             ladderBoxesLoaded = true;
         }
 
-        public void Draw(IRenderingContext context, int layer, float posX, float posY)
-        {
-            if (Tile.Sprite != null)
-            {
-                Tile.Sprite.Draw(context, Tile.Sprite.Layer, posX, posY);
-            }
-        }
-
         public TileProperties Properties
         {
             get { return Tile.Properties; }

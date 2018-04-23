@@ -9,12 +9,16 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.Geometry;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Bll
 {
     public class SpriteModel
     {
         private Sprite _sprite;
+        private SpriteAnimator _animator;
+        
+        public Sprite Sprite => _sprite;
 
         public SpriteModel(Sprite sprite)
         {
@@ -22,16 +26,50 @@ namespace MegaMan.Editor.Bll
                 throw new ArgumentNullException("sprite");
 
             _sprite = sprite;
+            _animator = new SpriteAnimator(sprite);
+            TickWeakEventManager.AddHandler(this.Tick);
         }
 
+        private void Tick(object sender, EventArgs e)
+        {
+            _animator.Update();
+        }
+
+        public string Name { get { return _sprite.Name; } }
         public int Width { get { return _sprite.Width; } }
         public int Height { get { return _sprite.Height; } }
         public bool Reversed { get { return _sprite.Reversed; } }
         public Point HotSpot { get { return _sprite.HotSpot; } }
 
+        public void Play()
+        {
+            _animator.Play();
+        }
+
+        public void Pause()
+        {
+            _animator.Pause();
+        }
+
+        public int CurrentIndex
+        {
+            get
+            {
+                return _animator.CurrentIndex;
+            }
+            set
+            {
+                _animator.CurrentIndex = value;
+            }
+        }
+        
+        public SpriteFrame CurrentFrame { get { return _animator.CurrentFrame; } }
+
+        public bool Playing { get { return _animator.Playing; } }
+
         public virtual WriteableBitmap GetImageSource(double zoom)
         {
-            var location = _sprite.CurrentFrame.SheetLocation;
+            var location = _animator.CurrentFrame.SheetLocation;
 
             var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);
             if (zoom != 1)

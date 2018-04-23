@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Controls
@@ -30,8 +31,8 @@ namespace MegaMan.Editor.Controls
 
         public MultiTileBrushImage()
         {
-            ((App)App.Current).Tick += Tick;
-
+            ((App)App.Current).Tick += (s, e) => Tick();
+            
             this.DataContextChanged += Image_DataContextChanged;
 
             _images = new List<Image>();
@@ -156,7 +157,7 @@ namespace MegaMan.Editor.Controls
                     var cell = _brush.Cells[x][y];
                     var image = this._images[x * height + y];
 
-                    var location = cell.tile.Sprite.CurrentFrame.SheetLocation;
+                    var location = cell.tile.Sprite[0].SheetLocation;
 
                     var source = SpriteBitmapCache.GetOrLoadFrame(cell.tile.Sprite.SheetPath.Absolute, location);
                     source = SpriteBitmapCache.Scale(source, Zoom);

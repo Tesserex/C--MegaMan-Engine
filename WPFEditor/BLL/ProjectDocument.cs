@@ -197,15 +197,6 @@ namespace MegaMan.Editor.Bll
             Project = project;
             FileStructure = fileStructure;
             _dataService = dataService;
-
-            foreach (var entity in project.Entities)
-            {
-                if (entity.DefaultSprite != null)
-                {
-                    ((App)App.Current).AnimateSprite(entity.DefaultSprite);
-                    entity.DefaultSprite.Play();
-                }
-            }
         }
 
         public StageDocument StageByName(string name)

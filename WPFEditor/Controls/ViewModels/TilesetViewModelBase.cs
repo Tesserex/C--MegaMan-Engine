@@ -77,7 +77,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         protected virtual void SetTileset(TilesetDocument tileset)
         {
             if (_tileset != null)
+            {
                 _tileset.TilesetModified -= Update;
+            }
 
             _tileset = tileset;
 
@@ -91,7 +93,6 @@ namespace MegaMan.Editor.Controls.ViewModels
                     ChangeTile(null);
 
                 _tileset.TilesetModified += Update;
-                ((App)App.Current).AnimateTileset(_tileset.Tileset);
             }
             else
             {

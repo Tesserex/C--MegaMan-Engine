@@ -290,7 +290,6 @@ namespace MegaMan.Engine
             if (obj != null)
             {
                 obj.Move(command.X, command.Y, command.Duration);
-                obj.Reset();
             }
         }
 

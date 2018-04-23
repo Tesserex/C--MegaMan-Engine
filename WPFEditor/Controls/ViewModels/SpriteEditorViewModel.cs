@@ -49,7 +49,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             _sprite = sprite;
             _project = project;
 
-            ((App)App.Current).Tick += Update;
+            ((App)App.Current).Tick += (s, e) => Update();
 
             ZoomInCommand = new RelayCommand(ZoomIn, CanZoomIn);
             ZoomOutCommand = new RelayCommand(ZoomOut, CanZoomOut);

@@ -142,7 +142,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddTile()
         {
             var tile = _tileset.AddTile();
-            ((App)App.Current).AnimateSprite(tile.Sprite);
             this._project.Dirty = true;
         }
 
@@ -228,9 +227,19 @@ namespace MegaMan.Editor.Controls.ViewModels
             base.ChangeTile(tile);
 
             if (tile != null)
-                Sprite = new SpriteEditorViewModel(new SpriteViewModel(tile.Sprite), this._project);
+            {
+                var isPlaying = Sprite != null && Sprite.Sprite.Playing;
+                var vm = new SpriteViewModel(tile.Sprite);
+                Sprite = new SpriteEditorViewModel(vm, this._project);
+                if (isPlaying)
+                {
+                    Sprite.Sprite.Play();
+                }
+            }
             else
+            {
                 Sprite = null;
+            }
 
             OnPropertyChanged("Sprite");
             OnPropertyChanged("SelectedTile");
@@ -265,8 +274,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                     _tileset.RemoveTile(tile);
                 }
-
-                first.Sprite.Play();
+                
                 ChangeTile(first);
             }
         }

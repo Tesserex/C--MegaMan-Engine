@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {
@@ -28,16 +29,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             }
         }
 
-        public SpriteViewModel AddSprite()
+        public SpriteModel AddSprite()
         {
             Sprite sprite = CreateEmptySprite();
-            var vm = new SpriteViewModel(sprite);
-
             Entity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
-
             OnPropertyChanged("Sprites");
 
-            return vm;
+            return new SpriteModel(sprite);
         }
 
         private Sprite CreateEmptySprite()

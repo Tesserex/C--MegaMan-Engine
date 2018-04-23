@@ -19,7 +19,7 @@ namespace MegaMan.Editor
     {
         public static IKernel Container { get; private set; }
 
-        public event Action Tick;
+        public event EventHandler Tick;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -30,11 +30,7 @@ namespace MegaMan.Editor
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
             timer.Tick += (s, ev) => {
-                if (Tick != null)
-                {
-                    Tick();
-                    Tick();
-                }
+                Tick?.Invoke(this, ev);
             };
             timer.Start();
 
@@ -42,23 +38,6 @@ namespace MegaMan.Editor
             Container.Load(System.Reflection.Assembly.GetExecutingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
             Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.IGameLoader)).SelectAllClasses().BindAllInterfaces());
-        }
-
-        public void AnimateTileset(Tileset tileset)
-        {
-            foreach (var tile in tileset)
-            {
-                AnimateSprite(tile.Sprite);
-            }
-        }
-
-        public void AnimateSprite(Sprite sprite)
-        {
-            if (sprite != null)
-            {
-                Tick -= sprite.Update;
-                Tick += sprite.Update;
-            }
         }
 
         void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

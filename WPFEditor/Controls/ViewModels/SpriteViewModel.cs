@@ -1,6 +1,7 @@
 ﻿using System;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -8,7 +9,7 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         public Sprite Sprite { get; private set; }
 
-        public SpriteModel Model { get { return new SpriteModel(Sprite); } }
+        public SpriteModel Model { get; private set; }
 
         public SpriteViewModel(Sprite sprite)
         {
@@ -16,6 +17,26 @@ namespace MegaMan.Editor.Controls.ViewModels
                 throw new ArgumentNullException("sprite");
 
             Sprite = sprite;
+            Model = new SpriteModel(Sprite);
+        }
+
+        public SpriteViewModel(SpriteModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            Sprite = model.Sprite;
+            Model = model;
+            TickWeakEventManager.AddHandler(Tick);
+        }
+
+        private void Tick(object sender, EventArgs e)
+        {
+            if (Model.Playing)
+            {
+                OnPropertyChanged("CurrentIndex");
+                OnPropertyChanged("CurrentFrame");
+            }
         }
 
         public string Name
@@ -32,11 +53,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Sprite.CurrentIndex;
+                return Model.CurrentIndex;
             }
             set
             {
-                Sprite.CurrentIndex = value;
+                Model.CurrentIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -47,13 +68,23 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Sprite.CurrentFrame;
+                return Model.CurrentFrame;
             }
         }
 
         public FilePath SheetPath { get { return Sprite.SheetPath; } }
 
-        public bool Playing { get { return Sprite.Playing; } }
+        public bool Playing { get { return Model.Playing; } }
+
+        public void Play()
+        {
+            Model.Play();
+        }
+
+        public void Pause()
+        {
+            Model.Pause();
+        }
 
         public int Width
         {
@@ -104,16 +135,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             Sprite.Remove(frame);
             OnPropertyChanged("Count");
-        }
-
-        public void Play()
-        {
-            Sprite.Play();
-        }
-
-        public void Pause()
-        {
-            Sprite.Pause();
         }
     }
 }
