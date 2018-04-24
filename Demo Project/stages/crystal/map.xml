@@ -25,6 +25,7 @@
 	</Screen>
 	<Screen id="Tunnel" />
 	<Screen id="6" />
+	<Screen id="7" />
 	<Join type="vertical" s1="Start" s2="ScreenTwo" offset1="0" offset2="0" size="10" direction="both" />
 	<Join type="horizontal" s1="ScreenTwo" s2="4" offset1="12" offset2="12" size="2" direction="both" />
 	<Join type="vertical" s1="4" s2="Tunnel" offset1="8" offset2="8" size="3" direction="forward" />
@@ -32,4 +33,7 @@
 	<Join type="horizontal" s1="4" s2="6" offset1="0" offset2="0" size="16" direction="both" />
 	<Join type="vertical" s1="6" s2="Tunnel" offset1="0" offset2="14" size="0" direction="both" />
 	<Join type="horizontal" s1="Tunnel" s2="6" offset1="0" offset2="16" size="0" direction="both" />
+	<Join type="vertical" s1="7" s2="4" offset1="0" offset2="14" size="0" direction="both" />
+	<Join type="horizontal" s1="4" s2="7" offset1="0" offset2="16" size="0" direction="both" />
+	<Join type="vertical" s1="7" s2="6" offset1="0" offset2="0" size="14" direction="both" />
 </Map>

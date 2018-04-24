@@ -2,10 +2,10 @@
 	<Music nsftrack="2" />
 	<Start screen="1" x="112" y="100" />
 	<Screen id="1">
-		<Entity id="d285b258-7bf1-4c54-90db-07eadfad6914" entity="Garyoby" state="" x="246" y="184" direction="Unknown" respawn="Offscreen" />
-		<Entity id="fd8bd839-e2eb-419e-bd34-fc66a8381218" entity="SpikeBlock" state="" x="296" y="104" direction="Unknown" respawn="Offscreen" />
+		<Entity id="d285b258-7bf1-4c54-90db-07eadfad6914" entity="Garyoby" x="246" y="184" direction="Unknown" respawn="Offscreen" />
+		<Entity id="fd8bd839-e2eb-419e-bd34-fc66a8381218" entity="SpikeBlock" x="296" y="104" direction="Unknown" respawn="Offscreen" />
 		<Entity id="b2cd8271-09d1-4ccf-88cf-8d319d83096f" entity="SpikeBlock" state="Vert" x="344" y="88" direction="Unknown" respawn="Offscreen" />
-		<Entity id="b2e5b677-c89b-48e8-b49e-09f9844aed83" entity="Metool" state="" x="232" y="110" direction="Left" respawn="Offscreen" />
+		<Entity id="b2e5b677-c89b-48e8-b49e-09f9844aed83" entity="Metool" x="232" y="110" direction="Left" respawn="Offscreen" />
 	</Screen>
 	<Screen id="2" />
 	<Screen id="3" />
