@@ -85,12 +85,22 @@ namespace MegaMan.Engine
 
         public override void Start(IGameplayContainer container)
         {
+            foreach (var animator in _animators.Values)
+            {
+                animator.Play();
+            }
+
             container.GameThink += Update;
             container.Draw += Instance_GameRender;
         }
 
         public override void Stop(IGameplayContainer container)
         {
+            foreach (var animator in _animators.Values)
+            {
+                animator.Stop();
+            }
+
             container.GameThink -= Update;
             container.Draw -= Instance_GameRender;
         }
