@@ -352,7 +352,8 @@ namespace MegaMan.Engine
 
             // first run through, resolve intersections only
             hitSquares = new List<MapSquare>();
-            
+            hitBlockEntities = new List<Collision>();
+
             foreach (CollisionBox hitbox in hitboxes)
             {
                 if (!enabledBoxes.Contains(hitbox.ID)) continue;
@@ -364,7 +365,6 @@ namespace MegaMan.Engine
                 }
 
                 RectangleF boundbox = hitbox.BoxAt(PositionSrc.Position);
-                hitBlockEntities = new List<Collision>();
 
                 // now check with entity blocks
                 if (MovementSrc != null)
