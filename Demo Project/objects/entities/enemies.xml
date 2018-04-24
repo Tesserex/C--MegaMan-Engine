@@ -1014,7 +1014,10 @@
 				<Condition>StateTime == 134</Condition>
 				<Effect>
 					<Spawn name="EnemyShot" state="Start">
-						<Position />
+						<Position>
+							<X base="Inherit" offset="8" direction="Inherit" />
+							<Y base="Inherit" offset="5" direction="Down" />
+						</Position>
 					</Spawn>
 				</Effect>
 			</Trigger>
