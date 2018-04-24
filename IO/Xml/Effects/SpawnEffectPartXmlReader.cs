@@ -32,7 +32,11 @@ namespace MegaMan.IO.Xml.Effects
             info.Name = partNode.GetAttribute<string>("name");
             info.State = partNode.TryAttribute<string>("state", "Start");
 
-            info.Position = (PositionEffectPartInfo)_positionReader.Load(partNode);
+            var positionNode = partNode.Element("Position");
+            if (positionNode != null)
+            {
+                info.Position = (PositionEffectPartInfo)_positionReader.Load(positionNode);
+            }
 
             return info;
         }
