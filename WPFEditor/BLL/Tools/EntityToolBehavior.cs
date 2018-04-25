@@ -25,7 +25,7 @@ namespace MegaMan.Editor.Bll.Tools
 
             var placement = new Common.EntityPlacement() {
                 entity = _entity.Name,
-                direction = Common.Direction.Unknown,
+                direction = Common.Direction.Left,
                 screenX = snappedPoint.X,
                 screenY = snappedPoint.Y
             };

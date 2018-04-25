@@ -83,7 +83,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void Flip(object obj)
         {
-            Placement.direction = (Placement.direction == Direction.Right) ? Direction.Left : Direction.Right;
+            Placement.direction = (Placement.direction != Direction.Left) ? Direction.Left : Direction.Right;
             _screen.Stage.Dirty = true;
             OnPropertyChanged("Flipped");
             if (PlacementModified != null)
