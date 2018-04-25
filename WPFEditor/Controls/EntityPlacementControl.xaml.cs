@@ -11,6 +11,7 @@ namespace MegaMan.Editor.Controls
     public partial class EntityPlacementControl : UserControl
     {
         public Point DragOrigin { get; private set; }
+        public Common.Geometry.Point EntityStart { get; private set; }
 
         public EntityPlacementControl()
         {
@@ -33,6 +34,8 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseDown(e);
             DragOrigin = e.GetPosition(this);
+            var placement = ((EntityPlacementControlViewModel)DataContext).Placement;
+            EntityStart = new Common.Geometry.Point(placement.screenX, placement.screenY);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

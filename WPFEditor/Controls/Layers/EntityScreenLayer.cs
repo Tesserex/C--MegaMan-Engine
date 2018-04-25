@@ -17,6 +17,7 @@ namespace MegaMan.Editor.Controls
         protected override void UnbindScreen(ScreenDocument oldScreen)
         {
             oldScreen.EntityAdded -= EntityAdded;
+            oldScreen.EntityMoved -= EntityMoved;
             oldScreen.EntityRemoved -= EntityRemoved;
 
             this.Children.Clear();
@@ -25,6 +26,7 @@ namespace MegaMan.Editor.Controls
         protected override void BindScreen(ScreenDocument newScreen)
         {
             newScreen.EntityAdded += EntityAdded;
+            newScreen.EntityMoved += EntityMoved;
             newScreen.EntityRemoved += EntityRemoved;
 
             foreach (var placement in newScreen.Entities)
@@ -41,13 +43,24 @@ namespace MegaMan.Editor.Controls
             ctrl.DataContext = vm;
             ctrl.Visibility = Visibility.Visible;
 
-            PositionControl(ctrl, vm);
+            PositionControl(ctrl);
             Canvas.SetZIndex(ctrl, 10000);
 
-            vm.PlacementModified += (s, e) => PositionControl(ctrl, vm);
+            vm.PlacementModified += (s, e) => PositionControl(ctrl);
 
             this.Children.Add(ctrl);
             Update();
+        }
+
+        private void EntityMoved(EntityPlacement placement)
+        {
+            var ctrl = this.Children.OfType<EntityPlacementControl>().SingleOrDefault(c => ((EntityPlacementControlViewModel)c.DataContext).Placement == placement);
+
+            if (ctrl != null)
+            {
+                PositionControl(ctrl);
+                Update();
+            }
         }
 
         private void EntityRemoved(EntityPlacement placement)
@@ -69,17 +82,16 @@ namespace MegaMan.Editor.Controls
         {
             foreach (var c in Children.OfType<EntityPlacementControl>())
             {
-                var d = ((EntityPlacementControlViewModel)c.DataContext);
-                PositionControl(c, d);
-
+                PositionControl(c);
                 c.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             }
 
             return base.MeasureOverride(constraint);
         }
 
-        private void PositionControl(EntityPlacementControl ctrl, EntityPlacementControlViewModel viewModel)
+        private void PositionControl(EntityPlacementControl ctrl)
         {
+            var viewModel = (EntityPlacementControlViewModel)ctrl.DataContext;
             if (viewModel.DefaultSprite != null)
             {
                 bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
@@ -126,7 +138,21 @@ namespace MegaMan.Editor.Controls
 
                 Screen.Stage.Dirty = true;
 
-                PositionControl(ctrl, vm);
+                PositionControl(ctrl);
+            }
+        }
+
+        protected override void OnDrop(DragEventArgs e)
+        {
+            base.OnDrop(e);
+            var ctrl = (EntityPlacementControl)e.Data.GetData(typeof(EntityPlacementControl));
+            if (ctrl != null)
+            {
+                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
+                var endpoint = new Common.Geometry.Point(vm.Placement.screenX, vm.Placement.screenY);
+
+                var action = new MoveEntityAction(vm.Placement, this.Screen, ctrl.EntityStart, endpoint);
+                this.Screen.Stage.PushHistoryAction(action);
             }
         }
     }

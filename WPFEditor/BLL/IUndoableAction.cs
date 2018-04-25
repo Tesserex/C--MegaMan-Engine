@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Editor.Bll
 {
@@ -107,6 +108,34 @@ namespace MegaMan.Editor.Bll
         public IUndoableAction Reverse()
         {
             return new RemoveEntityAction(entity, screen);
+        }
+    }
+
+    public class MoveEntityAction : IUndoableAction
+    {
+        private readonly EntityPlacement entity;
+        private readonly ScreenDocument screen;
+        private readonly Point start;
+        private readonly Point end;
+
+        public string Name { get { return "Move Entity"; } }
+
+        public MoveEntityAction(EntityPlacement entity, ScreenDocument screen, Point start, Point end)
+        {
+            this.entity = entity;
+            this.screen = screen;
+            this.start = start;
+            this.end = end;
+        }
+
+        public void Execute()
+        {
+            this.screen.MoveEntity(this.entity, end);
+        }
+
+        public IUndoableAction Reverse()
+        {
+            return new MoveEntityAction(entity, screen, end, start);
         }
     }
 

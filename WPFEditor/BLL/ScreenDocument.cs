@@ -21,6 +21,7 @@ namespace MegaMan.Editor.Bll
         public event Action<int, int> Resized;
         public event Action TileChanged;
         public event Action<EntityPlacement> EntityAdded;
+        public event Action<EntityPlacement> EntityMoved;
         public event Action<EntityPlacement> EntityRemoved;
 
         public Rectangle? Selection { get; private set; }
@@ -184,26 +185,19 @@ namespace MegaMan.Editor.Bll
             this.Stage.AddScreen(info);
         }
 
-        public EntityPlacement AddEntity(EntityInfo entity, Point location)
-        {
-            var info = new EntityPlacement {
-                entity = entity.Name,
-                screenX = location.X,
-                screenY = location.Y,
-            };
-
-            screen.Layers[0].Entities.Add(info);
-
-            Dirty = true;
-
-            return info;
-        }
-
         public void AddEntity(EntityPlacement info)
         {
             screen.Layers[0].Entities.Add(info);
             Dirty = true;
             if (EntityAdded != null) EntityAdded(info);
+        }
+
+        public void MoveEntity(EntityPlacement info, Point location)
+        {
+            info.screenX = location.X;
+            info.screenY = location.Y;
+            Dirty = true;
+            EntityMoved?.Invoke(info);
         }
 
         public void RemoveEntity(EntityPlacement info)
