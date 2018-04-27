@@ -61,6 +61,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
         }
 
+        public void Destroy()
+        {
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Unsubscribe(ZoomChanged);
+        }
+
         private void SetStartState(object obj)
         {
             Placement.state = obj.ToString();

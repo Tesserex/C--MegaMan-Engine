@@ -165,8 +165,6 @@ namespace MegaMan.Editor.Controls
 
         protected abstract ScreenCanvas CreateScreenCanvas(ScreenDocument screen);
 
-        protected abstract void DestroyScreenCanvas(ScreenCanvas canvas);
-
         protected void FreezeLayout()
         {
             _freezeLayout = true;
@@ -243,7 +241,7 @@ namespace MegaMan.Editor.Controls
 
                 for (int i = screenDocuments.Length; i < canvases.Length; i++)
                 {
-                    DestroyScreenCanvas(canvases[i]);
+                    canvases[i].Destroy();
                 }
 
                 canvas.Children.RemoveRange(screenDocuments.Length, canvases.Length - screenDocuments.Length);

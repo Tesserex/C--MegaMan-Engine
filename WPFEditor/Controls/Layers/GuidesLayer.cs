@@ -17,10 +17,15 @@ namespace MegaMan.Editor.Controls
         private bool _propertiesVisible;
 
         public GuidesLayer()
-            : base()
         {
             ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Subscribe(LayerVisibilityChanged, true);
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Unsubscribe(LayerVisibilityChanged);
         }
 
         private void LayerVisibilityChanged(object sender, LayerVisibilityChangedEventArgs e)

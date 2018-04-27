@@ -11,9 +11,5 @@ namespace MegaMan.Editor.Controls
 
             return canvas;
         }
-
-        protected override void DestroyScreenCanvas(ScreenCanvas canvas)
-        {
-        }
     }
 }

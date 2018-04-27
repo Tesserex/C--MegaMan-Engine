@@ -19,6 +19,12 @@ namespace MegaMan.Editor.Controls
             oldScreen.EntityMoved -= EntityMoved;
             oldScreen.EntityRemoved -= EntityRemoved;
 
+            foreach (var ctrl in this.Children.OfType<EntityPlacementControl>())
+            {
+                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
+                vm.Destroy();
+            }
+
             this.Children.Clear();
         }
 

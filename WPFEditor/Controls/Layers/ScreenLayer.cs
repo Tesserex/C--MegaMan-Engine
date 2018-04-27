@@ -47,6 +47,11 @@ namespace MegaMan.Editor.Controls
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
         }
 
+        public virtual void Destroy()
+        {
+            ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Unsubscribe(ZoomChanged);
+        }
+
         private void ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
             if (_screen == null)

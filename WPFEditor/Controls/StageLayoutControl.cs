@@ -22,11 +22,6 @@ namespace MegaMan.Editor.Controls
             return canvas;
         }
 
-        protected override void DestroyScreenCanvas(ScreenCanvas canvas)
-        {
-            
-        }
-
         private void screenDropped(object sender, LayoutScreenDroppedEventArgs e)
         {
             var screen = (LayoutScreenCanvas)e.Canvas;
