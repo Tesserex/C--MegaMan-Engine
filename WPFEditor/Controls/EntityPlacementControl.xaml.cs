@@ -10,9 +10,6 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class EntityPlacementControl : UserControl
     {
-        public Point DragOrigin { get; private set; }
-        public Common.Geometry.Point EntityStart { get; private set; }
-
         public EntityPlacementControl()
         {
             InitializeComponent();
@@ -28,24 +25,6 @@ namespace MegaMan.Editor.Controls
         {
             base.OnMouseLeave(e);
             ((EntityPlacementControlViewModel)DataContext).Hovered = false;
-        }
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
-            DragOrigin = e.GetPosition(this);
-            var placement = ((EntityPlacementControlViewModel)DataContext).Placement;
-            EntityStart = new Common.Geometry.Point(placement.screenX, placement.screenY);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
-            }
         }
     }
 }

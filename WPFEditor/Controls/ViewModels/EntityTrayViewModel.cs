@@ -62,7 +62,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Hand":
                     _toolCursor = new StandardToolCursor("hand.cur");
-                    _toolBehavior = null;
+                    _toolBehavior = new EntityHandToolBehavior(SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
                     ActiveIcon = "cursor";
                     break;
 

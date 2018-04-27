@@ -11,7 +11,6 @@ namespace MegaMan.Editor.Controls
     {
         public EntityScreenLayer()
         {
-            this.AllowDrop = true;
         }
 
         protected override void UnbindScreen(ScreenDocument oldScreen)
@@ -117,43 +116,6 @@ namespace MegaMan.Editor.Controls
             }
 
             return base.ArrangeOverride(arrangeSize);
-        }
-
-        protected override void OnDragOver(DragEventArgs e)
-        {
-            base.OnDragOver(e);
-            var ctrl = (EntityPlacementControl)e.Data.GetData(typeof(EntityPlacementControl));
-            if (ctrl != null)
-            {
-                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
-                var canvasPoint = e.GetPosition(this);
-                var screenMouseX = canvasPoint.X / Zoom;
-                var screenMouseY = canvasPoint.Y / Zoom;
-
-                var offsetX = vm.DefaultSprite.HotSpot.X - (ctrl.DragOrigin.X / Zoom);
-                var offsetY = vm.DefaultSprite.HotSpot.Y - (ctrl.DragOrigin.Y / Zoom);
-
-                vm.Placement.screenX = (int)(screenMouseX + offsetX);
-                vm.Placement.screenY = (int)(screenMouseY + offsetY);
-
-                Screen.Stage.Dirty = true;
-
-                PositionControl(ctrl);
-            }
-        }
-
-        protected override void OnDrop(DragEventArgs e)
-        {
-            base.OnDrop(e);
-            var ctrl = (EntityPlacementControl)e.Data.GetData(typeof(EntityPlacementControl));
-            if (ctrl != null)
-            {
-                var vm = (EntityPlacementControlViewModel)ctrl.DataContext;
-                var endpoint = new Common.Geometry.Point(vm.Placement.screenX, vm.Placement.screenY);
-
-                var action = new MoveEntityAction(vm.Placement, this.Screen, ctrl.EntityStart, endpoint);
-                this.Screen.Stage.PushHistoryAction(action);
-            }
         }
     }
 }
