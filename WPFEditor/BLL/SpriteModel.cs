@@ -108,7 +108,7 @@ namespace MegaMan.Editor.Bll
 
         public override WriteableBitmap GetImageSource(double zoom)
         {
-            var scaledOverlay = SpriteBitmapCache.Scale(_overlay, zoom);
+            var scaledOverlay = _overlay.Resize((int)(_overlay.PixelWidth * zoom), (int)(_overlay.PixelHeight * zoom), WriteableBitmapExtensions.Interpolation.NearestNeighbor);
             var spriteImg = BitmapFactory.ConvertToPbgra32Format(base.GetImageSource(zoom));
             var centerX = (spriteImg.Width - scaledOverlay.Width) / 2;
             var centerY = (spriteImg.Height - scaledOverlay.Height) / 2;
