@@ -56,27 +56,36 @@ namespace MegaMan.Editor.Controls.ViewModels
             return String.Format("/Resources/{0}_{1}.png", icon, (_activeIcon == icon) ? "on" : "off");
         }
 
-        private void UpdateTool(object toolParam = null)
+        public void UpdateTool(object toolParam = null)
         {
-            switch (toolParam.ToString())
+            if (toolParam == null)
             {
-                case "Hand":
-                    _toolCursor = new StandardToolCursor("hand.cur");
-                    _toolBehavior = new EntityHandToolBehavior(SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
-                    ActiveIcon = "cursor";
-                    break;
+                _toolBehavior.SnapX = SnapHorizontal ? HorizSnapAmount : 1;
+                _toolBehavior.SnapY = SnapVertical ? VertSnapAmount : 1;
+                if (_toolCursor is SpriteCursor)
+                {
+                    ((SpriteCursor)_toolCursor).UpdateSnap(SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                }
+            }
+            else
+            {
+                switch (toolParam.ToString())
+                {
+                    case "Hand":
+                        _toolCursor = new StandardToolCursor("hand.cur");
+                        _toolBehavior = new EntityHandToolBehavior(SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                        ActiveIcon = "cursor";
+                        break;
 
-                case "Entity":
-                    _toolCursor = new SpriteCursor(SelectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
-                    _toolBehavior = new EntityToolBehavior(SelectedEntity.Entity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
-                    ActiveIcon = "";
-                    break;
+                    case "Entity":
+                        _toolCursor = new SpriteCursor(SelectedEntity.DefaultSprite, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                        _toolBehavior = new EntityToolBehavior(SelectedEntity.Entity, SnapHorizontal ? HorizSnapAmount : 1, SnapVertical ? VertSnapAmount : 1);
+                        ActiveIcon = "";
+                        break;
+                }
             }
 
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
-            }
+            ToolChanged?.Invoke(this, new ToolChangedEventArgs(_toolBehavior));
         }
 
         private bool _snapHoriz;
@@ -90,7 +99,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _snapHoriz = value;
-                _toolBehavior.SnapX = SnapHorizontal ? HorizSnapAmount : 1;
+                UpdateTool();
                 OnPropertyChanged("SnapHorizontal");
             }
         }
@@ -101,7 +110,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _snapVert = value;
-                _toolBehavior.SnapY = SnapVertical ? VertSnapAmount : 1;
+                UpdateTool();
                 OnPropertyChanged("SnapVertical");
             }
         }
@@ -112,7 +121,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _horizSnapAmount = value;
-                _toolBehavior.SnapX = SnapHorizontal ? HorizSnapAmount : 1;
+                UpdateTool();
                 OnPropertyChanged("HorizSnapAmount");
             }
         }
@@ -123,7 +132,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _vertSnapAmount = value;
-                _toolBehavior.SnapY = SnapVertical ? VertSnapAmount : 1;
+                UpdateTool();
                 OnPropertyChanged("VertSnapAmount");
             }
         }

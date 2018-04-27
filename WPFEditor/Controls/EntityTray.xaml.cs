@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
 {
@@ -10,6 +11,16 @@ namespace MegaMan.Editor.Controls
         public EntityTray()
         {
             InitializeComponent();
+        }
+        
+        private void MouseLeftDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = sender as ListViewItem;
+            if (item != null && item.IsSelected)
+            {
+                var vm = (EntityTrayViewModel)DataContext;
+                vm.UpdateTool("Entity");
+            }
         }
     }
 }

@@ -32,5 +32,11 @@ namespace MegaMan.Editor.Tools
         protected override float Height { get { return _sprite.Height; } }
         protected override float SnapWidth { get { return _snapWidth; } }
         protected override float SnapHeight { get { return _snapHeight; } }
+
+        public void UpdateSnap(int x, int y)
+        {
+            _snapWidth = x;
+            _snapHeight = y;
+        }
     }
 }

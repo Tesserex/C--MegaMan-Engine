@@ -24,6 +24,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MouseLeftDown" />
             </Style>
         </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
