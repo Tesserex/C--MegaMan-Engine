@@ -4,24 +4,25 @@ using MegaMan.Editor.Controls;
 
 namespace MegaMan.Editor.Bll.Tools
 {
-    public class EntityToolBehavior : IToolBehavior
+    public class EntityToolBehavior : IEntityToolBehavior
     {
         private EntityInfo _entity;
-        private int _snapX;
-        private int _snapY;
+        
+        public int SnapX { get; set; }
+        public int SnapY { get; set; }
 
         public EntityToolBehavior(EntityInfo entity, int snapX, int snapY)
         {
             _entity = entity;
-            _snapX = snapX;
-            _snapY = snapY;
+            SnapX = snapX;
+            SnapY = snapY;
         }
 
         public void Click(ScreenCanvas canvas, Point location)
         {
             var snappedPoint = new Point(
-                (location.X / _snapX) * _snapX,
-                (location.Y / _snapY) * _snapY);
+                (location.X / SnapX) * SnapX,
+                (location.Y / SnapY) * SnapY);
 
             var placement = new Common.EntityPlacement() {
                 entity = _entity.Name,

@@ -10,18 +10,19 @@ using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Bll.Tools
 {
-    public class EntityHandToolBehavior : IToolBehavior
+    public class EntityHandToolBehavior : IEntityToolBehavior
     {
-        private int _snapX;
-        private int _snapY;
         private EntityPlacementControl _grabbedEntity;
         private Point _offset;
         private Point _dragStart;
 
+        public int SnapX { get; set; }
+        public int SnapY { get; set; }
+
         public EntityHandToolBehavior(int snapX, int snapY)
         {
-            _snapX = snapX;
-            _snapY = snapY;
+            SnapX = snapX;
+            SnapY = snapY;
         }
 
         public void Click(ScreenCanvas canvas, Point location)
@@ -63,10 +64,13 @@ namespace MegaMan.Editor.Bll.Tools
             if (this._grabbedEntity != null)
             {
                 var vm = (EntityPlacementControlViewModel)_grabbedEntity.DataContext;
-                var screenMouseX = location.X;
-                var screenMouseY = location.Y;
+                var endX = location.X - _offset.X;
+                var endY = location.Y - _offset.Y;
 
-                var end = new Point(location.X - _offset.X, location.Y - _offset.Y);
+                endX = (endX / SnapX) * SnapX;
+                endY = (endY / SnapY) * SnapY;
+
+                var end = new Point(endX, endY);
 
                 canvas.Screen.MoveEntity(vm.Placement, end);
             }

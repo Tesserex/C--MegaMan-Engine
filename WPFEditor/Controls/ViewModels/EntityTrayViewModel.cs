@@ -21,7 +21,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         private IToolCursor _toolCursor;
-        private IToolBehavior _toolBehavior;
+        private IEntityToolBehavior _toolBehavior;
         private EntityViewModel _selectedEntity;
         private ProjectDocument _currentProject;
 
@@ -90,8 +90,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _snapHoriz = value;
+                _toolBehavior.SnapX = SnapHorizontal ? HorizSnapAmount : 1;
                 OnPropertyChanged("SnapHorizontal");
-                UpdateTool("Entity");
             }
         }
         
@@ -101,8 +101,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _snapVert = value;
+                _toolBehavior.SnapY = SnapVertical ? VertSnapAmount : 1;
                 OnPropertyChanged("SnapVertical");
-                UpdateTool("Entity");
             }
         }
 
@@ -112,8 +112,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _horizSnapAmount = value;
+                _toolBehavior.SnapX = SnapHorizontal ? HorizSnapAmount : 1;
                 OnPropertyChanged("HorizSnapAmount");
-                UpdateTool("Entity");
             }
         }
 
@@ -123,8 +123,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 _vertSnapAmount = value;
+                _toolBehavior.SnapY = SnapVertical ? VertSnapAmount : 1;
                 OnPropertyChanged("VertSnapAmount");
-                UpdateTool("Entity");
             }
         }
 
