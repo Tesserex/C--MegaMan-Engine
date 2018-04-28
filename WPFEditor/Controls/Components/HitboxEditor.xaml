@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MegaMan.Editor.Controls.Components"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:parts="clr-namespace:MegaMan.Editor.Controls.Parts"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
@@ -116,10 +117,10 @@
 
             <AdornerDecorator>
                 <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding SpriteWidth}" Height="{Binding SpriteHeight}">
-                    <c:SpriteImage Canvas.Top="0"
+                    <parts:SpriteImage Canvas.Top="0"
                                    Canvas.Left="0"
                                    DataContext="{Binding DataContext.ViewingSprite, RelativeSource={RelativeSource AncestorType={x:Type c:EntityEditor}}}"
-                                   Zoom="{Binding DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}"></c:SpriteImage>
+                                   Zoom="{Binding DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type local:HitboxEditor}}}"></parts:SpriteImage>
                     <Canvas Canvas.Top="{Binding SpriteTop}" Canvas.Left="{Binding SpriteLeft}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Rectangle x:Name="hitboxRect" Fill="#aaff8800" Width="{Binding ZoomWidth}" Height="{Binding ZoomHeight}" Canvas.Top="{Binding ZoomTop}" Canvas.Left="{Binding ZoomLeft}"></Rectangle>
                     </Canvas>

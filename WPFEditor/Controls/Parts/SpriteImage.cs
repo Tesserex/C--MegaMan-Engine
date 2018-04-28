@@ -5,7 +5,7 @@ using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
-namespace MegaMan.Editor.Controls {
+namespace MegaMan.Editor.Controls.Parts {
     public class SpriteImage : Grid
     {
         public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, new PropertyChangedCallback(ZoomChanged)));

@@ -2,7 +2,7 @@
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
-namespace MegaMan.Editor.Controls
+namespace MegaMan.Editor.Controls.Parts
 {
     public class TileImage : SpriteImage
     {

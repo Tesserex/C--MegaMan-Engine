@@ -23,6 +23,10 @@ namespace MegaMan.Editor.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GridCanvas), new FrameworkPropertyMetadata(typeof(GridCanvas)));
 
             _gridPen = new Pen(Brushes.DarkGray, 1);
+            if (_gridPen.CanFreeze)
+            {
+                _gridPen.Freeze();
+            }
         }
 
         protected override void OnRender(DrawingContext drawingContext)

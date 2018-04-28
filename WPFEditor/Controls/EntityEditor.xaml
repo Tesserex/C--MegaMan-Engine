@@ -72,10 +72,10 @@
                         </Button>
                     </StackPanel>
                     <Grid>
-                        <local:SpriteImage Visibility="{Binding DataContext.PreviewVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                        <parts:SpriteImage Visibility="{Binding DataContext.PreviewVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                            DataContext="{Binding ViewingSprite}"
                                            Zoom="{Binding DataContext.ViewSpriteZoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
-                                           HorizontalAlignment="Center" Background="Magenta"></local:SpriteImage>
+                                           HorizontalAlignment="Center" Background="Magenta"></parts:SpriteImage>
                         <comp:HitboxEditor Visibility="{Binding DataContext.HitboxEditorVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                            DataContext="{Binding HitBoxEditor}"
                                            HorizontalAlignment="Center"></comp:HitboxEditor>

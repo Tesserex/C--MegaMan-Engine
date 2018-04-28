@@ -190,7 +190,7 @@
     <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
       <DependentUpon>NewEntityDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditableLabel.xaml.cs">
+    <Compile Include="Controls\Parts\EditableLabel.xaml.cs">
       <DependentUpon>EditableLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\ProgressDialog.xaml.cs">
@@ -205,7 +205,6 @@
     <Compile Include="Controls\EntityEditor.xaml.cs">
       <DependentUpon>EntityEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EntityMoveData.cs" />
     <Compile Include="Controls\EntityPlacementControl.xaml.cs">
       <DependentUpon>EntityPlacementControl.xaml</DependentUpon>
     </Compile>
@@ -242,7 +241,7 @@
     <Compile Include="Controls\SpriteEditor.xaml.cs">
       <DependentUpon>SpriteEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpriteImage.cs" />
+    <Compile Include="Controls\Parts\SpriteImage.cs" />
     <Compile Include="Controls\StageEntitiesControl.cs" />
     <Compile Include="Controls\StagePropertiesControl.xaml.cs">
       <DependentUpon>StagePropertiesControl.xaml</DependentUpon>
@@ -326,7 +325,7 @@
     <Compile Include="Controls\StageControl.cs" />
     <Compile Include="Controls\StageLayoutControl.cs" />
     <Compile Include="Controls\StageTileControl.cs" />
-    <Compile Include="Controls\TileImage.cs" />
+    <Compile Include="Controls\Parts\TileImage.cs" />
     <Compile Include="Controls\Canvases\TileScreenCanvas.cs" />
     <Compile Include="Controls\ViewModels\TilesToolbarViewModel.cs" />
     <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
@@ -357,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\EditableLabel.xaml">
+    <Page Include="Controls\Parts\EditableLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
