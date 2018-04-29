@@ -260,6 +260,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
+                if (_sprite.SheetPath == null)
+                    return null;
+
                 if (_sprite.Playing)
                     return SpriteBitmapCache.GetOrLoadImageGrayscale(_sprite.SheetPath.Absolute);
                 else
@@ -287,6 +290,9 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
+                if (_sprite.SheetPath == null)
+                    return null;
+
                 var rect = _sprite.CurrentFrame.SheetLocation;
                 return SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, rect);
             }
@@ -307,7 +313,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return SheetImageSource.PixelWidth * _sheetZoom;
+                var source = SheetImageSource;
+                if (source == null)
+                    return 0;
+
+                return source.PixelWidth * _sheetZoom;
             }
         }
 
@@ -315,7 +325,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return SheetImageSource.PixelHeight * _sheetZoom;
+                var source = SheetImageSource;
+                if (source == null)
+                    return 0;
+
+                return source.PixelHeight * _sheetZoom;
             }
         }
 

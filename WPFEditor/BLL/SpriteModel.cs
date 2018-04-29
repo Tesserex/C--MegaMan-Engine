@@ -69,6 +69,9 @@ namespace MegaMan.Editor.Bll
 
         public virtual WriteableBitmap GetImageSource(double zoom)
         {
+            if (_sprite.SheetPath == null)
+                return null;
+
             var location = _animator.CurrentFrame.SheetLocation;
 
             var image = SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, location);

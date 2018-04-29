@@ -16,8 +16,12 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         {
             get
             {
-                if (!HasComponent())
-                    return null;
+                if (!Enabled)
+                {
+                    return new List<SpriteListItemViewModel>() {
+                        new SpriteListItemViewModel(null)
+                    };
+                }
 
                 var sprites = Entity.SpriteComponent.Sprites.Values
                     .Select(s => new SpriteListItemViewModel(s))
@@ -31,6 +35,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         public SpriteModel AddSprite()
         {
+            if (!Enabled)
+            {
+                Enabled = true;
+            }
+
             Sprite sprite = CreateEmptySprite();
             Entity.SpriteComponent.Sprites.Add(sprite.Name, sprite);
             OnPropertyChanged("Sprites");
@@ -40,8 +49,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         private Sprite CreateEmptySprite()
         {
-            var size = ModeOf(Entity.SpriteComponent.Sprites
-                .Select(s => new Common.Geometry.Point(s.Value.Width, s.Value.Height)));
+            var size = Entity.SpriteComponent.Sprites.Any() ?
+                ModeOf(Entity.SpriteComponent.Sprites
+                    .Select(s => new Common.Geometry.Point(s.Value.Width, s.Value.Height))) :
+                new Common.Geometry.Point(16, 16);
 
             var sprite = new Sprite(size.X, size.Y);
             sprite.Name = GetNewSpriteName();
