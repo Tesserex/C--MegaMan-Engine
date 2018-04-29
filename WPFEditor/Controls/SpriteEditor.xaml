@@ -58,80 +58,68 @@
             <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="3" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="3" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="10" />
+                        <RowDefinition Height="3" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="10" />
+                        <RowDefinition Height="3" />
                     </Grid.RowDefinitions>
-                    <Rectangle Grid.Row="0" Grid.Column="0">
-                        <Rectangle.Fill>
-                            <RadialGradientBrush Center="1,1" GradientOrigin="1,1" RadiusX="1" RadiusY="1">
-                                <GradientStop Color="#A0404040" Offset="0" />
-                                <GradientStop Color="Transparent" Offset="1" />
-                            </RadialGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="0" Grid.Column="1">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#A0404040" Offset="1" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="0" Grid.Column="2">
-                        <Rectangle.Fill>
-                            <RadialGradientBrush Center="0,1" GradientOrigin="0,1" RadiusX="1" RadiusY="1">
-                                <GradientStop Color="#A0404040" Offset="0" />
-                                <GradientStop Color="Transparent" Offset="1" />
-                            </RadialGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="1" Grid.Column="0">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#A0404040" Offset="1" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
+                    <Path Grid.Row="0" Grid.Column="0" Fill="#404040">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigure StartPoint="3,0" IsClosed="True">
+                                        <LineSegment Point="3,3"/>
+                                        <LineSegment Point="0,3"/>
+                                    </PathFigure>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Rectangle Grid.Row="0" Grid.Column="1" Fill="#404040" />
+                    <Path Grid.Row="0" Grid.Column="2" Fill="#404040">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigure StartPoint="0,0" IsClosed="True">
+                                        <LineSegment Point="3,3"/>
+                                        <LineSegment Point="0,3"/>
+                                    </PathFigure>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Rectangle Grid.Row="1" Grid.Column="0" Fill="#404040" />
                     <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                    <Rectangle Grid.Row="1" Grid.Column="2">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#A0404040" Offset="1" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="2" Grid.Column="0">
-                        <Rectangle.Fill>
-                            <RadialGradientBrush Center="1,0" GradientOrigin="1,0" RadiusX="1" RadiusY="1">
-                                <GradientStop Color="#A0404040" Offset="0" />
-                                <GradientStop Color="Transparent" Offset="1" />
-                            </RadialGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="2" Grid.Column="1">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#A0404040" Offset="1" />
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="2" Grid.Column="2">
-                        <Rectangle.Fill>
-                            <RadialGradientBrush Center="0,0" GradientOrigin="0,0" RadiusX="1" RadiusY="1">
-                                <GradientStop Color="#A0404040" Offset="0" />
-                                <GradientStop Color="Transparent" Offset="1" />
-                            </RadialGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
+                    <Rectangle Grid.Row="1" Grid.Column="2" Fill="#404040" />
+                    <Path Grid.Row="2" Grid.Column="0" Fill="#404040">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigure StartPoint="3,0" IsClosed="True">
+                                        <LineSegment Point="3,3"/>
+                                        <LineSegment Point="0,0"/>
+                                    </PathFigure>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Rectangle Grid.Row="2" Grid.Column="1" Fill="#404040" />
+                    <Path Grid.Row="2" Grid.Column="2" Fill="#404040">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigure StartPoint="3,0" IsClosed="True">
+                                        <LineSegment Point="0,0"/>
+                                        <LineSegment Point="0,3"/>
+                                    </PathFigure>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
                 </Grid>
             </ScrollViewer>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
