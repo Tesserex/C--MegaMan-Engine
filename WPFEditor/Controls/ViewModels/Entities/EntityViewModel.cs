@@ -21,11 +21,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             _entity = entity;
             _project = project;
             DefaultSprite = SpriteModel.ForEntity(_entity, _project);
-            DefaultSprite.Play();
         }
 
         public string Name { get { return _entity.Name; } }
 
-        public SpriteModel DefaultSprite { get; private set; }
+        public IEntityImage DefaultSprite { get; private set; }
     }
 }

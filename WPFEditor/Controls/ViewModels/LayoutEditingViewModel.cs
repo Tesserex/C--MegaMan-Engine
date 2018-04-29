@@ -21,7 +21,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private StageDocument _currentStage;
 
-        private SpriteModel _playerSprite;
+        private IEntityImage _playerSprite;
 
         private string _activeIcon;
 

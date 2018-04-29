@@ -151,7 +151,9 @@
     <Compile Include="Bll\Algorithms\ScreenImporter.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
     <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
+    <Compile Include="Bll\EmptySpriteModel.cs" />
     <Compile Include="Bll\IProjectFileStructure.cs" />
+    <Compile Include="Bll\IEntityImage.cs" />
     <Compile Include="Bll\ProjectFileStructure.cs" />
     <Compile Include="Bll\SpriteModel.cs" />
     <Compile Include="Bll\TilesetDocument.cs" />

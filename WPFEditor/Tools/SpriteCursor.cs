@@ -7,11 +7,11 @@ namespace MegaMan.Editor.Tools
 {
     public class SpriteCursor : ImageCursor
     {
-        private SpriteModel _sprite;
+        private IEntityImage _sprite;
         private int _snapWidth;
         private int _snapHeight;
 
-        public SpriteCursor(SpriteModel sprite, int snapWidth = 1, int snapHeight = 1) : base(sprite.HotSpot)
+        public SpriteCursor(IEntityImage sprite, int snapWidth = 1, int snapHeight = 1) : base(sprite.HotSpot)
         {
             _sprite = sprite;
             _snapWidth = snapWidth;

@@ -13,7 +13,7 @@ using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Bll
 {
-    public class SpriteModel
+    public class SpriteModel : IEntityImage
     {
         private Sprite _sprite;
         private SpriteAnimator _animator;
@@ -78,22 +78,28 @@ namespace MegaMan.Editor.Bll
             return image;
         }
 
-        public static SpriteModel ForEntity(EntityInfo entity, ProjectDocument project)
+        public static IEntityImage ForEntity(EntityInfo entity, ProjectDocument project)
         {
-            var hasSprites = entity.SpriteComponent != null && entity.SpriteComponent.Sprites.Any();
-
-            if (!hasSprites)
+            if (entity.DefaultSprite == null)
             {
                 var allEffectParts = entity.StateComponent.States.SelectMany(s => s.Initializer.Parts.Concat(s.Logic.Parts).Concat(s.Triggers.SelectMany(t => t.Effect.Parts)));
                 var spawn = allEffectParts.OfType<SpawnEffectPartInfo>().Select(s => s.Name).FirstOrDefault();
                 if (spawn != null)
                 {
                     var spawnEntity = project.EntityByName(spawn);
-                    return new OverlaySpriteModel(spawnEntity.DefaultSprite, "spawn.png");
+                    var model = new OverlaySpriteModel(spawnEntity.DefaultSprite, "spawn.png");
+                    model.Play();
+                    return model;
                 }
-            }
 
-            return new SpriteModel(entity.DefaultSprite);
+                return new EmptySpriteModel("nosprite.png");
+            }
+            else
+            {
+                var model = new SpriteModel(entity.DefaultSprite);
+                model.Play();
+                return model;
+            }
         }
     }
 

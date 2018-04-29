@@ -27,7 +27,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         public EntityPlacement Placement { get; private set; }
-        public SpriteModel DefaultSprite { get; private set; }
+        public IEntityImage DefaultSprite { get; private set; }
 
         public ICommand DeleteCommand { get; private set; }
         public ICommand FlipCommand { get; private set; }
@@ -51,7 +51,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             this._entityInfo = entityInfo;
             this._screen = screen;
             this.DefaultSprite = this.GetDefaultSprite();
-            this.DefaultSprite.Play();
 
             DeleteCommand = new RelayCommand(Delete);
             FlipCommand = new RelayCommand(Flip);
@@ -106,7 +105,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("Zoom");
         }
 
-        private SpriteModel GetDefaultSprite()
+        private IEntityImage GetDefaultSprite()
         {
             var hasSprites = _entityInfo.SpriteComponent != null && _entityInfo.SpriteComponent.Sprites.Any();
 
