@@ -82,5 +82,25 @@ namespace MegaMan.Common.Tests
 
             Assert.AreEqual(expected, filepath.Absolute);
         }
+
+        [TestMethod, TestCategory("FilePath")]
+        public void RelativeShouldAllowExtensionsInBasePath()
+        {
+            var filepath = FilePath.FromRelative(@"bar\baz", @"C:\foo\stuff.zip");
+
+            var expected = @"C:\foo\stuff.zip\bar\baz";
+
+            Assert.AreEqual(expected, filepath.Absolute);
+        }
+
+        [TestMethod, TestCategory("FilePath")]
+        public void AbsoluteShouldAllowExtensionsInBasePath()
+        {
+            var filepath = FilePath.FromAbsolute(@"C:\foo\stuff.zip\bar\baz", @"C:\foo\stuff.zip");
+
+            var expected = @"bar\baz";
+
+            Assert.AreEqual(expected, filepath.Relative);
+        }
     }
 }

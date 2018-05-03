@@ -186,15 +186,15 @@ namespace MegaMan.Engine
             return music;
         }
 
-        public void LoadMusicNSF(string path)
+        public void LoadMusicNSF(byte[] nsfData)
         {
-            bgm = new BackgroundMusic(AudioContainer.LoadContainer(path));
+            bgm = new BackgroundMusic(AudioContainer.LoadContainer(ref nsfData));
             AudioManager.Instance.LoadBackgroundMusic(bgm);
         }
 
-        public void LoadSfxNSF(string path)
+        public void LoadSfxNSF(byte[] nsfData)
         {
-            sfx = new SoundEffect(AudioContainer.LoadContainer(path), 1);
+            sfx = new SoundEffect(AudioContainer.LoadContainer(ref nsfData), 1);
             AudioManager.Instance.LoadSoundEffect(sfx);
         }
 

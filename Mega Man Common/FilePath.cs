@@ -80,11 +80,6 @@ namespace MegaMan.Common
             if (string.IsNullOrEmpty(absolute)) return;
             if (string.IsNullOrEmpty(basepath)) return;
 
-            if (Path.HasExtension(basepath))
-            {
-                basepath = Path.GetDirectoryName(basepath);
-            }
-
             // split into directories
             string[] pathdirs = absolute.Split(Path.DirectorySeparatorChar);
             string[] reldirs = basepath.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);

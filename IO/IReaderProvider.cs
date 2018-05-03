@@ -11,5 +11,6 @@ namespace MegaMan.IO
         IProjectReader GetProjectReader();
         IStageReader GetStageReader(FilePath path);
         ITilesetReader GetTilesetReader(FilePath path);
+        IRawReader GetRawReader();
     }
 }

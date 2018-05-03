@@ -37,6 +37,13 @@ namespace MegaMan.IO
             throw new ArgumentException("The game file is not of a supported type.");
         }
 
+        public IRawReader GetRawReader()
+        {
+            var reader = new RawReader();
+            reader.Init(_dataSource);
+            return reader;
+        }
+
         public IStageReader GetStageReader(FilePath path)
         {
             var reader = new StageXmlReader(this, new EntityPlacementXmlReader(), new HandlerCommandXmlReader());

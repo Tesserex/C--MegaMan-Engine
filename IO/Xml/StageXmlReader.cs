@@ -151,7 +151,7 @@ namespace MegaMan.IO.Xml
 
             var screen = new ScreenInfo(id, tileset);
 
-            screen.Layers.Add(LoadScreenLayer(node, stagePath.Absolute, id, tileset, 0, 0, false));
+            screen.Layers.Add(LoadScreenLayer(node, stagePath, id, tileset, 0, 0, false));
 
             foreach (var overlay in node.Elements("Overlay"))
             {
@@ -161,7 +161,7 @@ namespace MegaMan.IO.Xml
                 bool foreground = overlay.TryAttribute<bool>("foreground");
                 bool parallax = overlay.TryAttribute<bool>("parallax");
 
-                var layer = LoadScreenLayer(overlay, stagePath.Absolute, name, tileset, x, y, foreground);
+                var layer = LoadScreenLayer(overlay, stagePath, name, tileset, x, y, foreground);
                 layer.Parallax = parallax;
 
                 screen.Layers.Add(layer);
@@ -194,11 +194,11 @@ namespace MegaMan.IO.Xml
             return screen;
         }
 
-        private ScreenLayerInfo LoadScreenLayer(XElement node, string stagePath, string name, Tileset tileset, int tileStartX, int tileStartY, bool foreground)
+        private ScreenLayerInfo LoadScreenLayer(XElement node, FilePath stagePath, string name, Tileset tileset, int tileStartX, int tileStartY, bool foreground)
         {
-            var tileFilePath = Path.Combine(stagePath, name + ".scn");
+            var tileFilePath = Path.Combine(stagePath.Absolute, name + ".scn");
 
-            var tileArray = LoadTiles(tileFilePath);
+            var tileArray = LoadTiles(FilePath.FromAbsolute(tileFilePath, stagePath.BasePath));
             var tileLayer = new TileLayer(tileArray, tileset, tileStartX, tileStartY);
 
             var keyframes = new List<ScreenLayerKeyframe>();
@@ -242,9 +242,20 @@ namespace MegaMan.IO.Xml
             return keyframe;
         }
 
-        private int[,] LoadTiles(string filepath)
+        private int[,] LoadTiles(FilePath filepath)
         {
-            string[] lines = File.ReadAllLines(filepath);
+            List<string> lines = new List<string>();
+            using (var stream = _dataSource.GetData(filepath))
+            {
+                using (var text = new StreamReader(stream))
+                {
+                    while (!text.EndOfStream)
+                    {
+                        lines.Add(text.ReadLine());
+                    }
+                }
+            }
+
             string[] firstline = lines[0].Split(' ');
             int width = int.Parse(firstline[0]);
             int height = int.Parse(firstline[1]);

@@ -81,12 +81,14 @@
     <Compile Include="Injector.cs" />
     <Compile Include="IGameLoader.cs" />
     <Compile Include="IProjectWriter.cs" />
+    <Compile Include="IRawReader.cs" />
     <Compile Include="IReaderProvider.cs" />
     <Compile Include="IStageWriter.cs" />
     <Compile Include="ITilesetReader.cs" />
     <Compile Include="ITilesetWriter.cs" />
     <Compile Include="IWriterProvider.cs" />
     <Compile Include="GameLoader.cs" />
+    <Compile Include="RawReader.cs" />
     <Compile Include="ReaderProvider.cs" />
     <Compile Include="WriterProvider.cs" />
     <Compile Include="Xml\Effects\AddInventoryEffectPartXmlWriter.cs" />

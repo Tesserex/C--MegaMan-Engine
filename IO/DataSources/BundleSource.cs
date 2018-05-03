@@ -22,8 +22,14 @@ namespace MegaMan.IO.DataSources
                 using (var zip = new ZipArchive(mem, ZipArchiveMode.Read))
                 {
                     var memoryStream = new MemoryStream();
+                    
+                    // zip spec only uses forward slash
                     var zipPath = path.Relative.Replace('\\', '/');
-                    var zipStream = zip.GetEntry(zipPath).Open();
+
+                    // do case insensitive comparison, Entry() is sensitive
+                    var entry = zip.Entries.SingleOrDefault(e => e.FullName.ToUpper() == zipPath.ToUpper());
+
+                    var zipStream = entry.Open();
                     zipStream.CopyTo(memoryStream);
                     zipStream.Close();
                     memoryStream.Seek(0, SeekOrigin.Begin);

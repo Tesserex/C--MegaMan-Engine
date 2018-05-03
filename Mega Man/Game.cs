@@ -122,8 +122,18 @@ namespace MegaMan.Engine
                 ScreenSizeChanged(this, args);
             }
 
-            if (project.MusicNSF != null) Engine.Instance.SoundSystem.LoadMusicNSF(project.MusicNSF.Absolute);
-            if (project.EffectsNSF != null) Engine.Instance.SoundSystem.LoadSfxNSF(project.EffectsNSF.Absolute);
+            var nsfReader = FileReaderProvider.GetRawReader();
+            if (project.MusicNSF != null)
+            {
+                var musicData = nsfReader.GetRawData(project.MusicNSF);
+                Engine.Instance.SoundSystem.LoadMusicNSF(musicData);
+            }
+
+            if (project.EffectsNSF != null)
+            {
+                var sfxData = nsfReader.GetRawData(project.EffectsNSF);
+                Engine.Instance.SoundSystem.LoadSfxNSF(sfxData);
+            }
 
             foreach (var stageInfo in project.Stages)
             {
