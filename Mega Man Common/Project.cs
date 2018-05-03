@@ -22,7 +22,6 @@ namespace MegaMan.Common
         private List<StageLinkInfo> stages = new List<StageLinkInfo>();
 
         private List<FilePath> includeFolders = new List<FilePath>();
-        private List<FilePath> includeFilesFromFolders = new List<FilePath>();
         private List<FilePath> includeFiles = new List<FilePath>();
 
         public IEnumerable<StageLinkInfo> Stages
@@ -43,11 +42,6 @@ namespace MegaMan.Common
         public IEnumerable<FilePath> IncludeFolders
         {
             get { return includeFolders.AsReadOnly(); }
-        }
-
-        public IEnumerable<FilePath> Includes
-        {
-            get { return includeFiles.Concat(includeFilesFromFolders).Distinct(); }
         }
 
         public string Name
@@ -191,11 +185,6 @@ namespace MegaMan.Common
             ScreenHeight = 224;
         }
 
-        public void AddIncludeFile(string includePath)
-        {
-            includeFiles.Add(FilePath.FromRelative(includePath, this.BaseDir));
-        }
-
         public void AddIncludeFiles(IEnumerable<string> includePaths)
         {
             includeFiles.AddRange(includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir)));
@@ -210,11 +199,6 @@ namespace MegaMan.Common
         {
             var folderPaths = includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir));
             includeFolders.AddRange(folderPaths);
-
-            includeFilesFromFolders.AddRange(folderPaths
-                .SelectMany(f => Directory.EnumerateFiles(
-                    f.Absolute, "*.xml", SearchOption.AllDirectories)
-                ).Select(p => FilePath.FromRelative(p, this.BaseDir)));
         }
 
         public void RemoveInclude(string includePath)

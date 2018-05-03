@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using MegaMan.Common;
 
 namespace MegaMan.IO.DataSources
@@ -26,6 +28,13 @@ namespace MegaMan.IO.DataSources
         {
             var basePath = Path.GetDirectoryName(_gameFile);
             return FilePath.FromAbsolute(_gameFile, basePath);
+        }
+
+        public IEnumerable<FilePath> GetFilesInFolder(FilePath folderPath)
+        {
+            var basePath = Path.GetDirectoryName(_gameFile);
+            return Directory.EnumerateFiles(folderPath.Absolute, Extension, SearchOption.AllDirectories)
+                .Select(p => FilePath.FromRelative(p, basePath));
         }
     }
 }

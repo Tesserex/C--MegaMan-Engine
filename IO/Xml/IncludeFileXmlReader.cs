@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
@@ -24,13 +25,13 @@ namespace MegaMan.IO.Xml
                 .ToDictionary(r => r.NodeName);
         }
 
-        public void LoadIncludedFile(Project project, string filePath)
+        public void LoadIncludedFile(Project project, string filePath, Stream stream)
         {
             _project = project;
 
             try
             {
-                XDocument document = XDocument.Load(filePath, LoadOptions.SetLineInfo);
+                XDocument document = XDocument.Load(stream, LoadOptions.SetLineInfo);
                 foreach (XElement element in document.Elements())
                 {
                     if (_readers.ContainsKey(element.Name.LocalName))

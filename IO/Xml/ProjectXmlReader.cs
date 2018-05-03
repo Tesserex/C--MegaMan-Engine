@@ -34,6 +34,7 @@ namespace MegaMan.IO.Xml
 
             var stream = _dataSource.GetData(gameFilePath);
             XElement reader = XElement.Load(stream);
+            stream.Dispose();
 
             XAttribute nameAttr = reader.Attribute("name");
             if (nameAttr != null) _project.Name = nameAttr.Value;
@@ -103,10 +104,15 @@ namespace MegaMan.IO.Xml
 
             var includeReader = new IncludeFileXmlReader();
 
-            foreach (var includePath in _project.Includes)
+            var includedFilesFromFolders = _project.IncludeFolders.SelectMany(_dataSource.GetFilesInFolder);
+            var allIncludedFiles = _project.IncludeFiles.ToList()
+                .Concat(includedFilesFromFolders)
+                .Distinct().ToList();
+            foreach (var includePath in allIncludedFiles)
             {
-                string includefile = includePath.Absolute;
-                includeReader.LoadIncludedFile(_project, includefile);
+                var includeStream = _dataSource.GetData(includePath);
+                includeReader.LoadIncludedFile(_project, includePath.Absolute, includeStream);
+                includeStream.Dispose();
             }
 
             stream.Close();

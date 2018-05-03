@@ -13,5 +13,6 @@ namespace MegaMan.IO.DataSources
         void Init(string path);
         Stream GetData(FilePath path);
         FilePath GetGameFile();
+        IEnumerable<FilePath> GetFilesInFolder(FilePath folderPath);
     }
 }
