@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
 {
@@ -18,7 +19,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return "Health"; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var comp = new HealthComponentInfo();
             comp.Max = node.TryAttribute<float>("max", node.TryElementValue<float>("Max"));
@@ -28,7 +29,7 @@ namespace MegaMan.IO.Xml.Entities
             XElement meterNode = node.Element("Meter");
             if (meterNode != null)
             {
-                comp.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir);
+                comp.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir, dataSource);
             }
 
             comp.FlashFrames = node.TryAttribute("flash", node.TryElementValue<int>("Flash"));

@@ -1,12 +1,13 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Includes
 {
     internal class FontXmlReader : IIncludeXmlReader
     {
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var info = new FontInfo();
 
@@ -25,6 +26,7 @@ namespace MegaMan.IO.Xml.Includes
             }
 
             info.ImagePath = FilePath.FromRelative(xmlNode.RequireAttribute("image").Value, project.BaseDir);
+            info.ImageData = dataSource.GetBytesFromFilePath(info.ImagePath);
 
             project.AddFont(info);
             return info;

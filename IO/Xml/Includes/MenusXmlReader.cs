@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Handlers;
 
 namespace MegaMan.IO.Xml.Includes
@@ -14,12 +15,12 @@ namespace MegaMan.IO.Xml.Includes
             _menuReader = menuReader;
         }
 
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var group = new IncludedObjectGroup();
             foreach (var menuNode in xmlNode.Elements("Menu"))
             {
-                group.Add(_menuReader.Load(project, menuNode));
+                group.Add(_menuReader.Load(project, menuNode, dataSource));
             }
 
             return group;

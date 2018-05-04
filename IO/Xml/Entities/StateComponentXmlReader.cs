@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Entities
@@ -25,7 +26,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return null; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var comp = new StateComponentInfo();
             foreach (var state in node.Elements("State"))

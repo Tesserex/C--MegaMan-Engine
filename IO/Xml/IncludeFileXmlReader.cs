@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using Ninject;
 
 namespace MegaMan.IO.Xml
@@ -25,7 +26,7 @@ namespace MegaMan.IO.Xml
                 .ToDictionary(r => r.NodeName);
         }
 
-        public void LoadIncludedFile(Project project, string filePath, Stream stream)
+        public void LoadIncludedFile(Project project, FilePath filePath, Stream stream, IDataSource dataSource)
         {
             _project = project;
 
@@ -36,14 +37,14 @@ namespace MegaMan.IO.Xml
                 {
                     if (_readers.ContainsKey(element.Name.LocalName))
                     {
-                        var obj = _readers[element.Name.LocalName].Load(project, element);
-                        obj.StoragePath = FilePath.FromAbsolute(filePath, project.BaseDir);
+                        var obj = _readers[element.Name.LocalName].Load(project, element, dataSource);
+                        obj.StoragePath = filePath;
                     }
                 }
             }
             catch (GameXmlException ex)
             {
-                ex.File = filePath;
+                ex.File = filePath.Absolute;
                 throw;
             }
         }

@@ -50,6 +50,8 @@ namespace MegaMan.IO.Xml
                 }
             }
 
+            var sheetData = _dataSource.GetBytesFromFilePath(sheetPath);
+
             foreach (XElement tileNode in reader.Elements("Tile"))
             {
                 int id = int.Parse(tileNode.Attribute("id").Value);
@@ -61,6 +63,7 @@ namespace MegaMan.IO.Xml
 
                 var sprite = _spriteReader.LoadSprite(spriteNode);
                 var tileSprite = new TileSprite(tileset, sprite);
+                tileSprite.SheetData = sheetData;
 
                 Tile tile = new Tile(id, tileSprite);
 

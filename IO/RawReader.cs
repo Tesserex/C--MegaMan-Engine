@@ -15,13 +15,7 @@ namespace MegaMan.IO
 
         public byte[] GetRawData(FilePath path)
         {
-            using (var stream = _dataSource.GetData(path))
-            {
-                using (var br = new BinaryReader(stream))
-                {
-                    return br.ReadBytes((int)stream.Length);
-                }
-            }
+            return Extensions.GetBytesFromFilePath(_dataSource, path);
         }
 
         public void Init(IDataSource dataSource)

@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml.Handlers
@@ -14,11 +15,11 @@ namespace MegaMan.IO.Xml.Handlers
             _commandReader = commandReader;
         }
 
-        public IIncludedObject Load(Project project, XElement node)
+        public IIncludedObject Load(Project project, XElement node, IDataSource dataSource)
         {
             var menu = new MenuInfo();
 
-            LoadBase(menu, node, project.BaseDir);
+            LoadBase(menu, node, project.BaseDir, dataSource);
 
             foreach (var keyNode in node.Elements("State"))
             {

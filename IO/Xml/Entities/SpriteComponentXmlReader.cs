@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
 {
@@ -16,7 +17,7 @@ namespace MegaMan.IO.Xml.Entities
 
         public string NodeName { get { return null; } }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var spriteComponent = new SpriteComponentInfo();
 
@@ -32,13 +33,14 @@ namespace MegaMan.IO.Xml.Entities
             {
                 if (sheetPath == null)
                 {
-                    var sprite = _spriteReader.LoadSprite(spriteNode, project.BaseDir);
+                    var sprite = _spriteReader.LoadSprite(dataSource, spriteNode, project.BaseDir);
                     spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
                 }
                 else
                 {
                     var sprite = _spriteReader.LoadSprite(spriteNode);
                     sprite.SheetPath = sheetPath;
+                    sprite.SheetData = dataSource.GetBytesFromFilePath(sheetPath);
                     spriteComponent.Sprites.Add(sprite.Name ?? "Default", sprite);
                 }
             }

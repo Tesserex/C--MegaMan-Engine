@@ -19,5 +19,7 @@ namespace MegaMan.Common
         public Point TickOffset { get; set; }
         public SoundInfo Sound { get; set; }
         public SceneBindingInfo Binding { get; set; }
+        public byte[] BackgroundData { get; set; }
+        public byte[] TickImageData { get; set; }
     }
 }

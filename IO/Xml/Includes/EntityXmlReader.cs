@@ -5,6 +5,7 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Effects;
 using MegaMan.IO.Xml.Entities;
 
@@ -27,7 +28,7 @@ namespace MegaMan.IO.Xml.Includes
             }
         }
 
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var info = new EntityInfo() {
                 Name = xmlNode.RequireAttribute("name").Value,
@@ -47,7 +48,7 @@ namespace MegaMan.IO.Xml.Includes
                 var element = compReader.NodeName != null ? xmlNode.Element(compReader.NodeName) : xmlNode;
                 if (element != null)
                 {
-                    var comp = compReader.Load(element, project);
+                    var comp = compReader.Load(element, project, dataSource);
                     if (comp != null)
                         info.Components.Add(comp);
                 }

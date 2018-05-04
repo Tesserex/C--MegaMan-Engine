@@ -2,17 +2,20 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.DataSources;
+using MegaMan.IO;
 
 namespace MegaMan.IO.Xml
 {
     internal class SpriteXmlReader
     {
-        public Sprite LoadSprite(XElement element, string basePath)
+        public Sprite LoadSprite(IDataSource dataSource, XElement element, string basePath)
         {
             var sprite = LoadSprite(element);
 
             var tileattr = element.RequireAttribute("tilesheet");
             sprite.SheetPath = FilePath.FromRelative(tileattr.Value, basePath);
+            sprite.SheetData = dataSource.GetBytesFromFilePath(sprite.SheetPath);
 
             return sprite;
         }

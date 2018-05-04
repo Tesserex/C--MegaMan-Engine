@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
 {
@@ -11,7 +12,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return "Input"; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             return new InputComponentInfo();
         }

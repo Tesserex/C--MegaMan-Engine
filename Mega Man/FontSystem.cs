@@ -21,7 +21,7 @@ namespace MegaMan.Engine
             public void Draw(IRenderingContext renderContext, int layer, string text, Point position)
             {
                 if (charTex == null)
-                    charTex = renderContext.LoadResource(info.ImagePath);
+                    charTex = renderContext.LoadResource(info.ImagePath, info.ImageData);
 
                 if (!info.CaseSensitive)
                 {

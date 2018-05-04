@@ -11,6 +11,7 @@ namespace MegaMan.Common.IncludedObjects
         public int CharWidth { get; set; }
         public bool CaseSensitive { get; set; }
         public FilePath ImagePath { get; set; }
+        public byte[] ImageData { get; set; }
 
         public Point? this[char p]
         {

@@ -434,8 +434,8 @@
 			<Floating />
 			<FlipSprite />
 		</Movement>
-		<Tilesheet>images\enemies\floorblade.png</Tilesheet>
-		<Sprite width="16" height="16" tilesheet="images\enemies\floorblade.png">
+		<Tilesheet>images\enemies\Mega Man 4\Garyoby.png</Tilesheet>
+		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Garyoby.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="16" y="0" duration="4" />

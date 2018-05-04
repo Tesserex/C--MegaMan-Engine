@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml
 {
@@ -13,7 +14,7 @@ namespace MegaMan.IO.Xml
             _bindingReader = bindingReader;
         }
 
-        public MeterInfo LoadMeter(XElement meterNode, string basePath)
+        public MeterInfo LoadMeter(XElement meterNode, string basePath, IDataSource dataSource)
         {
             MeterInfo meter = new MeterInfo();
 
@@ -23,11 +24,13 @@ namespace MegaMan.IO.Xml
 
             XAttribute imageAttr = meterNode.RequireAttribute("image");
             meter.TickImage = FilePath.FromRelative(imageAttr.Value, basePath);
+            meter.TickImageData = dataSource.GetBytesFromFilePath(meter.TickImage);
 
             XAttribute backAttr = meterNode.Attribute("background");
             if (backAttr != null)
             {
                 meter.Background = FilePath.FromRelative(backAttr.Value, basePath);
+                meter.BackgroundData = dataSource.GetBytesFromFilePath(meter.Background);
             }
 
             bool horiz = false;

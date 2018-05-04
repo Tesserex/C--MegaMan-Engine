@@ -103,6 +103,8 @@ namespace MegaMan.Common
         public virtual FilePath SheetPath { get; set; }
         public virtual string SheetPathRelative { get { return SheetPath != null ? SheetPath.Relative : null; } }
 
+        public virtual byte[] SheetData { get; set; }
+
         /// <summary>
         /// If this is true, it means the sprite sheet is backwards - it's facing left instead of right,
         /// so we have to flip all drawing of this sprite to match proper orientation rules.
@@ -146,6 +148,7 @@ namespace MegaMan.Common
             if (copy.SheetPath != null)
             {
                 this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
+                this.SheetData = copy.SheetData;
             }
         }
 
@@ -227,7 +230,7 @@ namespace MegaMan.Common
             if (!Visible || Count == 0 || context == null) return;
 
             if (texture == null)
-                texture = context.LoadResource(SheetPath, PaletteName);
+                texture = context.LoadResource(SheetPath, SheetData, PaletteName);
 
             bool flipHorizontal = HorizontalFlip ^ Reversed;
             bool flipVertical = VerticalFlip;

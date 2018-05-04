@@ -111,7 +111,7 @@ namespace MegaMan.IO.Xml
             foreach (var includePath in allIncludedFiles)
             {
                 var includeStream = _dataSource.GetData(includePath);
-                includeReader.LoadIncludedFile(_project, includePath.Absolute, includeStream);
+                includeReader.LoadIncludedFile(_project, includePath, includeStream, _dataSource);
                 includeStream.Dispose();
             }
 

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 using MegaMan.IO.Xml;
 using MegaMan.Common;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Tests
 {
@@ -64,7 +65,8 @@ namespace MegaMan.IO.Tests
             }
             else
             {
-                return reader.LoadSprite(xmlNode, basePath);
+                var source = new XmlFileSource();
+                return reader.LoadSprite(source, xmlNode, basePath);
             }
         } 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Includes
 {
@@ -20,14 +21,14 @@ namespace MegaMan.IO.Xml.Includes
             get { return "Entities"; }
         }
 
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             LoadProperties(project, xmlNode);
 
             var group = new IncludedObjectGroup();
             foreach (var node in xmlNode.Elements("Entity"))
             {
-                group.Add(this._entityReader.Load(project, node));
+                group.Add(this._entityReader.Load(project, node, dataSource));
             }
 
             return group;

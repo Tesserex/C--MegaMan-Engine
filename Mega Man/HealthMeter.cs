@@ -174,12 +174,12 @@ namespace MegaMan.Engine
         {
             if (meterTexture == null)
             {
-                meterTexture = context.LoadResource(this.info.Background);
+                meterTexture = context.LoadResource(this.info.Background, this.info.BackgroundData);
                 bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
             }
 
             if (tickTexture == null)
-                tickTexture = context.LoadResource(this.info.TickImage);
+                tickTexture = context.LoadResource(this.info.TickImage, this.info.TickImageData);
 
             if (tickTexture != null)
             {

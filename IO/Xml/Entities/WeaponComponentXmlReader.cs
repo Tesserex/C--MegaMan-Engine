@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
 {
@@ -19,7 +20,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return "Weapons"; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var comp = new WeaponComponentInfo();
             comp.Weapons = node.Elements("Weapon")
@@ -34,7 +35,7 @@ namespace MegaMan.IO.Xml.Entities
 
                     var meterNode = x.Element("Meter");
                     if (meterNode != null)
-                        w.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir);
+                        w.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir, dataSource);
 
                     return w;
                 })

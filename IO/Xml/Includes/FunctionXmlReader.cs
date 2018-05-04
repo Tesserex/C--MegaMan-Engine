@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Includes
@@ -22,7 +23,7 @@ namespace MegaMan.IO.Xml.Includes
             }
         }
 
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var effect = _effectReader.Load(xmlNode);
             project.AddFunction(effect);

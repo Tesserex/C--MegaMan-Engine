@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using MegaMan.Common.IncludedObjects;
 
@@ -56,7 +57,8 @@ namespace MegaMan.Engine
 
         private void Initialize()
         {
-            using (var img = (Bitmap)Image.FromFile(_info.ImagePath.Absolute))
+            using (var stream = new MemoryStream(_info.ImageData))
+            using (var img = (Bitmap)Image.FromStream(stream))
             {
                 var imageRect = new Rectangle(0, 0, img.Width, img.Height);
 

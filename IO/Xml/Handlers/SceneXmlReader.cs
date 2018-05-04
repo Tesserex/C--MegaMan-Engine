@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Handlers.Commands;
 
 namespace MegaMan.IO.Xml.Handlers
@@ -16,11 +17,11 @@ namespace MegaMan.IO.Xml.Handlers
             _commandReader = commandReader;
         }
 
-        public IIncludedObject Load(Project project, XElement node)
+        public IIncludedObject Load(Project project, XElement node, IDataSource dataSource)
         {
             var scene = new SceneInfo();
 
-            LoadBase(scene, node, project.BaseDir);
+            LoadBase(scene, node, project.BaseDir, dataSource);
 
             scene.Duration = node.GetAttribute<int>("duration");
 

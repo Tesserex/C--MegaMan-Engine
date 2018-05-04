@@ -2,6 +2,7 @@
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
+using MegaMan.IO.DataSources;
 using MegaMan.IO.Xml.Effects;
 
 namespace MegaMan.IO.Xml.Entities
@@ -20,7 +21,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return "Movement"; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             return new MovementComponentInfo() {
                 EffectInfo = (MovementEffectPartInfo)_movementReader.Load(node)

@@ -113,22 +113,19 @@ namespace MegaMan.Engine.Rendering
             return _opacity;
         }
 
-        public IResourceImage LoadResource(FilePath texturePath, string paletteName = null)
+        public IResourceImage LoadResource(FilePath texturePath, byte[] textureData, string paletteName = null)
         {
             if (!_loadedResources.ContainsKey(texturePath))
             {
-                var texture = GetTextureFromPath(texturePath);
-                var resource = AddTexture(texture, paletteName);
-                _loadedResources[texturePath] = resource;
+                using (var stream = new MemoryStream(textureData))
+                {
+                    var texture = Texture2D.FromStream(_graphicsDevice, stream);
+                    var resource = AddTexture(texture, paletteName);
+                    _loadedResources[texturePath] = resource;
+                }
             }
 
             return _loadedResources[texturePath];
-        }
-
-        private Texture2D GetTextureFromPath(FilePath path)
-        {
-            StreamReader sr = new StreamReader(path.Absolute);
-            return Texture2D.FromStream(_graphicsDevice, sr.BaseStream);
         }
 
         public IResourceImage CreateColorResource(Common.Color color)

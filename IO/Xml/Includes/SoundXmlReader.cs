@@ -1,12 +1,13 @@
 ﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Includes
 {
     internal class SoundXmlReader : IIncludeXmlReader
     {
-        public IIncludedObject Load(Project project, XElement xmlNode)
+        public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var sound = LoadSound(xmlNode, project.BaseDir);
             project.AddSound(sound);

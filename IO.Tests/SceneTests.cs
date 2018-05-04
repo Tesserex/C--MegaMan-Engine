@@ -16,7 +16,7 @@ namespace MegaMan.Common.Tests
             var xml = XElement.Parse(xmlString);
 
             var project = new Project() { GameFile = FilePath.FromRelative("game.xml", @"C:\") };
-            new SceneXmlReader(new HandlerTransferXmlReader(), new IO.Xml.Handlers.Commands.HandlerCommandXmlReader()).Load(project, xml);
+            new SceneXmlReader(new HandlerTransferXmlReader(), new IO.Xml.Handlers.Commands.HandlerCommandXmlReader()).Load(project, xml, null);
 
             Assert.AreEqual("TestScene", project.Scenes.First().Name);
         }

@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
 {
@@ -12,7 +13,7 @@ namespace MegaMan.IO.Xml.Entities
             get { return "Ladder"; }
         }
 
-        public IComponentInfo Load(XElement node, Project project)
+        public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var comp = new LadderComponentInfo();
             comp.HitBoxes = node.Elements("Hitbox").Select(GetHitbox).ToList();
