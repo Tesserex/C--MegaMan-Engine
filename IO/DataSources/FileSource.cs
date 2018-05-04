@@ -33,7 +33,7 @@ namespace MegaMan.IO.DataSources
         public IEnumerable<FilePath> GetFilesInFolder(FilePath folderPath)
         {
             var basePath = Path.GetDirectoryName(_gameFile);
-            return Directory.EnumerateFiles(folderPath.Absolute, Extension, SearchOption.AllDirectories)
+            return Directory.EnumerateFiles(folderPath.Absolute, "*" + Extension, SearchOption.AllDirectories)
                 .Select(p => FilePath.FromRelative(p, basePath));
         }
     }
