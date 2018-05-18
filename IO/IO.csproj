@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSources\BundleSource.cs" />
+    <Compile Include="DataSources\EncryptedSource.cs" />
+    <Compile Include="DataSources\Encryptor.cs" />
     <Compile Include="DataSources\FileSource.cs" />
     <Compile Include="DataSources\IDataSource.cs" />
     <Compile Include="DataSources\XmlFileSource.cs" />

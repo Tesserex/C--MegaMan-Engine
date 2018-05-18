@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
@@ -69,6 +69,13 @@ namespace MegaMan.Editor.Services
             {
                 SaveEntities(group, group.Key);
             }
+        }
+
+        public void ExportProject(ProjectDocument project)
+        {
+            SaveProject(project);
+
+
         }
 
         public StageDocument LoadStage(ProjectDocument project, StageLinkInfo linkInfo)

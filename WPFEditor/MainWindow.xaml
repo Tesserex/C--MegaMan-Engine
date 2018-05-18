@@ -55,6 +55,9 @@
                         <Fluent:MenuItem Command="{Binding EnginePathCommand}" Header="Engine Path..." />
                     </Fluent:DropDownButton>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox>
+                    <Fluent:Button Header="Export" Command="{Binding ExportCommand}" />
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
             <Fluent:RibbonTabItem Header="Stage" x:Name="ribbonStage">

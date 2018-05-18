@@ -12,6 +12,7 @@ using MegaMan.Editor.Controls.Dialogs;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
+using MegaMan.IO.DataSources;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -42,6 +43,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand EnginePathCommand { get; private set; }
         public ICommand NewEntityCommand { get; private set; }
         public ICommand UpdateLayerVisibilityCommand { get; private set; }
+        public ICommand ExportCommand { get; private set; }
 
         private bool _showBackstage;
         public bool ShowBackstage
@@ -135,6 +137,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             EnginePathCommand = new RelayCommand(ChangeEnginePath);
             NewEntityCommand = new RelayCommand(NewEntity, p => CurrentProject != null);
             UpdateLayerVisibilityCommand = new RelayCommand(UpdateLayerVisibility);
+            ExportCommand = new RelayCommand(Export, p => CurrentProject != null);
 
             ShowBackstage = true;
         }
@@ -234,7 +237,34 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void CloseProject(object arg)
+        private void Export(object param)
+        {
+            var source = new EncryptedSource();
+
+            var dialog = new CommonSaveFileDialog {
+                Title = "Export Project",
+                InitialDirectory = CurrentProject.Project.BaseDir,
+                DefaultFileName = CurrentProject.Name,
+                DefaultExtension = source.Extension.Replace(".", "")
+            };
+
+            var result = dialog.ShowDialog();
+
+            if (result == CommonFileDialogResult.Ok)
+            {
+                SaveProject();
+                using (var zipStream = source.SaveToStream(CurrentProject.Project.BaseDir))
+                {
+                    using (var fileStream = new FileStream(dialog.FileName, FileMode.Create))
+                    {
+                        zipStream.Seek(0, SeekOrigin.Begin);
+                        zipStream.CopyTo(fileStream);
+                    }
+                }
+            }
+        }
+
+        private void CloseProject(object arg)
         {
             if (CurrentProject != null)
             {
@@ -243,7 +273,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public void TestProject(object arg)
+        private void TestProject(object arg)
         {
             if (CurrentProject != null)
             {

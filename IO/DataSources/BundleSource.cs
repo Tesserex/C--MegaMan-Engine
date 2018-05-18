@@ -22,12 +22,12 @@ namespace MegaMan.IO.DataSources
                 using (var zip = new ZipArchive(mem, ZipArchiveMode.Read))
                 {
                     var memoryStream = new MemoryStream();
-                    
-                    // zip spec only uses forward slash
-                    var zipPath = path.Relative.Replace('\\', '/');
+
+                    var zipPathBack = path.Relative.ToUpper().Replace('/', '\\');
+                    var zipPathForward = path.Relative.ToUpper().Replace('\\', '/');
 
                     // do case insensitive comparison, Entry() is sensitive
-                    var entry = zip.Entries.SingleOrDefault(e => e.FullName.ToUpper() == zipPath.ToUpper());
+                    var entry = zip.Entries.SingleOrDefault(e => e.FullName.ToUpper() == zipPathBack || e.FullName.ToUpper() == zipPathForward);
 
                     var zipStream = entry.Open();
                     zipStream.CopyTo(memoryStream);
@@ -66,6 +66,27 @@ namespace MegaMan.IO.DataSources
                     _zipContents = br.ReadBytes((int)file.Length);
                 }
             }
+        }
+
+        public void Init(string file, byte[] bytes)
+        {
+            _zipFile = file;
+            _zipContents = bytes;
+        }
+
+        public Stream SaveToStream(string projectDirectory)
+        {
+            var mem = new MemoryStream();
+            using (var zip = new ZipArchive(mem, ZipArchiveMode.Create, true))
+            {
+                foreach (var file in Directory.GetFiles(projectDirectory, "*", SearchOption.AllDirectories))
+                {
+                    zip.CreateEntryFromFile(file, FilePath.FromAbsolute(file, projectDirectory).Relative);
+                }
+            }
+
+            mem.Position = 0;
+            return mem;
         }
     }
 }

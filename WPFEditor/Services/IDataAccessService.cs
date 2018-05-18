@@ -9,6 +9,7 @@ namespace MegaMan.Editor.Services
         ProjectDocument CreateProject(string directory);
         ProjectDocument LoadProject(string filePath);
         void SaveProject(ProjectDocument project);
+        void ExportProject(ProjectDocument project);
         StageDocument LoadStage(ProjectDocument project, StageLinkInfo linkInfo);
         void SaveStage(StageDocument stage);
         TilesetDocument CreateTileset(FilePath filePath);
