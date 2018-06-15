@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.Parts
@@ -92,7 +80,7 @@ namespace MegaMan.Editor.Controls.Parts
         public SpriteBox()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
+            (Content as FrameworkElement).DataContext = this;
         }
 
         public Visibility ButtonVisible

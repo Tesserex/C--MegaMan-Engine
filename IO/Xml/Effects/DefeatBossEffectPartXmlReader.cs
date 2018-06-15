@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new DefeatBossEffectPartInfo() {
+            return new DefeatBossEffectPartInfo {
                 Name = partNode.GetAttribute<string>("name")
             };
         }

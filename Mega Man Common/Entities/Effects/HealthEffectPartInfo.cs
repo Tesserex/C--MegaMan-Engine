@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class HealthEffectPartInfo : IEffectPartInfo
     {
@@ -8,8 +6,8 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new HealthEffectPartInfo() {
-                Change = this.Change
+            return new HealthEffectPartInfo {
+                Change = Change
             };
         }
     }

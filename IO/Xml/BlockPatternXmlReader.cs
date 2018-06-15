@@ -1,8 +1,8 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.IO.Xml
 {

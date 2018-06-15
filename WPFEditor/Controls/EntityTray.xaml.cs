@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
@@ -13,7 +14,7 @@ namespace MegaMan.Editor.Controls
             InitializeComponent();
         }
         
-        private void MouseLeftDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MouseLeftDown(object sender, MouseButtonEventArgs e)
         {
             var item = sender as ListViewItem;
             if (item != null && item.IsSelected)

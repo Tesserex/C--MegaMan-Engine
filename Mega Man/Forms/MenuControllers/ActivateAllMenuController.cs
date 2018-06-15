@@ -26,7 +26,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public void Set(bool value)
         {
-            foreach (var c in this.controllers)
+            foreach (var c in controllers)
                 c.Set(value);
         }
 

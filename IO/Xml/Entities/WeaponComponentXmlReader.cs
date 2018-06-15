@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Entities
             var comp = new WeaponComponentInfo();
             comp.Weapons = node.Elements("Weapon")
                 .Select(x => {
-                    var w = new WeaponInfo() {
+                    var w = new WeaponInfo {
                         Name = x.GetAttribute<string>("name"),
                         EntityName = x.GetAttribute<string>("entity"),
                         Ammo = x.TryAttribute<int?>("ammo"),

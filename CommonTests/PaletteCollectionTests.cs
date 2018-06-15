@@ -12,12 +12,12 @@ namespace MegaMan.Common.Tests
         {
             var collection = new PaletteCollection();
 
-            var palettes = new PaletteInfo[]
+            var palettes = new[]
             {
-                new PaletteInfo() { Name = "MegaMan", ImagePath = FilePath.FromRelative("a", @"C:\") },
-                new PaletteInfo() { Name = "Enemy", ImagePath = FilePath.FromRelative("b", @"C:\") },
-                new PaletteInfo() { Name = "Menu", ImagePath = FilePath.FromRelative("c", @"C:\") },
-                new PaletteInfo() { Name = "Scene", ImagePath = FilePath.FromRelative("d", @"C:\") }
+                new PaletteInfo { Name = "MegaMan", ImagePath = FilePath.FromRelative("a", @"C:\") },
+                new PaletteInfo { Name = "Enemy", ImagePath = FilePath.FromRelative("b", @"C:\") },
+                new PaletteInfo { Name = "Menu", ImagePath = FilePath.FromRelative("c", @"C:\") },
+                new PaletteInfo { Name = "Scene", ImagePath = FilePath.FromRelative("d", @"C:\") }
             };
 
             collection.LoadPalettes(palettes);
@@ -39,10 +39,10 @@ namespace MegaMan.Common.Tests
         {
             var collection = new PaletteCollection();
 
-            var palettes = new PaletteInfo[]
+            var palettes = new[]
             {
-                new PaletteInfo() { Name = "MegaMan", ImagePath = FilePath.FromRelative("a", @"C:\") },
-                new PaletteInfo() { Name = "MegaMan", ImagePath = FilePath.FromRelative("b", @"C:\") }
+                new PaletteInfo { Name = "MegaMan", ImagePath = FilePath.FromRelative("a", @"C:\") },
+                new PaletteInfo { Name = "MegaMan", ImagePath = FilePath.FromRelative("b", @"C:\") }
             };
 
             collection.LoadPalettes(palettes);

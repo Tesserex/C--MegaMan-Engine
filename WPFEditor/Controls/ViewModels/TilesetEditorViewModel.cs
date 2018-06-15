@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
@@ -35,8 +37,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (_tileset == null)
                     return null;
-                else
-                    return _tileset.SheetPath.Relative;
+                return _tileset.SheetPath.Relative;
             }
         }
 
@@ -54,8 +55,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (_tileset == null)
                     return Enumerable.Empty<TileProperties>();
-                else
-                    return _observedProperties;
+                return _observedProperties;
             }
         }
 
@@ -66,8 +66,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 var props = MultiSelectedTiles.Select(t => t.Properties).Distinct().ToList();
                 if (props.Count == 1)
                     return props[0];
-                else
-                    return null;
+                return null;
             }
             set
             {
@@ -77,8 +76,8 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         public TileProperties EditingProperties { get; private set; }
-        public System.Windows.Visibility ShowPropEditor { get; private set; }
-        public System.Windows.Visibility ShowSpriteEditor { get; private set; }
+        public Visibility ShowPropEditor { get; private set; }
+        public Visibility ShowSpriteEditor { get; private set; }
 
         public TilesetEditorViewModel()
         {
@@ -94,8 +93,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
 
-            ShowSpriteEditor = System.Windows.Visibility.Visible;
-            ShowPropEditor = System.Windows.Visibility.Collapsed;
+            ShowSpriteEditor = Visibility.Visible;
+            ShowPropEditor = Visibility.Collapsed;
         }
 
         private void ProjectChanged(object sender, ProjectChangedEventArgs e)
@@ -142,7 +141,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void AddTile()
         {
             var tile = _tileset.AddTile();
-            this._project.Dirty = true;
+            _project.Dirty = true;
         }
 
         private void DeleteTile()
@@ -154,23 +153,23 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
 
             ChangeTile(null);
-            this._project.Dirty = true;
+            _project.Dirty = true;
         }
 
         private void AddProperties()
         {
-            var properties = new TileProperties() { Name = "New Properties" };
+            var properties = new TileProperties { Name = "New Properties" };
             _tileset.Tileset.AddProperties(properties);
             _observedProperties.Add(properties);
-            this._project.Dirty = true;
+            _project.Dirty = true;
             OnPropertyChanged("TileProperties");
         }
 
         private void EditProperties(object obj)
         {
             EditingProperties = (TileProperties)obj;
-            ShowPropEditor = System.Windows.Visibility.Visible;
-            ShowSpriteEditor = System.Windows.Visibility.Collapsed;
+            ShowPropEditor = Visibility.Visible;
+            ShowSpriteEditor = Visibility.Collapsed;
             OnPropertyChanged("EditingProperties");
             OnPropertyChanged("ShowPropEditor");
             OnPropertyChanged("ShowSpriteEditor");
@@ -181,14 +180,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             var props = (TileProperties)obj;
             _tileset.Tileset.DeleteProperties(props);
             _observedProperties.Remove(props);
-            this._project.Dirty = true;
+            _project.Dirty = true;
             OnPropertyChanged("TileProperties");
         }
 
         private void HidePropertiesEditor()
         {
-            ShowPropEditor = System.Windows.Visibility.Collapsed;
-            ShowSpriteEditor = System.Windows.Visibility.Visible;
+            ShowPropEditor = Visibility.Collapsed;
+            ShowSpriteEditor = Visibility.Visible;
             OnPropertyChanged("ShowPropEditor");
             OnPropertyChanged("ShowSpriteEditor");
         }
@@ -230,7 +229,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 var isPlaying = Sprite != null && Sprite.Sprite.Playing;
                 var vm = new SpriteViewModel(tile.Sprite);
-                Sprite = new SpriteEditorViewModel(vm, this._project);
+                Sprite = new SpriteEditorViewModel(vm, _project);
                 if (isPlaying)
                 {
                     Sprite.Sprite.Play();
@@ -246,7 +245,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("SelectedTileProperties");
         }
 
-        private void RefreshSheet(object sender, System.EventArgs e)
+        private void RefreshSheet(object sender, EventArgs e)
         {
             if (Sprite != null)
                 Sprite.RefreshSheet();

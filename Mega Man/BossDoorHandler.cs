@@ -1,5 +1,5 @@
-﻿using MegaMan.Common.Geometry;
-using MegaMan.Common;
+﻿using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine

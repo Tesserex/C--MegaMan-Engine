@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MegaMan.Common
 {
@@ -11,68 +9,68 @@ namespace MegaMan.Common
 
         public TilesetAnimator(Tileset tileset)
         {
-            this.animators = tileset.ToDictionary(t => t.Id, t => new SpriteAnimator(t.Sprite));
+            animators = tileset.ToDictionary(t => t.Id, t => new SpriteAnimator(t.Sprite));
         }
 
         public void Add(Tile tile)
         {
-            if (!this.animators.ContainsKey(tile.Id))
+            if (!animators.ContainsKey(tile.Id))
             {
-                this.animators[tile.Id] = new SpriteAnimator(tile.Sprite);
-                if (this.animators.Values.Any(a => a.Playing))
+                animators[tile.Id] = new SpriteAnimator(tile.Sprite);
+                if (animators.Values.Any(a => a.Playing))
                 {
-                    this.animators[tile.Id].Play();
+                    animators[tile.Id].Play();
                 }
             }
         }
 
         public void Remove(Tile tile)
         {
-            if (this.animators.ContainsKey(tile.Id))
+            if (animators.ContainsKey(tile.Id))
             {
-                this.animators[tile.Id].Stop();
-                this.animators.Remove(tile.Id);
+                animators[tile.Id].Stop();
+                animators.Remove(tile.Id);
             }
         }
 
         public void Play()
         {
-            foreach (var anim in this.animators.Values)
+            foreach (var anim in animators.Values)
                 anim.Play();
         }
 
         public void Pause()
         {
-            foreach (var anim in this.animators.Values)
+            foreach (var anim in animators.Values)
                 anim.Pause();
         }
 
         public void Resume()
         {
-            foreach (var anim in this.animators.Values)
+            foreach (var anim in animators.Values)
                 anim.Resume();
         }
 
         public void Stop()
         {
-            foreach (var anim in this.animators.Values)
+            foreach (var anim in animators.Values)
                 anim.Stop();
         }
 
         public void Update()
         {
-            foreach (var anim in this.animators.Values)
+            foreach (var anim in animators.Values)
                 anim.Update();
         }
 
         public int GetFrameIndex(int tileId)
         {
-            return this.animators[tileId].CurrentIndex;
+            return animators[tileId].CurrentIndex;
         }
 
         public SpriteFrame GetFrame(int tileId)
         {
-            return this.animators[tileId].CurrentFrame;
+            return animators[tileId].CurrentFrame;
         }
     }
 }

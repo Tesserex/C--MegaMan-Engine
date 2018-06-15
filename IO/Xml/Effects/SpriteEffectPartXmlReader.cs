@@ -18,7 +18,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             try
             {
-                return new SpriteEffectPartInfo() {
+                return new SpriteEffectPartInfo {
                     Name = partNode.TryElementValue<string>("Name"),
                     Playing = partNode.TryElementValue<bool?>("Playing"),
                     Visible = partNode.TryElementValue<bool?>("Visible"),

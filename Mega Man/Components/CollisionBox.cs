@@ -26,7 +26,7 @@ namespace MegaMan.Engine
 
         public TileProperties Properties { get; private set; }
 
-        private static int nextID = 0;
+        private static int nextID;
 
         public CollisionBox(float x, float y, float width, float height)
             : base(x, y, width, height)
@@ -147,16 +147,19 @@ namespace MegaMan.Engine
                             offset.Y = -bottom;
                             return offset;
                         }
-                        else return new PointF(0, 0);
+
+                        return new PointF(0, 0);
                     }
-                    else if (uponly)
+
+                    if (uponly)
                     {
                         if (approach_vy < 0 && boundBox.Top >= tileBox.Top)
                         {
                             offset.Y = top;
                             return offset;
                         }
-                        else return new PointF(0, 0);
+
+                        return new PointF(0, 0);
                     }
 
                     if (top >= 0) offset.Y = top;

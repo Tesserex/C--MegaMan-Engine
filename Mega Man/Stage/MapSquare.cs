@@ -1,6 +1,5 @@
 ﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
 {

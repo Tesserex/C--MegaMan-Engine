@@ -24,8 +24,7 @@ namespace MegaMan.Editor.Services
 
         public ProjectDocument CreateProject(string directory)
         {
-            var project = new Project()
-            {
+            var project = new Project {
                 GameFile = FilePath.FromRelative("game.xml", directory)
             };
 
@@ -104,8 +103,7 @@ namespace MegaMan.Editor.Services
 
         public TilesetDocument CreateTileset(FilePath filePath)
         {
-            var tileset = new Tileset()
-            {
+            var tileset = new Tileset {
                 FilePath = filePath,
                 TileSize = 16
             };

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
@@ -27,10 +26,10 @@ namespace MegaMan.Editor.Bll
         public TileChange(ScreenDocument screen, int tx, int ty, int oldId, int newId)
         {
             this.screen = screen;
-            this.tileX = tx;
-            this.tileY = ty;
-            this.oldTileId = oldId;
-            this.newTileId = newId;
+            tileX = tx;
+            tileY = ty;
+            oldTileId = oldId;
+            newTileId = newId;
         }
 
         public TileChange Reverse()
@@ -57,9 +56,9 @@ namespace MegaMan.Editor.Bll
 
         public DrawAction(string name, IEnumerable<TileChange> changes)
         {
-            this.Name = name;
+            Name = name;
             this.changes = new List<TileChange>(changes);
-            this.screens = changes.Select(c => c.Screen).Distinct().ToList();
+            screens = changes.Select(c => c.Screen).Distinct().ToList();
         }
 
         public override string ToString()
@@ -130,7 +129,7 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            this.screen.MoveEntity(this.entity, end);
+            screen.MoveEntity(entity, end);
         }
 
         public IUndoableAction Reverse()
@@ -176,12 +175,12 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            this.screen.Stage.AddScreenDocumentWithoutHistory(this.screen);
+            screen.Stage.AddScreenDocumentWithoutHistory(screen);
         }
 
         public IUndoableAction Reverse()
         {
-            return new RemoveScreenAction(this.screen);
+            return new RemoveScreenAction(screen);
         }
     }
 
@@ -198,12 +197,12 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            this.screen.Stage.RemoveScreenWithoutHistory(this.screen);
+            screen.Stage.RemoveScreenWithoutHistory(screen);
         }
 
         public IUndoableAction Reverse()
         {
-            return new AddScreenAction(this.screen);
+            return new AddScreenAction(screen);
         }
     }
 }

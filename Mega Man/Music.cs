@@ -20,7 +20,7 @@ namespace MegaMan.Engine
         public Music(FMOD.System system, string intropath, string looppath, float baseVol)
         {
             this.system = system;
-            callback = new CHANNEL_CALLBACK(SyncCallback);
+            callback = SyncCallback;
 
             baseVolume = baseVol;
             volume = 1;

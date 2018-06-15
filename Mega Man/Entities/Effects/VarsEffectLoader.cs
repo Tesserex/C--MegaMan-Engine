@@ -30,12 +30,10 @@ namespace MegaMan.Engine.Entities.Effects
                     e.GetComponent<VarsComponent>().Set(varInfo.Name, val);
                 };
             }
-            else
-            {
-                return e => {
-                    e.GetComponent<VarsComponent>().Set(varInfo.Name, varInfo.Value);
-                };
-            }
+
+            return e => {
+                e.GetComponent<VarsComponent>().Set(varInfo.Name, varInfo.Value);
+            };
         }
     }
 }

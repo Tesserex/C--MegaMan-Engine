@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new NextEffectPartInfo() {
+            return new NextEffectPartInfo {
                 Transfer = transferReader.Load(partNode)
             };
         }

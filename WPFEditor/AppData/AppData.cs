@@ -31,7 +31,7 @@ namespace MegaMan.Editor.AppData
             }
             else
             {
-                RecentProjects.Insert(0, new RecentProject() { Name = project.Name, AbsolutePath = path });
+                RecentProjects.Insert(0, new RecentProject { Name = project.Name, AbsolutePath = path });
             }
         }
 
@@ -54,7 +54,7 @@ namespace MegaMan.Editor.AppData
         public void Save()
         {
             var file = GetFilePath();
-            var settings = new XmlWriterSettings() {
+            var settings = new XmlWriterSettings {
                 Indent = true,
                 NewLineChars = "\t",
                 OmitXmlDeclaration = true

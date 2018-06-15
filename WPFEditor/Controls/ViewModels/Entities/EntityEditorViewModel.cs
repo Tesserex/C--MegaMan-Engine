@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using MegaMan.Common;
@@ -74,8 +72,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 if (_currentEntity != null)
                     return _currentEntity.DefaultSprite;
-                else
-                    return null;
+                return null;
             }
         }
 
@@ -85,8 +82,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 if (_currentEntity != null)
                     return _currentEntity.EditorData.DefaultSpriteName;
-                else
-                    return null;
+                return null;
             }
             set
             {
@@ -235,7 +231,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             if (_project == null)
                 return;
 
-            CurrentEntity = new EntityInfo() {
+            CurrentEntity = new EntityInfo {
                 Name = e.Name
             };
 

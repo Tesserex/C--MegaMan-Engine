@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
@@ -18,7 +15,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             {
                 if (!Enabled)
                 {
-                    return new List<SpriteListItemViewModel>() {
+                    return new List<SpriteListItemViewModel> {
                         new SpriteListItemViewModel(null)
                     };
                 }
@@ -51,8 +48,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         {
             var size = Entity.SpriteComponent.Sprites.Any() ?
                 ModeOf(Entity.SpriteComponent.Sprites
-                    .Select(s => new Common.Geometry.Point(s.Value.Width, s.Value.Height))) :
-                new Common.Geometry.Point(16, 16);
+                    .Select(s => new Point(s.Value.Width, s.Value.Height))) :
+                new Point(16, 16);
 
             var sprite = new Sprite(size.X, size.Y);
             sprite.Name = GetNewSpriteName();
@@ -69,7 +66,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             do
             {
                 i++;
-                name = "NewSprite" + i.ToString();
+                name = "NewSprite" + i;
             } while (Entity.SpriteComponent.Sprites.ContainsKey(name));
 
             return name;

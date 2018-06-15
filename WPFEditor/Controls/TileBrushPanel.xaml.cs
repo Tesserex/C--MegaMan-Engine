@@ -19,7 +19,7 @@ namespace MegaMan.Editor.Controls
 
         private void BrushClick(object sender, ExecutedRoutedEventArgs e)
         {
-            ((TilePanelControlViewModel)this.DataContext).SelectBrush((MultiTileBrush)e.Parameter);
+            ((TilePanelControlViewModel)DataContext).SelectBrush((MultiTileBrush)e.Parameter);
         }
     }
 }

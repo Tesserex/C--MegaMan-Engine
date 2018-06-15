@@ -22,7 +22,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new TriggerEffectPartInfo() {
+            return new TriggerEffectPartInfo {
                 Trigger = triggerReader.Load(partNode)
             };
         }

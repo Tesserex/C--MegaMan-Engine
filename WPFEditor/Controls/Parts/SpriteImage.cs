@@ -8,7 +8,7 @@ using MegaMan.Editor.Bll;
 namespace MegaMan.Editor.Controls.Parts {
     public class SpriteImage : Grid
     {
-        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, new PropertyChangedCallback(ZoomChanged)));
+        public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(double), typeof(SpriteImage), new PropertyMetadata(1d, ZoomChanged));
         public static readonly DependencyProperty FlippedProperty = DependencyProperty.Register("Flipped", typeof(bool), typeof(SpriteImage), new PropertyMetadata(false));
 
         protected Image _image;
@@ -32,7 +32,7 @@ namespace MegaMan.Editor.Controls.Parts {
             {
                 ((App)App.Current).Tick += (s, e) => Tick();
 
-                this.DataContextChanged += SpriteImage_DataContextChanged;
+                DataContextChanged += SpriteImage_DataContextChanged;
             }
 
             _image = new Image();
@@ -53,8 +53,8 @@ namespace MegaMan.Editor.Controls.Parts {
                 _sprite = null;
                 _image.Width = 0;
                 _image.Height = 0;
-                this.Width = 0;
-                this.Height = 0;
+                Width = 0;
+                Height = 0;
             }
         }
 
@@ -63,8 +63,8 @@ namespace MegaMan.Editor.Controls.Parts {
             _sprite = s;
             _image.Width = s.Width * Zoom;
             _image.Height = s.Height * Zoom;
-            this.Width = _image.Width;
-            this.Height = _image.Height;
+            Width = _image.Width;
+            Height = _image.Height;
         }
 
         private static void ZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

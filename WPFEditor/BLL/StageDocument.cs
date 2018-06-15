@@ -245,7 +245,7 @@ namespace MegaMan.Editor.Bll
             History.Redo();
         }
 
-        private ScreenDocument WrapScreen(MegaMan.Common.ScreenInfo screen)
+        private ScreenDocument WrapScreen(ScreenInfo screen)
         {
             ScreenDocument doc = new ScreenDocument(screen, this);
             doc.Renamed += ScreenRenamed;

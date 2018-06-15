@@ -37,39 +37,39 @@ namespace MegaMan.Editor.Controls.Adorners
             BuildAdornerCorner(ref bottom, Cursors.SizeNS);
 
             // Add handlers for resizing.
-            left.DragDelta += new DragDeltaEventHandler(HandleLeft);
-            bottom.DragDelta += new DragDeltaEventHandler(HandleBottom);
-            top.DragDelta += new DragDeltaEventHandler(HandleTop);
-            right.DragDelta += new DragDeltaEventHandler(HandleRight);
+            left.DragDelta += HandleLeft;
+            bottom.DragDelta += HandleBottom;
+            top.DragDelta += HandleTop;
+            right.DragDelta += HandleRight;
 
             right.DragStarted += DragStarted;
 
             adornedElement.MouseEnter += adornedElement_MouseEnter;
             adornedElement.MouseLeave += adornedElement_MouseLeave;
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
-            this.Visibility = System.Windows.Visibility.Visible;
+            Visibility = Visibility.Visible;
             InvalidateVisual();
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         void adornedElement_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         void adornedElement_MouseEnter(object sender, MouseEventArgs e)
         {
-            this.Visibility = System.Windows.Visibility.Visible;
+            Visibility = Visibility.Visible;
             InvalidateVisual();
         }
 
@@ -82,7 +82,7 @@ namespace MegaMan.Editor.Controls.Adorners
         // Handler for resizing from the bottom-right.
         void HandleBottom(object sender, DragDeltaEventArgs args)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
@@ -131,7 +131,7 @@ namespace MegaMan.Editor.Controls.Adorners
         // Handler for resizing from the top-right.
         void HandleRight(object sender, DragDeltaEventArgs args)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;

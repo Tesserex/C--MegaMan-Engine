@@ -19,7 +19,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
             var info = new SceneAutoscrollCommandInfo();
 
             info.Speed = node.TryAttribute<double>("speed", 1);
-            info.StartX = node.TryAttribute<int>("startX", 128);
+            info.StartX = node.TryAttribute("startX", 128);
 
             return info;
         }

@@ -6,7 +6,7 @@ namespace MegaMan.Engine
     public class HealthComponent : Component
     {
         // alive is set to true if health ever goes above zero
-        private bool alive = false;
+        private bool alive;
 
         private float maxHealth;
         private float health;
@@ -55,10 +55,10 @@ namespace MegaMan.Engine
         {
             HealthComponent copy = new HealthComponent
             {
-                StartHealth = this.StartHealth,
-                maxHealth = this.maxHealth,
-                flashtime = this.flashtime,
-                meter = this.meter
+                StartHealth = StartHealth,
+                maxHealth = maxHealth,
+                flashtime = flashtime,
+                meter = meter
             };
 
             // if it has a meter, it's intended to only have one instance on the screen

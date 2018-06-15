@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Media;
-using MegaMan.Common;
 using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Tools

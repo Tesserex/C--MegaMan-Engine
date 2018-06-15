@@ -219,7 +219,7 @@ namespace MegaMan.Engine.Entities.Effects
                     };
                     break;
 
-                default: action = new Effect(entity => { }); break;
+                default: action = entity => { }; break;
             }
 
             return action;
@@ -239,8 +239,7 @@ namespace MegaMan.Engine.Entities.Effects
                     float tmpMag;
                     if (float.TryParse(magStr, out tmpMag))
                         return tmpMag;
-                    else
-                        throw new GameRunException(string.Format("Entity {0} attempted to set movement using local variable {1}, but the value it contained was not a number.", entity.Name, magVar));
+                    throw new GameRunException(string.Format("Entity {0} attempted to set movement using local variable {1}, but the value it contained was not a number.", entity.Name, magVar));
                 }
             }
 

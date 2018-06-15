@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Mediator;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Bll.Tools
 {
@@ -13,7 +13,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public bool SuppressContextMenu { get { return false; } }
 
-        public void Click(ScreenCanvas canvas, Common.Geometry.Point location)
+        public void Click(ScreenCanvas canvas, Point location)
         {
             _dragging = true;
             _dragAnchorOffset = new Vector(location.X, location.Y);
@@ -23,7 +23,7 @@ namespace MegaMan.Editor.Bll.Tools
             Canvas.SetZIndex(canvas, 100);
         }
 
-        public void Move(ScreenCanvas canvas, Common.Geometry.Point location)
+        public void Move(ScreenCanvas canvas, Point location)
         {
             if (_dragging)
             {
@@ -31,7 +31,7 @@ namespace MegaMan.Editor.Bll.Tools
             }
         }
 
-        public void Release(ScreenCanvas canvas, Common.Geometry.Point location)
+        public void Release(ScreenCanvas canvas, Point location)
         {
             _dragging = false;
 
@@ -39,10 +39,10 @@ namespace MegaMan.Editor.Bll.Tools
 
             Canvas.SetZIndex(canvas, 1);
 
-            ViewModelMediator.Current.GetEvent<LayoutScreenDroppedEventArgs>().Raise(canvas, new LayoutScreenDroppedEventArgs() { Canvas = canvas });
+            ViewModelMediator.Current.GetEvent<LayoutScreenDroppedEventArgs>().Raise(canvas, new LayoutScreenDroppedEventArgs { Canvas = canvas });
         }
 
-        public void RightClick(ScreenCanvas canvas, Common.Geometry.Point location)
+        public void RightClick(ScreenCanvas canvas, Point location)
         {
         }
     }

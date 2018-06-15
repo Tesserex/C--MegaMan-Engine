@@ -45,7 +45,7 @@ namespace MegaMan.IO.Xml.Entities
                 if (trigger.Priority == null)
                     trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
 
-                comp.Triggers.Add(new MultiStateTriggerInfo() {
+                comp.Triggers.Add(new MultiStateTriggerInfo {
                     States = states,
                     Trigger = trigger
                 });
@@ -93,8 +93,8 @@ namespace MegaMan.IO.Xml.Entities
                 }
             }
 
-            info.Initializer = new EffectInfo() { Parts = init };
-            info.Logic = new EffectInfo() { Parts = logic };
+            info.Initializer = new EffectInfo { Parts = init };
+            info.Logic = new EffectInfo { Parts = logic };
 
             return info;
         }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common.Geometry;
 using MegaMan.Editor.Services;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Bll
 {
@@ -27,7 +24,7 @@ namespace MegaMan.Editor.Bll
 
             _sprite = sprite;
             _animator = new SpriteAnimator(sprite);
-            TickWeakEventManager.AddHandler(this.Tick);
+            TickWeakEventManager.AddHandler(Tick);
         }
 
         private void Tick(object sender, EventArgs e)
@@ -97,7 +94,7 @@ namespace MegaMan.Editor.Bll
 
                 return new EmptySpriteModel("nosprite.png");
             }
-            else
+
             {
                 var model = new SpriteModel(entity.DefaultSprite);
                 model.Play();
@@ -121,8 +118,8 @@ namespace MegaMan.Editor.Bll
             var spriteImg = BitmapFactory.ConvertToPbgra32Format(base.GetImageSource(zoom));
             var centerX = (spriteImg.Width - scaledOverlay.Width) / 2;
             var centerY = (spriteImg.Height - scaledOverlay.Height) / 2;
-            var destRect = new System.Windows.Rect(centerX, centerY, scaledOverlay.Width, scaledOverlay.Height);
-            spriteImg.Blit(destRect, scaledOverlay, new System.Windows.Rect(0, 0, scaledOverlay.Width, scaledOverlay.Height));
+            var destRect = new Rect(centerX, centerY, scaledOverlay.Width, scaledOverlay.Height);
+            spriteImg.Blit(destRect, scaledOverlay, new Rect(0, 0, scaledOverlay.Width, scaledOverlay.Height));
             
             return spriteImg;
         }

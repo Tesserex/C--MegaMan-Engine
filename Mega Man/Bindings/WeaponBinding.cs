@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+﻿using System.Reflection;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -20,7 +16,7 @@ namespace MegaMan.Engine
 
         public override void Start(IEntityPool entityPool)
         {
-            this._entityPool = entityPool;
+            _entityPool = entityPool;
 
             var player = entityPool.GetEntityById("Player");
             if (player == null) return;
@@ -42,7 +38,7 @@ namespace MegaMan.Engine
 
         private void WeaponAmmo_Changed(string weapon, int ammo, int max)
         {
-            if (weapon == this.weaponName)
+            if (weapon == weaponName)
             {
                 Set(ammo / (float)max);
             }

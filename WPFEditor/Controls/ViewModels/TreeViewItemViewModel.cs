@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -28,7 +25,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public IEnumerable<TreeViewItemViewModel> Root
         {
-            get { return new TreeViewItemViewModel[] { this }; }
+            get { return new[] { this }; }
         }
 
         public ObservableCollection<TreeViewItemViewModel> Children
@@ -46,7 +43,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (value != _isSelected)
                 {
                     _isSelected = value;
-                    this.OnPropertyChanged("IsSelected");
+                    OnPropertyChanged("IsSelected");
                 }
             }
         }
@@ -59,7 +56,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (value != _isExpanded)
                 {
                     _isExpanded = value;
-                    this.OnPropertyChanged("IsExpanded");
+                    OnPropertyChanged("IsExpanded");
                 }
 
                 // Expand all the way up to the root.

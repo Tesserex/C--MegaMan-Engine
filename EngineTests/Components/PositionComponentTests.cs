@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MegaMan.Engine;
-using MegaMan.Common.Geometry;
+﻿using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace MegaMan.Engine.Tests.Components

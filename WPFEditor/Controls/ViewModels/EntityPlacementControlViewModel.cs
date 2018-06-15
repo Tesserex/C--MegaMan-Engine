@@ -47,10 +47,10 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (screen == null)
                 throw new ArgumentNullException("screen");
 
-            this.Placement = placement;
-            this._entityInfo = entityInfo;
-            this._screen = screen;
-            this.DefaultSprite = this.GetDefaultSprite();
+            Placement = placement;
+            _entityInfo = entityInfo;
+            _screen = screen;
+            DefaultSprite = GetDefaultSprite();
 
             DeleteCommand = new RelayCommand(Delete);
             FlipCommand = new RelayCommand(Flip);

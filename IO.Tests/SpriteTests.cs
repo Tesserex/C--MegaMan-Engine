@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
-using MegaMan.IO.Xml;
 using MegaMan.Common;
 using MegaMan.IO.DataSources;
+using MegaMan.IO.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MegaMan.IO.Tests
 {
@@ -63,11 +63,9 @@ namespace MegaMan.IO.Tests
             {
                 return reader.LoadSprite(xmlNode);
             }
-            else
-            {
-                var source = new XmlFileSource();
-                return reader.LoadSprite(source, xmlNode, basePath);
-            }
+
+            var source = new XmlFileSource();
+            return reader.LoadSprite(source, xmlNode, basePath);
         } 
     }
 }

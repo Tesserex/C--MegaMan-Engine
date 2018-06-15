@@ -1,11 +1,11 @@
-﻿namespace MegaMan.Editor.Controls
-{
-    using System.IO;
-    using System.Windows;
-    using System.Windows.Input;
-    using Xceed.Wpf.AvalonDock;
-    using Xceed.Wpf.AvalonDock.Layout.Serialization;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Input;
+using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
+namespace MegaMan.Editor.Controls
+{
     /// <summary>
     /// Class implements an attached behavior to load/save a layout for AvalonDock manager.
     /// This layout defines the position and shape of each document and tool window
@@ -44,7 +44,7 @@
         DependencyProperty.RegisterAttached("LoadLayoutCommand",
             typeof(ICommand),
             typeof(AvalonDockLayoutSerializer),
-            new PropertyMetadata(null, AvalonDockLayoutSerializer.OnLoadLayoutCommandChanged));
+            new PropertyMetadata(null, OnLoadLayoutCommandChanged));
 
         /// <summary>
         /// Backing store for SaveLayoutCommand dependency property
@@ -53,7 +53,7 @@
         DependencyProperty.RegisterAttached("SaveLayoutCommand",
             typeof(ICommand),
             typeof(AvalonDockLayoutSerializer),
-            new PropertyMetadata(null, AvalonDockLayoutSerializer.OnSaveLayoutCommandChanged));
+            new PropertyMetadata(null, OnSaveLayoutCommandChanged));
         #endregion fields
 
         #region methods
@@ -111,7 +111,7 @@
             if (frameworkElement == null)
                 return;
 
-            ICommand loadLayoutCommand = AvalonDockLayoutSerializer.GetLoadLayoutCommand(frameworkElement);
+            ICommand loadLayoutCommand = GetLoadLayoutCommand(frameworkElement);
 
             // There may not be a command bound to this after all
             if (loadLayoutCommand == null)
@@ -185,7 +185,7 @@
             if (frameworkElement == null)
                 return;
 
-            ICommand SaveLayoutCommand = AvalonDockLayoutSerializer.GetSaveLayoutCommand(frameworkElement);
+            ICommand SaveLayoutCommand = GetSaveLayoutCommand(frameworkElement);
 
             // There may not be a command bound to this after all
             if (SaveLayoutCommand == null)

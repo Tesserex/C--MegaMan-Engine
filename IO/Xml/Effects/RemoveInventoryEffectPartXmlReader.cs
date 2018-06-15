@@ -15,9 +15,9 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new RemoveInventoryEffectPartInfo() {
+            return new RemoveInventoryEffectPartInfo {
                 ItemName = partNode.RequireAttribute("item").Value,
-                Quantity = partNode.TryAttribute<int>("quantity", 1)
+                Quantity = partNode.TryAttribute("quantity", 1)
             };
         }
     }

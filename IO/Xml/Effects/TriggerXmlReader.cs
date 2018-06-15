@@ -28,7 +28,7 @@ namespace MegaMan.IO.Xml.Effects
 
             var priority = triggerNode.TryAttribute<int?>("priority");
 
-            return new TriggerInfo() {
+            return new TriggerInfo {
                 Condition = conditionString,
                 Effect = effect,
                 Else = elseEffect,

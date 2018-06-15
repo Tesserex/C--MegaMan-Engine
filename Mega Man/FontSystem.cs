@@ -61,7 +61,7 @@ namespace MegaMan.Engine
             }
         }
 
-        public static void Draw(IRenderingContext renderContext, int layer, string font, string text, MegaMan.Common.Geometry.Point position)
+        public static void Draw(IRenderingContext renderContext, int layer, string font, string text, Point position)
         {
             fonts[font].Draw(renderContext, layer, text, position);
         }

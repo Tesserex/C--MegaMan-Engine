@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             var info = new SpawnEffectPartInfo();
             info.Name = partNode.GetAttribute<string>("name");
-            info.State = partNode.TryAttribute<string>("state", "Start");
+            info.State = partNode.TryAttribute("state", "Start");
 
             var positionNode = partNode.Element("Position");
             if (positionNode != null)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using MegaMan.Common.IncludedObjects;
@@ -51,7 +52,7 @@ namespace MegaMan.Engine
 
         public Palette(PaletteInfo info)
         {
-            this._info = info;
+            _info = info;
             Initialize();
         }
 
@@ -62,7 +63,7 @@ namespace MegaMan.Engine
             {
                 var imageRect = new Rectangle(0, 0, img.Width, img.Height);
 
-                var paletteData = img.LockBits(imageRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var paletteData = img.LockBits(imageRect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
                 byte[] paletteBytes = new byte[paletteData.Height * paletteData.Stride];
 

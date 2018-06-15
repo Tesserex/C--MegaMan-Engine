@@ -15,9 +15,9 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new SoundEffectPartInfo() {
+            return new SoundEffectPartInfo {
                 Name = partNode.GetAttribute<string>("name"),
-                Playing = partNode.TryAttribute<bool>("playing", true)
+                Playing = partNode.TryAttribute("playing", true)
             };
         }
     }

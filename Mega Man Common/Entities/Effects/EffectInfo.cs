@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common.IncludedObjects;
 
@@ -13,10 +12,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public EffectInfo Clone()
         {
-            return new EffectInfo() {
-                Name = this.Name,
-                Filter = this.Filter.Clone(),
-                Parts = this.Parts.Select(x => x.Clone()).ToList()
+            return new EffectInfo {
+                Name = Name,
+                Filter = Filter.Clone(),
+                Parts = Parts.Select(x => x.Clone()).ToList()
             };
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Windows.Media.Imaging;
-using MegaMan.Common;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Editor.Bll

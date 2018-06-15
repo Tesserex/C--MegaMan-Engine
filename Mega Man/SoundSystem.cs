@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using FMOD;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
@@ -14,7 +15,7 @@ namespace MegaMan.Engine
         private readonly Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
         private readonly Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
         private readonly List<Channel> channels = new List<Channel>();
-        private readonly System.Windows.Forms.Timer updateTimer;
+        private readonly Timer updateTimer;
         
         private BackgroundMusic bgm;
         private SoundEffect sfx;
@@ -91,7 +92,7 @@ namespace MegaMan.Engine
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
 
-            updateTimer = new System.Windows.Forms.Timer {Interval = 10};
+            updateTimer = new Timer {Interval = 10};
             updateTimer.Tick += updateTimer_Tick;
 
             AudioManager.Instance.SFXPlaybackStopped += InstanceSfxPlaybackStopped;

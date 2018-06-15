@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MegaMan.Common.Rendering;
 using MegaMan.Engine.Input;
 using MegaMan.Engine.Rendering;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine
@@ -106,8 +107,8 @@ namespace MegaMan.Engine
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
-        private Microsoft.Xna.Framework.Color opacityColor = Microsoft.Xna.Framework.Color.White;
-        public Microsoft.Xna.Framework.Color OpacityColor { get { return opacityColor; } }
+        private Color opacityColor = Color.White;
+        public Color OpacityColor { get { return opacityColor; } }
 
         public SoundSystem SoundSystem { get { return soundsystem; } }
 
@@ -266,7 +267,7 @@ namespace MegaMan.Engine
                 }
             }
 
-            fadeHandle = new GameTickEventHandler(e => opacityDown(callback));
+            fadeHandle = e => opacityDown(callback);
             GameLogicTick += fadeHandle;
             fadeFinished = finished;
         }
@@ -276,13 +277,13 @@ namespace MegaMan.Engine
         private void opacityDown(Action callback)
         {
             opacity -= 0.05f;
-            opacityColor = new Microsoft.Xna.Framework.Color(opacity, opacity, opacity);
+            opacityColor = new Color(opacity, opacity, opacity);
             if (opacity <= 0)
             {
                 // call the callback, then switch to fading in
                 if (callback != null) callback();
                 GameLogicTick -= fadeHandle;
-                fadeHandle = new GameTickEventHandler(e => opacityUp());
+                fadeHandle = e => opacityUp();
                 GameLogicTick += fadeHandle;
             }
         }
@@ -290,7 +291,7 @@ namespace MegaMan.Engine
         private void opacityUp()
         {
             opacity += 0.05f;
-            opacityColor = new Microsoft.Xna.Framework.Color(opacity, opacity, opacity);
+            opacityColor = new Color(opacity, opacity, opacity);
             if (opacity >= 1)   // done
             {
                 GameLogicTick -= fadeHandle;
@@ -317,8 +318,7 @@ namespace MegaMan.Engine
         {
             if (renderContext != null)
                 return renderContext.IsLayerEnabled(layer);
-            else
-                return true;
+            return true;
         }
 
         private void RenderContext(int layer)
@@ -366,7 +366,7 @@ namespace MegaMan.Engine
             {
                 if (OnException != null) OnException(ex);
 
-                this.Stop();
+                Stop();
             }
 
             ThinkTime = timer.ElapsedTicks * invFreq / dt;
@@ -386,7 +386,7 @@ namespace MegaMan.Engine
             // render phase
             GameRenderEventArgs r = new GameRenderEventArgs(renderContext);
 
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Green);
+            GraphicsDevice.Clear(Color.Green);
 
             if (GameRenderBegin != null) GameRenderBegin(r);
 

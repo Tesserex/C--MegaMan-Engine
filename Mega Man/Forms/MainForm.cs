@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices; // To use DllImport
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -13,6 +13,7 @@ using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
 using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
+// To use DllImport
 
 namespace MegaMan.Engine
 {
@@ -63,7 +64,7 @@ namespace MegaMan.Engine
                 Engine.Instance.Stop();
             else
             {
-                if (GetForegroundWindow() == this.Handle)
+                if (GetForegroundWindow() == Handle)
                 {
                     Engine.Instance.Start();
                 }
@@ -283,7 +284,7 @@ namespace MegaMan.Engine
         {
             InitializeComponent();
 
-            this.settingsService = new SettingsService();
+            settingsService = new SettingsService();
             InitializeControllers();
 
             menu = gotFocus = altKeyDown = false;
@@ -293,11 +294,11 @@ namespace MegaMan.Engine
 
 #if DEBUG
             
-            this.gravityFlipToolStripMenuItem.Click += new System.EventHandler(this.gravityFlipToolStripMenuItem_Click);
-            this.emptyHealthMenuItem.Click += new System.EventHandler(this.emptyHealthMenuItem_Click);
-            this.fillHealthMenuItem.Click += new System.EventHandler(this.fillHealthMenuItem_Click);
-            this.emptyWeaponMenuItem.Click += new System.EventHandler(this.emptyWeaponMenuItem_Click);
-            this.fillWeaponMenuIem.Click += new System.EventHandler(this.fillWeaponMenuIem_Click);
+            gravityFlipToolStripMenuItem.Click += gravityFlipToolStripMenuItem_Click;
+            emptyHealthMenuItem.Click += emptyHealthMenuItem_Click;
+            fillHealthMenuItem.Click += fillHealthMenuItem_Click;
+            emptyWeaponMenuItem.Click += emptyWeaponMenuItem_Click;
+            fillWeaponMenuIem.Click += fillWeaponMenuIem_Click;
 #else
             debugBar.Hide();
             debugBar.Height = 0;
@@ -320,7 +321,7 @@ namespace MegaMan.Engine
 
         protected override void OnLoad(EventArgs e)
         {
-            this.Hide();
+            Hide();
             customNtscForm.StartPosition = FormStartPosition.Manual;
             keyform.StartPosition = FormStartPosition.Manual;
             loadConfigForm.StartPosition = FormStartPosition.Manual;
@@ -394,7 +395,7 @@ namespace MegaMan.Engine
 
             var pixellatedCtrl = new ExclusiveController<PixellatedOrSmoothed>();
 
-            this.controllers = new List<IMenuController>() {
+            controllers = new List<IMenuController> {
                 b, s1, s2, s3, s4, f,
                 new ActivateAllMenuController(activateAllToolStripMenuItem, b, s1, s2, s3, s4, f),
                 new AudioMenuController(sq1MenuItem, 1),
@@ -487,7 +488,7 @@ namespace MegaMan.Engine
                 LoadCurrentConfig();
 
                 Game.CurrentGame.Unload();
-                this.xnaImage.Clear();
+                xnaImage.Clear();
                 Text = "Mega Man";
 
                 OnGameLoadedChanged();
@@ -553,9 +554,9 @@ namespace MegaMan.Engine
         private void LoadCurrentConfig()
         {
             if (defaultConfigToolStripMenuItem.Checked)
-                LoadConfigFromSetting(this.settingsService.GetConfigForGame(""));
+                LoadConfigFromSetting(settingsService.GetConfigForGame(""));
             else
-                LoadConfigFromSetting(this.settingsService.GetConfigForGame(CurrentGamePath));
+                LoadConfigFromSetting(settingsService.GetConfigForGame(CurrentGamePath));
         }
 
         private void loadConfigSelectedInLoadConfigForm()
@@ -565,10 +566,10 @@ namespace MegaMan.Engine
 
         private void loadConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var userSettingsToPass = this.settingsService.GetSettings();
+            var userSettingsToPass = settingsService.GetSettings();
 
-            loadConfigForm.Location = new Point(this.Location.X + (this.Size.Width - loadConfigForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - loadConfigForm.Size.Height) / 2);
-            loadConfigForm.TopMost = this.TopMost;
+            loadConfigForm.Location = new Point(Location.X + (Size.Width - loadConfigForm.Size.Width) / 2, Location.Y + (Size.Height - loadConfigForm.Size.Height) / 2);
+            loadConfigForm.TopMost = TopMost;
             loadConfigForm.showFormIfNeeded(CurrentGamePath, userSettingsToPass, defaultConfigToolStripMenuItem.Checked);
             loadConfigForm.TopMost = false;
         }
@@ -579,11 +580,11 @@ namespace MegaMan.Engine
 
         private void deleteConfigurationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var userSettingsToPass = this.settingsService.GetSettings();
+            var userSettingsToPass = settingsService.GetSettings();
 
-            deleteConfigsForm.Location = new Point(this.Location.X + (this.Size.Width - deleteConfigsForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - deleteConfigsForm.Size.Height) / 2);
-            deleteConfigsForm.TopMost = this.TopMost;
-            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, this.settingsService.SettingsFilePath, null);
+            deleteConfigsForm.Location = new Point(Location.X + (Size.Width - deleteConfigsForm.Size.Width) / 2, Location.Y + (Size.Height - deleteConfigsForm.Size.Height) / 2);
+            deleteConfigsForm.TopMost = TopMost;
+            deleteConfigsForm.PrepareFormAndShowIfNeeded(userSettingsToPass, settingsService.SettingsFilePath, null);
             deleteConfigsForm.TopMost = false;
         }
         #endregion
@@ -607,8 +608,8 @@ namespace MegaMan.Engine
         
         private void keyboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            keyform.Location = new Point(this.Location.X + (this.Size.Width - keyform.Size.Width) / 2, this.Location.Y + (this.Size.Height - keyform.Size.Height) / 2);
-            keyform.TopMost = this.TopMost;
+            keyform.Location = new Point(Location.X + (Size.Width - keyform.Size.Width) / 2, Location.Y + (Size.Height - keyform.Size.Height) / 2);
+            keyform.TopMost = TopMost;
             keyform.ShowDialog();
             keyform.TopMost = false;
             if (autosaveToolStripMenuItem.Checked) SaveConfig();
@@ -662,7 +663,7 @@ namespace MegaMan.Engine
             if (width != 256 || height != 224) return;
 
             UnsetFullscreen();
-            this.WindowState = FormWindowState.Normal;
+            WindowState = FormWindowState.Normal;
 
             widthZoom = heightZoom = 1;
             ResizeScreen(602, 448);
@@ -675,11 +676,11 @@ namespace MegaMan.Engine
 
         private void UnsetFullscreen()
         {
-            this.TopMost = false;
-            this.FormBorderStyle = FormBorderStyle.Sizable;
+            TopMost = false;
+            FormBorderStyle = FormBorderStyle.Sizable;
 
-            if (wasMaximizedBeforeFullscreen) this.WindowState = FormWindowState.Maximized;
-            else this.WindowState = FormWindowState.Normal;
+            if (wasMaximizedBeforeFullscreen) WindowState = FormWindowState.Maximized;
+            else WindowState = FormWindowState.Normal;
 
             menuStrip1.Visible = !hideMenuItem.Checked;
 #if DEBUG
@@ -689,12 +690,12 @@ namespace MegaMan.Engine
 
         private void SetFullscreen()
         {
-            wasMaximizedBeforeFullscreen = (this.WindowState == FormWindowState.Maximized);
+            wasMaximizedBeforeFullscreen = (WindowState == FormWindowState.Maximized);
 
             xnaImage.NTSC = false;
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            TopMost = true;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
             menuStrip1.Visible = false;
 #if DEBUG
             debugBar.Visible = false;
@@ -710,8 +711,8 @@ namespace MegaMan.Engine
         #region Button Click event of NTSC options
         private void ntscCustom_Click(object sender, EventArgs e)
         {
-            customNtscForm.Location = new Point(this.Location.X + (this.Size.Width - customNtscForm.Size.Width) / 2, this.Location.Y + (this.Size.Height - customNtscForm.Size.Height) / 2);
-            customNtscForm.TopMost = this.TopMost;
+            customNtscForm.Location = new Point(Location.X + (Size.Width - customNtscForm.Size.Width) / 2, Location.Y + (Size.Height - customNtscForm.Size.Height) / 2);
+            customNtscForm.TopMost = TopMost;
             customNtscForm.ShowDialog();
             customNtscForm.TopMost = false;
         }
@@ -746,7 +747,7 @@ namespace MegaMan.Engine
         private void screenshotMenuItem_Click(object sender, EventArgs e)
         {
             var capDir = Path.Combine(Application.StartupPath, "screenshots");
-            if (!Directory.Exists(capDir)) System.IO.Directory.CreateDirectory(capDir);
+            if (!Directory.Exists(capDir)) Directory.CreateDirectory(capDir);
 
             string capPath;
             int capNum = 1;
@@ -945,9 +946,9 @@ namespace MegaMan.Engine
 
                 OnGameLoadedChanged();
 
-                var userSettings = this.settingsService.GetSettings();
+                var userSettings = settingsService.GetSettings();
                 userSettings.AddRecentGame(Game.CurrentGame.Name, path);
-                XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath);
+                XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath);
 
                 return true;
             }
@@ -970,7 +971,7 @@ namespace MegaMan.Engine
                 }
                 Game.CurrentGame.Unload();
             }
-            catch (System.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
                 if (silenceErrorMessages == false)
                 {
@@ -1007,9 +1008,9 @@ namespace MegaMan.Engine
             }
 
             // Only call if if current form is the active one
-            if ((IntPtr)GetForegroundWindow() == this.Handle)
+            if (GetForegroundWindow() == Handle)
             {
-                this.OnActivated(new EventArgs());
+                OnActivated(new EventArgs());
             }
 
             return false;
@@ -1043,9 +1044,9 @@ namespace MegaMan.Engine
 
             if (X < 0 || Y < 0)
             {
-                this.CenterToScreen();
+                CenterToScreen();
             }
-            else this.Location = new System.Drawing.Point(X, Y);
+            else Location = new Point(X, Y);
 
             if (running) OnResizeCode();
         }
@@ -1059,7 +1060,7 @@ namespace MegaMan.Engine
         {
             try
             {
-                var userSettings = this.settingsService.GetSettings();
+                var userSettings = settingsService.GetSettings();
 
                 autosaveToolStripMenuItem.Checked = userSettings.AutosaveSettings;
                 defaultConfigToolStripMenuItem.Checked = userSettings.UseDefaultSettings;
@@ -1157,20 +1158,20 @@ namespace MegaMan.Engine
             ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
             #endregion
 
-            foreach (var c in this.controllers)
+            foreach (var c in controllers)
                 c.LoadSettings(settings);
         }
 
         private void SaveGlobalConfigValues(string fileName = null)
         {
-            var userSettings = this.settingsService.GetSettings();
+            var userSettings = settingsService.GetSettings();
 
             userSettings.AutosaveSettings = autosaveToolStripMenuItem.Checked;
             userSettings.UseDefaultSettings = defaultConfigToolStripMenuItem.Checked;
             userSettings.Autoload = autoloadToolStripMenuItem.Checked ? lastGameWithPath : null;
             userSettings.InitialFolder = initialFolder;
 
-            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
+            XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
         }
 
         private void AutosaveConfig(string fileName = null)
@@ -1188,67 +1189,61 @@ namespace MegaMan.Engine
         {
             if (settings == null)
             {
-                settings = new Setting()
-                {
+                settings = new Setting {
                     GameFileName = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGamePath,
                     GameTitle = defaultConfigToolStripMenuItem.Checked ? "" : CurrentGameTitle,
                     KeyBindings = GetKeyBindingSettings(),
                     JoystickBindings = GetJoystickBindingSettings(),
                     GamepadBindings = GetGamepadBindingSettings(),
                     ActiveInput = GameInput.ActiveType,
-                    Screens = new LastScreen()
-                    {
+                    Screens = new LastScreen {
                         Maximized = WindowState == FormWindowState.Maximized,
                         NTSC_Custom = customNtscForm.GetOptions(),
                         HideMenu = hideMenuItem.Checked
                     },
-                    Audio = new LastAudio()
-                    {
+                    Audio = new LastAudio {
                         Volume = Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
                         Sound = sfxMenuItem.Checked
                     },
-                    Debug = new LastDebug()
-                    {
+                    Debug = new LastDebug {
                         ShowMenu = debugBarToolStripMenuItem.Checked,
                         ShowHitboxes = showHitboxesToolStripMenuItem.Checked,
                         Framerate = Engine.Instance.FPS,
-                        Cheat = new LastCheat()
-                        {
+                        Cheat = new LastCheat {
                             Invincibility = invincibilityToolStripMenuItem.Checked,
                             NoDamage = noDamageToolStripMenuItem.Checked
                         }
                     },
-                    Miscellaneous = new LastMiscellaneous()
-                    {
-                        ScreenX_Coordinate = this.Location.X,
-                        ScreenY_Coordinate = this.Location.Y
+                    Miscellaneous = new LastMiscellaneous {
+                        ScreenX_Coordinate = Location.X,
+                        ScreenY_Coordinate = Location.Y
                     }
                 };
 
-                foreach (var c in this.controllers)
+                foreach (var c in controllers)
                     c.SaveSettings(settings);
             }
 
-            var userSettings = this.settingsService.GetSettings();
+            var userSettings = settingsService.GetSettings();
             userSettings.AddOrSetExistingSettingsForGame(settings);
 
-            XML.SaveToConfigXML(userSettings, this.settingsService.SettingsFilePath, fileName);
+            XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
         }
 
         private List<UserKeyBindingSetting> GetKeyBindingSettings()
         {
-            return GameInput.GetKeyBindings().Select(x => new UserKeyBindingSetting() { Input = x.Input, Key = x.Key }).ToList();
+            return GameInput.GetKeyBindings().Select(x => new UserKeyBindingSetting { Input = x.Input, Key = x.Key }).ToList();
         }
 
         private List<UserJoystickBindingSetting> GetJoystickBindingSettings()
         {
-            return GameInput.GetJoystickBindings().Select(x => new UserJoystickBindingSetting() { Input = x.Input, DeviceGuid = x.DeviceGuid, Button = x.Button, Value = x.Value }).ToList();
+            return GameInput.GetJoystickBindings().Select(x => new UserJoystickBindingSetting { Input = x.Input, DeviceGuid = x.DeviceGuid, Button = x.Button, Value = x.Value }).ToList();
         }
 
         private List<UserGamepadBindingSetting> GetGamepadBindingSettings()
         {
-            return GameInput.GetGamepadBindings().Select(x => new UserGamepadBindingSetting() { Input = x.Input, Button = x.Button }).ToList();
+            return GameInput.GetGamepadBindings().Select(x => new UserGamepadBindingSetting { Input = x.Input, Button = x.Button }).ToList();
         }
 
         private void Engine_Exception(Exception e)

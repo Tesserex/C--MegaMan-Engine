@@ -22,7 +22,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new DelayedEffectPartInfo() {
+            return new DelayedEffectPartInfo {
                 DelayFrames = partNode.GetAttribute<int>("frames"),
                 Effect = effectReader.Load(partNode)
             };

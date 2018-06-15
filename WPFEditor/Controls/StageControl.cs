@@ -11,6 +11,7 @@ using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Tools;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Controls
 {
@@ -93,7 +94,7 @@ namespace MegaMan.Editor.Controls
             _screensPlaced = new HashSet<string>();
             Zoom = 1;
 
-            this.SizeChanged += StageLayoutControl_SizeChanged;
+            SizeChanged += StageLayoutControl_SizeChanged;
 
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
@@ -105,25 +106,25 @@ namespace MegaMan.Editor.Controls
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;
 
-            scrollContainer = new ScrollViewer() {
+            scrollContainer = new ScrollViewer {
                 CanContentScroll = true,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto
             };
 
-            canvas = new GridCanvas() {
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
-                VerticalAlignment = System.Windows.VerticalAlignment.Top
+            canvas = new GridCanvas {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
             };
 
-            var adornerDecorator = new System.Windows.Documents.AdornerDecorator();
+            var adornerDecorator = new AdornerDecorator();
             adornerDecorator.Child = scrollContainer;
 
-            this.adornerLayer = adornerDecorator.AdornerLayer;
+            adornerLayer = adornerDecorator.AdornerLayer;
 
             scrollContainer.Content = canvas;
 
-            this.Content = adornerDecorator;
+            Content = adornerDecorator;
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
@@ -281,7 +282,7 @@ namespace MegaMan.Editor.Controls
 
             if (canvas.Children.Count == 0) return;
 
-            var arranger = new ScreenLayoutArranger(this.Stage);
+            var arranger = new ScreenLayoutArranger(Stage);
             arranger.Arrange();
 
             int maxX = 0, maxY = 0;
@@ -293,7 +294,7 @@ namespace MegaMan.Editor.Controls
                 var cx = (int)(screenPointPair.Value.X * surface.Screen.Tileset.TileSize * Zoom);
                 var cy = (int)(screenPointPair.Value.Y * surface.Screen.Tileset.TileSize * Zoom);
 
-                SetCanvasLocation(surface, new Common.Geometry.Point(cx, cy));
+                SetCanvasLocation(surface, new Point(cx, cy));
             }
 
             foreach (var surface in _screens.Values)
@@ -313,12 +314,12 @@ namespace MegaMan.Editor.Controls
             _layoutNeeded = false;
         }
 
-        private MegaMan.Common.Geometry.Point GetCanvasLocation(ScreenCanvas surface)
+        private Point GetCanvasLocation(ScreenCanvas surface)
         {
-            return new MegaMan.Common.Geometry.Point((int)surface.Margin.Left, (int)surface.Margin.Top);
+            return new Point((int)surface.Margin.Left, (int)surface.Margin.Top);
         }
 
-        private void SetCanvasLocation(ScreenCanvas surface, MegaMan.Common.Geometry.Point location)
+        private void SetCanvasLocation(ScreenCanvas surface, Point location)
         {
             surface.Margin = new Thickness(location.X, location.Y, 0, 0);
         }
@@ -334,12 +335,12 @@ namespace MegaMan.Editor.Controls
             if (ToolProvider != null && ToolProvider.ToolCursor != null)
             {
                 _currentCursor = ToolProvider.ToolCursor;
-                ToolProvider.ToolCursor.ApplyCursorTo(this.scrollContainer);
+                ToolProvider.ToolCursor.ApplyCursorTo(scrollContainer);
             }
             else
             {
-                this.Cursor = Cursors.Arrow;
-                this.scrollContainer.Cursor = this.Cursor;
+                Cursor = Cursors.Arrow;
+                scrollContainer.Cursor = Cursor;
             }
         }
     }

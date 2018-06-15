@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace MegaMan.Common
 {
     public enum HandlerType
@@ -27,12 +25,12 @@ namespace MegaMan.Common
 
         public HandlerTransfer Clone()
         {
-            return new HandlerTransfer() {
-                Type = this.Type,
-                Mode = this.Mode,
-                Name = this.Name,
-                Fade = this.Fade,
-                Pause = this.Pause
+            return new HandlerTransfer {
+                Type = Type,
+                Mode = Mode,
+                Name = Name,
+                Fade = Fade,
+                Pause = Pause
             };
         }
     }

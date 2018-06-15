@@ -30,9 +30,9 @@ namespace MegaMan.IO.Xml.Includes
 
         public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
-            var info = new EntityInfo() {
+            var info = new EntityInfo {
                 Name = xmlNode.RequireAttribute("name").Value,
-                MaxAlive = xmlNode.TryAttribute<int>("maxAlive", 50),
+                MaxAlive = xmlNode.TryAttribute("maxAlive", 50),
                 GravityFlip = xmlNode.TryElementValue<bool>("GravityFlip"),
                 Components = new List<IComponentInfo>()
             };
@@ -58,7 +58,7 @@ namespace MegaMan.IO.Xml.Includes
                 info.Components.Add(new PositionComponentInfo());
 
             if (info.MovementComponent == null && HasMovementEffects(info))
-                info.Components.Add(new MovementComponentInfo() { EffectInfo = new MovementEffectPartInfo() });
+                info.Components.Add(new MovementComponentInfo { EffectInfo = new MovementEffectPartInfo() });
 
             project.AddEntity(info);
             return info;
@@ -79,10 +79,10 @@ namespace MegaMan.IO.Xml.Includes
             var editorData = xmlNode.Element("EditorData");
             if (editorData != null)
             {
-                info.EditorData = new EntityEditorData() {
+                info.EditorData = new EntityEditorData {
                     DefaultSpriteName = editorData.TryAttribute<string>("defaultSprite"),
-                    HideFromPlacement = editorData.TryAttribute<bool>("hide", false),
-                    IsProjectile = editorData.TryAttribute<bool>("isProjectile", false)
+                    HideFromPlacement = editorData.TryAttribute("hide", false),
+                    IsProjectile = editorData.TryAttribute("isProjectile", false)
                 };
             }
         }

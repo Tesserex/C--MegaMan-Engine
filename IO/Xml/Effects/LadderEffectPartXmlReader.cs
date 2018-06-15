@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new LadderEffectPartInfo() {
+            return new LadderEffectPartInfo {
                 Action = (LadderAction)Enum.Parse(typeof(LadderAction), partNode.Value)
             };
         }

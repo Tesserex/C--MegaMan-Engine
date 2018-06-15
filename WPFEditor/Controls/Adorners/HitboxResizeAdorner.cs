@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -39,44 +35,44 @@ namespace MegaMan.Editor.Controls.Adorners
             BuildAdornerCorner(ref bottomRight, Cursors.SizeNWSE);
 
             // Add handlers for resizing.
-            bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
-            bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
-            topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
-            topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+            bottomLeft.DragDelta += HandleBottomLeft;
+            bottomRight.DragDelta += HandleBottomRight;
+            topLeft.DragDelta += HandleTopLeft;
+            topRight.DragDelta += HandleTopRight;
 
             adornedElement.MouseEnter += adornedElement_MouseEnter;
             adornedElement.MouseLeave += adornedElement_MouseLeave;
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
-            this.Visibility = System.Windows.Visibility.Visible;
+            Visibility = Visibility.Visible;
             InvalidateVisual();
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         void adornedElement_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.Visibility = System.Windows.Visibility.Hidden;
+            Visibility = Visibility.Hidden;
         }
 
         void adornedElement_MouseEnter(object sender, MouseEventArgs e)
         {
-            this.Visibility = System.Windows.Visibility.Visible;
+            Visibility = Visibility.Visible;
             InvalidateVisual();
         }
 
         // Handler for resizing from the bottom-right.
         void HandleBottomRight(object sender, DragDeltaEventArgs args)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
@@ -90,7 +86,7 @@ namespace MegaMan.Editor.Controls.Adorners
         // Handler for resizing from the top-right.
         void HandleTopRight(object sender, DragDeltaEventArgs args)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
@@ -157,8 +153,8 @@ namespace MegaMan.Editor.Controls.Adorners
             var desiredWidth = AdornedElement.DesiredSize.Width;
             var desiredHeight = AdornedElement.DesiredSize.Height;
             // adornerWidth & adornerHeight are used for placement as well.
-            var adornerWidth = this.DesiredSize.Width;
-            var adornerHeight = this.DesiredSize.Height;
+            var adornerWidth = DesiredSize.Width;
+            var adornerHeight = DesiredSize.Height;
 
             topLeft.Arrange(new Rect(-adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
             topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));

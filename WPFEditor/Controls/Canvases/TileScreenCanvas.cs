@@ -1,10 +1,4 @@
-﻿using MegaMan.Editor.Bll;
-using MegaMan.Editor.Bll.Tools;
-using MegaMan.Editor.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {

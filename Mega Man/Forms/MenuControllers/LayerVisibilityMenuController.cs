@@ -19,13 +19,13 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         private void MenuItem_Click(object sender, EventArgs e)
         {
-            Set(!this.menuItem.Checked);
+            Set(!menuItem.Checked);
         }
 
         public void Set(bool value)
         {
-            this.menuItem.Checked = value;
-            Engine.Instance.SetLayerVisibility((int)this.layer, value);
+            menuItem.Checked = value;
+            Engine.Instance.SetLayerVisibility((int)layer, value);
         }
 
         public void LoadSettings(Setting settings)
@@ -53,17 +53,17 @@ namespace MegaMan.Engine.Forms.MenuControllers
                 settings.Debug.Layers = new LastLayers();
 
             if (layer == Layers.Background)
-                settings.Debug.Layers.Background = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Background = Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite1)
-                settings.Debug.Layers.Sprites1 = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Sprites1 = Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite2)
-                settings.Debug.Layers.Sprites2 = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Sprites2 = Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite3)
-                settings.Debug.Layers.Sprites3 = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Sprites3 = Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite4)
-                settings.Debug.Layers.Sprites4 = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Sprites4 = Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Foreground)
-                settings.Debug.Layers.Foreground = Engine.Instance.GetLayerVisibility((int)this.layer);
+                settings.Debug.Layers.Foreground = Engine.Instance.GetLayerVisibility((int)layer);
         }
     }
 }

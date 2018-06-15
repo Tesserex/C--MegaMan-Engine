@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Editor.Controls.Dialogs;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 
@@ -44,7 +46,7 @@ namespace MegaMan.Editor.Bll.Algorithms
             box.DataContext = boxModel;
             box.ShowDialog();
 
-            if (box.Result == System.Windows.MessageBoxResult.OK)
+            if (box.Result == MessageBoxResult.OK)
             {
                 ExtractImage(tempTiles, image, boxModel.Spacing, boxModel.Offset);
             }
@@ -59,7 +61,7 @@ namespace MegaMan.Editor.Bll.Algorithms
 
                 foreach (var image in images)
                 {
-                    progress.Report(new ProgressDialogState() {
+                    progress.Report(new ProgressDialogState {
                         ProgressPercentage = 0,
                         Title = "Extracting " + image.FileName
                     });
@@ -85,13 +87,13 @@ namespace MegaMan.Editor.Bll.Algorithms
                 for (var x = offset; x < image.PixelWidth; x += jump)
                 {
                     var tileImage = new WriteableBitmap(16, 16, 96, 96, PixelFormats.Pbgra32, null);
-                    tileImage.Blit(new System.Windows.Rect(0, 0, 16, 16), sourceImage, new System.Windows.Rect(x, y, 16, 16));
+                    tileImage.Blit(new Rect(0, 0, 16, 16), sourceImage, new Rect(x, y, 16, 16));
                     tempTiles.Add(tileImage);
 
                     currentTile++;
                     if (progress != null)
                     {
-                        progress.Report(new ProgressDialogState() {
+                        progress.Report(new ProgressDialogState {
                             ProgressPercentage = currentTile * 100 / totalTiles,
                             Description = string.Format("Extracting {0} / {1}", currentTile, totalTiles)
                         });
@@ -124,11 +126,11 @@ namespace MegaMan.Editor.Bll.Algorithms
                 .ToDictionary(x => x.Key, x => x.Select(a => a.Frame).ToList());
         }
 
-        private WriteableBitmap CutFrame(WriteableBitmap sheet, Common.Geometry.Rectangle frameRect)
+        private WriteableBitmap CutFrame(WriteableBitmap sheet, Rectangle frameRect)
         {
             var wb = new WriteableBitmap(frameRect.Width, frameRect.Height, 96, 96, PixelFormats.Pbgra32, null);
-            var srcRect = new System.Windows.Rect(frameRect.X, frameRect.Y, frameRect.Width, frameRect.Height);
-            var destRect = new System.Windows.Rect(0, 0, frameRect.Width, frameRect.Height);
+            var srcRect = new Rect(frameRect.X, frameRect.Y, frameRect.Width, frameRect.Height);
+            var destRect = new Rect(0, 0, frameRect.Width, frameRect.Height);
             wb.Blit(destRect, sheet, srcRect);
             return wb;
         }
@@ -141,16 +143,16 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             var tilesheet = new WriteableBitmap(Tilesheet.PixelWidth, Tilesheet.PixelHeight + addedTileHeight * 16, 96, 96, PixelFormats.Pbgra32, null);
             var writeableSource = BitmapFactory.ConvertToPbgra32Format(Tilesheet);
-            var originalRect = new System.Windows.Rect(0, 0, Tilesheet.PixelWidth, Tilesheet.PixelHeight);
+            var originalRect = new Rect(0, 0, Tilesheet.PixelWidth, Tilesheet.PixelHeight);
             tilesheet.Blit(originalRect, writeableSource, originalRect);
 
             var x = 0;
             var y = Tilesheet.PixelHeight;
-            var source = new System.Windows.Rect(0, 0, 16, 16);
+            var source = new Rect(0, 0, 16, 16);
 
             foreach (var frame in tempTiles)
             {
-                var dest = new System.Windows.Rect(x, y, 16, 16);
+                var dest = new Rect(x, y, 16, 16);
                 tilesheet.Blit(dest, frame, source);
 
                 var tile = Tileset.AddTile();
@@ -184,11 +186,11 @@ namespace MegaMan.Editor.Bll.Algorithms
 
             var x = 0;
             var y = 0;
-            var source = new System.Windows.Rect(0, 0, 16, 16);
+            var source = new Rect(0, 0, 16, 16);
 
             foreach (var frame in allFrames)
             {
-                var dest = new System.Windows.Rect(x, y, 16, 16);
+                var dest = new Rect(x, y, 16, 16);
                 tilesheet.Blit(dest, frame.Key, source);
 
                 foreach (var spriteFrame in frame.Value)

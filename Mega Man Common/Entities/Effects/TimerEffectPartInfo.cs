@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MegaMan.Common.Entities.Effects
 {
@@ -13,10 +10,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new TimerEffectPartInfo() {
-                Start = new List<string>(this.Start),
-                Reset = new List<string>(this.Reset),
-                Delete = new List<string>(this.Delete)
+            return new TimerEffectPartInfo {
+                Start = new List<string>(Start),
+                Reset = new List<string>(Reset),
+                Delete = new List<string>(Delete)
             };
         }
     }

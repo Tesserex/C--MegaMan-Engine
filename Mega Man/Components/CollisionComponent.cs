@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using MegaMan.Common.Rendering;
 using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Geometry;
+using MegaMan.Common.Rendering;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
+    [DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
     public class CollisionComponent : Component
     {
         private IResourceImage rectTex;
@@ -34,12 +35,12 @@ namespace MegaMan.Engine
         private readonly HashSet<int> enabledBoxes = new HashSet<int>();
         private readonly Dictionary<string, int> boxIDsByName = new Dictionary<string, int>();
 
-        private List<MapSquare> hitSquares = null;
-        private List<Collision> hitBlockEntities = null;
+        private List<MapSquare> hitSquares;
+        private List<Collision> hitBlockEntities;
         
         // Real time is when function to check collision is called function from xml. Collision are checked on call.
-        private List<MapSquare> hitSquares_RealTime = null;
-        private List<Collision> hitBlockEntities_RealTime = null;
+        private List<MapSquare> hitSquares_RealTime;
+        private List<Collision> hitBlockEntities_RealTime;
 
         public float DamageDealt { get; private set; }
 
@@ -104,9 +105,9 @@ namespace MegaMan.Engine
                 boundBox.Offset(-Parent.Screen.OffsetX, -Parent.Screen.OffsetY);
 
                 if (rectTex == null)
-                    rectTex = e.RenderContext.CreateColorResource(new MegaMan.Common.Color(1, 0.6f, 0, 0.7f));
+                    rectTex = e.RenderContext.CreateColorResource(new Color(1, 0.6f, 0, 0.7f));
 
-                e.RenderContext.Draw(rectTex, 5, new Common.Geometry.Point((int)(boundBox.X), (int)(boundBox.Y)), new Common.Geometry.Rectangle(0, 0, (int)(boundBox.Width), (int)(boundBox.Height)));
+                e.RenderContext.Draw(rectTex, 5, new Point((int)(boundBox.X), (int)(boundBox.Y)), new Rectangle(0, 0, (int)(boundBox.Width), (int)(boundBox.Height)));
             }
         }
 
@@ -141,8 +142,6 @@ namespace MegaMan.Engine
 
                     enabledBoxes.Add(boxIDsByName[name]);
                 }
-
-                return;
             }
         }
 
@@ -220,15 +219,18 @@ namespace MegaMan.Engine
             {
                 return tileProperty.Blocking;
             }
-            else if (property == "Climbable")
+
+            if (property == "Climbable")
             {
                 return tileProperty.Climbable;
             }
-            else if (property == "Lethal")
+
+            if (property == "Lethal")
             {
                 return tileProperty.Lethal;
             }
-            else if (property == "Sinking")
+
+            if (property == "Sinking")
             {
                 return (tileProperty.Sinking != 0) ? true : false;
             }
@@ -288,18 +290,15 @@ namespace MegaMan.Engine
         /// <returns></returns>
         private List<CollisionBox> CollisionBoxToCheck(string boxName, string entityId)
         {
-            var entityHitboxes = (entityId != null) ? Parent.Entities.GetEntityById(entityId)?.GetComponent<CollisionComponent>()?.hitboxes : this.hitboxes;
+            var entityHitboxes = (entityId != null) ? Parent.Entities.GetEntityById(entityId)?.GetComponent<CollisionComponent>()?.hitboxes : hitboxes;
             if (entityHitboxes != null)
             {
                 if (boxName != null)
                     return entityHitboxes.Where(h => h.Name == boxName).ToList();
-                else
-                    return entityHitboxes.Where(h => enabledBoxes.Contains(h.ID)).ToList();
+                return entityHitboxes.Where(h => enabledBoxes.Contains(h.ID)).ToList();
             }
-            else
-            {
-                return new List<CollisionBox>();
-            }
+
+            return new List<CollisionBox>();
         }
 
         /// <summary>

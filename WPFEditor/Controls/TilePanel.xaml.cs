@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Controls.ViewModels;
 
@@ -21,7 +20,7 @@ namespace MegaMan.Editor.Controls
         {
             InitializeComponent();
 
-            this.tileList.SelectionChanged += TileList_SelectionChanged;
+            tileList.SelectionChanged += TileList_SelectionChanged;
         }
 
         private void TileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -46,8 +45,8 @@ namespace MegaMan.Editor.Controls
             set
             {
                 SetValue(SelectedTileProperty, value);
-                if (this.DataContext is TilesetViewModelBase)
-                    ((TilesetViewModelBase)this.DataContext).SelectedTile = value;
+                if (DataContext is TilesetViewModelBase)
+                    ((TilesetViewModelBase)DataContext).SelectedTile = value;
             }
         }
 
@@ -57,8 +56,8 @@ namespace MegaMan.Editor.Controls
             set
             {
                 SetValue(SelectedTilesProperty, value);
-                if (this.DataContext is TilesetViewModelBase)
-                    ((TilesetViewModelBase)this.DataContext).MultiSelectedTiles = value;
+                if (DataContext is TilesetViewModelBase)
+                    ((TilesetViewModelBase)DataContext).MultiSelectedTiles = value;
             }
         }
 
@@ -68,8 +67,7 @@ namespace MegaMan.Editor.Controls
             {
                 if (MultiSelect)
                     return SelectionMode.Extended;
-                else
-                    return SelectionMode.Single;
+                return SelectionMode.Single;
             }
         }
     }

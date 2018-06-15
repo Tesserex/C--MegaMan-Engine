@@ -71,7 +71,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             // prevent infinite recursion
             _ignoreTileChanged = true;
-            var args = new TileBrushSelectedEventArgs() { TileBrush = tile != null ? new SingleTileBrush(tile) : null };
+            var args = new TileBrushSelectedEventArgs { TileBrush = tile != null ? new SingleTileBrush(tile) : null };
             ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
             _ignoreTileChanged = false;
 
@@ -144,7 +144,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         internal void SelectBrush(MultiTileBrush multiTileBrush)
         {
-            var args = new TileBrushSelectedEventArgs() { TileBrush = multiTileBrush };
+            var args = new TileBrushSelectedEventArgs { TileBrush = multiTileBrush };
             ViewModelMediator.Current.GetEvent<TileBrushSelectedEventArgs>().Raise(this, args);
 
             SelectedBrush = multiTileBrush;

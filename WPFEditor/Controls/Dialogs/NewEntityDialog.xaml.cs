@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Windows;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using Ninject;
@@ -19,7 +19,7 @@ namespace MegaMan.Editor.Controls.Dialogs
         {
             InitializeComponent();
 
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 DataContext = App.Container.Get<NewEntityDialogViewModel>();
             }

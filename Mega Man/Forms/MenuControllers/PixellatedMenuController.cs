@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MegaMan.Engine.Forms.MenuControllers
 {
@@ -25,42 +23,42 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         private void Controller_Changed(PixellatedOrSmoothed p)
         {
-            Set(p == this.state);
+            Set(p == state);
         }
 
         private void MenuItem_Click(object sender, EventArgs e)
         {
-            this.controller.Raise(this.state);
+            controller.Raise(state);
         }
         public void LoadSettings(Setting settings)
         {
-            if (settings.Screens.Pixellated == this.state)
-                this.controller.Raise(this.state);
+            if (settings.Screens.Pixellated == state)
+                controller.Raise(state);
         }
 
         public void SaveSettings(Setting settings)
         {
-            if (this.menuItem.Checked)
+            if (menuItem.Checked)
             {
                 if (settings.Screens == null)
                     settings.Screens = new LastScreen();
 
-                settings.Screens.Pixellated = this.state;
+                settings.Screens.Pixellated = state;
             }
         }
 
         public void Set(bool value)
         {
-            this.menuItem.Checked = value;
+            menuItem.Checked = value;
             if (value)
             {
-                if (this.state == PixellatedOrSmoothed.Pixellated)
+                if (state == PixellatedOrSmoothed.Pixellated)
                 {
-                    Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.PointClamp;
+                    Engine.Instance.FilterState = SamplerState.PointClamp;
                 }
-                else if (this.state == PixellatedOrSmoothed.Smoothed)
+                else if (state == PixellatedOrSmoothed.Smoothed)
                 {
-                    Engine.Instance.FilterState = Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp;
+                    Engine.Instance.FilterState = SamplerState.LinearClamp;
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Bll;
@@ -9,7 +10,7 @@ namespace MegaMan.Editor.Controls
     {
         private Rectangle? _selectionBounds;
 
-        private static Pen _selectionPen = new Pen() {
+        private static Pen _selectionPen = new Pen {
             Brush = Brushes.Silver,
             DashStyle = DashStyles.Dash,
             DashCap = PenLineCap.Round,
@@ -50,7 +51,7 @@ namespace MegaMan.Editor.Controls
                 var y = _selectionBounds.Value.Y * Screen.Tileset.TileSize;
                 var w = _selectionBounds.Value.Width * Screen.Tileset.TileSize;
                 var h = _selectionBounds.Value.Height * Screen.Tileset.TileSize;
-                dc.DrawRectangle(null, _selectionPen, new System.Windows.Rect(x * zoom, y * zoom, w * zoom, h * zoom));
+                dc.DrawRectangle(null, _selectionPen, new Rect(x * zoom, y * zoom, w * zoom, h * zoom));
             }
         }
     }

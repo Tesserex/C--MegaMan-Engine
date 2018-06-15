@@ -47,8 +47,7 @@ namespace MegaMan.IO.Xml.Entities
 
             if (spriteComponent.SheetPath != null || spriteComponent.Sprites.Any())
                 return spriteComponent;
-            else
-                return null;
+            return null;
         }
     }
 }

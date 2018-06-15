@@ -15,7 +15,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return new ZoomLevel() { _zoom = 0.5 };
+                return new ZoomLevel { _zoom = 0.5 };
             }
         }
 
@@ -23,7 +23,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return new ZoomLevel() { _zoom = 1 };
+                return new ZoomLevel { _zoom = 1 };
             }
         }
 
@@ -31,7 +31,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return new ZoomLevel() { _zoom = 2 };
+                return new ZoomLevel { _zoom = 2 };
             }
         }
 
@@ -39,7 +39,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return new ZoomLevel() { _zoom = 3 };
+                return new ZoomLevel { _zoom = 3 };
             }
         }
     }

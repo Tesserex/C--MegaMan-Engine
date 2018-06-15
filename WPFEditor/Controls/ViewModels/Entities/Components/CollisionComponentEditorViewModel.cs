@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using MegaMan.Common.Entities;
-using MegaMan.Editor.Bll;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {
@@ -27,7 +24,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         private void DeleteHitbox()
         {
             Entity.CollisionComponent.HitBoxes.Remove(SelectedHitBox);
-            this.Project.Dirty = true;
+            Project.Dirty = true;
             UpdateProperties();
         }
 
@@ -38,7 +35,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             var hitbox = new HitBoxInfo();
             Entity.CollisionComponent.HitBoxes.Add(hitbox);
             SelectedHitBox = hitbox;
-            this.Project.Dirty = true;
+            Project.Dirty = true;
 
             EditHitbox();
         }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -149,14 +146,14 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         {
             get
             {
-                if (this.project == null)
+                if (project == null)
                 {
                     yield return "";
                 }
                 else
                 {
                     yield return "";
-                    foreach (var k in this.project.Project.EntityProperties.Keys)
+                    foreach (var k in project.Project.EntityProperties.Keys)
                     {
                         yield return k;
                     }
@@ -181,9 +178,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         {
             get
             {
-                if (this.project == null) return Enumerable.Empty<string>();
+                if (project == null) return Enumerable.Empty<string>();
 
-                var names = this.project.Entities
+                var names = project.Entities
                     .Where(e => e.EditorData != null && e.EditorData.IsProjectile)
                     .Select(e => e.Name)
                     .ToList();
@@ -270,10 +267,10 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         public int ZoomWidth { get { return Zoom * Width; } set { Width = value / Zoom; } }
         public int ZoomHeight { get { return Zoom * Height; } set { Height = value / Zoom; } }
 
-        public int SpriteTop { get { return this.sprite == null ? 0 : Zoom * sprite.HotSpot.Y; } }
-        public int SpriteLeft { get { return this.sprite == null ? 0 : Zoom * sprite.HotSpot.X; } }
-        public int SpriteWidth { get { return this.sprite == null ? 0 : Zoom * sprite.Width; } }
-        public int SpriteHeight { get { return this.sprite == null ? 0 : Zoom * sprite.Height; } }
+        public int SpriteTop { get { return sprite == null ? 0 : Zoom * sprite.HotSpot.Y; } }
+        public int SpriteLeft { get { return sprite == null ? 0 : Zoom * sprite.HotSpot.X; } }
+        public int SpriteWidth { get { return sprite == null ? 0 : Zoom * sprite.Width; } }
+        public int SpriteHeight { get { return sprite == null ? 0 : Zoom * sprite.Height; } }
 
         public string AddResistName
         {
@@ -305,7 +302,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
                     if (name != null)
                     {
                         var val = hitbox.Resistance[name];
-                        hitbox.Resistance.Remove(this.name);
+                        hitbox.Resistance.Remove(name);
                         hitbox.Resistance[value] = val;
                         project.Dirty = true;
                     }

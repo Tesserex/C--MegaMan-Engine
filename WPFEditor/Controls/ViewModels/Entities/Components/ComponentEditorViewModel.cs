@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MegaMan.Common.Entities;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
@@ -21,7 +17,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
-            this.Project = e.Project;
+            Project = e.Project;
         }
 
         protected ProjectDocument Project { get; private set; }

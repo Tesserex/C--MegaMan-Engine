@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -21,21 +19,21 @@ namespace MegaMan.Engine.Forms.Settings
                     var serializer = new XmlSerializer(typeof(UserSettings));
                     using (var file = File.Open(SettingsFilePath, FileMode.Open))
                     {
-                        this.loadedSettings = (UserSettings)serializer.Deserialize(file);
+                        loadedSettings = (UserSettings)serializer.Deserialize(file);
                     }
                 }
                 else
                 {
-                    this.loadedSettings = GetInitialSettings();
+                    loadedSettings = GetInitialSettings();
                 }
             }
             catch (InvalidOperationException)
             {
                 HandleInvalidConfig();
-                this.loadedSettings = GetInitialSettings();
+                loadedSettings = GetInitialSettings();
             }
 
-            return this.loadedSettings;
+            return loadedSettings;
         }
 
         public Setting GetConfigForGame(string game)
@@ -76,8 +74,8 @@ namespace MegaMan.Engine.Forms.Settings
 
         private UserSettings GetInitialSettings()
         {
-            return new UserSettings() {
-                Settings = new List<Setting>() { GetDefaultConfig() },
+            return new UserSettings {
+                Settings = new List<Setting> { GetDefaultConfig() },
                 Autoload = null,
                 AutosaveSettings = true,
                 InitialFolder = null,

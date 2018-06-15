@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
-using System.Linq;
-using System;
-using System.Windows.Media.Imaging;
-using System.Collections.Specialized;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -25,7 +23,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (_history == null)
                     return null;
 
-                return _history.Actions.Select((a, i) => new UndoableActionViewModel() {
+                return _history.Actions.Select((a, i) => new UndoableActionViewModel {
                     Name = a.Name,
                     Icon = PickIcon(a.GetType()),
                     Background = (i > _history.CurrentIndex) ? Brushes.LightGray : Brushes.Transparent
@@ -38,7 +36,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             _history.MoveTo(index);
         }
 
-        private ImageSource PickIcon(System.Type type)
+        private ImageSource PickIcon(Type type)
         {
             if (_icons.ContainsKey(type))
             {

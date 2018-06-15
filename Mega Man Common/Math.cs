@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Common.Geometry
 {
@@ -61,7 +58,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.x == 0f && this.y == 0f;
+                return x == 0f && y == 0f;
             }
         }
 
@@ -69,11 +66,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.x;
+                return x;
             }
             set
             {
-                this.x = value;
+                x = value;
             }
         }
 
@@ -81,11 +78,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.y;
+                return y;
             }
             set
             {
-                this.y = value;
+                y = value;
             }
         }
 
@@ -97,7 +94,7 @@ namespace MegaMan.Common.Geometry
 
         public static implicit operator PointF(Point p)
         {
-            return new PointF((float)p.X, (float)p.Y);
+            return new PointF(p.X, p.Y);
         }
 
         public static bool operator ==(PointF left, PointF right)
@@ -117,7 +114,7 @@ namespace MegaMan.Common.Geometry
                 return false;
             }
             PointF pointF = (PointF)obj;
-            return pointF.X == this.X && pointF.Y == this.Y && pointF.GetType().Equals(base.GetType());
+            return pointF.X == X && pointF.Y == Y && pointF.GetType().Equals(GetType());
         }
 
         public override int GetHashCode()
@@ -127,11 +124,7 @@ namespace MegaMan.Common.Geometry
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", new object[]
-            {
-                this.x,
-                this.y
-            });
+            return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", x, y);
         }
     }
 
@@ -157,12 +150,12 @@ namespace MegaMan.Common.Geometry
                 return false;
             }
             RectangleF rectangleF = (RectangleF)obj;
-            return rectangleF.X == this.X && rectangleF.Y == this.Y && rectangleF.Width == this.Width && rectangleF.Height == this.Height;
+            return rectangleF.X == X && rectangleF.Y == Y && rectangleF.Width == Width && rectangleF.Height == Height;
         }
 
         public override int GetHashCode()
         {
-            return (int)((uint)this.X ^ ((uint)this.Y << 13 | (uint)this.Y >> 19) ^ ((uint)this.Width << 26 | (uint)this.Width >> 6) ^ ((uint)this.Height << 7 | (uint)this.Height >> 25));
+            return (int)((uint)X ^ ((uint)Y << 13 | (uint)Y >> 19) ^ ((uint)Width << 26 | (uint)Width >> 6) ^ ((uint)Height << 7 | (uint)Height >> 25));
         }
 
         public static bool operator ==(Rectangle left, Rectangle right)
@@ -177,11 +170,11 @@ namespace MegaMan.Common.Geometry
 
         public void Intersect(Rectangle rect)
         {
-            Rectangle rectangle = Rectangle.Intersect(rect, this);
-            this.X = rectangle.X;
-            this.Y = rectangle.Y;
-            this.Width = rectangle.Width;
-            this.Height = rectangle.Height;
+            Rectangle rectangle = Intersect(rect, this);
+            X = rectangle.X;
+            Y = rectangle.Y;
+            Width = rectangle.Width;
+            Height = rectangle.Height;
         }
 
         public static Rectangle Intersect(Rectangle a, Rectangle b)
@@ -194,7 +187,7 @@ namespace MegaMan.Common.Geometry
             {
                 return new Rectangle(num, num3, num2 - num, num4 - num3);
             }
-            return Rectangle.Empty;
+            return Empty;
         }
 
         public static Rectangle Union(Rectangle a, Rectangle b)
@@ -208,17 +201,17 @@ namespace MegaMan.Common.Geometry
 
         public bool Contains(int x, int y)
         {
-            return this.X <= x && x < this.X + this.Width && this.Y <= y && y < this.Y + this.Height;
+            return X <= x && x < X + Width && Y <= y && y < Y + Height;
         }
 
         public bool Contains(Point pt)
         {
-            return this.Contains(pt.X, pt.Y);
+            return Contains(pt.X, pt.Y);
         }
 
         public bool Contains(Rectangle rect)
         {
-            return this.X <= rect.X && rect.X + rect.Width <= this.X + this.Width && this.Y <= rect.Y && rect.Y + rect.Height <= this.Y + this.Height;
+            return X <= rect.X && rect.X + rect.Width <= X + Width && Y <= rect.Y && rect.Y + rect.Height <= Y + Height;
         }
 
         public static explicit operator Rectangle(RectangleF p)
@@ -241,12 +234,12 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return new PointF(this.X, this.Y);
+                return new PointF(X, Y);
             }
             set
             {
-                this.X = value.X;
-                this.Y = value.Y;
+                X = value.X;
+                Y = value.Y;
             }
         }
         
@@ -254,11 +247,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.x;
+                return x;
             }
             set
             {
-                this.x = value;
+                x = value;
             }
         }
         
@@ -266,11 +259,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.y;
+                return y;
             }
             set
             {
-                this.y = value;
+                y = value;
             }
         }
 
@@ -278,11 +271,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.width;
+                return width;
             }
             set
             {
-                this.width = value;
+                width = value;
             }
         }
 
@@ -290,11 +283,11 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.height;
+                return height;
             }
             set
             {
-                this.height = value;
+                height = value;
             }
         }
 
@@ -302,7 +295,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.X;
+                return X;
             }
         }
 
@@ -310,7 +303,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.Y;
+                return Y;
             }
         }
 
@@ -318,7 +311,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.X + this.Width;
+                return X + Width;
             }
         }
 
@@ -326,7 +319,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.Y + this.Height;
+                return Y + Height;
             }
         }
 
@@ -334,7 +327,7 @@ namespace MegaMan.Common.Geometry
         {
             get
             {
-                return this.Width <= 0f || this.Height <= 0f;
+                return Width <= 0f || Height <= 0f;
             }
         }
 
@@ -358,7 +351,7 @@ namespace MegaMan.Common.Geometry
                 return false;
             }
             RectangleF rectangleF = (RectangleF)obj;
-            return rectangleF.X == this.X && rectangleF.Y == this.Y && rectangleF.Width == this.Width && rectangleF.Height == this.Height;
+            return rectangleF.X == X && rectangleF.Y == Y && rectangleF.Width == Width && rectangleF.Height == Height;
         }
 
         public static bool operator ==(RectangleF left, RectangleF right)
@@ -373,30 +366,30 @@ namespace MegaMan.Common.Geometry
 
         public bool Contains(float x, float y)
         {
-            return this.X <= x && x < this.X + this.Width && this.Y <= y && y < this.Y + this.Height;
+            return X <= x && x < X + Width && Y <= y && y < Y + Height;
         }
 
         public bool Contains(PointF pt)
         {
-            return this.Contains(pt.X, pt.Y);
+            return Contains(pt.X, pt.Y);
         }
 
         public bool Contains(RectangleF rect)
         {
-            return this.X <= rect.X && rect.X + rect.Width <= this.X + this.Width && this.Y <= rect.Y && rect.Y + rect.Height <= this.Y + this.Height;
+            return X <= rect.X && rect.X + rect.Width <= X + Width && Y <= rect.Y && rect.Y + rect.Height <= Y + Height;
         }
 
         public override int GetHashCode()
         {
-            return (int)((uint)this.X ^ ((uint)this.Y << 13 | (uint)this.Y >> 19) ^ ((uint)this.Width << 26 | (uint)this.Width >> 6) ^ ((uint)this.Height << 7 | (uint)this.Height >> 25));
+            return (int)((uint)X ^ ((uint)Y << 13 | (uint)Y >> 19) ^ ((uint)Width << 26 | (uint)Width >> 6) ^ ((uint)Height << 7 | (uint)Height >> 25));
         }
 
         public void Inflate(float x, float y)
         {
-            this.X -= x;
-            this.Y -= y;
-            this.Width += 2f * x;
-            this.Height += 2f * y;
+            X -= x;
+            Y -= y;
+            Width += 2f * x;
+            Height += 2f * y;
         }
 
         public static RectangleF Inflate(RectangleF rect, float x, float y)
@@ -408,11 +401,11 @@ namespace MegaMan.Common.Geometry
 
         public void Intersect(RectangleF rect)
         {
-            RectangleF rectangleF = RectangleF.Intersect(rect, this);
-            this.X = rectangleF.X;
-            this.Y = rectangleF.Y;
-            this.Width = rectangleF.Width;
-            this.Height = rectangleF.Height;
+            RectangleF rectangleF = Intersect(rect, this);
+            X = rectangleF.X;
+            Y = rectangleF.Y;
+            Width = rectangleF.Width;
+            Height = rectangleF.Height;
         }
 
         public static RectangleF Intersect(RectangleF a, RectangleF b)
@@ -425,12 +418,12 @@ namespace MegaMan.Common.Geometry
             {
                 return new RectangleF(num, num3, num2 - num, num4 - num3);
             }
-            return RectangleF.Empty;
+            return Empty;
         }
 
         public bool IntersectsWith(RectangleF rect)
         {
-            return rect.X < this.X + this.Width && this.X < rect.X + rect.Width && rect.Y < this.Y + this.Height && this.Y < rect.Y + rect.Height;
+            return rect.X < X + Width && X < rect.X + rect.Width && rect.Y < Y + Height && Y < rect.Y + rect.Height;
         }
 
         public static RectangleF Union(RectangleF a, RectangleF b)
@@ -444,34 +437,23 @@ namespace MegaMan.Common.Geometry
 
         public void Offset(PointF pos)
         {
-            this.Offset(pos.X, pos.Y);
+            Offset(pos.X, pos.Y);
         }
 
         public void Offset(float x, float y)
         {
-            this.X += x;
-            this.Y += y;
+            X += x;
+            Y += y;
         }
         
         public static implicit operator RectangleF(Rectangle r)
         {
-            return new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
+            return new RectangleF(r.X, r.Y, r.Width, r.Height);
         }
 
         public override string ToString()
         {
-            return string.Concat(new string[]
-            {
-                "{X=",
-                this.X.ToString(CultureInfo.CurrentCulture),
-                ",Y=",
-                this.Y.ToString(CultureInfo.CurrentCulture),
-                ",Width=",
-                this.Width.ToString(CultureInfo.CurrentCulture),
-                ",Height=",
-                this.Height.ToString(CultureInfo.CurrentCulture),
-                "}"
-            });
+            return string.Concat("{X=", X.ToString(CultureInfo.CurrentCulture), ",Y=", Y.ToString(CultureInfo.CurrentCulture), ",Width=", Width.ToString(CultureInfo.CurrentCulture), ",Height=", Height.ToString(CultureInfo.CurrentCulture), "}");
         }
     }
 }

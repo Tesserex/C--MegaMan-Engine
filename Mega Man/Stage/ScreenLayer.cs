@@ -33,8 +33,8 @@ namespace MegaMan.Engine
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }
 
-        public float LocationX { get { return this._info.Tiles.BaseX + _locationOffsetX; } }
-        public float LocationY { get { return this._info.Tiles.BaseY + _locationOffsetY; } }
+        public float LocationX { get { return _info.Tiles.BaseX + _locationOffsetX; } }
+        public float LocationY { get { return _info.Tiles.BaseY + _locationOffsetY; } }
 
         public IGameplayContainer Stage { get { return _stage; } }
 
@@ -48,14 +48,14 @@ namespace MegaMan.Engine
 
         public ScreenLayer(ScreenLayerInfo info, StageHandler stage, IEntityRespawnTracker respawnTracker)
         {
-            this._info = info;
-            this._stage = stage;
-            this._respawnTracker = respawnTracker;
+            _info = info;
+            _stage = stage;
+            _respawnTracker = respawnTracker;
 
-            this._squares = new MapSquare[info.Tiles.Height][];
+            _squares = new MapSquare[info.Tiles.Height][];
             for (int y = 0; y < info.Tiles.Height; y++)
             {
-                this._squares[y] = new MapSquare[info.Tiles.Width];
+                _squares[y] = new MapSquare[info.Tiles.Width];
                 for (int x = 0; x < info.Tiles.Width; x++)
                 {
                     try
@@ -64,7 +64,7 @@ namespace MegaMan.Engine
                         if (tile == null)
                             throw new Exception();
 
-                        this._squares[y][x] = new MapSquare(this, tile, x, y, info.Tiles.Tileset.TileSize);
+                        _squares[y][x] = new MapSquare(this, tile, x, y, info.Tiles.Tileset.TileSize);
                     }
                     catch
                     {
@@ -133,8 +133,8 @@ namespace MegaMan.Engine
 
             if (_updateFrame == _stopFrame && _updateFrame > 0)
             {
-                _locationOffsetX = _stopX - this._info.Tiles.BaseX;
-                _locationOffsetY = _stopY - this._info.Tiles.BaseY;
+                _locationOffsetX = _stopX - _info.Tiles.BaseX;
+                _locationOffsetY = _stopY - _info.Tiles.BaseY;
             }
             else
             {
@@ -157,8 +157,8 @@ namespace MegaMan.Engine
         {
             if (keyframe.Move != null)
             {
-                var currentX = this._info.Tiles.BaseX + _locationOffsetX;
-                var currentY = this._info.Tiles.BaseY + _locationOffsetY;
+                var currentX = _info.Tiles.BaseX + _locationOffsetX;
+                var currentY = _info.Tiles.BaseY + _locationOffsetY;
 
                 _stopX = keyframe.Move.X;
                 _stopY = keyframe.Move.Y;
@@ -286,35 +286,35 @@ namespace MegaMan.Engine
                     trueOffset = offsetRatio * parallaxDistance;
                 }
 
-                this.Draw(renderArgs.RenderContext, -trueOffset, 0, tilesetAnimator);
+                Draw(renderArgs.RenderContext, -trueOffset, 0, tilesetAnimator);
             }
             else
             {
-                this.Draw(renderArgs.RenderContext,
+                Draw(renderArgs.RenderContext,
                     (_locationOffsetX - OffsetX), (_locationOffsetY - OffsetY), tilesetAnimator);
             }
         }
 
         private void Draw(IRenderingContext context, float off_x, float off_y, TilesetAnimator tilesetAnimator)
         {
-            if (this._info.Tiles.Tileset == null)
+            if (_info.Tiles.Tileset == null)
                 throw new InvalidOperationException("Screen has no tileset to draw with.");
 
             var layer = _info.Foreground ? 5 : 0;
             
-            var tileSize = this._info.Tiles.Tileset.TileSize;
+            var tileSize = _info.Tiles.Tileset.TileSize;
 
-            for (int y = 0; y < this._info.Tiles.Height; y++)
+            for (int y = 0; y < _info.Tiles.Height; y++)
             {
-                for (int x = 0; x < this._info.Tiles.Width; x++)
+                for (int x = 0; x < _info.Tiles.Width; x++)
                 {
-                    float xpos = x * tileSize + off_x + this._info.Tiles.BaseX;
-                    float ypos = y * tileSize + off_y + this._info.Tiles.BaseY;
+                    float xpos = x * tileSize + off_x + _info.Tiles.BaseX;
+                    float ypos = y * tileSize + off_y + _info.Tiles.BaseY;
 
                     if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
                     if (xpos > Game.CurrentGame.PixelsAcross || ypos > Game.CurrentGame.PixelsDown) continue;
 
-                    var square = this._squares[y][x];
+                    var square = _squares[y][x];
                     if (square.Tile.Sprite != null)
                     {
                         square.Tile.Sprite.Draw(context, square.Tile.Sprite.Layer, xpos, ypos, tilesetAnimator.GetFrameIndex(square.Tile.Id));

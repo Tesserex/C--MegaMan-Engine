@@ -11,7 +11,7 @@ namespace MegaMan.Editor.Controls
         public StagePropertiesControl()
         {
             InitializeComponent();
-            this.DataContext = new StagePropertiesViewModel();
+            DataContext = new StagePropertiesViewModel();
         }
     }
 }

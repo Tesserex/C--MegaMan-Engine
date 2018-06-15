@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace MegaMan.Common.IncludedObjects
 {
     public class SoundInfo : IncludedObject
@@ -15,14 +13,14 @@ namespace MegaMan.Common.IncludedObjects
 
         public SoundInfo Clone()
         {
-            return new SoundInfo() {
-                Name = this.Name,
-                Path = this.Path.Clone(),
-                NsfTrack = this.NsfTrack,
-                Loop = this.Loop,
-                Volume = this.Volume,
-                Priority = this.Priority,
-                Type = this.Type
+            return new SoundInfo {
+                Name = Name,
+                Path = Path.Clone(),
+                NsfTrack = NsfTrack,
+                Loop = Loop,
+                Volume = Volume,
+                Priority = Priority,
+                Type = Type
             };
         }
     }

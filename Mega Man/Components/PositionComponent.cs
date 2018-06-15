@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
+    [DebuggerDisplay("Parent = {Parent.Name}, Position = {Position}")]
     public class PositionComponent : Component
     {
         public bool PersistOffScreen { get; set; }
@@ -20,14 +21,9 @@ namespace MegaMan.Engine
         public float X { get { return Position.X; } }
         public float Y { get { return Position.Y; } }
 
-        public PositionComponent()
-        {
-            
-        }
-
         public override Component Clone()
         {
-            PositionComponent copy = new PositionComponent {PersistOffScreen = this.PersistOffScreen};
+            PositionComponent copy = new PositionComponent {PersistOffScreen = PersistOffScreen};
             return copy;
         }
 
@@ -64,7 +60,6 @@ namespace MegaMan.Engine
             if (!PersistOffScreen && IsOffScreen && Parent.Name != "Player")
             {
                 Parent.Remove();
-                return;
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
@@ -133,7 +133,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (Project.StartHandler == null)
                 {
-                    Project.StartHandler = new HandlerTransfer() { Type = StartHandlerType };
+                    Project.StartHandler = new HandlerTransfer { Type = StartHandlerType };
                 }
 
                 Project.StartHandler.Type = value;
@@ -153,7 +153,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (Project.StartHandler == null)
                 {
-                    Project.StartHandler = new HandlerTransfer() { Type = StartHandlerType };
+                    Project.StartHandler = new HandlerTransfer { Type = StartHandlerType };
                 }
 
                 Project.StartHandler.Name = value;
@@ -221,8 +221,7 @@ namespace MegaMan.Editor.Bll
 
             if (entities.ContainsKey(name))
                 return entities[name];
-            else
-                return null;
+            return null;
         }
 
         public StageDocument AddStage(string name)
@@ -243,8 +242,8 @@ namespace MegaMan.Editor.Bll
 
         public void LinkStage(string fileName)
         {
-            var linkName = System.IO.Path.GetFileNameWithoutExtension(fileName);
-            var info = new StageLinkInfo { Name = linkName, StagePath = FilePath.FromAbsolute(fileName, this.BaseDir) };
+            var linkName = Path.GetFileNameWithoutExtension(fileName);
+            var info = new StageLinkInfo { Name = linkName, StagePath = FilePath.FromAbsolute(fileName, BaseDir) };
             StageDocument stage = _dataService.LoadStage(this, info);
 
             var copyPath = FileStructure.CreateStagePath(stage.Name);
@@ -257,28 +256,28 @@ namespace MegaMan.Editor.Bll
         {
             openStages.Add(stage.Name, stage);
             Project.AddStage(linkInfo);
-            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs() { Stage = linkInfo });
+            ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs { Stage = linkInfo });
             CheckStartHandler();
             Dirty = true;
         }
 
         public void AddEntity(EntityInfo entity)
         {
-            this.Project.AddEntity(entity);
-            ViewModelMediator.Current.GetEvent<EntityAddedEventArgs>().Raise(this, new EntityAddedEventArgs() { Entity = entity });
+            Project.AddEntity(entity);
+            ViewModelMediator.Current.GetEvent<EntityAddedEventArgs>().Raise(this, new EntityAddedEventArgs { Entity = entity });
             Dirty = true;
         }
 
         public void RemoveEntity(EntityInfo entity)
         {
-            this.Project.RemoveEntity(entity);
+            Project.RemoveEntity(entity);
             Dirty = true;
         }
 
         public void UnloadEntity(EntityInfo entity)
         {
-            this.Project.RemoveEntity(entity);
-            this.unloadedEntities.Add(entity);
+            Project.RemoveEntity(entity);
+            unloadedEntities.Add(entity);
             Dirty = true;
         }
 
@@ -288,15 +287,15 @@ namespace MegaMan.Editor.Bll
             {
                 if (Project.Stages.Any())
                 {
-                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Stage, Name = Project.Stages.First().Name };
+                    Project.StartHandler = new HandlerTransfer { Type = HandlerType.Stage, Name = Project.Stages.First().Name };
                 }
                 else if (Project.Menus.Any())
                 {
-                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Menu, Name = Project.Menus.First().Name };
+                    Project.StartHandler = new HandlerTransfer { Type = HandlerType.Menu, Name = Project.Menus.First().Name };
                 }
                 else if (Project.Scenes.Any())
                 {
-                    Project.StartHandler = new HandlerTransfer() { Type = HandlerType.Scene, Name = Project.Scenes.First().Name };
+                    Project.StartHandler = new HandlerTransfer { Type = HandlerType.Scene, Name = Project.Scenes.First().Name };
                 }
             }
         }

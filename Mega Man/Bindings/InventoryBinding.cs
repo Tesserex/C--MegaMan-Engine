@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 using MegaMan.Engine.Entities;
 
@@ -19,7 +16,7 @@ namespace MegaMan.Engine
                 throw new GameRunException(String.Format("Binding '{0}' is invalid. Inventory bindings must be of the form 'Inventory.ItemName'.", sourceParts[0]));
             }
 
-            this.itemName = sourceParts[1];
+            itemName = sourceParts[1];
         }
 
         public override void Start(IEntityPool container)

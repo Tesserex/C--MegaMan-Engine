@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MegaMan.Common.Entities;
-using MegaMan.Common.Entities.Effects;
+﻿using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {

@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Geometry;
 using MegaMan.IO.DataSources;
 
 namespace MegaMan.IO.Xml.Entities
@@ -28,13 +29,13 @@ namespace MegaMan.IO.Xml.Entities
             var x = boxnode.GetAttribute<float>("x");
             var y = boxnode.GetAttribute<float>("y");
 
-            var box = new HitBoxInfo() {
+            var box = new HitBoxInfo {
                 Name = boxnode.TryAttribute<string>("name"),
-                Box = new Common.Geometry.RectangleF(x, y, width, height),
+                Box = new RectangleF(x, y, width, height),
                 ContactDamage = boxnode.TryAttribute<float>("damage"),
-                Environment = boxnode.TryAttribute<bool>("environment", true),
-                PushAway = boxnode.TryAttribute<bool>("pushaway", true),
-                PropertiesName = boxnode.TryAttribute<string>("properties", "Default")
+                Environment = boxnode.TryAttribute("environment", true),
+                PushAway = boxnode.TryAttribute("pushaway", true),
+                PropertiesName = boxnode.TryAttribute("properties", "Default")
             };
             return box;
         }

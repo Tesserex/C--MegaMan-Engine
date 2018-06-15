@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+﻿using System.Reflection;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -15,7 +11,7 @@ namespace MegaMan.Engine
         public HealthBinding(object target, PropertyInfo targetProperty, string entity)
             : base(target, targetProperty)
         {
-            this._entityId = entity;
+            _entityId = entity;
         }
 
         public override void Start(IEntityPool entityPool)

@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml.Entities
 
         public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
-            return new MovementComponentInfo() {
+            return new MovementComponentInfo {
                 EffectInfo = (MovementEffectPartInfo)movementReader.Load(node)
             };
         }

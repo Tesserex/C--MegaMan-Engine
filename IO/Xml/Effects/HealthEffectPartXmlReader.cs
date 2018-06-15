@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new HealthEffectPartInfo() {
+            return new HealthEffectPartInfo {
                 Change = partNode.GetAttribute<float>("change")
             };
         }

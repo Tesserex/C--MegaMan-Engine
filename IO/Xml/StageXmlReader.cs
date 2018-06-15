@@ -263,7 +263,7 @@ namespace MegaMan.IO.Xml
             var tiles = new int[width, height];
             for (var y = 0; y < height; y++)
             {
-                var line = lines[y + 1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var line = lines[y + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 for (var x = 0; x < width; x++)
                 {
                     var id = int.Parse(line[x]);

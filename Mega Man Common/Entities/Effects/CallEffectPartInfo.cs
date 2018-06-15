@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class CallEffectPartInfo : IEffectPartInfo
     {
@@ -11,8 +6,8 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new CallEffectPartInfo() {
-                EffectName = this.EffectName
+            return new CallEffectPartInfo {
+                EffectName = EffectName
             };
         }
     }

@@ -9,7 +9,7 @@ namespace MegaMan.IO
 
         public byte[] GetRawData(FilePath path)
         {
-            return Extensions.GetBytesFromFilePath(dataSource, path);
+            return dataSource.GetBytesFromFilePath(path);
         }
 
         public void Init(IDataSource dataSource)

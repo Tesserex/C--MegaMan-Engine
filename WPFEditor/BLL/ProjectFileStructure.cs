@@ -1,10 +1,5 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using MegaMan.Common;
 
 namespace MegaMan.Editor.Bll
 {
@@ -21,7 +16,7 @@ namespace MegaMan.Editor.Bll
         {
             string stagePath = EnsureDirectory("stages", stageName);
 
-            return FilePath.FromAbsolute(stagePath, this._basePath);
+            return FilePath.FromAbsolute(stagePath, _basePath);
         }
 
         public FilePath CreateTilesetPath(string tilesetName)
@@ -29,7 +24,7 @@ namespace MegaMan.Editor.Bll
             var tilesetPath = EnsureDirectory("tilesets", tilesetName);
 
             var tilesetFile = Path.Combine(tilesetPath, "tiles.xml");
-            return FilePath.FromAbsolute(tilesetFile, this._basePath);
+            return FilePath.FromAbsolute(tilesetFile, _basePath);
         }
 
         public FilePath CreateEntityPath(string entityName)

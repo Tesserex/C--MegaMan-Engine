@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Linq;
-using MegaMan.Common.Geometry;
+using System.Diagnostics;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
+using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities.Effects;
 
 namespace MegaMan.Engine
 {
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
+    [DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
     public class MovementComponent : Component
     {
         private float resistX, resistY, dragX, dragY;
@@ -60,7 +60,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            MovementComponent newone = new MovementComponent { Floating = this.Floating, CanMove = this.CanMove};
+            MovementComponent newone = new MovementComponent { Floating = Floating, CanMove = CanMove};
 
             return newone;
         }
@@ -240,7 +240,7 @@ namespace MegaMan.Engine
         {
             var loader = new MovementEffectLoader();
             var effect = loader.Load(info.EffectInfo);
-            effect(this.Parent);
+            effect(Parent);
         }
     }
 }

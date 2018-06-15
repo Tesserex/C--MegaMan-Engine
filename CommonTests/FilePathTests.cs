@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MegaMan.Common;
 
 namespace MegaMan.Common.Tests
 {

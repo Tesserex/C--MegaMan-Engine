@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common
+﻿namespace MegaMan.Common
 {
     public class SpriteAnimator
     {
@@ -26,7 +21,7 @@ namespace MegaMan.Common
         {
             get
             {
-                return this.sprite[CurrentIndex];
+                return sprite[CurrentIndex];
             }
         }
 
@@ -41,17 +36,17 @@ namespace MegaMan.Common
         /// <param name="ticks">The number of steps, or ticks, to advance the animation.</param>
         public void Update(int ticks)
         {
-            if (!this.Playing || !this.sprite.Tickable) return;
+            if (!Playing || !sprite.Tickable) return;
 
-            this.FrameTime += ticks;
-            int neededTime = this.sprite[CurrentIndex].Duration;
+            FrameTime += ticks;
+            int neededTime = sprite[CurrentIndex].Duration;
 
-            while (this.FrameTime >= neededTime)
+            while (FrameTime >= neededTime)
             {
-                this.FrameTime -= neededTime;
-                this.TickFrame();
+                FrameTime -= neededTime;
+                TickFrame();
 
-                neededTime = this.sprite[CurrentIndex].Duration;
+                neededTime = sprite[CurrentIndex].Duration;
             }
         }
 
@@ -69,74 +64,74 @@ namespace MegaMan.Common
         /// </summary>
         public virtual void Stop()
         {
-            this.Playing = false;
-            this.Reset();
+            Playing = false;
+            Reset();
         }
 
         /// <summary>
         /// Resumes playing the animation from the current frame.
         /// </summary>
-        public virtual void Resume() { this.Playing = true; }
+        public virtual void Resume() { Playing = true; }
 
         /// <summary>
         /// Pauses the animation at the current frame.
         /// </summary>
-        public virtual void Pause() { this.Playing = false; }
+        public virtual void Pause() { Playing = false; }
 
         /// <summary>
         /// Restarts the animation to the first frame or the last, based on the value of AnimDirection.
         /// </summary>
         private void Reset()
         {
-            if (this.sprite.AnimDirection == AnimationDirection.Forward) CurrentIndex = 0;
-            else CurrentIndex = this.sprite.Count - 1;
+            if (sprite.AnimDirection == AnimationDirection.Forward) CurrentIndex = 0;
+            else CurrentIndex = sprite.Count - 1;
 
-            this.FrameTime = 0;
+            FrameTime = 0;
         }
 
         private void TickFrame()
         {
-            switch (this.sprite.AnimDirection)
+            switch (sprite.AnimDirection)
             {
                 case AnimationDirection.Forward:
-                    this.CurrentIndex++;
+                    CurrentIndex++;
                     break;
                 case AnimationDirection.Backward:
-                    this.CurrentIndex--;
+                    CurrentIndex--;
                     break;
             }
 
-            if (this.CurrentIndex >= this.sprite.Count)
+            if (CurrentIndex >= sprite.Count)
             {
-                switch (this.sprite.AnimStyle)
+                switch (sprite.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.CurrentIndex--;
-                        this.Pause();
+                        CurrentIndex--;
+                        Pause();
                         break;
                     case AnimationStyle.Repeat:
-                        this.CurrentIndex = 0;
+                        CurrentIndex = 0;
                         break;
                     case AnimationStyle.Bounce:
-                        this.CurrentIndex -= 2;
-                        this.sprite.AnimDirection = AnimationDirection.Backward;
+                        CurrentIndex -= 2;
+                        sprite.AnimDirection = AnimationDirection.Backward;
                         break;
                 }
             }
-            else if (this.CurrentIndex < 0)
+            else if (CurrentIndex < 0)
             {
-                switch (this.sprite.AnimStyle)
+                switch (sprite.AnimStyle)
                 {
                     case AnimationStyle.PlayOnce:
-                        this.CurrentIndex++;
-                        this.Pause();
+                        CurrentIndex++;
+                        Pause();
                         break;
                     case AnimationStyle.Repeat:
-                        this.CurrentIndex = this.sprite.Count - 1;
+                        CurrentIndex = sprite.Count - 1;
                         break;
                     case AnimationStyle.Bounce:
-                        this.CurrentIndex = 1;
-                        this.sprite.AnimDirection = AnimationDirection.Forward;
+                        CurrentIndex = 1;
+                        sprite.AnimDirection = AnimationDirection.Forward;
                         break;
                 }
             }

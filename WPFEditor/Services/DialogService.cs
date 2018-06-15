@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using MegaMan.Editor.Controls.Dialogs;
 using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
@@ -16,10 +12,10 @@ namespace MegaMan.Editor.Services
             var dialog = new NewEntityDialog();
             dialog.ShowDialog();
 
-            if (dialog.Result == System.Windows.MessageBoxResult.OK)
+            if (dialog.Result == MessageBoxResult.OK)
             {
                 var vm = (NewEntityDialogViewModel)dialog.DataContext;
-                ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Raise(this, new NewEntityEventArgs() { Name = vm.Name });
+                ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Raise(this, new NewEntityEventArgs { Name = vm.Name });
             }
         }
     }

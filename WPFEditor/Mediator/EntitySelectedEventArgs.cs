@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MegaMan.Common.Entities;
 
 namespace MegaMan.Editor.Mediator {
@@ -12,7 +8,7 @@ namespace MegaMan.Editor.Mediator {
 
         public EntitySelectedEventArgs(EntityInfo entity)
         {
-            this.Entity = entity;
+            Entity = entity;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 using MegaMan.IO.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MegaMan.IO.Tests
 {

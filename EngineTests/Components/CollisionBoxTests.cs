@@ -1,11 +1,8 @@
-﻿using MegaMan.Common.Geometry;
+﻿using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.Tests.Components
 {
@@ -174,7 +171,7 @@ namespace MegaMan.Engine.Tests.Components
         {
             var square = new Mock<IMapSquare>();
             square.SetupGet(s => s.BlockBox).Returns(rectangle);
-            square.SetupGet(s => s.Properties).Returns(Common.TileProperties.Default);
+            square.SetupGet(s => s.Properties).Returns(TileProperties.Default);
 
             return square.Object;
         }

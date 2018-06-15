@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.Engine.Entities.Effects
@@ -25,11 +22,10 @@ namespace MegaMan.Engine.Entities.Effects
                 {
                     entity.GetComponent<InputComponent>().Paused = true;
                 };
-            else
-                return entity =>
-                {
-                    entity.GetComponent<InputComponent>().Paused = false;
-                };
+            return entity =>
+            {
+                entity.GetComponent<InputComponent>().Paused = false;
+            };
         }
     }
 }

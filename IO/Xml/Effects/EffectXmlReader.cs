@@ -17,7 +17,7 @@ namespace MegaMan.IO.Xml.Effects
             var filterNode = effectNode.Element("EntityFilter");
             if (filterNode != null)
             {
-                info.Filter = new EntityFilterInfo() {
+                info.Filter = new EntityFilterInfo {
                     Type = filterNode.TryElementValue<string>("Type")
                 };
 
@@ -37,7 +37,7 @@ namespace MegaMan.IO.Xml.Effects
                 var positionNode = filterNode.Element("Position");
                 if (positionNode != null)
                 {
-                    info.Filter.Position = new PositionFilter() {
+                    info.Filter.Position = new PositionFilter {
                         X = LoadRangeFilter(positionNode.Element("X")),
                         Y = LoadRangeFilter(positionNode.Element("Y"))
                     };
@@ -59,7 +59,7 @@ namespace MegaMan.IO.Xml.Effects
             if (node == null)
                 return null;
 
-            return new RangeFilter() {
+            return new RangeFilter {
                 Min = node.TryAttribute<float?>("min"),
                 Max = node.TryAttribute<float?>("max")
             };

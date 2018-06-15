@@ -1,11 +1,14 @@
-﻿namespace MegaMan.Engine
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MegaMan.Engine
 {
     partial class CustomNtscForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -477,37 +480,37 @@
 
         #endregion
 
-        private System.Windows.Forms.TrackBar hueTrack;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TrackBar satTrack;
-        private System.Windows.Forms.TrackBar brightTrack;
-        private System.Windows.Forms.TrackBar contTrack;
-        private System.Windows.Forms.TrackBar sharpTrack;
-        private System.Windows.Forms.TrackBar gammaTrack;
-        private System.Windows.Forms.TrackBar resTrack;
-        private System.Windows.Forms.TrackBar artTrack;
-        private System.Windows.Forms.TrackBar fringeTrack;
-        private System.Windows.Forms.TrackBar bleedTrack;
-        private System.Windows.Forms.Label hueValue;
-        private System.Windows.Forms.Label satValue;
-        private System.Windows.Forms.Label brightValue;
-        private System.Windows.Forms.Label contValue;
-        private System.Windows.Forms.Label sharpValue;
-        private System.Windows.Forms.Label gammaValue;
-        private System.Windows.Forms.Label resValue;
-        private System.Windows.Forms.Label artValue;
-        private System.Windows.Forms.Label fringeValue;
-        private System.Windows.Forms.Label bleedValue;
-        private System.Windows.Forms.Button resetButton;
-        private System.Windows.Forms.Button closeButton;
+        private TrackBar hueTrack;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Label label9;
+        private Label label10;
+        private TrackBar satTrack;
+        private TrackBar brightTrack;
+        private TrackBar contTrack;
+        private TrackBar sharpTrack;
+        private TrackBar gammaTrack;
+        private TrackBar resTrack;
+        private TrackBar artTrack;
+        private TrackBar fringeTrack;
+        private TrackBar bleedTrack;
+        private Label hueValue;
+        private Label satValue;
+        private Label brightValue;
+        private Label contValue;
+        private Label sharpValue;
+        private Label gammaValue;
+        private Label resValue;
+        private Label artValue;
+        private Label fringeValue;
+        private Label bleedValue;
+        private Button resetButton;
+        private Button closeButton;
     }
 }

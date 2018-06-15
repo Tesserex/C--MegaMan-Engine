@@ -113,7 +113,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void Play(object obj)
         {
-            bgm.CurrentTrack = (uint)Track - 1;
+            bgm.CurrentTrack = Track - 1;
             AudioManager.Instance.PlayBackgroundMusic(bgm);
             AudioManager.Instance.ResumeBGMPlayback();
         }

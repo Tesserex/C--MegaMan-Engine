@@ -1,5 +1,5 @@
-﻿using System.Xml.Linq;
-using System.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new FuncEffectPartInfo() {
+            return new FuncEffectPartInfo {
                 Statements = partNode.Value.Split(';').Where(st => !string.IsNullOrEmpty(st.Trim()))
             };
         }

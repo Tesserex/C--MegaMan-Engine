@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.IO.Tests;
 using MegaMan.IO.Xml.Handlers;
+using MegaMan.IO.Xml.Handlers.Commands;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MegaMan.Common.Tests
@@ -15,8 +16,8 @@ namespace MegaMan.Common.Tests
             var xmlString = TestHelpers.GetInputFile("Scene_Correct.xml");
             var xml = XElement.Parse(xmlString);
 
-            var project = new Project() { GameFile = FilePath.FromRelative("game.xml", @"C:\") };
-            new SceneXmlReader(new HandlerTransferXmlReader(), new IO.Xml.Handlers.Commands.HandlerCommandXmlReader()).Load(project, xml, null);
+            var project = new Project { GameFile = FilePath.FromRelative("game.xml", @"C:\") };
+            new SceneXmlReader(new HandlerTransferXmlReader(), new HandlerCommandXmlReader()).Load(project, xml, null);
 
             Assert.AreEqual("TestScene", project.Scenes.First().Name);
         }

@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using MegaMan.Editor.Tools;
+﻿using MegaMan.Editor.Tools;
 
 namespace MegaMan.Editor.Controls
 {
@@ -12,9 +11,9 @@ namespace MegaMan.Editor.Controls
         {
             _entityLayer = new EntityScreenLayer();
 
-            this.Children.Insert(1, _entityLayer);
+            Children.Insert(1, _entityLayer);
 
-            Canvas.SetZIndex(_entityLayer, 10000);
+            SetZIndex(_entityLayer, 10000);
         }
 
         protected override void ScreenChanged()

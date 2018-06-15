@@ -33,8 +33,8 @@ namespace MegaMan.IO.Xml.Effects
             if (prop == null)
                 return null;
 
-            var dir = prop.TryAttribute<string>("direction", "Same");
-            return new VelocityEffectInfo() {
+            var dir = prop.TryAttribute("direction", "Same");
+            return new VelocityEffectInfo {
                 Magnitude = prop.TryAttribute<float?>("magnitude"),
                 MagnitudeVarName = prop.TryAttribute<string>("magnitudeVar"),
                 Direction = (MovementEffectDirection)Enum.Parse(typeof(MovementEffectDirection), dir)

@@ -67,7 +67,7 @@ namespace MegaMan.Engine
 
             this.layers = layers;
 
-            this.patterns = blockPatterns.ToList();
+            patterns = blockPatterns.ToList();
 
             this.joins = joins;
 
@@ -78,7 +78,7 @@ namespace MegaMan.Engine
 
         public void Start(StageHandler map, GameEntity player)
         {
-            this.stage = map;
+            stage = map;
 
             this.player = player;
             playerPos = player.GetComponent<PositionComponent>();
@@ -100,7 +100,7 @@ namespace MegaMan.Engine
                 pattern.Start();
             }
 
-            var autoscroll = (SceneAutoscrollCommandInfo)this.Screen.Commands.FirstOrDefault(c => c.Type == SceneCommands.Autoscroll);
+            var autoscroll = (SceneAutoscrollCommandInfo)Screen.Commands.FirstOrDefault(c => c.Type == SceneCommands.Autoscroll);
             if (autoscroll != null)
             {
                 autoscrollX = autoscroll.StartX;
@@ -176,7 +176,7 @@ namespace MegaMan.Engine
             // if the player is not colliding, they'll be allowed to pass through the walls (e.g. teleporting)
             if ((player.GetComponent<CollisionComponent>()).Enabled)
             {
-                float leftBound = (float)Const.PlayerScrollTrigger;
+                float leftBound = Const.PlayerScrollTrigger;
                 float rightBound = Screen.PixelWidth - Const.PlayerScrollTrigger;
 
                 if (isAutoscrolling)
@@ -275,7 +275,7 @@ namespace MegaMan.Engine
         {
             MapSquare square = null;
 
-            foreach (var layer in this.layers.Where(l => !l.Background))
+            foreach (var layer in layers.Where(l => !l.Background))
             {
                 var s = layer.SquareAt(px, py);
                 if (s != null)
@@ -298,7 +298,7 @@ namespace MegaMan.Engine
         {
             get
             {
-                return this.layers.SelectMany(l => l.Tiles);
+                return layers.SelectMany(l => l.Tiles);
             }
         }
 
@@ -333,9 +333,9 @@ namespace MegaMan.Engine
                 OffsetY += coords.OffsetY;
             }
 
-            foreach (var layer in this.layers)
+            foreach (var layer in layers)
             {
-                layer.Draw(renderArgs, this.Screen.PixelWidth, tilesetAnimator);
+                layer.Draw(renderArgs, Screen.PixelWidth, tilesetAnimator);
             }
         }
     }

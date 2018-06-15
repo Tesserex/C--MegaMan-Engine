@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new LivesEffectPartInfo() {
+            return new LivesEffectPartInfo {
                 Add = partNode.GetAttribute<int>("add")
             };
         }

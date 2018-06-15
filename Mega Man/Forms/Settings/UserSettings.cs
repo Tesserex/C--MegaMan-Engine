@@ -83,11 +83,6 @@ namespace MegaMan.Engine.Forms.Settings
         public List<RecentGame> RecentGames { get; set; } 
         public List<Setting> Settings { get; set; }
 
-        /// <summary>
-        /// Default constructor must exist to used deserialization
-        /// </summary>
-        public UserSettings() { }
-
         public void deleteSetting(int index)
         {
             try
@@ -120,7 +115,7 @@ namespace MegaMan.Engine.Forms.Settings
             var existing = RecentGames.FirstOrDefault(x => x.Path == path);
             if (existing == null)
             {
-                existing = new RecentGame() { Name = name, Path = path };
+                existing = new RecentGame { Name = name, Path = path };
             }
             else
             {
@@ -186,33 +181,32 @@ namespace MegaMan.Engine.Forms.Settings
         {
             if (Settings != null)
                 return Settings.Select(s => s.GameTitle).ToList();
-            else
-                return null;
+            return null;
         }
 
         public static Setting Default { get; private set; }
 
         static UserSettings()
         {
-            Default = new Setting() {
+            Default = new Setting {
                 GameFileName = "",
-                KeyBindings = new List<UserKeyBindingSetting>() {
-                    new UserKeyBindingSetting() { Input = GameInputs.Up, Key = Keys.Up },
-                    new UserKeyBindingSetting() { Input = GameInputs.Down, Key = Keys.Down },
-                    new UserKeyBindingSetting() { Input = GameInputs.Left, Key = Keys.Left },
-                    new UserKeyBindingSetting() { Input = GameInputs.Right, Key = Keys.Right },
-                    new UserKeyBindingSetting() { Input = GameInputs.Jump, Key = Keys.A },
-                    new UserKeyBindingSetting() { Input = GameInputs.Shoot, Key = Keys.S },
-                    new UserKeyBindingSetting() { Input = GameInputs.Start, Key = Keys.Enter },
-                    new UserKeyBindingSetting() { Input = GameInputs.Select, Key = Keys.Space }
+                KeyBindings = new List<UserKeyBindingSetting> {
+                    new UserKeyBindingSetting { Input = GameInputs.Up, Key = Keys.Up },
+                    new UserKeyBindingSetting { Input = GameInputs.Down, Key = Keys.Down },
+                    new UserKeyBindingSetting { Input = GameInputs.Left, Key = Keys.Left },
+                    new UserKeyBindingSetting { Input = GameInputs.Right, Key = Keys.Right },
+                    new UserKeyBindingSetting { Input = GameInputs.Jump, Key = Keys.A },
+                    new UserKeyBindingSetting { Input = GameInputs.Shoot, Key = Keys.S },
+                    new UserKeyBindingSetting { Input = GameInputs.Start, Key = Keys.Enter },
+                    new UserKeyBindingSetting { Input = GameInputs.Select, Key = Keys.Space }
                 },
-                Screens = new LastScreen() {
+                Screens = new LastScreen {
                     Size = ScreenScale.X1,
                     Maximized = false,
                     HideMenu = false,
                     Pixellated = PixellatedOrSmoothed.Pixellated,
                     NTSC_Options = NTSC_Options.None,
-                    NTSC_Custom = new NTSC_CustomOptions() {
+                    NTSC_Custom = new NTSC_CustomOptions {
                         Hue = 0,
                         Saturation = 0,
                         Brightness = 0,
@@ -226,7 +220,7 @@ namespace MegaMan.Engine.Forms.Settings
                         Merge_Fields = true
                     }
                 },
-                Audio = new LastAudio() {
+                Audio = new LastAudio {
                     Volume = 50,
                     Musics = true,
                     Sound = true,
@@ -235,11 +229,11 @@ namespace MegaMan.Engine.Forms.Settings
                     Triangle = true,
                     Noise = true
                 },
-                Debug = new LastDebug() {
+                Debug = new LastDebug {
                     ShowMenu = true,
                     ShowHitboxes = false,
                     Framerate = 60,
-                    Layers = new LastLayers() {
+                    Layers = new LastLayers {
                         Background = true,
                         Sprites1 = true,
                         Sprites2 = true,
@@ -247,12 +241,12 @@ namespace MegaMan.Engine.Forms.Settings
                         Sprites4 = true,
                         Foreground = true
                     },
-                    Cheat = new LastCheat() {
+                    Cheat = new LastCheat {
                         Invincibility = false,
                         NoDamage = false
                     }
                 },
-                Miscellaneous = new LastMiscellaneous() {
+                Miscellaneous = new LastMiscellaneous {
                     ScreenX_Coordinate = -1,        // -1 means centered
                     ScreenY_Coordinate = -1
                 }
@@ -301,7 +295,7 @@ namespace MegaMan.Engine.Forms.Settings
 
         public IGameInputBinding GetGameInputBinding()
         {
-            return new KeyboardInputBinding(this.Input, this.Key);
+            return new KeyboardInputBinding(Input, Key);
         }
     }
 

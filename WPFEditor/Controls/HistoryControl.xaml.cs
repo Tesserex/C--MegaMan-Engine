@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Input;
 using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
@@ -12,13 +14,13 @@ namespace MegaMan.Editor.Controls
         {
             InitializeComponent();
 
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-                this.DataContext = new HistoryControlViewModel();
+            if (!DesignerProperties.GetIsInDesignMode(this))
+                DataContext = new HistoryControlViewModel();
         }
 
-        private void ChangeHistorySelection(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ChangeHistorySelection(object sender, MouseButtonEventArgs e)
         {
-            ((HistoryControlViewModel)this.DataContext).MoveHistory(listView.SelectedIndex);
+            ((HistoryControlViewModel)DataContext).MoveHistory(listView.SelectedIndex);
         }
     }
 }

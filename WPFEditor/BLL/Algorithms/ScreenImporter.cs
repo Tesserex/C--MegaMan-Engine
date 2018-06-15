@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Common;
-using MegaMan.Common.Geometry;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Bll.Algorithms
 {
@@ -32,7 +33,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 for (var x = 0; x < image.PixelWidth; x += tilesize)
                 {
                     var tileImage = new WriteableBitmap(tilesize, tilesize, 96, 96, PixelFormats.Pbgra32, null);
-                    tileImage.Blit(new System.Windows.Rect(0, 0, tilesize, tilesize), sourceImage, new System.Windows.Rect(x, y, tilesize, tilesize));
+                    tileImage.Blit(new Rect(0, 0, tilesize, tilesize), sourceImage, new Rect(x, y, tilesize, tilesize));
                     tiles.Add(tileImage);
 
                     coordsToIndex[new Point(x / tilesize, y / tilesize)] = tiles.Count - 1;
@@ -50,9 +51,9 @@ namespace MegaMan.Editor.Bll.Algorithms
             foreach (var point in coordsToTiles)
                 tileMap[point.Key.X, point.Key.Y] = point.Value;
 
-            var screen = new Common.ScreenInfo(Stage.FindNextScreenId().ToString(), Stage.Tileset.Tileset);
-            var tileLayer = new Common.TileLayer(tileMap, Stage.Tileset.Tileset, 0, 0);
-            screen.Layers.Add(new Common.ScreenLayerInfo(screen.Name, tileLayer, false, new List<Common.ScreenLayerKeyframe>()));
+            var screen = new ScreenInfo(Stage.FindNextScreenId().ToString(), Stage.Tileset.Tileset);
+            var tileLayer = new TileLayer(tileMap, Stage.Tileset.Tileset, 0, 0);
+            screen.Layers.Add(new ScreenLayerInfo(screen.Name, tileLayer, false, new List<ScreenLayerKeyframe>()));
 
             return screen;
         }
@@ -67,7 +68,8 @@ namespace MegaMan.Editor.Bll.Algorithms
             keys = groups.Select(g => g.Key).ToList();
 
             return groups
-                .SelectMany(g => g.Select(a => new { Index = a.Index, First = g.Key }))
+                .SelectMany(g => g.Select(a => new {
+                    a.Index, First = g.Key }))
                 .ToDictionary(a => a.Index, a => a.First);
         }
 
@@ -85,7 +87,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 .Index;
         }
 
-        private double GetTileDifferenceScore(WriteableBitmap image, Common.Tile tile)
+        private double GetTileDifferenceScore(WriteableBitmap image, Tile tile)
         {
             var frame = SpriteBitmapCache.GetOrLoadFrame(Stage.Tileset.SheetPath.Absolute, tile.Sprite[0].SheetLocation);
 

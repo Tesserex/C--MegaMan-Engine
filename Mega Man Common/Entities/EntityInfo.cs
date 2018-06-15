@@ -9,7 +9,7 @@ namespace MegaMan.Common.Entities
     {
         public EntityInfo()
         {
-            Components = new List<Entities.IComponentInfo>();
+            Components = new List<IComponentInfo>();
         }
 
         public string Name { get; set; }
@@ -30,8 +30,7 @@ namespace MegaMan.Common.Entities
 
                 if (EditorData != null && EditorData.DefaultSpriteName != null)
                     return SpriteComponent.Sprites[EditorData.DefaultSpriteName];
-                else
-                    return SpriteComponent.Sprites.Values.First();
+                return SpriteComponent.Sprites.Values.First();
             }
         }
 

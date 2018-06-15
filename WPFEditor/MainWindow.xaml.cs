@@ -1,5 +1,6 @@
-﻿using System.Windows.Input;
-using MegaMan.Common;
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
@@ -7,6 +8,7 @@ using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Ninject;
+using SelectionChangedEventArgs = System.Windows.Controls.SelectionChangedEventArgs;
 
 namespace MegaMan.Editor
 {
@@ -27,17 +29,17 @@ namespace MegaMan.Editor
 
         public MainWindow()
         {
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 _viewModel = App.Container.Get<MainWindowViewModel>();
-                this.DataContext = _viewModel;
+                DataContext = _viewModel;
             }
 
             UseLayoutRounding = true;
 
             InitializeComponent();
 
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 projectTree.Update(_viewModel.ProjectViewModel);
 
@@ -52,20 +54,20 @@ namespace MegaMan.Editor
                 ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageSelected);
                 ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
 
-                this.Closing += MainWindow_Closing;
+                Closing += MainWindow_Closing;
             }
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             if (_viewModel.CurrentProject != null && _viewModel.CurrentProject.Dirty)
             {
                 var result = CustomMessageBox.ShowSavePrompt();
-                if (result == System.Windows.MessageBoxResult.Cancel)
+                if (result == MessageBoxResult.Cancel)
                 {
                     e.Cancel = true;
                 }
-                else if (result == System.Windows.MessageBoxResult.Yes)
+                else if (result == MessageBoxResult.Yes)
                 {
                     _viewModel.SaveProject();
                 }
@@ -77,7 +79,7 @@ namespace MegaMan.Editor
             if (e.Stage != null)
                 ribbonStage.IsSelected = true;
 
-            this.editorPane.IsActive = true;
+            editorPane.IsActive = true;
         }
 
         private void EntitySelected(object sender, EntitySelectedEventArgs e)
@@ -85,7 +87,7 @@ namespace MegaMan.Editor
             if (e.Entity != null)
                 ribbonEntities.IsSelected = true;
 
-            this.entityEditorPane.IsActive = true;
+            entityEditorPane.IsActive = true;
         }
 
         private bool IsProjectOpen()
@@ -95,13 +97,13 @@ namespace MegaMan.Editor
 
         private void OpenProjectSettings(object param)
         {
-            this.settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.CurrentProject);
-            this.projectSettingsPane.IsSelected = true;
+            settingsControl.DataContext = new ProjectSettingsViewModel(_viewModel.CurrentProject);
+            projectSettingsPane.IsSelected = true;
         }
 
         private void ShowStageProperties(object obj)
         {
-            this.stagePropertiesPane.IsSelected = true;
+            stagePropertiesPane.IsSelected = true;
         }
 
         private bool IsStageOpen()
@@ -111,18 +113,18 @@ namespace MegaMan.Editor
 
         private void EditTileset(object param)
         {
-            this.tilesetEditorPane.IsSelected = true;
+            tilesetEditorPane.IsSelected = true;
         }
 
         private void ImportTiles(object param)
         {
-            this.tilesetImporterControl.DataContext = new TilesetImporterViewModel((TilesetDocument)param);
-            this.tilesetImporterPane.IsSelected = true;
+            tilesetImporterControl.DataContext = new TilesetImporterViewModel((TilesetDocument)param);
+            tilesetImporterPane.IsSelected = true;
         }
 
         private void AddStage(object param)
         {
-            this.addStagePane.IsSelected = true;
+            addStagePane.IsSelected = true;
         }
 
         private void LinkStage(object param)
@@ -144,7 +146,7 @@ namespace MegaMan.Editor
             }
         }
 
-        private void RibbonTabChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void RibbonTabChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Contains(ribbonStage))
                 editorPane.IsSelected = true;

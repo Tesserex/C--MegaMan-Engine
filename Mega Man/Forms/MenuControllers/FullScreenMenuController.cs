@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
@@ -25,55 +22,55 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         private void Controller_NtscSet(object sender, ScreenScaleNtscEventArgs e)
         {
-            this.item.Checked = false;
-            this.lastScale = ScreenScale.NTSC;
+            item.Checked = false;
+            lastScale = ScreenScale.NTSC;
         }
 
         private void Controller_SizeChanged(object sender, ScreenScaleChangedEventArgs e)
         {
             if (e.Scale == ScreenScale.Fullscreen)
             {
-                this.item.Checked = true;
+                item.Checked = true;
             }
             else
             {
-                this.lastScale = e.Scale;
-                this.item.Checked = false;
+                lastScale = e.Scale;
+                item.Checked = false;
             }
         }
 
         private void Item_Click(object sender, EventArgs e)
         {
-            Set(!this.item.Checked);
+            Set(!item.Checked);
         }
 
         public void LoadSettings(Setting settings)
         {
             if (settings.Screens.Size == ScreenScale.Fullscreen)
             {
-                this.item.Checked = true;
-                this.controller.Change(ScreenScale.Fullscreen);
+                item.Checked = true;
+                controller.Change(ScreenScale.Fullscreen);
             }
             else
             {
-                this.item.Checked = false;
+                item.Checked = false;
                 // don't raise a size change, it would be wrong
             }
         }
 
         public void Set(bool value)
         {
-            this.item.Checked = value;
+            item.Checked = value;
             if (value)
             {
-                this.controller.Change(ScreenScale.Fullscreen);
+                controller.Change(ScreenScale.Fullscreen);
             }
             else
             {
-                if (this.lastScale == ScreenScale.NTSC)
-                    this.controller.Ntsc(null);
+                if (lastScale == ScreenScale.NTSC)
+                    controller.Ntsc(null);
                 else
-                    this.controller.Change(this.lastScale);
+                    controller.Change(lastScale);
             }
         }
 
@@ -82,7 +79,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
             if (settings.Screens == null)
                 settings.Screens = new LastScreen();
 
-            if (this.item.Checked)
+            if (item.Checked)
                 settings.Screens.Size = ScreenScale.Fullscreen;
         }
     }

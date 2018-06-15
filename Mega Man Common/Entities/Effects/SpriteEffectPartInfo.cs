@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public enum FacingValues
     {
@@ -22,11 +17,11 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new SpriteEffectPartInfo() {
-                Name = this.Name,
-                Playing = this.Playing,
-                Visible = this.Visible,
-                Facing = this.Facing
+            return new SpriteEffectPartInfo {
+                Name = Name,
+                Playing = Playing,
+                Visible = Visible,
+                Facing = Facing
             };
         }
     }

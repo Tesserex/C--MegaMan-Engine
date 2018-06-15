@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace MegaMan.Engine
+﻿namespace MegaMan.Engine
 {
     public class Const
     {

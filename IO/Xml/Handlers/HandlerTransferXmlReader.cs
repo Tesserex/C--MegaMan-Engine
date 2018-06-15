@@ -14,7 +14,7 @@ namespace MegaMan.IO.Xml.Handlers
             var mode = HandlerMode.Next;
             if (modeAttr != null)
             {
-                Enum.TryParse<HandlerMode>(modeAttr.Value, true, out mode);
+                Enum.TryParse(modeAttr.Value, true, out mode);
             }
 
             transfer.Mode = mode;

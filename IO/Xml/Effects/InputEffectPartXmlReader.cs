@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new InputEffectPartInfo() {
+            return new InputEffectPartInfo {
                 Paused = partNode.Elements("Pause").Any()
             };
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine.Forms.MenuControllers
@@ -18,22 +14,22 @@ namespace MegaMan.Engine.Forms.MenuControllers
             switch (ntscOption)
             {
                 case NTSC_Options.Composite:
-                    this.ntscSetup = snes_ntsc_setup_t.snes_ntsc_composite;
+                    ntscSetup = snes_ntsc_setup_t.snes_ntsc_composite;
                     break;
 
                 case NTSC_Options.RGB:
-                    this.ntscSetup = snes_ntsc_setup_t.snes_ntsc_rgb;
+                    ntscSetup = snes_ntsc_setup_t.snes_ntsc_rgb;
                     break;
 
                 case NTSC_Options.S_Video:
-                    this.ntscSetup = snes_ntsc_setup_t.snes_ntsc_svideo;
+                    ntscSetup = snes_ntsc_setup_t.snes_ntsc_svideo;
                     break;
             }
         }
 
         protected override void Controller_NtscSet(object sender, ScreenScaleNtscEventArgs e)
         {
-            this.item.Checked = (e.Setup == this.ntscSetup);
+            item.Checked = (e.Setup == ntscSetup);
         }
 
         protected override void Controller_SizeChanged(object sender, ScreenScaleChangedEventArgs e)
@@ -43,16 +39,16 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public override void Set(bool value)
         {
-            this.item.Checked = value;
+            item.Checked = value;
             if (value)
             {
-                this.controller.Ntsc(this.ntscSetup);
+                controller.Ntsc(ntscSetup);
             }
         }
 
         public override void LoadSettings(Setting settings)
         {
-            Set(settings.Screens.Size == ScreenScale.NTSC && settings.Screens.NTSC_Options == this.ntscOption);
+            Set(settings.Screens.Size == ScreenScale.NTSC && settings.Screens.NTSC_Options == ntscOption);
         }
 
         public override void SaveSettings(Setting settings)
@@ -60,10 +56,10 @@ namespace MegaMan.Engine.Forms.MenuControllers
             if (settings.Screens == null)
                 settings.Screens = new LastScreen();
 
-            if (this.item.Checked)
+            if (item.Checked)
             {
                 settings.Screens.Size = ScreenScale.NTSC;
-                settings.Screens.NTSC_Options = this.ntscOption;
+                settings.Screens.NTSC_Options = ntscOption;
             }
         }
     }

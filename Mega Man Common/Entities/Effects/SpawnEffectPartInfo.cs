@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class SpawnEffectPartInfo : IEffectPartInfo
     {
@@ -13,10 +8,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new SpawnEffectPartInfo() {
-                Name = this.Name,
-                State = this.State,
-                Position = (PositionEffectPartInfo)this.Position.Clone()
+            return new SpawnEffectPartInfo {
+                Name = Name,
+                State = State,
+                Position = (PositionEffectPartInfo)Position.Clone()
             };
         }
     }

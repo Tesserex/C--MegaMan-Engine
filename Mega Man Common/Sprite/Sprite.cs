@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common.Geometry;
@@ -116,39 +117,39 @@ namespace MegaMan.Common
         /// </summary>
         public Sprite(int width, int height)
         {
-            this.Height = height;
-            this.Width = width;
+            Height = height;
+            Width = width;
             frames = new List<SpriteFrame>();
 
-            this.HotSpot = new Point(0, 0);
-            this.BoundBox = new RectangleF(0, 0, width, height);
-            this.Visible = true;
-            this.AnimDirection = AnimationDirection.Forward;
-            this.AnimStyle = AnimationStyle.Repeat;
+            HotSpot = new Point(0, 0);
+            BoundBox = new RectangleF(0, 0, width, height);
+            Visible = true;
+            AnimDirection = AnimationDirection.Forward;
+            AnimStyle = AnimationStyle.Repeat;
         }
 
         public Sprite(Sprite copy)
         {
-            this.Name = copy.Name;
-            this.Part = copy.Part;
-            this.PaletteName = copy.PaletteName;
+            Name = copy.Name;
+            Part = copy.Part;
+            PaletteName = copy.PaletteName;
 
-            this.Height = copy.Height;
-            this.Width = copy.Width;
-            this.Tickable = copy.Tickable;
-            this.frames = copy.frames;
-            this.HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
-            this.BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
-            this.Visible = true;
-            this.AnimDirection = copy.AnimDirection;
-            this.AnimStyle = copy.AnimStyle;
-            this.Layer = copy.Layer;
+            Height = copy.Height;
+            Width = copy.Width;
+            Tickable = copy.Tickable;
+            frames = copy.frames;
+            HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
+            BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
+            Visible = true;
+            AnimDirection = copy.AnimDirection;
+            AnimStyle = copy.AnimStyle;
+            Layer = copy.Layer;
 
-            this.Reversed = copy.Reversed;
+            Reversed = copy.Reversed;
             if (copy.SheetPath != null)
             {
-                this.SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
-                this.SheetData = copy.SheetData;
+                SheetPath = FilePath.FromRelative(copy.SheetPath.Relative, copy.SheetPath.BasePath);
+                SheetData = copy.SheetData;
             }
         }
 
@@ -174,7 +175,7 @@ namespace MegaMan.Common
         /// <param name="duration">The duration of the frame, in game ticks.</param>
         public void AddFrame(int x, int y, int duration)
         {
-            this.frames.Add(new SpriteFrame(this, duration, new Rectangle(x, y, this.Width, this.Height)));
+            frames.Add(new SpriteFrame(this, duration, new Rectangle(x, y, Width, Height)));
             CheckTickable();
         }
 
@@ -197,7 +198,7 @@ namespace MegaMan.Common
         /// <param name="duration">The duration of the frame, in game ticks.</param>
         public void InsertFrame(int index, int x, int y, int duration)
         {
-            this.frames.Insert(index, new SpriteFrame(this, duration, new Rectangle(x, y, this.Width, this.Height)));
+            frames.Insert(index, new SpriteFrame(this, duration, new Rectangle(x, y, Width, Height)));
             CheckTickable();
         }
 
@@ -208,7 +209,7 @@ namespace MegaMan.Common
             Tickable = false;
             if (frames.Count <= 1)
                 return;
-            else if (frames.Any(frame => frame.Duration > 0))
+            if (frames.Any(frame => frame.Duration > 0))
             {
                 Tickable = true;
             }
@@ -238,12 +239,12 @@ namespace MegaMan.Common
             int hx = (HorizontalFlip ^ Reversed) ? Width - HotSpot.X : HotSpot.X;
             int hy = VerticalFlip ? Height - HotSpot.Y : HotSpot.Y;
 
-            var drawTexture = this.texture;
+            var drawTexture = texture;
             var frame = this[frameIndex];
 
             context.Draw(drawTexture, layer,
-                new Common.Geometry.Point((int)(positionX - hx), (int)(positionY - hy)),
-                new Common.Geometry.Rectangle(frame.SheetLocation.X, frame.SheetLocation.Y, frame.SheetLocation.Width, frame.SheetLocation.Height),
+                new Point((int)(positionX - hx), (int)(positionY - hy)),
+                new Rectangle(frame.SheetLocation.X, frame.SheetLocation.Y, frame.SheetLocation.Width, frame.SheetLocation.Height),
                 flipHorizontal, flipVertical);
         }
 
@@ -297,7 +298,7 @@ namespace MegaMan.Common
 
         #region IEnumerable Members
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return frames.GetEnumerator();
         }
@@ -330,9 +331,9 @@ namespace MegaMan.Common
 
         internal SpriteFrame(Sprite spr, int duration, Rectangle sheetRect)
         {
-            this.sprite = spr;
-            this.Duration = duration;
-            this.SheetLocation = sheetRect;
+            sprite = spr;
+            Duration = duration;
+            SheetLocation = sheetRect;
         }
 
         public void SetSheetPosition(int x, int y)

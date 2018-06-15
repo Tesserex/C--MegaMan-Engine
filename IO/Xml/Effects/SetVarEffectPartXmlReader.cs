@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new SetVarEffectPartInfo() {
+            return new SetVarEffectPartInfo {
                 Name = partNode.GetAttribute<string>("name"),
                 Value = partNode.GetAttribute<string>("value")
             };

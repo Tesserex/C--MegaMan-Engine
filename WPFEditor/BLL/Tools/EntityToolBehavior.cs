@@ -1,4 +1,5 @@
-﻿using MegaMan.Common.Entities;
+﻿using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Controls;
 
@@ -24,9 +25,9 @@ namespace MegaMan.Editor.Bll.Tools
                 (location.X / SnapX) * SnapX,
                 (location.Y / SnapY) * SnapY);
 
-            var placement = new Common.EntityPlacement() {
+            var placement = new EntityPlacement {
                 entity = _entity.Name,
-                direction = Common.Direction.Left,
+                direction = Direction.Left,
                 screenX = snappedPoint.X,
                 screenY = snappedPoint.Y
             };

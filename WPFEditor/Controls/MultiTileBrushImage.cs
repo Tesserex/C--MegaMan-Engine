@@ -3,14 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
 
 namespace MegaMan.Editor.Controls
 {
     public class MultiTileBrushImage : Grid
     {
-        public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register("Highlight", typeof(bool), typeof(MultiTileBrushImage), new PropertyMetadata(new PropertyChangedCallback(HighlightChanged)));
+        public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register("Highlight", typeof(bool), typeof(MultiTileBrushImage), new PropertyMetadata(HighlightChanged));
         public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register("Zoom", typeof(int), typeof(MultiTileBrushImage), new PropertyMetadata(1, ZoomChanged));
 
         protected List<Image> _images;
@@ -33,13 +32,13 @@ namespace MegaMan.Editor.Controls
         {
             ((App)App.Current).Tick += (s, e) => Tick();
             
-            this.DataContextChanged += Image_DataContextChanged;
+            DataContextChanged += Image_DataContextChanged;
 
             _images = new List<Image>();
 
-            _highlight = new Border() { BorderThickness = new Thickness(1.5), BorderBrush = Brushes.Yellow, Width = 16, Height = 16 };
-            _highlight.Effect = new BlurEffect() { Radius = 2 };
-            _highlight.Visibility = System.Windows.Visibility.Hidden;
+            _highlight = new Border { BorderThickness = new Thickness(1.5), BorderBrush = Brushes.Yellow, Width = 16, Height = 16 };
+            _highlight.Effect = new BlurEffect { Radius = 2 };
+            _highlight.Visibility = Visibility.Hidden;
             Children.Add(_highlight);
         }
 
@@ -57,7 +56,7 @@ namespace MegaMan.Editor.Controls
 
             foreach (var i in _images)
             {
-                this.Children.Remove(i);
+                Children.Remove(i);
             }
 
             var width = _brush.Cells.Length;
@@ -66,17 +65,17 @@ namespace MegaMan.Editor.Controls
             var cellWidth = _brush.Cells[0][0].tile.Width * Zoom;
             var cellHeight = _brush.Cells[0][0].tile.Height * Zoom;
 
-            this.Width = cellWidth * width;
-            this.Height = cellHeight * height;
+            Width = cellWidth * width;
+            Height = cellHeight * height;
 
-            this.ColumnDefinitions.Clear();
-            this.RowDefinitions.Clear();
+            ColumnDefinitions.Clear();
+            RowDefinitions.Clear();
 
             for (var x = 0; x < width; x++)
             {
                 var col = new ColumnDefinition();
                 col.Width = new GridLength(cellWidth);
-                this.ColumnDefinitions.Add(col);
+                ColumnDefinitions.Add(col);
 
                 for (var y = 0; y < height; y++)
                 {
@@ -84,7 +83,7 @@ namespace MegaMan.Editor.Controls
                     {
                         var row = new RowDefinition();
                         row.Height = new GridLength(cellHeight);
-                        this.RowDefinitions.Add(row);
+                        RowDefinitions.Add(row);
                     }
 
                     var cell = _brush.Cells[x][y];
@@ -92,16 +91,16 @@ namespace MegaMan.Editor.Controls
                     image.Width = cellWidth;
                     image.Height = cellHeight;
 
-                    Grid.SetColumn(image, x);
-                    Grid.SetRow(image, y);
+                    SetColumn(image, x);
+                    SetRow(image, y);
 
-                    this._images.Add(image);
+                    _images.Add(image);
                 }
             }
 
             foreach (var i in _images)
             {
-                this.Children.Add(i);
+                Children.Add(i);
             }
         }
 
@@ -155,7 +154,7 @@ namespace MegaMan.Editor.Controls
                 for (var y = 0; y < height; y++)
                 {
                     var cell = _brush.Cells[x][y];
-                    var image = this._images[x * height + y];
+                    var image = _images[x * height + y];
 
                     var location = cell.tile.Sprite[0].SheetLocation;
 

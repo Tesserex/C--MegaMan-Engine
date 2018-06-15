@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MegaMan.Common.Geometry;
 using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -41,7 +41,7 @@ namespace MegaMan.Engine
             running = false;
             frame = 0;
             this.container = container;
-            this._entityPool = entityPool;
+            _entityPool = entityPool;
         }
 
         public void Start()
@@ -61,7 +61,7 @@ namespace MegaMan.Engine
                 }
             }
 
-            this.playerPos = container.Entities.GetEntityById("Player").GetComponent<PositionComponent>();
+            playerPos = container.Entities.GetEntityById("Player").GetComponent<PositionComponent>();
             container.GameThink += Update;
             stopped = false;
         }

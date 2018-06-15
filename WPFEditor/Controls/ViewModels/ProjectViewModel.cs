@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -25,7 +24,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ProjectChanged(object sender, ProjectChangedEventArgs e)
         {
-            this.Project = e.Project;
+            Project = e.Project;
         }
 
         public ProjectDocument Project
@@ -69,11 +68,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
             catch (GameXmlException ex)
             {
-                CustomMessageBox.ShowError(ex.Message, this.Project.Name);
+                CustomMessageBox.ShowError(ex.Message, Project.Name);
             }
             catch (FileNotFoundException ex)
             {
-                CustomMessageBox.ShowError(ex.Message, this.Project.Name);
+                CustomMessageBox.ShowError(ex.Message, Project.Name);
             }
         }
 

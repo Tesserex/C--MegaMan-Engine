@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MegaMan.Common;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine.Tests
 {
@@ -9,7 +8,7 @@ namespace MegaMan.Engine.Tests
     {
         private bool _previousGravityFlip;
 
-        public Entities.IEntityPool Entities
+        public IEntityPool Entities
         {
             get;
             set;
@@ -37,7 +36,7 @@ namespace MegaMan.Engine.Tests
 
         public event GameRenderEventHandler Draw;
 
-        public event Action<Common.HandlerTransfer> End;
+        public event Action<HandlerTransfer> End;
 
         public void Tick()
         {
@@ -50,7 +49,7 @@ namespace MegaMan.Engine.Tests
             _previousGravityFlip = IsGravityFlipped;
         }
 
-        public void StartHandler(Entities.IEntityPool entityPool)
+        public void StartHandler(IEntityPool entityPool)
         {
             Entities = entityPool;
         }

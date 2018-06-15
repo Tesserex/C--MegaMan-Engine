@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new UnlockWeaponEffectPartInfo() {
+            return new UnlockWeaponEffectPartInfo {
                 WeaponName = partNode.GetAttribute<string>("name")
             };
         }

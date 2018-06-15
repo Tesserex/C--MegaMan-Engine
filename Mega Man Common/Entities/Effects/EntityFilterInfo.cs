@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class EntityFilterInfo
     {
@@ -10,10 +8,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public EntityFilterInfo Clone()
         {
-            return new EntityFilterInfo() {
-                Type = this.Type,
-                Direction = this.Direction,
-                Position = this.Position.Clone()
+            return new EntityFilterInfo {
+                Type = Type,
+                Direction = Direction,
+                Position = Position.Clone()
             };
         }
     }
@@ -25,9 +23,9 @@ namespace MegaMan.Common.Entities.Effects
 
         public PositionFilter Clone()
         {
-            return new PositionFilter() {
-                X = this.X.Clone(),
-                Y = this.Y.Clone()
+            return new PositionFilter {
+                X = X.Clone(),
+                Y = Y.Clone()
             };
         }
     }
@@ -39,7 +37,7 @@ namespace MegaMan.Common.Entities.Effects
 
         public RangeFilter Clone()
         {
-            return new RangeFilter() { Max = this.Max, Min = this.Min };
+            return new RangeFilter { Max = Max, Min = Min };
         }
     }
 }

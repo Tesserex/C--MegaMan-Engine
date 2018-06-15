@@ -1,10 +1,7 @@
-﻿using MegaMan.Engine.Entities;
+﻿using System.Collections.Generic;
+using MegaMan.Engine.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.Tests.Components
 {

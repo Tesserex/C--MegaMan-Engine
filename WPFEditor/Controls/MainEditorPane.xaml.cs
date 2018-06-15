@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using MegaMan.Editor.Controls.ViewModels;
-using MegaMan.Editor.Tools;
 using Ninject;
 
 namespace MegaMan.Editor.Controls

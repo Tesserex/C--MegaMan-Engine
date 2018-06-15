@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class MovementEffectPartInfo : IEffectPartInfo
     {
@@ -12,12 +10,12 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new MovementEffectPartInfo() {
-                Floating = this.Floating,
-                FlipSprite = this.FlipSprite,
-                X = this.X.Clone(),
-                Y = this.Y.Clone(),
-                Both = this.Both.Clone()
+            return new MovementEffectPartInfo {
+                Floating = Floating,
+                FlipSprite = FlipSprite,
+                X = X.Clone(),
+                Y = Y.Clone(),
+                Both = Both.Clone()
             };
         }
     }
@@ -30,10 +28,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public VelocityEffectInfo Clone()
         {
-            return new VelocityEffectInfo() {
-                Direction = this.Direction,
-                Magnitude = this.Magnitude,
-                MagnitudeVarName = this.MagnitudeVarName
+            return new VelocityEffectInfo {
+                Direction = Direction,
+                Magnitude = Magnitude,
+                MagnitudeVarName = MagnitudeVarName
             };
         }
     }

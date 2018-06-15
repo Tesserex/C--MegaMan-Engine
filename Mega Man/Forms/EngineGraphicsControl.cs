@@ -1,12 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using WinFormsGraphicsDevice;
 
 namespace MegaMan.Engine
 {
-    public class EngineGraphicsControl : WinFormsGraphicsDevice.GraphicsDeviceControl
+    public class EngineGraphicsControl : GraphicsDeviceControl
     {
         RenderTarget2D masterRenderingTarget;
         SpriteBatch masterSpriteBatch;
@@ -39,8 +42,8 @@ namespace MegaMan.Engine
             Engine.Instance.GetDevice += Instance_GetDevice;
             Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
             Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
-            Margin = new System.Windows.Forms.Padding(0);
-            Padding = new System.Windows.Forms.Padding(0);
+            Margin = new Padding(0);
+            Padding = new Padding(0);
 
             masterSpriteBatch = new SpriteBatch(GraphicsDevice);
             masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
@@ -81,12 +84,12 @@ namespace MegaMan.Engine
             masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
-        public void SaveCap(System.IO.Stream stream)
+        public void SaveCap(Stream stream)
         {
             masterRenderingTarget.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
             if (!DesignMode)
             {

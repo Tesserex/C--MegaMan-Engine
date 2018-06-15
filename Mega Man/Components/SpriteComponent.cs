@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MegaMan.Common;
+using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
-using MegaMan.Common.Entities;
 
 namespace MegaMan.Engine
 {
@@ -287,7 +288,7 @@ namespace MegaMan.Engine
                 return _sprites.Values.GetEnumerator();
             }
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
             {
                 return _sprites.Values.GetEnumerator();
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.Entities
 {
@@ -11,7 +10,7 @@ namespace MegaMan.Engine.Entities
         private readonly Dictionary<string, GameEntity> entitiesInUse = new Dictionary<string, GameEntity>();
         private readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
 
-        private bool _enumeratingActives = false;
+        private bool _enumeratingActives;
 
         public GameEntityPool(IEntitySource entitySource)
         {
@@ -121,8 +120,7 @@ namespace MegaMan.Engine.Entities
         {
             if (id != null && entitiesInUse.ContainsKey(id))
                 return entitiesInUse[id];
-            else
-                return null;
+            return null;
         }
     }
 }

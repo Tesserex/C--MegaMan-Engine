@@ -1,6 +1,6 @@
 ﻿using System;
-using MegaMan.Common.Geometry;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Engine
 {
@@ -113,8 +113,8 @@ namespace MegaMan.Engine
 
             tickdist = (TriggerSize() + OffsetDist()) / ticks;
 
-            this.nextHeight = next.Screen.PixelHeight;
-            this.nextWidth = next.Screen.PixelWidth;
+            nextHeight = next.Screen.PixelHeight;
+            nextWidth = next.Screen.PixelWidth;
 
             if (direction == Direction.Down) NextScreenY = -height;
             else if (direction == Direction.Right) NextScreenX = -width;

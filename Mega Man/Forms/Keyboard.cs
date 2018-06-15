@@ -58,7 +58,7 @@ namespace MegaMan.Engine
             DeviceManager.Instance.JoystickAxisPressed -= JoystickAxisPressed;
             DeviceManager.Instance.GamepadButtonPressed -= GamepadButtonPressed;
             base.OnClosing(e);
-            this.Hide();
+            Hide();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -73,16 +73,14 @@ namespace MegaMan.Engine
                     waitKey = null;
                     return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
                 }
-                else
-                {
-                    string key = "";
 
-                    if (keyData.HasFlag(Keys.Control)) key = "ctrl";
-                    else if (keyData.HasFlag(Keys.Alt)) key = "Alt";
-                    else if (keyData.HasFlag(Keys.Shift)) key = "Shift";
+                string key = "";
 
-                    MessageBox.Show(this, "Key " + key + " is not allowed.", "Unauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
-                }
+                if (keyData.HasFlag(Keys.Control)) key = "ctrl";
+                else if (keyData.HasFlag(Keys.Alt)) key = "Alt";
+                else if (keyData.HasFlag(Keys.Shift)) key = "Shift";
+
+                MessageBox.Show(this, "Key " + key + " is not allowed.", "Unauthorized key", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -212,8 +210,8 @@ namespace MegaMan.Engine
         {
             if (waitKey != null)
             {
-                var labels = this.Controls.OfType<Label>()
-                    .Where(x => x.Name.ToUpper().Contains(this.waitKey.ToString().ToUpper()));
+                var labels = Controls.OfType<Label>()
+                    .Where(x => x.Name.ToUpper().Contains(waitKey.ToString().ToUpper()));
 
                 foreach (var label in labels)
                 {
@@ -226,7 +224,7 @@ namespace MegaMan.Engine
         {
             var types = new[] { "KEY", "PAD", "JOY" };
             var bindings = GameInput.GetBindings(input);
-            var labels = this.Controls.OfType<Label>().Where(x => x.Name.ToUpper().Contains(input.ToString().ToUpper()));
+            var labels = Controls.OfType<Label>().Where(x => x.Name.ToUpper().Contains(input.ToString().ToUpper()));
 
             foreach (var t in types)
             {

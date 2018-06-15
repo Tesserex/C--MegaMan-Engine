@@ -8,6 +8,7 @@ using MegaMan.Common.Entities.Effects;
 using MegaMan.Engine.Entities;
 using MegaMan.Engine.Entities.Effects;
 using Ninject;
+using DynamicExpression = System.Linq.Dynamic.DynamicExpression;
 
 namespace MegaMan.Engine
 {
@@ -135,7 +136,7 @@ namespace MegaMan.Engine
 
         public static Condition ParseCondition(string conditionString)
         {
-            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+            LambdaExpression lambda = DynamicExpression.ParseLambda(
                 new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, playerXAbsParam, playerYAbsParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
@@ -202,10 +203,8 @@ namespace MegaMan.Engine
                     }
                 };
             }
-            else
-            {
-                return effect;
-            }
+
+            return effect;
         }
 
         private static Effect LoadEffectPart(IEffectPartInfo partInfo)
@@ -220,7 +219,7 @@ namespace MegaMan.Engine
 
         public static Effect CompileEffect(string st)
         {
-            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+            LambdaExpression lambda = DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitEffect),
                             null,
@@ -231,7 +230,7 @@ namespace MegaMan.Engine
 
         public static Query CompileQuery(string st)
         {
-            LambdaExpression lambda = System.Linq.Dynamic.DynamicExpression.ParseLambda(
+            LambdaExpression lambda = DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitQuery),
                             typeof(object),

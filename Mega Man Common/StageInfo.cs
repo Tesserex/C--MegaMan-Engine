@@ -1,17 +1,16 @@
-using System;
 using System.Collections.Generic;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Common
 {
-    public enum JoinType : int
+    public enum JoinType
     {
         Horizontal = 1,
         Vertical = 2
     }
 
-    public enum JoinDirection : int
+    public enum JoinDirection
     {
         Both = 1,
         // <summary>
@@ -80,14 +79,14 @@ namespace MegaMan.Common
 
         public void RenameScreen(ScreenInfo screen, string name)
         {
-            this.Screens.Remove(screen.Name);
+            Screens.Remove(screen.Name);
             screen.Name = name;
-            this.Screens.Add(name, screen);
+            Screens.Add(name, screen);
         }
 
         public void RenameScreen(string oldName, string newName)
         {
-            RenameScreen(this.Screens[oldName], newName);
+            RenameScreen(Screens[oldName], newName);
         }
 
         public void AddContinuePoint(string screenName, Point point)

@@ -11,7 +11,7 @@ namespace MegaMan.Editor.Controls
         public TilesetEditor()
         {
             InitializeComponent();
-            this.DataContext = new TilesetEditorViewModel();
+            DataContext = new TilesetEditorViewModel();
         }
     }
 }

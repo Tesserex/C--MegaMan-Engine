@@ -3,8 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
@@ -14,7 +12,7 @@ namespace MegaMan.Editor.Controls
     /// </summary>
     public partial class EditableLabel : UserControl, INotifyPropertyChanged
     {
-        private bool _editing = false;
+        private bool _editing;
 
         public static readonly DependencyProperty TextProp = DependencyProperty.Register("Text", typeof(string), typeof(EditableLabel), new PropertyMetadata(null, Changed));
 
@@ -43,15 +41,14 @@ namespace MegaMan.Editor.Controls
             {
                 if (_editing)
                     return new Uri("pack://application:,,,/Resources/check.png");
-                else
-                    return new Uri("pack://application:,,,/Resources/pencil.png");
+                return new Uri("pack://application:,,,/Resources/pencil.png");
             }
         }
 
         public EditableLabel()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
+            (Content as FrameworkElement).DataContext = this;
             SwapCommand = new RelayCommand(Swap);
         }
 

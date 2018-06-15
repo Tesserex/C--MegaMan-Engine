@@ -1,16 +1,14 @@
-﻿using MegaMan.Editor.Bll;
-using MegaMan.Editor.Mediator;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using MegaMan.IO;
-using MegaMan.Editor.Services;
-using System.Windows.Input;
-using System.Resources;
+﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Resources;
+using System.Windows;
+using System.Windows.Input;
+using MegaMan.Editor.Mediator;
+using MegaMan.Editor.Services;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
@@ -107,11 +105,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             var fullProjectPath = DirectoryPath;
             if (CreateProjectDirectory)
             {
-                var invalidChars = System.IO.Path.GetInvalidPathChars();
+                var invalidChars = Path.GetInvalidPathChars();
                 var nameFolder = new String(Name
                     .Where(x => !invalidChars.Contains(x))
                     .ToArray());
-                fullProjectPath = System.IO.Path.Combine(fullProjectPath, nameFolder);
+                fullProjectPath = Path.Combine(fullProjectPath, nameFolder);
             }
 
             var document = _dataService.CreateProject(fullProjectPath);
@@ -126,7 +124,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 var resPath = p.Value;
                 var filePath = Path.Combine(fullProjectPath, resPath);
-                var stream = System.Windows.Application.GetResourceStream(new Uri(p.Key, UriKind.Relative)).Stream;
+                var stream = Application.GetResourceStream(new Uri(p.Key, UriKind.Relative)).Stream;
                 WriteResourceToFile(filePath, stream);
             }
 
@@ -148,7 +146,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             document.MusicNsf = document.EffectsNsf = fullProjectPath + "/sound/mm5.nsf";
             _dataService.SaveProject(document);
 
-            var args = new ProjectChangedEventArgs() { Project = document };
+            var args = new ProjectChangedEventArgs { Project = document };
             ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
         }
 

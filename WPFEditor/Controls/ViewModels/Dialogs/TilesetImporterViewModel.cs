@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -63,7 +65,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
                 return;
 
             var images = dialog.FileNames
-                .Where(p => System.IO.File.Exists(p))
+                .Where(p => File.Exists(p))
                 .Select(p => PromptImage(new BitmapImage(new Uri(p)), p))
                 .Where(m => m != null)
                 .ToList();
@@ -87,10 +89,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             box.DataContext = boxModel;
             box.ShowDialog();
 
-            if (box.Result == System.Windows.MessageBoxResult.OK)
+            if (box.Result == MessageBoxResult.OK)
                 return boxModel;
-            else
-                return null;
+            return null;
         }
 
         private void ExtractImages()

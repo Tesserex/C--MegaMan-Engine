@@ -105,17 +105,17 @@ namespace MegaMan.Common
 
         public override bool Equals(object obj)
         {
-            return (obj is FilePath) && ((FilePath)obj).Absolute == this.Absolute;
+            return (obj is FilePath) && ((FilePath)obj).Absolute == Absolute;
         }
 
         public override int GetHashCode()
         {
-            return this.Absolute.GetHashCode();
+            return Absolute.GetHashCode();
         }
 
         public FilePath Clone()
         {
-            return new FilePath(this.absolute, this.basepath);
+            return new FilePath(absolute, basepath);
         }
     }
 }

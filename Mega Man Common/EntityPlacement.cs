@@ -43,7 +43,7 @@ namespace MegaMan.Common
         public override bool Equals(object obj)
         {
             if (obj is EntityPlacement)
-                return ((EntityPlacement)obj).Id == this.Id;
+                return ((EntityPlacement)obj).Id == Id;
 
             return base.Equals(obj);
         }
@@ -55,13 +55,13 @@ namespace MegaMan.Common
 
         public EntityPlacement Clone()
         {
-            return new EntityPlacement() {
-                entity = this.entity,
-                direction = this.direction,
-                state = this.state,
-                respawn = this.respawn,
-                screenX = this.screenX,
-                screenY = this.screenY
+            return new EntityPlacement {
+                entity = entity,
+                direction = direction,
+                state = state,
+                respawn = respawn,
+                screenX = screenX,
+                screenY = screenY
             };
         }
     }

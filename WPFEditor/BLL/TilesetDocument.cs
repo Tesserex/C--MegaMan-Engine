@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
 
@@ -20,8 +21,7 @@ namespace MegaMan.Editor.Bll
             {
                 if (Tileset != null)
                     return Tileset.SheetPath;
-                else
-                    return null;
+                return null;
             }
         }
 
@@ -79,7 +79,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddBlockProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Block",
                 Blocking = true,
                 ResistX = 0.5f
@@ -88,7 +88,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddSpikeProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Spike",
                 Blocking = true,
                 Lethal = true
@@ -97,7 +97,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddLadderProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Ladder",
                 ResistX = 0.5f,
                 Climbable = true
@@ -106,7 +106,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddWaterProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Water",
                 GravityMult = 0.4f
             });
@@ -114,7 +114,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddConveyorRightProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Right Conveyor",
                 ResistX = 0.5f,
                 PushX = 0.1f
@@ -123,7 +123,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddConveyorLeftProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Left Conveyor",
                 ResistX = 0.5f,
                 PushX = -0.1f
@@ -132,7 +132,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddIceProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Ice",
                 ResistX = 0.95f,
                 DragX = 0.5f
@@ -141,7 +141,7 @@ namespace MegaMan.Editor.Bll
 
         public void AddSandProperty()
         {
-            Tileset.AddProperties(new TileProperties() {
+            Tileset.AddProperties(new TileProperties {
                 Name = "Quicksand",
                 ResistX = 0.2f,
                 DragX = 0.2f,
@@ -157,9 +157,9 @@ namespace MegaMan.Editor.Bll
 
         private string GetBrushFilePath()
         {
-            string dir = System.IO.Path.GetDirectoryName(Tileset.FilePath.Absolute);
-            string file = System.IO.Path.GetFileNameWithoutExtension(Tileset.FilePath.Absolute);
-            string path = System.IO.Path.Combine(dir, file + "_brushes.xml");
+            string dir = Path.GetDirectoryName(Tileset.FilePath.Absolute);
+            string file = Path.GetFileNameWithoutExtension(Tileset.FilePath.Absolute);
+            string path = Path.Combine(dir, file + "_brushes.xml");
             return path;
         }
 
@@ -167,9 +167,9 @@ namespace MegaMan.Editor.Bll
         {
             var path = GetBrushFilePath();
 
-            if (!System.IO.File.Exists(path)) return;
+            if (!File.Exists(path)) return;
 
-            using (var stream = new System.IO.StreamReader(path))
+            using (var stream = new StreamReader(path))
             {
                 while (!stream.EndOfStream)
                 {

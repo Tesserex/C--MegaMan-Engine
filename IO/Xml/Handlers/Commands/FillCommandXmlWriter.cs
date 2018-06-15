@@ -20,7 +20,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 
             writer.WriteStartElement("Fill");
             if (!string.IsNullOrEmpty(fill.Name)) writer.WriteAttributeString("name", fill.Name);
-            writer.WriteAttributeString("color", fill.Red.ToString() + "," + fill.Green.ToString() + "," + fill.Blue.ToString());
+            writer.WriteAttributeString("color", fill.Red + "," + fill.Green + "," + fill.Blue);
             writer.WriteAttributeString("x", fill.X.ToString());
             writer.WriteAttributeString("y", fill.Y.ToString());
             writer.WriteAttributeString("width", fill.Width.ToString());

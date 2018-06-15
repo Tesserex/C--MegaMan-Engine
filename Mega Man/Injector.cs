@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using System.Reflection;
+using MegaMan.IO;
+using Ninject;
 using Ninject.Extensions.Conventions;
 
 namespace MegaMan.Engine
@@ -10,9 +12,9 @@ namespace MegaMan.Engine
         static Injector()
         {
             Container = new StandardKernel();
-            Container.Load(System.Reflection.Assembly.GetCallingAssembly());
+            Container.Load(Assembly.GetCallingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-            Container.Bind(x => x.FromAssemblyContaining<IO.GameLoader>().SelectAllClasses().BindAllInterfaces());
+            Container.Bind(x => x.FromAssemblyContaining<GameLoader>().SelectAllClasses().BindAllInterfaces());
         }
     }
 }

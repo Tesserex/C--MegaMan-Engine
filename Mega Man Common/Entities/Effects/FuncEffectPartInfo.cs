@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MegaMan.Common.Entities.Effects
 {
@@ -11,8 +8,8 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new FuncEffectPartInfo() {
-                Statements = new List<string>(this.Statements)
+            return new FuncEffectPartInfo {
+                Statements = new List<string>(Statements)
             };
         }
     }

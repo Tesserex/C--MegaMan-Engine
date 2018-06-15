@@ -1,10 +1,9 @@
-﻿using System;
+﻿using System.IO;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
-using MegaMan.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MegaMan.Editor.Controls.ViewModels
@@ -131,7 +130,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (ExistingTileset)
             {
-                if (!System.IO.File.Exists(TilesetPath))
+                if (!File.Exists(TilesetPath))
                 {
                     CustomMessageBox.ShowError("That tileset file does not exist.", "Foild!");
                     return;
@@ -143,7 +142,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
             else
             {
-                if (!System.IO.File.Exists(TilesheetPath))
+                if (!File.Exists(TilesheetPath))
                 {
                     CustomMessageBox.ShowError("That image file does not exist.", "Foild!");
                     return;

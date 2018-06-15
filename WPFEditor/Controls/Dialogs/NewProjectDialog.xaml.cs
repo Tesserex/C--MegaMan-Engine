@@ -1,9 +1,9 @@
-﻿using MegaMan.Editor.Controls.ViewModels;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Ninject;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
+using MegaMan.Editor.Controls.ViewModels;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Ninject;
 
 namespace MegaMan.Editor.Controls
 {
@@ -21,7 +21,7 @@ namespace MegaMan.Editor.Controls
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 _viewModel = App.Container.Get<NewProjectViewModel>();
-                this.DataContext = _viewModel;
+                DataContext = _viewModel;
             }
         }
 

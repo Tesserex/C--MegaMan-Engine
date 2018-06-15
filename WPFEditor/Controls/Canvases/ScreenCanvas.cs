@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Tools;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Controls
 {
@@ -51,8 +53,8 @@ namespace MegaMan.Editor.Controls
 
         private void Resized(int width, int height)
         {
-            Width = MaxWidth = MinWidth = _screen.PixelWidth * this.Zoom;
-            Height = MaxHeight = MinHeight = _screen.PixelHeight * this.Zoom;
+            Width = MaxWidth = MinWidth = _screen.PixelWidth * Zoom;
+            Height = MaxHeight = MinHeight = _screen.PixelHeight * Zoom;
             InvalidateMeasure();
         }
 
@@ -64,12 +66,12 @@ namespace MegaMan.Editor.Controls
 
             _toolProvider = toolProvider;
 
-            HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-            VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            HorizontalAlignment = HorizontalAlignment.Left;
+            VerticalAlignment = VerticalAlignment.Top;
 
-            this.Children.Add(_tiles);
-            this.Children.Add(_guides);
-            this.Children.Add(_overlay);
+            Children.Add(_tiles);
+            Children.Add(_guides);
+            Children.Add(_overlay);
 
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Subscribe(ZoomChanged);
         }
@@ -79,7 +81,7 @@ namespace MegaMan.Editor.Controls
             _tiles.Destroy();
             _guides.Destroy();
             _overlay.Destroy();
-            this.Children.Clear();
+            Children.Clear();
             ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Unsubscribe(ZoomChanged);
         }
 
@@ -90,11 +92,11 @@ namespace MegaMan.Editor.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
-            _tiles.Measure(new Size(_screen.PixelWidth * this.Zoom, _screen.PixelHeight * this.Zoom));
-            return new Size(_screen.PixelWidth * this.Zoom, _screen.PixelHeight * this.Zoom);
+            _tiles.Measure(new Size(_screen.PixelWidth * Zoom, _screen.PixelHeight * Zoom));
+            return new Size(_screen.PixelWidth * Zoom, _screen.PixelHeight * Zoom);
         }
 
-        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
 
@@ -106,7 +108,7 @@ namespace MegaMan.Editor.Controls
             _toolProvider.Tool.Click(this, MouseLocation(mousePoint));
         }
 
-        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
 
@@ -118,7 +120,7 @@ namespace MegaMan.Editor.Controls
             _toolProvider.Tool.Release(this, MouseLocation(mousePoint));
         }
 
-        protected override void OnMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonUp(e);
 
@@ -130,7 +132,7 @@ namespace MegaMan.Editor.Controls
             _toolProvider.Tool.RightClick(this, MouseLocation(mousePoint));
         }
 
-        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
@@ -151,9 +153,9 @@ namespace MegaMan.Editor.Controls
             base.OnContextMenuOpening(e);
         }
 
-        private Common.Geometry.Point MouseLocation(Point mousePoint)
+        private Point MouseLocation(System.Windows.Point mousePoint)
         {
-            return new Common.Geometry.Point((int)(mousePoint.X / this.Zoom), (int)(mousePoint.Y / this.Zoom));
+            return new Point((int)(mousePoint.X / Zoom), (int)(mousePoint.Y / Zoom));
         }
 
         static ScreenCanvas()

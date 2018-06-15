@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
@@ -12,7 +8,7 @@ namespace MegaMan.Engine.Forms
 {
     public partial class DeleteConfigs : Form
     {
-        private UserSettings userSettingObject = null;
+        private UserSettings userSettingObject;
         private string settingsPath, fileName;
 
         public DeleteConfigs()
@@ -53,7 +49,7 @@ namespace MegaMan.Engine.Forms
 
                 cbxConfigToDelete.SelectedIndex = 0;
 
-                this.ShowDialog();
+                ShowDialog();
             }
         }
 
@@ -65,7 +61,7 @@ namespace MegaMan.Engine.Forms
         {
             e.Cancel = true;    // If closing it, there will be a failure on call of show method.
             base.OnClosing(e);
-            this.Hide();
+            Hide();
         }
 
         /// <summary>
@@ -105,7 +101,7 @@ namespace MegaMan.Engine.Forms
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnDeleteAll_Click(object sender, EventArgs e)

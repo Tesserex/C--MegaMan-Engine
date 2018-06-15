@@ -1,10 +1,11 @@
-﻿namespace MegaMan.Editor.Controls.ViewModels
-{
-    using System.IO;
-    using System.Windows.Input;
-    using Xceed.Wpf.AvalonDock;
-    using Xceed.Wpf.AvalonDock.Layout.Serialization;
+﻿using System.IO;
+using System.Windows.Input;
+using MegaMan.Editor.AppData;
+using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
+namespace MegaMan.Editor.Controls.ViewModels
+{
     /// <summary>
     /// Class implements a viewmodel to support the
     /// <seealso cref="AvalonDockLayoutSerializer"/>
@@ -15,8 +16,8 @@
     public class AvalonDockLayoutViewModel
     {
         #region fields
-        private RelayCommand mLoadLayoutCommand = null;
-        private RelayCommand mSaveLayoutCommand = null;
+        private RelayCommand mLoadLayoutCommand;
+        private RelayCommand mSaveLayoutCommand;
         #endregion fields
 
         #region command properties
@@ -33,19 +34,19 @@
         {
             get
             {
-                if (this.mLoadLayoutCommand == null)
+                if (mLoadLayoutCommand == null)
                 {
-                    this.mLoadLayoutCommand = new RelayCommand((p) => {
+                    mLoadLayoutCommand = new RelayCommand(p => {
                         DockingManager docManager = p as DockingManager;
 
                         if (docManager == null)
                             return;
 
-                        this.LoadDockingManagerLayout(docManager);
+                        LoadDockingManagerLayout(docManager);
                     });
                 }
 
-                return this.mLoadLayoutCommand;
+                return mLoadLayoutCommand;
             }
         }
 
@@ -64,19 +65,19 @@
         {
             get
             {
-                if (this.mSaveLayoutCommand == null)
+                if (mSaveLayoutCommand == null)
                 {
-                    this.mSaveLayoutCommand = new RelayCommand((p) => {
+                    mSaveLayoutCommand = new RelayCommand(p => {
                         string xmlLayout = p as string;
 
                         if (xmlLayout == null)
                             return;
 
-                        this.SaveDockingManagerLayout(xmlLayout);
+                        SaveDockingManagerLayout(xmlLayout);
                     });
                 }
 
-                return this.mSaveLayoutCommand;
+                return mSaveLayoutCommand;
             }
         }
         #endregion command properties
@@ -91,9 +92,9 @@
         /// <param name="docManager"></param>
         private void LoadDockingManagerLayout(DockingManager docManager)
         {
-            string layoutFileName = System.IO.Path.Combine(AppData.StoredAppData.GetDirectory(), "layout.xml");
+            string layoutFileName = Path.Combine(StoredAppData.GetDirectory(), "layout.xml");
 
-            if (System.IO.File.Exists(layoutFileName) == false)
+            if (File.Exists(layoutFileName) == false)
                 return;
 
             var layoutSerializer = new XmlLayoutSerializer(docManager);
@@ -104,7 +105,6 @@
                 if (args.Model.ContentId == null)
                 {
                     args.Cancel = true;
-                    return;
                 }
             };
 
@@ -120,7 +120,7 @@
             if (xmlLayout == null)
                 return;
 
-            string fileName = System.IO.Path.Combine(AppData.StoredAppData.GetDirectory(), "layout.xml");
+            string fileName = Path.Combine(StoredAppData.GetDirectory(), "layout.xml");
 
             File.WriteAllText(fileName, xmlLayout);
         }

@@ -185,8 +185,7 @@ namespace MegaMan.Engine.Entities.Effects
                     float tmpNum;
                     if (float.TryParse(numStr, out tmpNum))
                         return tmpNum;
-                    else
-                        throw new GameRunException(string.Format("Entity {0} attempted to set position using local variable {1}, but the value it contained was not a number.", entity.Name, numVar));
+                    throw new GameRunException(string.Format("Entity {0} attempted to set position using local variable {1}, but the value it contained was not a number.", entity.Name, numVar));
                 }
             }
 

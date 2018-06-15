@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class PositionEffectPartInfo : IEffectPartInfo
     {
@@ -9,9 +7,9 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new PositionEffectPartInfo() {
-                X = this.X.Clone(),
-                Y = this.Y.Clone()
+            return new PositionEffectPartInfo {
+                X = X.Clone(),
+                Y = Y.Clone()
             };
         }
     }
@@ -26,12 +24,12 @@ namespace MegaMan.Common.Entities.Effects
 
         public PositionEffectAxisInfo Clone()
         {
-            return new PositionEffectAxisInfo() {
-                Base = this.Base,
-                Offset = this.Offset,
-                BaseVar = this.BaseVar,
-                OffsetDirection = this.OffsetDirection,
-                OffsetVar = this.OffsetVar
+            return new PositionEffectAxisInfo {
+                Base = Base,
+                Offset = Offset,
+                BaseVar = BaseVar,
+                OffsetDirection = OffsetDirection,
+                OffsetVar = OffsetVar
             };
         }
     }

@@ -1,11 +1,14 @@
-﻿namespace MegaMan.Engine.Forms
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MegaMan.Engine.Forms
 {
     partial class LoadConfig
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -102,10 +105,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblInfo;
-        private System.Windows.Forms.Button btnSelect;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.ComboBox cbxConfigToPickFrom;
-        private System.Windows.Forms.Label lblInstruction;
+        private Label lblInfo;
+        private Button btnSelect;
+        private Button btnCancel;
+        private ComboBox cbxConfigToPickFrom;
+        private Label lblInstruction;
     }
 }

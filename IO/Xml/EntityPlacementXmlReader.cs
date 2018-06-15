@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml
             if (dirAttr != null)
             {
                 var dir = Direction.Left;
-                Enum.TryParse<Direction>(dirAttr.Value, true, out dir);
+                Enum.TryParse(dirAttr.Value, true, out dir);
                 info.direction = dir;
             }
 
@@ -31,7 +31,7 @@ namespace MegaMan.IO.Xml
             if (respawnAttr != null)
             {
                 var respawn = RespawnBehavior.Offscreen;
-                Enum.TryParse<RespawnBehavior>(respawnAttr.Value, true, out respawn);
+                Enum.TryParse(respawnAttr.Value, true, out respawn);
                 info.respawn = respawn;
             }
 

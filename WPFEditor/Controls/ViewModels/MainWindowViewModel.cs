@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -13,6 +12,7 @@ using MegaMan.Editor.Controls.ViewModels.Dialogs;
 using MegaMan.Editor.Mediator;
 using MegaMan.Editor.Services;
 using MegaMan.IO.DataSources;
+using MegaMan.IO.Xml;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -90,7 +90,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _currentZoom = value;
                 App.Current.Resources["Zoom"] = _currentZoom.Zoom;
                 OnPropertyChanged("CurrentZoom");
-                ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Raise(this, new ZoomChangedEventArgs() { Zoom = _currentZoom.Zoom });
+                ViewModelMediator.Current.GetEvent<ZoomChangedEventArgs>().Raise(this, new ZoomChangedEventArgs { Zoom = _currentZoom.Zoom });
             }
         }
 
@@ -102,10 +102,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                if (this.mAVLayout == null)
-                    this.mAVLayout = new AvalonDockLayoutViewModel();
+                if (mAVLayout == null)
+                    mAVLayout = new AvalonDockLayoutViewModel();
 
-                return this.mAVLayout;
+                return mAVLayout;
             }
         }
 
@@ -116,12 +116,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             ProjectViewModel = new ProjectViewModel();
 
-            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(this.ProjectChanged);
-            ViewModelMediator.Current.GetEvent<TestLocationSelectedEventArgs>().Subscribe(this.TestLocationSelected);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
+            ViewModelMediator.Current.GetEvent<TestLocationSelectedEventArgs>().Subscribe(TestLocationSelected);
 
             AppData = StoredAppData.Load();
 
-            var attr = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyProductAttribute)).Single() as AssemblyProductAttribute;
+            var attr = GetType().Assembly.GetCustomAttributes(typeof(AssemblyProductAttribute)).Single() as AssemblyProductAttribute;
             ApplicationName = attr.Product;
             WindowTitle = attr.Product;
 
@@ -144,7 +144,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void UpdateLayerVisibility(object obj)
         {
-            ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Raise(this, new LayerVisibilityChangedEventArgs() {
+            ViewModelMediator.Current.GetEvent<LayerVisibilityChangedEventArgs>().Raise(this, new LayerVisibilityChangedEventArgs {
                 BordersVisible = ShowRoomBorders,
                 TilePropertiesVisible = ShowTileProperties
             });
@@ -190,7 +190,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 else
                     throw;
             }
-            catch (MegaMan.IO.Xml.GameXmlException)
+            catch (GameXmlException)
             {
                 CustomMessageBox.ShowError("The selected project could not be loaded. There was an error while parsing the project files.", ApplicationName);
             }
@@ -206,7 +206,7 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (!proceed)
                     return;
 
-                var args = new ProjectChangedEventArgs() { Project = project };
+                var args = new ProjectChangedEventArgs { Project = project };
                 ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
             }
         }
@@ -268,7 +268,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (CurrentProject != null)
             {
-                var args = new ProjectChangedEventArgs() { Project = null };
+                var args = new ProjectChangedEventArgs { Project = null };
                 ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Raise(this, args);
             }
         }

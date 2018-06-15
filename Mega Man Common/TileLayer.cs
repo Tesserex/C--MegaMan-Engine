@@ -19,9 +19,9 @@ namespace MegaMan.Common
 
         public TileLayer(int[,] tiles, Tileset tileset, int base_x, int base_y)
         {
-            this.Tileset = tileset;
-            this.BaseX = base_x;
-            this.BaseY = base_y;
+            Tileset = tileset;
+            BaseX = base_x;
+            BaseY = base_y;
             this.tiles = tiles;
         }
 
@@ -33,7 +33,7 @@ namespace MegaMan.Common
 
         public TileLayer Clone()
         {
-            return new TileLayer((int[,])this.tiles.Clone(), this.Tileset, this.BaseX, this.BaseY);
+            return new TileLayer((int[,])tiles.Clone(), Tileset, BaseX, BaseY);
         }
 
         public void Save(string filepath)
@@ -42,13 +42,13 @@ namespace MegaMan.Common
             {
                 using (StreamWriter s = new StreamWriter(f))
                 {
-                    s.WriteLine(Width.ToString() + " " + Height.ToString());
+                    s.WriteLine(Width + " " + Height);
 
                     for (int y = 0; y < Height; y++)
                     {
                         for (int x = 0; x < Width; x++)
                         {
-                            s.Write(tiles[x,y].ToString() + " ");
+                            s.Write(tiles[x,y] + " ");
                         }
                         s.Write('\n');
                     }
@@ -70,22 +70,22 @@ namespace MegaMan.Common
 
         public void ChangeTiles(Point offset, int[,] newTiles)
         {
-            int minWidth = Math.Min(newTiles.GetLength(0), this.Width - offset.X);
-            int minHeight = Math.Min(newTiles.GetLength(1), this.Height - offset.Y);
+            int minWidth = Math.Min(newTiles.GetLength(0), Width - offset.X);
+            int minHeight = Math.Min(newTiles.GetLength(1), Height - offset.Y);
 
             for (int x = 0; x < minWidth; x++)
             {
                 for (int y = 0; y < minHeight; y++)
                 {
-                    this.tiles[x + offset.X, y + offset.Y] = newTiles[x, y];
+                    tiles[x + offset.X, y + offset.Y] = newTiles[x, y];
                 }
             }
         }
 
         public int[,] GetTiles(Point offset, int width, int height)
         {
-            width = Math.Min(width, this.Width - offset.X);
-            height = Math.Min(height, this.Height - offset.Y);
+            width = Math.Min(width, Width - offset.X);
+            height = Math.Min(height, Height - offset.Y);
 
             var tileBuffer = new int[width, height];
 
@@ -93,7 +93,7 @@ namespace MegaMan.Common
             {
                 for (int y = 0; y < height; y++)
                 {
-                    tileBuffer[x, y] = this.tiles[x + offset.X, y + offset.Y];
+                    tileBuffer[x, y] = tiles[x + offset.X, y + offset.Y];
                 }
             }
 
@@ -102,21 +102,21 @@ namespace MegaMan.Common
 
         public void Resize(int width, int height)
         {
-            var currentTileBuffer = this.tiles;
+            var currentTileBuffer = tiles;
 
-            this.tiles = CreateNewTiles(width, height);
+            tiles = CreateNewTiles(width, height);
 
             ChangeTiles(Point.Empty, currentTileBuffer);
         }
 
         public void ResizeTopLeft(int width, int height)
         {
-            var bufferOffset = new Point(Math.Max(0, this.Width - width), Math.Max(0, this.Height - height));
-            var placementOffset = new Point(Math.Max(0, width - this.Width), Math.Max(0, height - this.Height));
+            var bufferOffset = new Point(Math.Max(0, Width - width), Math.Max(0, Height - height));
+            var placementOffset = new Point(Math.Max(0, width - Width), Math.Max(0, height - Height));
 
-            var currentTileBuffer = GetTiles(bufferOffset, this.Width, this.Height);
+            var currentTileBuffer = GetTiles(bufferOffset, Width, Height);
 
-            this.tiles = CreateNewTiles(width, height);
+            tiles = CreateNewTiles(width, height);
 
             ChangeTiles(placementOffset, currentTileBuffer);
         }

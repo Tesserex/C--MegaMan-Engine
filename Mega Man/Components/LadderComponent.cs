@@ -52,7 +52,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            LadderComponent copy = new LadderComponent {hitboxes = this.hitboxes};
+            LadderComponent copy = new LadderComponent {hitboxes = hitboxes};
             return copy;
         }
 

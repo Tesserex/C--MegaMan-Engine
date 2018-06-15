@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Linq;
 
 namespace MegaMan.IO.Xml
@@ -18,7 +19,7 @@ namespace MegaMan.IO.Xml
 
         public static T TryAttribute<T>(this XElement node, String attributeName)
         {
-            return TryAttribute<T>(node, attributeName, default(T));
+            return TryAttribute(node, attributeName, default(T));
         }
 
         public static T TryAttribute<T>(this XElement node, String attributeName, T defaultValue)
@@ -58,7 +59,7 @@ namespace MegaMan.IO.Xml
 
         public static T TryValue<T>(this XElement node)
         {
-            return TryValue<T>(node, default(T));
+            return TryValue(node, default(T));
         }
 
         public static T TryValue<T>(this XElement node, T defaultValue)
@@ -111,10 +112,8 @@ namespace MegaMan.IO.Xml
             {
                 return (T)Enum.Parse(underlyingType, value, true);
             }
-            else
-            {
-                return (T)Convert.ChangeType(value, underlyingType, System.Globalization.CultureInfo.InvariantCulture);
-            }
+
+            return (T)Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
         }
     }
 }

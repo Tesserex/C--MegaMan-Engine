@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using MegaMan.Common;
@@ -27,7 +28,7 @@ namespace MegaMan.IO.Xml
             writer.WriteStartElement("Game");
             if (!string.IsNullOrEmpty(project.Name)) writer.WriteAttributeString("name", project.Name);
             if (!string.IsNullOrEmpty(project.Author)) writer.WriteAttributeString("author", project.Author);
-            writer.WriteAttributeString("version", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            writer.WriteAttributeString("version", Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             writer.WriteStartElement("Size");
             writer.WriteAttributeString("x", project.ScreenWidth.ToString());

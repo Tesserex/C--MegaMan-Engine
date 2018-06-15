@@ -12,7 +12,7 @@ namespace MegaMan.Engine
         float OffsetY { get; }
         MapSquare SquareAt(float px, float py);
         IEnumerable<MapSquare> Tiles { get; }
-        MegaMan.Common.Tile TileAt(float px, float py);
+        Tile TileAt(float px, float py);
         bool IsOnScreen(float x, float y);
     }
 

@@ -1,16 +1,15 @@
-﻿using MegaMan.Common;
-using MegaMan.Common.Geometry;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+using MegaMan.Common;
+using MegaMan.Common.Rendering;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Color = MegaMan.Common.Color;
 using MegaRect = MegaMan.Common.Geometry.Rectangle;
+using Point = MegaMan.Common.Geometry.Point;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
-using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine.Rendering
 {
@@ -128,10 +127,10 @@ namespace MegaMan.Engine.Rendering
             return _loadedResources[texturePath];
         }
 
-        public IResourceImage CreateColorResource(Common.Color color)
+        public IResourceImage CreateColorResource(Color color)
         {
             var texture = new Texture2D(Engine.Instance.GraphicsDevice, 1, 1);
-            texture.SetData(new XnaColor[] { new XnaColor(color.R, color.G, color.B, color.A) });
+            texture.SetData(new[] { new XnaColor(color.R, color.G, color.B, color.A) });
             return AddTexture(texture, null);
         }
 
@@ -143,7 +142,7 @@ namespace MegaMan.Engine.Rendering
             return new XnaResourceImage(nextIndex, palette, texture.Width, texture.Height);
         }
 
-        public void Draw(IResourceImage resource, int layer, MegaMan.Common.Geometry.Point position, MegaRect? sourceRect = null, bool flipHorizontal = false, bool flipVertical = false)
+        public void Draw(IResourceImage resource, int layer, Point position, MegaRect? sourceRect = null, bool flipHorizontal = false, bool flipVertical = false)
         {
             if (!IsLayerEnabled(layer)) return;
 
@@ -156,7 +155,7 @@ namespace MegaMan.Engine.Rendering
                 if (palette != null)
                 {
                     VerifyPaletteSwaps(palette, resource.ResourceId, texture);
-                    texture = this._paletteSwaps[resource.ResourceId][palette.CurrentIndex];
+                    texture = _paletteSwaps[resource.ResourceId][palette.CurrentIndex];
                 }
             }
 
@@ -178,7 +177,7 @@ namespace MegaMan.Engine.Rendering
 
         private void VerifyPaletteSwaps(Palette palette, int id, Texture2D texture)
         {
-            if (!this._paletteSwaps.ContainsKey(id))
+            if (!_paletteSwaps.ContainsKey(id))
             {
                 _paletteSwaps[id] = GenerateSwappedTextures(palette, texture);
             }

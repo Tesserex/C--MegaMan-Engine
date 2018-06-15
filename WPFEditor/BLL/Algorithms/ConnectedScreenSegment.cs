@@ -1,8 +1,8 @@
-﻿using MegaMan.Common.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using MegaMan.Common;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Editor.Bll.Algorithms
 {
@@ -71,7 +71,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 return false;
             }
 
-            return _screens.Any(s => otherSegment._screens.Any(o => Rectangle.Intersect(s.GetLocation(this.Location), o.GetLocation(otherSegment.Location)) != Rectangle.Empty));
+            return _screens.Any(s => otherSegment._screens.Any(o => Rectangle.Intersect(s.GetLocation(Location), o.GetLocation(otherSegment.Location)) != Rectangle.Empty));
         }
 
         public void GrowLayout(ScreenDocument screen, IEnumerable<ScreenDocument> allScreens)
@@ -96,7 +96,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 {
                     var screenOne = allScreens.Single(s => s.Name == join.screenOne);
 
-                    if (join.type == Common.JoinType.Horizontal)
+                    if (join.type == JoinType.Horizontal)
                     {
                         Point offset = new Point(join.offsetTwo - join.offsetOne, -screenOne.Height);
                         GrowLayout(screenOne, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));
@@ -112,7 +112,7 @@ namespace MegaMan.Editor.Bll.Algorithms
                 {
                     var screenTwo = allScreens.Single(s => s.Name == join.screenTwo);
 
-                    if (join.type == Common.JoinType.Horizontal)
+                    if (join.type == JoinType.Horizontal)
                     {
                         Point offset = new Point(join.offsetOne - join.offsetTwo, screen.Height);
                         GrowLayout(screenTwo, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 
@@ -38,13 +37,11 @@ namespace MegaMan.Editor.Bll.Tools
 
         public SingleTileBrush(Tile tile)
         {
-            this._tile = tile;
-            _cells = new TileBrushCell[][]
-            {
-                new TileBrushCell[]
+            _tile = tile;
+            _cells = new[] {
+                new[]
                 {
-                    new TileBrushCell()
-                    {
+                    new TileBrushCell {
                         tile = _tile,
                         x = 0,
                         y = 0
@@ -187,7 +184,7 @@ namespace MegaMan.Editor.Bll.Tools
             if (old.Id != cell.tile.Id)
             {
                 screen.ChangeTile(tile_x, tile_y, cell.tile.Id);
-                return new List<TileChange>() { new TileChange(screen, tile_x, tile_y, old.Id, cell.tile.Id) };
+                return new List<TileChange> { new TileChange(screen, tile_x, tile_y, old.Id, cell.tile.Id) };
             }
 
             return Enumerable.Empty<TileChange>();

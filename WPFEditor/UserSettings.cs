@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Editor
+﻿namespace MegaMan.Editor
 {
     #region Constant Values
     public class Constants

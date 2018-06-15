@@ -19,7 +19,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         private void MenuItem_Click(object sender, EventArgs e)
         {
-            Set(!this.menuItem.Checked);
+            Set(!menuItem.Checked);
         }
 
         public void LoadSettings(Setting settings)
@@ -36,7 +36,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public void Set(bool value)
         {
-            this.menuItem.Checked = value;
+            menuItem.Checked = value;
 
             if (channel == 1)
                 Engine.Instance.SoundSystem.SquareOne = value;
@@ -54,13 +54,13 @@ namespace MegaMan.Engine.Forms.MenuControllers
                 settings.Audio = new LastAudio();
 
             if (channel == 1)
-                settings.Audio.Square1 = this.menuItem.Checked;
+                settings.Audio.Square1 = menuItem.Checked;
             else if (channel == 2)
-                settings.Audio.Square2 = this.menuItem.Checked;
+                settings.Audio.Square2 = menuItem.Checked;
             else if (channel == 3)
-                settings.Audio.Triangle = this.menuItem.Checked;
+                settings.Audio.Triangle = menuItem.Checked;
             else if (channel == 4)
-                settings.Audio.Noise = this.menuItem.Checked;
+                settings.Audio.Noise = menuItem.Checked;
         }
     }
 }

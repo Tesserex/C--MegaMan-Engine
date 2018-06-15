@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
@@ -44,7 +40,7 @@ namespace MegaMan.Engine.Forms
 
             cbxConfigToPickFrom.DataSource = configNames;
 
-            this.ShowDialog();
+            ShowDialog();
         }
 
         /// <summary>
@@ -55,7 +51,7 @@ namespace MegaMan.Engine.Forms
         {
             e.Cancel = true;    // If closing it, there will be a failure on call of show method.
             base.OnClosing(e);
-            this.Hide();
+            Hide();
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
@@ -67,12 +63,12 @@ namespace MegaMan.Engine.Forms
             else settingsSelected = userSettingObject.GetSettingByIndex(selection - 1); // -1 because an option is added at position 0
 
             RaiseApply();
-            this.Close();
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void RaiseApply()

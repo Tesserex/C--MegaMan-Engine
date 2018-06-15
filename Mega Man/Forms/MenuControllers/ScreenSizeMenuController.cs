@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
@@ -26,12 +23,12 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         protected virtual void Controller_NtscSet(object sender, ScreenScaleNtscEventArgs e)
         {
-            this.item.Checked = false;
+            item.Checked = false;
         }
 
         protected virtual void Controller_SizeChanged(object sender, ScreenScaleChangedEventArgs e)
         {
-            this.item.Checked = (e.Scale == this.scale);
+            item.Checked = (e.Scale == scale);
         }
 
         private void Item_Click(object sender, EventArgs e)
@@ -41,15 +38,15 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public virtual void LoadSettings(Setting settings)
         {
-            Set(settings.Screens.Size == this.scale);
+            Set(settings.Screens.Size == scale);
         }
 
         public virtual void Set(bool value)
         {
-            this.item.Checked = value;
+            item.Checked = value;
             if (value)
             {
-                this.controller.Change(this.scale);
+                controller.Change(scale);
             }
         }
 
@@ -58,8 +55,8 @@ namespace MegaMan.Engine.Forms.MenuControllers
             if (settings.Screens == null)
                 settings.Screens = new LastScreen();
 
-            if (this.item.Checked)
-                settings.Screens.Size = this.scale;
+            if (item.Checked)
+                settings.Screens.Size = scale;
         }
     }
 }

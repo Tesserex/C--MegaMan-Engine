@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MegaMan.Common;
 using MegaMan.Editor.Controls.ViewModels;
 
 namespace MegaMan.Editor.Controls
@@ -32,13 +33,13 @@ namespace MegaMan.Editor.Controls
             InitializeComponent();
         }
 
-        public SpriteEditor(Common.Sprite sprite)
+        public SpriteEditor(Sprite sprite)
         {
             var viewModel = new SpriteEditorViewModel(new SpriteViewModel(sprite));
 
             InitializeComponent();
 
-            this.DataContext = viewModel;
+            DataContext = viewModel;
         }
 
         private void SheetMouseMove(object sender, MouseEventArgs e)

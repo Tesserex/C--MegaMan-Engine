@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class RemoveInventoryEffectPartInfo : IEffectPartInfo
     {
@@ -12,9 +7,9 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new RemoveInventoryEffectPartInfo() {
-                ItemName = this.ItemName,
-                Quantity = this.Quantity
+            return new RemoveInventoryEffectPartInfo {
+                ItemName = ItemName,
+                Quantity = Quantity
             };
         }
     }

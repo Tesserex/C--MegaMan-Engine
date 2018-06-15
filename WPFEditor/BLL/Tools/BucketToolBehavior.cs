@@ -117,7 +117,7 @@ namespace MegaMan.Editor.Bll.Tools
             int tile_y = location.Y / surface.Screen.Tileset.TileSize;
 
             var tile = surface.Screen.TileAt(tile_x, tile_y);
-            ViewModelMediator.Current.GetEvent<TileSelectedEventArgs>().Raise(this, new TileSelectedEventArgs() { Tile = tile });
+            ViewModelMediator.Current.GetEvent<TileSelectedEventArgs>().Raise(this, new TileSelectedEventArgs { Tile = tile });
         }
 
         public bool SuppressContextMenu { get { return true; } }

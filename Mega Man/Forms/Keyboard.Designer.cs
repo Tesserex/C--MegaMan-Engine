@@ -1,11 +1,14 @@
-﻿namespace MegaMan.Engine
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MegaMan.Engine
 {
     partial class Keyboard
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -572,48 +575,48 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label upKeyLabel;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label leftKeyLabel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label jumpKeyLabel;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label startKeyLabel;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label downKeyLabel;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label rightKeyLabel;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label shootKeyLabel;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label selectKeyLabel;
-        private System.Windows.Forms.Button btnSetUp;
-        private System.Windows.Forms.Button btnSetStart;
-        private System.Windows.Forms.Button btnSetSelect;
-        private System.Windows.Forms.Button btnSetShoot;
-        private System.Windows.Forms.Button btnSetRight;
-        private System.Windows.Forms.Button btnSetDown;
-        private System.Windows.Forms.Button btnSetJump;
-        private System.Windows.Forms.Button btnSetLeft;
-        private System.Windows.Forms.RadioButton btnKeyboard;
-        private System.Windows.Forms.RadioButton btnJoystick;
-        private System.Windows.Forms.RadioButton btnGamepad;
-        private System.Windows.Forms.Label selectPadLabel;
-        private System.Windows.Forms.Label shootPadLabel;
-        private System.Windows.Forms.Label rightPadLabel;
-        private System.Windows.Forms.Label downPadLabel;
-        private System.Windows.Forms.Label startPadLabel;
-        private System.Windows.Forms.Label jumpPadLabel;
-        private System.Windows.Forms.Label leftPadLabel;
-        private System.Windows.Forms.Label upPadLabel;
-        private System.Windows.Forms.Label selectJoyLabel;
-        private System.Windows.Forms.Label shootJoyLabel;
-        private System.Windows.Forms.Label rightJoyLabel;
-        private System.Windows.Forms.Label downJoyLabel;
-        private System.Windows.Forms.Label startJoyLabel;
-        private System.Windows.Forms.Label jumpJoyLabel;
-        private System.Windows.Forms.Label leftJoyLabel;
-        private System.Windows.Forms.Label upJoyLabel;
+        private Label label1;
+        private Label upKeyLabel;
+        private Label label3;
+        private Label leftKeyLabel;
+        private Label label5;
+        private Label jumpKeyLabel;
+        private Label label7;
+        private Label startKeyLabel;
+        private Label label9;
+        private Label downKeyLabel;
+        private Label label11;
+        private Label rightKeyLabel;
+        private Label label13;
+        private Label shootKeyLabel;
+        private Label label15;
+        private Label selectKeyLabel;
+        private Button btnSetUp;
+        private Button btnSetStart;
+        private Button btnSetSelect;
+        private Button btnSetShoot;
+        private Button btnSetRight;
+        private Button btnSetDown;
+        private Button btnSetJump;
+        private Button btnSetLeft;
+        private RadioButton btnKeyboard;
+        private RadioButton btnJoystick;
+        private RadioButton btnGamepad;
+        private Label selectPadLabel;
+        private Label shootPadLabel;
+        private Label rightPadLabel;
+        private Label downPadLabel;
+        private Label startPadLabel;
+        private Label jumpPadLabel;
+        private Label leftPadLabel;
+        private Label upPadLabel;
+        private Label selectJoyLabel;
+        private Label shootJoyLabel;
+        private Label rightJoyLabel;
+        private Label downJoyLabel;
+        private Label startJoyLabel;
+        private Label jumpJoyLabel;
+        private Label leftJoyLabel;
+        private Label upJoyLabel;
     }
 }

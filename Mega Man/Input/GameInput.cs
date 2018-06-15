@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
@@ -147,19 +145,19 @@ namespace MegaMan.Engine.Input
     {
         public GameInputs Input { get; private set; }
         public InputTypes InputType { get { return InputTypes.Keyboard; } }
-        public System.Windows.Forms.Keys Key { get; private set; }
+        public Keys Key { get; private set; }
 
-        public KeyboardInputBinding(GameInputs input, System.Windows.Forms.Keys key)
+        public KeyboardInputBinding(GameInputs input, Keys key)
         {
-            this.Input = input;
-            this.Key = key;
+            Input = input;
+            Key = key;
         }
 
-        public bool IsPressed { get { return Program.KeyDown(this.Key); } }
+        public bool IsPressed { get { return Program.KeyDown(Key); } }
 
         public override string ToString()
         {
-            return this.Key.ToString();
+            return Key.ToString();
         }
     }
 
@@ -173,17 +171,17 @@ namespace MegaMan.Engine.Input
 
         public JoystickInputBinding(GameInputs input, Guid guid, JoystickOffset button, int value = 0)
         {
-            this.Input = input;
-            this.DeviceGuid = guid;
-            this.Button = button;
-            this.Value = value;
+            Input = input;
+            DeviceGuid = guid;
+            Button = button;
+            Value = value;
         }
 
         public bool IsPressed { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", this.Button.ToString(), this.Value != 0 ? this.Value.ToString() : "");
+            return string.Format("{0} {1}", Button.ToString(), Value != 0 ? Value.ToString() : "");
         }
     }
 
@@ -195,15 +193,15 @@ namespace MegaMan.Engine.Input
 
         public GamepadInputBinding(GameInputs input, GamepadButtonFlags button)
         {
-            this.Input = input;
-            this.Button = button;
+            Input = input;
+            Button = button;
         }
 
         public bool IsPressed { get; set; }
 
         public override string ToString()
         {
-            return this.Button.ToString();
+            return Button.ToString();
         }
     }
 }

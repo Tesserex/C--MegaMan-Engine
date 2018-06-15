@@ -20,7 +20,7 @@ namespace MegaMan.Common.IncludedObjects
 
         public HandlerInfo()
         {
-            this.Objects = new Dictionary<string, IHandlerObjectInfo>();
+            Objects = new Dictionary<string, IHandlerObjectInfo>();
         }
     }
 }

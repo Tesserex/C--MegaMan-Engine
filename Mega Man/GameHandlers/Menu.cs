@@ -23,47 +23,47 @@ namespace MegaMan.Engine
         {
             this.info = info;
             Info = info;
-            this.options = new List<MenuOptionCommandInfo>();
+            options = new List<MenuOptionCommandInfo>();
             _screen = new NullTiledScreen();
         }
 
         private void ResetState()
         {
-            this.selectedId = 0;
+            selectedId = 0;
 
-            if (this.state.StartOptionName != null)
+            if (state.StartOptionName != null)
             {
-                var findId = this.options.FindIndex(o => o.Name == this.state.StartOptionName);
+                var findId = options.FindIndex(o => o.Name == state.StartOptionName);
                 if (findId >= 0)
                 {
-                    this.selectedId = findId;
+                    selectedId = findId;
                 }
             }
-            else if (this.state.StartOptionVar != null)
+            else if (state.StartOptionVar != null)
             {
-                var findId = this.options.FindIndex(o => o.Name == Game.CurrentGame.Player.Var(this.state.StartOptionVar));
+                var findId = options.FindIndex(o => o.Name == Game.CurrentGame.Player.Var(state.StartOptionVar));
                 if (findId >= 0)
                 {
-                    this.selectedId = findId;
+                    selectedId = findId;
                 }
             }
 
-            var option = this.options[this.selectedId];
+            var option = options[selectedId];
 
             if (option.OnEvent != null)
             {
                 RunCommands(option.OnEvent);
             }
 
-            this.currentPos = new Point(option.X, option.Y);
+            currentPos = new Point(option.X, option.Y);
         }
 
         public override void StartHandler(IEntityPool entityPool)
         {
             base.StartHandler(entityPool);
 
-            this.state = this.info.States[0];
-            RunCommands(this.state.Commands);
+            state = info.States[0];
+            RunCommands(state.Commands);
 
             ResetState();
         }
@@ -76,7 +76,7 @@ namespace MegaMan.Engine
             {
                 if (cmd.Type == SceneCommands.Option)
                 {
-                    this.options.Add((MenuOptionCommandInfo)cmd);
+                    options.Add((MenuOptionCommandInfo)cmd);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace MegaMan.Engine
 
             if (e.Input == GameInputs.Start)
             {
-                var select = this.options[selectedId].SelectEvent;
+                var select = options[selectedId].SelectEvent;
                 if (select != null)
                 {
                     RunCommands(select);
@@ -188,14 +188,14 @@ namespace MegaMan.Engine
 
         private void SelectOption(int id)
         {
-            var off = this.options[selectedId].OffEvent;
-            var on = this.options[id].OnEvent;
+            var off = options[selectedId].OffEvent;
+            var on = options[id].OnEvent;
 
             if (off != null) RunCommands(off);
             if (on != null) RunCommands(on);
 
             selectedId = id;
-            currentPos = new Point(this.options[id].X, this.options[id].Y);
+            currentPos = new Point(options[id].X, options[id].Y);
         }
 
         private static Dictionary<string, Menu> menus = new Dictionary<string, Menu>();

@@ -15,22 +15,22 @@ namespace MegaMan.Common
 
         public ScreenLayerInfo(string name, TileLayer tiles, bool foreground, List<ScreenLayerKeyframe> keyframes)
         {
-            this.Name = name;
-            this.Tiles = tiles;
-            this.Foreground = foreground;
-            this.Entities = new List<EntityPlacement>();
-            this.Keyframes = keyframes;
+            Name = name;
+            Tiles = tiles;
+            Foreground = foreground;
+            Entities = new List<EntityPlacement>();
+            Keyframes = keyframes;
         }
 
         public void AddEntity(EntityPlacement entity)
         {
-            this.Entities.Add(entity);
+            Entities.Add(entity);
         }
 
         public ScreenLayerInfo Clone()
         {
-            return new ScreenLayerInfo(this.Name, this.Tiles.Clone(), this.Foreground, this.Keyframes.Select(x => x.Clone()).ToList()) {
-                Entities = this.Entities.Select(x => x.Clone()).ToList()
+            return new ScreenLayerInfo(Name, Tiles.Clone(), Foreground, Keyframes.Select(x => x.Clone()).ToList()) {
+                Entities = Entities.Select(x => x.Clone()).ToList()
             };
         }
     }
@@ -43,10 +43,10 @@ namespace MegaMan.Common
 
         public ScreenLayerKeyframe Clone()
         {
-            return new ScreenLayerKeyframe() {
-                Frame = this.Frame,
-                Move = this.Move.Clone(),
-                Reset = this.Reset
+            return new ScreenLayerKeyframe {
+                Frame = Frame,
+                Move = Move.Clone(),
+                Reset = Reset
             };
         }
     }
@@ -59,10 +59,10 @@ namespace MegaMan.Common
 
         public ScreenLayerMoveCommand Clone()
         {
-            return new ScreenLayerMoveCommand() {
-                X = this.X,
-                Y = this.Y,
-                Duration = this.Duration
+            return new ScreenLayerMoveCommand {
+                X = X,
+                Y = Y,
+                Duration = Duration
             };
         }
     }

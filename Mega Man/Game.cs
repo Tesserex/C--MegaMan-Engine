@@ -108,7 +108,7 @@ namespace MegaMan.Engine
         private void LoadFile(string path, List<string> pathArgs = null)
         {
             var projectLoader = new GameLoader();
-            this.FileReaderProvider = projectLoader.Load(path);
+            FileReaderProvider = projectLoader.Load(path);
             project = FileReaderProvider.GetProjectReader().Load();
 
             BasePath = project.BaseDir;
@@ -180,7 +180,7 @@ namespace MegaMan.Engine
             switch (parts[0].ToUpper())
             {
                 case "SCENE":
-                    _stateMachine.StartScene(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    _stateMachine.StartScene(new HandlerTransfer { Name = name, Mode = HandlerMode.Next });
                     break;
 
                 case "STAGE":
@@ -196,7 +196,7 @@ namespace MegaMan.Engine
                     break;
 
                 case "MENU":
-                    _stateMachine.StartMenu(new HandlerTransfer() { Name = name, Mode = HandlerMode.Next });
+                    _stateMachine.StartMenu(new HandlerTransfer { Name = name, Mode = HandlerMode.Next });
                     break;
 
                 default:
@@ -213,16 +213,14 @@ namespace MegaMan.Engine
         {
             if (CurrentGame != null)
                 return CurrentGame._entityPool.GetTotalAlive();
-            else
-                return 0;
+            return 0;
         }
 
         public static int XmlNumAlive(string name)
         {
             if (CurrentGame != null)
                 return CurrentGame._entityPool.GetNumberAlive(name);
-            else
-                return 0;
+            return 0;
         }
 
 #if DEBUG

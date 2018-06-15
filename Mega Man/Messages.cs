@@ -1,5 +1,5 @@
-﻿using MegaMan.Engine.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {

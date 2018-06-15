@@ -12,7 +12,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         {
             var info = new ScenePlayCommandInfo();
 
-            info.Track = node.TryAttribute<int>("nsftrack", node.TryAttribute<int>("track"));
+            info.Track = node.TryAttribute("nsftrack", node.TryAttribute<int>("track"));
 
             var intro = node.Element("Intro");
             var loop = node.Element("Loop");

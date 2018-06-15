@@ -29,21 +29,21 @@ namespace MegaMan.Editor.Controls.ViewModels.Dialogs
             this.entities = entities;
             this.name = name;
             
-            this.DuplicateEntries = entities
-                .Select(e => new DuplicateObjectViewModel() {
+            DuplicateEntries = entities
+                .Select(e => new DuplicateObjectViewModel {
                     StoragePath = e.StoragePath.Relative,
                     ModifyDate = File.GetLastWriteTime(e.StoragePath.Absolute).ToString("g")
                 })
                 .ToList();
 
-            this.SetFile = new RelayCommand(x => { SelectedFile = x.ToString(); });
+            SetFile = new RelayCommand(x => { SelectedFile = x.ToString(); });
         }
 
         public string Message
         {
             get
             {
-                return string.Format("The project contains multiple {0} named {1}. Which version should be loaded?", this.objectType, this.name);
+                return string.Format("The project contains multiple {0} named {1}. Which version should be loaded?", objectType, name);
             }
         }
     }

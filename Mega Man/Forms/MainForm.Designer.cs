@@ -1,11 +1,14 @@
-﻿namespace MegaMan.Engine
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MegaMan.Engine
 {
     partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -791,84 +794,84 @@
 
         #endregion
 
-        private MegaMan.Engine.EngineGraphicsControl xnaImage;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeGameToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip debugBar;
-        private System.Windows.Forms.ToolStripStatusLabel fpsLabel;
-        private System.Windows.Forms.ToolStripStatusLabel thinkLabel;
-        private System.Windows.Forms.ToolStripStatusLabel entityLabel;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem debugBarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showHitboxesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem invincibilityToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gravityFlipToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem inputToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem keyboardToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem layersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sprites1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sprites2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sprites3ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sprites4ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem foregroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screen1XMenu;
-        private System.Windows.Forms.ToolStripMenuItem screen2XMenu;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem smoothedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pixellatedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screenNTSCMenu;
-        private System.Windows.Forms.ToolStripMenuItem ntscComposite;
-        private System.Windows.Forms.ToolStripMenuItem ntscSVideo;
-        private System.Windows.Forms.ToolStripMenuItem ntscRGB;
-        private System.Windows.Forms.ToolStripMenuItem ntscCustom;
-        private System.Windows.Forms.ToolStripStatusLabel fpsCapLabel;
-        private System.Windows.Forms.ToolStripMenuItem framerateUpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem framerateDownToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem debugCheatMenu;
-        private System.Windows.Forms.ToolStripMenuItem emptyHealthMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fillHealthMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem emptyWeaponMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fillWeaponMenuIem;
-        private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem musicMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sfxMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem sq1MenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sq2MenuItem;
-        private System.Windows.Forms.ToolStripMenuItem triMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem noiseMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem screenshotMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screen3XMenu;
-        private System.Windows.Forms.ToolStripMenuItem screen4XMenu;
-        private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem activateAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem defaultFramerateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem pauseEngineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripMenuItem noDamageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem increaseVolumeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem decreaseVolumeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripMenuItem defaultConfigToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripMenuItem saveConfigurationsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autosaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripMenuItem autoloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadConfigurationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteConfigurationsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
+        private EngineGraphicsControl xnaImage;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem loadToolStripMenuItem;
+        private ToolStripMenuItem closeGameToolStripMenuItem;
+        private StatusStrip debugBar;
+        private ToolStripStatusLabel fpsLabel;
+        private ToolStripStatusLabel thinkLabel;
+        private ToolStripStatusLabel entityLabel;
+        private ToolStripMenuItem quitToolStripMenuItem;
+        private ToolStripMenuItem debugToolStripMenuItem;
+        private ToolStripMenuItem debugBarToolStripMenuItem;
+        private ToolStripMenuItem showHitboxesToolStripMenuItem;
+        private ToolStripMenuItem invincibilityToolStripMenuItem;
+        private ToolStripMenuItem gravityFlipToolStripMenuItem;
+        private ToolStripMenuItem resetToolStripMenuItem;
+        private ToolStripMenuItem inputToolStripMenuItem;
+        private ToolStripMenuItem keyboardToolStripMenuItem;
+        private ToolStripMenuItem layersToolStripMenuItem;
+        private ToolStripMenuItem backgroundToolStripMenuItem;
+        private ToolStripMenuItem sprites1ToolStripMenuItem;
+        private ToolStripMenuItem sprites2ToolStripMenuItem;
+        private ToolStripMenuItem sprites3ToolStripMenuItem;
+        private ToolStripMenuItem sprites4ToolStripMenuItem;
+        private ToolStripMenuItem foregroundToolStripMenuItem;
+        private ToolStripMenuItem screenToolStripMenuItem;
+        private ToolStripMenuItem screen1XMenu;
+        private ToolStripMenuItem screen2XMenu;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem smoothedToolStripMenuItem;
+        private ToolStripMenuItem pixellatedToolStripMenuItem;
+        private ToolStripMenuItem screenNTSCMenu;
+        private ToolStripMenuItem ntscComposite;
+        private ToolStripMenuItem ntscSVideo;
+        private ToolStripMenuItem ntscRGB;
+        private ToolStripMenuItem ntscCustom;
+        private ToolStripStatusLabel fpsCapLabel;
+        private ToolStripMenuItem framerateUpToolStripMenuItem;
+        private ToolStripMenuItem framerateDownToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem debugCheatMenu;
+        private ToolStripMenuItem emptyHealthMenuItem;
+        private ToolStripMenuItem fillHealthMenuItem;
+        private ToolStripMenuItem emptyWeaponMenuItem;
+        private ToolStripMenuItem fillWeaponMenuIem;
+        private ToolStripMenuItem audioToolStripMenuItem;
+        private ToolStripMenuItem musicMenuItem;
+        private ToolStripMenuItem sfxMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem sq1MenuItem;
+        private ToolStripMenuItem sq2MenuItem;
+        private ToolStripMenuItem triMenuItem;
+        private ToolStripMenuItem noiseMenuItem;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripMenuItem screenshotMenuItem;
+        private ToolStripMenuItem hideMenuItem;
+        private ToolStripMenuItem screen3XMenu;
+        private ToolStripMenuItem screen4XMenu;
+        private ToolStripMenuItem fullScreenToolStripMenuItem;
+        private ToolStripMenuItem activateAllToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripMenuItem defaultFramerateToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripMenuItem pauseEngineToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripMenuItem noDamageToolStripMenuItem;
+        private ToolStripMenuItem increaseVolumeToolStripMenuItem;
+        private ToolStripMenuItem decreaseVolumeToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator8;
+        private ToolStripMenuItem defaultConfigToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator9;
+        private ToolStripMenuItem saveConfigurationsToolStripMenuItem;
+        private ToolStripMenuItem autosaveToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator10;
+        private ToolStripMenuItem autoloadToolStripMenuItem;
+        private ToolStripMenuItem loadConfigurationToolStripMenuItem;
+        private ToolStripMenuItem deleteConfigurationsToolStripMenuItem;
+        private ToolStripMenuItem openRecentToolStripMenuItem;
     }
 }
 

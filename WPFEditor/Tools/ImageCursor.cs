@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using MegaMan.Editor.Controls;
+using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Tools
 {
@@ -15,7 +15,7 @@ namespace MegaMan.Editor.Tools
         private static Cursor _dotCursor;
 
         private FrameworkElement _element;
-        private int _hotX = 0, _hotY = 0;
+        private int _hotX, _hotY;
 
         private static Pen outlinePen = new Pen(new SolidColorBrush(Colors.Silver) { Opacity = 0.5 }, 2);
         private static Pen shadowPen = new Pen(new SolidColorBrush(Colors.Black) { Opacity = 0.5 }, 2);
@@ -27,7 +27,7 @@ namespace MegaMan.Editor.Tools
             
         }
 
-        protected ImageCursor(Common.Geometry.Point? hotspot = null)
+        protected ImageCursor(Point? hotspot = null)
         {
             if (hotspot.HasValue)
             {
@@ -104,10 +104,10 @@ namespace MegaMan.Editor.Tools
 
             var cursorPosition = Mouse.GetPosition(_element);
 
-            var width = this.Width * zoom;
-            var height = this.Height * zoom;
-            var snapWidth = this.SnapWidth * zoom;
-            var snapHeight = this.SnapHeight * zoom;
+            var width = Width * zoom;
+            var height = Height * zoom;
+            var snapWidth = SnapWidth * zoom;
+            var snapHeight = SnapHeight * zoom;
             var scrollOffsetX = (int)scrollX % snapWidth;
             var scrollOffsetY = (int)scrollY % snapHeight;
 
@@ -117,7 +117,7 @@ namespace MegaMan.Editor.Tools
             var finalX = snapX - (_hotX * zoom);
             var finalY = snapY - (_hotY * zoom);
 
-            drawingContext.DrawImage(this.CursorImage,
+            drawingContext.DrawImage(CursorImage,
                 new Rect(
                     finalX,
                     finalY,

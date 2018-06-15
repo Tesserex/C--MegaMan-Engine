@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Windows;
 using System.Windows.Media;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
@@ -33,18 +33,18 @@ namespace MegaMan.Editor.Controls
             base.OnRender(dc);
 
             var image = SpriteBitmapCache.GetOrLoadFrame(_playerSprite.SheetPath.Absolute, _playerSprite[0].SheetLocation);
-            image = SpriteBitmapCache.Scale(image, this.Zoom);
+            image = SpriteBitmapCache.Scale(image, Zoom);
 
             if (Screen.Name == Screen.Stage.StartScreen)
             {
                 var p = Screen.Stage.StartPoint;
-                dc.DrawImage(image, new System.Windows.Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
+                dc.DrawImage(image, new Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
             }
 
             if (Screen.Stage.ContinuePoints.ContainsKey(Screen.Name))
             {
                 var p = Screen.Stage.ContinuePoints[Screen.Name];
-                dc.DrawImage(image, new System.Windows.Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
+                dc.DrawImage(image, new Rect(Zoom * (p.X - _playerSprite.HotSpot.X), Zoom * (p.Y - _playerSprite.HotSpot.Y), image.PixelWidth, image.PixelHeight));
             }
         }
     }

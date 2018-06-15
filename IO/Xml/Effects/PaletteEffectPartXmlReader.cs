@@ -15,7 +15,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new PaletteEffectPartInfo() {
+            return new PaletteEffectPartInfo {
                 PaletteName = partNode.GetAttribute<string>("name"),
                 PaletteIndex = partNode.GetAttribute<int>("index")
             };

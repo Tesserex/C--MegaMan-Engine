@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
@@ -9,12 +6,11 @@ namespace MegaMan.Editor.Controls
     public class StageLayoutControl : StageControl
     {
         public StageLayoutControl()
-            : base()
         {
             ViewModelMediator.Current.GetEvent<LayoutScreenDroppedEventArgs>().Subscribe(screenDropped);
         }
 
-        protected override ScreenCanvas CreateScreenCanvas(Bll.ScreenDocument screen)
+        protected override ScreenCanvas CreateScreenCanvas(ScreenDocument screen)
         {
             var canvas = new LayoutScreenCanvas(ToolProvider);
             canvas.Screen = screen;

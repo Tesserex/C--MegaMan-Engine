@@ -20,7 +20,7 @@ namespace MegaMan.Editor.Controls
         {
             _viewModel = projectViewModel;
 
-            base.DataContext = _viewModel;
+            DataContext = _viewModel;
         }
 
         public static readonly RoutedUICommand ClickCommand = new RoutedUICommand("Click", "Click", typeof(ProjectTree));

@@ -1,12 +1,8 @@
-﻿using MegaMan.Common;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
+using MegaMan.IO;
 using Ninject;
 using Ninject.Extensions.Conventions;
 
@@ -25,7 +21,7 @@ namespace MegaMan.Editor
         {
             base.OnStartup(e);
 
-            Application.Current.DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(AppDispatcherUnhandledException);
+            Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
 
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
@@ -35,9 +31,9 @@ namespace MegaMan.Editor
             timer.Start();
 
             Container = new StandardKernel();
-            Container.Load(System.Reflection.Assembly.GetExecutingAssembly());
+            Container.Load(Assembly.GetExecutingAssembly());
             Container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindDefaultInterface());
-            Container.Bind(x => x.FromAssemblyContaining(typeof(MegaMan.IO.IGameLoader)).SelectAllClasses().BindAllInterfaces());
+            Container.Bind(x => x.FromAssemblyContaining(typeof(IGameLoader)).SelectAllClasses().BindAllInterfaces());
         }
 
         void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -62,7 +58,7 @@ namespace MegaMan.Editor
             {
                 if (MessageBox.Show("Any changes will not be saved.\nAre you sure you want to close?", "Close Wily's Lab", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    Application.Current.Shutdown();
+                    Current.Shutdown();
                 }
             }
         }

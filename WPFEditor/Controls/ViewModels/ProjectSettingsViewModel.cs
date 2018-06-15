@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Mediator;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -53,17 +54,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public IEnumerable<Common.HandlerType> HandlerTypes
+        public IEnumerable<HandlerType> HandlerTypes
         {
             get
             {
-                return Enum.GetValues(typeof(Common.HandlerType))
-                    .Cast<Common.HandlerType>()
+                return Enum.GetValues(typeof(HandlerType))
+                    .Cast<HandlerType>()
                     .OrderBy(t => t.ToString());
             }
         }
 
-        public Common.HandlerType StartType
+        public HandlerType StartType
         {
             get { return _project.StartHandlerType; }
             set
@@ -82,11 +83,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 var items = Enumerable.Empty<string>();
 
-                if (StartType == Common.HandlerType.Stage)
+                if (StartType == HandlerType.Stage)
                     items = _project.StageNames;
-                else if (StartType == Common.HandlerType.Scene)
+                else if (StartType == HandlerType.Scene)
                     items = _project.SceneNames;
-                else if (StartType == Common.HandlerType.Menu)
+                else if (StartType == HandlerType.Menu)
                     items = _project.MenuNames;
 
                 return items.OrderBy(x => x);

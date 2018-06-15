@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MegaMan.Common.Entities;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
 {
-    [System.Diagnostics.DebuggerDisplay("Parent = {Parent.Name}, State: {currentState}, State Time: {StateFrames}")]
+    [DebuggerDisplay("Parent = {Parent.Name}, State: {currentState}, State Time: {StateFrames}")]
     public class StateComponent : Component
     {
         private string currentState;
@@ -31,7 +32,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            StateComponent newone = new StateComponent {states = this.states};
+            StateComponent newone = new StateComponent {states = states};
 
             // notice the shallow copy!
 
@@ -109,7 +110,7 @@ namespace MegaMan.Engine
         {
             foreach (var stateInfo in componentInfo.States)
             {
-                var state = new State() { Name = stateInfo.Name };
+                var state = new State { Name = stateInfo.Name };
                 foreach (var trigger in stateInfo.Triggers)
                 {
                     state.AddTrigger(ParseTrigger(trigger));

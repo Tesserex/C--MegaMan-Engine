@@ -23,12 +23,12 @@ namespace MegaMan.Common
         public static TileProperties Default { get { return def; } }
         public TileProperties()
         {
-            this.Name = "Default";
-            this.DragX = 1;
-            this.DragY = 1;
-            this.ResistX = 1;
-            this.ResistY = 1;
-            this.GravityMult = 1;
+            Name = "Default";
+            DragX = 1;
+            DragY = 1;
+            ResistX = 1;
+            ResistY = 1;
+            GravityMult = 1;
         }
     }
 

@@ -1,8 +1,5 @@
-﻿using MegaMan.Common.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using MegaMan.Common.Geometry;
 
 namespace MegaMan.Common.Rendering
 {

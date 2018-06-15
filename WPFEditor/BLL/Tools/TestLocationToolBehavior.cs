@@ -16,7 +16,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void Release(ScreenCanvas canvas, Point location)
         {
-            var args = new TestLocationSelectedEventArgs() {
+            var args = new TestLocationSelectedEventArgs {
                 Screen = canvas.Screen.Name,
                 X = location.X,
                 Y = location.Y

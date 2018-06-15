@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class SetVarEffectPartInfo : IEffectPartInfo
     {
@@ -12,9 +7,9 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new SetVarEffectPartInfo() {
-                Name = this.Name,
-                Value = this.Value
+            return new SetVarEffectPartInfo {
+                Name = Name,
+                Value = Value
             };
         }
     }

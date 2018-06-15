@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using MegaMan.Editor.Controls;
 using MegaMan.Editor.Controls.ViewModels;
-using FrameworkElement = System.Windows.FrameworkElement;
 using Point = MegaMan.Common.Geometry.Point;
 
 namespace MegaMan.Editor.Bll.Tools
@@ -61,7 +58,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void Move(ScreenCanvas canvas, Point location)
         {
-            if (this._grabbedEntity != null)
+            if (_grabbedEntity != null)
             {
                 var vm = (EntityPlacementControlViewModel)_grabbedEntity.DataContext;
                 var endX = location.X - _offset.X;
@@ -78,7 +75,7 @@ namespace MegaMan.Editor.Bll.Tools
 
         public void Release(ScreenCanvas canvas, Point location)
         {
-            if (this._grabbedEntity != null)
+            if (_grabbedEntity != null)
             {
                 var vm = (EntityPlacementControlViewModel)_grabbedEntity.DataContext;
                 var endpoint = new Point(vm.Placement.screenX, vm.Placement.screenY);
@@ -86,8 +83,8 @@ namespace MegaMan.Editor.Bll.Tools
                 var action = new MoveEntityAction(vm.Placement, canvas.Screen, _dragStart, endpoint);
                 canvas.Screen.Stage.PushHistoryAction(action);
 
-                this._grabbedEntity.ReleaseMouseCapture();
-                this._grabbedEntity = null;
+                _grabbedEntity.ReleaseMouseCapture();
+                _grabbedEntity = null;
             }
         }
 

@@ -265,8 +265,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 if (_sprite.Playing)
                     return SpriteBitmapCache.GetOrLoadImageGrayscale(_sprite.SheetPath.Absolute);
-                else
-                    return SpriteBitmapCache.GetOrLoadImage(_sprite.SheetPath.Absolute);
+                return SpriteBitmapCache.GetOrLoadImage(_sprite.SheetPath.Absolute);
             }
         }
 
@@ -304,8 +303,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (_sprite.Playing)
                     return Cursors.Arrow;
-                else
-                    return Cursors.None;
+                return Cursors.None;
             }
         }
 

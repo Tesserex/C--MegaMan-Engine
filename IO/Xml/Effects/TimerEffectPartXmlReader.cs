@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo Load(XElement partNode)
         {
-            return new TimerEffectPartInfo() {
+            return new TimerEffectPartInfo {
                 Start = partNode.Elements("Start").Select(s => s.Value).ToList(),
                 Reset = partNode.Elements("Reset").Select(s => s.Value).ToList(),
                 Delete = partNode.Elements("Delete").Select(s => s.Value).ToList()

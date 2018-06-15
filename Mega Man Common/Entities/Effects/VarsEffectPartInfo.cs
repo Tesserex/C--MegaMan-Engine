@@ -9,11 +9,11 @@
 
         public IEffectPartInfo Clone()
         {
-            return new VarsEffectPartInfo() {
-                Name = this.Name,
-                Value = this.Value,
-                Call = this.Call,
-                EntityName = this.EntityName
+            return new VarsEffectPartInfo {
+                Name = Name,
+                Value = Value,
+                Call = Call,
+                EntityName = EntityName
             };
         }
     }

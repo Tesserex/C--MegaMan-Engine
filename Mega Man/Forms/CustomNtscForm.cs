@@ -122,7 +122,7 @@ namespace MegaMan.Engine
         {
             e.Cancel = true;    // If closing it, there will be a failure on call of show method.
             base.OnClosing(e);
-            this.Hide();
+            Hide();
         }
 
         private void gammaTrack_Scroll(object sender, EventArgs e)
@@ -217,33 +217,33 @@ namespace MegaMan.Engine
 
         public NTSC_CustomOptions GetOptions()
         {
-            return new NTSC_CustomOptions() {
-                Hue = this.Hue,
-                Saturation = this.Saturation,
-                Brightness = this.Brightness,
-                Contrast = this.Contrast,
-                Sharpness = this.Sharpness,
-                Gamma = this.Gamma,
-                Resolution = this.Resolution,
-                Artifacts = this.Artifacts,
-                Fringing = this.Fringing,
-                Bleed = this.Bleed,
+            return new NTSC_CustomOptions {
+                Hue = Hue,
+                Saturation = Saturation,
+                Brightness = Brightness,
+                Contrast = Contrast,
+                Sharpness = Sharpness,
+                Gamma = Gamma,
+                Resolution = Resolution,
+                Artifacts = Artifacts,
+                Fringing = Fringing,
+                Bleed = Bleed,
                 Merge_Fields = true
             };
         }
 
         public void SetOptions(NTSC_CustomOptions options)
         {
-            this.Hue = options.Hue;
-            this.Saturation = options.Saturation;
-            this.Brightness = options.Brightness;
-            this.Contrast = options.Contrast;
-            this.Sharpness = options.Sharpness;
-            this.Gamma = options.Gamma;
-            this.Resolution = options.Resolution;
-            this.Artifacts = options.Artifacts;
-            this.Fringing = options.Fringing;
-            this.Bleed = options.Bleed;
+            Hue = options.Hue;
+            Saturation = options.Saturation;
+            Brightness = options.Brightness;
+            Contrast = options.Contrast;
+            Sharpness = options.Sharpness;
+            Gamma = options.Gamma;
+            Resolution = options.Resolution;
+            Artifacts = options.Artifacts;
+            Fringing = options.Fringing;
+            Bleed = options.Bleed;
         }
     }
 }

@@ -43,10 +43,10 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new ScenePlayCommandInfo() {
-                Track = this.Track,
-                IntroPath = this.IntroPath.Clone(),
-                LoopPath = this.LoopPath.Clone()
+            return new ScenePlayCommandInfo {
+                Track = Track,
+                IntroPath = IntroPath.Clone(),
+                LoopPath = LoopPath.Clone()
             };
         }
     }
@@ -58,8 +58,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneStopMusicCommandInfo() {
-                Track = this.Track
+            return new SceneStopMusicCommandInfo {
+                Track = Track
             };
         }
     }
@@ -74,11 +74,11 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneAddCommandInfo() {
-                Name = this.Name,
-                Object = this.Object,
-                X = this.X,
-                Y = this.Y
+            return new SceneAddCommandInfo {
+                Name = Name,
+                Object = Object,
+                X = X,
+                Y = Y
             };
         }
     }
@@ -90,8 +90,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneRemoveCommandInfo() {
-                Name = this.Name
+            return new SceneRemoveCommandInfo {
+                Name = Name
             };
         }
     }
@@ -103,8 +103,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneEntityCommandInfo() {
-                Placement = this.Placement.Clone()
+            return new SceneEntityCommandInfo {
+                Placement = Placement.Clone()
             };
         }
     }
@@ -122,14 +122,14 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneTextCommandInfo() {
-                Name = this.Name,
-                Content = this.Content,
-                Binding = this.Binding.Clone(),
-                Speed = this.Speed,
-                X = this.X,
-                Y = this.Y,
-                Font = this.Font
+            return new SceneTextCommandInfo {
+                Name = Name,
+                Content = Content,
+                Binding = Binding.Clone(),
+                Speed = Speed,
+                X = X,
+                Y = Y,
+                Font = Font
             };
         }
     }
@@ -149,16 +149,16 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneFillCommandInfo() {
-                Name = this.Name,
-                Red = this.Red,
-                Green = this.Green,
-                Blue = this.Blue,
-                X = this.X,
-                Y = this.Y,
-                Width = this.Width,
-                Height = this.Height,
-                Layer = this.Layer
+            return new SceneFillCommandInfo {
+                Name = Name,
+                Red = Red,
+                Green = Green,
+                Blue = Blue,
+                X = X,
+                Y = Y,
+                Width = Width,
+                Height = Height,
+                Layer = Layer
             };
         }
     }
@@ -175,13 +175,13 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneFillMoveCommandInfo() {
-                Name = this.Name,
-                X = this.X,
-                Y = this.Y,
-                Width = this.Width,
-                Height = this.Height,
-                Duration = this.Duration
+            return new SceneFillMoveCommandInfo {
+                Name = Name,
+                X = X,
+                Y = Y,
+                Width = Width,
+                Height = Height,
+                Duration = Duration
             };
         }
     }
@@ -196,11 +196,11 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneMoveCommandInfo() {
-                Name = this.Name,
-                X = this.X,
-                Y = this.Y,
-                Duration = this.Duration
+            return new SceneMoveCommandInfo {
+                Name = Name,
+                X = X,
+                Y = Y,
+                Duration = Duration
             };
         }
     }
@@ -219,13 +219,13 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new MenuOptionCommandInfo() {
-                Name = this.Name,
-                X = this.X,
-                Y = this.Y,
-                OnEvent = this.OnEvent.Select(x => x.Clone()).ToList(),
-                OffEvent = this.OffEvent.Select(x => x.Clone()).ToList(),
-                SelectEvent = this.SelectEvent.Select(x => x.Clone()).ToList(),
+            return new MenuOptionCommandInfo {
+                Name = Name,
+                X = X,
+                Y = Y,
+                OnEvent = OnEvent.Select(x => x.Clone()).ToList(),
+                OffEvent = OffEvent.Select(x => x.Clone()).ToList(),
+                SelectEvent = SelectEvent.Select(x => x.Clone()).ToList()
             };
         }
     }
@@ -238,8 +238,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneSoundCommandInfo() {
-                SoundInfo = this.SoundInfo.Clone()
+            return new SceneSoundCommandInfo {
+                SoundInfo = SoundInfo.Clone()
             };
         }
     }
@@ -252,8 +252,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneNextCommandInfo() {
-                NextHandler = this.NextHandler.Clone()
+            return new SceneNextCommandInfo {
+                NextHandler = NextHandler.Clone()
             };
         }
     }
@@ -266,8 +266,8 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneCallCommandInfo() {
-                Name = this.Name
+            return new SceneCallCommandInfo {
+                Name = Name
             };
         }
     }
@@ -285,10 +285,10 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneEffectCommandInfo() {
+            return new SceneEffectCommandInfo {
                 GeneratedName = Guid.NewGuid().ToString(),
-                EntityId = this.EntityId,
-                EffectInfo = this.EffectInfo.Clone()
+                EntityId = EntityId,
+                EffectInfo = EffectInfo.Clone()
             };
         }
     }
@@ -306,10 +306,10 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneConditionCommandInfo() {
-                ConditionExpression = this.ConditionExpression,
-                ConditionEntity = this.ConditionEntity,
-                Commands = this.Commands.Select(x => x.Clone()).ToList()
+            return new SceneConditionCommandInfo {
+                ConditionExpression = ConditionExpression,
+                ConditionEntity = ConditionEntity,
+                Commands = Commands.Select(x => x.Clone()).ToList()
             };
         }
     }
@@ -334,9 +334,9 @@ namespace MegaMan.Common
 
         public SceneBindingInfo Clone()
         {
-            return new SceneBindingInfo() {
-                Source = this.Source,
-                Target = this.Target
+            return new SceneBindingInfo {
+                Source = Source,
+                Target = Target
             };
         }
     }
@@ -353,9 +353,9 @@ namespace MegaMan.Common
 
         public override SceneCommandInfo Clone()
         {
-            return new SceneAutoscrollCommandInfo() {
-                Speed = this.Speed,
-                StartX = this.StartX
+            return new SceneAutoscrollCommandInfo {
+                Speed = Speed,
+                StartX = StartX
             };
         }
     }

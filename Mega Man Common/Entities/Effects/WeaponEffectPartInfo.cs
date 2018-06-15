@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MegaMan.Common.Entities.Effects
+﻿namespace MegaMan.Common.Entities.Effects
 {
     public class WeaponEffectPartInfo : IEffectPartInfo
     {
@@ -10,10 +8,10 @@ namespace MegaMan.Common.Entities.Effects
 
         public IEffectPartInfo Clone()
         {
-            return new WeaponEffectPartInfo() {
-                ChangeName = this.ChangeName,
-                Ammo = this.Ammo,
-                Action = this.Action
+            return new WeaponEffectPartInfo {
+                ChangeName = ChangeName,
+                Ammo = Ammo,
+                Action = Action
             };
         }
     }

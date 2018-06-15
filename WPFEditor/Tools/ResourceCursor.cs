@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MegaMan.Common.Geometry;
 
@@ -11,14 +12,14 @@ namespace MegaMan.Editor.Tools
         public ResourceCursor(string resourceName, Point? hotspot = null)
             : base(hotspot)
         {
-            this.image = new BitmapImage(new Uri("pack://application:,,,/Resources/" + resourceName));
+            image = new BitmapImage(new Uri("pack://application:,,,/Resources/" + resourceName));
         }
 
-        protected override System.Windows.Media.ImageSource CursorImage
+        protected override ImageSource CursorImage
         {
             get
             {
-                return this.image;
+                return image;
             }
         }
 

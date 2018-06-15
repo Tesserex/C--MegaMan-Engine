@@ -1,11 +1,14 @@
-﻿namespace MegaMan.Engine.Forms
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MegaMan.Engine.Forms
 {
     partial class DeleteConfigs
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -102,10 +105,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblInstruction;
-        private System.Windows.Forms.ComboBox cbxConfigToDelete;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnDeleteAll;
+        private Label lblInstruction;
+        private ComboBox cbxConfigToDelete;
+        private Button btnClose;
+        private Button btnDelete;
+        private Button btnDeleteAll;
     }
 }

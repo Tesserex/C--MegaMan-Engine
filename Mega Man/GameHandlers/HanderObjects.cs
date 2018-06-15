@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan.Common;
-using MegaMan.Common.Rendering;
 using MegaMan.Common.Geometry;
+using MegaMan.Common.Rendering;
 using MegaMan.Engine.Entities;
 
 namespace MegaMan.Engine
@@ -28,10 +25,10 @@ namespace MegaMan.Engine
         public HandlerSprite(Sprite sprite, Point location)
         {
             this.sprite = new Sprite(sprite);
-            this.animator = new SpriteAnimator(this.sprite);
-            this.x = location.X;
-            this.y = location.Y;
-            this.animator.Play();
+            animator = new SpriteAnimator(this.sprite);
+            x = location.X;
+            y = location.Y;
+            animator.Play();
         }
 
         public void Start()
@@ -51,8 +48,8 @@ namespace MegaMan.Engine
 
         public void Move(int nx, int ny, int duration)
         {
-            this.stopX = nx;
-            this.stopY = ny;
+            stopX = nx;
+            stopY = ny;
             this.duration = duration;
             vx = (nx - x) / duration;
             vy = (ny - y) / duration;
@@ -88,7 +85,7 @@ namespace MegaMan.Engine
         private string displayed = "";
         private int speed;
         private int frame;
-        private MegaMan.Common.Geometry.Point position;
+        private Point position;
         private Binding binding;
         private string font;
 
@@ -113,23 +110,23 @@ namespace MegaMan.Engine
 
         public HandlerText(SceneTextCommandInfo info, IEntityPool entityPool)
         {
-            this.Content = info.Content ?? String.Empty;
-            this.speed = info.Speed ?? 0;
-            this.position = new MegaMan.Common.Geometry.Point(info.X, info.Y);
+            Content = info.Content ?? String.Empty;
+            speed = info.Speed ?? 0;
+            position = new Point(info.X, info.Y);
             this.entityPool = entityPool;
-            this.font = info.Font ?? "Default";
+            font = info.Font ?? "Default";
 
             if (info.Binding != null)
             {
-                this.binding = Binding.Create(info.Binding, this);
+                binding = Binding.Create(info.Binding, this);
             }
         }
 
         public void Start()
         {
-            if (this.binding != null)
+            if (binding != null)
             {
-                this.binding.Start(entityPool);
+                binding.Start(entityPool);
             }
 
             if (speed != 0)
@@ -142,9 +139,9 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
-            if (this.binding != null)
+            if (binding != null)
             {
-                this.binding.Stop();
+                binding.Stop();
             }
 
             if (speed != 0)
@@ -198,16 +195,16 @@ namespace MegaMan.Engine
             if (texture == null)
                 texture = renderContext.CreateColorResource(color);
 
-            renderContext.Draw(texture, layer, new MegaMan.Common.Geometry.Point((int)x, (int)y),
-                new MegaMan.Common.Geometry.Rectangle((int)x, (int)y, (int)width, (int)height));
+            renderContext.Draw(texture, layer, new Point((int)x, (int)y),
+                new Rectangle((int)x, (int)y, (int)width, (int)height));
         }
 
         public void Move(int nx, int ny, int nwidth, int nheight, int duration)
         {
-            this.stopX = nx;
-            this.stopY = ny;
-            this.stopWidth = nwidth;
-            this.stopHeight = nheight;
+            stopX = nx;
+            stopY = ny;
+            stopWidth = nwidth;
+            stopHeight = nheight;
             this.duration = duration;
             vx = (nx - x) / duration;
             vy = (ny - y) / duration;
@@ -244,7 +241,7 @@ namespace MegaMan.Engine
 
         public HandlerMeter(HealthMeter meter, IGameplayContainer container)
         {
-            this.Meter = meter;
+            Meter = meter;
             this.container = container;
         }
 

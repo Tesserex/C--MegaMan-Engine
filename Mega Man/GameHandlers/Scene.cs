@@ -10,8 +10,8 @@ namespace MegaMan.Engine
     public class Scene : GameHandler
     {
         private SceneInfo info;
-        private int frame = 0;
-        private bool waiting = false;
+        private int frame;
+        private bool waiting;
 
         private ITiledScreen _screen;
         public override ITiledScreen Screen { get { return _screen; } }

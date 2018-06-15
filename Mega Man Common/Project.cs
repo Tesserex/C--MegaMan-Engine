@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
@@ -31,7 +30,7 @@ namespace MegaMan.Common
 
         public void AddStage(StageLinkInfo stage)
         {
-            this.stages.Add(stage);
+            stages.Add(stage);
         }
 
         public IEnumerable<FilePath> IncludeFiles
@@ -187,17 +186,17 @@ namespace MegaMan.Common
 
         public void AddIncludeFiles(IEnumerable<string> includePaths)
         {
-            includeFiles.AddRange(includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir)));
+            includeFiles.AddRange(includePaths.Select(p => FilePath.FromRelative(p, BaseDir)));
         }
 
         public void AddIncludeFolder(string includePath)
         {
-            AddIncludeFolders(new List<string>() { includePath });
+            AddIncludeFolders(new List<string> { includePath });
         }
 
         public void AddIncludeFolders(IEnumerable<string> includePaths)
         {
-            var folderPaths = includePaths.Select(p => FilePath.FromRelative(p, this.BaseDir));
+            var folderPaths = includePaths.Select(p => FilePath.FromRelative(p, BaseDir));
             includeFolders.AddRange(folderPaths);
         }
 

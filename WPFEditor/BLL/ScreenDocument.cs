@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
-using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 using MegaMan.Editor.Mediator;
 
@@ -75,7 +74,7 @@ namespace MegaMan.Editor.Bll
         {
             get
             {
-                return this.screen.Layers[0].Entities.AsReadOnly();
+                return screen.Layers[0].Entities.AsReadOnly();
             }
         }
 
@@ -106,8 +105,7 @@ namespace MegaMan.Editor.Bll
             var tile = screen.Layers[0].Tiles.TileAt(x, y);
             if (tile == null)
                 return new UnknownTile(Tileset);
-            else
-                return tile;
+            return tile;
         }
 
         public void ChangeTile(int tile_x, int tile_y, int tile_id)
@@ -148,14 +146,14 @@ namespace MegaMan.Editor.Bll
                 leftScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, leftSide);
                 rightScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, rightSide);
 
-                foreach (var join in this.Joins.ToArray())
+                foreach (var join in Joins.ToArray())
                 {
                     Stage.RemoveJoin(join);
                 }
 
                 Stage.RemoveScreen(this);
 
-                Stage.AddJoin(new Join() {
+                Stage.AddJoin(new Join {
                     direction = JoinDirection.Both,
                     type = JoinType.Vertical,
                     screenOne = leftScreen.Name,
@@ -179,10 +177,10 @@ namespace MegaMan.Editor.Bll
 
         public void Clone()
         {
-            var info = this.screen.Clone();
-            info.Name = this.Stage.FindNextScreenId().ToString();
+            var info = screen.Clone();
+            info.Name = Stage.FindNextScreenId().ToString();
 
-            this.Stage.AddScreen(info);
+            Stage.AddScreen(info);
         }
 
         public void AddEntity(EntityPlacement info)
@@ -259,7 +257,7 @@ namespace MegaMan.Editor.Bll
                 SelectionChanged(Selection);
             }
 
-            ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Raise(this, new SelectionChangedEventArgs() { Screen = this, Selection = Selection });
+            ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Raise(this, new SelectionChangedEventArgs { Screen = this, Selection = Selection });
         }
     }
 }

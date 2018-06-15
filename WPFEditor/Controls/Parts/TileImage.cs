@@ -6,11 +6,6 @@ namespace MegaMan.Editor.Controls.Parts
 {
     public class TileImage : SpriteImage
     {
-        public TileImage()
-            : base()
-        {
-        }
-
         protected override void SpriteImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var tile = (Tile)e.NewValue;

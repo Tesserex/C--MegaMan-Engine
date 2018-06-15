@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MegaMan.Common.Geometry;
 using MegaMan.Common;
+using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
 
 namespace MegaMan.Engine
@@ -150,12 +150,12 @@ namespace MegaMan.Engine
 
             if (info.Binding != null)
             {
-                this.binding = Binding.Create(info.Binding, this);
+                binding = Binding.Create(info.Binding, this);
                 MaxValue = 1; // use 0 - 1 range for values
             }
 
             horizontal = (info.Orient == MeterInfo.Orientation.Horizontal);
-            tickOffset = new MegaMan.Common.Geometry.Point(info.TickOffset.X, info.TickOffset.Y);
+            tickOffset = new Point(info.TickOffset.X, info.TickOffset.Y);
 
             if (info.Sound != null) sound = Engine.Instance.SoundSystem.EffectFromInfo(info.Sound);
         }
@@ -174,12 +174,12 @@ namespace MegaMan.Engine
         {
             if (meterTexture == null)
             {
-                meterTexture = context.LoadResource(this.info.Background, this.info.BackgroundData);
+                meterTexture = context.LoadResource(info.Background, info.BackgroundData);
                 bounds = new RectangleF(positionX, positionY, meterTexture.Width, meterTexture.Height);
             }
 
             if (tickTexture == null)
-                tickTexture = context.LoadResource(this.info.TickImage, this.info.TickImageData);
+                tickTexture = context.LoadResource(info.TickImage, info.TickImageData);
 
             if (tickTexture != null)
             {
@@ -189,20 +189,20 @@ namespace MegaMan.Engine
                 if (ticks > 28) ticks = 28;
 
                 if (meterTexture != null)
-                    context.Draw(meterTexture, 4, new Common.Geometry.Point((int)positionX, (int)positionY));
+                    context.Draw(meterTexture, 4, new Point((int)positionX, (int)positionY));
 
                 if (horizontal)
                 {
                     for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
                     {
-                        context.Draw(tickTexture, 4, new Common.Geometry.Point(y, (int)positionY));
+                        context.Draw(tickTexture, 4, new Point(y, (int)positionY));
                     }
                 }
                 else
                 {
                     for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
                     {
-                        context.Draw(tickTexture, 4, new Common.Geometry.Point((int)(positionX + tickOffset.X), (int)(y + tickOffset.Y)));
+                        context.Draw(tickTexture, 4, new Point((int)(positionX + tickOffset.X), y + tickOffset.Y));
                     }
                 }
             }
@@ -216,9 +216,9 @@ namespace MegaMan.Engine
             }
             this.container = container;
 
-            if (this.binding != null)
+            if (binding != null)
             {
-                this.binding.Start(container.Entities);
+                binding.Start(container.Entities);
             }
 
             container.Draw += GameRender;
@@ -227,9 +227,9 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
-            if (this.binding != null)
+            if (binding != null)
             {
-                this.binding.Stop();
+                binding.Stop();
             }
 
             Engine.Instance.GameLogicTick -= GameTick;

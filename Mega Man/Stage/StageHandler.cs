@@ -106,7 +106,7 @@ namespace MegaMan.Engine
 
         private void DrawScreen(GameRenderEventArgs renderArgs)
         {
-            _currentScreen.Draw(renderArgs, PlayerPos.Position, new ScreenDrawingCoords(), this.tilesetAnimator);
+            _currentScreen.Draw(renderArgs, PlayerPos.Position, new ScreenDrawingCoords(), tilesetAnimator);
         }
 
         private void DeadUpdate()
@@ -130,7 +130,7 @@ namespace MegaMan.Engine
             else
             {
                 // enable respawn for on-death-respawn entities
-                foreach (var screen in this.screens.Values)
+                foreach (var screen in screens.Values)
                 {
                     screen.Reset();
                 }
@@ -193,11 +193,11 @@ namespace MegaMan.Engine
         {
             _currentScreen.Draw(renderArgs, PlayerPos.Position,
                 new ScreenDrawingCoords(0, 0, currentJoin.OffsetX, currentJoin.OffsetY),
-                this.tilesetAnimator);
+                tilesetAnimator);
 
             nextScreen.Draw(renderArgs, PlayerPos.Position,
                 new ScreenDrawingCoords(currentJoin.NextScreenX, currentJoin.NextScreenY, currentJoin.NextOffsetX, currentJoin.NextOffsetY),
-                this.tilesetAnimator);
+                tilesetAnimator);
         }
 
         private void StartScreen()
@@ -221,15 +221,15 @@ namespace MegaMan.Engine
             _currentScreen.Stop();
         }
 
-        private bool teleporting = false;
+        private bool teleporting;
         private void OnTeleport(TeleportInfo info)
         {
             if (teleporting) return;
             teleporting = true;
-            Action<string> setpos = (s) => { };
+            Action<string> setpos = s => { };
             if (info.TargetScreen == _currentScreen.Screen.Name)
             {
-                setpos = (state) => {
+                setpos = state => {
                     PlayerPos.SetPosition(new Point(info.To.X, info.To.Y));
                     (Player.GetComponent<StateComponent>()).StateChanged -= setpos;
                     Player.SendMessage(new StateMessage(null, "TeleportEnd"));
@@ -351,7 +351,7 @@ namespace MegaMan.Engine
         {
             if (updateFunc != null) updateFunc();
 
-            this.tilesetAnimator.Update();
+            tilesetAnimator.Update();
 
             base.Tick(e);
         }

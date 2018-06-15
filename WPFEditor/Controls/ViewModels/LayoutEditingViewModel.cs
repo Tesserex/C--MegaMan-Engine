@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Bll.Tools;

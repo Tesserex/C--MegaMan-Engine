@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MegaMan.Engine.Forms.Settings;
 
 namespace MegaMan.Engine.Forms
@@ -25,7 +22,7 @@ namespace MegaMan.Engine.Forms
             var e = NtscSet;
             if (e != null)
             {
-                var args = new ScreenScaleNtscEventArgs() { Setup = setup };
+                var args = new ScreenScaleNtscEventArgs { Setup = setup };
                 e(this, args);
             }
         }
@@ -35,7 +32,7 @@ namespace MegaMan.Engine.Forms
             var e = SizeChanged;
             if (e != null)
             {
-                var args = new ScreenScaleChangedEventArgs() { Scale = scale };
+                var args = new ScreenScaleChangedEventArgs { Scale = scale };
                 e(this, args);
             }
         }

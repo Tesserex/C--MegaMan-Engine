@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MegaMan.Editor.Controls.Adorners;
 using MegaMan.Editor.Controls.ViewModels.Entities.Components;
 
@@ -28,9 +16,9 @@ namespace MegaMan.Editor.Controls.Components
         {
             InitializeComponent();
 
-            this.Loaded += (s, e) => {
+            Loaded += (s, e) => {
                 adornerLayer = AdornerLayer.GetAdornerLayer(hitboxRect);
-                adornerLayer.Add(new HitboxResizeAdorner(hitboxRect, this.DataContext as HitboxEditorViewModel));
+                adornerLayer.Add(new HitboxResizeAdorner(hitboxRect, DataContext as HitboxEditorViewModel));
             };
         }
     }

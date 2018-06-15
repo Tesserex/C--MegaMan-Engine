@@ -22,7 +22,7 @@ namespace MegaMan.IO.Xml.Entities
         public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             var comp = new HealthComponentInfo();
-            comp.Max = node.TryAttribute<float>("max", node.TryElementValue<float>("Max"));
+            comp.Max = node.TryAttribute("max", node.TryElementValue<float>("Max"));
 
             comp.StartValue = node.TryAttribute<float?>("startValue");
 

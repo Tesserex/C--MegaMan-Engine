@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 namespace MegaMan.Engine
 {
@@ -12,7 +11,7 @@ namespace MegaMan.Engine
         {
             try
             {
-                System.IO.File.AppendAllText(@System.IO.Directory.GetCurrentDirectory() + "\\" + FileNameToPutDebuggingMsg, log + Environment.NewLine);
+                File.AppendAllText(Directory.GetCurrentDirectory() + "\\" + FileNameToPutDebuggingMsg, log + Environment.NewLine);
                 return true;
             }
             catch (Exception) { return false; }

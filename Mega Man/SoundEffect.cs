@@ -26,7 +26,7 @@ namespace MegaMan.Engine
         public WavEffect(FMOD.System system, string path, bool loop, float baseVol)
         {
             this.system = system;
-            callback = new CHANNEL_CALLBACK(SyncCallback);
+            callback = SyncCallback;
 
             baseVolume = baseVol;
             volume = 1;
