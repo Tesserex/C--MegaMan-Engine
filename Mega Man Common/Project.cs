@@ -67,8 +67,8 @@ namespace MegaMan.Common
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
 
-        public FilePath MusicNSF { get; set; }
-        public FilePath EffectsNSF { get; set; }
+        public FilePath MusicNsf { get; set; }
+        public FilePath EffectsNsf { get; set; }
 
         public HandlerTransfer StartHandler { get; set; }
 
@@ -76,103 +76,103 @@ namespace MegaMan.Common
 
         #region Loaded Resources
 
-        private List<SoundInfo> _sounds = new List<SoundInfo>();
-        public IEnumerable<SoundInfo> Sounds { get { return _sounds.AsReadOnly(); } }
+        private List<SoundInfo> sounds = new List<SoundInfo>();
+        public IEnumerable<SoundInfo> Sounds { get { return sounds.AsReadOnly(); } }
 
         public void AddSound(SoundInfo sound)
         {
-            _sounds.Add(sound);
+            sounds.Add(sound);
         }
 
         public void RemoveSound(SoundInfo sound)
         {
-            _sounds.Remove(sound);
+            sounds.Remove(sound);
         }
 
-        private List<SceneInfo> _scenes = new List<SceneInfo>();
-        public IEnumerable<SceneInfo> Scenes { get { return _scenes.AsReadOnly(); } }
+        private List<SceneInfo> scenes = new List<SceneInfo>();
+        public IEnumerable<SceneInfo> Scenes { get { return scenes.AsReadOnly(); } }
 
         public void AddScene(SceneInfo scene)
         {
-            _scenes.Add(scene);
+            scenes.Add(scene);
         }
 
         public void RemoveScene(SceneInfo scene)
         {
-            _scenes.Remove(scene);
+            scenes.Remove(scene);
         }
 
-        private List<MenuInfo> _menus = new List<MenuInfo>();
-        public IEnumerable<MenuInfo> Menus { get { return _menus.AsReadOnly(); } }
+        private List<MenuInfo> menus = new List<MenuInfo>();
+        public IEnumerable<MenuInfo> Menus { get { return menus.AsReadOnly(); } }
 
         public void AddMenu(MenuInfo menu)
         {
-            _menus.Add(menu);
+            menus.Add(menu);
         }
 
         public void RemoveMenu(MenuInfo menu)
         {
-            _menus.Remove(menu);
+            menus.Remove(menu);
         }
 
-        private List<FontInfo> _fonts = new List<FontInfo>();
-        public IEnumerable<FontInfo> Fonts { get { return _fonts.AsReadOnly(); } }
+        private List<FontInfo> fonts = new List<FontInfo>();
+        public IEnumerable<FontInfo> Fonts { get { return fonts.AsReadOnly(); } }
 
         public void AddFont(FontInfo font)
         {
-            _fonts.Add(font);
+            fonts.Add(font);
         }
 
         public void RemoveFont(FontInfo font)
         {
-            _fonts.Remove(font);
+            fonts.Remove(font);
         }
 
-        private List<PaletteInfo> _palettes = new List<PaletteInfo>();
-        public IEnumerable<PaletteInfo> Palettes { get { return _palettes.AsReadOnly(); } }
+        private List<PaletteInfo> palettes = new List<PaletteInfo>();
+        public IEnumerable<PaletteInfo> Palettes { get { return palettes.AsReadOnly(); } }
 
         public void AddPalette(PaletteInfo palette)
         {
-            _palettes.Add(palette);
+            palettes.Add(palette);
         }
 
         public void RemovePalette(PaletteInfo palette)
         {
-            _palettes.Remove(palette);
+            palettes.Remove(palette);
         }
 
-        private List<EntityInfo> _entities = new List<EntityInfo>();
-        public IEnumerable<EntityInfo> Entities { get { return _entities.AsReadOnly(); } }
+        private List<EntityInfo> entities = new List<EntityInfo>();
+        public IEnumerable<EntityInfo> Entities { get { return entities.AsReadOnly(); } }
 
         public void AddEntity(EntityInfo entity)
         {
-            _entities.Add(entity);
+            entities.Add(entity);
         }
 
         public void RemoveEntity(EntityInfo entity)
         {
-            _entities.Remove(entity);
+            entities.Remove(entity);
         }
 
-        private List<EffectInfo> _functions = new List<EffectInfo>();
-        public IEnumerable<EffectInfo> Functions { get { return _functions.AsReadOnly(); } }
+        private List<EffectInfo> functions = new List<EffectInfo>();
+        public IEnumerable<EffectInfo> Functions { get { return functions.AsReadOnly(); } }
 
         public void AddFunction(EffectInfo effect)
         {
-            _functions.Add(effect);
+            functions.Add(effect);
         }
 
-        private Dictionary<string, TileProperties> _entityProperties = new Dictionary<string, TileProperties>();
-        public IDictionary<string, TileProperties> EntityProperties { get { return _entityProperties; } }
+        private Dictionary<string, TileProperties> entityProperties = new Dictionary<string, TileProperties>();
+        public IDictionary<string, TileProperties> EntityProperties { get { return entityProperties; } }
 
         public void AddEntityProperties(TileProperties properties)
         {
-            _entityProperties[properties.Name] = properties;
+            entityProperties[properties.Name] = properties;
         }
 
         public void RemoveEntityProperties(TileProperties properties)
         {
-            _entityProperties.Remove(properties.Name);
+            entityProperties.Remove(properties.Name);
         }
 
         #endregion

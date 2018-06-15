@@ -66,7 +66,7 @@ namespace MegaMan.Editor.Bll
         {
             get
             {
-                return Stage.Joins.Where(j => j.screenOne == Name || j.screenTwo == Name);
+                return Stage.Joins.Where(j => j.ScreenOne == Name || j.ScreenTwo == Name);
             }
         }
 
@@ -154,12 +154,12 @@ namespace MegaMan.Editor.Bll
                 Stage.RemoveScreen(this);
 
                 Stage.AddJoin(new Join {
-                    direction = JoinDirection.Both,
-                    type = JoinType.Vertical,
-                    screenOne = leftScreen.Name,
-                    screenTwo = rightScreen.Name,
-                    offsetOne = 0,
-                    offsetTwo = 0,
+                    Direction = JoinDirection.Both,
+                    Type = JoinType.Vertical,
+                    ScreenOne = leftScreen.Name,
+                    ScreenTwo = rightScreen.Name,
+                    OffsetOne = 0,
+                    OffsetTwo = 0,
                     Size = Height
                 });
             }
@@ -192,8 +192,8 @@ namespace MegaMan.Editor.Bll
 
         public void MoveEntity(EntityPlacement info, Point location)
         {
-            info.screenX = location.X;
-            info.screenY = location.Y;
+            info.ScreenX = location.X;
+            info.ScreenY = location.Y;
             Dirty = true;
             EntityMoved?.Invoke(info);
         }

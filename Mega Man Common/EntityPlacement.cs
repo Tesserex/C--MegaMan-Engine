@@ -12,33 +12,33 @@ namespace MegaMan.Common
 
     public class EntityPlacement
     {
-        private string _fixedId;
-        private string _guidId;
+        private string fixedId;
+        private string guidId;
 
         public string Id
         {
             get
             {
-                if (_fixedId != null)
-                    return _fixedId;
+                if (fixedId != null)
+                    return fixedId;
 
-                if (_guidId == null)
-                    _guidId = Guid.NewGuid().ToString();
+                if (guidId == null)
+                    guidId = Guid.NewGuid().ToString();
 
-                return _guidId;
+                return guidId;
             }
             set
             {
-                _fixedId = value;
+                fixedId = value;
             }
         }
 
-        public string entity;
-        public string state;
-        public Direction direction;
-        public RespawnBehavior respawn;
-        public int screenX;
-        public int screenY;
+        public string Entity;
+        public string State;
+        public Direction Direction;
+        public RespawnBehavior Respawn;
+        public int ScreenX;
+        public int ScreenY;
 
         public override bool Equals(object obj)
         {
@@ -56,12 +56,12 @@ namespace MegaMan.Common
         public EntityPlacement Clone()
         {
             return new EntityPlacement {
-                entity = entity,
-                direction = direction,
-                state = state,
-                respawn = respawn,
-                screenX = screenX,
-                screenY = screenY
+                Entity = Entity,
+                Direction = Direction,
+                State = State,
+                Respawn = Respawn,
+                ScreenX = ScreenX,
+                ScreenY = ScreenY
             };
         }
     }

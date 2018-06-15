@@ -7,13 +7,13 @@ namespace MegaMan.Common
 {
     public class PaletteCollection : IEnumerable<PaletteInfo>
     {
-        private Dictionary<string, PaletteInfo> _palettes = new Dictionary<string, PaletteInfo>();
+        private Dictionary<string, PaletteInfo> palettes = new Dictionary<string, PaletteInfo>();
 
         public void LoadPalettes(IEnumerable<PaletteInfo> palettes)
         {
             foreach (var info in palettes)
             {
-                _palettes.Add(info.Name, info);
+                this.palettes.Add(info.Name, info);
             }
         }
 
@@ -21,8 +21,8 @@ namespace MegaMan.Common
         {
             get
             {
-                if (_palettes.ContainsKey(name))
-                    return _palettes[name];
+                if (palettes.ContainsKey(name))
+                    return palettes[name];
                 return null;
             }
         }
@@ -31,18 +31,18 @@ namespace MegaMan.Common
         {
             get
             {
-                return _palettes.Count;
+                return palettes.Count;
             }
         }
 
         IEnumerator<PaletteInfo> IEnumerable<PaletteInfo>.GetEnumerator()
         {
-            return _palettes.Values.GetEnumerator();
+            return palettes.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _palettes.Values.GetEnumerator();
+            return palettes.Values.GetEnumerator();
         }
     }
 }

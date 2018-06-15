@@ -27,34 +27,34 @@ namespace MegaMan.Engine
 
             if (direction == Direction.Down)
             {
-                doorOneX = join.offsetOne * tileSize;
+                doorOneX = join.OffsetOne * tileSize;
                 doorOneY = height - tileSize;
 
-                doorTwoX = join.offsetOne * tileSize;
+                doorTwoX = join.OffsetOne * tileSize;
                 doorTwoY = height;
             }
             else if (direction == Direction.Left)
             {
                 doorOneX = 0;
-                doorOneY = join.offsetTwo * tileSize;
+                doorOneY = join.OffsetTwo * tileSize;
 
                 doorTwoX = -tileSize;
-                doorTwoY = join.offsetTwo * tileSize;
+                doorTwoY = join.OffsetTwo * tileSize;
             }
             else if (direction == Direction.Right)
             {
                 doorOneX = width - tileSize;
-                doorOneY = join.offsetOne * tileSize;
+                doorOneY = join.OffsetOne * tileSize;
 
                 doorTwoX = width;
-                doorTwoY = join.offsetOne * tileSize;
+                doorTwoY = join.OffsetOne * tileSize;
             }
             else if (direction == Direction.Up)
             {
-                doorOneX = join.offsetTwo * tileSize;
+                doorOneX = join.OffsetTwo * tileSize;
                 doorOneY = 0;
 
-                doorTwoX = join.offsetTwo * tileSize;
+                doorTwoX = join.OffsetTwo * tileSize;
                 doorTwoY = -tileSize;
             }
         }
@@ -63,8 +63,8 @@ namespace MegaMan.Engine
         {
             base.Start(screen);
 
-            doorOne = _entityPool.CreateEntity(JoinInfo.bossEntityName);
-            doorTwo = _entityPool.CreateEntity(JoinInfo.bossEntityName);
+            doorOne = _entityPool.CreateEntity(JoinInfo.BossEntityName);
+            doorTwo = _entityPool.CreateEntity(JoinInfo.BossEntityName);
 
             doorOne.GetComponent<PositionComponent>().SetPosition(new PointF(doorOneX, doorOneY));
             doorTwo.GetComponent<PositionComponent>().SetPosition(new PointF(doorTwoX, doorTwoY));
@@ -88,9 +88,9 @@ namespace MegaMan.Engine
         {
             if (direction == Direction.Right || direction == Direction.Down)
             {
-                if (JoinInfo.direction == JoinDirection.BackwardOnly) return false;
+                if (JoinInfo.Direction == JoinDirection.BackwardOnly) return false;
             }
-            else if (JoinInfo.direction == JoinDirection.ForwardOnly) return false;
+            else if (JoinInfo.Direction == JoinDirection.ForwardOnly) return false;
 
             return (doorOne.GetComponent<CollisionComponent>()).TouchedBy("Player");
         }
@@ -121,7 +121,7 @@ namespace MegaMan.Engine
 
         protected override void Finish(PositionComponent playerPos)
         {
-            scrollDist = JoinInfo.type == JoinType.Vertical ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
+            scrollDist = JoinInfo.Type == JoinType.Vertical ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown;
 
             doorTwo.SendMessage(new StateMessage(null, "Closing"));
             (doorTwo.GetComponent<StateComponent>()).StateChanged += s =>

@@ -96,26 +96,26 @@ namespace MegaMan.Editor.Bll
 
         public string MusicNsf
         {
-            get { return Project.MusicNSF != null ? Project.MusicNSF.Absolute : null; }
+            get { return Project.MusicNsf != null ? Project.MusicNsf.Absolute : null; }
             set
             {
-                if (Project.MusicNSF != null && Project.MusicNSF.Absolute == value)
+                if (Project.MusicNsf != null && Project.MusicNsf.Absolute == value)
                     return;
 
-                Project.MusicNSF = FilePath.FromAbsolute(value, BaseDir);
+                Project.MusicNsf = FilePath.FromAbsolute(value, BaseDir);
                 Dirty = true;
             }
         }
 
         public string EffectsNsf
         {
-            get { return Project.EffectsNSF != null ? Project.EffectsNSF.Absolute : null; }
+            get { return Project.EffectsNsf != null ? Project.EffectsNsf.Absolute : null; }
             set
             {
-                if (Project.EffectsNSF != null && Project.EffectsNSF.Absolute == value)
+                if (Project.EffectsNsf != null && Project.EffectsNsf.Absolute == value)
                     return;
 
-                Project.EffectsNSF = FilePath.FromAbsolute(value, BaseDir);
+                Project.EffectsNsf = FilePath.FromAbsolute(value, BaseDir);
                 Dirty = true;
             }
         }

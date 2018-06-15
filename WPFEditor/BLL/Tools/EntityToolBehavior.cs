@@ -26,10 +26,10 @@ namespace MegaMan.Editor.Bll.Tools
                 (location.Y / SnapY) * SnapY);
 
             var placement = new EntityPlacement {
-                entity = _entity.Name,
-                direction = Direction.Left,
-                screenX = snappedPoint.X,
-                screenY = snappedPoint.Y
+                Entity = _entity.Name,
+                Direction = Direction.Left,
+                ScreenX = snappedPoint.X,
+                ScreenY = snappedPoint.Y
             };
 
             canvas.Screen.AddEntity(placement);

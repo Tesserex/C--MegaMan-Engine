@@ -44,8 +44,8 @@ namespace MegaMan.Editor.Bll.Tools
                             _grabbedEntity = (EntityPlacementControl)elem;
 
                             var vm = (EntityPlacementControlViewModel)_grabbedEntity.DataContext;
-                            _dragStart = new Point(vm.Placement.screenX, vm.Placement.screenY);
-                            _offset = new Point(location.X - vm.Placement.screenX, location.Y - vm.Placement.screenY);
+                            _dragStart = new Point(vm.Placement.ScreenX, vm.Placement.ScreenY);
+                            _offset = new Point(location.X - vm.Placement.ScreenX, location.Y - vm.Placement.ScreenY);
 
                             // capture mouse last, because it triggers the move event
                             _grabbedEntity.CaptureMouse();
@@ -78,7 +78,7 @@ namespace MegaMan.Editor.Bll.Tools
             if (_grabbedEntity != null)
             {
                 var vm = (EntityPlacementControlViewModel)_grabbedEntity.DataContext;
-                var endpoint = new Point(vm.Placement.screenX, vm.Placement.screenY);
+                var endpoint = new Point(vm.Placement.ScreenX, vm.Placement.ScreenY);
 
                 var action = new MoveEntityAction(vm.Placement, canvas.Screen, _dragStart, endpoint);
                 canvas.Screen.Stage.PushHistoryAction(action);

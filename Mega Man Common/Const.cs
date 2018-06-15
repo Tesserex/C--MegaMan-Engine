@@ -31,7 +31,7 @@ namespace MegaMan.Common
     public enum AudioType : byte
     {
         Wav,
-        NSF,
+        Nsf,
         Unknown
     }
 }

@@ -92,34 +92,34 @@ namespace MegaMan.Editor.Bll.Algorithms
             // use its joins to branch out
             foreach (var join in screen.Joins)
             {
-                if (!ScreenNames.Contains(join.screenOne))
+                if (!ScreenNames.Contains(join.ScreenOne))
                 {
-                    var screenOne = allScreens.Single(s => s.Name == join.screenOne);
+                    var screenOne = allScreens.Single(s => s.Name == join.ScreenOne);
 
-                    if (join.type == JoinType.Horizontal)
+                    if (join.Type == JoinType.Horizontal)
                     {
-                        Point offset = new Point(join.offsetTwo - join.offsetOne, -screenOne.Height);
+                        Point offset = new Point(join.OffsetTwo - join.OffsetOne, -screenOne.Height);
                         GrowLayout(screenOne, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));
                     }
                     else
                     {
-                        Point offset = new Point(-screenOne.Width, join.offsetTwo - join.offsetOne);
+                        Point offset = new Point(-screenOne.Width, join.OffsetTwo - join.OffsetOne);
                         GrowLayout(screenOne, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));
                     }
                 }
 
-                if (!ScreenNames.Contains(join.screenTwo))
+                if (!ScreenNames.Contains(join.ScreenTwo))
                 {
-                    var screenTwo = allScreens.Single(s => s.Name == join.screenTwo);
+                    var screenTwo = allScreens.Single(s => s.Name == join.ScreenTwo);
 
-                    if (join.type == JoinType.Horizontal)
+                    if (join.Type == JoinType.Horizontal)
                     {
-                        Point offset = new Point(join.offsetOne - join.offsetTwo, screen.Height);
+                        Point offset = new Point(join.OffsetOne - join.OffsetTwo, screen.Height);
                         GrowLayout(screenTwo, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));
                     }
                     else
                     {
-                        Point offset = new Point(screen.Width, join.offsetOne - join.offsetTwo);
+                        Point offset = new Point(screen.Width, join.OffsetOne - join.OffsetTwo);
                         GrowLayout(screenTwo, allScreens, new Point(location.X + offset.X, location.Y + offset.Y));
                     }
                 }

@@ -12,12 +12,12 @@ namespace MegaMan.IO.Xml
             {
                 writer.WriteAttributeString("id", info.Id);
             }
-            writer.WriteAttributeString("entity", info.entity);
-            if (info.state != "Start") writer.WriteAttributeString("state", info.state);
-            writer.WriteAttributeString("x", info.screenX.ToString());
-            writer.WriteAttributeString("y", info.screenY.ToString());
-            writer.WriteAttributeString("direction", info.direction.ToString());
-            writer.WriteAttributeString("respawn", info.respawn.ToString());
+            writer.WriteAttributeString("entity", info.Entity);
+            if (info.State != "Start") writer.WriteAttributeString("state", info.State);
+            writer.WriteAttributeString("x", info.ScreenX.ToString());
+            writer.WriteAttributeString("y", info.ScreenY.ToString());
+            writer.WriteAttributeString("direction", info.Direction.ToString());
+            writer.WriteAttributeString("respawn", info.Respawn.ToString());
             writer.WriteEndElement();
         }
     }

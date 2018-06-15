@@ -255,11 +255,11 @@ namespace MegaMan.Engine
         private void EntityCommand(SceneEntityCommandInfo command)
         {
             var entityId = command.Placement.Id ?? Guid.NewGuid().ToString();
-            var entity = Entities.CreateEntityWithId(entityId, command.Placement.entity);
-            entity.GetComponent<PositionComponent>().SetPosition(command.Placement.screenX, command.Placement.screenY);
-            if (!string.IsNullOrEmpty(command.Placement.state))
+            var entity = Entities.CreateEntityWithId(entityId, command.Placement.Entity);
+            entity.GetComponent<PositionComponent>().SetPosition(command.Placement.ScreenX, command.Placement.ScreenY);
+            if (!string.IsNullOrEmpty(command.Placement.State))
             {
-                entity.SendMessage(new StateMessage(null, command.Placement.state));
+                entity.SendMessage(new StateMessage(null, command.Placement.State));
             }
             entity.Start(this);
         }

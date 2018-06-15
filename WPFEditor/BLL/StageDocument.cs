@@ -271,8 +271,8 @@ namespace MegaMan.Editor.Bll
             if (_map.StartScreen == oldName) _map.StartScreen = newName;
             foreach (var join in Joins)
             {
-                if (join.screenOne == oldName) join.screenOne = newName;
-                if (join.screenTwo == oldName) join.screenTwo = newName;
+                if (join.ScreenOne == oldName) join.ScreenOne = newName;
+                if (join.ScreenTwo == oldName) join.ScreenTwo = newName;
             }
             Dirty = true;
         }

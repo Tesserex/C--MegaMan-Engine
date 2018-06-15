@@ -21,9 +21,9 @@ namespace MegaMan.IO.Xml
             foreach (var blockInfo in xmlNode.Elements("Block"))
             {
                 var block = new BlockInfo();
-                block.pos = new PointF(blockInfo.GetAttribute<float>("x"), blockInfo.GetAttribute<float>("y"));
-                block.on = blockInfo.GetAttribute<int>("on");
-                block.off = blockInfo.GetAttribute<int>("off");
+                block.Pos = new PointF(blockInfo.GetAttribute<float>("x"), blockInfo.GetAttribute<float>("y"));
+                block.On = blockInfo.GetAttribute<int>("on");
+                block.Off = blockInfo.GetAttribute<int>("off");
 
                 info.Blocks.Add(block);
             }
@@ -42,10 +42,10 @@ namespace MegaMan.IO.Xml
             foreach (var block in blockPattern.Blocks)
             {
                 writer.WriteStartElement("Block");
-                writer.WriteAttributeString("x", block.pos.X.ToString());
-                writer.WriteAttributeString("y", block.pos.Y.ToString());
-                writer.WriteAttributeString("on", block.on.ToString());
-                writer.WriteAttributeString("off", block.off.ToString());
+                writer.WriteAttributeString("x", block.Pos.X.ToString());
+                writer.WriteAttributeString("y", block.Pos.Y.ToString());
+                writer.WriteAttributeString("on", block.On.ToString());
+                writer.WriteAttributeString("off", block.Off.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

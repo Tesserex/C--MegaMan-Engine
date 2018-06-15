@@ -15,7 +15,7 @@ namespace MegaMan.Engine.Entities
 
         private void DisableRespawn(EntityPlacement placement, GameEntity entity)
         {
-            if (placement.respawn != RespawnBehavior.Offscreen)
+            if (placement.Respawn != RespawnBehavior.Offscreen)
                 _respawnableEntities[placement] = false;
 
             entity.Removed -= () => DisableRespawn(placement, entity);
@@ -23,7 +23,7 @@ namespace MegaMan.Engine.Entities
 
         public void ResetStage()
         {
-            foreach (var placement in _respawnableEntities.Keys.Where(p => p.respawn == RespawnBehavior.Stage))
+            foreach (var placement in _respawnableEntities.Keys.Where(p => p.Respawn == RespawnBehavior.Stage))
             {
                 _respawnableEntities[placement] = true;
             }
@@ -31,7 +31,7 @@ namespace MegaMan.Engine.Entities
 
         public void ResetDeath()
         {
-            foreach (var placement in _respawnableEntities.Keys.Where(p => p.respawn == RespawnBehavior.Death))
+            foreach (var placement in _respawnableEntities.Keys.Where(p => p.Respawn == RespawnBehavior.Death))
             {
                 _respawnableEntities[placement] = true;
             }

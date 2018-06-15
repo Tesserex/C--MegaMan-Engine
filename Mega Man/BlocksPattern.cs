@@ -54,9 +54,9 @@ namespace MegaMan.Engine
                     // should always persist off screen
                     PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
                     pos.PersistOffScreen = true;
-                    myInfo.pos = new PointF(blockinfo.pos.X, blockinfo.pos.Y);
-                    myInfo.on = blockinfo.on;
-                    myInfo.off = blockinfo.off;
+                    myInfo.pos = new PointF(blockinfo.Pos.X, blockinfo.Pos.Y);
+                    myInfo.on = blockinfo.On;
+                    myInfo.off = blockinfo.Off;
                     blocks.Add(myInfo);
                 }
             }

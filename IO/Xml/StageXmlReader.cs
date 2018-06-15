@@ -99,15 +99,15 @@ namespace MegaMan.IO.Xml
                 if (bossdoor) bosstile = bossAttr.Value;
 
                 var j = new Join();
-                j.direction = direction;
-                j.screenOne = s1;
-                j.screenTwo = s2;
-                j.offsetOne = offset1;
-                j.offsetTwo = offset2;
-                j.type = type;
+                j.Direction = direction;
+                j.ScreenOne = s1;
+                j.ScreenTwo = s2;
+                j.OffsetOne = offset1;
+                j.OffsetTwo = offset2;
+                j.Type = type;
                 j.Size = size;
-                j.bossDoor = bossdoor;
-                j.bossEntityName = bosstile;
+                j.BossDoor = bossdoor;
+                j.BossEntityName = bosstile;
 
                 info.Joins.Add(j);
             }

@@ -13,7 +13,7 @@ namespace MegaMan.Common
     public class Sprite : ICollection<SpriteFrame>
     {
         private Guid? id;
-        private List<SpriteFrame> frames;
+        private readonly List<SpriteFrame> frames;
 
         private int width;
         private int height;
@@ -49,7 +49,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets a rectangle representing the box surrounding the sprite.
         /// </summary>
-        public RectangleF BoundBox { get; protected set; }
+        public RectangleF BoundBox { get; private set; }
 
         /// <summary>
         /// Gets or sets the height of the sprite.
@@ -102,7 +102,7 @@ namespace MegaMan.Common
         public int Layer { get; set; }
 
         public virtual FilePath SheetPath { get; set; }
-        public virtual string SheetPathRelative { get { return SheetPath != null ? SheetPath.Relative : null; } }
+        public virtual string SheetPathRelative { get { return SheetPath?.Relative; } }
 
         public virtual byte[] SheetData { get; set; }
 
@@ -169,7 +169,6 @@ namespace MegaMan.Common
         /// <summary>
         /// Adds a frame to the sprite with the given coordinates and duration.
         /// </summary>
-        /// <param name="tilesheet">The image from which to retreive the frame.</param>
         /// <param name="x">The x-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="y">The y-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="duration">The duration of the frame, in game ticks.</param>
@@ -192,7 +191,6 @@ namespace MegaMan.Common
         /// Inserts a frame with the given coordinates and duration at the specified index.
         /// </summary>
         /// <param name="index">The index at which to insert the frame.</param>
-        /// <param name="tilesheet">The image from which to retreive the frame.</param>
         /// <param name="x">The x-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="y">The y-coordinate, on the tilesheet, of the top-left corner of the frame image.</param>
         /// <param name="duration">The duration of the frame, in game ticks.</param>
@@ -308,7 +306,7 @@ namespace MegaMan.Common
 
     public class SpriteFrame
     {
-        private Sprite sprite;
+        private readonly Sprite sprite;
         private int duration;
 
         public Rectangle SheetLocation { get; private set; }

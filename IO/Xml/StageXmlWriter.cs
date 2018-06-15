@@ -65,14 +65,14 @@ namespace MegaMan.IO.Xml
             foreach (var join in stageInfo.Joins)
             {
                 writer.WriteStartElement("Join");
-                writer.WriteAttributeString("type", (join.type == JoinType.Horizontal) ? "horizontal" : "vertical");
+                writer.WriteAttributeString("type", (join.Type == JoinType.Horizontal) ? "horizontal" : "vertical");
 
-                writer.WriteAttributeString("s1", join.screenOne);
-                writer.WriteAttributeString("s2", join.screenTwo);
-                writer.WriteAttributeString("offset1", join.offsetOne.ToString());
-                writer.WriteAttributeString("offset2", join.offsetTwo.ToString());
+                writer.WriteAttributeString("s1", join.ScreenOne);
+                writer.WriteAttributeString("s2", join.ScreenTwo);
+                writer.WriteAttributeString("offset1", join.OffsetOne.ToString());
+                writer.WriteAttributeString("offset2", join.OffsetTwo.ToString());
                 writer.WriteAttributeString("size", join.Size.ToString());
-                switch (join.direction)
+                switch (join.Direction)
                 {
                     case JoinDirection.Both: writer.WriteAttributeString("direction", "both"); break;
                     case JoinDirection.ForwardOnly: writer.WriteAttributeString("direction", "forward"); break;

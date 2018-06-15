@@ -39,50 +39,50 @@ namespace MegaMan.Engine
             this.tileSize = tileSize;
 
             size = join.Size * tileSize;
-            ticks = ((JoinInfo.type == JoinType.Vertical) ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown) / Const.ScrollSpeed;
+            ticks = ((JoinInfo.Type == JoinType.Vertical) ? Game.CurrentGame.PixelsAcross : Game.CurrentGame.PixelsDown) / Const.ScrollSpeed;
 
-            if (join.screenOne == name)
+            if (join.ScreenOne == name)
             {
-                NextScreenName = join.screenTwo;
-                if (join.type == JoinType.Horizontal)   // bottom edge
+                NextScreenName = join.ScreenTwo;
+                if (join.Type == JoinType.Horizontal)   // bottom edge
                 {
                     direction = Direction.Down;
-                    threshXmin = join.offsetOne * tileSize;
+                    threshXmin = join.OffsetOne * tileSize;
                     threshYmin = height - Const.PlayerScrollTrigger;
                     threshXmax = threshXmin + size;
                     threshYmax = height + 100;
-                    NextScreenX = (join.offsetTwo - join.offsetOne) * tileSize;
+                    NextScreenX = (join.OffsetTwo - join.OffsetOne) * tileSize;
                 }
                 else // right edge
                 {
                     direction = Direction.Right;
                     threshXmin = width - Const.PlayerScrollTrigger;
-                    threshYmin = join.offsetOne * tileSize;
+                    threshYmin = join.OffsetOne * tileSize;
                     threshXmax = width + 100;
                     threshYmax = threshYmin + size;
-                    NextScreenY = (join.offsetTwo - join.offsetOne) * tileSize;
+                    NextScreenY = (join.OffsetTwo - join.OffsetOne) * tileSize;
                 }
             }
             else
             {
-                NextScreenName = join.screenOne;
-                if (join.type == JoinType.Horizontal)   // top edge
+                NextScreenName = join.ScreenOne;
+                if (join.Type == JoinType.Horizontal)   // top edge
                 {
                     direction = Direction.Up;
-                    threshXmin = join.offsetTwo * tileSize;
+                    threshXmin = join.OffsetTwo * tileSize;
                     threshYmin = -100;
                     threshXmax = threshXmin + size;
                     threshYmax = Const.PlayerScrollTrigger;
-                    NextScreenX = (join.offsetOne - join.offsetTwo) * tileSize;
+                    NextScreenX = (join.OffsetOne - join.OffsetTwo) * tileSize;
                 }
                 else // left edge
                 {
                     direction = Direction.Left;
                     threshXmin = -100;
-                    threshYmin = join.offsetTwo * tileSize;
+                    threshYmin = join.OffsetTwo * tileSize;
                     threshXmax = Const.PlayerScrollTrigger;
                     threshYmax = threshYmin + size;
-                    NextScreenY = (join.offsetOne - join.offsetTwo) * tileSize;
+                    NextScreenY = (join.OffsetOne - join.OffsetTwo) * tileSize;
                 }
             }
         }
@@ -99,9 +99,9 @@ namespace MegaMan.Engine
         {
             if (direction == Direction.Right || direction == Direction.Down)
             {
-                if (JoinInfo.direction == JoinDirection.BackwardOnly) return false;
+                if (JoinInfo.Direction == JoinDirection.BackwardOnly) return false;
             }
-            else if (JoinInfo.direction == JoinDirection.ForwardOnly) return false;
+            else if (JoinInfo.Direction == JoinDirection.ForwardOnly) return false;
 
             return (position.X >= threshXmin && position.X <= threshXmax &&
                     position.Y >= threshYmin && position.Y <= threshYmax);
@@ -155,8 +155,8 @@ namespace MegaMan.Engine
         public virtual void Update(PositionComponent playerPos)
         {
             scrollDist += Const.ScrollSpeed;
-            if (JoinInfo.type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
-                JoinInfo.type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
+            if (JoinInfo.Type == JoinType.Vertical && scrollDist >= Game.CurrentGame.PixelsAcross ||
+                JoinInfo.Type == JoinType.Horizontal && scrollDist >= Game.CurrentGame.PixelsDown)
             {
                 Finish(playerPos);
             }

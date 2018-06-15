@@ -17,11 +17,11 @@ namespace MegaMan.Common
         public int PixelWidth { get { return Width * Tileset.TileSize; } }
         public int PixelHeight { get { return Height * Tileset.TileSize; } }
 
-        public TileLayer(int[,] tiles, Tileset tileset, int base_x, int base_y)
+        public TileLayer(int[,] tiles, Tileset tileset, int baseX, int baseY)
         {
             Tileset = tileset;
-            BaseX = base_x;
-            BaseY = base_y;
+            BaseX = baseX;
+            BaseY = baseY;
             this.tiles = tiles;
         }
 

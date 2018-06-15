@@ -25,16 +25,16 @@ namespace MegaMan.Common
 
     public class Join
     {
-        public JoinType type;
-        public string screenOne, screenTwo;
+        public JoinType Type;
+        public string ScreenOne, ScreenTwo;
         // <summary>
         // The number of tiles from the top (if vertical) or left (if horizontal) of screenOne at which the join begins.
         // </summary>
-        public int offsetOne;
+        public int OffsetOne;
         // <summary>
         // The number of tiles from the top (if vertical) or left (if horizontal) of screenTwo at which the join begins.
         // </summary>
-        public int offsetTwo;
+        public int OffsetTwo;
         // <summary>
         // The size extent of the join, in tiles.
         // </summary>
@@ -42,12 +42,12 @@ namespace MegaMan.Common
         // <summary>
         // Whether the join allows the player to cross only one way or in either direction.
         // </summary>
-        public JoinDirection direction;
+        public JoinDirection Direction;
         // <summary>
         // Whether this join has a boss-style door over it.
         // </summary>
-        public bool bossDoor;
-        public string bossEntityName;
+        public bool BossDoor;
+        public string BossEntityName;
     }
 
     public class StageInfo : HandlerInfo 

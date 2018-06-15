@@ -339,7 +339,7 @@ namespace MegaMan.Common.Geometry
             this.height = height;
         }
 
-        public static RectangleF FromLTRB(float left, float top, float right, float bottom)
+        public static RectangleF FromLtrb(float left, float top, float right, float bottom)
         {
             return new RectangleF(left, top, right - left, bottom - top);
         }

@@ -142,7 +142,7 @@ namespace MegaMan.Engine
             {
                 sound = new WavEffect(soundSystem, info.Path.Absolute, info.Loop, info.Volume);
             }
-            else if (info.Type == AudioType.NSF)
+            else if (info.Type == AudioType.Nsf)
             {
                 sound = new NsfEffect(sfx, info.NsfTrack, info.Priority, info.Loop);
             }

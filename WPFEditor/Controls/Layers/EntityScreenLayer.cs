@@ -38,7 +38,7 @@ namespace MegaMan.Editor.Controls
         private void EntityAdded(EntityPlacement placement)
         {
             var ctrl = new EntityPlacementControl();
-            var info = Screen.Stage.Project.EntityByName(placement.entity);
+            var info = Screen.Stage.Project.EntityByName(placement.Entity);
             var vm = new EntityPlacementControlViewModel(placement, info, Screen);
             ctrl.DataContext = vm;
             ctrl.Visibility = Visibility.Visible;
@@ -94,16 +94,16 @@ namespace MegaMan.Editor.Controls
             var viewModel = (EntityPlacementControlViewModel)ctrl.DataContext;
             if (viewModel.DefaultSprite != null)
             {
-                bool flipHorizontal = (viewModel.Placement.direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
+                bool flipHorizontal = (viewModel.Placement.Direction == Direction.Left) ^ viewModel.DefaultSprite.Reversed;
                 var offset = flipHorizontal ? viewModel.DefaultSprite.Width - viewModel.DefaultSprite.HotSpot.X : viewModel.DefaultSprite.HotSpot.X;
 
-                SetLeft(ctrl, Zoom * (viewModel.Placement.screenX - offset));
-                SetTop(ctrl, Zoom * (viewModel.Placement.screenY - viewModel.DefaultSprite.HotSpot.Y));
+                SetLeft(ctrl, Zoom * (viewModel.Placement.ScreenX - offset));
+                SetTop(ctrl, Zoom * (viewModel.Placement.ScreenY - viewModel.DefaultSprite.HotSpot.Y));
             }
             else
             {
-                SetLeft(ctrl, Zoom * viewModel.Placement.screenX);
-                SetTop(ctrl, Zoom * viewModel.Placement.screenY);
+                SetLeft(ctrl, Zoom * viewModel.Placement.ScreenX);
+                SetTop(ctrl, Zoom * viewModel.Placement.ScreenY);
             }
 
             InvalidateVisual();

@@ -66,7 +66,7 @@ namespace MegaMan.IO.Xml
             }
             else if (trackAttr != null)
             {
-                sound.Type = AudioType.NSF;
+                sound.Type = AudioType.Nsf;
 
                 int track;
                 if (!trackAttr.Value.TryParse(out track) || track <= 0) throw new GameXmlException(trackAttr, "Sound track attribute must be an integer greater than zero.");

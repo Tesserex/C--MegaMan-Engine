@@ -67,7 +67,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void SetStartState(object obj)
         {
-            Placement.state = obj.ToString();
+            Placement.State = obj.ToString();
             _screen.Stage.Dirty = true;
             OnPropertyChanged("StartState");
             OnPropertyChanged("DefaultSprite");
@@ -76,7 +76,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         private void SetRespawnMode(object obj)
         {
             var mode = (RespawnBehavior)Enum.Parse(typeof(RespawnBehavior), obj.ToString());
-            Placement.respawn = mode;
+            Placement.Respawn = mode;
             _screen.Stage.Dirty = true;
 
             OnPropertyChanged("RespawnsOffscreen");
@@ -87,7 +87,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void Flip(object obj)
         {
-            Placement.direction = (Placement.direction != Direction.Left) ? Direction.Left : Direction.Right;
+            Placement.Direction = (Placement.Direction != Direction.Left) ? Direction.Left : Direction.Right;
             _screen.Stage.Dirty = true;
             OnPropertyChanged("Flipped");
             if (PlacementModified != null)
@@ -125,7 +125,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public double Zoom { get { return Convert.ToDouble(App.Current.Resources["Zoom"] ?? 1); } }
 
-        public bool Flipped { get { return (Placement.direction == Direction.Left); } }
+        public bool Flipped { get { return (Placement.Direction == Direction.Left); } }
 
         public string BorderColor
         {
@@ -143,11 +143,11 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        public string StartState { get { return Placement.state ?? States.FirstOrDefault() ?? "Start"; } }
+        public string StartState { get { return Placement.State ?? States.FirstOrDefault() ?? "Start"; } }
 
-        public bool RespawnsOffscreen { get { return Placement.respawn == RespawnBehavior.Offscreen; } }
-        public bool RespawnsDeath { get { return Placement.respawn == RespawnBehavior.Death; } }
-        public bool RespawnsStage { get { return Placement.respawn == RespawnBehavior.Stage; } }
-        public bool RespawnsNever { get { return Placement.respawn == RespawnBehavior.Never; } }
+        public bool RespawnsOffscreen { get { return Placement.Respawn == RespawnBehavior.Offscreen; } }
+        public bool RespawnsDeath { get { return Placement.Respawn == RespawnBehavior.Death; } }
+        public bool RespawnsStage { get { return Placement.Respawn == RespawnBehavior.Stage; } }
+        public bool RespawnsNever { get { return Placement.Respawn == RespawnBehavior.Never; } }
     }
 }

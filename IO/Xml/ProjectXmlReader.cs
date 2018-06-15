@@ -124,13 +124,13 @@ namespace MegaMan.IO.Xml
             var musicNode = nsfNode.Element("Music");
             if (musicNode != null)
             {
-                project.MusicNSF = FilePath.FromRelative(musicNode.Value, project.BaseDir);
+                project.MusicNsf = FilePath.FromRelative(musicNode.Value, project.BaseDir);
             }
 
             var sfxNode = nsfNode.Element("SFX");
             if (sfxNode != null)
             {
-                project.EffectsNSF = FilePath.FromRelative(sfxNode.Value, project.BaseDir);
+                project.EffectsNsf = FilePath.FromRelative(sfxNode.Value, project.BaseDir);
             }
         }
     }

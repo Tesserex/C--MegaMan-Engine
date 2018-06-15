@@ -57,8 +57,8 @@ namespace MegaMan.Engine
 
             foreach (Join join in map.Joins)
             {
-                var screenOne = map.Screens[join.screenOne];
-                var screenTwo = map.Screens[join.screenTwo];
+                var screenOne = map.Screens[join.ScreenOne];
+                var screenTwo = map.Screens[join.ScreenTwo];
 
                 JoinHandler handlerOne = CreateJoin(join, handler, screenOne);
 
@@ -113,7 +113,7 @@ namespace MegaMan.Engine
 
         private JoinHandler CreateJoin(Join join, StageHandler stage, ScreenInfo screen)
         {
-            if (join.bossDoor)
+            if (join.BossDoor)
             {
                 return new BossDoorHandler(join, stage, _entityPool, screen.Tileset.TileSize, screen.PixelHeight, screen.PixelWidth, screen.Name);
             }

@@ -5,43 +5,43 @@ namespace MegaMan.Common.IncludedObjects
 {
     public class IncludedObjectGroup : IIncludedObject, IEnumerable<IIncludedObject>
     {
-        private FilePath _storagePath;
-        private List<IIncludedObject> _objects;
+        private FilePath storagePath;
+        private List<IIncludedObject> objects;
 
         public IncludedObjectGroup()
         {
-            _objects = new List<IIncludedObject>();
+            objects = new List<IIncludedObject>();
         }
 
         public FilePath StoragePath
         {
             get
             {
-                return _storagePath;
+                return storagePath;
             }
 
             set
             {
-                _storagePath = value;
+                storagePath = value;
 
-                foreach (var obj in _objects)
+                foreach (var obj in objects)
                     obj.StoragePath = value;
             }
         }
 
         public void Add(IIncludedObject obj)
         {
-            _objects.Add(obj);
+            objects.Add(obj);
         }
 
         public IEnumerator<IIncludedObject> GetEnumerator()
         {
-            return _objects.GetEnumerator();
+            return objects.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _objects.GetEnumerator();
+            return objects.GetEnumerator();
         }
     }
 }

@@ -3,29 +3,29 @@ namespace MegaMan.Common
 {
     public class TileSprite : Sprite
     {
-        private Tileset _tileset;
+        private Tileset tileset;
 
         public TileSprite(Tileset tileset)
             : base(tileset.TileSize, tileset.TileSize)
         {
-            _tileset = tileset;
+            this.tileset = tileset;
         }
 
         public TileSprite(Tileset tileset, Sprite copy)
             : base(copy)
         {
-            _tileset = tileset;
+            this.tileset = tileset;
         }
 
         public override FilePath SheetPath
         {
             get
             {
-                return _tileset.SheetPath;
+                return tileset.SheetPath;
             }
             set
             {
-                _tileset.SheetPath = value;
+                tileset.SheetPath = value;
             }
         }
 
@@ -33,7 +33,7 @@ namespace MegaMan.Common
         {
             get
             {
-                return _tileset.SheetPath.Relative;
+                return tileset.SheetPath.Relative;
             }
         }
 
@@ -41,7 +41,7 @@ namespace MegaMan.Common
         {
             get
             {
-                return _tileset.TileSize;
+                return tileset.TileSize;
             }
         }
 
@@ -49,7 +49,7 @@ namespace MegaMan.Common
         {
             get
             {
-                return _tileset.TileSize;
+                return tileset.TileSize;
             }
         }
     }

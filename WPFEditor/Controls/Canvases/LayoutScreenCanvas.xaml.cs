@@ -74,12 +74,12 @@ namespace MegaMan.Editor.Controls
             var length = endPoint - startPoint;
 
             var join = new Join();
-            join.screenOne = Screen.Name;
-            join.screenTwo = canvas.Screen.Name;
-            join.direction = JoinDirection.Both;
-            join.type = JoinType.Vertical;
-            join.offsetOne = startTileOne;
-            join.offsetTwo = startTileTwo;
+            join.ScreenOne = Screen.Name;
+            join.ScreenTwo = canvas.Screen.Name;
+            join.Direction = JoinDirection.Both;
+            join.Type = JoinType.Vertical;
+            join.OffsetOne = startTileOne;
+            join.OffsetTwo = startTileTwo;
             join.Size = length;
 
             Screen.Stage.AddJoin(join);
@@ -98,12 +98,12 @@ namespace MegaMan.Editor.Controls
             var length = endPoint - startPoint;
 
             var join = new Join();
-            join.screenOne = Screen.Name;
-            join.screenTwo = canvas.Screen.Name;
-            join.direction = JoinDirection.Both;
-            join.type = JoinType.Horizontal;
-            join.offsetOne = startTileOne;
-            join.offsetTwo = startTileTwo;
+            join.ScreenOne = Screen.Name;
+            join.ScreenTwo = canvas.Screen.Name;
+            join.Direction = JoinDirection.Both;
+            join.Type = JoinType.Horizontal;
+            join.OffsetOne = startTileOne;
+            join.OffsetTwo = startTileTwo;
             join.Size = length;
 
             Screen.Stage.AddJoin(join);

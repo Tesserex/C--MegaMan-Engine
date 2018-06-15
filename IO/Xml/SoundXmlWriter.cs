@@ -16,7 +16,7 @@ namespace MegaMan.IO.Xml
             if (info.Type == AudioType.Wav && info.Path != null)
                 writer.WriteAttributeString("path", info.Path.Relative);
 
-            if (info.Type == AudioType.NSF)
+            if (info.Type == AudioType.Nsf)
             {
                 writer.WriteAttributeString("track", info.NsfTrack.ToString());
                 writer.WriteAttributeString("priority", info.Priority.ToString());

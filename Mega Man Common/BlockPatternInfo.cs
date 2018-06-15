@@ -26,16 +26,16 @@ namespace MegaMan.Common
 
     public class BlockInfo
     {
-        public PointF pos;
-        public int on;
-        public int off;
+        public PointF Pos;
+        public int On;
+        public int Off;
 
         internal BlockInfo Clone()
         {
             return new BlockInfo {
-                pos = pos,
-                on = on,
-                off = off
+                Pos = Pos,
+                On = On,
+                Off = Off
             };
         }
     }

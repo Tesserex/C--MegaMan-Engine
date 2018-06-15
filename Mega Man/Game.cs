@@ -123,15 +123,15 @@ namespace MegaMan.Engine
             }
 
             var nsfReader = FileReaderProvider.GetRawReader();
-            if (project.MusicNSF != null)
+            if (project.MusicNsf != null)
             {
-                var musicData = nsfReader.GetRawData(project.MusicNSF);
+                var musicData = nsfReader.GetRawData(project.MusicNsf);
                 Engine.Instance.SoundSystem.LoadMusicNSF(musicData);
             }
 
-            if (project.EffectsNSF != null)
+            if (project.EffectsNsf != null)
             {
-                var sfxData = nsfReader.GetRawData(project.EffectsNSF);
+                var sfxData = nsfReader.GetRawData(project.EffectsNsf);
                 Engine.Instance.SoundSystem.LoadSfxNSF(sfxData);
             }
 

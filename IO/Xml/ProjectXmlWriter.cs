@@ -35,11 +35,11 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("y", project.ScreenHeight.ToString());
             writer.WriteEndElement();
 
-            if (project.MusicNSF != null || project.EffectsNSF != null)
+            if (project.MusicNsf != null || project.EffectsNsf != null)
             {
                 writer.WriteStartElement("NSF");
-                if (project.MusicNSF != null) writer.WriteElementString("Music", project.MusicNSF.Relative);
-                if (project.EffectsNSF != null) writer.WriteElementString("SFX", project.EffectsNSF.Relative);
+                if (project.MusicNsf != null) writer.WriteElementString("Music", project.MusicNsf.Relative);
+                if (project.EffectsNsf != null) writer.WriteElementString("SFX", project.EffectsNsf.Relative);
                 writer.WriteEndElement();
             }
 

@@ -120,7 +120,7 @@ namespace MegaMan.Engine
         {
             for (int i = 0; i < _info.Entities.Count; i++)
             {
-                if (_info.Entities[i].respawn == RespawnBehavior.Death)
+                if (_info.Entities[i].Respawn == RespawnBehavior.Death)
                 {
                     _respawnable[i] = true;
                 }
@@ -188,11 +188,11 @@ namespace MegaMan.Engine
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity entity = _stage.Entities.CreateEntityWithId(info.Id, info.entity);
+                GameEntity entity = _stage.Entities.CreateEntityWithId(info.Id, info.Entity);
                 if (entity == null) continue;
 
                 PositionComponent pos = entity.GetComponent<PositionComponent>();
-                var onScreen = IsOnScreen(info.screenX, info.screenY);
+                var onScreen = IsOnScreen(info.ScreenX, info.ScreenY);
 
                 if (!onScreen)
                 {
@@ -217,14 +217,14 @@ namespace MegaMan.Engine
 
             _respawnTracker.Track(info, entity);
 
-            entity.Direction = info.direction;
+            entity.Direction = info.Direction;
 
             entity.Start(_stage);
 
-            entity.GetComponent<PositionComponent>().SetPosition(new PointF(info.screenX, info.screenY));
-            if (info.state != "Start")
+            entity.GetComponent<PositionComponent>().SetPosition(new PointF(info.ScreenX, info.ScreenY));
+            if (info.State != "Start")
             {
-                StateMessage msg = new StateMessage(null, info.state);
+                StateMessage msg = new StateMessage(null, info.State);
                 entity.SendMessage(msg);
             }
 
