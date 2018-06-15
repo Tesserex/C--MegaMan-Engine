@@ -63,7 +63,7 @@ namespace MegaMan.Engine
 
             inventory[itemName] += quantity;
 
-            if (InventoryChanged != null) InventoryChanged(itemName, inventory[itemName]);
+            InventoryChanged?.Invoke(itemName, inventory[itemName]);
         }
 
         public bool UseItem(string itemName, int quantity = 1)
@@ -75,7 +75,7 @@ namespace MegaMan.Engine
 
             inventory[itemName] -= quantity;
 
-            if (InventoryChanged != null) InventoryChanged(itemName, inventory[itemName]);
+            InventoryChanged?.Invoke(itemName, inventory[itemName]);
 
             return true;
         }

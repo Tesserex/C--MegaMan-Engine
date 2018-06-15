@@ -171,10 +171,7 @@ namespace MegaMan.Engine
 
             if (weapons[current].Meter != null) weapons[current].Meter.Value = weapons[current].Ammo;
 
-            if (AmmoChanged != null)
-            {
-                AmmoChanged(weapons[current].Name, weapons[current].Ammo, weapons[current].Max);
-            }
+            AmmoChanged?.Invoke(weapons[current].Name, weapons[current].Ammo, weapons[current].Max);
         }
 
         public void AddWeapon(string name, string entity, int ammo, int usage, HealthMeter meter, int? palette)

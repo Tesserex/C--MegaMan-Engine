@@ -125,7 +125,7 @@ namespace MegaMan.Engine
             {
                 if (join.Trigger(playerPos.Position))
                 {
-                    if (JoinTriggered != null) JoinTriggered(join);
+                    JoinTriggered?.Invoke(join);
                     return;
                 }
             }
@@ -139,7 +139,7 @@ namespace MegaMan.Engine
                 {
                     if (Math.Abs(playerPos.Position.X - teleport.From.X) <= 2 && Math.Abs(playerPos.Position.Y - teleport.From.Y) <= 8)
                     {
-                        if (Teleport != null) Teleport(teleport);
+                        Teleport?.Invoke(teleport);
                         break;
                     }
                 }

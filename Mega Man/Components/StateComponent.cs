@@ -89,7 +89,7 @@ namespace MegaMan.Engine
                 states[currentState].Initialize(Parent);
                 stateChanged = false;
 
-                if (StateChanged != null) StateChanged(currentState);
+                StateChanged?.Invoke(currentState);
             }
         }
 

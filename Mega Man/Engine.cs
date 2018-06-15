@@ -168,7 +168,7 @@ namespace MegaMan.Engine
         public void Begin()
         {
             var args = new DeviceEventArgs();
-            if (GetDevice != null) GetDevice(this, args);
+            GetDevice?.Invoke(this, args);
             GraphicsDevice = args.Device;
             renderContext = new XnaRenderingContext(GraphicsDevice);
             initialized = true;
@@ -236,12 +236,12 @@ namespace MegaMan.Engine
         public void DelayedCall(Action callback, Action<int> progress, int delay)
         {
             var count = 0;
-            GameTickEventHandler handler = e => { count++; if (progress != null) progress(count); };
+            GameTickEventHandler handler = e => { count++; progress?.Invoke(count); };
             handler += e =>
             {
                 if (delay == count)
                 {
-                    if (callback != null) callback();
+                    callback?.Invoke();
                     GameLogicTick -= handler;
                 }
             };
@@ -261,10 +261,7 @@ namespace MegaMan.Engine
             if (fadeHandle != null)
             {
                 GameLogicTick -= fadeHandle;
-                if (fadeFinished != null)
-                {
-                    fadeFinished();
-                }
+                fadeFinished?.Invoke();
             }
 
             fadeHandle = e => opacityDown(callback);
@@ -281,7 +278,7 @@ namespace MegaMan.Engine
             if (opacity <= 0)
             {
                 // call the callback, then switch to fading in
-                if (callback != null) callback();
+                callback?.Invoke();
                 GameLogicTick -= fadeHandle;
                 fadeHandle = e => opacityUp();
                 GameLogicTick += fadeHandle;
@@ -296,7 +293,7 @@ namespace MegaMan.Engine
             {
                 GameLogicTick -= fadeHandle;
                 fadeHandle = null;
-                if (fadeFinished != null) fadeFinished();
+                fadeFinished?.Invoke();
                 fadeFinished = null;
             }
         }
@@ -364,7 +361,7 @@ namespace MegaMan.Engine
             }
             catch (GameRunException ex)
             {
-                if (OnException != null) OnException(ex);
+                OnException?.Invoke(ex);
 
                 Stop();
             }
@@ -381,23 +378,23 @@ namespace MegaMan.Engine
 
             var e = new GameTickEventArgs(dt);
 
-            if (GameLogicTick != null) GameLogicTick(e);    // this one is for more basic operations
+            GameLogicTick?.Invoke(e);    // this one is for more basic operations
 
             // render phase
             var r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Color.Green);
 
-            if (GameRenderBegin != null) GameRenderBegin(r);
+            GameRenderBegin?.Invoke(r);
 
             renderContext.SetOpacity(opacity);
             renderContext.Begin();
 
-            if (GameRender != null) GameRender(r);
+            GameRender?.Invoke(r);
 
             renderContext.End();
 
-            if (GameRenderEnd != null) GameRenderEnd(r);
+            GameRenderEnd?.Invoke(r);
 
             return false;
         }

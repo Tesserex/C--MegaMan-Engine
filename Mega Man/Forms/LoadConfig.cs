@@ -73,11 +73,7 @@ namespace MegaMan.Engine.Forms
 
         private void RaiseApply()
         {
-            var apply = Apply;
-            if (apply != null)
-            {
-                apply();
-            }
+            Apply?.Invoke();
         }
     }
 }

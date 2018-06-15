@@ -8,11 +8,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
 
         public void Raise(TParam param)
         {
-            var e = Changed;
-            if (e != null)
-            {
-                e(param);
-            }
+            Changed?.Invoke(param);
         }
     }
 }

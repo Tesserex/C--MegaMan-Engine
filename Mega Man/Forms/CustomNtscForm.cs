@@ -208,11 +208,7 @@ namespace MegaMan.Engine
 
         private void RaiseApply()
         {
-            var apply = Apply;
-            if (apply != null)
-            {
-                apply();
-            }
+            Apply?.Invoke();
         }
 
         public NTSC_CustomOptions GetOptions()

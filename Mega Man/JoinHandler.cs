@@ -149,7 +149,7 @@ namespace MegaMan.Engine
             else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, OffsetDist())); }
             else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextHeight - OffsetDist())); }
 
-            if (ScrollDone != null) ScrollDone(this);
+            ScrollDone?.Invoke(this);
         }
 
         public virtual void Update(PositionComponent playerPos)

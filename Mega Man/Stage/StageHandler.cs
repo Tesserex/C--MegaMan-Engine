@@ -349,7 +349,7 @@ namespace MegaMan.Engine
 
         protected override void Tick(GameTickEventArgs e)
         {
-            if (updateFunc != null) updateFunc();
+            updateFunc?.Invoke();
 
             tilesetAnimator.Update();
 
@@ -358,7 +358,7 @@ namespace MegaMan.Engine
 
         protected override void GameRender(GameRenderEventArgs e)
         {
-            if (drawFunc != null) drawFunc(e);
+            drawFunc?.Invoke(e);
 
             base.GameRender(e);
         }

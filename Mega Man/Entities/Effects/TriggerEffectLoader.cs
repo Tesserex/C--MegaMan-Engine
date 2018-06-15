@@ -23,7 +23,7 @@ namespace MegaMan.Engine.Entities.Effects
             return e =>
             {
                 if (condition(e)) triggerEffect(e);
-                else if (elseEffect != null) elseEffect(e);
+                else elseEffect?.Invoke(e);
             };
         }
     }

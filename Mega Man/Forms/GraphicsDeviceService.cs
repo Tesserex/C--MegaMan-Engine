@@ -105,11 +105,9 @@ namespace WinFormsGraphicsDevice {
 				// If this is the last control to finish using the
 				// device, we should dispose the singleton instance.
 				if (disposing) {
-					if (DeviceDisposing != null) {
-						DeviceDisposing(this, EventArgs.Empty);
-					}
+                    DeviceDisposing?.Invoke(this, EventArgs.Empty);
 
-					graphicsDevice.Dispose();
+                    graphicsDevice.Dispose();
 				}
 
 				graphicsDevice = null;
@@ -121,19 +119,15 @@ namespace WinFormsGraphicsDevice {
 		/// Resets the graphics device to the specified resolution.
 		/// </summary>
 		public void ResetDevice(int width, int height) {
-			if (DeviceResetting != null) {
-				DeviceResetting(this, EventArgs.Empty);
-			}
+            DeviceResetting?.Invoke(this, EventArgs.Empty);
 
-			parameters.BackBufferWidth = width;
+            parameters.BackBufferWidth = width;
 			parameters.BackBufferHeight = height;
 
 			graphicsDevice.Reset(parameters);
 
-			if (DeviceReset != null) {
-				DeviceReset(this, EventArgs.Empty);
-			}
-		}
+            DeviceReset?.Invoke(this, EventArgs.Empty);
+        }
 		// ----------------------------------------------------------------------------------------------------
 		#endregion
 	}

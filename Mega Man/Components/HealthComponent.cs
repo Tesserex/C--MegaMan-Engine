@@ -33,10 +33,7 @@ namespace MegaMan.Engine
                     meter.Value = health;
                 }
 
-                if (HealthChanged != null)
-                {
-                    HealthChanged(health, maxHealth);
-                }
+                HealthChanged?.Invoke(health, maxHealth);
             }
         }
 

@@ -89,8 +89,9 @@ namespace MegaMan.Engine
             var down = (!parentComponent.Parent.Container.IsGravityFlipped && square.Properties.Climbable);
             var up = (parentComponent.Parent.Container.IsGravityFlipped && square.Properties.Climbable);
 
-            if (parentComponent.MovementSrc != null) offset = GetIntersectionOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down);
-            else offset = GetIntersectionOffset(tileBox, boundBox, 0, 0, up, down);
+            offset = parentComponent.MovementSrc != null ?
+                GetIntersectionOffset(tileBox, boundBox, parentComponent.MovementSrc.VelocityX, parentComponent.MovementSrc.VelocityY, up, down) :
+                GetIntersectionOffset(tileBox, boundBox, 0, 0, up, down);
 
             // Quicksand sinking property tells us not to push the hitbox outward
             if (square.Properties.Sinking > 0)

@@ -99,10 +99,10 @@ namespace MegaMan.Engine
 
         protected virtual void Tick(GameTickEventArgs e)
         {
-            if (GameThink != null) GameThink();
-            if (GameAct != null) GameAct();
-            if (GameReact != null) GameReact();
-            if (GameCleanup != null) GameCleanup();
+            GameThink?.Invoke();
+            GameAct?.Invoke();
+            GameReact?.Invoke();
+            GameCleanup?.Invoke();
 
             DidGravityFlipPreviousFrame = (IsGravityFlipped != _previousGravityFlip);
             _previousGravityFlip = IsGravityFlipped;
@@ -115,15 +115,12 @@ namespace MegaMan.Engine
                 obj.Draw(e.RenderContext);
             }
 
-            if (Draw != null) Draw(e);
+            Draw?.Invoke(e);
         }
 
         protected void Finish(HandlerTransfer transfer)
         {
-            if (End != null)
-            {
-                End(transfer);
-            }
+            End?.Invoke(transfer);
         }
 
         protected virtual void RunCommands(IEnumerable<SceneCommandInfo> commands)

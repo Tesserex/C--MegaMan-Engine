@@ -35,7 +35,7 @@ namespace MegaMan.Engine.Entities.Effects
                 if (spawn == null) return;
                 var msg = new StateMessage(entity, spawnInfo.State);
                 spawn.SendMessage(msg);
-                if (posEff != null) posEff(spawn);
+                posEff?.Invoke(spawn);
             };
         }
     }

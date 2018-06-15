@@ -77,8 +77,7 @@ namespace MegaMan.Engine
             foreach (var c in Components)
                 c.Start(container);
 
-            if (Started != null)
-                Started();
+            Started?.Invoke();
 
             Running = true;
         }
@@ -90,20 +89,20 @@ namespace MegaMan.Engine
             foreach (var c in Components)
                 c.Stop(container);
 
-            if (Stopped != null) Stopped();
+            Stopped?.Invoke();
             Running = false;
         }
 
         public void Remove()
         {
-            if (Removed != null) Removed();
+            Removed?.Invoke();
             Stop();
         }
 
         public void Die()
         {
             OnDeath(this);
-            if (Death != null) Death();
+            Death?.Invoke();
             Remove();
         }
 
