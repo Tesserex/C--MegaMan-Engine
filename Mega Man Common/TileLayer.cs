@@ -38,15 +38,15 @@ namespace MegaMan.Common
 
         public void Save(string filepath)
         {
-            using (FileStream f = File.Open(filepath, FileMode.Create))
+            using (var f = File.Open(filepath, FileMode.Create))
             {
-                using (StreamWriter s = new StreamWriter(f))
+                using (var s = new StreamWriter(f))
                 {
                     s.WriteLine(Width + " " + Height);
 
-                    for (int y = 0; y < Height; y++)
+                    for (var y = 0; y < Height; y++)
                     {
-                        for (int x = 0; x < Width; x++)
+                        for (var x = 0; x < Width; x++)
                         {
                             s.Write(tiles[x,y] + " ");
                         }
@@ -70,12 +70,12 @@ namespace MegaMan.Common
 
         public void ChangeTiles(Point offset, int[,] newTiles)
         {
-            int minWidth = Math.Min(newTiles.GetLength(0), Width - offset.X);
-            int minHeight = Math.Min(newTiles.GetLength(1), Height - offset.Y);
+            var minWidth = Math.Min(newTiles.GetLength(0), Width - offset.X);
+            var minHeight = Math.Min(newTiles.GetLength(1), Height - offset.Y);
 
-            for (int x = 0; x < minWidth; x++)
+            for (var x = 0; x < minWidth; x++)
             {
-                for (int y = 0; y < minHeight; y++)
+                for (var y = 0; y < minHeight; y++)
                 {
                     tiles[x + offset.X, y + offset.Y] = newTiles[x, y];
                 }
@@ -89,9 +89,9 @@ namespace MegaMan.Common
 
             var tileBuffer = new int[width, height];
 
-            for (int x = 0; x < width; x++)
+            for (var x = 0; x < width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (var y = 0; y < height; y++)
                 {
                     tileBuffer[x, y] = tiles[x + offset.X, y + offset.Y];
                 }

@@ -39,7 +39,7 @@
             if (!Playing || !sprite.Tickable) return;
 
             FrameTime += ticks;
-            int neededTime = sprite[CurrentIndex].Duration;
+            var neededTime = sprite[CurrentIndex].Duration;
 
             while (FrameTime >= neededTime)
             {

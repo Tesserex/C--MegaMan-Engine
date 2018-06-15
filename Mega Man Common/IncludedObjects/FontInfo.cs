@@ -33,7 +33,7 @@ namespace MegaMan.Common.IncludedObjects
 
             var lineChars = lineText.ToCharArray();
 
-            for (int i = 0; i < lineChars.Length; i++)
+            for (var i = 0; i < lineChars.Length; i++)
             {
                 var c = lineChars[i];
 

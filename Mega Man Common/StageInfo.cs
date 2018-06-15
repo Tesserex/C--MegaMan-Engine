@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.IncludedObjects;
 
@@ -98,7 +98,7 @@ namespace MegaMan.Common
         {
             Tileset = tileset;
             
-            foreach (ScreenInfo s in Screens.Values) s.Tileset = Tileset;
+            foreach (var s in Screens.Values) s.Tileset = Tileset;
         }
 
         public void Clear() 

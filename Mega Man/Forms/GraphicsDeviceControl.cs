@@ -26,7 +26,7 @@ namespace WinFormsGraphicsDevice
     /// a Windows Form. Derived classes can override the Initialize and Draw
     /// methods to add their own drawing code.
     /// </summary>
-    abstract public class GraphicsDeviceControl : Control
+    public abstract class GraphicsDeviceControl : Control
     {
         #region Fields
 

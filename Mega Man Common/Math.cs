@@ -113,7 +113,7 @@ namespace MegaMan.Common.Geometry
             {
                 return false;
             }
-            PointF pointF = (PointF)obj;
+            var pointF = (PointF)obj;
             return pointF.X == X && pointF.Y == Y && pointF.GetType().Equals(GetType());
         }
 
@@ -149,7 +149,7 @@ namespace MegaMan.Common.Geometry
             {
                 return false;
             }
-            RectangleF rectangleF = (RectangleF)obj;
+            var rectangleF = (RectangleF)obj;
             return rectangleF.X == X && rectangleF.Y == Y && rectangleF.Width == Width && rectangleF.Height == Height;
         }
 
@@ -170,7 +170,7 @@ namespace MegaMan.Common.Geometry
 
         public void Intersect(Rectangle rect)
         {
-            Rectangle rectangle = Intersect(rect, this);
+            var rectangle = Intersect(rect, this);
             X = rectangle.X;
             Y = rectangle.Y;
             Width = rectangle.Width;
@@ -179,10 +179,10 @@ namespace MegaMan.Common.Geometry
 
         public static Rectangle Intersect(Rectangle a, Rectangle b)
         {
-            int num = Math.Max(a.X, b.X);
-            int num2 = Math.Min(a.X + a.Width, b.X + b.Width);
-            int num3 = Math.Max(a.Y, b.Y);
-            int num4 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+            var num = Math.Max(a.X, b.X);
+            var num2 = Math.Min(a.X + a.Width, b.X + b.Width);
+            var num3 = Math.Max(a.Y, b.Y);
+            var num4 = Math.Min(a.Y + a.Height, b.Y + b.Height);
             if (num2 >= num && num4 >= num3)
             {
                 return new Rectangle(num, num3, num2 - num, num4 - num3);
@@ -192,10 +192,10 @@ namespace MegaMan.Common.Geometry
 
         public static Rectangle Union(Rectangle a, Rectangle b)
         {
-            int num = Math.Min(a.X, b.X);
-            int num2 = Math.Max(a.X + a.Width, b.X + b.Width);
-            int num3 = Math.Min(a.Y, b.Y);
-            int num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+            var num = Math.Min(a.X, b.X);
+            var num2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            var num3 = Math.Min(a.Y, b.Y);
+            var num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
             return new Rectangle(num, num3, num2 - num, num4 - num3);
         }
 
@@ -350,7 +350,7 @@ namespace MegaMan.Common.Geometry
             {
                 return false;
             }
-            RectangleF rectangleF = (RectangleF)obj;
+            var rectangleF = (RectangleF)obj;
             return rectangleF.X == X && rectangleF.Y == Y && rectangleF.Width == Width && rectangleF.Height == Height;
         }
 
@@ -394,14 +394,14 @@ namespace MegaMan.Common.Geometry
 
         public static RectangleF Inflate(RectangleF rect, float x, float y)
         {
-            RectangleF result = rect;
+            var result = rect;
             result.Inflate(x, y);
             return result;
         }
 
         public void Intersect(RectangleF rect)
         {
-            RectangleF rectangleF = Intersect(rect, this);
+            var rectangleF = Intersect(rect, this);
             X = rectangleF.X;
             Y = rectangleF.Y;
             Width = rectangleF.Width;
@@ -410,10 +410,10 @@ namespace MegaMan.Common.Geometry
 
         public static RectangleF Intersect(RectangleF a, RectangleF b)
         {
-            float num = Math.Max(a.X, b.X);
-            float num2 = Math.Min(a.X + a.Width, b.X + b.Width);
-            float num3 = Math.Max(a.Y, b.Y);
-            float num4 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+            var num = Math.Max(a.X, b.X);
+            var num2 = Math.Min(a.X + a.Width, b.X + b.Width);
+            var num3 = Math.Max(a.Y, b.Y);
+            var num4 = Math.Min(a.Y + a.Height, b.Y + b.Height);
             if (num2 >= num && num4 >= num3)
             {
                 return new RectangleF(num, num3, num2 - num, num4 - num3);
@@ -428,10 +428,10 @@ namespace MegaMan.Common.Geometry
 
         public static RectangleF Union(RectangleF a, RectangleF b)
         {
-            float num = Math.Min(a.X, b.X);
-            float num2 = Math.Max(a.X + a.Width, b.X + b.Width);
-            float num3 = Math.Min(a.Y, b.Y);
-            float num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+            var num = Math.Min(a.X, b.X);
+            var num2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            var num3 = Math.Min(a.Y, b.Y);
+            var num4 = Math.Max(a.Y + a.Height, b.Y + b.Height);
             return new RectangleF(num, num3, num2 - num, num4 - num3);
         }
 

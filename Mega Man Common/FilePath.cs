@@ -57,7 +57,7 @@ namespace MegaMan.Common
                 throw new ArgumentException("Path cannot be null or empty.", "basepath");
             }
 
-            FilePath fp = new FilePath {
+            var fp = new FilePath {
                 basepath = Path.GetFullPath(basepath),
                 relative = relative,
                 absolute = Path.GetFullPath(Path.Combine(basepath, relative))
@@ -81,22 +81,22 @@ namespace MegaMan.Common
             if (string.IsNullOrEmpty(basepath)) return;
 
             // split into directories
-            string[] pathdirs = absolute.Split(Path.DirectorySeparatorChar);
-            string[] reldirs = basepath.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
+            var pathdirs = absolute.Split(Path.DirectorySeparatorChar);
+            var reldirs = basepath.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
 
-            int length = Math.Min(pathdirs.Length, reldirs.Length);
-            StringBuilder relativePath = new StringBuilder();
+            var length = Math.Min(pathdirs.Length, reldirs.Length);
+            var relativePath = new StringBuilder();
 
             // find where the paths differ
-            int forkpoint = 0;
+            var forkpoint = 0;
             while (forkpoint < length && pathdirs[forkpoint] == reldirs[forkpoint]) forkpoint++;
 
             // go back by the number of directories in the relativeTo path
-            int dirs = reldirs.Length - forkpoint;
-            for (int i = 0; i < dirs; i++) relativePath.Append("..").Append(Path.DirectorySeparatorChar);
+            var dirs = reldirs.Length - forkpoint;
+            for (var i = 0; i < dirs; i++) relativePath.Append("..").Append(Path.DirectorySeparatorChar);
 
             // append file path from that directory
-            for (int i = forkpoint; i < pathdirs.Length - 1; i++) relativePath.Append(pathdirs[i]).Append(Path.DirectorySeparatorChar);
+            for (var i = forkpoint; i < pathdirs.Length - 1; i++) relativePath.Append(pathdirs[i]).Append(Path.DirectorySeparatorChar);
             // append file, without directory separator
             relativePath.Append(pathdirs[pathdirs.Length - 1]);
 

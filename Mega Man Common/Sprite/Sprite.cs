@@ -233,11 +233,11 @@ namespace MegaMan.Common
             if (texture == null)
                 texture = context.LoadResource(SheetPath, SheetData, PaletteName);
 
-            bool flipHorizontal = HorizontalFlip ^ Reversed;
-            bool flipVertical = VerticalFlip;
+            var flipHorizontal = HorizontalFlip ^ Reversed;
+            var flipVertical = VerticalFlip;
 
-            int hx = (HorizontalFlip ^ Reversed) ? Width - HotSpot.X : HotSpot.X;
-            int hy = VerticalFlip ? Height - HotSpot.Y : HotSpot.Y;
+            var hx = (HorizontalFlip ^ Reversed) ? Width - HotSpot.X : HotSpot.X;
+            var hy = VerticalFlip ? Height - HotSpot.Y : HotSpot.Y;
 
             var drawTexture = texture;
             var frame = this[frameIndex];
