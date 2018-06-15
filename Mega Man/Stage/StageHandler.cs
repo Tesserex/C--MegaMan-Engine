@@ -55,8 +55,8 @@ namespace MegaMan.Engine
             startX = info.PlayerStartX;
             startY = info.PlayerStartY;
 
-            string intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
-            string looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
+            var intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
+            var looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
             if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
         }
 
@@ -88,7 +88,7 @@ namespace MegaMan.Engine
             Player.GetComponent<SpriteComponent>().Visible = true;
             Player.GetComponent<WeaponComponent>().ResetWeapon();
 
-            StateMessage msg = new StateMessage(null, "Teleport");
+            var msg = new StateMessage(null, "Teleport");
             PlayerPos.SetPosition(new PointF(startX, 0));
             Player.SendMessage(msg);
             Action teleport = () => { };
@@ -161,7 +161,7 @@ namespace MegaMan.Engine
 
         private void ChangeScreen(ScreenHandler nextScreen)
         {
-            ScreenHandler oldscreen = _currentScreen;
+            var oldscreen = _currentScreen;
             _currentScreen = nextScreen;
 
             oldscreen.Clean();

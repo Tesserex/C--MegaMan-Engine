@@ -167,7 +167,7 @@ namespace MegaMan.Engine
         private bool running;
         public void Begin()
         {
-            DeviceEventArgs args = new DeviceEventArgs();
+            var args = new DeviceEventArgs();
             if (GetDevice != null) GetDevice(this, args);
             GraphicsDevice = args.Device;
             renderContext = new XnaRenderingContext(GraphicsDevice);
@@ -235,7 +235,7 @@ namespace MegaMan.Engine
         /// <param name="delay">The number of frames to wait before calling.</param>
         public void DelayedCall(Action callback, Action<int> progress, int delay)
         {
-            int count = 0;
+            var count = 0;
             GameTickEventHandler handler = e => { count++; if (progress != null) progress(count); };
             handler += e =>
             {
@@ -354,7 +354,7 @@ namespace MegaMan.Engine
         private void Application_Idle()
         {
             if (timer.ElapsedTicks < frameTicks || !running) return;
-            float dt = timer.ElapsedTicks * invFreq;
+            var dt = timer.ElapsedTicks * invFreq;
             timer.Reset();
             timer.Start();
 
@@ -379,12 +379,12 @@ namespace MegaMan.Engine
         {
             CheckInput();
 
-            GameTickEventArgs e = new GameTickEventArgs(dt);
+            var e = new GameTickEventArgs(dt);
 
             if (GameLogicTick != null) GameLogicTick(e);    // this one is for more basic operations
 
             // render phase
-            GameRenderEventArgs r = new GameRenderEventArgs(renderContext);
+            var r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Color.Green);
 

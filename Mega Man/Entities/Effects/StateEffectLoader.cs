@@ -17,7 +17,7 @@ namespace MegaMan.Engine.Entities.Effects
         {
             var newstate = ((StateEffectPartInfo)info).Name;
             return entity => {
-                StateComponent state = entity.GetComponent<StateComponent>();
+                var state = entity.GetComponent<StateComponent>();
                 if (state != null)
                 {
                     state.ChangeState(newstate);

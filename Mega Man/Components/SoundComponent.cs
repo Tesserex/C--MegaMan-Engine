@@ -18,12 +18,12 @@ namespace MegaMan.Engine
 
         public override void Stop(IGameplayContainer container)
         {
-            foreach (string sound in sounds) Engine.Instance.SoundSystem.StopSfxIfLooping(sound);
+            foreach (var sound in sounds) Engine.Instance.SoundSystem.StopSfxIfLooping(sound);
         }
 
         public override void Message(IGameMessage msg)
         {
-            SoundMessage sound = msg as SoundMessage;
+            var sound = msg as SoundMessage;
             if (sound != null)
             {
                 sounds.Add(sound.SoundName);

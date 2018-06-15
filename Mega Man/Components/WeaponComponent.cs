@@ -76,7 +76,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            WeaponComponent copy = new WeaponComponent {weapons = weapons, current = 0};
+            var copy = new WeaponComponent {weapons = weapons, current = 0};
             return copy;
         }
 
@@ -135,7 +135,7 @@ namespace MegaMan.Engine
         {
             if (weapons[current].Palette.HasValue)
             {
-                SpriteComponent sprites = Parent.GetComponent<SpriteComponent>();
+                var sprites = Parent.GetComponent<SpriteComponent>();
                 if (sprites != null)
                 {
                     sprites.ChangePalette(weapons[current].Palette.Value);
@@ -183,7 +183,7 @@ namespace MegaMan.Engine
             {
                 return;
             }
-            WeaponInfo weapon = new WeaponInfo
+            var weapon = new WeaponInfo
             {
                 Name = name,
                 Entity = entity,

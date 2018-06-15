@@ -90,12 +90,12 @@ namespace MegaMan.Engine
                 layer.Start();
             }
 
-            foreach (JoinHandler join in joins)
+            foreach (var join in joins)
             {
                 join.Start(this);
             }
 
-            foreach (BlocksPattern pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 pattern.Start();
             }
@@ -121,7 +121,7 @@ namespace MegaMan.Engine
         // these frames only happen if we are not paused / scrolling
         public void Update()
         {
-            foreach (JoinHandler join in joins)
+            foreach (var join in joins)
             {
                 if (join.Trigger(playerPos.Position))
                 {
@@ -131,9 +131,9 @@ namespace MegaMan.Engine
             }
 
             // check for teleports
-            for (int i = 0; i < Screen.Teleports.Count; i++)
+            for (var i = 0; i < Screen.Teleports.Count; i++)
             {
-                TeleportInfo teleport = Screen.Teleports[i];
+                var teleport = Screen.Teleports[i];
 
                 if (teleportEnabled[i])
                 {
@@ -255,7 +255,7 @@ namespace MegaMan.Engine
                 layer.Stop();
             }
 
-            foreach (BlocksPattern pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 pattern.Stop();
             }
@@ -265,7 +265,7 @@ namespace MegaMan.Engine
 
         public void Clean()
         {
-            foreach (JoinHandler join in joins)
+            foreach (var join in joins)
             {
                 join.Stop();
             }
@@ -304,8 +304,8 @@ namespace MegaMan.Engine
 
         public void Draw(GameRenderEventArgs renderArgs, PointF playerPos, ScreenDrawingCoords coords, TilesetAnimator tilesetAnimator)
         {
-            int width = Screen.PixelWidth;
-            int height = Screen.PixelHeight;
+            var width = Screen.PixelWidth;
+            var height = Screen.PixelHeight;
 
             if (!isAutoscrolling)
             {

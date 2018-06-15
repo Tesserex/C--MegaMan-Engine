@@ -19,7 +19,7 @@ namespace MegaMan.Engine.Entities.Effects
 
             if (varInfo.Call != null)
             {
-                Query getVal = EffectParser.CompileQuery(varInfo.Call);
+                var getVal = EffectParser.CompileQuery(varInfo.Call);
                 return e => {
                     var target = e;
 

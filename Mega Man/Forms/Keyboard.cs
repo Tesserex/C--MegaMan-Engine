@@ -74,7 +74,7 @@ namespace MegaMan.Engine
                     return true;   // Needs to be here, so if a key picked like up, selected button must not be changed.
                 }
 
-                string key = "";
+                var key = "";
 
                 if (keyData.HasFlag(Keys.Control)) key = "ctrl";
                 else if (keyData.HasFlag(Keys.Alt)) key = "Alt";

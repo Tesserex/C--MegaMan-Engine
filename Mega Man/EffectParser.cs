@@ -136,21 +136,21 @@ namespace MegaMan.Engine
 
         public static Condition ParseCondition(string conditionString)
         {
-            LambdaExpression lambda = DynamicExpression.ParseLambda(
+            var lambda = DynamicExpression.ParseLambda(
                 new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, varsParam, healthParam, weaponParam, stParam, lifeParam, playerXParam, playerYParam, playerXAbsParam, playerYAbsParam, gravParam, randParam, playerParam },
                 typeof(SplitCondition),
                 typeof(bool),
                 conditionString,
                 dirDict);
-            SplitCondition trigger = (SplitCondition)lambda.Compile();
-            Condition condition = CloseCondition(trigger);
+            var trigger = (SplitCondition)lambda.Compile();
+            var condition = CloseCondition(trigger);
 
             return condition;
         }
 
         public static Effect LoadTriggerEffect(EffectInfo info)
         {
-            Effect effect = LoadEffect(info);
+            var effect = LoadEffect(info);
             if (info.Name != null)
                 SaveEffect(info.Name, effect);
 
@@ -161,7 +161,7 @@ namespace MegaMan.Engine
         {
             foreach (var effectInfo in effects)
             {
-                Effect effect = LoadEffect(effectInfo);
+                var effect = LoadEffect(effectInfo);
                 SaveEffect(effectInfo.Name, effect);
             }
         }
@@ -219,7 +219,7 @@ namespace MegaMan.Engine
 
         public static Effect CompileEffect(string st)
         {
-            LambdaExpression lambda = DynamicExpression.ParseLambda(
+            var lambda = DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitEffect),
                             null,
@@ -230,7 +230,7 @@ namespace MegaMan.Engine
 
         public static Query CompileQuery(string st)
         {
-            LambdaExpression lambda = DynamicExpression.ParseLambda(
+            var lambda = DynamicExpression.ParseLambda(
                             new[] { posParam, moveParam, sprParam, inputParam, collParam, ladderParam, timerParam, healthParam, stateParam, weaponParam, playerParam },
                             typeof(SplitQuery),
                             typeof(object),
@@ -253,13 +253,13 @@ namespace MegaMan.Engine
                     );
                 }
 
-                PositionComponent pos = entity.GetComponent<PositionComponent>();
+                var pos = entity.GetComponent<PositionComponent>();
 
                 float pdx = 0;
                 float pdy = 0;
                 float pdxAbs = 0;
                 float pdyAbs = 0;
-                GameEntity player = entity.Entities.GetEntityById("Player");
+                var player = entity.Entities.GetEntityById("Player");
                 if (player != null)
                 {
                     var playerPos = player.GetComponent<PositionComponent>();

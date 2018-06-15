@@ -31,9 +31,9 @@ namespace MegaMan.Engine.Entities.Effects
             }
 
             return entity => {
-                GameEntity spawn = entity.Spawn(spawnInfo.Name);
+                var spawn = entity.Spawn(spawnInfo.Name);
                 if (spawn == null) return;
-                StateMessage msg = new StateMessage(entity, spawnInfo.State);
+                var msg = new StateMessage(entity, spawnInfo.State);
                 spawn.SendMessage(msg);
                 if (posEff != null) posEff(spawn);
             };

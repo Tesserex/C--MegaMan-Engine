@@ -347,7 +347,7 @@ namespace MegaMan.Engine
                         LoadGlobalConfigValues();
                         LoadCurrentConfig();
 
-                        string autoLoadGame = settingsService.GetAutoLoadGame();
+                        var autoLoadGame = settingsService.GetAutoLoadGame();
                         if (autoLoadGame != null)
                         {
                             if (!LoadGame(autoLoadGame, null, true))
@@ -446,7 +446,7 @@ namespace MegaMan.Engine
         #region First section
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
+            var dialog = new OpenFileDialog();
             DialogResult result;
 
             // If directory from xml is still valid, use it, else restore default one.
@@ -750,7 +750,7 @@ namespace MegaMan.Engine
             if (!Directory.Exists(capDir)) Directory.CreateDirectory(capDir);
 
             string capPath;
-            int capNum = 1;
+            var capNum = 1;
 
             do
             {
@@ -958,7 +958,7 @@ namespace MegaMan.Engine
                 {
                     // this builds a dialog message to tell the user where the error is in the XML file
 
-                    StringBuilder message = new StringBuilder("There is an error in one of your game files.\n\n");
+                    var message = new StringBuilder("There is an error in one of your game files.\n\n");
                     if (ex.File != null) message.Append("File: ").Append(ex.File).Append('\n');
                     if (ex.Line != 0) message.Append("Line: ").Append(ex.Line.ToString()).Append('\n');
                     if (ex.Entity != null) message.Append("Entity: ").Append(ex.Entity).Append('\n');
@@ -1040,7 +1040,7 @@ namespace MegaMan.Engine
         /// <param name="Y"></param>
         private void ChangeFormLocation(int X, int Y)
         {
-            bool running = Engine.Instance.IsRunning;
+            var running = Engine.Instance.IsRunning;
 
             if (X < 0 || Y < 0)
             {
@@ -1290,7 +1290,7 @@ namespace MegaMan.Engine
         
         void Game_ScreenSizeChanged(object sender, ScreenSizeChangedEventArgs e)
         {
-            FormWindowState previousWindowState = WindowState;
+            var previousWindowState = WindowState;
 
             WindowState = FormWindowState.Normal;
 
@@ -1327,8 +1327,8 @@ namespace MegaMan.Engine
                 newHeight = height * heightZoom;
             }
 
-            int extraHeight = Height - xnaImage.Height;
-            int extraWidth = Width - xnaImage.Width;
+            var extraHeight = Height - xnaImage.Height;
+            var extraWidth = Width - xnaImage.Width;
 
             Height = extraHeight + newHeight.Value;
             Width = extraWidth + newWidth.Value;
@@ -1351,7 +1351,7 @@ namespace MegaMan.Engine
 
         void Instance_GameLogicTick(GameTickEventArgs e)
         {
-            float fps = 1 / e.TimeElapsed;
+            var fps = 1 / e.TimeElapsed;
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
             thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             entityLabel.Text = "Entities: " + Game.DebugEntitiesAlive();

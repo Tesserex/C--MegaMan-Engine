@@ -24,7 +24,7 @@ namespace MegaMan.Engine.Entities.Effects
             {
                 var enable = colInfo.Enabled.Value;
                 effect += entity => {
-                    CollisionComponent col = entity.GetComponent<CollisionComponent>();
+                    var col = entity.GetComponent<CollisionComponent>();
                     if (col != null) col.Enabled = enable;
                 };
             }
@@ -33,7 +33,7 @@ namespace MegaMan.Engine.Entities.Effects
             {
                 var collisionBoxes = colInfo.HitBoxes.Select(b => new CollisionBox(b));
                 effect += entity => {
-                    HitBoxMessage msg = new HitBoxMessage(entity, collisionBoxes, colInfo.EnabledBoxes, colInfo.ClearEnabled);
+                    var msg = new HitBoxMessage(entity, collisionBoxes, colInfo.EnabledBoxes, colInfo.ClearEnabled);
                     entity.SendMessage(msg);
                 };
             }

@@ -22,27 +22,27 @@ namespace MegaMan.Engine.Entities.Effects
                 case WeaponAction.Shoot:
                     return entity =>
                     {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        var weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.Shoot();
                     };
 
                 case WeaponAction.RotateForward:
                     return entity =>
                     {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        var weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.RotateForward();
                     };
 
                 case WeaponAction.RotateBackward:
                     return entity => {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        var weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.RotateBackward();
                     };
 
                 case WeaponAction.Change:
                     var weaponName = wpn.ChangeName;
                     return entity => {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        var weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.SetWeapon(weaponName);
                     };
 
@@ -50,9 +50,9 @@ namespace MegaMan.Engine.Entities.Effects
                     if (wpn.Ammo == null)
                         throw new GameRunException("Weapon effect of type Ammo did not specify a value.");
 
-                    int val = wpn.Ammo.Value;
+                    var val = wpn.Ammo.Value;
                     return entity => {
-                        WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
+                        var weaponComponent = entity.GetComponent<WeaponComponent>();
                         if (weaponComponent != null) weaponComponent.AddAmmo(val);
                     };
 

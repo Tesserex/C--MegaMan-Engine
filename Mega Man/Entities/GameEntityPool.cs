@@ -34,12 +34,12 @@ namespace MegaMan.Engine.Entities
             else
             {
                 // clone it
-                GameEntity entity = new GameEntity();
-                GameEntity source = _entitySource.GetOriginalEntity(name);
+                var entity = new GameEntity();
+                var source = _entitySource.GetOriginalEntity(name);
 
                 if (GetNumberAlive(name) >= source.MaxAlive) return null;
 
-                foreach (Component c in source.Components)
+                foreach (var c in source.Components)
                 {
                     entity.AddComponent(c.Clone());
                 }
@@ -98,7 +98,7 @@ namespace MegaMan.Engine.Entities
         {
             _enumeratingActives = true;
 
-            foreach (GameEntity entity in entitiesInUse.Values)
+            foreach (var entity in entitiesInUse.Values)
                 entity.Remove();
 
             entitiesInUse.Clear();

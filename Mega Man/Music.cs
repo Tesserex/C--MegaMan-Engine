@@ -59,7 +59,7 @@ namespace MegaMan.Engine
             Playing = false;
             if (intro != null)
             {
-                CHANNELINDEX index = (channel == null) ? CHANNELINDEX.FREE : CHANNELINDEX.REUSE;
+                var index = (channel == null) ? CHANNELINDEX.FREE : CHANNELINDEX.REUSE;
                 system.playSound(index, intro, false, ref channel);
                 Volume = 1;
                 playingintro = true;
@@ -86,7 +86,7 @@ namespace MegaMan.Engine
 
             if (channel != null)
             {
-                float fadeamt = 1.0f / frames;
+                var fadeamt = 1.0f / frames;
                 Engine.Instance.DelayedCall(Stop, i => { Volume -= fadeamt; }, frames);
             }
         }

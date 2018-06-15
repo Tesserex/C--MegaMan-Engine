@@ -70,7 +70,7 @@ namespace MegaMan.Engine
                 {
                     if (keyframe.Fade)
                     {
-                        KeyFrameInfo frameInfo = keyframe; // for closure
+                        var frameInfo = keyframe; // for closure
                         Engine.Instance.FadeTransition(() => TriggerKeyFrame(frameInfo));
                     }
                     else

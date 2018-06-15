@@ -60,7 +60,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            MovementComponent newone = new MovementComponent { Floating = Floating, CanMove = CanMove};
+            var newone = new MovementComponent { Floating = Floating, CanMove = CanMove};
 
             return newone;
         }
@@ -96,15 +96,15 @@ namespace MegaMan.Engine
         {
             if (!CanMove || Parent.Paused) return;
 
-            float accelX = (pendingVx - vx) * dragX;
+            var accelX = (pendingVx - vx) * dragX;
             vx += accelX;
 
-            float accelY = (pendingVy - vy) * dragY;
+            var accelY = (pendingVy - vy) * dragY;
             vy += accelY;
 
             if (!Floating)
             {
-                float gmult = (overTile != null) ? overTile.Properties.GravityMult : 1;
+                var gmult = (overTile != null) ? overTile.Properties.GravityMult : 1;
 
                 if (Parent.Container.IsGravityFlipped)
                 {
@@ -120,7 +120,7 @@ namespace MegaMan.Engine
 
             if (FlipSprite)
             {
-                SpriteComponent sprite = Parent.GetComponent<SpriteComponent>();
+                var sprite = Parent.GetComponent<SpriteComponent>();
                 if (sprite != null) sprite.HorizontalFlip = (Direction == Direction.Left);
             }
 
@@ -128,10 +128,10 @@ namespace MegaMan.Engine
 
             if (position != null)
             {
-                float deltaX = vx + pushX;
-                float deltaY = vy + pushY;
+                var deltaX = vx + pushX;
+                var deltaY = vy + pushY;
 
-                PointF pos = position.Position;
+                var pos = position.Position;
                 if (collision == null)
                 {
                     pos.X += deltaX;

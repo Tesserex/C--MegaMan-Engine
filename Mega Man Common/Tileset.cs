@@ -5,7 +5,7 @@ namespace MegaMan.Common
 {
     public class Tileset : List<Tile>
     {
-        private Dictionary<string, TileProperties> properties;
+        private readonly Dictionary<string, TileProperties> properties;
         public IEnumerable<TileProperties> Properties { get { return properties.Values; } }
 
         public FilePath SheetPath { get; set; }
@@ -16,8 +16,9 @@ namespace MegaMan.Common
 
         public Tileset()
         {
-            properties = new Dictionary<string, TileProperties>();
-            properties["Default"] = TileProperties.Default;
+            properties = new Dictionary<string, TileProperties> {
+                ["Default"] = TileProperties.Default
+            };
         }
 
         public void ChangeSheetPath(string path)
@@ -40,19 +41,19 @@ namespace MegaMan.Common
             return TileProperties.Default;
         }
 
-        public void AddProperties(TileProperties properties)
+        public void AddProperties(TileProperties props)
         {
-            this.properties[properties.Name] = properties;
+            properties[props.Name] = props;
         }
 
-        public void DeleteProperties(TileProperties properties)
+        public void DeleteProperties(TileProperties props)
         {
-            foreach (var tile in this.Where(t => t.Properties == properties))
+            foreach (var tile in this.Where(t => t.Properties == props))
             {
                 tile.Properties = TileProperties.Default;
             }
 
-            this.properties.Remove(properties.Name);
+            properties.Remove(props.Name);
         }
     }
 }

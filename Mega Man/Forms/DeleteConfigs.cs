@@ -41,7 +41,7 @@ namespace MegaMan.Engine.Forms
                 // In the list, no game string value is nothing. Replace it with No Game so user understands it
                 cbxConfigToDelete.Items.Clear();
 
-                for (int x = 0; x < configNames.Count; x++)
+                for (var x = 0; x < configNames.Count; x++)
                 {
                     if (string.IsNullOrWhiteSpace(configNames[x])) configNames[x] = Constants.noGameConfigNameToDisplayToUser;
                     cbxConfigToDelete.Items.Add(configNames[x]);
@@ -76,8 +76,8 @@ namespace MegaMan.Engine.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int indexToSelectAfterDeletion = cbxConfigToDelete.SelectedIndex;
-            string configSelected = cbxConfigToDelete.Items[indexToSelectAfterDeletion].ToString();
+            var indexToSelectAfterDeletion = cbxConfigToDelete.SelectedIndex;
+            var configSelected = cbxConfigToDelete.Items[indexToSelectAfterDeletion].ToString();
 
             if ((MessageBox.Show("Are you sure you want to delete configuration for " + configSelected + "?", "C# MegaMan Engine", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)) == DialogResult.No) return;
 

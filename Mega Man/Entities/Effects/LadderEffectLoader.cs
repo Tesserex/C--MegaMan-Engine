@@ -22,25 +22,25 @@ namespace MegaMan.Engine.Entities.Effects
             if (ladderInfo.Action == LadderAction.Grab)
                 effect = entity =>
                 {
-                    LadderComponent ladder = entity.GetComponent<LadderComponent>();
+                    var ladder = entity.GetComponent<LadderComponent>();
                     if (ladder != null) ladder.Grab();
                 };
             else if (ladderInfo.Action == LadderAction.LetGo)
                 effect = entity =>
                 {
-                    LadderComponent ladder = entity.GetComponent<LadderComponent>();
+                    var ladder = entity.GetComponent<LadderComponent>();
                     if (ladder != null) ladder.LetGo();
                 };
             else if (ladderInfo.Action == LadderAction.StandOn)
                 effect = entity =>
                 {
-                    LadderComponent ladder = entity.GetComponent<LadderComponent>();
+                    var ladder = entity.GetComponent<LadderComponent>();
                     if (ladder != null) ladder.StandOn();
                 };
             else if (ladderInfo.Action == LadderAction.ClimbDown)
                 effect = entity =>
                 {
-                    LadderComponent ladder = entity.GetComponent<LadderComponent>();
+                    var ladder = entity.GetComponent<LadderComponent>();
                     if (ladder != null) ladder.ClimbDown();
                 };
 

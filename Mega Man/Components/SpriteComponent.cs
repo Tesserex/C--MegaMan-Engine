@@ -68,7 +68,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            SpriteComponent copy = new SpriteComponent();
+            var copy = new SpriteComponent();
 
             foreach (var group in _sprites)
             {
@@ -229,8 +229,8 @@ namespace MegaMan.Engine
         private void Draw(Sprite sprite, IRenderingContext context, int layer)
         {
             if (PositionSrc == null) throw new InvalidOperationException("SpriteComponent has not been initialized with a position source.");
-            float off_x = Parent.Screen.OffsetX;
-            float off_y = Parent.Screen.OffsetY;
+            var off_x = Parent.Screen.OffsetX;
+            var off_y = Parent.Screen.OffsetY;
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : verticalFlip;

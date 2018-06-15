@@ -23,7 +23,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            PositionComponent copy = new PositionComponent {PersistOffScreen = PersistOffScreen};
+            var copy = new PositionComponent {PersistOffScreen = PersistOffScreen};
             return copy;
         }
 

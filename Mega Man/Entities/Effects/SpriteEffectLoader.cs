@@ -21,45 +21,45 @@ namespace MegaMan.Engine.Entities.Effects
             if (sprite.Name != null)
             {
                 action += entity => {
-                    SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
+                    var spritecomp = entity.GetComponent<SpriteComponent>();
                     spritecomp.ChangeSprite(sprite.Name);
                 };
             }
 
             if (sprite.Playing != null)
             {
-                bool play = sprite.Playing.Value;
+                var play = sprite.Playing.Value;
                 action += entity => {
-                    SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
+                    var spritecomp = entity.GetComponent<SpriteComponent>();
                     spritecomp.Playing = play;
                 };
             }
 
             if (sprite.Visible != null)
             {
-                bool vis = sprite.Visible.Value;
+                var vis = sprite.Visible.Value;
                 action += entity => {
-                    SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
+                    var spritecomp = entity.GetComponent<SpriteComponent>();
                     spritecomp.Visible = vis;
                 };
             }
 
             if (sprite.Facing != null)
             {
-                FacingValues facing = sprite.Facing.Value;
+                var facing = sprite.Facing.Value;
                 action += entity => {
-                    GameEntity player = entity.Entities.GetEntityById("Player");
-                    PositionComponent playerPos = player.GetComponent<PositionComponent>();
+                    var player = entity.Entities.GetEntityById("Player");
+                    var playerPos = player.GetComponent<PositionComponent>();
 
-                    SpriteComponent spritecomp = entity.GetComponent<SpriteComponent>();
-                    PositionComponent positioncomp = entity.GetComponent<PositionComponent>();
+                    var spritecomp = entity.GetComponent<SpriteComponent>();
+                    var positioncomp = entity.GetComponent<PositionComponent>();
 
                     spritecomp.HorizontalFlip = false;  // Skip cases to set it to false
 
                     if (facing == FacingValues.Left) spritecomp.HorizontalFlip = true;
                     else
                     {
-                        bool leftFromPlayer = (positioncomp.Position.X <= playerPos.Position.X);
+                        var leftFromPlayer = (positioncomp.Position.X <= playerPos.Position.X);
                         if (facing == FacingValues.Player) spritecomp.HorizontalFlip = !leftFromPlayer;
                         else if (facing == FacingValues.PlayerOpposite) spritecomp.HorizontalFlip = leftFromPlayer;
                     }

@@ -53,7 +53,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            HealthComponent copy = new HealthComponent
+            var copy = new HealthComponent
             {
                 StartHealth = StartHealth,
                 maxHealth = maxHealth,
@@ -103,7 +103,7 @@ namespace MegaMan.Engine
             {
                 if (Engine.Instance.Invincible && Parent.Name == "Player") return;
 
-                DamageMessage damage = (DamageMessage)msg;
+                var damage = (DamageMessage)msg;
                 if (!Engine.Instance.NoDamage)
                     Health -= damage.Damage;
 
@@ -113,7 +113,7 @@ namespace MegaMan.Engine
             }
             else if (msg is HealMessage)
             {
-                HealMessage heal = (HealMessage)msg;
+                var heal = (HealMessage)msg;
 
                 Health += heal.Health;
             }
@@ -129,7 +129,7 @@ namespace MegaMan.Engine
             if (flashing > 0)
             {
                 flashing--;
-                SpriteComponent spr = Parent.GetComponent<SpriteComponent>();
+                var spr = Parent.GetComponent<SpriteComponent>();
                 if (spr != null) spr.Visible = (flashing % 3 != 1);
             }
         }

@@ -32,7 +32,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            StateComponent newone = new StateComponent {states = states};
+            var newone = new StateComponent {states = states};
 
             // notice the shallow copy!
 
@@ -58,7 +58,7 @@ namespace MegaMan.Engine
 
         public override void Message(IGameMessage msg)
         {
-            StateMessage statemsg = msg as StateMessage;
+            var statemsg = msg as StateMessage;
             if (statemsg != null)
             {
                 if (states.ContainsKey(statemsg.StateName))
@@ -132,7 +132,7 @@ namespace MegaMan.Engine
                     {
                         if (!states.ContainsKey(stateName))
                         {
-                            State state = new State {Name = stateName};
+                            var state = new State {Name = stateName};
                             states.Add(stateName, state);
                         }
                         states[stateName].AddTrigger(trigger);
@@ -218,10 +218,10 @@ namespace MegaMan.Engine
 
             public void CheckTriggers(StateComponent statecomp, IEntity entity)
             {
-                string state = statecomp.currentState;
-                foreach (Trigger trigger in triggers.OrderBy(t => t.Priority))
+                var state = statecomp.currentState;
+                foreach (var trigger in triggers.OrderBy(t => t.Priority))
                 {
-                    bool result = trigger.Condition(entity);
+                    var result = trigger.Condition(entity);
                     if (result)
                     {
                         trigger.Effect(entity);

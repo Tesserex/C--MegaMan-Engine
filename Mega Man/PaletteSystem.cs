@@ -65,7 +65,7 @@ namespace MegaMan.Engine
 
                 var paletteData = img.LockBits(imageRect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
-                byte[] paletteBytes = new byte[paletteData.Height * paletteData.Stride];
+                var paletteBytes = new byte[paletteData.Height * paletteData.Stride];
 
                 try
                 {
@@ -80,16 +80,16 @@ namespace MegaMan.Engine
 
                 var s = paletteData.Stride;
 
-                for (int line = 0; line < paletteData.Height; line++)
+                for (var line = 0; line < paletteData.Height; line++)
                 {
                     var pal = new Dictionary<uint, uint>();
 
-                    for (int i = 0; i < s; i += 4)
+                    for (var i = 0; i < s; i += 4)
                     {
                         var swap_i = i + (line * s);
 
-                        uint key = (uint)((paletteBytes[i] << 24) + (paletteBytes[i + 1] << 16) + (paletteBytes[i + 2] << 8) + (paletteBytes[i + 3]));
-                        uint value = (uint)((paletteBytes[swap_i] << 24) + (paletteBytes[swap_i + 1] << 16) + (paletteBytes[swap_i + 2] << 8) + (paletteBytes[swap_i + 3]));
+                        var key = (uint)((paletteBytes[i] << 24) + (paletteBytes[i + 1] << 16) + (paletteBytes[i + 2] << 8) + (paletteBytes[i + 3]));
+                        var value = (uint)((paletteBytes[swap_i] << 24) + (paletteBytes[swap_i + 1] << 16) + (paletteBytes[swap_i + 2] << 8) + (paletteBytes[swap_i + 3]));
 
                         pal[key] = value;
                     }
@@ -101,14 +101,14 @@ namespace MegaMan.Engine
 
         public List<byte[]> GetSwappedPixels(byte[] pixelData, bool flip_endian)
         {
-            List<byte[]> swappedPixels = new List<byte[]>();
-            for (int i = 0; i < _swapColors.Count; i++)
+            var swappedPixels = new List<byte[]>();
+            for (var i = 0; i < _swapColors.Count; i++)
             {
                 swappedPixels.Add(new byte[pixelData.Length]);
             }
 
             // fill all palette buffers simultaneously
-            for (int i = 0; i < pixelData.Length; i += 4)
+            for (var i = 0; i < pixelData.Length; i += 4)
             {
                 uint key;
                 
@@ -117,11 +117,11 @@ namespace MegaMan.Engine
                 else
                     key = (uint)((pixelData[i] << 24) + (pixelData[i + 1] << 16) + (pixelData[i + 2] << 8) + (pixelData[i + 3]));
 
-                for (int swap_i = 0; swap_i < swappedPixels.Count; swap_i++)
+                for (var swap_i = 0; swap_i < swappedPixels.Count; swap_i++)
                 {
                     var palette = _swapColors[swap_i];
 
-                    uint value = key;
+                    var value = key;
 
                     if (palette.ContainsKey(key))
                     {

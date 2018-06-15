@@ -134,7 +134,7 @@ namespace WinFormsGraphicsDevice
             }
 
             // Make sure the graphics device is big enough, and is not lost.
-            string deviceResetError = HandleDeviceReset();
+            var deviceResetError = HandleDeviceReset();
 
             if (!string.IsNullOrEmpty(deviceResetError))
             {
@@ -148,7 +148,7 @@ namespace WinFormsGraphicsDevice
             // largest of these controls. But what if we are currently drawing
             // a smaller control? To avoid unwanted stretching, we set the
             // viewport to only use the top left portion of the full backbuffer.
-            Viewport viewport = new Viewport();
+            var viewport = new Viewport();
 
             viewport.X = 0;
             viewport.Y = 0;
@@ -175,7 +175,7 @@ namespace WinFormsGraphicsDevice
         {
             try
             {
-                Rectangle sourceRectangle = new Rectangle(0, 0, ClientSize.Width,
+                var sourceRectangle = new Rectangle(0, 0, ClientSize.Width,
                                                                 ClientSize.Height);
 
                 GraphicsDevice.Present();
@@ -197,7 +197,7 @@ namespace WinFormsGraphicsDevice
         /// </summary>
         string HandleDeviceReset()
         {
-            bool deviceNeedsReset = false;
+            var deviceNeedsReset = false;
 
             switch (GraphicsDevice.GraphicsDeviceStatus)
             {
@@ -212,7 +212,7 @@ namespace WinFormsGraphicsDevice
 
                 default:
                     // If the device state is ok, check whether it is big enough.
-                    PresentationParameters pp = GraphicsDevice.PresentationParameters;
+                    var pp = GraphicsDevice.PresentationParameters;
 
                     deviceNeedsReset = (ClientSize.Width != pp.BackBufferWidth) ||
                                        (ClientSize.Height != pp.BackBufferHeight);
@@ -247,7 +247,7 @@ namespace WinFormsGraphicsDevice
 
             using (Brush brush = new SolidBrush(Color.Black))
             {
-                using (StringFormat format = new StringFormat())
+                using (var format = new StringFormat())
                 {
                     format.Alignment = StringAlignment.Center;
                     format.LineAlignment = StringAlignment.Center;

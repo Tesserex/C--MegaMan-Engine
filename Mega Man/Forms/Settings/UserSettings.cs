@@ -59,7 +59,7 @@ namespace MegaMan.Engine.Forms.Settings
 
             var serializer = new XmlSerializer(typeof(UserSettings));
 
-            XmlTextWriter writer = new XmlTextWriter(settingsPath, null)
+            var writer = new XmlTextWriter(settingsPath, null)
             {
                 Indentation = 1,
                 IndentChar = '\t',
@@ -139,13 +139,13 @@ namespace MegaMan.Engine.Forms.Settings
 
         public Setting GetSettingsForGame(string gameName = "")
         {
-            foreach (Setting setting in Settings)
+            foreach (var setting in Settings)
             {
                 if (setting.GameFileName == gameName) return setting;
             }
 
             // Setting of name received not found, return default one
-            foreach (Setting setting in Settings)
+            foreach (var setting in Settings)
             {
                 if (setting.GameFileName == "") return setting;
             }
@@ -165,7 +165,7 @@ namespace MegaMan.Engine.Forms.Settings
             }
 
             // If setting exist, replace it
-            for (int x = 0; x < Settings.Count; x++)
+            for (var x = 0; x < Settings.Count; x++)
             {
                 if (Settings[x].GameFileName == newSetting.GameFileName)
                 {

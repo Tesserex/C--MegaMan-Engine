@@ -52,7 +52,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            LadderComponent copy = new LadderComponent {hitboxes = hitboxes};
+            var copy = new LadderComponent {hitboxes = hitboxes};
             return copy;
         }
 
@@ -124,14 +124,14 @@ namespace MegaMan.Engine
             inReach = false;
             if (position == null) return;
 
-            foreach (HitBox hitbox in hitboxes)
+            foreach (var hitbox in hitboxes)
             {
-                foreach (MapSquare tile in Parent.Screen.Tiles)
+                foreach (var tile in Parent.Screen.Tiles)
                 {
                     if (tile.Tile.Properties.Climbable)
                     {
-                        RectangleF myBox = hitbox.BoxAt(position.Position, Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : false);
-                        RectangleF intersection = RectangleF.Intersect(tile.BoundBox, myBox);
+                        var myBox = hitbox.BoxAt(position.Position, Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : false);
+                        var intersection = RectangleF.Intersect(tile.BoundBox, myBox);
                         if (!intersection.IsEmpty)
                         {
                             inReach = true;

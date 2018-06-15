@@ -28,9 +28,9 @@ namespace MegaMan.Engine
                     text = text.ToUpper();
                 }
 
-                int xpos = position.X;
+                var xpos = position.X;
 
-                foreach (char c in text)
+                foreach (var c in text)
                 {
                     if (c == ' ')
                     {

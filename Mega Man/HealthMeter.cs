@@ -183,8 +183,8 @@ namespace MegaMan.Engine
 
             if (tickTexture != null)
             {
-                int i = 0;
-                int ticks = (int)Math.Ceiling(value / tickSize);
+                var i = 0;
+                var ticks = (int)Math.Ceiling(value / tickSize);
                 // prevent float errors
                 if (ticks > 28) ticks = 28;
 
@@ -193,14 +193,14 @@ namespace MegaMan.Engine
 
                 if (horizontal)
                 {
-                    for (int y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
+                    for (var y = (int)positionX; i < ticks; i++, y += tickTexture.Width)
                     {
                         context.Draw(tickTexture, 4, new Point(y, (int)positionY));
                     }
                 }
                 else
                 {
-                    for (int y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
+                    for (var y = 54 + (int)positionY; i < ticks; i++, y -= tickTexture.Height)
                     {
                         context.Draw(tickTexture, 4, new Point((int)(positionX + tickOffset.X), y + tickOffset.Y));
                     }

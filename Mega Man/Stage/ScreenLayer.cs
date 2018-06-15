@@ -53,14 +53,14 @@ namespace MegaMan.Engine
             _respawnTracker = respawnTracker;
 
             _squares = new MapSquare[info.Tiles.Height][];
-            for (int y = 0; y < info.Tiles.Height; y++)
+            for (var y = 0; y < info.Tiles.Height; y++)
             {
                 _squares[y] = new MapSquare[info.Tiles.Width];
-                for (int x = 0; x < info.Tiles.Width; x++)
+                for (var x = 0; x < info.Tiles.Width; x++)
                 {
                     try
                     {
-                        Tile tile = info.Tiles.TileAt(x, y);
+                        var tile = info.Tiles.TileAt(x, y);
                         if (tile == null)
                             throw new Exception();
 
@@ -92,12 +92,12 @@ namespace MegaMan.Engine
             _entities = new GameEntity[_info.Entities.Count];
 
             _spawnable = new bool[_info.Entities.Count];
-            for (int i = 0; i < _spawnable.Length; i++) { _spawnable[i] = true; }
+            for (var i = 0; i < _spawnable.Length; i++) { _spawnable[i] = true; }
 
             if (_respawnable == null)
             {
                 var mapSpawns = new bool[_info.Entities.Count];
-                for (int i = 0; i < mapSpawns.Length; i++) { mapSpawns[i] = true; }
+                for (var i = 0; i < mapSpawns.Length; i++) { mapSpawns[i] = true; }
                 _respawnable = mapSpawns;
             }
 
@@ -106,7 +106,7 @@ namespace MegaMan.Engine
 
         public void Stop()
         {
-            for (int i = 0; i < _entities.Length; i++)
+            for (var i = 0; i < _entities.Length; i++)
             {
                 if (_entities[i] != null) _entities[i].Remove();
             }
@@ -118,7 +118,7 @@ namespace MegaMan.Engine
 
         public void ResetDeath()
         {
-            for (int i = 0; i < _info.Entities.Count; i++)
+            for (var i = 0; i < _info.Entities.Count; i++)
             {
                 if (_info.Entities[i].Respawn == RespawnBehavior.Death)
                 {
@@ -183,15 +183,15 @@ namespace MegaMan.Engine
 
         private void RespawnEntities()
         {
-            for (int i = 0; i < _info.Entities.Count; i++)
+            for (var i = 0; i < _info.Entities.Count; i++)
             {
                 if (_entities[i] != null) continue; // already on screen
 
                 var info = _info.Entities[i];
-                GameEntity entity = _stage.Entities.CreateEntityWithId(info.Id, info.Entity);
+                var entity = _stage.Entities.CreateEntityWithId(info.Id, info.Entity);
                 if (entity == null) continue;
 
-                PositionComponent pos = entity.GetComponent<PositionComponent>();
+                var pos = entity.GetComponent<PositionComponent>();
                 var onScreen = IsOnScreen(info.ScreenX, info.ScreenY);
 
                 if (!onScreen)
@@ -210,7 +210,7 @@ namespace MegaMan.Engine
 
         private void PlaceEntity(int index, GameEntity entity)
         {
-            EntityPlacement info = _info.Entities[index];
+            var info = _info.Entities[index];
 
             // can't respawn until the spawn point goes off screen
             _spawnable[index] = false;
@@ -224,7 +224,7 @@ namespace MegaMan.Engine
             entity.GetComponent<PositionComponent>().SetPosition(new PointF(info.ScreenX, info.ScreenY));
             if (info.State != "Start")
             {
-                StateMessage msg = new StateMessage(null, info.State);
+                var msg = new StateMessage(null, info.State);
                 entity.SendMessage(msg);
             }
 
@@ -256,8 +256,8 @@ namespace MegaMan.Engine
             var location_x = _info.Tiles.BaseX + _locationOffsetX;
             var location_y = _info.Tiles.BaseY + _locationOffsetY;
 
-            int tx = (int)Math.Floor((px - location_x) / _info.Tiles.Tileset.TileSize);
-            int ty = (int)Math.Floor((py - location_y) / _info.Tiles.Tileset.TileSize);
+            var tx = (int)Math.Floor((px - location_x) / _info.Tiles.Tileset.TileSize);
+            var ty = (int)Math.Floor((py - location_y) / _info.Tiles.Tileset.TileSize);
 
             if (ty < 0 || ty >= _squares.GetLength(0)) return null;
             if (tx < 0 || tx >= _squares[ty].GetLength(0)) return null;
@@ -276,13 +276,13 @@ namespace MegaMan.Engine
         {
             if (_info.Parallax)
             {
-                float trueOffset = OffsetX;
+                var trueOffset = OffsetX;
                 
-                int maxOffset = screenPixelWidth - Game.CurrentGame.PixelsAcross;
+                var maxOffset = screenPixelWidth - Game.CurrentGame.PixelsAcross;
                 if (OffsetX >= 0 && OffsetX <= maxOffset)
                 {
-                    float offsetRatio = OffsetX / maxOffset;
-                    int parallaxDistance = (_info.Tiles.Width * _info.Tiles.Tileset.TileSize) - Game.CurrentGame.PixelsAcross;
+                    var offsetRatio = OffsetX / maxOffset;
+                    var parallaxDistance = (_info.Tiles.Width * _info.Tiles.Tileset.TileSize) - Game.CurrentGame.PixelsAcross;
                     trueOffset = offsetRatio * parallaxDistance;
                 }
 
@@ -304,12 +304,12 @@ namespace MegaMan.Engine
             
             var tileSize = _info.Tiles.Tileset.TileSize;
 
-            for (int y = 0; y < _info.Tiles.Height; y++)
+            for (var y = 0; y < _info.Tiles.Height; y++)
             {
-                for (int x = 0; x < _info.Tiles.Width; x++)
+                for (var x = 0; x < _info.Tiles.Width; x++)
                 {
-                    float xpos = x * tileSize + off_x + _info.Tiles.BaseX;
-                    float ypos = y * tileSize + off_y + _info.Tiles.BaseY;
+                    var xpos = x * tileSize + off_x + _info.Tiles.BaseX;
+                    var ypos = y * tileSize + off_y + _info.Tiles.BaseY;
 
                     if (xpos + tileSize < 0 || ypos + tileSize < 0) continue;
                     if (xpos > Game.CurrentGame.PixelsAcross || ypos > Game.CurrentGame.PixelsDown) continue;

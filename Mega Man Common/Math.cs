@@ -22,7 +22,7 @@ namespace MegaMan.Common.Geometry
 
         public override bool Equals(object obj)
         {
-            return (obj is Point) && (this == (Point)obj);
+            return (obj is Point point) && (this == point);
         }
 
         public static bool operator ==(Point p1, Point p2)
@@ -51,45 +51,23 @@ namespace MegaMan.Common.Geometry
     public struct PointF
     {
         public static readonly PointF Empty = default(PointF);
-        private float x;
-        private float y;
 
         public bool IsEmpty
         {
             get
             {
-                return x == 0f && y == 0f;
+                return X == 0f && Y == 0f;
             }
         }
 
-        public float X
-        {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-            }
-        }
+        public float X { get; set; }
 
-        public float Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-            }
-        }
+        public float Y { get; set; }
 
         public PointF(float x, float y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
 
         public static implicit operator PointF(Point p)
@@ -114,7 +92,7 @@ namespace MegaMan.Common.Geometry
                 return false;
             }
             var pointF = (PointF)obj;
-            return pointF.X == X && pointF.Y == Y && pointF.GetType().Equals(GetType());
+            return pointF.X == X && pointF.Y == Y && pointF.GetType() == GetType();
         }
 
         public override int GetHashCode()
@@ -124,7 +102,7 @@ namespace MegaMan.Common.Geometry
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", x, y);
+            return string.Format(CultureInfo.CurrentCulture, "{{X={0}, Y={1}}}", X, Y);
         }
     }
 
@@ -225,11 +203,7 @@ namespace MegaMan.Common.Geometry
     public struct RectangleF
     {
         public static readonly RectangleF Empty = default(RectangleF);
-        private float x;
-        private float y;
-        private float width;
-        private float height;
-        
+
         public PointF Location
         {
             get
@@ -243,53 +217,13 @@ namespace MegaMan.Common.Geometry
             }
         }
         
-        public float X
-        {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-            }
-        }
-        
-        public float Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-            }
-        }
+        public float X { get; set; }
 
-        public float Width
-        {
-            get
-            {
-                return width;
-            }
-            set
-            {
-                width = value;
-            }
-        }
+        public float Y { get; set; }
 
-        public float Height
-        {
-            get
-            {
-                return height;
-            }
-            set
-            {
-                height = value;
-            }
-        }
+        public float Width { get; set; }
+
+        public float Height { get; set; }
 
         public float Left
         {
@@ -333,10 +267,10 @@ namespace MegaMan.Common.Geometry
 
         public RectangleF(float x, float y, float width, float height)
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
 
         public static RectangleF FromLtrb(float left, float top, float right, float bottom)

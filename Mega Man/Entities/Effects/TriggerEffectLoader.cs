@@ -17,9 +17,9 @@ namespace MegaMan.Engine.Entities.Effects
         {
             var triggerInfo = (TriggerEffectPartInfo)info;
 
-            Condition condition = EffectParser.ParseCondition(triggerInfo.Trigger.Condition);
-            Effect triggerEffect = EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Effect);
-            Effect elseEffect = (triggerInfo.Trigger.Else != null) ? EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Else) : null;
+            var condition = EffectParser.ParseCondition(triggerInfo.Trigger.Condition);
+            var triggerEffect = EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Effect);
+            var elseEffect = (triggerInfo.Trigger.Else != null) ? EffectParser.LoadTriggerEffect(triggerInfo.Trigger.Else) : null;
             return e =>
             {
                 if (condition(e)) triggerEffect(e);

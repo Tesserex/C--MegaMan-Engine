@@ -85,8 +85,8 @@ namespace MegaMan.Engine
         {
             if (!e.Pressed) return;
 
-            int id = selectedId;
-            int min = int.MaxValue;
+            var id = selectedId;
+            var min = int.MaxValue;
 
             if (e.Input == GameInputs.Start)
             {
@@ -104,13 +104,13 @@ namespace MegaMan.Engine
 
                     var info = options[i];
 
-                    int ydist = info.Y - currentPos.Y;
+                    var ydist = info.Y - currentPos.Y;
                     if (ydist == 0) continue;
 
                     if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
 
                     // weight x distance worse than y distance
-                    int dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
+                    var dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
                     if (dist < min)
                     {
                         min = dist;
@@ -125,13 +125,13 @@ namespace MegaMan.Engine
                     if (i == selectedId) continue;
 
                     var info = options[i];
-                    int ydist = currentPos.Y - info.Y;
+                    var ydist = currentPos.Y - info.Y;
                     if (ydist == 0) continue;
 
                     if (ydist < 0) ydist += Game.CurrentGame.PixelsDown;    // wrapping around bottom
 
                     // weight x distance worse than y distance
-                    int dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
+                    var dist = 2 * Math.Abs(info.X - currentPos.X) + ydist;
                     if (dist < min)
                     {
                         min = dist;
@@ -146,12 +146,12 @@ namespace MegaMan.Engine
                     if (i == selectedId) continue;
 
                     var info = options[i];
-                    int xdist = info.X - currentPos.X;
+                    var xdist = info.X - currentPos.X;
                     if (xdist == 0) continue;
 
                     if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
 
-                    int dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
+                    var dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
                     if (dist < min)
                     {
                         min = dist;
@@ -166,12 +166,12 @@ namespace MegaMan.Engine
                     if (i == selectedId) continue;
 
                     var info = options[i];
-                    int xdist = currentPos.X - info.X;
+                    var xdist = currentPos.X - info.X;
                     if (xdist == 0) continue;
 
                     if (xdist < 0) xdist += Game.CurrentGame.PixelsAcross;    // wrapping around bottom
 
-                    int dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
+                    var dist = 2 * Math.Abs(info.Y - currentPos.Y) + xdist;
                     if (dist < min)
                     {
                         min = dist;

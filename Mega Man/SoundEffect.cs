@@ -73,7 +73,7 @@ namespace MegaMan.Engine
         public void StopIfLooping()
         {
             if (sound == null) return;
-            MODE mode = MODE.DEFAULT;
+            var mode = MODE.DEFAULT;
             sound.getMode(ref mode);
             if ((mode & MODE.LOOP_NORMAL) == MODE.LOOP_NORMAL)
             {

@@ -36,8 +36,8 @@ namespace MegaMan.Engine
         protected override void Update()
         {
             if (Parent.Paused) return;
-            Dictionary<string, int> update = new Dictionary<string, int>();
-            foreach (string name in Timers.Keys)
+            var update = new Dictionary<string, int>();
+            foreach (var name in Timers.Keys)
             {
                 update[name] = Timers[name] + 1;
             }

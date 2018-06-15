@@ -118,7 +118,7 @@ namespace MegaMan.Engine
 
             if (ScreenSizeChanged != null)
             {
-                ScreenSizeChangedEventArgs args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
+                var args = new ScreenSizeChangedEventArgs(PixelsAcross, PixelsDown);
                 ScreenSizeChanged(this, args);
             }
 

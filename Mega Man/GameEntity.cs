@@ -28,13 +28,13 @@ namespace MegaMan.Engine
         {
             get
             {
-                MovementComponent movement = GetComponent<MovementComponent>();
+                var movement = GetComponent<MovementComponent>();
                 if (movement != null) return movement.Direction;
                 return Direction.Right;
             }
             set
             {
-                MovementComponent movement = GetComponent<MovementComponent>();
+                var movement = GetComponent<MovementComponent>();
                 if (movement != null) movement.Direction = value;
             }
         }
@@ -74,7 +74,7 @@ namespace MegaMan.Engine
         {
             this.container = container;
 
-            foreach (Component c in Components)
+            foreach (var c in Components)
                 c.Start(container);
 
             if (Started != null)
@@ -87,7 +87,7 @@ namespace MegaMan.Engine
         {
             if (!Running) return;
 
-            foreach (Component c in Components)
+            foreach (var c in Components)
                 c.Stop(container);
 
             if (Stopped != null) Stopped();
@@ -112,7 +112,7 @@ namespace MegaMan.Engine
             if (components.ContainsKey(component.GetType())) return;
 
             component.Parent = this;
-            foreach (Component c in Components)
+            foreach (var c in Components)
             {
                 c.RegisterDependencies(component);
                 component.RegisterDependencies(c);
@@ -122,7 +122,7 @@ namespace MegaMan.Engine
 
         public void SendMessage(IGameMessage message)
         {
-            foreach (Component c in Components)
+            foreach (var c in Components)
             {
                 c.Message(message);
             }
@@ -130,7 +130,7 @@ namespace MegaMan.Engine
 
         public GameEntity Spawn(string entityName)
         {
-            GameEntity spawn = Entities.CreateEntity(entityName);
+            var spawn = Entities.CreateEntity(entityName);
             if (spawn != null)
             {
                 spawn.Parent = this;

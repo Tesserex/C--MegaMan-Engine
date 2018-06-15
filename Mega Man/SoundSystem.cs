@@ -159,9 +159,9 @@ namespace MegaMan.Engine
 
         public void Unload()
         {
-            foreach (Channel channel in channels) channel.stop();
-            foreach (ISoundEffect sound in loadedSounds.Values) sound.Dispose();
-            foreach (Music music in loadedMusic.Values) music.Dispose();
+            foreach (var channel in channels) channel.stop();
+            foreach (var sound in loadedSounds.Values) sound.Dispose();
+            foreach (var music in loadedMusic.Values) music.Dispose();
             loadedSounds.Clear();
             channels.Clear();
             loadedMusic.Clear();
@@ -178,11 +178,11 @@ namespace MegaMan.Engine
 
         public Music LoadMusic(string intro, string loop, float volume)
         {
-            string key = intro + loop;
+            var key = intro + loop;
 
             if (!string.IsNullOrEmpty(key) && loadedMusic.ContainsKey(intro + loop)) return loadedMusic[intro + loop];
 
-            Music music = new Music(soundSystem, intro, loop, volume);
+            var music = new Music(soundSystem, intro, loop, volume);
             loadedMusic[intro + loop] = music;
             return music;
         }

@@ -100,7 +100,7 @@ namespace MegaMan.Engine.Input
                     {
                         if ((buttonChanges & button) > 0)
                         {
-                            bool currentState = (padState.Buttons & button) > 0;
+                            var currentState = (padState.Buttons & button) > 0;
                             RaiseEventOnUIThread(GamepadButtonPressed, this, new GamepadButtonPressedEventArgs { Button = button, Pressed = currentState });
                         }
                     }
@@ -115,9 +115,9 @@ namespace MegaMan.Engine.Input
             if (theEvent == null)
                 return;
 
-            foreach (Delegate d in theEvent.GetInvocationList())
+            foreach (var d in theEvent.GetInvocationList())
             {
-                ISynchronizeInvoke syncer = d.Target as ISynchronizeInvoke;
+                var syncer = d.Target as ISynchronizeInvoke;
                 if (syncer == null)
                 {
                     d.DynamicInvoke(args);

@@ -22,9 +22,9 @@ namespace MegaMan.Engine.Entities.Effects
 
             if (movement.Floating.HasValue)
             {
-                bool f = movement.Floating.Value;
+                var f = movement.Floating.Value;
                 action += entity => {
-                    MovementComponent mov = entity.GetComponent<MovementComponent>();
+                    var mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.Floating = f;
                 };
             }
@@ -33,7 +33,7 @@ namespace MegaMan.Engine.Entities.Effects
             {
                 var flip = movement.FlipSprite.Value;
                 action += entity => {
-                    MovementComponent mov = entity.GetComponent<MovementComponent>();
+                    var mov = entity.GetComponent<MovementComponent>();
                     if (mov != null) mov.FlipSprite = flip;
                 };
             }
@@ -54,7 +54,7 @@ namespace MegaMan.Engine.Entities.Effects
         {
             Effect action;
 
-            float? mag = info.Magnitude;
+            var mag = info.Magnitude;
             var magVar = info.MagnitudeVarName;
 
             switch (info.Direction)
@@ -62,7 +62,7 @@ namespace MegaMan.Engine.Entities.Effects
                 case MovementEffectDirection.Up:
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov != null) mov.VelocityY = -1 * (mag ?? Math.Abs(mov.VelocityY));
                     };
                     break;
@@ -70,7 +70,7 @@ namespace MegaMan.Engine.Entities.Effects
                 case MovementEffectDirection.Down:
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov != null) mov.VelocityY = (mag ?? Math.Abs(mov.VelocityY));
                     };
                     break;
@@ -78,7 +78,7 @@ namespace MegaMan.Engine.Entities.Effects
                 case MovementEffectDirection.Left:
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov != null) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
                         if (mov.VelocityX == 0) mov.Direction = Direction.Left;
                     };
@@ -87,7 +87,7 @@ namespace MegaMan.Engine.Entities.Effects
                 case MovementEffectDirection.Right:
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov != null) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
                         if (mov.VelocityX == 0) mov.Direction = Direction.Right;
                     };
@@ -97,11 +97,11 @@ namespace MegaMan.Engine.Entities.Effects
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                         if (mag == null) return;
-                        float fmag = mag ?? 0;
+                        var fmag = mag ?? 0;
 
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov == null) return;
-                        Direction dir = mov.Direction;
+                        var dir = mov.Direction;
 
                         if (axis != Axis.Y) mov.VelocityX = (dir == Direction.Right) ? fmag : ((dir == Direction.Left) ? -fmag : 0);
                         if (axis != Axis.X) mov.VelocityY = (dir == Direction.Down) ? fmag : ((dir == Direction.Up) ? -fmag : 0);
@@ -112,11 +112,11 @@ namespace MegaMan.Engine.Entities.Effects
                     action = entity => {
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
                         if (mag == null) return;
-                        float fmag = mag ?? 0;
+                        var fmag = mag ?? 0;
 
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov == null) return;
-                        Direction dir = mov.Direction;
+                        var dir = mov.Direction;
 
                         if (axis != Axis.Y)
                         {
@@ -130,11 +130,11 @@ namespace MegaMan.Engine.Entities.Effects
 
                 case MovementEffectDirection.Inherit:
                     action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
                         if (mov == null) return;
                         if (entity.Parent != null)
                         {
-                            Direction dir = entity.Parent.Direction;
+                            var dir = entity.Parent.Direction;
                             mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                             if (axis != Axis.Y)
@@ -151,8 +151,8 @@ namespace MegaMan.Engine.Entities.Effects
 
                 case MovementEffectDirection.Input:
                     action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        InputComponent input = entity.GetComponent<InputComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
+                        var input = entity.GetComponent<InputComponent>();
                         if (mov == null || input == null) return;
 
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
@@ -176,16 +176,16 @@ namespace MegaMan.Engine.Entities.Effects
 
                 case MovementEffectDirection.Player:
                     action = entity => {
-                        MovementComponent mov = entity.GetComponent<MovementComponent>();
-                        PositionComponent pos = entity.GetComponent<PositionComponent>();
+                        var mov = entity.GetComponent<MovementComponent>();
+                        var pos = entity.GetComponent<PositionComponent>();
                         if (mov == null || pos == null) return;
 
-                        GameEntity player = entity.Entities.GetEntityById("Player");
+                        var player = entity.Entities.GetEntityById("Player");
 
                         if (player == null)
                             return;
 
-                        PositionComponent playerPos = player.GetComponent<PositionComponent>();
+                        var playerPos = player.GetComponent<PositionComponent>();
                         mag = CheckMagnitudeVar(entity, magVar) ?? mag;
 
                         if (axis == Axis.X)
@@ -208,9 +208,9 @@ namespace MegaMan.Engine.Entities.Effects
                         }
                         else
                         {
-                            float dx = playerPos.Position.X - pos.Position.X;
-                            float dy = playerPos.Position.Y - pos.Position.Y;
-                            double hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
+                            var dx = playerPos.Position.X - pos.Position.X;
+                            var dy = playerPos.Position.Y - pos.Position.Y;
+                            var hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
                             hyp = Math.Pow(hyp, 0.5);
 
                             mov.VelocityX = (float)(mag * dx / hyp);

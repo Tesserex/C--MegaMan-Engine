@@ -18,7 +18,7 @@ namespace MegaMan.Engine.Entities.Effects
             var func = (FuncEffectPartInfo)info;
 
             Effect effect = entity => { };
-            foreach (string st in func.Statements)
+            foreach (var st in func.Statements)
             {
                 effect += EffectParser.CompileEffect(st);
             }

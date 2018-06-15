@@ -37,7 +37,7 @@ namespace MegaMan.Engine
 
         public static bool KeyDown(Keys key)
         {
-            short ret = GetAsyncKeyState((int)key);
+            var ret = GetAsyncKeyState((int)key);
             return (ret != 0);
         }
 

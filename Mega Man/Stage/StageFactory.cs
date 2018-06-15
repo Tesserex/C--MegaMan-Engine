@@ -44,7 +44,7 @@ namespace MegaMan.Engine
         public void TryLoad(StageLinkInfo info)
         {
             var stageReader = Game.CurrentGame.FileReaderProvider.GetStageReader(info.StagePath);
-            StageInfo map = stageReader.Load(info.StagePath);
+            var map = stageReader.Load(info.StagePath);
 
             var handler = new StageHandler(map);
 
@@ -55,16 +55,16 @@ namespace MegaMan.Engine
                 joins[screen] = new Dictionary<Join, JoinHandler>();
             }
 
-            foreach (Join join in map.Joins)
+            foreach (var join in map.Joins)
             {
                 var screenOne = map.Screens[join.ScreenOne];
                 var screenTwo = map.Screens[join.ScreenTwo];
 
-                JoinHandler handlerOne = CreateJoin(join, handler, screenOne);
+                var handlerOne = CreateJoin(join, handler, screenOne);
 
                 joins[screenOne].Add(join, handlerOne);
 
-                JoinHandler handlerTwo = CreateJoin(join, handler, screenTwo);
+                var handlerTwo = CreateJoin(join, handler, screenTwo);
 
                 joins[screenTwo].Add(join, handlerTwo);
             }
@@ -96,9 +96,9 @@ namespace MegaMan.Engine
         {
             var patterns = new List<BlocksPattern>(screen.BlockPatterns.Count);
 
-            foreach (BlockPatternInfo info in screen.BlockPatterns)
+            foreach (var info in screen.BlockPatterns)
             {
-                BlocksPattern pattern = new BlocksPattern(info, stage, _entityPool);
+                var pattern = new BlocksPattern(info, stage, _entityPool);
                 patterns.Add(pattern);
             }
 

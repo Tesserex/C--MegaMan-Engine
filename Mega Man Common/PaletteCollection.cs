@@ -7,13 +7,13 @@ namespace MegaMan.Common
 {
     public class PaletteCollection : IEnumerable<PaletteInfo>
     {
-        private Dictionary<string, PaletteInfo> palettes = new Dictionary<string, PaletteInfo>();
+        private readonly Dictionary<string, PaletteInfo> palettes = new Dictionary<string, PaletteInfo>();
 
-        public void LoadPalettes(IEnumerable<PaletteInfo> palettes)
+        public void LoadPalettes(IEnumerable<PaletteInfo> addedPaletteInfos)
         {
-            foreach (var info in palettes)
+            foreach (var info in addedPaletteInfos)
             {
-                this.palettes.Add(info.Name, info);
+                palettes.Add(info.Name, info);
             }
         }
 
@@ -27,7 +27,7 @@ namespace MegaMan.Common
             }
         }
 
-        public Int32 Count
+        public int Count
         {
             get
             {

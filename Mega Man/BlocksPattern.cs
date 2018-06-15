@@ -48,11 +48,11 @@ namespace MegaMan.Engine
         {
             if (!blocks.Any())
             {
-                foreach (Common.BlockInfo blockinfo in info.Blocks)
+                foreach (var blockinfo in info.Blocks)
                 {
-                    BlockInfo myInfo = new BlockInfo { entity = _entityPool.CreateEntity(info.Entity) };
+                    var myInfo = new BlockInfo { entity = _entityPool.CreateEntity(info.Entity) };
                     // should always persist off screen
-                    PositionComponent pos = myInfo.entity.GetComponent<PositionComponent>();
+                    var pos = myInfo.entity.GetComponent<PositionComponent>();
                     pos.PersistOffScreen = true;
                     myInfo.pos = new PointF(blockinfo.Pos.X, blockinfo.Pos.Y);
                     myInfo.on = blockinfo.On;
@@ -77,7 +77,7 @@ namespace MegaMan.Engine
         {
             if (stopped) return;
 
-            float px = playerPos.Position.X;
+            var px = playerPos.Position.X;
             if (px >= leftBoundary && px <= rightBoundary)
             {
                 if (!running) Run();
@@ -85,7 +85,7 @@ namespace MegaMan.Engine
                 {
                     frame++;
                     if (frame > length) frame = 0;
-                    foreach (BlockInfo info in blocks)
+                    foreach (var info in blocks)
                     {
                         if (info.on == frame) info.entity.SendMessage(new StateMessage(null, "Show"));
                         else if (info.off == frame) info.entity.SendMessage(new StateMessage(null, "Hide"));
@@ -97,7 +97,7 @@ namespace MegaMan.Engine
 
         private void Halt()
         {
-            foreach (BlockInfo info in blocks)
+            foreach (var info in blocks)
             {
                 info.entity.Stop();
             }
@@ -109,11 +109,11 @@ namespace MegaMan.Engine
         {
             running = true;
             frame = 0;
-            foreach (BlockInfo info in blocks)
+            foreach (var info in blocks)
             {
                 info.entity.SendMessage(new StateMessage(null, "Start"));
                 info.entity.Start(container);
-                PositionComponent pos = info.entity.GetComponent<PositionComponent>();
+                var pos = info.entity.GetComponent<PositionComponent>();
                 if (pos == null) continue;
                 pos.SetPosition(info.pos);
                 info.entity.SendMessage(new StateMessage(null, info.on > 0 ? "Hide" : "Show"));

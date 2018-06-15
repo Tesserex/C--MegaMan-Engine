@@ -45,7 +45,7 @@ namespace MegaMan.Engine.Rendering
 
         private void EnableAllLayers()
         {
-            for (int i = 0; i < LAYER_COUNT; i++)
+            for (var i = 0; i < LAYER_COUNT; i++)
             {
                 _layersEnabled[i] = true;
             }
@@ -53,7 +53,7 @@ namespace MegaMan.Engine.Rendering
 
         private void CreateAllLayers()
         {
-            for (int i = 0; i < LAYER_COUNT; i++)
+            for (var i = 0; i < LAYER_COUNT; i++)
             {
                 _spriteBatchLayers[i] = new SpriteBatch(_graphicsDevice);
             }
@@ -61,7 +61,7 @@ namespace MegaMan.Engine.Rendering
 
         public void Begin()
         {
-            for (int i = 0; i < LAYER_COUNT; i++)
+            for (var i = 0; i < LAYER_COUNT; i++)
             {
                 if (IsLayerEnabled(i))
                     _spriteBatchLayers[i].Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
@@ -70,7 +70,7 @@ namespace MegaMan.Engine.Rendering
 
         public void End()
         {
-            for (int i = 0; i < LAYER_COUNT; i++)
+            for (var i = 0; i < LAYER_COUNT; i++)
             {
                 if (IsLayerEnabled(i))
                     _spriteBatchLayers[i].End();
@@ -165,7 +165,7 @@ namespace MegaMan.Engine.Rendering
             if (sourceRect != null)
                 source = new XnaRect(sourceRect.Value.X, sourceRect.Value.Y, sourceRect.Value.Width, sourceRect.Value.Height);
 
-            SpriteEffects effect = SpriteEffects.None;
+            var effect = SpriteEffects.None;
             if (flipHorizontal) effect = SpriteEffects.FlipHorizontally;
             if (flipVertical) effect |= SpriteEffects.FlipVertically;
 
@@ -185,7 +185,7 @@ namespace MegaMan.Engine.Rendering
 
         private List<Texture2D> GenerateSwappedTextures(Palette palette, Texture2D image)
         {
-            byte[] pixelData = new byte[image.Width * image.Height * 4];
+            var pixelData = new byte[image.Width * image.Height * 4];
             image.GetData(pixelData);
 
             var swappedPixels = palette.GetSwappedPixels(pixelData, true);

@@ -29,13 +29,13 @@ namespace MegaMan.Engine
                 if (value)
                 {
                     backupKeys.Clear();
-                    foreach (KeyValuePair<GameInputs, bool> pair in activeKeys) backupKeys[pair.Key] = pair.Value;
+                    foreach (var pair in activeKeys) backupKeys[pair.Key] = pair.Value;
                     activeKeys[GameInputs.Left] = activeKeys[GameInputs.Right] = activeKeys[GameInputs.Up] = activeKeys[GameInputs.Down] = false;
                 }
                 else // move backup to active
                 {
                     activeKeys.Clear();
-                    foreach (KeyValuePair<GameInputs, bool> pair in backupKeys) activeKeys[pair.Key] = pair.Value;
+                    foreach (var pair in backupKeys) activeKeys[pair.Key] = pair.Value;
                 }
             }
         }

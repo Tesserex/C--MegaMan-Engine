@@ -85,7 +85,7 @@ namespace MegaMan.Engine
         {
             var tilesize = Tile.Width;
 
-            MapSquare below = layer.SquareAt(ScreenX, ScreenY + tilesize);
+            var below = layer.SquareAt(ScreenX, ScreenY + tilesize);
             if (below != null && !below.Tile.Properties.Climbable)
             {
                 flipLadderBox = blockBox;
@@ -94,7 +94,7 @@ namespace MegaMan.Engine
             }
             else flipLadderBox = RectangleF.Empty;
 
-            MapSquare above = layer.SquareAt(ScreenX, ScreenY - tilesize);
+            var above = layer.SquareAt(ScreenX, ScreenY - tilesize);
             if (above != null && !above.Tile.Properties.Climbable)
             {
                 ladderBox = blockBox;

@@ -43,7 +43,7 @@ namespace MegaMan.Engine.Entities.Effects
                         var x = CheckNumericVar(entity, baseVar);
                         if (x.HasValue)
                         {
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(x.Value, pos.Position.Y));
                         }
                     };
@@ -52,7 +52,7 @@ namespace MegaMan.Engine.Entities.Effects
                         var y = CheckNumericVar(entity, baseVar);
                         if (y.HasValue)
                         {
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(pos.Position.X, y.Value));
                         }
                     };
@@ -60,10 +60,10 @@ namespace MegaMan.Engine.Entities.Effects
             else if (axisInfo.Base == null)
             {
                 action = entity => {
-                    PositionComponent pos = entity.GetComponent<PositionComponent>();
+                    var pos = entity.GetComponent<PositionComponent>();
                     if (pos != null && entity.Parent != null)
                     {
-                        PositionComponent parentPos = entity.Parent.GetComponent<PositionComponent>();
+                        var parentPos = entity.Parent.GetComponent<PositionComponent>();
                         if (parentPos != null)
                         {
                             pos.SetPosition(axis == Axis.X
@@ -78,13 +78,13 @@ namespace MegaMan.Engine.Entities.Effects
                 if (axis == Axis.X)
                     action = entity =>
                     {
-                        PositionComponent pos = entity.GetComponent<PositionComponent>();
+                        var pos = entity.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new PointF(axisInfo.Base.Value, pos.Position.Y));
                     };
                 else
                     action = entity =>
                     {
-                        PositionComponent pos = entity.GetComponent<PositionComponent>();
+                        var pos = entity.GetComponent<PositionComponent>();
                         if (pos != null) pos.SetPosition(new PointF(pos.Position.X, axisInfo.Base.Value));
                     };
             }
@@ -96,10 +96,10 @@ namespace MegaMan.Engine.Entities.Effects
                     case OffsetDirection.Inherit:
                         action += entity => {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null && entity.Parent != null)
                             {
-                                Direction offdir = entity.Parent.Direction;
+                                var offdir = entity.Parent.Direction;
                                 switch (offdir)
                                 {
                                     case Direction.Down: pos.SetPosition(new PointF(pos.Position.X, pos.Position.Y + offset)); break;
@@ -114,8 +114,8 @@ namespace MegaMan.Engine.Entities.Effects
                     case OffsetDirection.Input:
                         action += entity => {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
-                            InputComponent input = entity.GetComponent<InputComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
+                            var input = entity.GetComponent<InputComponent>();
                             if (input != null && pos != null)
                             {
                                 if (axis == Axis.Y)
@@ -135,7 +135,7 @@ namespace MegaMan.Engine.Entities.Effects
                         action += entity =>
                         {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(pos.Position.X - offset, pos.Position.Y));
                         };
                         break;
@@ -144,7 +144,7 @@ namespace MegaMan.Engine.Entities.Effects
                         action += entity =>
                         {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(pos.Position.X + offset, pos.Position.Y));
                         };
                         break;
@@ -153,7 +153,7 @@ namespace MegaMan.Engine.Entities.Effects
                         action += entity =>
                         {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(pos.Position.X, pos.Position.Y + offset));
                         };
                         break;
@@ -162,7 +162,7 @@ namespace MegaMan.Engine.Entities.Effects
                         action += entity =>
                         {
                             var offset = axisInfo.Offset ?? CheckNumericVar(entity, offsetVar) ?? 0;
-                            PositionComponent pos = entity.GetComponent<PositionComponent>();
+                            var pos = entity.GetComponent<PositionComponent>();
                             if (pos != null) pos.SetPosition(new PointF(pos.Position.X, pos.Position.Y - offset));
                         };
                         break;

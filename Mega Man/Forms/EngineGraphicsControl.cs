@@ -54,11 +54,11 @@ namespace MegaMan.Engine
             ntscTexture = new Texture2D(GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
 
             ntscPixelsDimmed = new ushort[ushort.MaxValue + 1];
-            for (int i = 0; i <= ushort.MaxValue; i++)
+            for (var i = 0; i <= ushort.MaxValue; i++)
             {
-                int red = (i & 0xf800);
-                int green = (i & 0x7e0);
-                int blue = (i & 0x1f);
+                var red = (i & 0xf800);
+                var green = (i & 0x7e0);
+                var blue = (i & 0x1f);
                 red = ((red - (red >> 3)) & 0xf800);
                 green = ((green - (green >> 3)) & 0x7e0);
                 blue = ((blue - (blue >> 3)) & 0x1f);

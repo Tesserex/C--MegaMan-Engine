@@ -200,8 +200,8 @@ namespace MegaMan.Engine
         {
             if (command.LoopPath != null)
             {
-                string intropath = (command.IntroPath != null) ? command.IntroPath.Absolute : null;
-                string looppath = (command.LoopPath != null) ? command.LoopPath.Absolute : null;
+                var intropath = (command.IntroPath != null) ? command.IntroPath.Absolute : null;
+                var looppath = (command.LoopPath != null) ? command.LoopPath.Absolute : null;
                 Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1).Play();
             }
             else
@@ -266,7 +266,7 @@ namespace MegaMan.Engine
 
         private void FillCommand(SceneFillCommandInfo command)
         {
-            Color color = new Color(command.Red, command.Green, command.Blue);
+            var color = new Color(command.Red, command.Green, command.Blue);
 
             var obj = new HandlerFill(color, command.X, command.Y, command.Width, command.Height, command.Layer);
             obj.Start();
@@ -286,7 +286,7 @@ namespace MegaMan.Engine
 
         private void MoveCommand(SceneMoveCommandInfo command)
         {
-            HandlerSprite obj = objects[command.Name] as HandlerSprite;
+            var obj = objects[command.Name] as HandlerSprite;
             if (obj != null)
             {
                 obj.Move(command.X, command.Y, command.Duration);
@@ -295,7 +295,7 @@ namespace MegaMan.Engine
 
         private void FillMoveCommand(SceneFillMoveCommandInfo command)
         {
-            HandlerFill obj = objects[command.Name] as HandlerFill;
+            var obj = objects[command.Name] as HandlerFill;
             if (obj != null) obj.Move(command.X, command.Y, command.Width, command.Height, command.Duration);
         }
 
