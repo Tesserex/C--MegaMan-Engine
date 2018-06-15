@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class TextCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly SceneBindingXmlWriter _bindingWriter;
+        private readonly SceneBindingXmlWriter bindingWriter;
 
         public TextCommandXmlWriter(SceneBindingXmlWriter bindingWriter)
         {
-            _bindingWriter = bindingWriter;
+            this.bindingWriter = bindingWriter;
         }
 
         public Type CommandType
@@ -34,7 +34,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
             writer.WriteAttributeString("y", text.Y.ToString());
 
             if (text.Binding != null)
-                _bindingWriter.Write(text.Binding, writer);
+                bindingWriter.Write(text.Binding, writer);
 
             writer.WriteEndElement();
         }

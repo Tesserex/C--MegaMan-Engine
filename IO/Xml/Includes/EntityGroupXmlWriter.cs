@@ -8,11 +8,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     public class EntityGroupXmlWriter : IIncludedObjectGroupWriter
     {
-        private readonly EntityXmlWriter _entityWriter;
+        private readonly EntityXmlWriter entityWriter;
 
         public EntityGroupXmlWriter(EntityXmlWriter entityWriter)
         {
-            _entityWriter = entityWriter;
+            this.entityWriter = entityWriter;
         }
 
         public void Write(IEnumerable<IIncludedObject> includedObjects, string filepath)
@@ -26,7 +26,7 @@ namespace MegaMan.IO.Xml.Includes
                 writer.WriteStartElement("Entities");
 
                 foreach (var entity in includedObjects.Cast<EntityInfo>())
-                    _entityWriter.Write(entity, writer);
+                    entityWriter.Write(entity, writer);
 
                 writer.WriteEndElement();
             }

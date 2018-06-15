@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class EntityCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly EntityPlacementXmlWriter _entityWriter;
+        private readonly EntityPlacementXmlWriter entityWriter;
 
         public EntityCommandXmlWriter(EntityPlacementXmlWriter entityWriter)
         {
-            _entityWriter = entityWriter;
+            this.entityWriter = entityWriter;
         }
 
         public Type CommandType
@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         {
             var entity = (SceneEntityCommandInfo)info;
 
-            _entityWriter.Write(entity.Placement, writer);
+            entityWriter.Write(entity.Placement, writer);
         }
     }
 }

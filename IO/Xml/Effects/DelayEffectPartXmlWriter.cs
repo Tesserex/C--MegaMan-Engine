@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Effects
 {
     internal class DelayEffectPartXmlWriter : IEffectPartXmlWriter
     {
-        private readonly EffectXmlWriter _effectWriter;
+        private readonly EffectXmlWriter effectWriter;
 
         public DelayEffectPartXmlWriter(EffectXmlWriter effectWriter)
         {
-            _effectWriter = effectWriter;
+            this.effectWriter = effectWriter;
         }
 
         public Type EffectPartType
@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml.Effects
             writer.WriteStartElement("Delay");
 
             foreach (var part in delay.Effect.Parts)
-                _effectWriter.WritePart(part, writer);
+                effectWriter.WritePart(part, writer);
 
             writer.WriteEndElement();
         }

@@ -29,7 +29,7 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("y", sprite.HotSpot.Y.ToString());
             writer.WriteEndElement();
 
-            foreach (SpriteFrame frame in sprite)
+            foreach (var frame in sprite)
             {
                 writer.WriteStartElement("Frame");
                 writer.WriteAttributeString("x", frame.SheetLocation.X.ToString());

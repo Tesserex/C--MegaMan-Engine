@@ -8,11 +8,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class MenusXmlReader : IIncludeXmlReader
     {
-        private MenuXmlReader _menuReader;
+        private MenuXmlReader menuReader;
 
         public MenusXmlReader(MenuXmlReader menuReader)
         {
-            _menuReader = menuReader;
+            this.menuReader = menuReader;
         }
 
         public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
@@ -20,7 +20,7 @@ namespace MegaMan.IO.Xml.Includes
             var group = new IncludedObjectGroup();
             foreach (var menuNode in xmlNode.Elements("Menu"))
             {
-                group.Add(_menuReader.Load(project, menuNode, dataSource));
+                group.Add(menuReader.Load(project, menuNode, dataSource));
             }
 
             return group;

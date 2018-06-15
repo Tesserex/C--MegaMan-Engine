@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml;
 
@@ -27,7 +24,7 @@ namespace MegaMan.IO.Xml
         public GameXmlException(XAttribute attribute, string message)
             : this(attribute.Parent, message)
         {
-            this.Attribute = attribute.Name.LocalName;
+            Attribute = attribute.Name.LocalName;
         }
 
         public GameXmlException(string file, int line, string entity, string tag, string attribute, string message) : base(message)

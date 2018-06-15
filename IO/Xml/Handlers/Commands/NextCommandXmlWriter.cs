@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class NextCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly HandlerTransferXmlWriter _transferWriter;
+        private readonly HandlerTransferXmlWriter transferWriter;
 
         public NextCommandXmlWriter(HandlerTransferXmlWriter transferWriter)
         {
-            _transferWriter = transferWriter;
+            this.transferWriter = transferWriter;
         }
 
         public Type CommandType
@@ -24,7 +24,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         public void Write(SceneCommandInfo info, XmlWriter writer)
         {
             var next = (SceneNextCommandInfo)info;
-            _transferWriter.Write(next.NextHandler, writer);
+            transferWriter.Write(next.NextHandler, writer);
         }
     }
 }

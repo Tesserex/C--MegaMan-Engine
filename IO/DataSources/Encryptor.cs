@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MegaMan.IO.DataSources
 {
@@ -35,25 +30,6 @@ namespace MegaMan.IO.DataSources
                 cs.Write(cipherBytes, 0, cipherBytes.Length);
                 cs.Close();
                 return ms.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Decrypts a string using a given password.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <param name="password">The password.</param>
-        public static string DecryptString(string cipherText, string password)
-        {
-            var algorithm = GetAlgorithm();
-            var decryptor = algorithm.CreateDecryptor();
-            var cipherBytes = Convert.FromBase64String(cipherText);
-            using (var ms = new MemoryStream())
-            using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write))
-            {
-                cs.Write(cipherBytes, 0, cipherBytes.Length);
-                cs.Close();
-                return Encoding.Unicode.GetString(ms.ToArray());
             }
         }
 

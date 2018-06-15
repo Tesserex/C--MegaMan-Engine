@@ -67,19 +67,19 @@ namespace MegaMan.IO.Xml.Effects
 
         public void WritePart(IEffectPartInfo info, XmlWriter writer)
         {
-            if (!PartWriters.ContainsKey(info.GetType()))
+            if (!partWriters.ContainsKey(info.GetType()))
                 throw new Exception("No xml writer for effect part type: " + info.GetType().Name);
 
-            var compWriter = PartWriters[info.GetType()];
+            var compWriter = partWriters[info.GetType()];
 
             compWriter.Write(info, writer);
         }
 
-        private static Dictionary<Type, IEffectPartXmlWriter> PartWriters;
+        private static Dictionary<Type, IEffectPartXmlWriter> partWriters;
 
         static EffectXmlWriter()
         {
-            PartWriters = Extensions.GetImplementersOf<IEffectPartXmlWriter>()
+            partWriters = Extensions.GetImplementersOf<IEffectPartXmlWriter>()
                 .ToDictionary(x => x.EffectPartType);
         }
     }

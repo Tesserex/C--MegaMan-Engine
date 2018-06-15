@@ -16,14 +16,14 @@ namespace MegaMan.IO.Xml.Includes
 
         private SoundInfo LoadSound(XElement soundNode, string basePath)
         {
-            SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
+            var sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
 
             sound.Loop = soundNode.TryAttribute<bool>("loop");
 
             sound.Volume = soundNode.TryAttribute<float>("volume", 1);
 
-            XAttribute pathattr = soundNode.Attribute("path");
-            XAttribute trackAttr = soundNode.Attribute("track");
+            var pathattr = soundNode.Attribute("path");
+            var trackAttr = soundNode.Attribute("track");
             if (pathattr != null)
             {
                 sound.Type = AudioType.Wav;

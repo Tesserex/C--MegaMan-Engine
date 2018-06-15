@@ -6,17 +6,17 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal class HandlerSpriteXmlWriter : IHandlerObjectXmlWriter
     {
-        private readonly SpriteXmlWriter _spriteWriter;
+        private readonly SpriteXmlWriter spriteWriter;
 
         public HandlerSpriteXmlWriter(SpriteXmlWriter spriteWriter)
         {
-            _spriteWriter = spriteWriter;
+            this.spriteWriter = spriteWriter;
         }
 
         public void Write(IHandlerObjectInfo info, XmlWriter writer)
         {
             var spr = (HandlerSpriteInfo)info;
-            _spriteWriter.Write(spr.Sprite, writer);
+            spriteWriter.Write(spr.Sprite, writer);
         }
 
         public Type ObjectType

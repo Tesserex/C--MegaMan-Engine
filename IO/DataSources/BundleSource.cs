@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using MegaMan.Common;
 
 namespace MegaMan.IO.DataSources
 {
     public class BundleSource : IDataSource
     {
-        private string _zipFile;
-        private byte[] _zipContents;
+        private string zipFile;
+        private byte[] zipContents;
 
         public string Extension => ".zip";
 
         public Stream GetData(FilePath path)
         {
-            using (var mem = new MemoryStream(_zipContents))
+            using (var mem = new MemoryStream(zipContents))
             {
                 using (var zip = new ZipArchive(mem, ZipArchiveMode.Read))
                 {
@@ -28,6 +27,11 @@ namespace MegaMan.IO.DataSources
 
                     // do case insensitive comparison, Entry() is sensitive
                     var entry = zip.Entries.SingleOrDefault(e => e.FullName.ToUpper() == zipPathBack || e.FullName.ToUpper() == zipPathForward);
+
+                    if (entry == null)
+                    {
+                        throw new Exception("Project bundle is missing file: " + path.Relative);
+                    }
 
                     var zipStream = entry.Open();
                     zipStream.CopyTo(memoryStream);
@@ -40,38 +44,38 @@ namespace MegaMan.IO.DataSources
 
         public IEnumerable<FilePath> GetFilesInFolder(FilePath folderPath)
         {
-            using (var mem = new MemoryStream(_zipContents))
+            using (var mem = new MemoryStream(zipContents))
             {
                 using (var zip = new ZipArchive(mem, ZipArchiveMode.Read))
                 {
                     return zip.Entries.Where(x => x.FullName.StartsWith(folderPath.Relative))
-                        .Select(x => FilePath.FromRelative(x.FullName, _zipFile));
+                        .Select(x => FilePath.FromRelative(x.FullName, zipFile));
                 }
             }
         }
 
         public FilePath GetGameFile()
         {
-            return FilePath.FromRelative("game.xml", _zipFile);
+            return FilePath.FromRelative("game.xml", zipFile);
         }
 
         public void Init(string path)
         {
-            _zipFile = path;
+            zipFile = path;
 
-            using (var file = File.OpenRead(_zipFile))
+            using (var file = File.OpenRead(zipFile))
             {
-                using (BinaryReader br = new BinaryReader(file))
+                using (var br = new BinaryReader(file))
                 {
-                    _zipContents = br.ReadBytes((int)file.Length);
+                    zipContents = br.ReadBytes((int)file.Length);
                 }
             }
         }
 
         public void Init(string file, byte[] bytes)
         {
-            _zipFile = file;
-            _zipContents = bytes;
+            zipFile = file;
+            zipContents = bytes;
         }
 
         public Stream SaveToStream(string projectDirectory)

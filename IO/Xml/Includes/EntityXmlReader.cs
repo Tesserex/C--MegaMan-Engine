@@ -13,11 +13,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class EntityXmlReader : IIncludeXmlReader
     {
-        private readonly EffectXmlReader _effectReader;
+        private readonly EffectXmlReader effectReader;
 
         public EntityXmlReader(EffectXmlReader effectReader)
         {
-            _effectReader = effectReader;
+            this.effectReader = effectReader;
         }
 
         public string NodeName
@@ -41,9 +41,9 @@ namespace MegaMan.IO.Xml.Includes
 
             var deathNode = xmlNode.Element("Death");
             if (deathNode != null)
-                info.Death = _effectReader.Load(deathNode);
+                info.Death = effectReader.Load(deathNode);
 
-            foreach (var compReader in ComponentReaders)
+            foreach (var compReader in componentReaders)
             {
                 var element = compReader.NodeName != null ? xmlNode.Element(compReader.NodeName) : xmlNode;
                 if (element != null)
@@ -87,11 +87,11 @@ namespace MegaMan.IO.Xml.Includes
             }
         }
 
-        private static List<IComponentXmlReader> ComponentReaders;
+        private static List<IComponentXmlReader> componentReaders;
 
         static EntityXmlReader()
         {
-            ComponentReaders = Extensions.GetImplementersOf<IComponentXmlReader>()
+            componentReaders = Extensions.GetImplementersOf<IComponentXmlReader>()
                 .ToList();
         }
     }

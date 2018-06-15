@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -8,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class ConditionCommandXmlReader : ICommandXmlReader
     {
-        private readonly HandlerCommandXmlReader _commandReader;
+        private readonly HandlerCommandXmlReader commandReader;
 
         public ConditionCommandXmlReader(HandlerCommandXmlReader commandReader)
         {
-            _commandReader = commandReader;
+            this.commandReader = commandReader;
         }
 
         public IEnumerable<string> NodeName
@@ -35,7 +33,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
                 info.ConditionEntity = attr.Value;
             }
 
-            info.Commands = _commandReader.LoadCommands(node, basePath);
+            info.Commands = commandReader.LoadCommands(node, basePath);
 
             return info;
         }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -9,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class EntityCommandXmlReader : ICommandXmlReader
     {
-        private readonly EntityPlacementXmlReader _entityReader;
+        private readonly EntityPlacementXmlReader entityReader;
 
         public EntityCommandXmlReader(EntityPlacementXmlReader entityReader)
         {
-            _entityReader = entityReader;
+            this.entityReader = entityReader;
         }
 
         public IEnumerable<string> NodeName
@@ -27,7 +24,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         public SceneCommandInfo Load(XElement node, string basePath)
         {
             var info = new SceneEntityCommandInfo();
-            info.Placement = _entityReader.Load(node);
+            info.Placement = entityReader.Load(node);
             return info;
         }
     }

@@ -5,11 +5,11 @@ namespace MegaMan.IO.Xml.Effects
 {
     internal class TriggerXmlReader
     {
-        private readonly EffectXmlReader _effectReader;
+        private readonly EffectXmlReader effectReader;
 
         public TriggerXmlReader(EffectXmlReader effectReader)
         {
-            _effectReader = effectReader;
+            this.effectReader = effectReader;
         }
 
         public TriggerInfo Load(XElement triggerNode)
@@ -21,10 +21,10 @@ namespace MegaMan.IO.Xml.Effects
                 conditionString = triggerNode.Element("Condition").Value;
 
             var effectNode = triggerNode.Element("Effect");
-            var effect = _effectReader.Load(effectNode);
+            var effect = effectReader.Load(effectNode);
 
             var elseNode = triggerNode.Element("Else");
-            var elseEffect = (elseNode != null) ? _effectReader.Load(elseNode) : null;
+            var elseEffect = (elseNode != null) ? effectReader.Load(elseNode) : null;
 
             var priority = triggerNode.TryAttribute<int?>("priority");
 

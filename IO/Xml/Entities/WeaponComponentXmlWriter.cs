@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class WeaponComponentXmlWriter : IComponentXmlWriter
     {
-        private readonly MeterXmlWriter _meterWriter;
+        private readonly MeterXmlWriter meterWriter;
 
         public WeaponComponentXmlWriter(MeterXmlWriter meterWriter)
         {
-            _meterWriter = meterWriter;
+            this.meterWriter = meterWriter;
         }
 
         public Type ComponentType
@@ -44,7 +44,7 @@ namespace MegaMan.IO.Xml.Entities
                     writer.WriteAttributeString("palette", weapon.Palette.Value.ToString());
 
                 if (weapon.Meter != null)
-                    _meterWriter.Write(weapon.Meter, writer);
+                    meterWriter.Write(weapon.Meter, writer);
 
                 writer.WriteEndElement();
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
@@ -33,7 +32,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             var axisInfo = new PositionEffectAxisInfo();
 
-            XAttribute baseAttr = prop.Attribute("base");
+            var baseAttr = prop.Attribute("base");
             if (baseAttr != null)
             {
                 if (baseAttr.Value == "Inherit")

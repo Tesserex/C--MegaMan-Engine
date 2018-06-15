@@ -8,13 +8,13 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal class SceneXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
-        private readonly HandlerTransferXmlReader _transferReader;
-        private readonly HandlerCommandXmlReader _commandReader;
+        private readonly HandlerTransferXmlReader transferReader;
+        private readonly HandlerCommandXmlReader commandReader;
 
         public SceneXmlReader(HandlerTransferXmlReader transferReader, HandlerCommandXmlReader commandReader)
         {
-            _transferReader = transferReader;
-            _commandReader = commandReader;
+            this.transferReader = transferReader;
+            this.commandReader = commandReader;
         }
 
         public IIncludedObject Load(Project project, XElement node, IDataSource dataSource)
@@ -35,7 +35,7 @@ namespace MegaMan.IO.Xml.Handlers
             var transferNode = node.Element("Next");
             if (transferNode != null)
             {
-                scene.NextHandler = _transferReader.Load(transferNode);
+                scene.NextHandler = transferReader.Load(transferNode);
             }
 
             project.AddScene(scene);
@@ -50,7 +50,7 @@ namespace MegaMan.IO.Xml.Handlers
 
             info.Fade = node.TryAttribute<bool>("fade");
 
-            info.Commands = _commandReader.LoadCommands(node, basePath);
+            info.Commands = commandReader.LoadCommands(node, basePath);
 
             return info;
         }

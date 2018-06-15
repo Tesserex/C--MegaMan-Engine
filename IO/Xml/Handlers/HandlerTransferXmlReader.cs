@@ -8,7 +8,7 @@ namespace MegaMan.IO.Xml.Handlers
     {
         public HandlerTransfer Load(XElement node)
         {
-            HandlerTransfer transfer = new HandlerTransfer();
+            var transfer = new HandlerTransfer();
 
             var modeAttr = node.Attribute("mode");
             var mode = HandlerMode.Next;

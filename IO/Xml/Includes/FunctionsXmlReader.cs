@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class FunctionsXmlReader : IIncludeXmlReader
     {
-        private readonly FunctionXmlReader _functionReader;
+        private readonly FunctionXmlReader functionReader;
 
         public FunctionsXmlReader(FunctionXmlReader functionReader)
         {
-            _functionReader = functionReader;
+            this.functionReader = functionReader;
         }
 
         public string NodeName
@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml.Includes
             var group = new IncludedObjectGroup();
             foreach (var el in xmlNode.Elements("Function"))
             {
-                group.Add(_functionReader.Load(project, el, dataSource));
+                group.Add(functionReader.Load(project, el, dataSource));
             }
 
             return group;

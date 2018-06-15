@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class SpriteComponentXmlWriter : IComponentXmlWriter
     {
-        private readonly SpriteXmlWriter _spriteWriter;
+        private readonly SpriteXmlWriter spriteWriter;
 
         public SpriteComponentXmlWriter(SpriteXmlWriter spriteWriter)
         {
-            _spriteWriter = spriteWriter;
+            this.spriteWriter = spriteWriter;
         }
 
         public Type ComponentType { get { return typeof(SpriteComponentInfo); } }
@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml.Entities
                 writer.WriteElementString("Tilesheet", spriteComponent.SheetPath.Relative);
 
             foreach (var sprite in spriteComponent.Sprites.Values)
-                _spriteWriter.Write(sprite, writer);
+                spriteWriter.Write(sprite, writer);
         }
     }
 }

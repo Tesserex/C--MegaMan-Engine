@@ -1,5 +1,4 @@
-﻿using System.IO;
-using MegaMan.Common;
+﻿using MegaMan.Common;
 
 namespace MegaMan.IO
 {

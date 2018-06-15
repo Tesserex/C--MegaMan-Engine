@@ -9,11 +9,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class MovementComponentXmlReader : IComponentXmlReader
     {
-        private readonly MovementEffectPartXmlReader _movementReader;
+        private readonly MovementEffectPartXmlReader movementReader;
 
         public MovementComponentXmlReader(MovementEffectPartXmlReader movementReader)
         {
-            _movementReader = movementReader;
+            this.movementReader = movementReader;
         }
 
         public string NodeName
@@ -24,7 +24,7 @@ namespace MegaMan.IO.Xml.Entities
         public IComponentInfo Load(XElement node, Project project, IDataSource dataSource)
         {
             return new MovementComponentInfo() {
-                EffectInfo = (MovementEffectPartInfo)_movementReader.Load(node)
+                EffectInfo = (MovementEffectPartInfo)movementReader.Load(node)
             };
         }
     }

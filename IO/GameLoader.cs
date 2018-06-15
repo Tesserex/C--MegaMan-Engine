@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using MegaMan.Common;
 using MegaMan.IO.DataSources;
-using Ninject;
 
 namespace MegaMan.IO
 {
@@ -26,7 +22,7 @@ namespace MegaMan.IO
             return readerProvider;
         }
 
-        private static Dictionary<string, IDataSource> Loaders;
+        private static readonly Dictionary<string, IDataSource> Loaders;
 
         static GameLoader()
         {

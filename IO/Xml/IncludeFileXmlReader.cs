@@ -12,13 +12,13 @@ namespace MegaMan.IO.Xml
 {
     internal class IncludeFileXmlReader
     {
-        private Project _project;
+        private Project project;
 
-        private Dictionary<string, IIncludeXmlReader> _readers;
+        private Dictionary<string, IIncludeXmlReader> readers;
 
         public IncludeFileXmlReader()
         {
-            _readers = Assembly.GetAssembly(typeof(IIncludeXmlReader))
+            readers = Assembly.GetAssembly(typeof(IIncludeXmlReader))
                 .GetTypes()
                 .Where(t => t.GetInterfaces().Contains(typeof(IIncludeXmlReader)))
                 .Select(t => Injector.Container.Get(t))
@@ -28,16 +28,16 @@ namespace MegaMan.IO.Xml
 
         public void LoadIncludedFile(Project project, FilePath filePath, Stream stream, IDataSource dataSource)
         {
-            _project = project;
+            this.project = project;
 
             try
             {
-                XDocument document = XDocument.Load(stream, LoadOptions.SetLineInfo);
-                foreach (XElement element in document.Elements())
+                var document = XDocument.Load(stream, LoadOptions.SetLineInfo);
+                foreach (var element in document.Elements())
                 {
-                    if (_readers.ContainsKey(element.Name.LocalName))
+                    if (readers.ContainsKey(element.Name.LocalName))
                     {
-                        var obj = _readers[element.Name.LocalName].Load(project, element, dataSource);
+                        var obj = readers[element.Name.LocalName].Load(project, element, dataSource);
                         obj.StoragePath = filePath;
                     }
                 }
@@ -51,14 +51,14 @@ namespace MegaMan.IO.Xml
 
         public static SoundInfo LoadSound(XElement soundNode, string basePath)
         {
-            SoundInfo sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
+            var sound = new SoundInfo { Name = soundNode.RequireAttribute("name").Value };
 
             sound.Loop = soundNode.TryAttribute<bool>("loop");
 
             sound.Volume = soundNode.TryAttribute<float>("volume", 1);
 
-            XAttribute pathattr = soundNode.Attribute("path");
-            XAttribute trackAttr = soundNode.Attribute("track");
+            var pathattr = soundNode.Attribute("path");
+            var trackAttr = soundNode.Attribute("track");
             if (pathattr != null)
             {
                 sound.Type = AudioType.Wav;

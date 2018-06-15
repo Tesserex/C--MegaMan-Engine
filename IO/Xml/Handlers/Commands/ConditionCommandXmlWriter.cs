@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class ConditionCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly HandlerCommandXmlWriter _commandWriter;
+        private readonly HandlerCommandXmlWriter commandWriter;
 
         public ConditionCommandXmlWriter(HandlerCommandXmlWriter commandWriter)
         {
-            this._commandWriter = commandWriter;
+            this.commandWriter = commandWriter;
         }
 
         public Type CommandType
@@ -34,7 +34,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 
             foreach (var c in cmd.Commands)
             {
-                _commandWriter.Write(c, writer);
+                commandWriter.Write(c, writer);
             }
 
             writer.WriteEndElement();

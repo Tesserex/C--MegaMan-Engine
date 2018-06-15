@@ -1,9 +1,6 @@
 ﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -21,9 +18,9 @@ namespace MegaMan.IO.Xml
             info.Length = xmlNode.GetAttribute<int>("length");
 
             info.Blocks = new List<BlockInfo>();
-            foreach (XElement blockInfo in xmlNode.Elements("Block"))
+            foreach (var blockInfo in xmlNode.Elements("Block"))
             {
-                BlockInfo block = new BlockInfo();
+                var block = new BlockInfo();
                 block.pos = new PointF(blockInfo.GetAttribute<float>("x"), blockInfo.GetAttribute<float>("y"));
                 block.on = blockInfo.GetAttribute<int>("on");
                 block.off = blockInfo.GetAttribute<int>("off");
@@ -42,7 +39,7 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("length", blockPattern.Length.ToString());
             writer.WriteAttributeString("entity", blockPattern.Entity);
 
-            foreach (BlockInfo block in blockPattern.Blocks)
+            foreach (var block in blockPattern.Blocks)
             {
                 writer.WriteStartElement("Block");
                 writer.WriteAttributeString("x", block.pos.X.ToString());

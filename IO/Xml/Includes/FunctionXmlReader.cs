@@ -8,11 +8,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class FunctionXmlReader : IIncludeXmlReader
     {
-        private readonly EffectXmlReader _effectReader;
+        private readonly EffectXmlReader effectReader;
 
         public FunctionXmlReader(EffectXmlReader effectReader)
         {
-            _effectReader = effectReader;
+            this.effectReader = effectReader;
         }
 
         public string NodeName
@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Includes
 
         public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
-            var effect = _effectReader.Load(xmlNode);
+            var effect = effectReader.Load(xmlNode);
             project.AddFunction(effect);
             return effect;
         }

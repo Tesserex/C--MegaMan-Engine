@@ -1,7 +1,5 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Effects
 {
@@ -33,14 +31,14 @@ namespace MegaMan.IO.Xml.Effects
             }
             else
             {
-                XElement ammoNode = partNode.Element("Ammo");
+                var ammoNode = partNode.Element("Ammo");
                 if (ammoNode != null)
                 {
                     info.Ammo = ammoNode.GetAttribute<int>("val");
                     info.Action = WeaponAction.Ammo;
                 }
 
-                XElement changeNode = partNode.Element("Change");
+                var changeNode = partNode.Element("Change");
                 if (changeNode != null)
                 {
                     info.ChangeName = changeNode.RequireAttribute("name").Value;

@@ -8,11 +8,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class EffectCommandXmlReader : ICommandXmlReader
     {
-        private readonly EffectXmlReader _effectReader;
+        private readonly EffectXmlReader effectReader;
 
         public EffectCommandXmlReader(EffectXmlReader effectReader)
         {
-            _effectReader = effectReader;
+            this.effectReader = effectReader;
         }
 
         public IEnumerable<string> NodeName
@@ -35,7 +35,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
                 info.EntityId = attr.Value;
             }
             
-            info.EffectInfo = _effectReader.Load(node);
+            info.EffectInfo = effectReader.Load(node);
 
             return info;
         }

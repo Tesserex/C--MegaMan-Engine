@@ -7,10 +7,10 @@ namespace MegaMan.IO.Xml
     {
         public static XAttribute RequireAttribute(this XElement node, string name)
         {
-            XAttribute attr = node.Attribute(name);
+            var attr = node.Attribute(name);
             if (attr == null)
             {
-                string msg = string.Format("{0} node requires the attribute \"{1}\"", node.Name, name);
+                var msg = string.Format("{0} node requires the attribute \"{1}\"", node.Name, name);
                 throw new GameXmlException(node, msg);
             }
             return attr;
@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml
 
         public static T TryAttribute<T>(this XElement node, String attributeName, T defaultValue)
         {
-            XAttribute attr = node.Attribute(attributeName);
+            var attr = node.Attribute(attributeName);
 
             if (attr == null || String.IsNullOrEmpty(attr.Value))
             {
@@ -48,7 +48,7 @@ namespace MegaMan.IO.Xml
             {
                 if (ex is InvalidCastException || ex is FormatException)
                 {
-                    String msg = String.Format("{0} node's {1} attribute was of the wrong type.", node.Name, attribute.Name);
+                    var msg = String.Format("{0} node's {1} attribute was of the wrong type.", node.Name, attribute.Name);
                     throw new GameXmlException(attribute, msg);
                 }
 
@@ -95,7 +95,7 @@ namespace MegaMan.IO.Xml
             {
                 if (ex is InvalidCastException || ex is FormatException)
                 {
-                    String msg = String.Format("{0} node's value was of the wrong type.", node.Name);
+                    var msg = String.Format("{0} node's value was of the wrong type.", node.Name);
                     throw new GameXmlException(node, msg);
                 }
 

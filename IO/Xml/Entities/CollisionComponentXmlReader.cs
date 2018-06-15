@@ -29,7 +29,7 @@ namespace MegaMan.IO.Xml.Entities
                 foreach (var resistNode in boxnode.Elements("Resist"))
                 {
                     var resistName = resistNode.GetAttribute<string>("name");
-                    float mult = resistNode.GetAttribute<float>("multiply");
+                    var mult = resistNode.GetAttribute<float>("multiply");
                     box.Resistance.Add(resistName, mult);
                 }
 
@@ -43,10 +43,10 @@ namespace MegaMan.IO.Xml.Entities
 
         private static HitBoxInfo GetHitbox(XElement boxnode)
         {
-            float width = boxnode.GetAttribute<float>("width");
-            float height = boxnode.GetAttribute<float>("height");
-            float x = boxnode.GetAttribute<float>("x");
-            float y = boxnode.GetAttribute<float>("y");
+            var width = boxnode.GetAttribute<float>("width");
+            var height = boxnode.GetAttribute<float>("height");
+            var x = boxnode.GetAttribute<float>("x");
+            var y = boxnode.GetAttribute<float>("y");
 
             var box = new HitBoxInfo() {
                 Name = boxnode.TryAttribute<string>("name"),

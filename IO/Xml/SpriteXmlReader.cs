@@ -1,9 +1,7 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.IO.DataSources;
-using MegaMan.IO;
 
 namespace MegaMan.IO.Xml
 {
@@ -22,10 +20,10 @@ namespace MegaMan.IO.Xml
 
         public Sprite LoadSprite(XElement element)
         {
-            int width = element.GetAttribute<int>("width");
-            int height = element.GetAttribute<int>("height");
+            var width = element.GetAttribute<int>("width");
+            var height = element.GetAttribute<int>("height");
 
-            Sprite sprite = new Sprite(width, height);
+            var sprite = new Sprite(width, height);
 
             sprite.Name = element.TryAttribute<string>("name");
             sprite.Part = element.TryAttribute<string>("part");
@@ -33,11 +31,11 @@ namespace MegaMan.IO.Xml
 
             sprite.Reversed = element.TryAttribute<bool>("reversed");
 
-            XElement hotspot = element.Element("Hotspot");
+            var hotspot = element.Element("Hotspot");
             if (hotspot != null)
             {
-                int hx = hotspot.GetAttribute<int>("x");
-                int hy = hotspot.GetAttribute<int>("y");
+                var hx = hotspot.GetAttribute<int>("x");
+                var hy = hotspot.GetAttribute<int>("y");
                 sprite.HotSpot = new Point(hx, hy);
             }
             else
@@ -47,10 +45,10 @@ namespace MegaMan.IO.Xml
 
             sprite.Layer = element.TryAttribute<int>("layer");
 
-            XElement stylenode = element.Element("AnimStyle");
+            var stylenode = element.Element("AnimStyle");
             if (stylenode != null)
             {
-                string style = stylenode.Value;
+                var style = stylenode.Value;
                 switch (style)
                 {
                     case "Bounce": sprite.AnimStyle = AnimationStyle.Bounce; break;
@@ -58,10 +56,10 @@ namespace MegaMan.IO.Xml
                 }
             }
 
-            XElement directionNode = element.Element("AnimDirection");
+            var directionNode = element.Element("AnimDirection");
             if (directionNode != null)
             {
-                string direction = directionNode.Value;
+                var direction = directionNode.Value;
                 switch (direction)
                 {
                     case "Forward": sprite.AnimDirection = AnimationDirection.Forward; break;
@@ -69,11 +67,11 @@ namespace MegaMan.IO.Xml
                 }
             }
 
-            foreach (XElement frame in element.Elements("Frame"))
+            foreach (var frame in element.Elements("Frame"))
             {
-                int duration = frame.TryAttribute<int>("duration");
-                int x = frame.GetAttribute<int>("x");
-                int y = frame.GetAttribute<int>("y");
+                var duration = frame.TryAttribute<int>("duration");
+                var x = frame.GetAttribute<int>("x");
+                var y = frame.GetAttribute<int>("y");
                 sprite.AddFrame(x, y, duration);
             }
 

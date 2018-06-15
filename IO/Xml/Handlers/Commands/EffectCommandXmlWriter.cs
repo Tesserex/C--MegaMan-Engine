@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class EffectCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly EffectXmlWriter _effectWriter;
+        private readonly EffectXmlWriter effectWriter;
 
         public EffectCommandXmlWriter(EffectXmlWriter effectWriter)
         {
-            _effectWriter = effectWriter;
+            this.effectWriter = effectWriter;
         }
 
         public Type CommandType
@@ -31,7 +31,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
                 writer.WriteAttributeString("entity", effect.EntityId);
 
             foreach (var part in effect.EffectInfo.Parts)
-                _effectWriter.WritePart(part, writer);
+                effectWriter.WritePart(part, writer);
 
             writer.WriteEndElement();
         }

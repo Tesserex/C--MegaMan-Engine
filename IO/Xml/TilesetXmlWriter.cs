@@ -5,16 +5,16 @@ namespace MegaMan.IO.Xml
 {
     internal class TilesetXmlWriter : ITilesetWriter
     {
-        private readonly SpriteXmlWriter _spriteWriter;
+        private readonly SpriteXmlWriter spriteWriter;
 
         public TilesetXmlWriter(SpriteXmlWriter spriteWriter)
         {
-            _spriteWriter = spriteWriter;
+            this.spriteWriter = spriteWriter;
         }
 
         public void Save(Tileset tileset)
         {
-            XmlTextWriter writer = new XmlTextWriter(tileset.FilePath.Absolute, null);
+            var writer = new XmlTextWriter(tileset.FilePath.Absolute, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 1;
             writer.IndentChar = '\t';
@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("tilesize", tileset.TileSize.ToString());
 
             writer.WriteStartElement("TileProperties");
-            foreach (TileProperties properties in tileset.Properties)
+            foreach (var properties in tileset.Properties)
             {
                 if (properties.Name == "Default" && properties == TileProperties.Default)
                     continue;
@@ -36,14 +36,14 @@ namespace MegaMan.IO.Xml
             }
             writer.WriteEndElement();
 
-            foreach (Tile tile in tileset)
+            foreach (var tile in tileset)
             {
                 writer.WriteStartElement("Tile");
                 writer.WriteAttributeString("id", tile.Id.ToString());
                 writer.WriteAttributeString("name", tile.Name);
                 writer.WriteAttributeString("properties", tile.Properties.Name);
 
-                _spriteWriter.Write(tile.Sprite, writer);
+                spriteWriter.Write(tile.Sprite, writer);
 
                 writer.WriteEndElement();   // end Tile
             }

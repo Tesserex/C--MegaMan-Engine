@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers.Commands;
 
@@ -10,11 +9,11 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal abstract class HandlerXmlWriter
     {
-        protected readonly HandlerCommandXmlWriter _commandWriter;
+        protected readonly HandlerCommandXmlWriter CommandWriter;
 
         public HandlerXmlWriter(HandlerCommandXmlWriter commandWriter)
         {
-            _commandWriter = commandWriter;
+            CommandWriter = commandWriter;
         }
 
         protected void WriteBase(HandlerInfo info, XmlWriter writer)
@@ -23,19 +22,19 @@ namespace MegaMan.IO.Xml.Handlers
 
             foreach (var obj in info.Objects.Values)
             {
-                if (!_objectWriters.ContainsKey(obj.GetType()))
+                if (!objectWriters.ContainsKey(obj.GetType()))
                     throw new Exception("No writer found for handler object: " + obj.GetType().Name);
 
-                var objWriter = _objectWriters[obj.GetType()];
+                var objWriter = objectWriters[obj.GetType()];
                 objWriter.Write(obj, writer);
             }
         }
 
-        private static Dictionary<Type, IHandlerObjectXmlWriter> _objectWriters;
+        private static Dictionary<Type, IHandlerObjectXmlWriter> objectWriters;
 
         static HandlerXmlWriter()
         {
-            _objectWriters = Extensions.GetImplementersOf<IHandlerObjectXmlWriter>()
+            objectWriters = Extensions.GetImplementersOf<IHandlerObjectXmlWriter>()
                 .ToDictionary(x => x.ObjectType);
         }
     }

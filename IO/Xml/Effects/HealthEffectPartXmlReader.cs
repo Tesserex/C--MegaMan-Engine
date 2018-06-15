@@ -1,7 +1,5 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Effects
 {

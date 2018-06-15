@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using MegaMan.Common;
@@ -15,18 +14,18 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 
         public SceneCommandInfo Load(XElement node, string basePath)
         {
-            if (!_readers.ContainsKey(node.Name.LocalName))
+            if (!readers.ContainsKey(node.Name.LocalName))
                 return null;
 
-            var reader = _readers[node.Name.LocalName];
+            var reader = readers[node.Name.LocalName];
             return reader.Load(node, basePath);
         }
 
-        private static Dictionary<string, ICommandXmlReader> _readers;
+        private static Dictionary<string, ICommandXmlReader> readers;
 
         static HandlerCommandXmlReader()
         {
-            _readers = Extensions.GetImplementersOf<ICommandXmlReader>()
+            readers = Extensions.GetImplementersOf<ICommandXmlReader>()
                 .SelectMany(x => x.NodeName.Select(n => new { NodeName = n, Reader = x }))
                 .ToDictionary(x => x.NodeName, x => x.Reader);
         }

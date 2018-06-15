@@ -8,7 +8,7 @@ namespace MegaMan.IO.Xml
     {
         public EntityPlacement Load(XElement node)
         {
-            EntityPlacement info = new EntityPlacement();
+            var info = new EntityPlacement();
 
             info.Id = node.TryAttribute("id", Guid.NewGuid().ToString());
 
@@ -22,7 +22,7 @@ namespace MegaMan.IO.Xml
             var dirAttr = node.Attribute("direction");
             if (dirAttr != null)
             {
-                Direction dir = Direction.Left;
+                var dir = Direction.Left;
                 Enum.TryParse<Direction>(dirAttr.Value, true, out dir);
                 info.direction = dir;
             }
@@ -30,7 +30,7 @@ namespace MegaMan.IO.Xml
             var respawnAttr = node.Attribute("respawn");
             if (respawnAttr != null)
             {
-                RespawnBehavior respawn = RespawnBehavior.Offscreen;
+                var respawn = RespawnBehavior.Offscreen;
                 Enum.TryParse<RespawnBehavior>(respawnAttr.Value, true, out respawn);
                 info.respawn = respawn;
             }

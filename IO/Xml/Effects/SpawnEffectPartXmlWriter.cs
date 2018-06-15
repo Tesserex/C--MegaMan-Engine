@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Effects
 {
     internal class SpawnEffectPartXmlWriter : IEffectPartXmlWriter
     {
-        private readonly PositionEffectPartXmlWriter _positionWriter;
+        private readonly PositionEffectPartXmlWriter positionWriter;
 
         public SpawnEffectPartXmlWriter(PositionEffectPartXmlWriter positionWriter)
         {
-            _positionWriter = positionWriter;
+            this.positionWriter = positionWriter;
         }
 
         public Type EffectPartType
@@ -29,7 +29,7 @@ namespace MegaMan.IO.Xml.Effects
             writer.WriteAttributeString("name", spawn.Name);
             writer.WriteAttributeString("state", spawn.State);
 
-            _positionWriter.Write(spawn.Position, writer);
+            positionWriter.Write(spawn.Position, writer);
 
             writer.WriteEndElement();
         }

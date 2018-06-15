@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class FontsXmlReader : IIncludeXmlReader
     {
-        private FontXmlReader _fontReader;
+        private FontXmlReader fontReader;
 
         public FontsXmlReader(FontXmlReader fontReader)
         {
-            _fontReader = fontReader;
+            this.fontReader = fontReader;
         }
 
         public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
@@ -19,7 +19,7 @@ namespace MegaMan.IO.Xml.Includes
             var group = new IncludedObjectGroup();
             foreach (var fontNode in xmlNode.Elements("Font"))
             {
-                group.Add(_fontReader.Load(project, fontNode, dataSource));
+                group.Add(fontReader.Load(project, fontNode, dataSource));
             }
 
             return group;

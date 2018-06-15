@@ -1,58 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MegaMan.Common;
 
 namespace MegaMan.IO.DataSources
 {
     public class EncryptedSource : IDataSource
     {
-        private string _filePath;
-        private readonly BundleSource _bundle;
+        private string filePath;
+        private readonly BundleSource bundle;
 
         public string Extension => ".mme";
 
         public EncryptedSource()
         {
-            _bundle = new BundleSource();
+            bundle = new BundleSource();
         }
 
         public Stream GetData(FilePath path)
         {
-            return _bundle.GetData(path);
+            return bundle.GetData(path);
         }
 
         public IEnumerable<FilePath> GetFilesInFolder(FilePath folderPath)
         {
-            return _bundle.GetFilesInFolder(folderPath);
+            return bundle.GetFilesInFolder(folderPath);
         }
 
         public FilePath GetGameFile()
         {
-            return FilePath.FromRelative("game.xml", _filePath);
+            return FilePath.FromRelative("game.xml", filePath);
         }
 
         public void Init(string path)
         {
-            _filePath = path;
-            using (var file = File.OpenRead(_filePath))
+            filePath = path;
+            using (var file = File.OpenRead(filePath))
             using (var br = new BinaryReader(file))
             {
-                byte[] cryptBytes = br.ReadBytes((int)file.Length);
+                var cryptBytes = br.ReadBytes((int)file.Length);
                 var decrypted = Encryptor.Decrypt(cryptBytes);
-                _bundle.Init(path, decrypted);
+                bundle.Init(path, decrypted);
             }
         }
 
         public Stream SaveToStream(string projectDirectory)
         {
-            using (var zip = _bundle.SaveToStream(projectDirectory))
+            using (var zip = bundle.SaveToStream(projectDirectory))
             using (var br = new BinaryReader(zip))
             {
-                byte[] plainBytes = br.ReadBytes((int) zip.Length);
+                var plainBytes = br.ReadBytes((int) zip.Length);
                 var encrypted = Encryptor.Encrypt(plainBytes);
                 var stream = new MemoryStream();
                 var writer = new BinaryWriter(stream);

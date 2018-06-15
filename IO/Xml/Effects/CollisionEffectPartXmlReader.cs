@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.Geometry;
@@ -25,7 +21,7 @@ namespace MegaMan.IO.Xml.Effects
             var info = new CollisionEffectPartInfo();
 
             var rects = new List<HitBoxInfo>();
-            HashSet<string> enables = new HashSet<string>();
+            var enables = new HashSet<string>();
 
             info.ClearEnabled = partNode.Element("Clear") != null;
 
@@ -59,7 +55,7 @@ namespace MegaMan.IO.Xml.Effects
                 foreach (var resistNode in box.Elements("Resist"))
                 {
                     var resistName = resistNode.GetAttribute<string>("name");
-                    float mult = resistNode.GetAttribute<float>("multiply");
+                    var mult = resistNode.GetAttribute<float>("multiply");
                     boxinfo.Resistance.Add(resistName, mult);
                 }
 

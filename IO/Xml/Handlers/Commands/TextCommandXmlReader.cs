@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -7,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class TextCommandXmlReader : ICommandXmlReader
     {
-        private readonly SceneBindingXmlReader _bindingReader;
+        private readonly SceneBindingXmlReader bindingReader;
 
         public TextCommandXmlReader(SceneBindingXmlReader bindingReader)
         {
-            _bindingReader = bindingReader;
+            this.bindingReader = bindingReader;
         }
 
         public IEnumerable<string> NodeName
@@ -32,7 +31,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
             info.Y = node.GetAttribute<int>("y");
 
             var bindingNode = node.Element("Binding");
-            if (bindingNode != null) info.Binding = _bindingReader.Load(bindingNode);
+            if (bindingNode != null) info.Binding = bindingReader.Load(bindingNode);
 
             info.Font = node.TryAttribute<string>("font");
 

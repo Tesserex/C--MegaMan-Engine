@@ -1,18 +1,15 @@
-﻿using System;
-using System.Xml.Linq;
-using System.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Common;
 
 namespace MegaMan.IO.Xml.Effects
 {
     internal class DelayEffectPartXmlReader : IEffectPartXmlReader
     {
-        private readonly EffectXmlReader _effectReader;
+        private readonly EffectXmlReader effectReader;
 
         public DelayEffectPartXmlReader(EffectXmlReader effectReader)
         {
-            _effectReader = effectReader;
+            this.effectReader = effectReader;
         }
 
         public string NodeName
@@ -27,7 +24,7 @@ namespace MegaMan.IO.Xml.Effects
         {
             return new DelayedEffectPartInfo() {
                 DelayFrames = partNode.GetAttribute<int>("frames"),
-                Effect = _effectReader.Load(partNode)
+                Effect = effectReader.Load(partNode)
             };
         }
     }

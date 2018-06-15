@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.IO.DataSources;

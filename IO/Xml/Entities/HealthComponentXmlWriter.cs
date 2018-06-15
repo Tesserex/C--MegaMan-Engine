@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class HealthComponentXmlWriter : IComponentXmlWriter
     {
-        private readonly MeterXmlWriter _meterWriter;
+        private readonly MeterXmlWriter meterWriter;
 
         public HealthComponentXmlWriter(MeterXmlWriter meterWriter)
         {
-            _meterWriter = meterWriter;
+            this.meterWriter = meterWriter;
         }
 
         public Type ComponentType
@@ -31,7 +31,7 @@ namespace MegaMan.IO.Xml.Entities
             writer.WriteAttributeString("flash", health.FlashFrames.ToString());
 
             if (health.Meter != null)
-                _meterWriter.Write(health.Meter, writer);
+                meterWriter.Write(health.Meter, writer);
 
             writer.WriteEndElement();
         }

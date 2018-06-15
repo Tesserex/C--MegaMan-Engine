@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -15,8 +14,8 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 
             info.Track = node.TryAttribute<int>("nsftrack", node.TryAttribute<int>("track"));
 
-            XElement intro = node.Element("Intro");
-            XElement loop = node.Element("Loop");
+            var intro = node.Element("Intro");
+            var loop = node.Element("Loop");
             info.IntroPath = (intro != null) ? FilePath.FromRelative(intro.Value, basePath) : null;
             info.LoopPath = (loop != null) ? FilePath.FromRelative(loop.Value, basePath) : null;
 

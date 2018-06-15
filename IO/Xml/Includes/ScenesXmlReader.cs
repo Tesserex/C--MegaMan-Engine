@@ -8,19 +8,19 @@ namespace MegaMan.IO.Xml.Includes
 {
     internal class ScenesXmlReader : IIncludeXmlReader
     {
-        private SceneXmlReader _sceneReader;
+        private SceneXmlReader sceneReader;
 
         public ScenesXmlReader(SceneXmlReader sceneReader)
         {
-            _sceneReader = sceneReader;
+            this.sceneReader = sceneReader;
         }
 
         public IIncludedObject Load(Project project, XElement xmlNode, IDataSource dataSource)
         {
             var group = new IncludedObjectGroup();
-            foreach (XElement sceneNode in xmlNode.Elements("Scene"))
+            foreach (var sceneNode in xmlNode.Elements("Scene"))
             {
-                group.Add(_sceneReader.Load(project, sceneNode, dataSource));
+                group.Add(sceneReader.Load(project, sceneNode, dataSource));
             }
 
             return group;

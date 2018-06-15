@@ -12,13 +12,13 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class StateComponentXmlReader : IComponentXmlReader
     {
-        private readonly TriggerXmlReader _triggerReader;
-        private readonly EffectXmlReader _effectReader;
+        private readonly TriggerXmlReader triggerReader;
+        private readonly EffectXmlReader effectReader;
 
         public StateComponentXmlReader(TriggerXmlReader triggerReader, EffectXmlReader effectReader)
         {
-            _triggerReader = triggerReader;
-            _effectReader = effectReader;
+            this.triggerReader = triggerReader;
+            this.effectReader = effectReader;
         }
 
         public string NodeName
@@ -40,7 +40,7 @@ namespace MegaMan.IO.Xml.Entities
                 var statesNode = triggerInfo.Element("States");
                 var states = statesNode != null ? statesNode.Value.Split(',').Select(s => s.Trim()).ToList() : null;
 
-                var trigger = _triggerReader.Load(triggerInfo);
+                var trigger = triggerReader.Load(triggerInfo);
 
                 if (trigger.Priority == null)
                     trigger.Priority = ((IXmlLineInfo)triggerInfo).LineNumber;
@@ -67,7 +67,7 @@ namespace MegaMan.IO.Xml.Entities
                 switch (child.Name.LocalName)
                 {
                     case "Trigger":
-                        var t = _triggerReader.Load(child);
+                        var t = triggerReader.Load(child);
 
                         if (t.Priority == null)
                             t.Priority = ((IXmlLineInfo)child).LineNumber;
@@ -76,19 +76,19 @@ namespace MegaMan.IO.Xml.Entities
                         break;
 
                     case "Initialize":
-                        init.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        init.AddRange(child.Elements().Select(e => effectReader.LoadPart(e)));
                         break;
 
                     case "Logic":
-                        logic.AddRange(child.Elements().Select(e => _effectReader.LoadPart(e)));
+                        logic.AddRange(child.Elements().Select(e => effectReader.LoadPart(e)));
                         break;
 
                     default:
                         var mode = child.TryAttribute<string>("mode");
                         if (mode != null && mode.ToUpper() == "REPEAT")
-                            logic.Add(_effectReader.LoadPart(child));
+                            logic.Add(effectReader.LoadPart(child));
                         else
-                            init.Add(_effectReader.LoadPart(child));
+                            init.Add(effectReader.LoadPart(child));
                         break;
                 }
             }

@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Effects
 {
     internal class TriggerEffectPartXmlWriter : IEffectPartXmlWriter
     {
-        private readonly TriggerXmlWriter _triggerWriter;
+        private readonly TriggerXmlWriter triggerWriter;
 
         public TriggerEffectPartXmlWriter(TriggerXmlWriter triggerWriter)
         {
-            _triggerWriter = triggerWriter;
+            this.triggerWriter = triggerWriter;
         }
 
         public Type EffectPartType
@@ -23,7 +23,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public void Write(IEffectPartInfo info, XmlWriter writer)
         {
-            _triggerWriter.Write(((TriggerEffectPartInfo)info).Trigger, writer);
+            triggerWriter.Write(((TriggerEffectPartInfo)info).Trigger, writer);
         }
     }
 }

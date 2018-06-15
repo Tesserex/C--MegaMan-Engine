@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class HealthComponentXmlReader : IComponentXmlReader
     {
-        private readonly MeterXmlReader _meterReader;
+        private readonly MeterXmlReader meterReader;
 
         public HealthComponentXmlReader(MeterXmlReader meterReader)
         {
-            _meterReader = meterReader;
+            this.meterReader = meterReader;
         }
 
         public string NodeName
@@ -26,10 +26,10 @@ namespace MegaMan.IO.Xml.Entities
 
             comp.StartValue = node.TryAttribute<float?>("startValue");
 
-            XElement meterNode = node.Element("Meter");
+            var meterNode = node.Element("Meter");
             if (meterNode != null)
             {
-                comp.Meter = _meterReader.LoadMeter(meterNode, project.BaseDir, dataSource);
+                comp.Meter = meterReader.LoadMeter(meterNode, project.BaseDir, dataSource);
             }
 
             comp.FlashFrames = node.TryAttribute("flash", node.TryElementValue<int>("Flash"));

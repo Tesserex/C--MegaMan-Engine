@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -8,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class MenuOptionCommandXmlReader : ICommandXmlReader
     {
-        private readonly HandlerCommandXmlReader _commandReader;
+        private readonly HandlerCommandXmlReader commandReader;
 
         public MenuOptionCommandXmlReader(HandlerCommandXmlReader commandReader)
         {
-            _commandReader = commandReader;
+            this.commandReader = commandReader;
         }
 
         public IEnumerable<string> NodeName
@@ -39,19 +37,19 @@ namespace MegaMan.IO.Xml.Handlers.Commands
             var onNode = node.Element("On");
             if (onNode != null)
             {
-                info.OnEvent = _commandReader.LoadCommands(onNode, basePath);
+                info.OnEvent = commandReader.LoadCommands(onNode, basePath);
             }
 
             var offNode = node.Element("Off");
             if (offNode != null)
             {
-                info.OffEvent = _commandReader.LoadCommands(offNode, basePath);
+                info.OffEvent = commandReader.LoadCommands(offNode, basePath);
             }
 
             var selectNode = node.Element("Select");
             if (selectNode != null)
             {
-                info.SelectEvent = _commandReader.LoadCommands(selectNode, basePath);
+                info.SelectEvent = commandReader.LoadCommands(selectNode, basePath);
             }
 
             return info;

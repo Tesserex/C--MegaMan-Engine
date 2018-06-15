@@ -8,11 +8,11 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal class MenuXmlReader : HandlerXmlReader, IIncludeXmlReader
     {
-        private readonly HandlerCommandXmlReader _commandReader;
+        private readonly HandlerCommandXmlReader commandReader;
 
         public MenuXmlReader(HandlerCommandXmlReader commandReader)
         {
-            _commandReader = commandReader;
+            this.commandReader = commandReader;
         }
 
         public IIncludedObject Load(Project project, XElement node, IDataSource dataSource)
@@ -55,7 +55,7 @@ namespace MegaMan.IO.Xml.Handlers
                 }
             }
 
-            info.Commands = _commandReader.LoadCommands(node, basePath);
+            info.Commands = commandReader.LoadCommands(node, basePath);
 
             return info;
         }

@@ -67,19 +67,19 @@ namespace MegaMan.IO.Xml.Effects
 
         public IEffectPartInfo LoadPart(XElement node)
         {
-            if (!PartReaders.ContainsKey(node.Name.LocalName))
+            if (!partReaders.ContainsKey(node.Name.LocalName))
                 throw new GameXmlException(node, "Unrecognized effect part: " + node.Name.LocalName);
 
-            var reader = PartReaders[node.Name.LocalName];
+            var reader = partReaders[node.Name.LocalName];
 
             return reader.Load(node);
         }
 
-        private static Dictionary<string, IEffectPartXmlReader> PartReaders;
+        private static Dictionary<string, IEffectPartXmlReader> partReaders;
 
         static EffectXmlReader()
         {
-            PartReaders = Extensions.GetImplementersOf<IEffectPartXmlReader>()
+            partReaders = Extensions.GetImplementersOf<IEffectPartXmlReader>()
                 .ToDictionary(x => x.NodeName);
         }
     }

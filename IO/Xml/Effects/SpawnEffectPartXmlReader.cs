@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using MegaMan.Common;
+﻿using System.Xml.Linq;
 using MegaMan.Common.Entities.Effects;
 
 namespace MegaMan.IO.Xml.Effects
 {
     internal class SpawnEffectPartXmlReader : IEffectPartXmlReader
     {
-        private readonly PositionEffectPartXmlReader _positionReader;
+        private readonly PositionEffectPartXmlReader positionReader;
 
         public SpawnEffectPartXmlReader(PositionEffectPartXmlReader positionReader)
         {
-            _positionReader = positionReader;
+            this.positionReader = positionReader;
         }
 
 
@@ -35,7 +30,7 @@ namespace MegaMan.IO.Xml.Effects
             var positionNode = partNode.Element("Position");
             if (positionNode != null)
             {
-                info.Position = (PositionEffectPartInfo)_positionReader.Load(positionNode);
+                info.Position = (PositionEffectPartInfo)positionReader.Load(positionNode);
             }
 
             return info;

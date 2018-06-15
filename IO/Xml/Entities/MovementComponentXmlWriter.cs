@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class MovementComponentXmlWriter : IComponentXmlWriter
     {
-        private readonly MovementEffectPartXmlWriter _effectWriter;
+        private readonly MovementEffectPartXmlWriter effectWriter;
 
         public MovementComponentXmlWriter(MovementEffectPartXmlWriter effectWriter)
         {
-            _effectWriter = effectWriter;
+            this.effectWriter = effectWriter;
         }
 
         public Type ComponentType
@@ -25,7 +25,7 @@ namespace MegaMan.IO.Xml.Entities
 
             if (move.EffectInfo != null)
             {
-                _effectWriter.Write(move.EffectInfo, writer);
+                effectWriter.Write(move.EffectInfo, writer);
             }
         }
     }

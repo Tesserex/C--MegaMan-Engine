@@ -6,12 +6,12 @@ namespace MegaMan.IO.Xml.Handlers
 {
     internal class SceneXmlWriter : HandlerXmlWriter
     {
-        private readonly HandlerTransferXmlWriter _transferWriter;
+        private readonly HandlerTransferXmlWriter transferWriter;
 
         public SceneXmlWriter(HandlerCommandXmlWriter commandWriter, HandlerTransferXmlWriter transferWriter)
             : base(commandWriter)
         {
-            _transferWriter = transferWriter;
+            this.transferWriter = transferWriter;
         }
 
         public void Write(SceneInfo info, XmlWriter writer)
@@ -30,7 +30,7 @@ namespace MegaMan.IO.Xml.Handlers
 
             if (info.NextHandler != null)
             {
-                _transferWriter.Write(info.NextHandler, writer);
+                transferWriter.Write(info.NextHandler, writer);
             }
 
             writer.WriteEndElement();
@@ -42,7 +42,7 @@ namespace MegaMan.IO.Xml.Handlers
 
             foreach (var command in info.Commands)
             {
-                _commandWriter.Write(command, writer);
+                CommandWriter.Write(command, writer);
             }
 
             writer.WriteEndElement();

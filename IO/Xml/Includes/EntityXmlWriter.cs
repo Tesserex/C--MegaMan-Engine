@@ -10,16 +10,16 @@ namespace MegaMan.IO.Xml.Includes
 {
     public class EntityXmlWriter : IEntityWriter
     {
-        private EffectXmlWriter _effectWriter;
+        private EffectXmlWriter effectWriter;
 
         public EntityXmlWriter()
         {
-            _effectWriter = new EffectXmlWriter();
+            effectWriter = new EffectXmlWriter();
         }
 
         public void Write(EntityInfo entity, string filepath)
         {
-            XmlTextWriter writer = new XmlTextWriter(filepath, null);
+            var writer = new XmlTextWriter(filepath, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 1;
             writer.IndentChar = '\t';
@@ -56,7 +56,7 @@ namespace MegaMan.IO.Xml.Includes
             if (entity.Death != null)
             {
                 writer.WriteStartElement("Death");
-                _effectWriter.WriteEffectContents(entity.Death, writer);
+                effectWriter.WriteEffectContents(entity.Death, writer);
                 writer.WriteEndElement();
             }
 
@@ -65,19 +65,19 @@ namespace MegaMan.IO.Xml.Includes
 
         internal void WritePart(IComponentInfo info, XmlWriter writer)
         {
-            if (!ComponentWriters.ContainsKey(info.GetType()))
+            if (!componentWriters.ContainsKey(info.GetType()))
                 throw new Exception("No xml writer for component type: " + info.GetType().Name);
 
-            var compWriter = ComponentWriters[info.GetType()];
+            var compWriter = componentWriters[info.GetType()];
 
             compWriter.Write(info, writer);
         }
 
-        private static Dictionary<Type, IComponentXmlWriter> ComponentWriters;
+        private static Dictionary<Type, IComponentXmlWriter> componentWriters;
 
         static EntityXmlWriter()
         {
-            ComponentWriters = Extensions.GetImplementersOf<IComponentXmlWriter>()
+            componentWriters = Extensions.GetImplementersOf<IComponentXmlWriter>()
                 .ToDictionary(x => x.ComponentType);
         }
     }

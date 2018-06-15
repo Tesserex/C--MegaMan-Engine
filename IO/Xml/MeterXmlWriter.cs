@@ -8,13 +8,13 @@ namespace MegaMan.IO.Xml
 {
     internal class MeterXmlWriter : IHandlerObjectXmlWriter
     {
-        private readonly SoundXmlWriter _soundWriter;
-        private readonly SceneBindingXmlWriter _bindingWriter;
+        private readonly SoundXmlWriter soundWriter;
+        private readonly SceneBindingXmlWriter bindingWriter;
 
         public MeterXmlWriter(SoundXmlWriter soundWriter, SceneBindingXmlWriter bindingWriter)
         {
-            _soundWriter = soundWriter;
-            _bindingWriter = bindingWriter;
+            this.soundWriter = soundWriter;
+            this.bindingWriter = bindingWriter;
         }
 
         public void Write(IHandlerObjectInfo info, XmlWriter writer)
@@ -36,10 +36,10 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("tickY", meter.TickOffset.Y.ToString());
 
             if (meter.Sound != null)
-                _soundWriter.Write(meter.Sound, writer);
+                soundWriter.Write(meter.Sound, writer);
 
             if (meter.Binding != null)
-                _bindingWriter.Write(meter.Binding, writer);
+                bindingWriter.Write(meter.Binding, writer);
 
             writer.WriteEndElement();
         }

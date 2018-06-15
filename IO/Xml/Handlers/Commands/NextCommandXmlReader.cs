@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using MegaMan.Common;
 
@@ -7,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class NextCommandXmlReader : ICommandXmlReader
     {
-        private readonly HandlerTransferXmlReader _transferReader;
+        private readonly HandlerTransferXmlReader transferReader;
 
         public NextCommandXmlReader(HandlerTransferXmlReader transferReader)
         {
-            _transferReader = transferReader;
+            this.transferReader = transferReader;
         }
 
         public IEnumerable<string> NodeName
@@ -26,7 +25,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         {
             var info = new SceneNextCommandInfo();
 
-            info.NextHandler = _transferReader.Load(node);
+            info.NextHandler = transferReader.Load(node);
 
             return info;
         }

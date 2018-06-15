@@ -11,26 +11,26 @@ namespace MegaMan.IO
 {
     internal class ReaderProvider : IReaderProvider
     {
-        private readonly IDataSource _dataSource;
-        private readonly Dictionary<string, IProjectReader> ProjectReaders;
+        private readonly IDataSource dataSource;
+        private readonly Dictionary<string, IProjectReader> projectReaders;
 
         public ReaderProvider(IDataSource dataSource)
         {
-            _dataSource = dataSource;
+            this.dataSource = dataSource;
 
-            ProjectReaders = Extensions.GetImplementersOf<IProjectReader>()
+            projectReaders = Extensions.GetImplementersOf<IProjectReader>()
                 .ToDictionary(r => r.Extension);
         }
 
         public IProjectReader GetProjectReader()
         {
-            var mainFilePath = _dataSource.GetGameFile();
+            var mainFilePath = dataSource.GetGameFile();
             var mainExt = Path.GetExtension(mainFilePath.Relative);
 
-            if (ProjectReaders.ContainsKey(mainExt))
+            if (projectReaders.ContainsKey(mainExt))
             {
-                var reader = ProjectReaders[mainExt];
-                reader.Init(_dataSource);
+                var reader = projectReaders[mainExt];
+                reader.Init(dataSource);
                 return reader;
             }
 
@@ -40,21 +40,21 @@ namespace MegaMan.IO
         public IRawReader GetRawReader()
         {
             var reader = new RawReader();
-            reader.Init(_dataSource);
+            reader.Init(dataSource);
             return reader;
         }
 
         public IStageReader GetStageReader(FilePath path)
         {
             var reader = new StageXmlReader(this, new EntityPlacementXmlReader(), new HandlerCommandXmlReader());
-            reader.Init(_dataSource);
+            reader.Init(dataSource);
             return reader;
         }
 
         public ITilesetReader GetTilesetReader(FilePath path)
         {
             var reader = new TilesetXmlReader();
-            reader.Init(_dataSource);
+            reader.Init(dataSource);
             return reader;
         }
     }

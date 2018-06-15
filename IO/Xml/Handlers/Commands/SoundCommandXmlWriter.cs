@@ -6,11 +6,11 @@ namespace MegaMan.IO.Xml.Handlers.Commands
 {
     internal class SoundCommandXmlWriter : ICommandXmlWriter
     {
-        private readonly SoundXmlWriter _soundWriter;
+        private readonly SoundXmlWriter soundWriter;
 
         public SoundCommandXmlWriter(SoundXmlWriter soundWriter)
         {
-            _soundWriter = soundWriter;
+            this.soundWriter = soundWriter;
         }
 
         public Type CommandType
@@ -24,7 +24,7 @@ namespace MegaMan.IO.Xml.Handlers.Commands
         public void Write(SceneCommandInfo info, XmlWriter writer)
         {
             var sound = (SceneSoundCommandInfo)info;
-            _soundWriter.Write(sound.SoundInfo, writer);
+            soundWriter.Write(sound.SoundInfo, writer);
         }
     }
 }

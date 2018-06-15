@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
 using MegaMan.IO.Xml.Handlers.Commands;
 
@@ -30,7 +29,7 @@ namespace MegaMan.IO.Xml.Handlers
 
             foreach (var command in info.Commands)
             {
-                _commandWriter.Write(command, writer);
+                CommandWriter.Write(command, writer);
             }
 
             if (info.StartOptionName != null || info.StartOptionVar != null)

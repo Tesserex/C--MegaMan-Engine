@@ -7,11 +7,11 @@ namespace MegaMan.IO.Xml.Effects
 {
     internal class NextEffectPartXmlWriter : IEffectPartXmlWriter
     {
-        private readonly HandlerTransferXmlWriter _handlerWriter;
+        private readonly HandlerTransferXmlWriter handlerWriter;
 
         public NextEffectPartXmlWriter(HandlerTransferXmlWriter handlerWriter)
         {
-            _handlerWriter = handlerWriter;
+            this.handlerWriter = handlerWriter;
         }
 
         public Type EffectPartType
@@ -24,7 +24,7 @@ namespace MegaMan.IO.Xml.Effects
 
         public void Write(IEffectPartInfo info, XmlWriter writer)
         {
-            _handlerWriter.Write(((NextEffectPartInfo)info).Transfer, writer);
+            handlerWriter.Write(((NextEffectPartInfo)info).Transfer, writer);
         }
     }
 }

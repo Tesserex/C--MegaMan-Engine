@@ -8,13 +8,13 @@ namespace MegaMan.IO.Xml.Entities
 {
     internal class StateComponentXmlWriter : IComponentXmlWriter
     {
-        private readonly TriggerXmlWriter _triggerWriter;
-        private readonly EffectXmlWriter _effectWriter;
+        private readonly TriggerXmlWriter triggerWriter;
+        private readonly EffectXmlWriter effectWriter;
 
         public StateComponentXmlWriter(TriggerXmlWriter triggerWriter, EffectXmlWriter effectWriter)
         {
-            _triggerWriter = triggerWriter;
-            _effectWriter = effectWriter;
+            this.triggerWriter = triggerWriter;
+            this.effectWriter = effectWriter;
         }
 
         public Type ComponentType { get { return typeof(StateComponentInfo); } }
@@ -27,7 +27,7 @@ namespace MegaMan.IO.Xml.Entities
                 WriteState(state, writer);
 
             foreach (var trigger in stateComponent.Triggers.OrderBy(t => t.Trigger.Priority))
-                _triggerWriter.WriteMulti(trigger, writer);
+                triggerWriter.WriteMulti(trigger, writer);
         }
 
         private void WriteState(StateInfo state, XmlWriter writer)
@@ -38,19 +38,19 @@ namespace MegaMan.IO.Xml.Entities
             writer.WriteStartElement("Initialize");
             foreach (var part in state.Initializer.Parts)
             {
-                _effectWriter.WritePart(part, writer);
+                effectWriter.WritePart(part, writer);
             }
             writer.WriteEndElement();
 
             writer.WriteStartElement("Logic");
             foreach (var part in state.Logic.Parts)
             {
-                _effectWriter.WritePart(part, writer);
+                effectWriter.WritePart(part, writer);
             }
             writer.WriteEndElement();
 
             foreach (var trigger in state.Triggers.OrderBy(t => t.Priority))
-                _triggerWriter.Write(trigger, writer);
+                triggerWriter.Write(trigger, writer);
 
             writer.WriteEndElement();
         }
