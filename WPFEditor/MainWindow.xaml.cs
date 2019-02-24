@@ -79,7 +79,7 @@ namespace MegaMan.Editor
             if (e.Stage != null)
                 ribbonStage.IsSelected = true;
 
-            editorPane.IsActive = true;
+            editorPane.IsSelected = true;
         }
 
         private void EntitySelected(object sender, EntitySelectedEventArgs e)
@@ -87,7 +87,7 @@ namespace MegaMan.Editor
             if (e.Entity != null)
                 ribbonEntities.IsSelected = true;
 
-            entityEditorPane.IsActive = true;
+            entityEditorPane.IsSelected = true;
         }
 
         private bool IsProjectOpen()

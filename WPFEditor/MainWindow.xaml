@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MegaMan.Editor.MainWindow"
-        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:c="clr-namespace:MegaMan.Editor.Controls"
         Title="{Binding WindowTitle}" Height="700" Width="1100"
@@ -11,9 +10,6 @@
         AllowsTransparency="True"
         WindowStyle="None">
     <Window.Resources>
-        <avalonDock:VS2010Theme x:Key="VS2010Theme" />
-        <avalonDock:ExpressionLightTheme x:Key="ExpressionLightTheme" />
-        <avalonDock:ExpressionDarkTheme x:Key="ExpressionDarkTheme" />
     </Window.Resources>
 
     <Window.InputBindings>
@@ -118,54 +114,47 @@
             </Fluent:Ribbon.Menu>
         </Fluent:Ribbon>
 
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1" Background="Black"
-                                   Theme="{StaticResource ExpressionLightTheme}" DocumentPaneControlStyle="{StaticResource HeadlessDocumentPaneControlStyle}"
-                                    c:AvalonDockLayoutSerializer.LoadLayoutCommand="{Binding ADLayout.LoadLayoutCommand}"
-                                    c:AvalonDockLayoutSerializer.SaveLayoutCommand="{Binding ADLayout.SaveLayoutCommand}">
-            <avalonDock:LayoutRoot>
-                <avalonDock:LayoutPanel Orientation="Horizontal">
-                    <avalonDock:LayoutAnchorablePane DockWidth="200">
-                        <avalonDock:LayoutAnchorable Title="Project" IsActive="True">
-                            <c:ProjectTree x:Name="projectTree"></c:ProjectTree>
-                        </avalonDock:LayoutAnchorable>
-                        <avalonDock:LayoutAnchorable Title="History">
-                            <c:HistoryControl x:Name="historyControl"></c:HistoryControl>
-                        </avalonDock:LayoutAnchorable>
-                    </avalonDock:LayoutAnchorablePane>
-                    <avalonDock:LayoutDocumentPane>
-                        <avalonDock:LayoutDocument x:Name="projectSettingsPane">
-                            <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="addStagePane">
-                            <c:AddStageDialog x:Name="addStageControl"></c:AddStageDialog>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="stagePropertiesPane">
-                            <c:StagePropertiesControl x:Name="stagePropertiesControl"></c:StagePropertiesControl>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="tilesetEditorPane">
-                            <c:TilesetEditor x:Name="tilesetEditorControl"></c:TilesetEditor>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="entityEditorPane">
-                            <c:EntityEditor x:Name="entityEditorControl"></c:EntityEditor>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="tilesetImporterPane">
-                            <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument x:Name="editorPane" IsActive="True">
-                            <ContentControl Style="{StaticResource MegaBorder}" HorizontalAlignment="Stretch">
-                                <DockPanel Background="{StaticResource BackgroundBrush}">
-                                    <StackPanel DockPanel.Dock="Bottom">
-                                        <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
-                                    </StackPanel>
-                                    <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
-                                </DockPanel>
-                            </ContentControl>
-                        </avalonDock:LayoutDocument>
-                    </avalonDock:LayoutDocumentPane>
-                </avalonDock:LayoutPanel>
-            </avalonDock:LayoutRoot>
-        </avalonDock:DockingManager>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        
+            <c:ProjectTree x:Name="projectTree" Grid.Column="0"></c:ProjectTree>
+
+            <TabControl Grid.Column="2">
+                <TabItem Visibility="Collapsed" x:Name="projectSettingsPane">
+                    <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="addStagePane">
+                    <c:AddStageDialog x:Name="addStageControl"></c:AddStageDialog>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="stagePropertiesPane">
+                    <c:StagePropertiesControl x:Name="stagePropertiesControl"></c:StagePropertiesControl>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="tilesetEditorPane">
+                    <c:TilesetEditor x:Name="tilesetEditorControl"></c:TilesetEditor>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="entityEditorPane">
+                    <c:EntityEditor x:Name="entityEditorControl"></c:EntityEditor>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="tilesetImporterPane">
+                    <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
+                </TabItem>
+                <TabItem Visibility="Collapsed" x:Name="editorPane" IsSelected="True">
+                    <ContentControl Style="{StaticResource MegaBorder}" HorizontalAlignment="Stretch">
+                        <DockPanel Background="{StaticResource BackgroundBrush}">
+                            <c:HistoryControl DockPanel.Dock="Right" MinWidth="200" x:Name="historyControl"></c:HistoryControl>
+                            <StackPanel DockPanel.Dock="Bottom">
+                                <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
+                            </StackPanel>
+                            <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
+                        </DockPanel>
+                    </ContentControl>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Fluent:RibbonWindow>
