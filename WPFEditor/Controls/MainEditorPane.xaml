@@ -5,85 +5,96 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600"
-             Background="{StaticResource NesDarkGrayBrush}">
-    <TabControl DockPanel.Dock="Top" x:Name="editingTabWindow" Background="Transparent">
-        <TabControl.Resources>
-            <Style TargetType="{x:Type TabPanel}">
-                <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>
-            <Style TargetType="{x:Type TabItem}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type TabItem}">
-                            <ContentPresenter x:Name="ContentSite"
+             d:DesignHeight="400" d:DesignWidth="800" Background="{StaticResource DarkShadowBrush}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+        <c:HistoryControl Grid.Column="2" x:Name="historyControl"></c:HistoryControl>
+
+        <TabControl Grid.Column="0" x:Name="editingTabWindow" Background="Transparent">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabPanel}">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                </Style>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabItem}">
+                                <ContentPresenter x:Name="ContentSite"
                                                      VerticalAlignment="Center"
                                                      HorizontalAlignment="Center"
                                                      ContentSource="Header"
-                                                     Margin="20,5"
-                                                     TextBlock.FontSize="24"
+                                                     Margin="20,0"
+                                                     Height="30"
+                                                     TextBlock.FontSize="20"
                                                      TextBlock.FontFamily="../Resources/#Open Sans Condensed" />
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="White"/>
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                    <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{StaticResource NesLightGrayBrush}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{StaticResource NesLightBlueBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{StaticResource NesLightGrayBrush}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
 
-            </Style>
-            <Style TargetType="TabControl">
-                <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-            </Style>
-        </TabControl.Resources>
-        <TabItem>
-            <TabItem.Header>
-                LAYOUT
-            </TabItem.Header>
-            <DockPanel>
-                <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
-                <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
-            </DockPanel>
-        </TabItem>
-        <TabItem>
-            <TabItem.Header>
-                TILES
-            </TabItem.Header>
-            <DockPanel>
-                <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="5" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <c:TileBrushPanel x:Name="brushTray" Grid.Column="0"></c:TileBrushPanel>
-                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
-                    <c:StageTileControl x:Name="stageTileControl" Grid.Column="2"></c:StageTileControl>
-                </Grid>
-            </DockPanel>
-        </TabItem>
-        <TabItem>
-            <TabItem.Header>
-                ENTITIES
-            </TabItem.Header>
-            <DockPanel>
-                <c:EntityToolbar x:Name="entityToolbar" DockPanel.Dock="Top"></c:EntityToolbar>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="5" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <c:StageEntitiesControl x:Name="stageEntitiesControl" Grid.Column="0"></c:StageEntitiesControl>
-                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
-                    <c:EntityTray x:Name="entityTray" Grid.Column="2"></c:EntityTray>
-                </Grid>
-            </DockPanel>
-        </TabItem>
-    </TabControl>
+                </Style>
+                <Style TargetType="TabControl">
+                    <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem>
+                <TabItem.Header>
+                    LAYOUT
+                </TabItem.Header>
+                <DockPanel>
+                    <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
+                    <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
+                </DockPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    TILES
+                </TabItem.Header>
+                <DockPanel>
+                    <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <c:TileBrushPanel x:Name="brushTray" Grid.Column="0"></c:TileBrushPanel>
+                        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
+                        <c:StageTileControl x:Name="stageTileControl" Grid.Column="2"></c:StageTileControl>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    ENTITIES
+                </TabItem.Header>
+                <DockPanel>
+                    <c:EntityToolbar x:Name="entityToolbar" DockPanel.Dock="Top"></c:EntityToolbar>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <c:StageEntitiesControl x:Name="stageEntitiesControl" Grid.Column="0"></c:StageEntitiesControl>
+                        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
+                        <c:EntityTray x:Name="entityTray" Grid.Column="2"></c:EntityTray>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </UserControl>

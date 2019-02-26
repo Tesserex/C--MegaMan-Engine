@@ -7,7 +7,8 @@
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>        
+    <DockPanel>
+        <Label DockPanel.Dock="Top" Style="{StaticResource H1}">PROJECT</Label>
         <TreeView ItemsSource="{Binding Root}">
             <TreeView.ItemContainerStyle>
                 <!-- 

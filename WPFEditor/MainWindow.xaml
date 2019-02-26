@@ -117,14 +117,19 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="4" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
             <c:ProjectTree x:Name="projectTree" Grid.Column="0"></c:ProjectTree>
 
-            <TabControl Grid.Column="2">
+            <TabControl Grid.Column="2" Padding="0" Margin="0">
+                <TabControl.Resources>
+                    <Style TargetType="TabControl">
+                        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
+                    </Style>
+                </TabControl.Resources>
                 <TabItem Visibility="Collapsed" x:Name="projectSettingsPane">
                     <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
                 </TabItem>
@@ -144,15 +149,12 @@
                     <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
                 </TabItem>
                 <TabItem Visibility="Collapsed" x:Name="editorPane" IsSelected="True">
-                    <ContentControl Style="{StaticResource MegaBorder}" HorizontalAlignment="Stretch">
-                        <DockPanel Background="{StaticResource BackgroundBrush}">
-                            <c:HistoryControl DockPanel.Dock="Right" MinWidth="200" x:Name="historyControl"></c:HistoryControl>
-                            <StackPanel DockPanel.Dock="Bottom">
-                                <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
-                            </StackPanel>
-                            <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
-                        </DockPanel>
-                    </ContentControl>
+                    <DockPanel Background="{StaticResource DarkShadowBrush}" Margin="0">
+                        <StackPanel DockPanel.Dock="Bottom" Background="{StaticResource BackgroundBrush}">
+                            <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
+                        </StackPanel>
+                        <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
+                    </DockPanel>
                 </TabItem>
             </TabControl>
         </Grid>

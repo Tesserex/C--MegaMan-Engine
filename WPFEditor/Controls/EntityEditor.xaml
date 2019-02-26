@@ -32,30 +32,44 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
-                <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
-                    <Label Style="{StaticResource Header}">ENTITY INFORMATION</Label>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock Style="{StaticResource ControlLabel}">Name</TextBlock>
-                        <TextBox Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
-                        <xctk:IntegerUpDown Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
-                    </StackPanel>
+
+                <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
+                    <Label Style="{StaticResource Header}" VerticalAlignment="Top">ENTITY INFORMATION</Label>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Name</TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
+                        <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
+                    </Grid>
+                    
                     <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
-                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <CheckBox IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <CheckBox IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
-                    </StackPanel>
+                    <Grid Margin="0,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
+                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
+                        
+                        <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
+                        <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
+                    </Grid>
                 </StackPanel>
 
                 <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
@@ -84,11 +98,9 @@
             </Grid>
 
             <GridSplitter Grid.Row="1" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            
+
             <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" Grid.Row="2">
-                <Label DockPanel.Dock="Top" Style="{StaticResource Header}" HorizontalAlignment="Left">COMPONENTS</Label>
-                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13">
-                    
+                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13" Style="{StaticResource MegaTabControl}" ItemContainerStyle="{StaticResource MegaTabs}">
                     <TabItem Header="Sprites" DataContext="{Binding Sprite}">
                         <ListView Grid.Row="0" Grid.Column="0" BorderThickness="0" ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemsPanel>

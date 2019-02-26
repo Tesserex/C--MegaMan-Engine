@@ -3,8 +3,10 @@
                     xmlns:local="clr-namespace:MegaMan.Editor">
     <Color x:Key="NesLightBlue">#FF419dd7</Color>
     <Color x:Key="NesLightBlueShade">#FF3195d4</Color>
-    <Color x:Key="NesLightGray">#FF848484</Color>
-    <Color x:Key="NesLightGrayShade">#FF7B7B7B</Color>
+    <Color x:Key="NesLightGray">#FFB4B4B4</Color>
+    <Color x:Key="NesLightGrayShade">#FFA8A8A8</Color>
+    <Color x:Key="NesGray">#FF848484</Color>
+    <Color x:Key="NesGrayShade">#FF7B7B7B</Color>
     <Color x:Key="NesDarkGray">#FF525252</Color>
     <Color x:Key="NesRed">#FF701008</Color>
     <Color x:Key="NesYellow">#FFE4DCA8</Color>
@@ -65,11 +67,18 @@
         <GradientStop Color="{StaticResource NesLightBlueShade}" Offset="1"/>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="DisabledButtonBackground" EndPoint="0,1" StartPoint="0,0">
+    <LinearGradientBrush x:Key="InactiveButtonBackground" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="{StaticResource NesLightGray}" Offset="0"/>
         <GradientStop Color="{StaticResource NesLightGray}" Offset="0.5"/>
         <GradientStop Color="{StaticResource NesLightGrayShade}" Offset="0.5"/>
         <GradientStop Color="{StaticResource NesLightGrayShade}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DisabledButtonBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="{StaticResource NesGray}" Offset="0"/>
+        <GradientStop Color="{StaticResource NesGray}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource NesGrayShade}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource NesGrayShade}" Offset="1"/>
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="HoverButtonBackground" EndPoint="0,1" StartPoint="0,0">

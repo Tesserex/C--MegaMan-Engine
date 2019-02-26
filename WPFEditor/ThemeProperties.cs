@@ -30,13 +30,13 @@ namespace MegaMan.Editor
             "FaceBrush",
             typeof(Brush),
             typeof(ThemeProperties),
-            new FrameworkPropertyMetadata());
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.Inherits));
 
         public static readonly DependencyProperty ShadowBrushProperty =
         DependencyProperty.RegisterAttached(
             "ShadowBrush",
             typeof(Brush),
             typeof(ThemeProperties),
-            new FrameworkPropertyMetadata());
+            new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.Inherits));
     }
 }

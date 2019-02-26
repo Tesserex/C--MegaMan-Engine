@@ -5,7 +5,7 @@
 
     <Style TargetType="{x:Type TextBlock}" x:Key="ControlLabel">
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Margin" Value="15,0" />
+        <Setter Property="Margin" Value="10,0" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
@@ -18,23 +18,28 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="10" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="{StaticResource NesLightBlueBrush}" Padding="8,0">
-                            <ContentPresenter TextBlock.FontFamily="../Resources/#Open Sans Condensed" TextBlock.FontSize="18" TextBlock.Foreground="White" />
-                        </Border>
-                        <Rectangle Grid.Column="1" Width="10" Fill="{StaticResource ActiveShadowBrush}" />
-                    </Grid>
+                    <Border Grid.Column="0" Background="{StaticResource NesLightBlueBrush}" Padding="8,0" BorderThickness="0,0,8,0" BorderBrush="{StaticResource ActiveShadowBrush}">
+                        <ContentPresenter TextBlock.FontFamily="../Resources/#Open Sans Condensed" TextBlock.FontSize="18" TextBlock.Foreground="White" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type Label}" x:Key="H1" BasedOn="{StaticResource Header}">
+    <Style TargetType="{x:Type Label}" x:Key="H2" BasedOn="{StaticResource Header}">
         <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="H1" BasedOn="{StaticResource DefaultLabel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border Background="{StaticResource NesLightBlueBrush}" Padding="12,4" BorderThickness="0,0,0,8" BorderBrush="{StaticResource ActiveShadowBrush}">
+                        <ContentPresenter TextBlock.FontFamily="../Resources/#Open Sans Condensed" TextBlock.FontSize="18" TextBlock.Foreground="White" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="DefaultTextBox" TargetType="{x:Type TextBox}">
@@ -69,10 +74,10 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Button" x:Key="ButtonStyle">
+    <Style x:Key="AngledBorder" TargetType="{x:Type ContentControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="{x:Type ContentControl}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3" />
@@ -164,8 +169,21 @@
                         <Rectangle Grid.Row="1" Grid.Column="2" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="0,3,0,0" Width="6" />
                         <Rectangle Grid.Row="0" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
                         <Rectangle Grid.Row="1" Grid.Column="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
-                        <Grid Grid.Row="1" Grid.Column="1" Background="{TemplateBinding my:ThemeProperties.FaceBrush}">
-                            <ContentPresenter Margin="6,2" x:Name="contentPresenter"
+                        <Grid Grid.Row="1" Grid.Column="1" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="ButtonStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentControl Style="{StaticResource AngledBorder}" Background="{TemplateBinding my:ThemeProperties.FaceBrush}">
+                        <ContentPresenter Margin="6,2" x:Name="contentPresenter"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               TextBlock.FontFamily="../Resources/#Open Sans Condensed"
@@ -173,8 +191,7 @@
                                               TextBlock.FontSize="16"
                                               TextBlock.Foreground="White"
                                               />
-                        </Grid>
-                    </Grid>
+                    </ContentControl>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="true">
                             <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
@@ -266,6 +283,197 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="MegaTabs" TargetType="{x:Type TabItem}">
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ShadowBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid Name="Border" Height="26" VerticalAlignment="Bottom">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="6" />
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Row="0" Grid.Column="0" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="3,0" IsClosed="True">
+                                            <LineSegment Point="3,3"/>
+                                            <LineSegment Point="0,3"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Path Grid.Row="0" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,0" IsClosed="True">
+                                            <LineSegment Point="3,3"/>
+                                            <LineSegment Point="0,3"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Path Grid.Row="1" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,0" IsClosed="True">
+                                            <LineSegment Point="3,0"/>
+                                            <LineSegment Point="6,3"/>
+                                            <LineSegment Point="0,3" />
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Rectangle Grid.Row="1" Grid.Column="2" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="0,3,0,0" Width="6" />
+                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+                        <Rectangle Grid.Row="1" Grid.Column="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Border Background="{StaticResource InactiveButtonBackground}">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        ContentSource="Header"
+                                        Margin="10,3">
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Grid Name="Border" Height="28" VerticalAlignment="Bottom">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="10" />
+                                </Grid.ColumnDefinitions>
+                                <Path Grid.Row="0" Grid.Column="0" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigure StartPoint="3,0" IsClosed="True">
+                                                    <LineSegment Point="3,3"/>
+                                                    <LineSegment Point="0,3"/>
+                                                </PathFigure>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Path Grid.Row="0" Grid.Column="2" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigure StartPoint="0,0" IsClosed="True">
+                                                    <LineSegment Point="3,3"/>
+                                                    <LineSegment Point="0,3"/>
+                                                </PathFigure>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Path Grid.Row="1" Grid.Column="2" StrokeThickness="0" Fill="{StaticResource ActiveShadowBrush}">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigure StartPoint="0,0" IsClosed="True">
+                                                    <LineSegment Point="3,0"/>
+                                                    <LineSegment Point="10,7"/>
+                                                    <LineSegment Point="0,7" />
+                                                </PathFigure>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Rectangle Grid.Row="1" Grid.Column="2" Fill="{StaticResource ActiveShadowBrush}" Margin="0,7,0,0" Width="10" />
+                                <Rectangle Grid.Row="0" Grid.Column="1" Fill="{StaticResource ActiveShadowBrush}" />
+                                <Rectangle Grid.Row="1" Grid.Column="0" Fill="{StaticResource ActiveShadowBrush}" />
+                                <Grid Grid.Row="1" Grid.Column="1">
+                                    <Border Background="{StaticResource ActiveButtonBackground}">
+                                        <ContentPresenter x:Name="ContentSite"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            ContentSource="Header"
+                                            Margin="10,3">
+                                        </ContentPresenter>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="MegaTabControl" TargetType="{x:Type TabControl}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FFAAAAAA" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TabPanel x:Name="HeaderPanel"
+                                Grid.Row="0"
+                                Panel.ZIndex="1"
+                                Margin="0,0,4,-1"
+                                IsItemsHost="True"
+                                KeyboardNavigation.TabIndex="1"
+                                Background="Transparent" />
+                        <Border x:Name="Border" Grid.Row="1" BorderThickness="3" BorderBrush="{StaticResource ActiveShadowBrush}"
+                              KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
+                            <ContentPresenter x:Name="PART_SelectedContentHost"
+                              Margin="4"
+                              ContentSource="SelectedContent" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
