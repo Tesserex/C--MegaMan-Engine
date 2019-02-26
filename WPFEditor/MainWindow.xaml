@@ -41,13 +41,13 @@
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox>
-                    <Fluent:DropDownButton Icon="/Resources/protoman.png" LargeIcon="/Resources/protoman.png" Header="Test">
+                    <Fluent:DropDownButton Icon="/Resources/gears32.png" LargeIcon="/Resources/gears32.png" Header="Test">
                         <Fluent:MenuItem Command="{Binding TestCommand}" Header="Project" />
                         <Fluent:MenuItem Command="{Binding TestStageCommand}" Header="Current Stage" />
                         <Fluent:MenuItem Command="{Binding TestLocationCommand}" Header="From Location..." />
                     </Fluent:DropDownButton>
 
-                    <Fluent:DropDownButton Icon="/Resources/roll.png" LargeIcon="/Resources/roll.png" Header="Preferences">
+                    <Fluent:DropDownButton Icon="/Resources/wrench32.png" LargeIcon="/Resources/wrench32.png" Header="Preferences">
                         <Fluent:MenuItem Command="{Binding EnginePathCommand}" Header="Engine Path..." />
                     </Fluent:DropDownButton>
                 </Fluent:RibbonGroupBox>
