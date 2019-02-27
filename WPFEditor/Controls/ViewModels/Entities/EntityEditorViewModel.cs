@@ -13,8 +13,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
     public class EntityEditorViewModel : INotifyPropertyChanged
     {
         private ProjectDocument _project;
-
-        public ICommand GoBackCommand { get; private set; }
+        
         public ICommand EditSpriteCommand { get; private set; }
         public ICommand ZoomOutViewSpriteCommand { get; private set; }
         public ICommand ZoomInViewSpriteCommand { get; private set; }
@@ -152,11 +151,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public Visibility PreviewVisibility
-        {
-            get { return (HitboxEditorVisibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible; }
-        }
-
         private bool showHitboxEditor;
         public Visibility HitboxEditorVisibility
         {
@@ -181,8 +175,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
-
-            GoBackCommand = new RelayCommand(x => GoBack(), null);
+            
             Collision.HitBoxEdit += Collision_HitBoxEdit;
         }
 
@@ -236,12 +229,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             };
 
             _project.AddEntity(CurrentEntity);
-        }
-
-        public void GoBack()
-        {
-            ComponentViewModel = null;
-            OnPropertyChanged("ComponentViewModel");
         }
 
         private void ProjectChanged(object sender, ProjectChangedEventArgs e)

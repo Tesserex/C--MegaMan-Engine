@@ -10,130 +10,129 @@
              xmlns:parts="clr-namespace:MegaMan.Editor.Controls.Parts"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:SpriteEditorViewModel}">
-            <DockPanel>
-                <Button DockPanel.Dock="Top" Command="{Binding DataContext.GoBackCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}">Back to Entity</Button>
-                <local:SpriteEditor></local:SpriteEditor>
-            </DockPanel>
-        </DataTemplate>
-    </UserControl.Resources>
+    <UserControl.Resources></UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
-        <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="5" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label HorizontalAlignment="Stretch" VerticalAlignment="Top" Style="{StaticResource H1}" Content="{Binding EntityNameUpper, FallbackValue='ENTITY NAME'}" />
 
-                <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
-                    <Label Style="{StaticResource Header}" VerticalAlignment="Top">ENTITY INFORMATION</Label>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Name</TextBlock>
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
-                        <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
-                    </Grid>
-                    
-                    <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
-                    <Grid Margin="0,5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
-                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
-                        
-                        <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
-                        <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
-                    </Grid>
-                </StackPanel>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
+            <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0">
+                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13" Style="{StaticResource MegaTabControl}" ItemContainerStyle="{StaticResource MegaTabs}">
+                    <TabItem Header="Info">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0">
+                                <Label Style="{StaticResource Header}" VerticalAlignment="Top">ENTITY INFORMATION</Label>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Name</TextBlock>
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
+                                    <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
+                                </Grid>
 
-                <DockPanel Grid.Column="2" Background="White">
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource ControlLabel}">Sprite</TextBlock>
-                        <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
-                        <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Margin="8,0">
-                            <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
-                        <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center">
-                            <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
-                    </StackPanel>
-                    <Grid>
-                        <parts:SpriteImage Visibility="{Binding DataContext.PreviewVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
-                                           DataContext="{Binding ViewingSprite}"
+                                <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
+                                <Grid Margin="0,5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
+                                    <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
+
+                                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
+                                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
+                                </Grid>
+                            </StackPanel>
+
+                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                            <DockPanel Grid.Column="2" Background="White">
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                                    <TextBlock Style="{StaticResource ControlLabel}">Sprite</TextBlock>
+                                    <ComboBox ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedItem="{Binding ViewingSprite, Mode=TwoWay}"></ComboBox>
+                                    <Button Command="{Binding ZoomInViewSpriteCommand}" VerticalAlignment="Center" Margin="8,0">
+                                        <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Button>
+                                    <Button Command="{Binding ZoomOutViewSpriteCommand}" VerticalAlignment="Center">
+                                        <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Button>
+                                </StackPanel>
+                                <Grid>
+                                    <parts:SpriteImage DataContext="{Binding ViewingSprite}"
                                            Zoom="{Binding DataContext.ViewSpriteZoom, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                            HorizontalAlignment="Center" Background="Magenta"></parts:SpriteImage>
-                        <comp:HitboxEditor Visibility="{Binding DataContext.HitboxEditorVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
-                                           DataContext="{Binding HitBoxEditor}"
-                                           HorizontalAlignment="Center"></comp:HitboxEditor>
-                    </Grid>
-                </DockPanel>
-            </Grid>
+                                </Grid>
+                            </DockPanel>
+                        </Grid>
+                    </TabItem>
 
-            <GridSplitter Grid.Row="1" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-            <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0" Grid.Row="2">
-                <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13" Style="{StaticResource MegaTabControl}" ItemContainerStyle="{StaticResource MegaTabs}">
                     <TabItem Header="Sprites" DataContext="{Binding Sprite}">
-                        <ListView Grid.Row="0" Grid.Column="0" BorderThickness="0" ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Grid.IsSharedSizeScope="True" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="Transparent" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                                <ContentPresenter />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="Foo" />
-                                        </Grid.ColumnDefinitions>
-                                        <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite}"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+
+                            <ListView Grid.Column="0" BorderThickness="0" ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Grid.IsSharedSizeScope="True" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="Transparent" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="10,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="Foo" />
+                                            </Grid.ColumnDefinitions>
+                                            <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite}"
                                                          Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                                          CommandParameter="{Binding}"
                                                          ButtonText="{Binding ButtonText}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <local:SpriteEditor Grid.Column="2" DataContext="{Binding ComponentViewModel}"></local:SpriteEditor>
+                        </Grid>
                     </TabItem>
 
                     <TabItem Header="Movement" DataContext="{Binding Movement}">
@@ -155,26 +154,30 @@
                     </TabItem>
 
                     <TabItem Header="Collision" DataContext="{Binding Collision}">
-                        <StackPanel Orientation="Vertical" Margin="10,0">
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <CheckBox IsChecked="{Binding Enabled}"></CheckBox>
-                                <TextBlock>Has Collision</TextBlock>
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Margin="10,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <CheckBox IsChecked="{Binding Enabled}"></CheckBox>
+                                    <TextBlock>Has Collision</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock>HitBoxes</TextBlock>
+                                    <ComboBox ItemsSource="{Binding HitBoxes}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedHitBox, Mode=TwoWay}"></ComboBox>
+                                    <Button Command="{Binding EditHitBoxCommand}" Style="{StaticResource TextButton}">EDIT</Button>
+                                    <Button Command="{Binding DeleteHitBoxCommand}" Style="{StaticResource TextButton}">DELETE</Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <Button Command="{Binding AddHitBoxCommand}" Style="{StaticResource TextButton}">ADD HITBOX</Button>
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <TextBlock>HitBoxes</TextBlock>
-                                <ComboBox ItemsSource="{Binding HitBoxes}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedHitBox, Mode=TwoWay}"></ComboBox>
-                                <Button Command="{Binding EditHitBoxCommand}" Style="{StaticResource TextButton}">EDIT</Button>
-                                <Button Command="{Binding DeleteHitBoxCommand}" Style="{StaticResource TextButton}">DELETE</Button>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Button Command="{Binding AddHitBoxCommand}" Style="{StaticResource TextButton}">ADD HITBOX</Button>
-                            </StackPanel>
-                        </StackPanel>
+                            <comp:HitboxEditor Visibility="{Binding DataContext.HitboxEditorVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                                           DataContext="{Binding HitBoxEditor}"
+                                           HorizontalAlignment="Center"></comp:HitboxEditor>
+                        </DockPanel>
                     </TabItem>
-                    
+
                 </TabControl>
             </DockPanel>
         </Grid>
-        <ContentControl Content="{Binding ComponentViewModel}" Panel.ZIndex="1" />
     </Grid>
 </UserControl>
