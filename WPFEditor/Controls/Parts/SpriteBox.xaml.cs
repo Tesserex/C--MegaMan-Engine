@@ -18,6 +18,22 @@ namespace MegaMan.Editor.Controls.Parts
         public static readonly DependencyProperty ParamProperty  = DependencyProperty.Register("CommandParameter", typeof(object), typeof(SpriteBox), new PropertyMetadata(null));
         public static readonly DependencyProperty SelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(SpriteBox), new PropertyMetadata(false, SelectedChanged));
 
+        private bool isHovered;
+
+        private void SpriteBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            isHovered = false;
+            OnPropertyChanged("BackgroundBrush");
+            OnPropertyChanged("TitleBrush");
+        }
+
+        private void SpriteBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            isHovered = true;
+            OnPropertyChanged("BackgroundBrush");
+            OnPropertyChanged("TitleBrush");
+        }
+
         private static void SelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var box = (SpriteBox)d;
@@ -65,7 +81,9 @@ namespace MegaMan.Editor.Controls.Parts
         {
             get
             {
-                return IsSelected ? FindResource("NesLightBlueShadeBrush") : FindResource("NesDarkGrayBrush");
+                if (IsSelected) return FindResource("NesLightBlueShadeBrush");
+
+                return FindResource("NesDarkGrayBrush");
             }
         }
 
@@ -73,7 +91,9 @@ namespace MegaMan.Editor.Controls.Parts
         {
             get
             {
-                return IsSelected ? FindResource("ActiveShadowBrush") : FindResource("DarkShadowBrush");
+                if (IsSelected) return FindResource("ActiveShadowBrush");
+
+                return (isHovered && CommandParameter == null) ? FindResource("ActiveShadowBrush") : FindResource("DarkShadowBrush");
             }
         }
 
@@ -81,6 +101,8 @@ namespace MegaMan.Editor.Controls.Parts
         {
             InitializeComponent();
             (Content as FrameworkElement).DataContext = this;
+            MouseEnter += SpriteBox_MouseEnter;
+            MouseLeave += SpriteBox_MouseLeave;
         }
 
         public Visibility ButtonVisible
@@ -95,11 +117,7 @@ namespace MegaMan.Editor.Controls.Parts
 
         private void OnPropertyChanged(string property)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

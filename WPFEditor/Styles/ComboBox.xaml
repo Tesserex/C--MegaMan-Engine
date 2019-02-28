@@ -29,18 +29,19 @@
                                 </Border>
                             </Themes:SystemDropShadowChrome>
                         </Popup>
-                        <ToggleButton x:Name="toggleButton" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ToggleButton MinHeight="29" x:Name="toggleButton" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}">
                                     <Setter Property="OverridesDefaultStyle" Value="True"/>
                                     <Setter Property="IsTabStop" Value="False"/>
                                     <Setter Property="Focusable" Value="False"/>
                                     <Setter Property="ClickMode" Value="Press"/>
+                                    <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
                                     <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ActiveShadowBrush}" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <ContentControl Grid.ColumnSpan="2" x:Name="templateRoot" Style="{StaticResource AngledBorder}" Background="{StaticResource ActiveButtonBackground}">
+                                                <ContentControl Grid.ColumnSpan="2" x:Name="templateRoot" Style="{StaticResource AngledBorder}" Background="{TemplateBinding my:ThemeProperties.FaceBrush}">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"/>
@@ -50,44 +51,25 @@
                                                     </Grid>
                                                 </ContentControl>
                                                 <ControlTemplate.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true"/>
-                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
-                                                            <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
-                                                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource NesLightGrayBrush}"/>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource NesLightGrayBrush}"/>
-                                                    </MultiDataTrigger>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill" TargetName="Arrow" Value="Black"/>
                                                     </Trigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
                                                             <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false"/>
                                                         </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" TargetName="templateRoot">
-                                                            <Setter.Value>
-                                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                                                    <GradientStop Color="#FFECF4FC" Offset="0"/>
-                                                                    <GradientStop Color="#FFDCECFC" Offset="1"/>
-                                                                </LinearGradientBrush>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF7EB4EA"/>
+                                                        <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource HoverButtonBackground}" />
+                                                        <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
                                                     </MultiDataTrigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
                                                             <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true"/>
                                                         </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" TargetName="templateRoot" Value="White"/>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF7EB4EA"/>
+                                                        <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource HoverButtonBackground}" />
+                                                        <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
                                                     </MultiDataTrigger>
                                                     <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Fill" TargetName="Arrow" Value="Black"/>
                                                     </Trigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
@@ -102,7 +84,6 @@
                                                                 </LinearGradientBrush>
                                                             </Setter.Value>
                                                         </Setter>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF569DE5"/>
                                                     </MultiDataTrigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
@@ -110,10 +91,10 @@
                                                             <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Background" TargetName="templateRoot" Value="White"/>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF569DE5"/>
                                                     </MultiDataTrigger>
                                                     <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Fill" TargetName="Arrow" Value="#FFBFBFBF"/>
+                                                        <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource DisabledButtonBackground}" />
+                                                        <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource NesDarkGrayBrush}" />
                                                     </Trigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
@@ -121,7 +102,6 @@
                                                             <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Background" TargetName="templateRoot" Value="#FFF0F0F0"/>
-                                                        <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FFD9D9D9"/>
                                                     </MultiDataTrigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
@@ -144,6 +124,7 @@
                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           IsHitTestVisible="False"
+                                          TextBlock.Foreground="White"
                                           Margin="{TemplateBinding Padding}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
