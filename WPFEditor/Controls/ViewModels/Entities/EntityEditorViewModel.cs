@@ -43,6 +43,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 }
 
                 OnPropertyChanged("CurrentEntity");
+                OnPropertyChanged("EntityNameUpper");
                 OnPropertyChanged("DefaultSpriteName");
                 OnPropertyChanged("DefaultSprite");
                 OnPropertyChanged("ShowPlacement");
@@ -58,6 +59,11 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 showHitboxEditor = false;
                 UpdatePreview();
             }
+        }
+
+        public string EntityNameUpper
+        {
+            get { return CurrentEntity?.Name?.ToUpper(); }
         }
 
         public SpriteComponentEditorViewModel Sprite { get; private set; }
