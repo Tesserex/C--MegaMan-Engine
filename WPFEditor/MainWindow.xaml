@@ -124,14 +124,10 @@
 
             <c:ProjectTree x:Name="projectTree" Grid.Column="0"></c:ProjectTree>
 
-            <TabControl Grid.Column="2" Padding="0" Margin="0">
-                <TabControl.Resources>
-                    <Style TargetType="TabControl">
-                        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-                    </Style>
-                </TabControl.Resources>
-                <TabItem Visibility="Collapsed" x:Name="projectSettingsPane">
-                    <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
+            <Border Grid.Column="2">
+                <TabControl Grid.Column="2" Padding="0" Margin="0,-2,0,0" BorderThickness="0">
+                    <TabItem Visibility="Collapsed" x:Name="projectSettingsPane">
+                        <c:ProjectSettingsControl x:Name="settingsControl"></c:ProjectSettingsControl>
                 </TabItem>
                 <TabItem Visibility="Collapsed" x:Name="addStagePane">
                     <c:AddStageDialog x:Name="addStageControl"></c:AddStageDialog>
@@ -148,15 +144,16 @@
                 <TabItem Visibility="Collapsed" x:Name="tilesetImporterPane">
                     <c:TilesetImporterDialog x:Name="tilesetImporterControl"></c:TilesetImporterDialog>
                 </TabItem>
-                <TabItem Visibility="Collapsed" x:Name="editorPane" IsSelected="True">
-                    <DockPanel Background="{StaticResource DarkShadowBrush}" Margin="0">
-                        <StackPanel DockPanel.Dock="Bottom" Background="{StaticResource BackgroundBrush}">
-                            <ComboBox Width="60" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
-                        </StackPanel>
-                        <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
-                    </DockPanel>
-                </TabItem>
-            </TabControl>
+                    <TabItem Visibility="Collapsed" x:Name="editorPane" IsSelected="True">
+                        <DockPanel Background="{StaticResource DarkShadowBrush}" Margin="0">
+                            <StackPanel DockPanel.Dock="Bottom" Background="{StaticResource BackgroundBrush}">
+                                <ComboBox Width="auto" Height="auto" Margin="3" HorizontalAlignment="Left" SelectedItem="{Binding CurrentZoom}" ItemsSource="{Binding ZoomLevels}"></ComboBox>
+                            </StackPanel>
+                            <c:MainEditorPane DockPanel.Dock="Top"></c:MainEditorPane>
+                        </DockPanel>
+                    </TabItem>
+                </TabControl>
+            </Border>
         </Grid>
     </Grid>
 </Fluent:RibbonWindow>
