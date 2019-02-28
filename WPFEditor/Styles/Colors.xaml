@@ -15,7 +15,7 @@
     <Color x:Key="BorderColor">Black</Color>
     <Color x:Key="HighlightColor">#FF3CBCFC</Color>
     <Color x:Key="ActiveShadowColor">#FF405d6f</Color>
-    <Color x:Key="ShadowColor">#FF575757</Color>
+    <Color x:Key="ShadowColor">#FF525252</Color>
     <Color x:Key="HoverShadowColor">#FF4D6D81</Color>
     <Color x:Key="BackgroundColor">White</Color>
     <Color x:Key="AccentBackgroundColor">White</Color>

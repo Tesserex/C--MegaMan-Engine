@@ -662,6 +662,8 @@
     <Content Include="lib\nsf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\export.png" />
+    <Resource Include="Resources\paper.png" />
     <Resource Include="Resources\wrench32.png" />
     <Resource Include="Resources\gears32.png" />
     <Resource Include="Resources\wrench.png">
