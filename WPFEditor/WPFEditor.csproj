@@ -176,6 +176,9 @@
     <Compile Include="Controls\Components\HitboxEditor.xaml.cs">
       <DependentUpon>HitboxEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Components\SpriteComponentEditor.xaml.cs">
+      <DependentUpon>SpriteComponentEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Converters\BoolInverterConverter.cs" />
     <Compile Include="Controls\Converters\PropertyToBoolConverter.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
@@ -339,6 +342,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Components\HitboxEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Components\SpriteComponentEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
