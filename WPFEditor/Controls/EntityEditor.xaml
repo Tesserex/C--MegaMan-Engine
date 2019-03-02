@@ -18,7 +18,8 @@
         </Grid.RowDefinitions>
         <Label HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="41" Style="{StaticResource H1}" Content="{Binding EntityNameUpper, FallbackValue='ENTITY NAME'}" />
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
+        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Visibility="{Binding MessageVisibility, FallbackValue=Collapsed}">Please select an entity from the Project menu.</Label>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Visibility="{Binding TabsVisibility}">
             <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0">
                 <TabControl VerticalAlignment="Stretch" DockPanel.Dock="Bottom" FontSize="13" Style="{StaticResource MegaTabControl}" ItemContainerStyle="{StaticResource MegaTabs}">
                     <TabItem Header="Info">

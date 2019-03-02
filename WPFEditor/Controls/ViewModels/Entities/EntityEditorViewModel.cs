@@ -40,14 +40,14 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                     ViewingSprite = null;
                 }
 
-                OnPropertyChanged("CurrentEntity");
-                OnPropertyChanged("EntityNameUpper");
-                OnPropertyChanged("DefaultSpriteName");
-                OnPropertyChanged("DefaultSprite");
-                OnPropertyChanged("ShowPlacement");
-                OnPropertyChanged("IsProjectile");
-                OnPropertyChanged("SpriteTabVisibility");
-                OnPropertyChanged("Sprites");
+                OnPropertyChanged(nameof(CurrentEntity));
+                OnPropertyChanged(nameof(EntityNameUpper));
+                OnPropertyChanged(nameof(DefaultSpriteName));
+                OnPropertyChanged(nameof(DefaultSprite));
+                OnPropertyChanged(nameof(ShowPlacement));
+                OnPropertyChanged(nameof(IsProjectile));
+                OnPropertyChanged(nameof(MessageVisibility));
+                OnPropertyChanged(nameof(TabsVisibility));
 
                 Sprite.Entity = value;
                 Movement.Entity = value;
@@ -59,6 +59,9 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             get { return CurrentEntity?.Name?.ToUpper(); }
         }
+
+        public Visibility MessageVisibility { get { return CurrentEntity != null ? Visibility.Collapsed : Visibility.Visible; } }
+        public Visibility TabsVisibility { get { return CurrentEntity != null ? Visibility.Visible : Visibility.Collapsed; } }
 
         public SpriteComponentEditorViewModel Sprite { get; private set; }
         public MovementComponentEditorViewModel Movement { get; private set; }
