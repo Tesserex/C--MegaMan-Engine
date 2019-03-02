@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
@@ -9,6 +10,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 {
     public class SpriteComponentEditorViewModel : ComponentEditorViewModel<SpriteComponentInfo>
     {
+        public ICommand EditSpriteCommand { get; private set; }
+
         public IEnumerable<SpriteListItemViewModel> Sprites
         {
             get
@@ -28,6 +31,13 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
                 return sprites;
             }
+        }
+
+        public SpriteEditorViewModel SpriteEditorViewModel { get; private set; }
+
+        public SpriteComponentEditorViewModel()
+        {
+            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => Entity != null);
         }
 
         public SpriteModel AddSprite()
@@ -70,6 +80,18 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             } while (Entity.SpriteComponent.Sprites.ContainsKey(name));
 
             return name;
+        }
+
+        private void EditSprite(SpriteListItemViewModel sprite)
+        {
+            var model = sprite.Sprite;
+            if (model == null)
+            {
+                model = AddSprite();
+            }
+
+            SpriteEditorViewModel = new SpriteEditorViewModel(new SpriteViewModel(model), Project);
+            OnPropertyChanged(nameof(SpriteEditorViewModel));
         }
 
         protected override void UpdateProperties()

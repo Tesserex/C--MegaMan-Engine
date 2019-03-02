@@ -12,12 +12,12 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
 
         public ComponentEditorViewModel()
         {
-            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
+            ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe((s, e) => ProjectChanged(e.Project));
         }
 
-        private void ProjectChanged(object sender, ProjectChangedEventArgs e)
+        protected virtual void ProjectChanged(ProjectDocument project)
         {
-            Project = e.Project;
+            Project = project;
         }
 
         protected ProjectDocument Project { get; private set; }

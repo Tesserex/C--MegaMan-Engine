@@ -464,7 +464,7 @@
                                 IsItemsHost="True"
                                 KeyboardNavigation.TabIndex="1"
                                 Background="Transparent" />
-                        <Border x:Name="Border" Grid.Row="1" BorderThickness="3" BorderBrush="{StaticResource ActiveShadowBrush}"
+                        <Border x:Name="Border" Grid.Row="1" BorderThickness="0,3,0,0" BorderBrush="{StaticResource ActiveShadowBrush}"
                               KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
                               Margin="4"

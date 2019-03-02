@@ -14,10 +14,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
     {
         private ProjectDocument _project;
         
-        public ICommand EditSpriteCommand { get; private set; }
         public ICommand ZoomOutViewSpriteCommand { get; private set; }
         public ICommand ZoomInViewSpriteCommand { get; private set; }
-        public INotifyPropertyChanged ComponentViewModel { get; private set; }
 
         private EntityInfo _currentEntity;
         public EntityInfo CurrentEntity
@@ -54,10 +52,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 Sprite.Entity = value;
                 Movement.Entity = value;
                 Collision.Entity = value;
-
-                HitBoxEditor.ChangeHitbox(null);
-                showHitboxEditor = false;
-                UpdatePreview();
             }
         }
 
@@ -69,7 +63,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         public SpriteComponentEditorViewModel Sprite { get; private set; }
         public MovementComponentEditorViewModel Movement { get; private set; }
         public CollisionComponentEditorViewModel Collision { get; private set; }
-        public HitboxEditorViewModel HitBoxEditor { get; private set; }
 
         public Sprite DefaultSprite
         {
@@ -108,7 +101,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             set
             {
                 _viewingSprite = value;
-                HitBoxEditor.ChangeSprite(value);
+                Collision.ChangeSprite(value);
                 OnPropertyChanged("ViewingSprite");
             }
         }
@@ -120,7 +113,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             set
             {
                 _viewSpriteZoom = value;
-                HitBoxEditor.Zoom = value;
+                Collision.Zoom = value;
                 OnPropertyChanged("ViewSpriteZoom");
             }
         }
@@ -157,57 +150,19 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        private bool showHitboxEditor;
-        public Visibility HitboxEditorVisibility
-        {
-            get
-            {
-                return showHitboxEditor ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
         public EntityEditorViewModel()
         {
-            EditSpriteCommand = new RelayCommand(x => EditSprite((SpriteListItemViewModel)x), arg => _currentEntity != null);
             ZoomOutViewSpriteCommand = new RelayCommand(x => ZoomOutViewSprite(), arg => _currentEntity != null);
             ZoomInViewSpriteCommand = new RelayCommand(x => ZoomInViewSprite(), arg => _currentEntity != null);
             Sprite = new SpriteComponentEditorViewModel();
             Movement = new MovementComponentEditorViewModel();
             Collision = new CollisionComponentEditorViewModel();
-            HitBoxEditor = new HitboxEditorViewModel();
 
             ViewSpriteZoom = 1;
 
             ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ViewModelMediator.Current.GetEvent<NewEntityEventArgs>().Subscribe(NewEntity);
             ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Subscribe(EntitySelected);
-            
-            Collision.HitBoxEdit += Collision_HitBoxEdit;
-        }
-
-        private void Collision_HitBoxEdit(HitBoxInfo hitbox)
-        {
-            HitBoxEditor.ChangeHitbox(hitbox);
-            showHitboxEditor = true;
-            UpdatePreview();
-        }
-
-        private void UpdatePreview()
-        {
-            OnPropertyChanged("HitboxEditorVisibility");
-            OnPropertyChanged("PreviewVisibility");
-        }
-
-        private void EditSprite(SpriteListItemViewModel sprite)
-        {
-            var model = sprite.Sprite;
-            if (model == null)
-            {
-                model = Sprite.AddSprite();
-            }
-
-            ComponentViewModel = new SpriteEditorViewModel(new SpriteViewModel(model), _project);
-            OnPropertyChanged("ComponentViewModel");
         }
 
         private void ZoomOutViewSprite()
@@ -241,7 +196,6 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
         {
             _project = e.Project;
             CurrentEntity = null;
-            HitBoxEditor.ChangeProject(_project);
         }
 
         private void Save()

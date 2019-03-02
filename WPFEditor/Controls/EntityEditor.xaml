@@ -16,7 +16,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label HorizontalAlignment="Stretch" VerticalAlignment="Top" Style="{StaticResource H1}" Content="{Binding EntityNameUpper, FallbackValue='ENTITY NAME'}" />
+        <Label HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="41" Style="{StaticResource H1}" Content="{Binding EntityNameUpper, FallbackValue='ENTITY NAME'}" />
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1">
             <DockPanel VerticalAlignment="Stretch" Height="Auto" Margin="0,5,0,0">
@@ -92,14 +92,14 @@
 
                     <TabItem Header="Sprites" DataContext="{Binding Sprite}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="5" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="3" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <GridSplitter Grid.Row="1" ResizeDirection="Rows" Height="3" Background="{StaticResource ShadowBrush}" />
 
-                            <ListView Grid.Column="0" BorderThickness="0" ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListView Grid.Row="0" BorderThickness="0" ItemsSource="{Binding Sprites}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Grid.IsSharedSizeScope="True" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="Transparent" />
@@ -123,15 +123,15 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition SharedSizeGroup="Foo" />
                                             </Grid.ColumnDefinitions>
-                                            <parts:SpriteBox Title="{Binding Path=NameUpper}" Sprite="{Binding Path=Sprite}"
-                                                         Command="{Binding DataContext.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                                            <parts:SpriteBox Title="{Binding NameUpper}" Sprite="{Binding Sprite}"
+                                                         Command="{Binding DataContext.Sprite.EditSpriteCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
                                                          CommandParameter="{Binding}"
                                                          ButtonText="{Binding ButtonText}" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <local:SpriteEditor Grid.Column="2" DataContext="{Binding ComponentViewModel}"></local:SpriteEditor>
+                            <local:SpriteEditor Grid.Row="2" DataContext="{Binding SpriteEditorViewModel}"></local:SpriteEditor>
                         </Grid>
                     </TabItem>
 
@@ -170,7 +170,7 @@
                                     <Button Command="{Binding AddHitBoxCommand}" Style="{StaticResource TextButton}">ADD HITBOX</Button>
                                 </StackPanel>
                             </StackPanel>
-                            <comp:HitboxEditor Visibility="{Binding DataContext.HitboxEditorVisibility, RelativeSource={RelativeSource AncestorType={x:Type local:EntityEditor}}}"
+                            <comp:HitboxEditor Visibility="{Binding HitboxEditorVisibility}"
                                            DataContext="{Binding HitBoxEditor}"
                                            HorizontalAlignment="Center"></comp:HitboxEditor>
                         </DockPanel>
