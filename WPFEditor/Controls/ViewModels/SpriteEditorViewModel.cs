@@ -9,7 +9,6 @@ namespace MegaMan.Editor.Controls.ViewModels
 {
     public class SpriteEditorViewModel : INotifyPropertyChanged
     {
-        private SpriteViewModel _sprite;
         private ProjectDocument _project;
 
         private static int _previewZoom = 1;
@@ -34,19 +33,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void OnPropertyChanged(string property)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         public SpriteEditorViewModel(SpriteViewModel sprite, ProjectDocument project = null)
         {
-            if (sprite == null)
-                throw new ArgumentNullException("sprite");
-
-            _sprite = sprite;
+            Sprite = sprite ?? throw new ArgumentNullException("sprite");
             _project = project;
 
             ((App)App.Current).Tick += (s, e) => Update();
@@ -65,28 +57,28 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void NextFrame()
         {
-            if (_sprite.CurrentIndex == _sprite.Count - 1)
-                _sprite.CurrentIndex = 0;
+            if (Sprite.CurrentIndex == Sprite.Count - 1)
+                Sprite.CurrentIndex = 0;
             else
-                _sprite.CurrentIndex++;
+                Sprite.CurrentIndex++;
 
             Update();
         }
 
         private void PreviousFrame()
         {
-            if (_sprite.CurrentIndex == 0)
-                _sprite.CurrentIndex = _sprite.Count - 1;
+            if (Sprite.CurrentIndex == 0)
+                Sprite.CurrentIndex = Sprite.Count - 1;
             else
-                _sprite.CurrentIndex--;
+                Sprite.CurrentIndex--;
 
             Update();
         }
 
         private void AddFrame()
         {
-            _sprite.InsertFrame(_sprite.CurrentIndex + 1);
-            _sprite.CurrentIndex = _sprite.Count - 1;
+            Sprite.InsertFrame(Sprite.CurrentIndex + 1);
+            Sprite.CurrentIndex = Sprite.Count - 1;
 
             if (_project != null)
                 _project.Dirty = true;
@@ -96,7 +88,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void DeleteFrame()
         {
-            _sprite.Remove(_sprite.CurrentFrame);
+            Sprite.Remove(Sprite.CurrentFrame);
 
             if (_project != null)
                 _project.Dirty = true;
@@ -157,20 +149,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             OnPropertyChanged("SheetImageSource");
         }
 
-        public SpriteViewModel Sprite
-        {
-            get
-            {
-                return _sprite;
-            }
-        }
+        public SpriteViewModel Sprite { get; private set; }
 
         public string Name
         {
-            get { return _sprite.Name; }
+            get { return Sprite.Name; }
             set
             {
-                _sprite.Name = value;
+                Sprite.Name = value;
                 if (_project != null)
                     _project.Dirty = true;
             }
@@ -180,7 +166,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.CurrentIndex;
+                return Sprite.CurrentIndex;
             }
         }
 
@@ -188,11 +174,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.CurrentFrame.Duration;
+                return Sprite.CurrentFrame.Duration;
             }
             set
             {
-                _sprite.CurrentFrame.Duration = value;
+                Sprite.CurrentFrame.Duration = value;
 
                 if (_project != null)
                     _project.Dirty = true;
@@ -203,11 +189,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Width;
+                return Sprite.Width;
             }
             set
             {
-                _sprite.Width = value;
+                Sprite.Width = value;
 
                 if (_project != null)
                     _project.Dirty = true;
@@ -224,11 +210,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Height;
+                return Sprite.Height;
             }
             set
             {
-                _sprite.Height = value;
+                Sprite.Height = value;
 
                 if (_project != null)
                     _project.Dirty = true;
@@ -245,11 +231,11 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Reversed;
+                return Sprite.Reversed;
             }
             set
             {
-                _sprite.Reversed = value;
+                Sprite.Reversed = value;
 
                 if (_project != null)
                     _project.Dirty = true;
@@ -260,12 +246,12 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                if (_sprite.SheetPath == null)
+                if (Sprite.SheetPath == null)
                     return null;
 
-                if (_sprite.Playing)
-                    return SpriteBitmapCache.GetOrLoadImageGrayscale(_sprite.SheetPath.Absolute);
-                return SpriteBitmapCache.GetOrLoadImage(_sprite.SheetPath.Absolute);
+                if (Sprite.Playing)
+                    return SpriteBitmapCache.GetOrLoadImageGrayscale(Sprite.SheetPath.Absolute);
+                return SpriteBitmapCache.GetOrLoadImage(Sprite.SheetPath.Absolute);
             }
         }
 
@@ -273,7 +259,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Width * _previewZoom;
+                return Sprite.Width * _previewZoom;
             }
         }
 
@@ -281,7 +267,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Height * _previewZoom;
+                return Sprite.Height * _previewZoom;
             }
         }
 
@@ -289,19 +275,35 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                if (_sprite.SheetPath == null)
+                if (Sprite.SheetPath == null)
                     return null;
 
-                var rect = _sprite.CurrentFrame.SheetLocation;
-                return SpriteBitmapCache.GetOrLoadFrame(_sprite.SheetPath.Absolute, rect);
+                var rect = Sprite.CurrentFrame.SheetLocation;
+                return SpriteBitmapCache.GetOrLoadFrame(Sprite.SheetPath.Absolute, rect);
             }
+        }
+
+        private Color transparentColor;
+        public Color TransparentColor
+        {
+            get { return transparentColor; }
+            set
+            {
+                transparentColor = value;
+                OnPropertyChanged(nameof(TransparentBrush));
+            }
+        }
+
+        public Brush TransparentBrush
+        {
+            get { return new SolidColorBrush(TransparentColor); }
         }
 
         public Cursor SheetCursor
         {
             get
             {
-                if (_sprite.Playing)
+                if (Sprite.Playing)
                     return Cursors.Arrow;
                 return Cursors.None;
             }
@@ -335,7 +337,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Width * _sheetZoom;
+                return Sprite.Width * _sheetZoom;
             }
         }
 
@@ -343,20 +345,20 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _sprite.Height * _sheetZoom;
+                return Sprite.Height * _sheetZoom;
             }
         }
 
         public void PlayPreview()
         {
-            _sprite.Play();
+            Sprite.Play();
             OnPropertyChanged("SheetImageSource");
             OnPropertyChanged("SheetCursor");
         }
 
         public void PausePreview()
         {
-            _sprite.Pause();
+            Sprite.Pause();
             OnPropertyChanged("SheetImageSource");
             OnPropertyChanged("SheetCursor");
         }
@@ -373,7 +375,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             x /= _sheetZoom;
             y /= _sheetZoom;
 
-            _sprite.CurrentFrame.SetSheetPosition(x, y);
+            Sprite.CurrentFrame.SetSheetPosition(x, y);
 
             if (_project != null)
                 _project.Dirty = true;

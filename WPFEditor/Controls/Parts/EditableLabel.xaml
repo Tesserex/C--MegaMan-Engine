@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="28" d:DesignWidth="200">
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Button DockPanel.Dock="Right" Command="{Binding Path=SwapCommand}" Width="30" Height="26" Margin="2,0" Padding="-6">
+        <Button DockPanel.Dock="Right" Command="{Binding Path=SwapCommand}" VerticalAlignment="Center" Margin="2,0" Padding="-6">
             <Image Source="{Binding Path=ButtonIcon}" SnapsToDevicePixels="True" Stretch="None" Width="24" Height="20" />
         </Button>
         <Label Margin="0" Padding="3,1" VerticalContentAlignment="Center" FontSize="{Binding Path=FontSize}" Content="{Binding Path=Text}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Path=LabelVisibility}"></Label>

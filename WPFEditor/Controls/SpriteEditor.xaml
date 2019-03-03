@@ -19,7 +19,7 @@
                     <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
                         <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Height="24" Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
+                    <Button Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
                         <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </StackPanel>
@@ -48,7 +48,8 @@
                 <xctk:IntegerUpDown Value="{Binding FrameDuration}" Height="20" Minimum="0"></xctk:IntegerUpDown>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Button Command="{Binding ZoomOutCommand}" Margin="0,0,8,0">
+                <xctk:ColorPicker SelectedColor="{Binding TransparentColor, Mode=TwoWay}" />
+                <Button Command="{Binding ZoomOutCommand}" Margin="8,0">
                     <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button Command="{Binding ZoomInCommand}">
@@ -56,7 +57,7 @@
                 </Button>
             </StackPanel>
             <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding TransparentBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3" />
                         <ColumnDefinition Width="*" />
