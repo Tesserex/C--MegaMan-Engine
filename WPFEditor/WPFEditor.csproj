@@ -173,8 +173,17 @@
     <Compile Include="Controls\Canvases\LayoutScreenCanvas.xaml.cs">
       <DependentUpon>LayoutScreenCanvas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Components\BasicInfoEditor.xaml.cs">
+      <DependentUpon>BasicInfoEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Components\CollisionComponentEditor.xaml.cs">
+      <DependentUpon>CollisionComponentEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Components\HitboxEditor.xaml.cs">
       <DependentUpon>HitboxEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Components\MovementComponentEditor.xaml.cs">
+      <DependentUpon>MovementComponentEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Components\SpriteComponentEditor.xaml.cs">
       <DependentUpon>SpriteComponentEditor.xaml</DependentUpon>
@@ -341,7 +350,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Components\BasicInfoEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Components\CollisionComponentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Components\HitboxEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Components\MovementComponentEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
