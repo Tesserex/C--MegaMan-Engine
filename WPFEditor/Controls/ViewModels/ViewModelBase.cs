@@ -13,13 +13,5 @@ namespace MegaMan.Editor.Controls.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected bool SetField<T>(ref T field, T value, string propertyName)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
     }
 }

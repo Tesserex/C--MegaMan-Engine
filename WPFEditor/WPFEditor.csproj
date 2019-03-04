@@ -291,6 +291,7 @@
     <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
     <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
     <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
+    <Compile Include="Controls\ViewModels\SpriteFrameViewModel.cs" />
     <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
     <Compile Include="Controls\ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />

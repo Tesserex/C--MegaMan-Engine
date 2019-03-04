@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
 using MegaMan.Editor.Services;
@@ -13,20 +16,14 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public SpriteViewModel(Sprite sprite)
         {
-            if (sprite == null)
-                throw new ArgumentNullException("sprite");
-
-            Sprite = sprite;
+            Sprite = sprite ?? throw new ArgumentNullException("sprite");
             Model = new SpriteModel(Sprite);
         }
 
         public SpriteViewModel(SpriteModel model)
         {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
+            Model = model ?? throw new ArgumentNullException("model");
             Sprite = model.Sprite;
-            Model = model;
             TickWeakEventManager.AddHandler(Tick);
         }
 
@@ -64,11 +61,24 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public int Count { get { return Sprite.Count; } }
 
-        public SpriteFrame CurrentFrame
+        private ObservableCollection<SpriteFrameViewModel> frameModels;
+        public ObservableCollection<SpriteFrameViewModel> Frames
         {
             get
             {
-                return Model.CurrentFrame;
+                if (frameModels == null)
+                {
+                    frameModels = new ObservableCollection<SpriteFrameViewModel>(Sprite.Select((f, i) => new SpriteFrameViewModel(f, i)));
+                }
+                return frameModels;
+            }
+        }
+
+        public SpriteFrameViewModel CurrentFrame
+        {
+            get
+            {
+                return Frames[Model.CurrentIndex];
             }
         }
 
@@ -128,13 +138,15 @@ namespace MegaMan.Editor.Controls.ViewModels
         public void InsertFrame(int index)
         {
             Sprite.InsertFrame(index);
-            OnPropertyChanged("Count");
+            Frames.Insert(index, new SpriteFrameViewModel(Sprite[index], index));
+            OnPropertyChanged(nameof(Count));
         }
 
-        public void Remove(SpriteFrame frame)
+        public void Remove(int index)
         {
-            Sprite.Remove(frame);
-            OnPropertyChanged("Count");
+            Sprite.Remove(Sprite[index]);
+            Frames.RemoveAt(index);
+            OnPropertyChanged(nameof(Count));
         }
     }
 }

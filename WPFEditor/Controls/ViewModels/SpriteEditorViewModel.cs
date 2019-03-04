@@ -26,8 +26,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand ZoomOutSheetCommand { get; private set; }
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
-        public ICommand PreviousFrameCommand { get; private set; }
-        public ICommand NextFrameCommand { get; private set; }
         public ICommand AddFrameCommand { get; private set; }
         public ICommand DeleteFrameCommand { get; private set; }
 
@@ -49,30 +47,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             ZoomOutSheetCommand = new RelayCommand(ZoomOutSheet, CanZoomOutSheet);
             PlayCommand = new RelayCommand(p => PlayPreview(), p => !Sprite.Playing);
             PauseCommand = new RelayCommand(p => PausePreview(), p => Sprite.Playing);
-            PreviousFrameCommand = new RelayCommand(p => PreviousFrame(), p => !Sprite.Playing);
-            NextFrameCommand = new RelayCommand(p => NextFrame(), p => !Sprite.Playing);
             AddFrameCommand = new RelayCommand(p => AddFrame(), p => !Sprite.Playing);
             DeleteFrameCommand = new RelayCommand(p => DeleteFrame(), p => !Sprite.Playing && Sprite.Count > 1);
-        }
-
-        private void NextFrame()
-        {
-            if (Sprite.CurrentIndex == Sprite.Count - 1)
-                Sprite.CurrentIndex = 0;
-            else
-                Sprite.CurrentIndex++;
-
-            Update();
-        }
-
-        private void PreviousFrame()
-        {
-            if (Sprite.CurrentIndex == 0)
-                Sprite.CurrentIndex = Sprite.Count - 1;
-            else
-                Sprite.CurrentIndex--;
-
-            Update();
         }
 
         private void AddFrame()
@@ -88,7 +64,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void DeleteFrame()
         {
-            Sprite.Remove(Sprite.CurrentFrame);
+            Sprite.Remove(Sprite.CurrentIndex);
 
             if (_project != null)
                 _project.Dirty = true;
@@ -157,29 +133,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             set
             {
                 Sprite.Name = value;
-                if (_project != null)
-                    _project.Dirty = true;
-            }
-        }
-
-        public int FrameNumber
-        {
-            get
-            {
-                return Sprite.CurrentIndex;
-            }
-        }
-
-        public int FrameDuration
-        {
-            get
-            {
-                return Sprite.CurrentFrame.Duration;
-            }
-            set
-            {
-                Sprite.CurrentFrame.Duration = value;
-
                 if (_project != null)
                     _project.Dirty = true;
             }

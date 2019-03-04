@@ -9,7 +9,7 @@
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
@@ -24,28 +24,41 @@
                     </Button>
                 </StackPanel>
             </DockPanel>
-            
+
+            <ListView BorderThickness="0" DockPanel.Dock="Left" ItemsSource="{Binding Sprite.Frames}" SelectedIndex="{Binding Sprite.CurrentIndex, Mode=TwoWay}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                            <Border Background="Transparent">
+                                                <Label FontWeight="Bold" FontSize="13" x:Name="ContentHeader" Content="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" HorizontalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="OverridesDefaultStyle" Value="True" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Frame" DisplayMemberBinding="{Binding Index}" Width="auto" />
+                        <GridViewColumn Header="Duration" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <xctk:IntegerUpDown Value="{Binding Duration, Mode=TwoWay}" Height="20" Minimum="0"></xctk:IntegerUpDown>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <StackPanel Orientation="Vertical">
-                    <Button Command="{Binding PreviousFrameCommand}" Style="{StaticResource TextButton}" Margin="0,0,0,8">PREV</Button>
-                    <Button Command="{Binding NextFrameCommand}" Style="{StaticResource TextButton}">NEXT</Button>
-                </StackPanel>
-
-                <Label FontWeight="Bold" FontSize="13" Margin="10,0">
-                    <WrapPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,10,0">Frame:</TextBlock>
-                        <TextBlock Text="{Binding FrameNumber}" />
-                    </WrapPanel>
-                </Label>
-
                 <StackPanel Orientation="Vertical">
                     <Button Command="{Binding AddFrameCommand}" Style="{StaticResource TextButton}" Margin="0,0,0,8">ADD</Button>
                     <Button Command="{Binding DeleteFrameCommand}" Style="{StaticResource TextButton}">DELETE</Button>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <Label FontWeight="Bold" FontSize="13" Margin="10,0">Frame Duration:</Label>
-                <xctk:IntegerUpDown Value="{Binding FrameDuration}" Height="20" Minimum="0"></xctk:IntegerUpDown>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
                 <xctk:ColorPicker SelectedColor="{Binding TransparentColor, Mode=TwoWay}" />
