@@ -1,135 +1,185 @@
 <Entities>
-	<Entity name="UpDown">
-		<Tilesheet pallete="Default">images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
-		<Sprite width="16" height="16" reversed="true">
+	<Entity name="UpDown" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
+		<Collision Enabled="False">
+			<Hitbox name="Body" x="0" y="0" width="10" height="10" properties="Default" damage="1" environment="True" pushaway="True">
+				<Hits>Player</Hits>
+				<Group>Enemy</Group>
+			</Hitbox>
+		</Collision>
+		<Health max="1" flash="8" />
+		<Tilesheet>images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
+		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
 			<Hotspot x="8" y="8" />
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="16" y="0" duration="2" />
 			<Frame x="32" y="0" duration="2" />
 		</Sprite>
-		<Collision>
-			<Enabled>True</Enabled>
-			<Hitbox name="Body" x="0" y="0" width="10" height="10" damage="1">
-				<Hits>Player</Hits><Group>Enemy</Group>
-			</Hitbox>
-		</Collision>
 		<State name="Start">
-			<Position>
-				<X base="Inherit" />
-				<Y base="Inherit" />
-			</Position>
-			<Movement>
-				<FlipSprite>True</FlipSprite>
-				<Flying>true</Flying>
-				<Y magnitude="3" direction="Up" /><X magnitude="0" />
-			</Movement>
-			<Trigger>
+			<Initialize>
+				<Position>
+					<X base="Inherit" />
+					<Y base="Inherit" />
+				</Position>
+				<Movement>
+					<Floating />
+					<FlipSprite>True</FlipSprite>
+					<X magnitude="0" />
+					<Y direction="Up" magnitude="3" />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="26">
 				<Condition>Math.Floor(Random * 3) == 0</Condition>
 				<Effect>
-					<Vars name="count" value="42"></Vars>
+					<Vars name="count" value="42" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="32">
 				<Condition>Math.Floor(Random * 3) == 1</Condition>
 				<Effect>
-					<Vars name="count" value="53"></Vars>
+					<Vars name="count" value="53" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="38">
 				<Condition>Math.Floor(Random * 3) == 2</Condition>
 				<Effect>
-					<Vars name="count" value="64"></Vars>
+					<Vars name="count" value="64" />
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="44">
 				<Condition>true</Condition>
-				<Effect><State>Up</State></Effect>
+				<Effect>
+					<State>Up</State>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="Up">
-			<Trigger>
+			<Initialize />
+			<Logic />
+			<Trigger priority="50">
 				<Condition>StateTime.ToString() == Vars.Get("count")</Condition>
 				<Effect>
 					<State>DownLeft</State>
 					<Movement>
-						<Y magnitude="0.6992" direction="Down" /><X magnitude="0.2" direction="Left" />
+						<Floating />
+						<FlipSprite />
+						<X direction="Left" magnitude="0.2" />
+						<Y direction="Down" magnitude="0.6992" />
 					</Movement>
 				</Effect>
 			</Trigger>
 		</State>
 		<State name="DownLeft">
-			<Trigger><Condition>StateTime == 24</Condition>
-			<Effect>
-				<State>DownRightRight</State>
-				<Movement>
-					<X magnitude="0.2" direction="Right" />
-				</Movement>
-			</Effect>
+			<Initialize />
+			<Logic />
+			<Trigger priority="61">
+				<Condition>StateTime == 24</Condition>
+				<Effect>
+					<State>DownRightRight</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Right" magnitude="0.2" />
+					</Movement>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="DownRightRight">
-			<Trigger><Condition>StateTime == 48</Condition>
-			<Effect>
-				<State>DownLeftLeft</State>
-				<Movement>
-					<X magnitude="0.2" direction="Left" />
-				</Movement>
-			</Effect>
+			<Initialize />
+			<Logic />
+			<Trigger priority="71">
+				<Condition>StateTime == 48</Condition>
+				<Effect>
+					<State>DownLeftLeft</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Left" magnitude="0.2" />
+					</Movement>
+				</Effect>
 			</Trigger>
 		</State>
 		<State name="DownLeftLeft">
-			<Trigger><Condition>StateTime == 48</Condition>
-			<Effect>
-				<State>DownRightRight</State>
-				<Movement>
-					<X magnitude="0.2" direction="Right" />
-				</Movement>
-			</Effect>
+			<Initialize />
+			<Logic />
+			<Trigger priority="81">
+				<Condition>StateTime == 48</Condition>
+				<Effect>
+					<State>DownRightRight</State>
+					<Movement>
+						<Floating />
+						<FlipSprite />
+						<X direction="Right" magnitude="0.2" />
+					</Movement>
+				</Effect>
 			</Trigger>
 		</State>
-		<Health><Max>1</Max><Flash>8</Flash></Health>
-		<Trigger>
+		<Trigger priority="91">
 			<Condition>Health.Hit == True</Condition>
 			<Effect>
-				<Sound name="EnemyHurt" />
+				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
-		<Death>
-			<Call>EnemyDeath</Call>
-		</Death>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
-
-	<Entity name="UpDownSpawner">
-		<Position />
+	<Entity name="UpDownSpawner" maxAlive="50">
+		<GravityFlip>False</GravityFlip>
 		<State name="Start">
-			<Movement>
-				<Flying>true</Flying>
-			</Movement>
-			<Trigger condition="PlayerDistX &lt; 32">
+			<Initialize>
+				<Movement>
+					<Floating />
+					<FlipSprite />
+				</Movement>
+			</Initialize>
+			<Logic />
+			<Trigger priority="108">
+				<Condition>PlayerDistX &lt; 32</Condition>
 				<Effect>
-					<Spawn name="UpDown" />
+					<Spawn name="UpDown" state="Start">
+						<Position />
+					</Spawn>
 					<State>Loop</State>
 				</Effect>
 			</Trigger>
 		</State>
 		<State name="Loop">
-			<Trigger condition="PlayerDistX &gt; 32">
+			<Initialize />
+			<Logic />
+			<Trigger priority="116">
+				<Condition>PlayerDistX &gt; 32</Condition>
 				<Effect>
-					<Timer><Delete>counter</Delete></Timer>
+					<Timer>
+						<Delete>counter</Delete>
+					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger>
+			<Trigger priority="121">
 				<Condition>PlayerDistX &lt; 32 And Not Timer.Exists("counter")</Condition>
 				<Effect>
-					<Timer><Start>counter</Start></Timer>
+					<Timer>
+						<Start>counter</Start>
+					</Timer>
 				</Effect>
 			</Trigger>
-			<Trigger><Condition>Timer.Value("counter") == 240</Condition>
+			<Trigger priority="127">
+				<Condition>Timer.Value("counter") == 240</Condition>
 				<Effect>
-					<Spawn name="UpDown" />
-					<Timer><Reset>counter</Reset></Timer>
+					<Spawn name="UpDown" state="Start">
+						<Position />
+					</Spawn>
+					<Timer>
+						<Reset>counter</Reset>
+					</Timer>
 				</Effect>
 			</Trigger>
 		</State>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
 </Entities>
