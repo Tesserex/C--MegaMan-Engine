@@ -28,7 +28,7 @@ namespace MegaMan.Engine
 
         private static int nextID = 0;
 
-        public CollisionBox(float x, float y, float width, float height)
+        public CollisionBox(int x, int y, int width, int height)
             : base(x, y, width, height)
         {
         }
@@ -52,23 +52,23 @@ namespace MegaMan.Engine
 
         public void SetParent(CollisionComponent parent) { parentComponent = parent; }
 
-        public bool EnvironmentCollisions(PointF position, IMapSquare square, ref PointF offset)
+        public bool EnvironmentCollisions(Point position, IMapSquare square, ref Point offset)
         {
             offset.X = 0;
             offset.Y = 0;
             // some optimizations
-            RectangleF tileBox = square.BlockBox;
+            var tileBox = square.BlockBox;
             if (box.Right + position.X < tileBox.Left) return false;
             if (box.Left + position.X > tileBox.Right) return false;
-            RectangleF boundBox = BoxAt(position);
+            var boundBox = BoxAt(position);
 
             return EnvironmentContact(square, tileBox, boundBox, out offset);
         }
 
-        private bool EnvironmentContact(IMapSquare square, RectangleF tileBox, RectangleF boundBox, out PointF offset)
+        private bool EnvironmentContact(IMapSquare square, Rectangle tileBox, Rectangle boundBox, out Point offset)
         {
             // can't use intersection, use epsilon
-            offset = PointF.Empty;
+            offset = Point.Empty;
             if (tileBox.Top < boundBox.Top)
             {
                 if (tileBox.Bottom - boundBox.Top + Const.PixelEpsilon <= 0) return false;
@@ -120,12 +120,12 @@ namespace MegaMan.Engine
         }
 
         // change those last bools into an enum or something else!
-        public PointF GetIntersectionOffset(RectangleF tileBox, RectangleF boundBox, float approach_vx, float approach_vy, bool uponly, bool downonly)
+        public Point GetIntersectionOffset(Rectangle tileBox, Rectangle boundBox, float approach_vx, float approach_vy, bool uponly, bool downonly)
         {
-            float top = -1, bottom = -1, left = -1, right = -1;
-            RectangleF intersection = RectangleF.Intersect(boundBox, tileBox);
+            int top = -1, bottom = -1, left = -1, right = -1;
+            var intersection = Rectangle.Intersect(boundBox, tileBox);
 
-            PointF offset = new PointF(0, 0);
+            var offset = Point.Empty;
             if (intersection.Width == 0 && intersection.Height == 0) return offset;
 
             if (Math.Abs(intersection.Bottom - boundBox.Bottom) < Const.PixelEpsilon) bottom = intersection.Height;
@@ -147,7 +147,7 @@ namespace MegaMan.Engine
                             offset.Y = -bottom;
                             return offset;
                         }
-                        else return new PointF(0, 0);
+                        else return Point.Empty;
                     }
                     else if (uponly)
                     {
@@ -156,7 +156,7 @@ namespace MegaMan.Engine
                             offset.Y = top;
                             return offset;
                         }
-                        else return new PointF(0, 0);
+                        else return Point.Empty;
                     }
 
                     if (top >= 0) offset.Y = top;
@@ -164,7 +164,7 @@ namespace MegaMan.Engine
                 }
                 else
                 {
-                    if (uponly || downonly) return new PointF(0, 0);
+                    if (uponly || downonly) return Point.Empty;
                     if (left >= 0)
                     {
                         if (approach_vx < 0) offset.X = left;
@@ -186,20 +186,20 @@ namespace MegaMan.Engine
             return 1;
         }
 
-        public RectangleF BoxAt(PointF offset)
+        public Rectangle BoxAt(Point offset)
         {
-            float x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+            var x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
-            if (parentComponent.Parent.IsGravitySensitive && parentComponent.Parent.Container.IsGravityFlipped) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
-            return new RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+            if (parentComponent.Parent.IsGravitySensitive && parentComponent.Parent.Container.IsGravityFlipped) return new Rectangle(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new Rectangle(x, box.Y + offset.Y, box.Width, box.Height);
         }
 
-        public override RectangleF BoxAt(PointF offset, bool vflip)
+        public override Rectangle BoxAt(Point offset, bool vflip)
         {
-            float x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
+            var x = (parentComponent.MovementSrc != null && parentComponent.MovementSrc.Direction == Direction.Left) ? offset.X - box.X - box.Width : box.X + offset.X;
 
-            if (vflip) return new RectangleF(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
-            return new RectangleF(x, box.Y + offset.Y, box.Width, box.Height);
+            if (vflip) return new Rectangle(x, offset.Y - box.Y - box.Height, box.Width, box.Height);
+            return new Rectangle(x, box.Y + offset.Y, box.Width, box.Height);
         }
     }
 }

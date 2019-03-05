@@ -27,10 +27,10 @@ namespace MegaMan.Engine
 
         private float _offsetX, _offsetY;
 
-        public float OffsetX
+        private float offsetXF
         {
             get { return _offsetX; }
-            private set
+            set
             {
                 _offsetX = value;
                 foreach (var layer in layers)
@@ -40,10 +40,10 @@ namespace MegaMan.Engine
             }
         }
 
-        public float OffsetY
+        private float offsetYF
         {
             get { return _offsetY; }
-            private set
+            set
             {
                 _offsetY = value;
                 foreach (var layer in layers)
@@ -51,6 +51,16 @@ namespace MegaMan.Engine
                     layer.OffsetY = value;
                 }
             }
+        }
+
+        public int OffsetX
+        {
+            get { return (int)offsetXF; }
+        }
+
+        public int OffsetY
+        {
+            get { return (int)offsetYF; }
         }
 
         public int TileSize { get { return Screen.Tileset.TileSize; } }
@@ -136,13 +146,13 @@ namespace MegaMan.Engine
 
                 if (teleportEnabled[i])
                 {
-                    if (Math.Abs(playerPos.Position.X - teleport.From.X) <= 2 && Math.Abs(playerPos.Position.Y - teleport.From.Y) <= 8)
+                    if (Math.Abs(playerPos.X - teleport.From.X) <= 2 && Math.Abs(playerPos.Y - teleport.From.Y) <= 8)
                     {
                         if (Teleport != null) Teleport(teleport);
                         break;
                     }
                 }
-                else if (Math.Abs(playerPos.Position.X - teleport.From.X) >= 16 || Math.Abs(playerPos.Position.Y - teleport.From.Y) >= 16)
+                else if (Math.Abs(playerPos.X - teleport.From.X) >= 16 || Math.Abs(playerPos.Y - teleport.From.Y) >= 16)
                 {
                     teleportEnabled[i] = true;
                 }
@@ -152,16 +162,16 @@ namespace MegaMan.Engine
             {
                 if (OffsetX >= Screen.PixelWidth - Game.CurrentGame.PixelsAcross)
                 {
-                    OffsetX = Screen.PixelWidth - Game.CurrentGame.PixelsAcross;
+                    offsetXF = Screen.PixelWidth - Game.CurrentGame.PixelsAcross;
                 }
                 else
                 {
-                    OffsetX += autoscrollSpeed;
+                    offsetXF += autoscrollSpeed;
                 }
             }
             else if (autoscrollX.HasValue)
             {
-                if (playerPos.Position.X >= autoscrollX.Value)
+                if (playerPos.X >= autoscrollX.Value)
                 {
                     isAutoscrolling = true;
                 }
@@ -185,26 +195,26 @@ namespace MegaMan.Engine
                 }
 
                 // now if we aren't scrolling, hold the player at the screen borders
-                if (playerPos.Position.X >= rightBound)
+                if (playerPos.X >= rightBound)
                 {
-                    playerPos.SetPosition(new PointF(rightBound, playerPos.Position.Y));
+                    playerPos.SetX(rightBound);
                 }
-                else if (playerPos.Position.X <= leftBound)
+                else if (playerPos.X <= leftBound)
                 {
-                    playerPos.SetPosition(new PointF(leftBound, playerPos.Position.Y));
+                    playerPos.SetX(leftBound);
                 }
 
-                if (playerPos.Position.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
+                if (playerPos.Y > Screen.PixelHeight - Const.PlayerScrollTrigger)
                 {
-                    if (!container.IsGravityFlipped && playerPos.Position.Y > Game.CurrentGame.PixelsDown + 32)
+                    if (!container.IsGravityFlipped && playerPos.Y > Game.CurrentGame.PixelsDown + 32)
                     {
                         // bottomless pit death!
                         playerPos.Parent.Die();
                     }
                 }
-                else if (playerPos.Position.Y < Const.PlayerScrollTrigger)
+                else if (playerPos.Y < Const.PlayerScrollTrigger)
                 {
-                    if (container.IsGravityFlipped && playerPos.Position.Y < -32)
+                    if (container.IsGravityFlipped && playerPos.Y < -32)
                     {
                         playerPos.Parent.Die();
                     }
@@ -308,28 +318,28 @@ namespace MegaMan.Engine
 
             if (!isAutoscrolling)
             {
-                OffsetX = OffsetY = 0;
+                offsetXF = offsetYF = 0;
 
                 centerX = playerPos.X + adj_x;
                 centerY = playerPos.Y + adj_y;
 
                 if (centerX > Game.CurrentGame.PixelsAcross / 2)
                 {
-                    OffsetX = centerX - Game.CurrentGame.PixelsAcross / 2;
-                    if (OffsetX > width - Game.CurrentGame.PixelsAcross)
-                        OffsetX = width - Game.CurrentGame.PixelsAcross;
+                    offsetXF = centerX - Game.CurrentGame.PixelsAcross / 2;
+                    if (offsetXF > width - Game.CurrentGame.PixelsAcross)
+                        offsetXF = width - Game.CurrentGame.PixelsAcross;
                 }
 
                 if (centerY > Game.CurrentGame.PixelsDown / 2)
                 {
-                    OffsetY = centerY - Game.CurrentGame.PixelsDown / 2;
-                    if (OffsetY > height - Game.CurrentGame.PixelsDown)
-                        OffsetY = height - Game.CurrentGame.PixelsDown;
-                    if (OffsetY < 0) OffsetY = 0;
+                    offsetYF = centerY - Game.CurrentGame.PixelsDown / 2;
+                    if (offsetYF > height - Game.CurrentGame.PixelsDown)
+                        offsetYF = height - Game.CurrentGame.PixelsDown;
+                    if (offsetYF < 0) offsetYF = 0;
                 }
 
-                OffsetX += off_x;
-                OffsetY += off_y;
+                offsetXF += off_x;
+                offsetYF += off_y;
             }
 
             foreach (var layer in this.layers)

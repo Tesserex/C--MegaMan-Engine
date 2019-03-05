@@ -33,8 +33,8 @@ namespace MegaMan.Engine
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }
 
-        public float LocationX { get { return this._info.Tiles.BaseX + _locationOffsetX; } }
-        public float LocationY { get { return this._info.Tiles.BaseY + _locationOffsetY; } }
+        public int LocationX { get { return (int)(this._info.Tiles.BaseX + _locationOffsetX); } }
+        public int LocationY { get { return (int)(this._info.Tiles.BaseY + _locationOffsetY); } }
 
         public IGameplayContainer Stage { get { return _stage; } }
 
@@ -277,7 +277,7 @@ namespace MegaMan.Engine
             if (_info.Parallax)
             {
                 float trueOffset = OffsetX;
-                
+
                 int maxOffset = screenPixelWidth - Game.CurrentGame.PixelsAcross;
                 if (OffsetX >= 0 && OffsetX <= maxOffset)
                 {

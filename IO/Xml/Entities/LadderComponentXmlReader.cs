@@ -22,14 +22,14 @@ namespace MegaMan.IO.Xml.Entities
 
         private static HitBoxInfo GetHitbox(XElement boxnode)
         {
-            float width = boxnode.GetAttribute<float>("width");
-            float height = boxnode.GetAttribute<float>("height");
-            float x = boxnode.GetAttribute<float>("x");
-            float y = boxnode.GetAttribute<float>("y");
+            var width = boxnode.GetAttribute<int>("width");
+            var height = boxnode.GetAttribute<int>("height");
+            var x = boxnode.GetAttribute<int>("x");
+            var y = boxnode.GetAttribute<int>("y");
 
             var box = new HitBoxInfo() {
                 Name = boxnode.TryAttribute<string>("name"),
-                Box = new Common.Geometry.RectangleF(x, y, width, height),
+                Box = new Common.Geometry.Rectangle(x, y, width, height),
                 ContactDamage = boxnode.TryAttribute<float>("damage"),
                 Environment = boxnode.TryAttribute<bool>("environment", true),
                 PushAway = boxnode.TryAttribute<bool>("pushaway", true),

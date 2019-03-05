@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using MegaMan.Common;
 
 namespace MegaMan.Engine
@@ -19,12 +16,12 @@ namespace MegaMan.Engine
             }
         }
 
-        public float OffsetX
+        public int OffsetX
         {
             get { return 0; }
         }
 
-        public float OffsetY
+        public int OffsetY
         {
             get { return 0; }
         }

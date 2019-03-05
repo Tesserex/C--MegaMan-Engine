@@ -190,20 +190,20 @@ namespace MegaMan.Engine.Entities.Effects
 
                             if (axis == Axis.X)
                             {
-                                if (pos.Position.X > playerPos.Position.X) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
-                                else if (pos.Position.X < playerPos.Position.X) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
+                                if (pos.X > playerPos.X) mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
+                                else if (pos.X < playerPos.X) mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
                             }
                             else if (axis == Axis.Y)
                             {
-                                if (pos.Position.Y > playerPos.Position.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
-                                else if (pos.Position.Y < playerPos.Position.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
+                                if (pos.Y > playerPos.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
+                                else if (pos.Y < playerPos.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
                             }
                             else
                             {
-                                float dx = playerPos.Position.X - pos.Position.X;
-                                float dy = playerPos.Position.Y - pos.Position.Y;
-                                double hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
-                                hyp = Math.Pow(hyp, 0.5);
+                                int dx = playerPos.X - pos.X;
+                                int dy = playerPos.Y - pos.Y;
+                                int hypsq = dx * dx + dy * dy;
+                                var hyp = Math.Pow(hypsq, 0.5);
 
                                 mov.VelocityX = (float)(mag * dx / hyp);
                                 mov.VelocityY = (float)(mag * dy / hyp);

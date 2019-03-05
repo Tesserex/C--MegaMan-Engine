@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.Geometry;
@@ -38,11 +34,11 @@ namespace MegaMan.IO.Xml.Effects
             foreach (var box in partNode.Elements("Hitbox"))
             {
                 var boxinfo = new HitBoxInfo() {
-                    Box = new RectangleF() {
-                        X = box.GetAttribute<float>("x"),
-                        Y = box.GetAttribute<float>("y"),
-                        Width = box.GetAttribute<float>("width"),
-                        Height = box.GetAttribute<float>("height")
+                    Box = new Rectangle() {
+                        X = box.GetAttribute<int>("x"),
+                        Y = box.GetAttribute<int>("y"),
+                        Width = box.GetAttribute<int>("width"),
+                        Height = box.GetAttribute<int>("height")
                     },
                     ContactDamage = box.TryAttribute<float>("damage"),
                     Environment = box.TryAttribute<bool>("environment", true),

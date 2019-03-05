@@ -2,10 +2,6 @@
 using MegaMan.Engine.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MegaMan.Engine.Tests.Components
 {
@@ -38,11 +34,11 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(-15, 0, 10, 10));
+            var square = GetMapSquare(new Rectangle(-15, 0, 10, 10));
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsFalse(didCollide);
             Assert.AreEqual(PointF.Empty, collisionPoint);
@@ -54,11 +50,11 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(15, 0, 10, 10));
+            var square = GetMapSquare(new Rectangle(15, 0, 10, 10));
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsFalse(didCollide);
             Assert.AreEqual(PointF.Empty, collisionPoint);
@@ -70,11 +66,11 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(0, -15, 10, 10));
+            var square = GetMapSquare(new Rectangle(0, -15, 10, 10));
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsFalse(didCollide);
             Assert.AreEqual(PointF.Empty, collisionPoint);
@@ -86,11 +82,11 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(0, 15, 10, 10));
+            var square = GetMapSquare(new Rectangle(0, 15, 10, 10));
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsFalse(didCollide);
             Assert.AreEqual(PointF.Empty, collisionPoint);
@@ -102,11 +98,11 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(10, 0, 10, 10)); // up against the right edge
+            var square = GetMapSquare(new Rectangle(10, 0, 10, 10)); // up against the right edge
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsTrue(didCollide);
             Assert.AreEqual(PointF.Empty, collisionPoint);
@@ -118,15 +114,15 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var square = GetMapSquare(new RectangleF(8.6f, 4.1f, 10, 10));
+            var square = GetMapSquare(new Rectangle(8, 4, 10, 10));
 
-            PointF collisionPoint = PointF.Empty;
+            var collisionPoint = Point.Empty;
 
-            var didCollide = box.EnvironmentCollisions(PointF.Empty, square, ref collisionPoint);
+            var didCollide = box.EnvironmentCollisions(Point.Empty, square, ref collisionPoint);
 
             Assert.IsTrue(didCollide);
             // pushes the block out vertically
-            Assert.AreEqual(new PointF(0, -5.9f), collisionPoint);
+            Assert.AreEqual(new Point(0, -6), collisionPoint);
         }
 
         [TestMethod]
@@ -135,12 +131,12 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var tileBox = new RectangleF(8.6f, 4.1f, 10, 10);
+            var tileBox = new Rectangle(8, 4, 10, 10);
 
-            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(PointF.Empty), 1.0f, 0, false, false);
+            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(Point.Empty), 1.0f, 0, false, false);
 
             // pushes the block out horizontally
-            Assert.AreEqual(-1.4f, collisionPoint.X, Const.PixelEpsilon);
+            Assert.AreEqual(-2, collisionPoint.X);
             Assert.AreEqual(0, collisionPoint.Y);
         }
 
@@ -150,9 +146,9 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var tileBox = new RectangleF(8.6f, 4.1f, 10, 10);
+            var tileBox = new Rectangle(8, 4, 10, 10);
 
-            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(PointF.Empty), 0, -1.0f, false, true);
+            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(Point.Empty), 0, -1, false, true);
 
             Assert.AreEqual(Point.Empty, collisionPoint);
         }
@@ -163,14 +159,14 @@ namespace MegaMan.Engine.Tests.Components
             var box = new CollisionBox(0, 0, 10, 10);
             box.SetParent(_collision);
 
-            var tileBox = new RectangleF(8.6f, -4.1f, 10, 10);
+            var tileBox = new Rectangle(8, -4, 10, 10);
 
-            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(PointF.Empty), 0, 1.0f, true, false);
+            var collisionPoint = box.GetIntersectionOffset(tileBox, box.BoxAt(Point.Empty), 0, 1, true, false);
 
             Assert.AreEqual(Point.Empty, collisionPoint);
         }
 
-        private IMapSquare GetMapSquare(RectangleF rectangle)
+        private IMapSquare GetMapSquare(Rectangle rectangle)
         {
             var square = new Mock<IMapSquare>();
             square.SetupGet(s => s.BlockBox).Returns(rectangle);

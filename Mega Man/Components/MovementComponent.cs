@@ -131,20 +131,17 @@ namespace MegaMan.Engine
                 float deltaX = vx + pushX;
                 float deltaY = vy + pushY;
 
-                PointF pos = position.Position;
                 if (collision == null)
                 {
-                    pos.X += deltaX;
-                    pos.Y += deltaY;
+                    position.Offset(deltaX, deltaY);
                 }
                 else
                 {
-                    if ((!collision.BlockLeft && deltaX < 0) || (!collision.BlockRight && deltaX > 0)) pos.X += deltaX;
-                    if ((!collision.BlockTop && deltaY < 0) || (!collision.BlockBottom && deltaY > 0)) pos.Y += deltaY;
+                    if ((!collision.BlockLeft && deltaX < 0) || (!collision.BlockRight && deltaX > 0)) position.Offset(deltaX, 0);
+                    if ((!collision.BlockTop && deltaY < 0) || (!collision.BlockBottom && deltaY > 0)) position.Offset(0, deltaY);
                 }
-                position.SetPosition(pos);
 
-                nextOverTile = Parent.Screen.TileAt(position.Position.X, position.Position.Y);
+                nextOverTile = Parent.Screen.TileAt(position.X, position.Y);
             }
 
             if (Parent.Name == "Player")

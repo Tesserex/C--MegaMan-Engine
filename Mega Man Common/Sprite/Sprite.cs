@@ -38,7 +38,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets a rectangle representing the box surrounding the sprite.
         /// </summary>
-        public RectangleF BoundBox { get; protected set; }
+        public Rectangle BoundBox { get; protected set; }
 
         /// <summary>
         /// Gets or sets the height of the sprite.
@@ -129,7 +129,7 @@ namespace MegaMan.Common
             this.currentFrame = 0;
             this.lastFrameTime = 0;
             this.HotSpot = new Point(0, 0);
-            this.BoundBox = new RectangleF(0, 0, width, height);
+            this.BoundBox = new Rectangle(0, 0, width, height);
             this.Playing = false;
             this.Visible = true;
             this.AnimDirection = AnimationDirection.Forward;
@@ -149,7 +149,7 @@ namespace MegaMan.Common
             this.currentFrame = 0;
             this.lastFrameTime = 0;
             this.HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
-            this.BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
+            this.BoundBox = new Rectangle(0, 0, copy.Width, copy.Height);
             this.Playing = false;
             this.Visible = true;
             this.AnimDirection = copy.AnimDirection;
