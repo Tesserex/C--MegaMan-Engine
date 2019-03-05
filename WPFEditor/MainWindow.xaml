@@ -84,9 +84,15 @@
                     <Fluent:BackstageTabControl>
                         <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
                         <Fluent:BackstageTabItem Header="Recent" Background="White">
-                            <StackPanel Orientation="Vertical" Margin="30">
-                                <Label Style="{StaticResource H1}" Margin="0,0,0,16">RECENT PROJECTS</Label>
-                                <ItemsControl ItemsSource="{Binding Path=AppData.RecentProjects}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Canvas Grid.Row="0" Background="{StaticResource NesLightBlueBrush}" />
+                                <Label Grid.Row="1" Style="{StaticResource H1}" Margin="0,0,0,16">RECENT PROJECTS</Label>
+                                <ItemsControl Grid.Row="2" Margin="30" ItemsSource="{Binding Path=AppData.RecentProjects}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel IsItemsHost="True" Orientation="Vertical" />
@@ -102,7 +108,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </StackPanel>
+                            </Grid>
                         </Fluent:BackstageTabItem>
                         <Fluent:BackstageTabItem Header="New">
                             <c:NewProjectDialog />
