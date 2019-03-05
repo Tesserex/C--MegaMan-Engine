@@ -7,168 +7,177 @@
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
-    <Grid Background="White">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="0" Grid.Row="0">
-            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
-                <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
-                        <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>
-                    <Button Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
-                        <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>
-                </StackPanel>
-            </DockPanel>
-
-            <ListView BorderThickness="0" DockPanel.Dock="Left" ItemsSource="{Binding Sprite.Frames}" SelectedIndex="{Binding Sprite.CurrentIndex, Mode=TwoWay}">
-                <ListView.View>
-                    <GridView>
-                        <GridView.ColumnHeaderContainerStyle>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                                            <Border Background="Transparent">
-                                                <Label FontWeight="Bold" FontSize="13" x:Name="ContentHeader" Content="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" HorizontalAlignment="Center" />
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="OverridesDefaultStyle" Value="True" />
-                            </Style>
-                        </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Frame" DisplayMemberBinding="{Binding Index}" Width="auto" />
-                        <GridViewColumn Header="Duration" Width="auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <xctk:IntegerUpDown Value="{Binding Duration, Mode=TwoWay}" Height="20" Minimum="0"></xctk:IntegerUpDown>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <StackPanel Orientation="Vertical">
-                    <Button Command="{Binding AddFrameCommand}" Style="{StaticResource TextButton}" Margin="0,0,0,8">ADD</Button>
-                    <Button Command="{Binding DeleteFrameCommand}" Style="{StaticResource TextButton}">DELETE</Button>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
-                <xctk:ColorPicker SelectedColor="{Binding TransparentColor, Mode=TwoWay}" />
-                <Button Command="{Binding ZoomOutCommand}" Margin="8,0">
-                    <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Command="{Binding ZoomInCommand}">
-                    <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-            </StackPanel>
-            <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding TransparentBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="3" />
-                    </Grid.RowDefinitions>
-                    <Path Grid.Row="0" Grid.Column="0" Fill="#404040">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathGeometry.Figures>
-                                    <PathFigure StartPoint="3,0" IsClosed="True">
-                                        <LineSegment Point="3,3"/>
-                                        <LineSegment Point="0,3"/>
-                                    </PathFigure>
-                                </PathGeometry.Figures>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                    <Rectangle Grid.Row="0" Grid.Column="1" Fill="#404040" />
-                    <Path Grid.Row="0" Grid.Column="2" Fill="#404040">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathGeometry.Figures>
-                                    <PathFigure StartPoint="0,0" IsClosed="True">
-                                        <LineSegment Point="3,3"/>
-                                        <LineSegment Point="0,3"/>
-                                    </PathFigure>
-                                </PathGeometry.Figures>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                    <Rectangle Grid.Row="1" Grid.Column="0" Fill="#404040" />
-                    <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                    <Rectangle Grid.Row="1" Grid.Column="2" Fill="#404040" />
-                    <Path Grid.Row="2" Grid.Column="0" Fill="#404040">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathGeometry.Figures>
-                                    <PathFigure StartPoint="3,0" IsClosed="True">
-                                        <LineSegment Point="3,3"/>
-                                        <LineSegment Point="0,0"/>
-                                    </PathFigure>
-                                </PathGeometry.Figures>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                    <Rectangle Grid.Row="2" Grid.Column="1" Fill="#404040" />
-                    <Path Grid.Row="2" Grid.Column="2" Fill="#404040">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathGeometry.Figures>
-                                    <PathFigure StartPoint="3,0" IsClosed="True">
-                                        <LineSegment Point="0,0"/>
-                                        <LineSegment Point="0,3"/>
-                                    </PathFigure>
-                                </PathGeometry.Figures>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                </Grid>
-            </ScrollViewer>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <DockPanel Background="White">
+        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
+            <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Width</Label>
                 <xctk:IntegerUpDown Value="{Binding SpriteWidth}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
                 <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Height</Label>
                 <xctk:IntegerUpDown Value="{Binding SpriteHeight}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
-                <CheckBox IsChecked="{Binding Reversed}">Sprite is facing Left</CheckBox>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
+                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
+                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
             </StackPanel>
         </DockPanel>
-        <DockPanel Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                    <CheckBox x:Name="snapSheet" Margin="5" HorizontalAlignment="Left">Snap</CheckBox>
-                    <Label VerticalAlignment="Center" Margin="15,0,5,0" Padding="0">Spacing</Label>
-                    <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Button DockPanel.Dock="Top" Command="{Binding AddFrameCommand}" Style="{StaticResource TextButton}" Margin="8" HorizontalAlignment="Center">ADD FRAME</Button>
+                <ListView Grid.Column="0" BorderThickness="0" DockPanel.Dock="Left" ItemsSource="{Binding Sprite.Frames}" SelectedIndex="{Binding Sprite.CurrentIndex, Mode=TwoWay}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                <Border Background="Transparent">
+                                                    <Label FontWeight="Bold" FontSize="13" x:Name="ContentHeader" Content="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" HorizontalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="OverridesDefaultStyle" Value="True" />
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="Frame" DisplayMemberBinding="{Binding Index}" Width="auto" />
+                            <GridViewColumn Header="Duration" Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <xctk:IntegerUpDown Value="{Binding Duration, Mode=TwoWay}" Height="20" Minimum="0"></xctk:IntegerUpDown>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DeleteCommand}">
+                                            <Image Source="/Resources/delete.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12">
+                    <CheckBox IsChecked="{Binding Reversed}">Sprite is facing Left</CheckBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                    <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Margin="0,0,8,0">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
+                    <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Background</Label>
+                    <xctk:ColorPicker Width="60" SelectedColor="{Binding TransparentColor, Mode=TwoWay}" />
+                    <Button Command="{Binding ZoomOutCommand}" Margin="8,0">
                         <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center">
+                    <Button Command="{Binding ZoomInCommand}">
                         <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </StackPanel>
-            </StackPanel>
-            
-            <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
-                    <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                    <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
-                </Canvas>
-            </ScrollViewer>
-        </DockPanel>
-    </Grid>
+                
+                <ScrollViewer DockPanel.Dock="Top" Margin="20" VerticalScrollBarVisibility="Auto">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding TransparentBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="3" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="3" />
+                        </Grid.RowDefinitions>
+                        <Path Grid.Row="0" Grid.Column="0" Fill="#404040">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="3,0" IsClosed="True">
+                                            <LineSegment Point="3,3"/>
+                                            <LineSegment Point="0,3"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="#404040" />
+                        <Path Grid.Row="0" Grid.Column="2" Fill="#404040">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,0" IsClosed="True">
+                                            <LineSegment Point="3,3"/>
+                                            <LineSegment Point="0,3"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Rectangle Grid.Row="1" Grid.Column="0" Fill="#404040" />
+                        <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <Rectangle Grid.Row="1" Grid.Column="2" Fill="#404040" />
+                        <Path Grid.Row="2" Grid.Column="0" Fill="#404040">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="3,0" IsClosed="True">
+                                            <LineSegment Point="3,3"/>
+                                            <LineSegment Point="0,0"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Rectangle Grid.Row="2" Grid.Column="1" Fill="#404040" />
+                        <Path Grid.Row="2" Grid.Column="2" Fill="#404040">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="3,0" IsClosed="True">
+                                            <LineSegment Point="0,0"/>
+                                            <LineSegment Point="0,3"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+                </ScrollViewer>
+            </DockPanel>
+            <DockPanel Grid.Column="2">
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                        <CheckBox x:Name="snapSheet" Margin="5" HorizontalAlignment="Left">Snap</CheckBox>
+                        <Label VerticalAlignment="Center" Margin="15,0,5,0" Padding="0">Spacing</Label>
+                        <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                        <Button Command="{Binding ZoomOutSheetCommand}" VerticalAlignment="Center" Margin="0,0,8,0">
+                            <Image Source="/Resources/zoomout.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button Command="{Binding ZoomInSheetCommand}" VerticalAlignment="Center">
+                            <Image Source="/Resources/zoomin.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
+                        <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
+                    </Canvas>
+                </ScrollViewer>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

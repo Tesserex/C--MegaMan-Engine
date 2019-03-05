@@ -68,7 +68,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (frameModels == null)
                 {
-                    frameModels = new ObservableCollection<SpriteFrameViewModel>(Sprite.Select((f, i) => new SpriteFrameViewModel(f, i)));
+                    frameModels = new ObservableCollection<SpriteFrameViewModel>(Sprite.Select((f, i) => new SpriteFrameViewModel(f, i, this)));
                 }
                 return frameModels;
             }
@@ -138,7 +138,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public void InsertFrame(int index)
         {
             Sprite.InsertFrame(index);
-            Frames.Insert(index, new SpriteFrameViewModel(Sprite[index], index));
+            Frames.Insert(index, new SpriteFrameViewModel(Sprite[index], index, this));
             OnPropertyChanged(nameof(Count));
         }
 

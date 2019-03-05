@@ -27,7 +27,6 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
         public ICommand AddFrameCommand { get; private set; }
-        public ICommand DeleteFrameCommand { get; private set; }
 
         private void OnPropertyChanged(string property)
         {
@@ -48,7 +47,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             PlayCommand = new RelayCommand(p => PlayPreview(), p => !Sprite.Playing);
             PauseCommand = new RelayCommand(p => PausePreview(), p => Sprite.Playing);
             AddFrameCommand = new RelayCommand(p => AddFrame(), p => !Sprite.Playing);
-            DeleteFrameCommand = new RelayCommand(p => DeleteFrame(), p => !Sprite.Playing && Sprite.Count > 1);
         }
 
         private void AddFrame()
@@ -60,14 +58,6 @@ namespace MegaMan.Editor.Controls.ViewModels
                 _project.Dirty = true;
 
             Update();
-        }
-
-        private void DeleteFrame()
-        {
-            Sprite.Remove(Sprite.CurrentIndex);
-
-            if (_project != null)
-                _project.Dirty = true;
         }
 
         private bool CanZoomOut(object obj)
