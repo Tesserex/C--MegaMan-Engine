@@ -97,6 +97,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
         protected override void UpdateProperties()
         {
             OnPropertyChanged("Sprites");
+            EditSprite(Sprites.FirstOrDefault());
         }
 
         private T ModeOf<T>(IEnumerable<T> sequence)
