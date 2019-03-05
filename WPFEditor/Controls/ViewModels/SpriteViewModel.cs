@@ -135,6 +135,32 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public AnimationStyle AnimStyle
+        {
+            get
+            {
+                return Sprite.AnimStyle;
+            }
+            set
+            {
+                Sprite.AnimStyle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AnimationDirection AnimDirection
+        {
+            get
+            {
+                return Sprite.AnimDirection;
+            }
+            set
+            {
+                Sprite.AnimDirection = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void InsertFrame(int index)
         {
             Sprite.InsertFrame(index);

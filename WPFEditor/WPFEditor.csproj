@@ -189,6 +189,7 @@
       <DependentUpon>SpriteComponentEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Converters\BoolInverterConverter.cs" />
+    <Compile Include="Controls\Converters\EnumBindingSourceExtension.cs" />
     <Compile Include="Controls\Converters\PropertyToBoolConverter.cs" />
     <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
       <DependentUpon>AddStageDialog.xaml</DependentUpon>

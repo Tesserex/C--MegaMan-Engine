@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -130,10 +132,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public int SpriteWidth
         {
-            get
-            {
-                return Sprite.Width;
-            }
+            get { return Sprite.Width; }
             set
             {
                 Sprite.Width = value;
@@ -151,10 +150,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public int SpriteHeight
         {
-            get
-            {
-                return Sprite.Height;
-            }
+            get { return Sprite.Height; }
             set
             {
                 Sprite.Height = value;
@@ -172,14 +168,33 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public bool Reversed
         {
-            get
-            {
-                return Sprite.Reversed;
-            }
+            get { return Sprite.Reversed; }
             set
             {
                 Sprite.Reversed = value;
 
+                if (_project != null)
+                    _project.Dirty = true;
+            }
+        }
+
+        public Common.AnimationStyle AnimStyle
+        {
+            get { return Sprite.AnimStyle; }
+            set
+            {
+                Sprite.AnimStyle = value;
+                if (_project != null)
+                    _project.Dirty = true;
+            }
+        }
+
+        public Common.AnimationDirection AnimDirection
+        {
+            get { return Sprite.AnimDirection; }
+            set
+            {
+                Sprite.AnimDirection = value;
                 if (_project != null)
                     _project.Dirty = true;
             }
