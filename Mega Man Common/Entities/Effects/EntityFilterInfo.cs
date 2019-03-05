@@ -32,7 +32,8 @@ namespace MegaMan.Common.Entities.Effects
 
         public PositionFilter Clone()
         {
-            return new PositionFilter() {
+            return new PositionFilter()
+            {
                 X = this.X.Clone(),
                 Y = this.Y.Clone()
             };
@@ -44,6 +45,16 @@ namespace MegaMan.Common.Entities.Effects
         public RangeFilter X { get; set; }
         public RangeFilter Y { get; set; }
         public RangeFilter Total { get; set; }
+
+        public MovementFilter Clone()
+        {
+            return new MovementFilter()
+            {
+                X = this.X.Clone(),
+                Y = this.Y.Clone(),
+                Total = this.Total.Clone()
+            };
+        }
     }
 
     public class CollisionFilter
@@ -52,6 +63,17 @@ namespace MegaMan.Common.Entities.Effects
         public bool? BlockBottom { get; set; }
         public bool? BlockLeft { get; set; }
         public bool? BlockRight { get; set; }
+
+        public CollisionFilter Clone()
+        {
+            return new CollisionFilter()
+            {
+                BlockTop = this.BlockTop,
+                BlockBottom = this.BlockBottom,
+                BlockLeft = this.BlockLeft,
+                BlockRight = this.BlockRight
+            };
+        }
     }
 
     public class RangeFilter
