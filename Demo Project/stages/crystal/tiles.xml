@@ -2,7 +2,7 @@
 	<TileProperties>
 		<Properties name="block" blocking="true" resistX="0.5" />
 	</TileProperties>
-	<Tile id="0" name="" properties="block">
+	<Tile id="0" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="8" />
@@ -11,7 +11,7 @@
 			<Frame x="0" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="1" name="" properties="block">
+	<Tile id="1" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="0" duration="8" />
@@ -20,7 +20,7 @@
 			<Frame x="16" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="2" name="" properties="block">
+	<Tile id="2" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="0" duration="8" />
@@ -29,7 +29,7 @@
 			<Frame x="32" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="3" name="" properties="block">
+	<Tile id="3" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="0" duration="8" />
@@ -38,7 +38,7 @@
 			<Frame x="48" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="4" name="" properties="block">
+	<Tile id="4" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="0" duration="8" />
@@ -47,7 +47,7 @@
 			<Frame x="64" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="5" name="" properties="block">
+	<Tile id="5" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="0" duration="8" />
@@ -56,7 +56,7 @@
 			<Frame x="80" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="6" name="" properties="block">
+	<Tile id="6" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="0" duration="8" />
@@ -65,7 +65,7 @@
 			<Frame x="96" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="7" name="" properties="block">
+	<Tile id="7" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="0" duration="8" />
@@ -74,7 +74,7 @@
 			<Frame x="112" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="8" name="" properties="block">
+	<Tile id="8" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="0" duration="8" />
@@ -83,7 +83,7 @@
 			<Frame x="128" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="9" name="" properties="block">
+	<Tile id="9" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="0" duration="8" />
@@ -92,7 +92,7 @@
 			<Frame x="144" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="10" name="" properties="block">
+	<Tile id="10" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="0" duration="8" />
@@ -101,7 +101,7 @@
 			<Frame x="160" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="11" name="" properties="block">
+	<Tile id="11" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="0" duration="8" />
@@ -110,7 +110,7 @@
 			<Frame x="176" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="12" name="" properties="block">
+	<Tile id="12" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="192" y="0" duration="8" />
@@ -119,7 +119,7 @@
 			<Frame x="192" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="13" name="" properties="block">
+	<Tile id="13" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="208" y="0" duration="8" />
@@ -128,7 +128,7 @@
 			<Frame x="208" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="14" name="" properties="block">
+	<Tile id="14" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="224" y="0" duration="8" />
@@ -137,7 +137,7 @@
 			<Frame x="224" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="15" name="" properties="block">
+	<Tile id="15" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="240" y="0" duration="8" />
@@ -146,7 +146,7 @@
 			<Frame x="240" y="48" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="16" name="" properties="block">
+	<Tile id="16" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="64" duration="8" />
@@ -155,7 +155,7 @@
 			<Frame x="0" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="17" name="" properties="block">
+	<Tile id="17" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="64" duration="8" />
@@ -164,7 +164,7 @@
 			<Frame x="16" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="18" name="" properties="block">
+	<Tile id="18" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="64" duration="8" />
@@ -173,7 +173,7 @@
 			<Frame x="32" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="19" name="" properties="block">
+	<Tile id="19" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="64" duration="8" />
@@ -182,7 +182,7 @@
 			<Frame x="48" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="20" name="" properties="block">
+	<Tile id="20" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="64" duration="8" />
@@ -191,7 +191,7 @@
 			<Frame x="64" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="21" name="" properties="block">
+	<Tile id="21" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="64" duration="8" />
@@ -200,7 +200,7 @@
 			<Frame x="80" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="22" name="" properties="block">
+	<Tile id="22" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="64" duration="8" />
@@ -209,7 +209,7 @@
 			<Frame x="96" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="23" name="" properties="block">
+	<Tile id="23" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="64" duration="0" />
@@ -218,79 +218,79 @@
 			<Frame x="112" y="112" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="24" name="" properties="Default">
+	<Tile id="24" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="25" name="" properties="Default">
+	<Tile id="25" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="26" name="" properties="Default">
+	<Tile id="26" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="27" name="" properties="Default">
+	<Tile id="27" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="28" name="" properties="Default">
+	<Tile id="28" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="29" name="" properties="Default">
+	<Tile id="29" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="30" name="" properties="Default">
+	<Tile id="30" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="31" name="" properties="Default">
+	<Tile id="31" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="32" name="" properties="Default">
+	<Tile id="32" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="192" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="33" name="" properties="Default">
+	<Tile id="33" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="192" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="34" name="" properties="Default">
+	<Tile id="34" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="208" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="35" name="" properties="Default">
+	<Tile id="35" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="224" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="36" name="" properties="block">
+	<Tile id="36" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="128" duration="8" />
@@ -299,7 +299,7 @@
 			<Frame x="96" y="128" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="37" name="" properties="block">
+	<Tile id="37" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="128" duration="8" />
@@ -308,7 +308,7 @@
 			<Frame x="112" y="128" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="38" name="" properties="block">
+	<Tile id="38" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="144" duration="8" />
@@ -317,7 +317,7 @@
 			<Frame x="96" y="144" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="39" name="" properties="block">
+	<Tile id="39" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="144" duration="8" />
@@ -326,235 +326,235 @@
 			<Frame x="112" y="144" duration="8" />
 		</Sprite>
 	</Tile>
-	<Tile id="40" name="" properties="Default">
+	<Tile id="40" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="41" name="" properties="Default">
+	<Tile id="41" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="42" name="" properties="Default">
+	<Tile id="42" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="43" name="" properties="Default">
+	<Tile id="43" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="44" name="" properties="Default">
+	<Tile id="44" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="45" name="" properties="Default">
+	<Tile id="45" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="46" name="" properties="Default">
+	<Tile id="46" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="47" name="" properties="Default">
+	<Tile id="47" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="48" name="" properties="Default">
+	<Tile id="48" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="49" name="" properties="Default">
+	<Tile id="49" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="50" name="" properties="Default">
+	<Tile id="50" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="51" name="" properties="Default">
+	<Tile id="51" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="52" name="" properties="Default">
+	<Tile id="52" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="53" name="" properties="Default">
+	<Tile id="53" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="54" name="" properties="Default">
+	<Tile id="54" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="55" name="" properties="Default">
+	<Tile id="55" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="56" name="" properties="Default">
+	<Tile id="56" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="57" name="" properties="Default">
+	<Tile id="57" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="58" name="" properties="Default">
+	<Tile id="58" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="59" name="" properties="Default">
+	<Tile id="59" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="60" name="" properties="block">
+	<Tile id="60" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="61" name="" properties="block">
+	<Tile id="61" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="62" name="" properties="block">
+	<Tile id="62" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="192" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="63" name="" properties="block">
+	<Tile id="63" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="64" name="" properties="block">
+	<Tile id="64" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="65" name="" properties="block">
+	<Tile id="65" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="66" name="" properties="block">
+	<Tile id="66" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="67" name="" properties="block">
+	<Tile id="67" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="68" name="" properties="block">
+	<Tile id="68" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="69" name="" properties="block">
+	<Tile id="69" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="192" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="70" name="" properties="block">
+	<Tile id="70" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="192" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="71" name="" properties="block">
+	<Tile id="71" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="192" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="72" name="" properties="block">
+	<Tile id="72" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="208" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="73" name="" properties="block">
+	<Tile id="73" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="208" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="74" name="" properties="block">
+	<Tile id="74" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="208" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="75" name="" properties="Default">
+	<Tile id="75" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="240" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="76" name="" properties="block">
+	<Tile id="76" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="224" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="77" name="" properties="block">
+	<Tile id="77" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="224" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="78" name="" properties="block">
+	<Tile id="78" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="224" duration="0" />

@@ -1627,6 +1627,10 @@
 				<Meter name="" x="9" y="16" image="images\meters\napalmhealth.png" background="images\meters\healthmeter_back.png" orientation="vertical" tickX="0" tickY="0" />
 			</Weapon>
 		</Weapons>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Death>
 			<Spawn name="MegaManDeath" state="Up">
 				<Position />

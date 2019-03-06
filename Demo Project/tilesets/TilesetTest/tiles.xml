@@ -6,841 +6,841 @@
 		<Properties name="Water" gravitymult="0.4" />
 		<Properties name="New Properties" />
 	</TileProperties>
-	<Tile id="0" name="" properties="Default">
+	<Tile id="0" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="1" name="" properties="Block">
+	<Tile id="1" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="2" name="" properties="Default">
+	<Tile id="2" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="3" name="" properties="Default">
+	<Tile id="3" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="4" name="" properties="Default">
+	<Tile id="4" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="5" name="" properties="Ladder">
+	<Tile id="5" properties="Ladder">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="6" name="" properties="Default">
+	<Tile id="6" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="7" name="" properties="Default">
+	<Tile id="7" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="8" name="" properties="Default">
+	<Tile id="8" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="9" name="" properties="Default">
+	<Tile id="9" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="10" name="" properties="Default">
+	<Tile id="10" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="11" name="" properties="Default">
+	<Tile id="11" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="0" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="12" name="" properties="Spike">
+	<Tile id="12" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="13" name="" properties="Spike">
+	<Tile id="13" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="14" name="" properties="Spike">
+	<Tile id="14" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="15" name="" properties="Spike">
+	<Tile id="15" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="16" name="" properties="Default">
+	<Tile id="16" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="17" name="" properties="Default">
+	<Tile id="17" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="18" name="" properties="Default">
+	<Tile id="18" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="19" name="" properties="Default">
+	<Tile id="19" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="20" name="" properties="Default">
+	<Tile id="20" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="21" name="" properties="Default">
+	<Tile id="21" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="22" name="" properties="Default">
+	<Tile id="22" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="23" name="" properties="Default">
+	<Tile id="23" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="16" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="24" name="" properties="Default">
+	<Tile id="24" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="25" name="" properties="Block">
+	<Tile id="25" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="26" name="" properties="Block">
+	<Tile id="26" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="27" name="" properties="Block">
+	<Tile id="27" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="28" name="" properties="Block">
+	<Tile id="28" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="29" name="" properties="Default">
+	<Tile id="29" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="30" name="" properties="Default">
+	<Tile id="30" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="31" name="" properties="Default">
+	<Tile id="31" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="32" name="" properties="Default">
+	<Tile id="32" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="33" name="" properties="Default">
+	<Tile id="33" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="34" name="" properties="Default">
+	<Tile id="34" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="35" name="" properties="Default">
+	<Tile id="35" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="32" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="36" name="" properties="Block">
+	<Tile id="36" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="37" name="" properties="Block">
+	<Tile id="37" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="38" name="" properties="Block">
+	<Tile id="38" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="39" name="" properties="Block">
+	<Tile id="39" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="40" name="" properties="Block">
+	<Tile id="40" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="41" name="" properties="Block">
+	<Tile id="41" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="42" name="" properties="Block">
+	<Tile id="42" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="43" name="" properties="Block">
+	<Tile id="43" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="44" name="" properties="Block">
+	<Tile id="44" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="45" name="" properties="Default">
+	<Tile id="45" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="46" name="" properties="Block">
+	<Tile id="46" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="47" name="" properties="Default">
+	<Tile id="47" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="48" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="48" name="" properties="Default">
+	<Tile id="48" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="49" name="" properties="Default">
+	<Tile id="49" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="50" name="" properties="Default">
+	<Tile id="50" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="51" name="" properties="Default">
+	<Tile id="51" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="52" name="" properties="Block">
+	<Tile id="52" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="53" name="" properties="Block">
+	<Tile id="53" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="54" name="" properties="Block">
+	<Tile id="54" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="55" name="" properties="Block">
+	<Tile id="55" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="56" name="" properties="Block">
+	<Tile id="56" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="57" name="" properties="Default">
+	<Tile id="57" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="58" name="" properties="Block">
+	<Tile id="58" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="59" name="" properties="Default">
+	<Tile id="59" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="64" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="60" name="" properties="Default">
+	<Tile id="60" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="61" name="" properties="Default">
+	<Tile id="61" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="62" name="" properties="Default">
+	<Tile id="62" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="63" name="" properties="Block">
+	<Tile id="63" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="64" name="" properties="Block">
+	<Tile id="64" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="65" name="" properties="Block">
+	<Tile id="65" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="66" name="" properties="Block">
+	<Tile id="66" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="67" name="" properties="Block">
+	<Tile id="67" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="68" name="" properties="Block">
+	<Tile id="68" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="69" name="" properties="Block">
+	<Tile id="69" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="70" name="" properties="Block">
+	<Tile id="70" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="71" name="" properties="Block">
+	<Tile id="71" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="80" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="72" name="" properties="Default">
+	<Tile id="72" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="73" name="" properties="Default">
+	<Tile id="73" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="74" name="" properties="Default">
+	<Tile id="74" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="75" name="" properties="Block">
+	<Tile id="75" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="76" name="" properties="Block">
+	<Tile id="76" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="77" name="" properties="Block">
+	<Tile id="77" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="78" name="" properties="Block">
+	<Tile id="78" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="79" name="" properties="Block">
+	<Tile id="79" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="80" name="" properties="Block">
+	<Tile id="80" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="81" name="" properties="Block">
+	<Tile id="81" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="82" name="" properties="Block">
+	<Tile id="82" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="83" name="" properties="Block">
+	<Tile id="83" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="96" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="84" name="" properties="Block">
+	<Tile id="84" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="85" name="" properties="Block">
+	<Tile id="85" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="86" name="" properties="Block">
+	<Tile id="86" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="87" name="" properties="Block">
+	<Tile id="87" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="88" name="" properties="Block">
+	<Tile id="88" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="89" name="" properties="Block">
+	<Tile id="89" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="90" name="" properties="Block">
+	<Tile id="90" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="91" name="" properties="Block">
+	<Tile id="91" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="92" name="" properties="Block">
+	<Tile id="92" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="93" name="" properties="Block">
+	<Tile id="93" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="94" name="" properties="Block">
+	<Tile id="94" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="95" name="" properties="Block">
+	<Tile id="95" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="112" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="96" name="" properties="Block">
+	<Tile id="96" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="97" name="" properties="Block">
+	<Tile id="97" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="98" name="" properties="Block">
+	<Tile id="98" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="99" name="" properties="Block">
+	<Tile id="99" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="100" name="" properties="Block">
+	<Tile id="100" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="101" name="" properties="Block">
+	<Tile id="101" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="102" name="" properties="Block">
+	<Tile id="102" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="103" name="" properties="Block">
+	<Tile id="103" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="104" name="" properties="Block">
+	<Tile id="104" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="105" name="" properties="Block">
+	<Tile id="105" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="106" name="" properties="Block">
+	<Tile id="106" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="107" name="" properties="Block">
+	<Tile id="107" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="128" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="108" name="" properties="Block">
+	<Tile id="108" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="109" name="" properties="Block">
+	<Tile id="109" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="110" name="" properties="Block">
+	<Tile id="110" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="111" name="" properties="Block">
+	<Tile id="111" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="112" name="" properties="Block">
+	<Tile id="112" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="113" name="" properties="Block">
+	<Tile id="113" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="114" name="" properties="Block">
+	<Tile id="114" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="115" name="" properties="Ladder">
+	<Tile id="115" properties="Ladder">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="116" name="" properties="Default">
+	<Tile id="116" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="117" name="" properties="Block">
+	<Tile id="117" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="118" name="" properties="Block">
+	<Tile id="118" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="119" name="" properties="Block">
+	<Tile id="119" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="144" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="120" name="" properties="Block">
+	<Tile id="120" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="121" name="" properties="Block">
+	<Tile id="121" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="122" name="" properties="Block">
+	<Tile id="122" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="32" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="123" name="" properties="Block">
+	<Tile id="123" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="48" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="124" name="" properties="Default">
+	<Tile id="124" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="64" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="125" name="" properties="Block">
+	<Tile id="125" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="80" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="126" name="" properties="Block">
+	<Tile id="126" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="127" name="" properties="Block">
+	<Tile id="127" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="128" name="" properties="Block">
+	<Tile id="128" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="129" name="" properties="Block">
+	<Tile id="129" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="130" name="" properties="Block">
+	<Tile id="130" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="131" name="" properties="Block">
+	<Tile id="131" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="160" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="132" name="" properties="Block">
+	<Tile id="132" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="0" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="133" name="" properties="Block">
+	<Tile id="133" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="16" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="138" name="" properties="Block">
+	<Tile id="138" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="96" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="139" name="" properties="Block">
+	<Tile id="139" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="112" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="140" name="" properties="Block">
+	<Tile id="140" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="128" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="141" name="" properties="Block">
+	<Tile id="141" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="144" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="142" name="" properties="Block">
+	<Tile id="142" properties="Block">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="160" y="176" duration="0" />
 		</Sprite>
 	</Tile>
-	<Tile id="143" name="" properties="Default">
+	<Tile id="143" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\TilesetTest\tiles.png">
 			<Hotspot x="0" y="0" />
 			<Frame x="176" y="176" duration="0" />

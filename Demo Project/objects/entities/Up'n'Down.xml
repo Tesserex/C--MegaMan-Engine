@@ -121,9 +121,17 @@
 				<Sound name="EnemyHurt" playing="True" />
 			</Effect>
 		</Trigger>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 	</Entity>
 	<Entity name="UpDownSpawner" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<State name="Start">
 			<Initialize>
 				<Movement>
@@ -173,9 +181,5 @@
 				</Effect>
 			</Trigger>
 		</State>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 	</Entity>
 </Entities>
