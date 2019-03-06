@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MegaMan.Common;
 using MegaMan.IO.DataSources;
+using System.Linq;
 
 namespace MegaMan.IO.Xml
 {
@@ -73,6 +74,9 @@ namespace MegaMan.IO.Xml
                     propName = propAttr.Value;
 
                 tile.Properties = tileset.GetProperties(propName);
+
+                tile.Groups = tileNode.Elements("Group").Select(n => n.Value).ToList();
+
                 tileset.Add(tile);
             }
 

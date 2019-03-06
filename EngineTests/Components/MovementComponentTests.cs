@@ -143,8 +143,8 @@ namespace MegaMan.Engine.Tests.Components
             _movement.PushY(2.6f);
             _container.Tick();
 
-            Assert.AreEqual(3.5f, _position.Position.X, 0.0001);
-            Assert.AreEqual(2.6f, _position.Position.Y, 0.0001);
+            Assert.AreEqual(3, _position.X);
+            Assert.AreEqual(2, _position.Y);
             Assert.AreEqual(0, _movement.VelocityX);
             Assert.AreEqual(0, _movement.VelocityY);
 
@@ -152,8 +152,8 @@ namespace MegaMan.Engine.Tests.Components
             _movement.PushY(-0.8f);
             _container.Tick();
 
-            Assert.AreEqual(2.2f, _position.Position.X, 0.0001);
-            Assert.AreEqual(1.8f, _position.Position.Y, 0.0001);
+            Assert.AreEqual(2, _position.X);
+            Assert.AreEqual(1, _position.Y);
             Assert.AreEqual(0, _movement.VelocityX);
             Assert.AreEqual(0, _movement.VelocityY);
         }
@@ -170,8 +170,8 @@ namespace MegaMan.Engine.Tests.Components
             _movement.PushY(-1.1f);
             _container.Tick();
 
-            Assert.AreEqual(-1.2f, _position.Position.X, 0.0001);
-            Assert.AreEqual(1.5f, _position.Position.Y, 0.0001);
+            Assert.AreEqual(-1, _position.X);
+            Assert.AreEqual(1, _position.Y);
             Assert.AreEqual(0, _movement.VelocityX);
             Assert.AreEqual(0, _movement.VelocityY);
         }
@@ -188,8 +188,8 @@ namespace MegaMan.Engine.Tests.Components
             _movement.PushY(-1.1f);
             _container.Tick();
 
-            Assert.AreEqual(4.7f, _position.Position.X, 0.0001);
-            Assert.AreEqual(-2.6f, _position.Position.Y, 0.0001);
+            Assert.AreEqual(4, _position.X);
+            Assert.AreEqual(-2, _position.Y);
             Assert.AreEqual(0, _movement.VelocityX);
             Assert.AreEqual(0, _movement.VelocityY);
         }
@@ -206,7 +206,7 @@ namespace MegaMan.Engine.Tests.Components
             _movement.VelocityX = 10;
             _container.Tick();
 
-            Assert.AreEqual(8, _position.Position.X);
+            Assert.AreEqual(8, _position.X);
             Assert.AreEqual(8, _movement.VelocityX);
 
             _movement.DragX(0.5f);
@@ -215,7 +215,7 @@ namespace MegaMan.Engine.Tests.Components
 
             // velocity intended to go from 8 to -10, a change of 18.
             // drag of 0.5 cuts that down to a change of 9
-            Assert.AreEqual(7, _position.Position.X);
+            Assert.AreEqual(7, _position.X);
             Assert.AreEqual(-1, _movement.VelocityX);
         }
 
@@ -231,13 +231,13 @@ namespace MegaMan.Engine.Tests.Components
             _movement.VelocityX = 10;
             _container.Tick();
 
-            Assert.AreEqual(10, _position.Position.X);
+            Assert.AreEqual(10, _position.X);
             Assert.AreEqual(8, _movement.VelocityX);
 
             _movement.ResistX(0.5f);
             _container.Tick();
 
-            Assert.AreEqual(18, _position.Position.X);
+            Assert.AreEqual(18, _position.X);
             Assert.AreEqual(4, _movement.VelocityX);
         }
     }

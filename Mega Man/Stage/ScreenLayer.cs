@@ -33,8 +33,8 @@ namespace MegaMan.Engine
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }
 
-        public float LocationX { get { return _info.Tiles.BaseX + _locationOffsetX; } }
-        public float LocationY { get { return _info.Tiles.BaseY + _locationOffsetY; } }
+        public int LocationX { get { return (int)(this._info.Tiles.BaseX + _locationOffsetX); } }
+        public int LocationY { get { return (int)(this._info.Tiles.BaseY + _locationOffsetY); } }
 
         public IGameplayContainer Stage { get { return _stage; } }
 

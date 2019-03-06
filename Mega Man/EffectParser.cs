@@ -65,6 +65,7 @@ namespace MegaMan.Engine
     public delegate bool Condition(IEntity entity);
     public delegate void Effect(IEntity entity);
     public delegate object Query(IEntity entity);
+    public delegate IEnumerable<IEntity> Filter(IEnumerable<IEntity> entities);
 
     public static class EffectParser
     {
@@ -156,7 +157,7 @@ namespace MegaMan.Engine
 
             return effect;
         }
-        
+
         public static void LoadEffectsList(IEnumerable<EffectInfo> effects)
         {
             foreach (var effectInfo in effects)
@@ -165,7 +166,7 @@ namespace MegaMan.Engine
                 SaveEffect(effectInfo.Name, effect);
             }
         }
-        
+
         public static void SaveEffect(string name, Effect effect)
         {
             storedEffects.Add(name, effect);
@@ -194,9 +195,9 @@ namespace MegaMan.Engine
 
             if (info.Filter != null)
             {
-                var filter = info.Filter;
+                var filter = GetEntityFilter(info.Filter);
                 return e => {
-                    var targets = GetFilteredEntities(e.Entities, filter);
+                    var targets = filter(e.Entities.GetAll());
                     foreach (var target in targets)
                     {
                         effect(target);
@@ -265,10 +266,10 @@ namespace MegaMan.Engine
                     var playerPos = player.GetComponent<PositionComponent>();
                     if (playerPos != null)
                     {
-                        pdx = pos.Position.X - playerPos.Position.X;
-                        pdy = pos.Position.Y - playerPos.Position.Y;
-                        pdxAbs = Math.Abs(playerPos.Position.X - pos.Position.X);
-                        pdyAbs = Math.Abs(playerPos.Position.Y - pos.Position.Y);
+                        pdx = pos.X - playerPos.X;
+                        pdy = pos.Y - playerPos.Y;
+                        pdxAbs = Math.Abs(playerPos.X - pos.X);
+                        pdyAbs = Math.Abs(playerPos.Y - pos.Y);
                     }
                 }
 
@@ -317,7 +318,7 @@ namespace MegaMan.Engine
         // provides a closure around a split query
         private static Query CloseQuery(SplitQuery split)
         {
-            return entity => split(
+            return entity => entity != null ? split(
                 entity.GetComponent<PositionComponent>(),
                 entity.GetComponent<MovementComponent>(),
                 entity.GetComponent<SpriteComponent>(),
@@ -329,53 +330,150 @@ namespace MegaMan.Engine
                 entity.GetComponent<StateComponent>(),
                 entity.GetComponent<WeaponComponent>(),
                 Game.CurrentGame.Player
-            );
+            ) : null;
         }
 
-        private static IEnumerable<IEntity> GetFilteredEntities(IEntityPool pool, EntityFilterInfo filter)
+        private static Filter GetEntityFilter(EntityFilterInfo filter)
         {
-            var entities = pool.GetAll();
+            Func<IEntity, bool> f = e => true;
 
             if (filter.Type != null)
-                entities = entities.Where(e => e.Name == filter.Type);
+            {
+                f = ComposeFilter(f, e => e.Name == filter.Type);
+            }
+
+            if (filter.State != null)
+            {
+                Func<IEntity, bool> stateFilter = e => {
+                    var stateComp = e.GetComponent<StateComponent>();
+                    return stateComp == null || stateComp.CurrentState == filter.State;
+                };
+
+                f = ComposeFilter(f, stateFilter);
+            }
 
             if (filter.Direction != null)
-                entities = entities.Where(e => e.Direction == filter.Direction);
+            {
+                f = ComposeFilter(f, e => e.Direction == filter.Direction);
+            }
 
             if (filter.Position != null)
             {
                 if (filter.Position.X != null)
                 {
-                    if (filter.Position.X.Min.HasValue)
-                        entities = entities.Where(e => {
-                            var pos = e.GetComponent<PositionComponent>();
-                            return pos == null || pos.X >= filter.Position.X.Min.Value;
-                        });
+                    Func<IEntity, float?> xFunc = e => {
+                        var pos = e.GetComponent<PositionComponent>();
+                        return pos != null ? (float?)pos.X : null;
+                    };
 
-                    if (filter.Position.X.Max.HasValue)
-                        entities = entities.Where(e => {
-                            var pos = e.GetComponent<PositionComponent>();
-                            return pos == null || pos.X <= filter.Position.X.Max.Value;
-                        });
+                    Func<IEntity, bool> posXFilter = GetRangeFilter(filter.Position.X, xFunc);
+                    f = ComposeFilter(f, posXFilter);
                 }
 
                 if (filter.Position.Y != null)
                 {
-                    if (filter.Position.Y.Min.HasValue)
-                        entities = entities.Where(e => {
-                            var pos = e.GetComponent<PositionComponent>();
-                            return pos == null || pos.Y >= filter.Position.Y.Min.Value;
-                        });
+                    Func<IEntity, float?> yFunc = e => {
+                        var pos = e.GetComponent<PositionComponent>();
+                        return pos != null ? (float?)pos.Y : null;
+                    };
 
-                    if (filter.Position.Y.Max.HasValue)
-                        entities = entities.Where(e => {
-                            var pos = e.GetComponent<PositionComponent>();
-                            return pos == null || pos.Y <= filter.Position.Y.Max.Value;
-                        });
+                    Func<IEntity, bool> posYFilter = GetRangeFilter(filter.Position.Y, yFunc);
+                    f = ComposeFilter(f, posYFilter);
                 }
             }
 
-            return entities;
+            if (filter.Movement != null)
+            {
+                if (filter.Movement.X != null)
+                {
+                    Func<IEntity, float?> vxFunc = e => {
+                        var move = e.GetComponent<MovementComponent>();
+                        return move != null ? (float?)move.VelocityX : null;
+                    };
+
+                    var vxFilter = GetRangeFilter(filter.Movement.X, vxFunc);
+                    f = ComposeFilter(f, vxFilter);
+                }
+
+                if (filter.Movement.Y != null)
+                {
+                    Func<IEntity, float?> vyFunc = e => {
+                        var move = e.GetComponent<MovementComponent>();
+                        return move != null ? (float?)move.VelocityY : null;
+                    };
+
+                    var vyFilter = GetRangeFilter(filter.Movement.Y, vyFunc);
+                    f = ComposeFilter(f, vyFilter);
+                }
+            }
+
+            if (filter.Collision != null)
+            {
+                Func<IEntity, bool> collFilter = e => {
+                    var coll = e.GetComponent<CollisionComponent>();
+                    var r = true;
+
+                    if (filter.Collision.BlockTop.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockTop.Value);
+
+                    if (filter.Collision.BlockBottom.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockBottom.Value);
+
+                    if (filter.Collision.BlockLeft.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockLeft.Value);
+
+                    if (filter.Collision.BlockRight.HasValue)
+                        r = r && (coll.BlockTop == filter.Collision.BlockRight.Value);
+
+                    return r;
+                };
+
+                f = ComposeFilter(f, collFilter);
+            }
+
+            if (filter.Health != null)
+            {
+                Func<IEntity, float?> healthFunc = e => {
+                    var health = e.GetComponent<HealthComponent>();
+                    return health != null ? (float?)health.Health : null;
+                };
+
+                f = ComposeFilter(f, GetRangeFilter(filter.Health, healthFunc));
+            }
+
+            return e => e.Where(f);
+        }
+
+        private static Func<IEntity, bool> ComposeFilter(Func<IEntity, bool> a, Func<IEntity, bool> b)
+        {
+            return e => { return a(e) && b(e); };
+        }
+
+        private static Func<IEntity, bool> GetRangeFilter(RangeFilter info, Func<IEntity, float?> compare)
+        {
+            if (info.Min.HasValue && info.Max.HasValue)
+            {
+                return e => {
+                    var value = compare(e);
+                    return value.HasValue && value.Value >= info.Min.Value && value.Value <= info.Max.Value;
+                };
+            }
+            else if (info.Min.HasValue)
+            {
+                return e => {
+                    var value = compare(e);
+                    return value.HasValue && value.Value >= info.Min.Value;
+                };
+            }
+            else if (info.Max.HasValue)
+            {
+                return e => {
+                    var value = compare(e);
+                    return value.HasValue && value.Value <= info.Max.Value;
+                };
+            }
+
+            return e => true;
         }
 
         public static void Unload()

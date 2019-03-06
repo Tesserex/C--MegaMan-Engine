@@ -136,18 +136,34 @@ namespace MegaMan.Engine
 
         protected void MovePlayer(PositionComponent playerPos)
         {
-            if (direction == Direction.Right) playerPos.SetPosition(new PointF(playerPos.Position.X + tickdist, playerPos.Position.Y));
-            else if (direction == Direction.Left) playerPos.SetPosition(new PointF(playerPos.Position.X - tickdist, playerPos.Position.Y));
-            else if (direction == Direction.Down) playerPos.SetPosition(new PointF(playerPos.Position.X, playerPos.Position.Y + tickdist));
-            else if (direction == Direction.Up) playerPos.SetPosition(new PointF(playerPos.Position.X, playerPos.Position.Y - tickdist));
+            if (direction == Direction.Right) playerPos.Offset(tickdist, 0);
+            else if (direction == Direction.Left) playerPos.Offset(-tickdist, 0);
+            else if (direction == Direction.Down) playerPos.Offset(0, tickdist);
+            else if (direction == Direction.Up) playerPos.Offset(0, -tickdist);
         }
 
         protected virtual void Finish(PositionComponent playerPos)
         {
-            if (direction == Direction.Right) { playerPos.SetPosition(new PointF(OffsetDist(), playerPos.Position.Y + NextScreenY)); }
-            else if (direction == Direction.Left) { playerPos.SetPosition(new PointF(nextWidth - OffsetDist(), playerPos.Position.Y + NextScreenY)); }
-            else if (direction == Direction.Down) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, OffsetDist())); }
-            else if (direction == Direction.Up) { playerPos.SetPosition(new PointF(playerPos.Position.X + NextScreenX, nextHeight - OffsetDist())); }
+            if (direction == Direction.Right)
+            {
+                playerPos.SetX(OffsetDist());
+                playerPos.Offset(0, NextScreenY);
+            }
+            else if (direction == Direction.Left)
+            {
+                playerPos.SetX(nextWidth - OffsetDist());
+                playerPos.Offset(0, NextScreenY);
+            }
+            else if (direction == Direction.Down)
+            {
+                playerPos.SetY(OffsetDist());
+                playerPos.Offset(NextScreenX, 0);
+            }
+            else if (direction == Direction.Up)
+            {
+                playerPos.SetY(nextHeight - OffsetDist());
+                playerPos.Offset(NextScreenX, 0);
+            }
 
             ScrollDone?.Invoke(this);
         }

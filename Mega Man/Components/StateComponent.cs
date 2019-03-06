@@ -18,6 +18,8 @@ namespace MegaMan.Engine
         public int Lifetime { get; private set; }
         public double FrameRand { get; private set; }
 
+        public string CurrentState { get { return currentState; } }
+
         public int StateTime
         {
             get { return StateFrames; }
@@ -32,7 +34,7 @@ namespace MegaMan.Engine
 
         public override Component Clone()
         {
-            var newone = new StateComponent {states = states};
+            StateComponent newone = new StateComponent { states = this.states };
 
             // notice the shallow copy!
 
@@ -132,7 +134,7 @@ namespace MegaMan.Engine
                     {
                         if (!states.ContainsKey(stateName))
                         {
-                            var state = new State {Name = stateName};
+                            State state = new State { Name = stateName };
                             states.Add(stateName, state);
                         }
                         states[stateName].AddTrigger(trigger);
@@ -147,7 +149,7 @@ namespace MegaMan.Engine
                 }
             }
         }
-        
+
         private Trigger ParseTrigger(TriggerInfo info)
         {
             try

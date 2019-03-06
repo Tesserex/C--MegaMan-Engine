@@ -3,15 +3,15 @@
 		<GravityFlip>True</GravityFlip>
 		<EditorData defaultSprite="Standing" hide="True" isProjectile="False" />
 		<Collision Enabled="False">
-			<Hitbox name="Stand" x="-7.5" y="-9" width="15" height="21" properties="Default" environment="True" pushaway="True">
+			<Hitbox name="Stand" x="-7" y="-9" width="14" height="21" properties="Default" environment="True" pushaway="True">
 				<Group>Solid</Group>
 				<Group>Player</Group>
 			</Hitbox>
-			<Hitbox name="PlayerRush" x="-7.5" y="4" width="15" height="8" properties="Default" environment="True" pushaway="True">
+			<Hitbox name="PlayerRush" x="-7" y="4" width="14" height="8" properties="Default" environment="True" pushaway="True">
 				<Group>Solid</Group>
 				<Group>PlayerRush</Group>
 			</Hitbox>
-			<Hitbox name="Slide" x="-7.5" y="-4" width="15" height="16" properties="Default" environment="True" pushaway="True">
+			<Hitbox name="Slide" x="-7" y="-4" width="14" height="16" properties="Default" environment="True" pushaway="True">
 				<Group>Solid</Group>
 				<Group>Player</Group>
 			</Hitbox>
@@ -23,12 +23,8 @@
 		</Health>
 		<Input />
 		<Ladder>
-			<Hitbox x="-7.5" y="-10" width="15" height="14" properties="Default" environment="True" pushaway="True" />
+			<Hitbox x="-7" y="-10" width="14" height="14" properties="Default" environment="True" pushaway="True" />
 		</Ladder>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Tilesheet>images\megaman.png</Tilesheet>
 		<Sprite name="Teleport" palette="MegaMan" width="24" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="12" />

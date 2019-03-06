@@ -33,12 +33,12 @@ namespace MegaMan.IO.Xml.Effects
 
             foreach (var box in partNode.Elements("Hitbox"))
             {
-                var boxinfo = new HitBoxInfo {
-                    Box = new RectangleF {
-                        X = box.GetAttribute<float>("x"),
-                        Y = box.GetAttribute<float>("y"),
-                        Width = box.GetAttribute<float>("width"),
-                        Height = box.GetAttribute<float>("height")
+                var boxinfo = new HitBoxInfo() {
+                    Box = new Rectangle() {
+                        X = box.GetAttribute<int>("x"),
+                        Y = box.GetAttribute<int>("y"),
+                        Width = box.GetAttribute<int>("width"),
+                        Height = box.GetAttribute<int>("height")
                     },
                     ContactDamage = box.TryAttribute<float>("damage"),
                     Environment = box.TryAttribute("environment", true),

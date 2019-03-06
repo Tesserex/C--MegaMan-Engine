@@ -5,7 +5,7 @@ namespace MegaMan.Engine
 {
     public interface IMapSquare
     {
-        RectangleF BlockBox { get; }
+        Rectangle BlockBox { get; }
         TileProperties Properties { get; }
     }
 }

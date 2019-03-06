@@ -49,7 +49,7 @@ namespace MegaMan.Common
         /// <summary>
         /// Gets a rectangle representing the box surrounding the sprite.
         /// </summary>
-        public RectangleF BoundBox { get; private set; }
+        public Rectangle BoundBox { get; protected set; }
 
         /// <summary>
         /// Gets or sets the height of the sprite.
@@ -121,11 +121,11 @@ namespace MegaMan.Common
             Width = width;
             frames = new List<SpriteFrame>();
 
-            HotSpot = new Point(0, 0);
-            BoundBox = new RectangleF(0, 0, width, height);
-            Visible = true;
-            AnimDirection = AnimationDirection.Forward;
-            AnimStyle = AnimationStyle.Repeat;
+            this.HotSpot = new Point(0, 0);
+            this.BoundBox = new Rectangle(0, 0, width, height);
+            this.Visible = true;
+            this.AnimDirection = AnimationDirection.Forward;
+            this.AnimStyle = AnimationStyle.Repeat;
         }
 
         public Sprite(Sprite copy)
@@ -139,7 +139,7 @@ namespace MegaMan.Common
             Tickable = copy.Tickable;
             frames = copy.frames;
             HotSpot = new Point(copy.HotSpot.X, copy.HotSpot.Y);
-            BoundBox = new RectangleF(0, 0, copy.Width, copy.Height);
+            BoundBox = new Rectangle(0, 0, copy.Width, copy.Height);
             Visible = true;
             AnimDirection = copy.AnimDirection;
             AnimStyle = copy.AnimStyle;

@@ -15,7 +15,7 @@ namespace MegaMan.Engine
         private bool inReach;
         private bool inReachCached;
         private MapSquare inReachTile, aboveTile;
-        private RectangleF reachRect;
+        private Rectangle reachRect;
 
         public bool InReach
         {
@@ -94,7 +94,7 @@ namespace MegaMan.Engine
         {
             if (InReach)
             {
-                position.SetPosition(new PointF(inReachTile.ScreenX + inReachTile.Tile.Width / 2, position.Position.Y));
+                position.SetPosition(new PointF(inReachTile.ScreenX + inReachTile.Tile.Width / 2, position.Y));
             }
         }
 
@@ -131,7 +131,7 @@ namespace MegaMan.Engine
                     if (tile.Tile.Properties.Climbable)
                     {
                         var myBox = hitbox.BoxAt(position.Position, Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : false);
-                        var intersection = RectangleF.Intersect(tile.BoundBox, myBox);
+                        var intersection = Rectangle.Intersect(tile.BoundBox, myBox);
                         if (!intersection.IsEmpty)
                         {
                             inReach = true;

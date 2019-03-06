@@ -36,7 +36,7 @@ namespace MegaMan.Engine.Tests.Components
         [TestMethod]
         public void Collision_FloatingPointError_StillWorks()
         {
-            var hitbox = new CollisionBox(-7.5f, -9f, 15, 21);
+            var hitbox = new CollisionBox(-7, -9, 15, 21);
             hitbox.Name = "Test";
             hitbox.Environment = true;
             hitbox.PushAway = true;

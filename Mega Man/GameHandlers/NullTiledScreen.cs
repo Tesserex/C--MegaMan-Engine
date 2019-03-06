@@ -16,12 +16,12 @@ namespace MegaMan.Engine
             }
         }
 
-        public float OffsetX
+        public int OffsetX
         {
             get { return 0; }
         }
 
-        public float OffsetY
+        public int OffsetY
         {
             get { return 0; }
         }

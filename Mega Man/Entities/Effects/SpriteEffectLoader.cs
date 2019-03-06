@@ -16,7 +16,7 @@ namespace MegaMan.Engine.Entities.Effects
         public Effect Load(IEffectPartInfo info)
         {
             var sprite = (SpriteEffectPartInfo)info;
-            
+
             Effect action = entity => { };
             if (sprite.Name != null)
             {
@@ -59,7 +59,7 @@ namespace MegaMan.Engine.Entities.Effects
                     if (facing == FacingValues.Left) spritecomp.HorizontalFlip = true;
                     else
                     {
-                        var leftFromPlayer = (positioncomp.Position.X <= playerPos.Position.X);
+                        var leftFromPlayer = (positioncomp.X <= playerPos.X);
                         if (facing == FacingValues.Player) spritecomp.HorizontalFlip = !leftFromPlayer;
                         else if (facing == FacingValues.PlayerOpposite) spritecomp.HorizontalFlip = leftFromPlayer;
                     }

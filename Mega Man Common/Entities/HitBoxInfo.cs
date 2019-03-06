@@ -6,7 +6,7 @@ namespace MegaMan.Common.Entities
     public class HitBoxInfo
     {
         public string Name { get; set; }
-        public RectangleF Box { get; set; }
+        public Rectangle Box { get; set; }
         public List<string> Hits { get; private set; }
         public List<string> Groups { get; private set; }
         public Dictionary<string, float> Resistance { get; private set; }

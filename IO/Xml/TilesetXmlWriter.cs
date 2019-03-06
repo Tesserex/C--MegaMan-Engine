@@ -40,8 +40,10 @@ namespace MegaMan.IO.Xml
             {
                 writer.WriteStartElement("Tile");
                 writer.WriteAttributeString("id", tile.Id.ToString());
-                writer.WriteAttributeString("name", tile.Name);
                 writer.WriteAttributeString("properties", tile.Properties.Name);
+
+                foreach (var group in tile.Groups)
+                    writer.WriteElementString("Group", group);
 
                 spriteWriter.Write(tile.Sprite, writer);
 

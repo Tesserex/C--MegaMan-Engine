@@ -190,12 +190,12 @@ namespace MegaMan.Engine.Entities.Effects
 
                         if (axis == Axis.X)
                         {
-                            if (pos.Position.X > playerPos.Position.X)
+                            if (pos.X > playerPos.X)
                             {
                                 mov.VelocityX = -mag ?? -1 * Math.Abs(mov.VelocityX);
                                 if (mov.VelocityX == 0) mov.Direction = Direction.Left;
                             }
-                            else if (pos.Position.X < playerPos.Position.X)
+                            else if (pos.X < playerPos.X)
                             {
                                 mov.VelocityX = mag ?? Math.Abs(mov.VelocityX);
                                 if (mov.VelocityX == 0) mov.Direction = Direction.Right;
@@ -203,15 +203,15 @@ namespace MegaMan.Engine.Entities.Effects
                         }
                         else if (axis == Axis.Y)
                         {
-                            if (pos.Position.Y > playerPos.Position.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
-                            else if (pos.Position.Y < playerPos.Position.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
+                            if (pos.Y > playerPos.Y) mov.VelocityY = -mag ?? -1 * Math.Abs(mov.VelocityY);
+                            else if (pos.Y < playerPos.Y) mov.VelocityY = mag ?? Math.Abs(mov.VelocityY);
                         }
                         else
                         {
-                            var dx = playerPos.Position.X - pos.Position.X;
-                            var dy = playerPos.Position.Y - pos.Position.Y;
-                            var hyp = Math.Pow(dx, 2) + Math.Pow(dy, 2);
-                            hyp = Math.Pow(hyp, 0.5);
+                            var dx = playerPos.X - pos.X;
+                            var dy = playerPos.Y - pos.Y;
+                            var hypsq = Math.Pow(dx, 2) + Math.Pow(dy, 2);
+                            var hyp = Math.Pow(hypsq, 0.5);
 
                             mov.VelocityX = (float)(mag * dx / hyp);
                             mov.VelocityY = (float)(mag * dy / hyp);

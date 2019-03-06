@@ -22,36 +22,35 @@ namespace MegaMan.Engine.Tests.Components
         [TestMethod]
         public void SetPositionWithPoint()
         {
-            var start = new PointF(0, 0);
+            var start = new Point(0, 0);
             var end = new PointF(5.1f, 3.66f);
 
             Assert.AreEqual(start, _position.Position);
             _position.SetPosition(end);
-            Assert.AreEqual(end, _position.Position);
+            Assert.AreEqual(new Point(5, 3), _position.Position);
         }
 
         [TestMethod]
         public void SetPositionWithValues()
         {
-            var start = new PointF(0, 0);
+            var start = new Point(0, 0);
             var end = new PointF(5.1f, 3.66f);
 
             Assert.AreEqual(start, _position.Position);
             _position.SetPosition(5.1f, 3.66f);
-            Assert.AreEqual(end, _position.Position);
+            Assert.AreEqual(new Point(5, 3), _position.Position);
         }
 
         [TestMethod]
         public void Offset()
         {
-            var start = new PointF(0, 0);
-            var end = new PointF(5.1f, 3.66f);
+            var start = new Point(0, 0);
 
             Assert.AreEqual(start, _position.Position);
             _position.Offset(2.4f, 1.92f);
             _position.Offset(2.7f, 1.74f);
-            Assert.AreEqual(end.X, _position.Position.X, 0.00001);
-            Assert.AreEqual(end.Y, _position.Position.Y, 0.00001);
+            Assert.AreEqual(5, _position.X);
+            Assert.AreEqual(3, _position.Y);
         }
 
         [TestMethod]

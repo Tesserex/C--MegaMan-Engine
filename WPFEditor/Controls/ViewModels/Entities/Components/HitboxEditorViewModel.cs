@@ -197,7 +197,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             set
             {
                 if (hitbox == null) return;
-                hitbox.Box = new RectangleF(value, hitbox.Box.Top, hitbox.Box.Width, hitbox.Box.Height);
+                hitbox.Box = new Rectangle(value, hitbox.Box.Top, hitbox.Box.Width, hitbox.Box.Height);
                 project.Dirty = true;
                 OnPropertyChanged("Left");
                 OnPropertyChanged("ZoomLeft");
@@ -210,7 +210,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             set
             {
                 if (hitbox == null) return;
-                hitbox.Box = new RectangleF(hitbox.Box.X, value, hitbox.Box.Width, hitbox.Box.Height);
+                hitbox.Box = new Rectangle(hitbox.Box.X, value, hitbox.Box.Width, hitbox.Box.Height);
                 project.Dirty = true;
                 OnPropertyChanged("Top");
                 OnPropertyChanged("ZoomTop");
@@ -223,7 +223,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             set
             {
                 if (hitbox == null) return;
-                hitbox.Box = new RectangleF(hitbox.Box.X, hitbox.Box.Y, value, hitbox.Box.Height);
+                hitbox.Box = new Rectangle(hitbox.Box.X, hitbox.Box.Y, value, hitbox.Box.Height);
                 project.Dirty = true;
                 OnPropertyChanged("Width");
                 OnPropertyChanged("ZoomWidth");
@@ -236,7 +236,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities.Components
             set
             {
                 if (hitbox == null) return;
-                hitbox.Box = new RectangleF(hitbox.Box.X, hitbox.Box.Y, hitbox.Box.Width, value);
+                hitbox.Box = new Rectangle(hitbox.Box.X, hitbox.Box.Y, hitbox.Box.Width, value);
                 project.Dirty = true;
                 OnPropertyChanged("Height");
                 OnPropertyChanged("ZoomHeight");

@@ -234,7 +234,7 @@ namespace MegaMan.Engine
             if (sprite != null && Visible)
             {
                 sprite.VerticalFlip = Parent.IsGravitySensitive ? Parent.Container.IsGravityFlipped : verticalFlip;
-                sprite.Draw(context, layer, PositionSrc.Position.X - off_x, PositionSrc.Position.Y - off_y, _animators[sprite.Id].CurrentIndex);
+                sprite.Draw(context, layer, PositionSrc.X - off_x, PositionSrc.Y - off_y, _animators[sprite.Id].CurrentIndex);
             }
         }
 
