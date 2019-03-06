@@ -56,7 +56,6 @@ namespace MegaMan.IO.Xml
             foreach (var tileNode in reader.Elements("Tile"))
             {
                 var id = int.Parse(tileNode.Attribute("id").Value);
-                var name = tileNode.Attribute("name").Value;
 
                 var spriteNode = tileNode.Element("Sprite");
                 if (spriteNode == null)
