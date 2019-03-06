@@ -319,7 +319,7 @@ namespace MegaMan.Engine
         // provides a closure around a split query
         private static Query CloseQuery(SplitQuery split)
         {
-            return entity => split(
+            return entity => entity != null ? split(
                 entity.GetComponent<PositionComponent>(),
                 entity.GetComponent<MovementComponent>(),
                 entity.GetComponent<SpriteComponent>(),
@@ -331,7 +331,7 @@ namespace MegaMan.Engine
                 entity.GetComponent<StateComponent>(),
                 entity.GetComponent<WeaponComponent>(),
                 Game.CurrentGame.Player
-            );
+            ) : null;
         }
 
         private static Filter GetEntityFilter(EntityFilterInfo filter)

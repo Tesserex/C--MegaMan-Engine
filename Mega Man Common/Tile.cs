@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 namespace MegaMan.Common
 {
     public class TileProperties
@@ -35,7 +37,7 @@ namespace MegaMan.Common
     public class Tile
     {
         public int Id { get; private set; }
-        public string Name { get; set; }
+        public IEnumerable<string> Groups { get; set; }
         public TileSprite Sprite { get; protected set; }
         public float Width { get { return Sprite.Width; } }
         public float Height { get { return Sprite.Height; } }
@@ -48,6 +50,7 @@ namespace MegaMan.Common
             Sprite = sprite;
             if (Sprite.Count == 0) Sprite.AddFrame();
             Properties = TileProperties.Default;
+            Groups = new List<string>();
         }
     }
 }
