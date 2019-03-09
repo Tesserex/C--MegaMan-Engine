@@ -10,6 +10,13 @@
         AllowsTransparency="True"
         WindowStyle="None">
     <Window.Resources>
+        <VisualBrush x:Key="GridBrush" Viewbox="0,0,8,8" ViewboxUnits="Absolute" Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+            <VisualBrush.Visual>
+                <Border Width="8" Height="8" BorderBrush="{StaticResource NesBlueBrush}" BorderThickness="0,0,1,1">
+                    <Rectangle Fill="{StaticResource NesDarkBlueBrush}" />
+                </Border>
+            </VisualBrush.Visual>
+        </VisualBrush>
     </Window.Resources>
 
     <Window.InputBindings>
@@ -84,7 +91,7 @@
                     <Fluent:BackstageTabControl>
                         <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
                         <Fluent:BackstageTabItem Header="Recent" Background="White">
-                            <Grid>
+                            <Grid Background="{StaticResource GridBrush}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30" />
                                     <RowDefinition Height="Auto" />

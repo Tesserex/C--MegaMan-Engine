@@ -3,12 +3,14 @@
                     xmlns:local="clr-namespace:MegaMan.Editor">
     <Color x:Key="NesLightBlue">#FF419dd7</Color>
     <Color x:Key="NesLightBlueShade">#FF3195d4</Color>
+    <Color x:Key="NesBlue">#FF0074F8</Color>
+    <Color x:Key="NesDarkBlue">#FF003C7C</Color>
     <Color x:Key="NesLightGray">#FFB4B4B4</Color>
     <Color x:Key="NesLightGrayShade">#FFA8A8A8</Color>
     <Color x:Key="NesGray">#FF848484</Color>
     <Color x:Key="NesGrayShade">#FF7B7B7B</Color>
     <Color x:Key="NesDarkGray">#FF525252</Color>
-    <Color x:Key="NesRed">#FF701008</Color>
+    <Color x:Key="NesRed">#FFF83800</Color>
     <Color x:Key="NesYellow">#FFE4DCA8</Color>
 
     <Color x:Key="DarkShadowColor">#FF373737</Color>
@@ -23,6 +25,8 @@
 
     <SolidColorBrush x:Key="NesLightBlueBrush" Color="{StaticResource NesLightBlue}" />
     <SolidColorBrush x:Key="NesLightBlueShadeBrush" Color="{StaticResource NesLightBlueShade}" />
+    <SolidColorBrush x:Key="NesBlueBrush" Color="{StaticResource NesBlue}" />
+    <SolidColorBrush x:Key="NesDarkBlueBrush" Color="{StaticResource NesDarkBlue}" />
     <SolidColorBrush x:Key="NesLightGrayBrush" Color="{StaticResource NesLightGray}" />
     <SolidColorBrush x:Key="NesLightGrayShadeBrush" Color="{StaticResource NesLightGrayShade}" />
     <SolidColorBrush x:Key="NesDarkGrayBrush" Color="{StaticResource NesDarkGray}" />
