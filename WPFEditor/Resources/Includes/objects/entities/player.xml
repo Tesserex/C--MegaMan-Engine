@@ -73,13 +73,13 @@
 		<Frame x="200" y="0" duration="3" />
 	</Sprite>
 	<Collision>
-		<Hitbox name="Stand" x="-7.5" y="-9" width="15" height="21">
+		<Hitbox name="Stand" x="-7" y="-9" width="15" height="21">
 			<Group>Solid</Group><Group>Player</Group>
 		</Hitbox>
-		<Hitbox name="PlayerRush" x="-7.5" y="4" width="15" height="8">
+		<Hitbox name="PlayerRush" x="-7" y="4" width="15" height="8">
 			<Group>Solid</Group><Group>PlayerRush</Group>
 		</Hitbox>
-		<Hitbox name="Slide" x="-7.5" y="-4" width="15" height="16">
+		<Hitbox name="Slide" x="-7" y="-4" width="15" height="16">
 			<Group>Solid</Group><Group>Player</Group>
 		</Hitbox>
 	</Collision>
@@ -91,7 +91,7 @@
 		<Flash>90</Flash>
 	</Health>
 	<Ladder>
-		<Hitbox x="-7.5" y="-10" width="15" height="14">
+		<Hitbox x="-7" y="-10" width="15" height="14">
 			<Group>Solid</Group><Group>Player</Group>
 		</Hitbox>
 	</Ladder>

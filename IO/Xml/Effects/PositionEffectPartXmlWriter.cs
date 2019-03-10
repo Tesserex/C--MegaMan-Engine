@@ -18,6 +18,8 @@ namespace MegaMan.IO.Xml.Effects
         {
             var pos = (PositionEffectPartInfo)info;
 
+            if (pos == null) return;
+
             writer.WriteStartElement("Position");
 
             if (pos.X != null)

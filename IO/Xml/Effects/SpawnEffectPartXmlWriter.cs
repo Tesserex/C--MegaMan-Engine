@@ -29,7 +29,10 @@ namespace MegaMan.IO.Xml.Effects
             writer.WriteAttributeString("name", spawn.Name);
             writer.WriteAttributeString("state", spawn.State);
 
-            positionWriter.Write(spawn.Position, writer);
+            if (spawn.Position != null)
+            {
+                positionWriter.Write(spawn.Position, writer);
+            }
 
             writer.WriteEndElement();
         }
