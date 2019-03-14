@@ -185,7 +185,7 @@ namespace MegaMan.Editor.Bll
                                 Type = JoinType.Horizontal,
                                 ScreenOne = join.OffsetOne < leftHalfTileWidth ? leftScreen.Name : rightScreen.Name,
                                 ScreenTwo = join.ScreenTwo,
-                                OffsetOne = Math.Min(join.OffsetOne, leftHalfTileWidth - join.OffsetOne),
+                                OffsetOne = join.OffsetOne < leftHalfTileWidth ? join.OffsetOne : join.OffsetOne - leftHalfTileWidth,
                                 OffsetTwo = join.OffsetTwo,
                                 Size = join.Size
                             });
@@ -198,7 +198,7 @@ namespace MegaMan.Editor.Bll
                                 ScreenOne = join.ScreenOne,
                                 ScreenTwo = join.OffsetTwo < leftHalfTileWidth ? leftScreen.Name : rightScreen.Name,
                                 OffsetOne = join.OffsetOne,
-                                OffsetTwo = Math.Min(join.OffsetTwo, leftHalfTileWidth - join.OffsetTwo),
+                                OffsetTwo = join.OffsetTwo < leftHalfTileWidth ? join.OffsetTwo : join.OffsetTwo - leftHalfTileWidth,
                                 Size = join.Size
                             });
                         }

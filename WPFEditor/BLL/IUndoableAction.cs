@@ -210,12 +210,14 @@ namespace MegaMan.Editor.Bll
     public class SplitScreenAction : IUndoableAction
     {
         private readonly ScreenDocument screen;
+        private readonly List<Join> originalJoins;
         private readonly int left;
         private Tuple<ScreenDocument, ScreenDocument> split;
 
         public SplitScreenAction(ScreenDocument screen, int left)
         {
             this.screen = screen;
+            this.originalJoins = screen.Joins.ToList();
             this.left = left;
         }
 
@@ -228,7 +230,41 @@ namespace MegaMan.Editor.Bll
 
         public IUndoableAction Reverse()
         {
-            return new MergeScreensAction(split);
+            return new SplitScreenReverseAction(split, screen, originalJoins);
+        }
+    }
+
+    public class SplitScreenReverseAction : IUndoableAction
+    {
+        private readonly Tuple<ScreenDocument, ScreenDocument> pair;
+        private readonly ScreenDocument original;
+        private readonly List<Join> joins;
+
+        public string Name => "Undo Split Screen";
+
+        public SplitScreenReverseAction(Tuple<ScreenDocument, ScreenDocument> pair, ScreenDocument original, List<Join> originalJoins)
+        {
+            this.pair = pair;
+            this.original = original;
+            this.joins = originalJoins;
+        }
+
+        public void Execute()
+        {
+            pair.Item1.Stage.RemoveScreen(pair.Item1);
+            pair.Item2.Stage.RemoveScreen(pair.Item2);
+            original.Stage.AddScreen(original);
+            foreach (var join in joins)
+            {
+                original.Stage.AddJoin(join);
+            }
+        }
+
+        public IUndoableAction Reverse()
+        {
+            // this action should only exist as an undo of split screen.
+            // it should never be added to the stack alone, so it should never be reversed.
+            throw new NotImplementedException();
         }
     }
 
