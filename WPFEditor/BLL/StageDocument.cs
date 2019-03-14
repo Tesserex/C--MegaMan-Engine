@@ -166,14 +166,11 @@ namespace MegaMan.Editor.Bll
         public ScreenDocument AddScreen(ScreenInfo screen)
         {
             var doc = WrapScreen(screen);
-            AddScreenDocumentWithoutHistory(doc);
-
-            PushHistoryAction(new AddScreenAction(doc));
-
+            AddScreen(doc);
             return doc;
         }
 
-        public void AddScreenDocumentWithoutHistory(ScreenDocument doc)
+        public void AddScreen(ScreenDocument doc)
         {
             _map.Screens.Add(doc.Name, doc.Info);
             screens.Add(doc.Name, doc);
@@ -184,16 +181,10 @@ namespace MegaMan.Editor.Bll
                 Dirty = true;
             }
 
-            if (ScreenAdded != null) ScreenAdded(doc);
+            ScreenAdded?.Invoke(doc);
         }
 
         public void RemoveScreen(ScreenDocument screen)
-        {
-            RemoveScreenWithoutHistory(screen);
-            PushHistoryAction(new RemoveScreenAction(screen));
-        }
-
-        public void RemoveScreenWithoutHistory(ScreenDocument screen)
         {
             screen.Renamed -= ScreenRenamed;
             screen.TileChanged -= () => Dirty = true;
@@ -208,26 +199,21 @@ namespace MegaMan.Editor.Bll
                 Dirty = true;
             }
 
-            if (ScreenRemoved != null) ScreenRemoved(screen);
-        }
-
-        public void RemoveScreen(ScreenInfo info)
-        {
-
+            ScreenRemoved?.Invoke(screen);
         }
 
         public void AddJoin(Join join)
         {
             _map.Joins.Add(join);
             Dirty = true;
-            if (JoinChanged != null) JoinChanged(join);
+            JoinChanged?.Invoke(join);
         }
 
         public void RemoveJoin(Join join)
         {
             _map.Joins.Remove(join);
             Dirty = true;
-            if (JoinChanged != null) JoinChanged(join);
+            JoinChanged?.Invoke(join);
         }
 
         public void PushHistoryAction(IUndoableAction action)
@@ -256,10 +242,7 @@ namespace MegaMan.Editor.Bll
 
         void OnScreenResized(ScreenDocument screen, int width, int height)
         {
-            if (ScreenResized != null)
-            {
-                ScreenResized(screen, width, height);
-            }
+            ScreenResized?.Invoke(screen, width, height);
         }
 
         private void ScreenRenamed(string oldName, string newName)
@@ -283,8 +266,7 @@ namespace MegaMan.Editor.Bll
             _map.PlayerStartX = location.X;
             _map.PlayerStartY = location.Y;
             Dirty = true;
-            if (EntryPointsChanged != null)
-                EntryPointsChanged();
+            EntryPointsChanged?.Invoke();
         }
 
         public void AddContinuePoint(ScreenDocument screenDocument, Point location)
@@ -299,8 +281,7 @@ namespace MegaMan.Editor.Bll
             }
 
             Dirty = true;
-            if (EntryPointsChanged != null)
-                EntryPointsChanged();
+            EntryPointsChanged?.Invoke();
         }
     }
 }

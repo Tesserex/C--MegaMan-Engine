@@ -106,7 +106,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
                 int nextScreenId = stage.FindNextScreenId();
 
-                stage.AddScreen(nextScreenId.ToString(), 16, 14);
+                var doc = stage.AddScreen(nextScreenId.ToString(), 16, 14);
+                stage.PushHistoryAction(new AddScreenAction(doc));
             }
         }
 
@@ -137,7 +138,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             var importer = new ScreenImporter(_currentStage);
             var screen = importer.Import(image);
-            _currentStage.AddScreen(screen);
+            var document = _currentStage.AddScreen(screen);
+            _currentStage.PushHistoryAction(new AddScreenAction(document));
         }
 
         private void DeleteScreen(ScreenDocument screen)

@@ -12,7 +12,9 @@ namespace MegaMan.Editor.Bll.Tools
         public void Release(ScreenCanvas canvas, Point location)
         {
             int tilePosX = location.X / canvas.Screen.Tileset.TileSize;
-            canvas.Screen.CleaveVertically(tilePosX);
+            var action = new SplitScreenAction(canvas.Screen, tilePosX);
+            action.Execute();
+            canvas.Screen.Stage.PushHistoryAction(action);
         }
 
         public void RightClick(ScreenCanvas canvas, Point location) { }

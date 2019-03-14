@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
@@ -175,7 +176,7 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            screen.Stage.AddScreenDocumentWithoutHistory(screen);
+            screen.Stage.AddScreen(screen);
         }
 
         public IUndoableAction Reverse()
@@ -197,12 +198,62 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            screen.Stage.RemoveScreenWithoutHistory(screen);
+            screen.Stage.RemoveScreen(screen);
         }
 
         public IUndoableAction Reverse()
         {
             return new AddScreenAction(screen);
+        }
+    }
+
+    public class SplitScreenAction : IUndoableAction
+    {
+        private readonly ScreenDocument screen;
+        private readonly int left;
+        private Tuple<ScreenDocument, ScreenDocument> split;
+
+        public SplitScreenAction(ScreenDocument screen, int left)
+        {
+            this.screen = screen;
+            this.left = left;
+        }
+
+        public string Name => "Split Screen";
+
+        public void Execute()
+        {
+            this.split = screen.CleaveVertically(left);
+        }
+
+        public IUndoableAction Reverse()
+        {
+            return new MergeScreensAction(split);
+        }
+    }
+
+    public class MergeScreensAction : IUndoableAction
+    {
+        private readonly Tuple<ScreenDocument, ScreenDocument> pair;
+        private readonly int left;
+        private ScreenDocument merged;
+
+        public MergeScreensAction(Tuple<ScreenDocument, ScreenDocument> pair)
+        {
+            this.pair = pair;
+            this.left = pair.Item1.Width;
+        }
+
+        public string Name => "Merge Screens";
+
+        public void Execute()
+        {
+            pair.Item1.MergeWith(pair.Item2);
+        }
+
+        public IUndoableAction Reverse()
+        {
+            return new SplitScreenAction(merged, left);
         }
     }
 }

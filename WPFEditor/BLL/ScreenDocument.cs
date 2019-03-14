@@ -133,7 +133,7 @@ namespace MegaMan.Editor.Bll
             TileChanged?.Invoke();
         }
 
-        public void CleaveVertically(int leftHalfTileWidth)
+        public Tuple<ScreenDocument, ScreenDocument> CleaveVertically(int leftHalfTileWidth)
         {
             if (leftHalfTileWidth > 0 && leftHalfTileWidth < screen.Width)
             {
@@ -146,10 +146,9 @@ namespace MegaMan.Editor.Bll
                 leftScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, leftSide);
                 rightScreen.screen.Layers[0].Tiles.ChangeTiles(Point.Empty, rightSide);
 
-                foreach (var join in Joins.ToArray())
-                {
-                    Stage.RemoveJoin(join);
-                }
+                var existingJoins = Joins.ToList();
+
+                SeverAllJoins();
 
                 Stage.RemoveScreen(this);
 
@@ -162,7 +161,83 @@ namespace MegaMan.Editor.Bll
                     OffsetTwo = 0,
                     Size = Height
                 });
+
+                foreach (var join in existingJoins)
+                {
+                    if (join.Type == JoinType.Vertical)
+                    {
+                        Stage.AddJoin(new Join {
+                            Direction = join.Direction,
+                            Type = JoinType.Vertical,
+                            ScreenOne = join.ScreenTwo == Name ? join.ScreenOne : rightScreen.Name,
+                            ScreenTwo = join.ScreenOne == Name ? join.ScreenTwo : leftScreen.Name,
+                            OffsetOne = join.OffsetOne,
+                            OffsetTwo = join.OffsetTwo,
+                            Size = join.Size
+                        });
+                    }
+                    else
+                    {
+                        if (join.ScreenOne == Name)
+                        {
+                            Stage.AddJoin(new Join {
+                                Direction = join.Direction,
+                                Type = JoinType.Horizontal,
+                                ScreenOne = join.OffsetOne < leftHalfTileWidth ? leftScreen.Name : rightScreen.Name,
+                                ScreenTwo = join.ScreenTwo,
+                                OffsetOne = Math.Min(join.OffsetOne, leftHalfTileWidth - join.OffsetOne),
+                                OffsetTwo = join.OffsetTwo,
+                                Size = join.Size
+                            });
+                        }
+                        else if (join.ScreenTwo == Name)
+                        {
+                            Stage.AddJoin(new Join {
+                                Direction = join.Direction,
+                                Type = JoinType.Horizontal,
+                                ScreenOne = join.ScreenOne,
+                                ScreenTwo = join.OffsetTwo < leftHalfTileWidth ? leftScreen.Name : rightScreen.Name,
+                                OffsetOne = join.OffsetOne,
+                                OffsetTwo = Math.Min(join.OffsetTwo, leftHalfTileWidth - join.OffsetTwo),
+                                Size = join.Size
+                            });
+                        }
+                    }
+                }
+
+                return new Tuple<ScreenDocument, ScreenDocument>(leftScreen, rightScreen);
             }
+
+            return null;
+        }
+
+        public ScreenDocument MergeWith(ScreenDocument rightScreen)
+        {
+            var existingJoins = Joins
+                .Where(x => (x.ScreenOne == Name && x.ScreenTwo == rightScreen.Name) || x.ScreenOne == rightScreen.Name && x.ScreenTwo == Name)
+                .ToList();
+
+            foreach (var join in existingJoins)
+            {
+                Stage.RemoveJoin(join);
+            }
+
+            var rightX = Width;
+
+            Resize(Width + rightScreen.Width, Math.Max(Height, rightScreen.Height));
+
+            BeginDrawBatch();
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < rightScreen.Width; x++)
+                {
+                    ChangeTile(x, y, rightScreen.TileAt(x + rightX, y).Id);
+                }
+            }
+            EndDrawBatch();
+
+            Stage.RemoveScreen(rightScreen);
+            return this;
         }
 
         public void SeverAllJoins()
@@ -180,7 +255,8 @@ namespace MegaMan.Editor.Bll
             var info = screen.Clone();
             info.Name = Stage.FindNextScreenId().ToString();
 
-            Stage.AddScreen(info);
+            var doc = Stage.AddScreen(info);
+            Stage.PushHistoryAction(new AddScreenAction(doc));
         }
 
         public void AddEntity(EntityPlacement info)
