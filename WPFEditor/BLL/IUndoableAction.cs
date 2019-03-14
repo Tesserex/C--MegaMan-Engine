@@ -248,7 +248,7 @@ namespace MegaMan.Editor.Bll
 
         public void Execute()
         {
-            pair.Item1.MergeWith(pair.Item2);
+            merged = pair.Item1.MergeWith(pair.Item2);
         }
 
         public IUndoableAction Reverse()

@@ -214,12 +214,34 @@ namespace MegaMan.Editor.Bll
         public ScreenDocument MergeWith(ScreenDocument rightScreen)
         {
             var existingJoins = Joins
-                .Where(x => (x.ScreenOne == Name && x.ScreenTwo == rightScreen.Name) || x.ScreenOne == rightScreen.Name && x.ScreenTwo == Name)
+                .Where(x => x.ScreenTwo == rightScreen.Name || x.ScreenOne == rightScreen.Name)
                 .ToList();
+
+            var rightJoins = rightScreen.Joins.ToList();
 
             foreach (var join in existingJoins)
             {
                 Stage.RemoveJoin(join);
+            }
+
+            foreach (var join in rightJoins)
+            {
+                if (join.ScreenOne == rightScreen.Name)
+                {
+                    join.ScreenOne = Name;
+                    if (join.Type == JoinType.Horizontal)
+                    {
+                        join.OffsetOne += Width;
+                    }
+                }
+                else
+                {
+                    join.ScreenTwo = Name;
+                    if (join.Type == JoinType.Horizontal)
+                    {
+                        join.OffsetTwo += Width;
+                    }
+                }
             }
 
             var rightX = Width;
@@ -231,7 +253,7 @@ namespace MegaMan.Editor.Bll
             {
                 for (int x = 0; x < rightScreen.Width; x++)
                 {
-                    ChangeTile(x, y, rightScreen.TileAt(x + rightX, y).Id);
+                    ChangeTile(x + rightX, y, rightScreen.TileAt(x, y).Id);
                 }
             }
             EndDrawBatch();

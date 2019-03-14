@@ -186,6 +186,11 @@ namespace MegaMan.Editor.Bll
 
         public void RemoveScreen(ScreenDocument screen)
         {
+            foreach (var join in screen.Joins.ToList())
+            {
+                RemoveJoin(join);
+            }
+
             screen.Renamed -= ScreenRenamed;
             screen.TileChanged -= () => Dirty = true;
             screen.Resized -= (w, h) => OnScreenResized(screen, w, h);
