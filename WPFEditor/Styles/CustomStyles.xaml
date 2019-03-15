@@ -78,7 +78,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Grid>
+                    <Grid RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True" SnapsToDevicePixels="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3" />
                             <RowDefinition Height="*" />
@@ -308,7 +308,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Grid Name="Border" Height="26" VerticalAlignment="Bottom">
+                    <Grid Name="Border" Height="26" VerticalAlignment="Bottom" RenderOptions.EdgeMode="Aliased">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3" />
                             <RowDefinition Height="*" />
@@ -381,7 +381,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TabItem">
-                            <Grid Name="Border" Height="28" VerticalAlignment="Bottom">
+                            <Grid Name="Border" Height="28" VerticalAlignment="Bottom" RenderOptions.EdgeMode="Aliased">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="3" />
                                     <RowDefinition Height="*" />
