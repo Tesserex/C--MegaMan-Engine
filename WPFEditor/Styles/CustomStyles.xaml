@@ -182,7 +182,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <ContentControl Style="{StaticResource AngledBorder}" Background="{TemplateBinding my:ThemeProperties.FaceBrush}">
+                    <ContentControl Style="{StaticResource AngledBorder}" Background="{TemplateBinding my:ThemeProperties.FaceBrush}" VerticalAlignment="Center">
                         <ContentPresenter Margin="6,2" x:Name="contentPresenter"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -215,6 +215,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Resources>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+        </Style.Resources>
     </Style>
 
     <Style TargetType="Button" x:Key="PlainButton">
