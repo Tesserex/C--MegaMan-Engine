@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:converters="clr-namespace:MegaMan.Editor.Controls.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800" Background="{StaticResource DarkShadowBrush}">
     <Grid>
@@ -56,7 +57,9 @@
                 </TabItem.Header>
                 <DockPanel>
                     <c:LayoutToolbar x:Name="layoutToolbar" DockPanel.Dock="Top"></c:LayoutToolbar>
-                    <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
+                    <converters:DpiDecorator>
+                        <c:StageLayoutControl x:Name="stageLayoutControl"></c:StageLayoutControl>
+                    </converters:DpiDecorator>
                 </DockPanel>
             </TabItem>
             <TabItem>
@@ -71,9 +74,11 @@
                             <ColumnDefinition Width="5" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <c:TileBrushPanel x:Name="brushTray" Grid.Column="0"></c:TileBrushPanel>
+                        <converters:DpiDecorator Grid.Column="0">
+                            <c:StageTileControl x:Name="stageTileControl"></c:StageTileControl>
+                        </converters:DpiDecorator>
                         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
-                        <c:StageTileControl x:Name="stageTileControl" Grid.Column="2"></c:StageTileControl>
+                        <c:TileBrushPanel x:Name="brushTray" Grid.Column="2"></c:TileBrushPanel>
                     </Grid>
                 </DockPanel>
             </TabItem>
@@ -89,7 +94,9 @@
                             <ColumnDefinition Width="5" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <c:StageEntitiesControl x:Name="stageEntitiesControl" Grid.Column="0"></c:StageEntitiesControl>
+                        <converters:DpiDecorator Grid.Column="0">
+                            <c:StageEntitiesControl x:Name="stageEntitiesControl"></c:StageEntitiesControl>
+                        </converters:DpiDecorator>
                         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
                         <c:EntityTray x:Name="entityTray" Grid.Column="2"></c:EntityTray>
                     </Grid>
