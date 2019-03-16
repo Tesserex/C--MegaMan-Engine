@@ -70,9 +70,9 @@
                     <c:TilesToolbar x:Name="tileStrip" DockPanel.Dock="Top"></c:TilesToolbar>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="5" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="200" />
                         </Grid.ColumnDefinitions>
                         <converters:DpiDecorator Grid.Column="0">
                             <c:StageTileControl x:Name="stageTileControl"></c:StageTileControl>
