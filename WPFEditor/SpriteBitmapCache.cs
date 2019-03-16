@@ -28,9 +28,17 @@ namespace MegaMan.Editor
                 BitmapImage image;
 
                 if (File.Exists(absolutePath))
-                    image = new BitmapImage(new Uri(absolutePath));
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.UriSource = new Uri(absolutePath, UriKind.Absolute);
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.EndInit();
+                }
                 else
+                {
                     image = GetResource("tile_unknown.png");
+                }
 
                 image.Freeze();
                 images[absolutePath] = image;
