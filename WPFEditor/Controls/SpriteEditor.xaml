@@ -147,7 +147,9 @@
                             </Path.Data>
                         </Path>
                         <Rectangle Grid.Row="1" Grid.Column="0" Fill="#404040" />
-                        <Image Grid.Row="1" Grid.Column="1" x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <conv:DpiDecorator Grid.Row="1" Grid.Column="1" >
+                            <Image x:Name="previewImage" Source="{Binding PreviewImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="{Binding PreviewHeight}" Width="{Binding PreviewWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        </conv:DpiDecorator>
                         <Rectangle Grid.Row="1" Grid.Column="2" Fill="#404040" />
                         <Path Grid.Row="2" Grid.Column="0" Fill="#404040">
                             <Path.Data>
@@ -193,10 +195,12 @@
                 </StackPanel>
 
                 <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
-                        <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
-                    </Canvas>
+                    <conv:DpiDecorator>
+                        <Canvas Background="Transparent" MouseEnter="SheetMouseEnter" MouseLeave="SheetMouseLeave" MouseMove="SheetMouseMove" MouseLeftButtonUp="SheetMouseClick" Cursor="{Binding SheetCursor}" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}">
+                            <Image x:Name="sheetImage" Canvas.Top="0" Canvas.Left="0" Source="{Binding SheetImageSource}" Stretch="Fill" SnapsToDevicePixels="True" Height="{Binding SheetHeight}" Width="{Binding SheetWidth}" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                            <Border x:Name="sheetHighlight" Canvas.Top="0" Canvas.Left="0" Width="{Binding HighlightWidth}" Height="{Binding HighlightHeight}" BorderBrush="Green" BorderThickness="4" Visibility="Hidden" />
+                        </Canvas>
+                    </conv:DpiDecorator>
                 </ScrollViewer>
             </DockPanel>
         </Grid>

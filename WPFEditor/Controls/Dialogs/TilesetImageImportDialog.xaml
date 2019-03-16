@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MegaMan.Editor.Controls.Dialogs"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:converters="clr-namespace:MegaMan.Editor.Controls.Converters"
         mc:Ignorable="d"
         Title="{Binding Title}"
         ShowInTaskbar="False" Topmost="True"
@@ -26,6 +27,8 @@
             <Label VerticalAlignment="Center">Offset</Label>
             <xctk:IntegerUpDown Value="{Binding Offset}" Minimum="0" VerticalAlignment="Center"></xctk:IntegerUpDown>
         </StackPanel>
-        <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ImageWidth}" Height="{Binding ImageHeight}" />
+        <converters:DpiDecorator>
+            <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ImageWidth}" Height="{Binding ImageHeight}" />
+        </converters:DpiDecorator>
     </DockPanel>
 </Window>

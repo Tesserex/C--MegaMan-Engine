@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:MegaMan.Editor.Controls.Parts"
              xmlns:e="clr-namespace:MegaMan.Editor"
+             xmlns:converters="clr-namespace:MegaMan.Editor.Controls.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <DockPanel>
@@ -18,14 +19,18 @@
                 <Button Command="{Binding Path=EditTilesetCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:MainWindow}}}">Back to Editor</Button>
             </StackPanel>
         </DockPanel>
-        <Image DockPanel.Dock="Right" Margin="16" Source="{Binding TilesheetSource}" Width="{Binding TilesheetWidth}" Height="{Binding TilesheetHeight}" Stretch="Fill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        <converters:DpiDecorator DockPanel.Dock="Right">
+            <Image Margin="16" Source="{Binding TilesheetSource}" Width="{Binding TilesheetWidth}" Height="{Binding TilesheetHeight}" Stretch="Fill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        </converters:DpiDecorator>
         <ListView ItemsSource="{Binding Path=Tiles}" SelectedItem="{Binding SelectedTile}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <c:TileImage DataContext="{Binding}" Margin="3" />
+                                <converters:DpiDecorator>
+                                    <c:TileImage DataContext="{Binding}" Margin="3" />
+                                </converters:DpiDecorator>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

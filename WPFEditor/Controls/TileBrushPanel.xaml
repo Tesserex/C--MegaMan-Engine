@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
+             xmlns:converters="clr-namespace:MegaMan.Editor.Controls.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="White">
     <UserControl.Resources>
@@ -39,21 +40,25 @@
                         <ListView.Resources>
                             <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
                                 <Border BorderThickness="3" BorderBrush="Cyan" Padding="0" Margin="0">
-                                    <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" />
+                                    <converters:DpiDecorator>
+                                        <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" />
+                                    </converters:DpiDecorator>
                                 </Border>
                             </ControlTemplate>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate>
-                                            <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" Margin="3">
-                                                <c:MultiTileBrushImage.CommandBindings>
-                                                    <CommandBinding Command="c:TileBrushPanel.clickBrushCommand" Executed="BrushClick" />
-                                                </c:MultiTileBrushImage.CommandBindings>
-                                                <c:MultiTileBrushImage.InputBindings>
-                                                    <MouseBinding MouseAction="LeftClick" Command="c:TileBrushPanel.clickBrushCommand" CommandParameter="{Binding}" />
-                                                </c:MultiTileBrushImage.InputBindings>
-                                            </c:MultiTileBrushImage>
+                                            <converters:DpiDecorator>
+                                                <c:MultiTileBrushImage DataContext="{Binding}" Zoom="{Binding Path=DataContext.Zoom, RelativeSource={RelativeSource AncestorType={x:Type c:TileBrushPanel}}}" Margin="3">
+                                                    <c:MultiTileBrushImage.CommandBindings>
+                                                        <CommandBinding Command="c:TileBrushPanel.clickBrushCommand" Executed="BrushClick" />
+                                                    </c:MultiTileBrushImage.CommandBindings>
+                                                    <c:MultiTileBrushImage.InputBindings>
+                                                        <MouseBinding MouseAction="LeftClick" Command="c:TileBrushPanel.clickBrushCommand" CommandParameter="{Binding}" />
+                                                    </c:MultiTileBrushImage.InputBindings>
+                                                </c:MultiTileBrushImage>
+                                            </converters:DpiDecorator>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
