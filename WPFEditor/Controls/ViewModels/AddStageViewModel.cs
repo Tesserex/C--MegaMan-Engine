@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using MegaMan.Common;
 using MegaMan.Editor.Bll;
@@ -128,6 +129,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void AddStage(object obj)
         {
+            if (_project.StageNames.Any(x => x.ToUpper() == Name.ToUpper()))
+            {
+                CustomMessageBox.ShowError("A stage with that name already exists.", "Foild!");
+                return;
+            }
+
             if (ExistingTileset)
             {
                 if (!File.Exists(TilesetPath))
