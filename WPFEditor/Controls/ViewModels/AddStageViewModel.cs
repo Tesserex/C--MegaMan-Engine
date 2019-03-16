@@ -156,8 +156,20 @@ namespace MegaMan.Editor.Controls.ViewModels
                 }
 
                 var tilesetFilePath = _project.FileStructure.CreateTilesetPath(Name);
+                var localSheetPath = Path.Combine(Path.GetDirectoryName(tilesetFilePath.Absolute), Path.GetFileName(TilesheetPath));
+
+                try
+                {
+                    File.Copy(TilesheetPath, localSheetPath);
+                }
+                catch
+                {
+                    CustomMessageBox.ShowError("Unable to copy the image file into the project.", "Foild!");
+                    return;
+                }
+
                 var tileset = _dataService.CreateTileset(tilesetFilePath);
-                tileset.Tileset.ChangeSheetPath(TilesheetPath);
+                tileset.Tileset.ChangeSheetPath(localSheetPath);
                 AddStageToProject(tileset);
             }
         }
