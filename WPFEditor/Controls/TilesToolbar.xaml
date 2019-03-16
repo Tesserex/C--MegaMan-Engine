@@ -6,7 +6,7 @@
              xmlns:c="clr-namespace:MegaMan.Editor.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="24" d:DesignWidth="300">
+             d:DesignHeight="38" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="{x:Type Image}">
             <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -16,8 +16,8 @@
             <Setter Property="Height" Value="32" />
         </Style>
     </UserControl.Resources>
-    <DockPanel>
-        <ToolBar DockPanel.Dock="Left">
+    <ToolBarTray Orientation="Horizontal">
+        <ToolBar Band="1" BandIndex="1">
             <RadioButton ToolTip="Place Tiles" Padding="0" Margin="0,0,2,0" Width="40" Height="40" Command="{Binding ChangeToolCommand}" CommandParameter="Brush">
                 <Image Source="{Binding BrushIcon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </RadioButton>
@@ -43,5 +43,5 @@
                 </ComboBoxItem>
             </ComboBox>
         </ToolBar>
-    </DockPanel>
+    </ToolBarTray>
 </UserControl>
