@@ -139,7 +139,7 @@ namespace MegaMan.Editor.Bll.Tools
                 {
                     var old = screen.TileAt(cell.x + tile_x, cell.y + tile_y);
 
-                    if (old == null || old.Id == -1) continue;
+                    if (old == null || old.Id == UnknownTile.UnknownId) continue;
 
                     if (selection != null)
                     {
@@ -170,7 +170,7 @@ namespace MegaMan.Editor.Bll.Tools
 
             var old = screen.TileAt(tile_x, tile_y);
 
-            if (old == null || old.Id == -1)
+            if (old == null || old.Id == UnknownTile.UnknownId)
                 return Enumerable.Empty<TileChange>();
 
             var selection = screen.Selection;

@@ -157,7 +157,7 @@ namespace MegaMan.Editor.Services
                     foreach (var cell in brush.Cells.SelectMany(a => a))
                     {
                         stream.Write(' ');
-                        if (cell.tile == null) stream.Write(-1);
+                        if (cell.tile == null) stream.Write(UnknownTile.UnknownId);
                         else stream.Write(cell.tile.Id);
                     }
                     stream.WriteLine();

@@ -80,6 +80,11 @@ namespace MegaMan.Editor.Bll.Algorithms
 
         private int MatchImageToTileset(WriteableBitmap image)
         {
+            if (!Stage.Tileset.Tiles.Any())
+            {
+                return UnknownTile.UnknownId;
+            }
+
             var scores = Stage.Tileset.Tiles.Select((t) => new { Id = t.Id, Score = GetTileDifferenceScore(image, t) });
             return scores
                 .OrderBy(s => s.Score)

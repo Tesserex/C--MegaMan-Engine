@@ -113,6 +113,12 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void ImportScreen()
         {
+            if (!_currentStage.Tileset.Tiles.Any())
+            {
+                CustomMessageBox.ShowError("Please add some tiles to the tileset before importing a screen.", "Tiles Needed");
+                return;
+            }
+
             var dialog = new CommonOpenFileDialog();
             dialog.Filters.Add(new CommonFileDialogFilter("Images", "png,gif,jpg,jpeg,bmp"));
 
