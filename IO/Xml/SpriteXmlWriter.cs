@@ -29,6 +29,9 @@ namespace MegaMan.IO.Xml
             writer.WriteAttributeString("y", sprite.HotSpot.Y.ToString());
             writer.WriteEndElement();
 
+            writer.WriteElementString("AnimDirection", sprite.AnimDirection.ToString());
+            writer.WriteElementString("AnimStyle", sprite.AnimStyle.ToString());
+
             foreach (var frame in sprite)
             {
                 writer.WriteStartElement("Frame");
