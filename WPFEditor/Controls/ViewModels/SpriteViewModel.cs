@@ -78,7 +78,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return Frames[Model.CurrentIndex];
+                return Frames[CurrentIndex];
             }
         }
 
@@ -165,6 +165,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             Sprite.InsertFrame(index);
             Frames.Insert(index, new SpriteFrameViewModel(Sprite[index], index, this));
+            OnPropertyChanged(nameof(CurrentIndex));
             OnPropertyChanged(nameof(Count));
         }
 
@@ -172,6 +173,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             Sprite.Remove(Sprite[index]);
             Frames.RemoveAt(index);
+            OnPropertyChanged(nameof(CurrentIndex));
             OnPropertyChanged(nameof(Count));
         }
     }

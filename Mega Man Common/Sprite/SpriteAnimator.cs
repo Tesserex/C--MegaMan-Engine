@@ -21,6 +21,7 @@
         {
             get
             {
+                EnsureIndexInBounds();
                 return sprite[CurrentIndex];
             }
         }
@@ -39,14 +40,14 @@
             if (!Playing || !sprite.Tickable) return;
 
             FrameTime += ticks;
-            var neededTime = sprite[CurrentIndex].Duration;
+            var neededTime = CurrentFrame.Duration;
 
             while (FrameTime >= neededTime)
             {
                 FrameTime -= neededTime;
                 TickFrame();
 
-                neededTime = sprite[CurrentIndex].Duration;
+                neededTime = CurrentFrame.Duration;
             }
         }
 
@@ -101,6 +102,11 @@
                     break;
             }
 
+            EnsureIndexInBounds();
+        }
+
+        private void EnsureIndexInBounds()
+        {
             if (CurrentIndex >= sprite.Count)
             {
                 switch (sprite.AnimStyle)
