@@ -281,6 +281,21 @@ namespace MegaMan.Editor.Bll
             Dirty = true;
         }
 
+        public void RenameEntityPlacements(string oldName, string currentName)
+        {
+            var placements = StageNames.Select(n => StageByName(n))
+                .SelectMany(s => s.Screens)
+                .SelectMany(s => s.Entities)
+                .Where(p => p.Entity == oldName);
+
+            foreach (var placement in placements)
+            {
+                placement.Entity = currentName;
+            }
+
+            Dirty = true;
+        }
+
         private void CheckStartHandler()
         {
             if (Project.StartHandler == null)

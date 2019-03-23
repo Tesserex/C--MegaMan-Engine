@@ -41,6 +41,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 }
 
                 OnPropertyChanged(nameof(CurrentEntity));
+                OnPropertyChanged(nameof(EntityName));
                 OnPropertyChanged(nameof(EntityNameUpper));
                 OnPropertyChanged(nameof(DefaultSpriteName));
                 OnPropertyChanged(nameof(DefaultSprite));
@@ -55,17 +56,35 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             }
         }
 
-        public string EntityNameUpper
-        {
-            get { return CurrentEntity?.Name?.ToUpper(); }
-        }
-
         public Visibility MessageVisibility { get { return CurrentEntity != null ? Visibility.Collapsed : Visibility.Visible; } }
         public Visibility TabsVisibility { get { return CurrentEntity != null ? Visibility.Visible : Visibility.Collapsed; } }
 
         public SpriteComponentEditorViewModel Sprite { get; private set; }
         public MovementComponentEditorViewModel Movement { get; private set; }
         public CollisionComponentEditorViewModel Collision { get; private set; }
+
+        public string EntityName
+        {
+            get { return CurrentEntity?.Name; }
+            set
+            {
+                if (CurrentEntity != null)
+                {
+                    var oldName = CurrentEntity.Name;
+                    CurrentEntity.Name = value;
+                    OnPropertyChanged(nameof(EntityName));
+                    OnPropertyChanged(nameof(EntityNameUpper));
+                    ViewModelMediator.Current.GetEvent<EntityRenamedEventArgs>().Raise(this, new EntityRenamedEventArgs() { Entity = CurrentEntity, OldName = oldName });
+
+                    _project.RenameEntityPlacements(oldName, value);
+                }
+            }
+        }
+
+        public string EntityNameUpper
+        {
+            get { return CurrentEntity?.Name?.ToUpper(); }
+        }
 
         public Sprite DefaultSprite
         {
@@ -91,8 +110,8 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
                 {
                     _currentEntity.EditorData.DefaultSpriteName = value;
                     _project.Dirty = true;
-                    OnPropertyChanged("DefaultSpriteName");
-                    OnPropertyChanged("DefaultSprite");
+                    OnPropertyChanged(nameof(DefaultSpriteName));
+                    OnPropertyChanged(nameof(DefaultSprite));
                 }
             }
         }
@@ -105,7 +124,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 _viewingSprite = value;
                 Collision.ChangeSprite(value);
-                OnPropertyChanged("ViewingSprite");
+                OnPropertyChanged(nameof(ViewingSprite));
             }
         }
 
@@ -117,7 +136,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
             {
                 _viewSpriteZoom = value;
                 Collision.Zoom = value;
-                OnPropertyChanged("ViewSpriteZoom");
+                OnPropertyChanged(nameof(ViewSpriteZoom));
             }
         }
 
@@ -211,11 +230,7 @@ namespace MegaMan.Editor.Controls.ViewModels.Entities
 
         private void OnPropertyChanged(string property)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

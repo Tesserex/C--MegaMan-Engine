@@ -82,7 +82,7 @@
                     <CheckBox Grid.Column="0" IsChecked="{Binding Reversed}" HorizontalAlignment="Right" />
                     <Label Grid.Column="1">Sprite is facing left</Label>
                 </Grid>
-                <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0">
+                <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" SharedSizeGroup="Label" />
                         <ColumnDefinition Width="*" />
@@ -90,7 +90,7 @@
                     <Label Grid.Column="0" HorizontalAlignment="Right">Animation Mode</Label>
                     <ComboBox ItemsSource="{Binding Source={conv:EnumBindingSource {x:Type common:AnimationStyle}}}" SelectedItem="{Binding AnimStyle}" Grid.Column="1" />
                 </Grid>
-                <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0">
+                <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" SharedSizeGroup="Label" />
                         <ColumnDefinition Width="*" />

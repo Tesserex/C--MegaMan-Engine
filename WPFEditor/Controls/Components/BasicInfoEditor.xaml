@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Name</TextBlock>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CurrentEntity.Name}" MinWidth="120"></TextBox>
+                <ctrl:EditableLabel Grid.Row="0" Grid.Column="1" Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=EntityName, Mode=TwoWay}"></ctrl:EditableLabel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
                 <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
             </Grid>

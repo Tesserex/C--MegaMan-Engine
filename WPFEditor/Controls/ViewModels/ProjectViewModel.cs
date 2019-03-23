@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -79,7 +80,10 @@ namespace MegaMan.Editor.Controls.ViewModels
         public void SelectEntity(string entityName)
         {
             var info = _project.EntityByName(entityName);
-            ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Raise(this, new EntitySelectedEventArgs(info));
+            if (info != null)
+            {
+                ViewModelMediator.Current.GetEvent<EntitySelectedEventArgs>().Raise(this, new EntitySelectedEventArgs(info));
+            }
         }
     }
 
@@ -148,6 +152,15 @@ namespace MegaMan.Editor.Controls.ViewModels
             : base(parent)
         {
             _entity = entity;
+            ViewModelMediator.Current.GetEvent<EntityRenamedEventArgs>().Subscribe(EntityRenamed);
+        }
+
+        private void EntityRenamed(object sender, EntityRenamedEventArgs e)
+        {
+            if (_entity == e.Entity)
+            {
+                OnPropertyChanged(nameof(EntityName));
+            }
         }
     }
 }
