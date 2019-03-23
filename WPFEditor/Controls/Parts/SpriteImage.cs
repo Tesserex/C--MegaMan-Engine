@@ -12,7 +12,7 @@ namespace MegaMan.Editor.Controls.Parts {
         public static readonly DependencyProperty FlippedProperty = DependencyProperty.Register("Flipped", typeof(bool), typeof(SpriteImage), new PropertyMetadata(false));
 
         protected Image _image;
-        private SpriteModel _sprite;
+        private IEntityImage _sprite;
         
         public double Zoom
         {
@@ -45,8 +45,8 @@ namespace MegaMan.Editor.Controls.Parts {
             if (e.NewValue is Sprite)
                 SetSprite(new SpriteModel((Sprite)e.NewValue));
 
-            if (e.NewValue is SpriteModel)
-                SetSprite((SpriteModel)e.NewValue);
+            if (e.NewValue is IEntityImage)
+                SetSprite((IEntityImage)e.NewValue);
 
             if (e.NewValue == null)
             {
@@ -58,7 +58,7 @@ namespace MegaMan.Editor.Controls.Parts {
             }
         }
 
-        protected void SetSprite(SpriteModel s)
+        protected void SetSprite(IEntityImage s)
         {
             _sprite = s;
             _image.Width = s.Width * Zoom;

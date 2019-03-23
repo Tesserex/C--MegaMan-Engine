@@ -69,6 +69,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             Placement.State = obj.ToString();
             _screen.Stage.Dirty = true;
+            DefaultSprite = GetDefaultSprite();
             OnPropertyChanged("StartState");
             OnPropertyChanged("DefaultSprite");
         }
