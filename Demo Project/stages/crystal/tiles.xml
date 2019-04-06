@@ -5,6 +5,8 @@
 	<Tile id="0" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="0" y="16" duration="8" />
 			<Frame x="0" y="32" duration="8" />
@@ -14,6 +16,8 @@
 	<Tile id="1" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="16" y="16" duration="8" />
 			<Frame x="16" y="32" duration="8" />
@@ -23,6 +27,8 @@
 	<Tile id="2" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="8" />
 			<Frame x="32" y="16" duration="8" />
 			<Frame x="32" y="32" duration="8" />
@@ -32,6 +38,8 @@
 	<Tile id="3" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="8" />
 			<Frame x="48" y="16" duration="8" />
 			<Frame x="48" y="32" duration="8" />
@@ -41,6 +49,8 @@
 	<Tile id="4" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="0" duration="8" />
 			<Frame x="64" y="16" duration="8" />
 			<Frame x="64" y="32" duration="8" />
@@ -50,6 +60,8 @@
 	<Tile id="5" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="8" />
 			<Frame x="80" y="16" duration="8" />
 			<Frame x="80" y="32" duration="8" />
@@ -59,6 +71,8 @@
 	<Tile id="6" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="8" />
 			<Frame x="96" y="16" duration="8" />
 			<Frame x="96" y="32" duration="8" />
@@ -68,6 +82,8 @@
 	<Tile id="7" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="0" duration="8" />
 			<Frame x="112" y="16" duration="8" />
 			<Frame x="112" y="32" duration="8" />
@@ -77,6 +93,8 @@
 	<Tile id="8" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="0" duration="8" />
 			<Frame x="128" y="16" duration="8" />
 			<Frame x="128" y="32" duration="8" />
@@ -86,6 +104,8 @@
 	<Tile id="9" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="0" duration="8" />
 			<Frame x="144" y="16" duration="8" />
 			<Frame x="144" y="32" duration="8" />
@@ -95,6 +115,8 @@
 	<Tile id="10" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="0" duration="8" />
 			<Frame x="160" y="16" duration="8" />
 			<Frame x="160" y="32" duration="8" />
@@ -104,6 +126,8 @@
 	<Tile id="11" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="0" duration="8" />
 			<Frame x="176" y="16" duration="8" />
 			<Frame x="176" y="32" duration="8" />
@@ -113,6 +137,8 @@
 	<Tile id="12" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="0" duration="8" />
 			<Frame x="192" y="16" duration="8" />
 			<Frame x="192" y="32" duration="8" />
@@ -122,6 +148,8 @@
 	<Tile id="13" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="0" duration="8" />
 			<Frame x="208" y="16" duration="8" />
 			<Frame x="208" y="32" duration="8" />
@@ -131,6 +159,8 @@
 	<Tile id="14" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="0" duration="8" />
 			<Frame x="224" y="16" duration="8" />
 			<Frame x="224" y="32" duration="8" />
@@ -140,6 +170,8 @@
 	<Tile id="15" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="0" duration="8" />
 			<Frame x="240" y="16" duration="8" />
 			<Frame x="240" y="32" duration="8" />
@@ -149,6 +181,8 @@
 	<Tile id="16" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="64" duration="8" />
 			<Frame x="0" y="80" duration="8" />
 			<Frame x="0" y="96" duration="8" />
@@ -158,6 +192,8 @@
 	<Tile id="17" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="64" duration="8" />
 			<Frame x="16" y="80" duration="8" />
 			<Frame x="16" y="96" duration="8" />
@@ -167,6 +203,8 @@
 	<Tile id="18" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="64" duration="8" />
 			<Frame x="32" y="80" duration="8" />
 			<Frame x="32" y="96" duration="8" />
@@ -176,6 +214,8 @@
 	<Tile id="19" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="64" duration="8" />
 			<Frame x="48" y="80" duration="8" />
 			<Frame x="48" y="96" duration="8" />
@@ -185,6 +225,8 @@
 	<Tile id="20" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="64" duration="8" />
 			<Frame x="64" y="80" duration="8" />
 			<Frame x="64" y="96" duration="8" />
@@ -194,6 +236,8 @@
 	<Tile id="21" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="64" duration="8" />
 			<Frame x="80" y="80" duration="8" />
 			<Frame x="80" y="96" duration="8" />
@@ -203,6 +247,8 @@
 	<Tile id="22" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="64" duration="8" />
 			<Frame x="96" y="80" duration="8" />
 			<Frame x="96" y="96" duration="8" />
@@ -212,6 +258,8 @@
 	<Tile id="23" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="64" duration="0" />
 			<Frame x="112" y="80" duration="8" />
 			<Frame x="112" y="96" duration="8" />
@@ -221,78 +269,104 @@
 	<Tile id="24" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="25" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="26" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="27" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="28" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="29" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="30" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="31" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="32" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="33" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="34" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="35" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="36" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="128" duration="8" />
 			<Frame x="32" y="128" duration="8" />
 			<Frame x="64" y="128" duration="8" />
@@ -302,6 +376,8 @@
 	<Tile id="37" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="128" duration="8" />
 			<Frame x="48" y="128" duration="8" />
 			<Frame x="80" y="128" duration="8" />
@@ -311,6 +387,8 @@
 	<Tile id="38" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="144" duration="8" />
 			<Frame x="32" y="144" duration="8" />
 			<Frame x="64" y="144" duration="8" />
@@ -320,6 +398,8 @@
 	<Tile id="39" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="144" duration="8" />
 			<Frame x="48" y="144" duration="8" />
 			<Frame x="80" y="144" duration="8" />
@@ -329,234 +409,312 @@
 	<Tile id="40" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="41" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="42" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="43" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="44" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="45" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="46" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="47" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="48" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="49" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="50" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="51" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="52" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="53" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="54" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="55" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="56" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="57" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="58" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="59" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="60" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="61" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="62" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="63" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="64" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="65" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="66" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="67" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="68" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="69" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="70" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="71" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="72" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="73" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="74" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="75" properties="Default">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="76" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="77" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="78" properties="block">
 		<Sprite width="16" height="16" tilesheet="stages\crystal\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="224" duration="0" />
 		</Sprite>
 	</Tile>

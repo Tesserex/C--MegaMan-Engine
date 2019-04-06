@@ -25,58 +25,83 @@
 		<Ladder>
 			<Hitbox x="-7" y="-10" width="14" height="14" properties="Default" environment="True" pushaway="True" />
 		</Ladder>
+		<Movement>
+			<Floating />
+			<FlipSprite />
+		</Movement>
 		<Tilesheet>images\megaman.png</Tilesheet>
 		<Sprite name="Teleport" palette="MegaMan" width="24" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="164" y="72" duration="4" />
 			<Frame x="190" y="72" duration="4" />
 			<Frame x="218" y="72" duration="4" />
 		</Sprite>
 		<Sprite name="TeleportStart" palette="MegaMan" width="24" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="218" y="72" duration="4" />
 			<Frame x="190" y="72" duration="4" />
 			<Frame x="164" y="72" duration="4" />
 		</Sprite>
 		<Sprite name="Standing" palette="MegaMan" width="32" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="110" />
 			<Frame x="32" y="0" duration="10" />
 		</Sprite>
 		<Sprite name="BeginWalk" palette="MegaMan" width="32" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="0" duration="60" />
 		</Sprite>
 		<Sprite name="Walking" palette="MegaMan" width="32" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="11" />
+			<AnimDirection>Backward</AnimDirection>
+			<AnimStyle>Bounce</AnimStyle>
 			<Frame x="96" y="0" duration="8" />
 			<Frame x="128" y="0" duration="8" />
 			<Frame x="160" y="0" duration="8" />
-			<Frame x="128" y="0" duration="8" />
 		</Sprite>
 		<Sprite name="Air" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="168" y="32" duration="60" />
 		</Sprite>
 		<Sprite name="Sliding" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="9" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="72" duration="60" />
 		</Sprite>
 		<Sprite name="Climbing" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="64" duration="12" />
 			<Frame x="32" y="64" duration="12" />
 		</Sprite>
 		<Sprite name="ClimbTop" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="64" duration="60" />
 		</Sprite>
 		<Sprite name="ShootStanding" palette="MegaMan" width="40" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="20" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="32" duration="60" />
 		</Sprite>
 		<Sprite name="ShootWalking" palette="MegaMan" width="32" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="12" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="40" y="32" duration="8" />
 			<Frame x="72" y="32" duration="8" />
 			<Frame x="104" y="32" duration="8" />
@@ -84,14 +109,20 @@
 		</Sprite>
 		<Sprite name="ShootAir" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="136" y="32" duration="860" />
 		</Sprite>
 		<Sprite name="ShootClimbing" palette="MegaMan" width="32" height="32" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="64" duration="60" />
 		</Sprite>
 		<Sprite name="Hurt" palette="MegaMan" width="32" height="24" tilesheet="images\megaman.png">
 			<Hotspot x="16" y="11" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="200" y="32" duration="3" />
 			<Frame x="200" y="0" duration="3" />
 		</Sprite>
@@ -1627,10 +1658,6 @@
 				<Meter name="" x="9" y="16" image="images\meters\napalmhealth.png" background="images\meters\healthmeter_back.png" orientation="vertical" tickX="0" tickY="0" />
 			</Weapon>
 		</Weapons>
-		<Movement>
-			<Floating />
-			<FlipSprite />
-		</Movement>
 		<Death>
 			<Spawn name="MegaManDeath" state="Up">
 				<Position />

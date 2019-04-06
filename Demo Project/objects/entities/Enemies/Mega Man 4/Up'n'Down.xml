@@ -15,6 +15,8 @@
 		<Tilesheet>images\enemies\Mega Man 4\Up'n'Down.png</Tilesheet>
 		<Sprite reversed="true" width="16" height="16" tilesheet="images\enemies\Mega Man 4\Up'n'Down.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="16" y="0" duration="2" />
 			<Frame x="32" y="0" duration="2" />

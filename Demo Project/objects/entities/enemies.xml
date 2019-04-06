@@ -8,6 +8,8 @@
 		</Collision>
 		<Sprite width="64" height="16" tilesheet="images/enemies/elec_bolt.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="3" />
 			<Frame x="0" y="16" duration="3" />
 		</Sprite>
@@ -73,6 +75,8 @@
 		</Collision>
 		<Sprite width="64" height="16" tilesheet="images/enemies/elec_bolt.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="3" />
 			<Frame x="0" y="16" duration="3" />
 		</Sprite>
@@ -145,6 +149,8 @@
 		<Tilesheet>images\enemies\propfollower.png</Tilesheet>
 		<Sprite width="24" height="16" tilesheet="images\enemies\propfollower.png">
 			<Hotspot x="12" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="6" />
 			<Frame x="24" y="0" duration="6" />
 			<Frame x="48" y="0" duration="6" />
@@ -178,6 +184,7 @@
 	</Entity>
 	<Entity name="Seeker" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Closed" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="H" x="-8" y="-7" width="16" height="14" properties="Default" damage="2" environment="False" pushaway="True">
 				<Hits>Player</Hits>
@@ -192,10 +199,14 @@
 		<Tilesheet>images\enemies\annoyingseeker.png</Tilesheet>
 		<Sprite name="Closed" reversed="true" width="16" height="14" tilesheet="images\enemies\annoyingseeker.png">
 			<Hotspot x="8" y="7" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Open" reversed="true" width="16" height="20" tilesheet="images\enemies\annoyingseeker.png">
 			<Hotspot x="8" y="7" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -320,14 +331,20 @@
 		<Tilesheet>images\enemies\metool.png</Tilesheet>
 		<Sprite name="Sit" width="18" height="19" tilesheet="images\enemies\metool.png">
 			<Hotspot x="9" y="15" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="44" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Mid" width="18" height="19" tilesheet="images\enemies\metool.png">
 			<Hotspot x="9" y="15" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="22" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Stand" width="18" height="19" tilesheet="images\enemies\metool.png">
 			<Hotspot x="9" y="15" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -437,6 +454,8 @@
 		<Tilesheet>images\enemies\Mega Man 4\Garyoby.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\enemies\Mega Man 4\Garyoby.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="16" y="0" duration="4" />
 		</Sprite>
@@ -530,10 +549,14 @@
 		<Tilesheet>images\enemies\groundcannon.png</Tilesheet>
 		<Sprite name="Down" width="24" height="32" tilesheet="images\enemies\groundcannon.png">
 			<Hotspot x="12" y="14" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="MoveUp" width="24" height="32" tilesheet="images\enemies\groundcannon.png">
 			<Hotspot x="12" y="14" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="5" />
 			<Frame x="24" y="0" duration="5" />
 			<Frame x="48" y="0" duration="5" />
@@ -543,6 +566,8 @@
 		</Sprite>
 		<Sprite name="MoveDown" width="24" height="32" tilesheet="images\enemies\groundcannon.png">
 			<Hotspot x="12" y="14" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="120" y="0" duration="20" />
 			<Frame x="96" y="0" duration="5" />
 			<Frame x="72" y="0" duration="20" />
@@ -682,6 +707,8 @@
 		<Position persistoffscreen="True" />
 		<Sprite width="16" height="16" tilesheet="images\enemies\wallspike.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="5" />
 			<Frame x="16" y="0" duration="5" />
 			<Frame x="0" y="0" duration="5" />
@@ -850,11 +877,15 @@
 		<Tilesheet>images\enemies\shieldguy.png</Tilesheet>
 		<Sprite name="Move" reversed="true" width="24" height="33" tilesheet="images\enemies\shieldguy.png">
 			<Hotspot x="12" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="30" y="-1" duration="4" />
 		</Sprite>
 		<Sprite name="Turn" reversed="true" width="24" height="32" tilesheet="images\enemies\shieldguy.png">
 			<Hotspot x="12" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="58" y="0" duration="6" />
 			<Frame x="84" y="0" duration="6" />
 			<Frame x="114" y="0" duration="6" />
@@ -980,6 +1011,8 @@
 		<Tilesheet>images\enemies\shieldshooter.png</Tilesheet>
 		<Sprite reversed="true" width="27" height="32" tilesheet="images\enemies\shieldshooter.png">
 			<Hotspot x="17" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="120" />
 			<Frame x="33" y="0" duration="8" />
 			<Frame x="63" y="0" duration="40" />
@@ -1057,8 +1090,9 @@
 			<Call>EnemyDeath</Call>
 		</Death>
 	</Entity>
-	<Entity name="Collapser" maxAlive="50">
+	<Entity name="Subeil" maxAlive="50">
 		<GravityFlip>False</GravityFlip>
+		<EditorData defaultSprite="Stand" hide="False" isProjectile="False" />
 		<Collision Enabled="False">
 			<Hitbox name="Up" x="-8" y="-22" width="16" height="22" properties="Default" damage="1" environment="True" pushaway="True">
 				<Hits>Player</Hits>
@@ -1081,15 +1115,21 @@
 		<Tilesheet>images\enemies\collapser.png</Tilesheet>
 		<Sprite name="Stand" width="16" height="22" tilesheet="images\enemies\collapser.png">
 			<Hotspot x="8" y="22" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="6" />
 			<Frame x="16" y="0" duration="6" />
 		</Sprite>
 		<Sprite name="Fall" width="16" height="13" tilesheet="images\enemies\collapser.png">
 			<Hotspot x="8" y="13" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="9" duration="0" />
 		</Sprite>
 		<Sprite name="Down" width="16" height="9" tilesheet="images\enemies\collapser.png">
 			<Hotspot x="8" y="9" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="13" duration="6" />
 			<Frame x="64" y="13" duration="6" />
 			<Frame x="80" y="13" duration="6" />

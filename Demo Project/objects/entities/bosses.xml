@@ -22,18 +22,26 @@
 		<Tilesheet>images\enemies\crystalman.png</Tilesheet>
 		<Sprite name="Drop" reversed="true" width="30" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="5" duration="0" />
 		</Sprite>
 		<Sprite name="Stand" reversed="true" width="30" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="33" y="5" duration="0" />
 		</Sprite>
 		<Sprite name="Jump" reversed="true" width="30" height="36" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="11" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="171" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Crystal" reversed="true" width="30" height="36" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="11" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="200" y="0" duration="12" />
 			<Frame x="228" y="0" duration="5" />
 			<Frame x="257" y="0" duration="5" />
@@ -45,6 +53,8 @@
 		</Sprite>
 		<Sprite name="Pose" reversed="true" width="32" height="30" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="15" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="5" duration="4" />
 			<Frame x="33" y="5" duration="10" />
 			<Frame x="67" y="5" duration="28" />
@@ -56,10 +66,14 @@
 		</Sprite>
 		<Sprite name="Ready" reversed="true" width="32" height="46" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="12" y="23" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="196" y="110" duration="0" />
 		</Sprite>
 		<Sprite name="NewSprite1" width="30" height="40" tilesheet="images\enemies\crystalman.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -387,6 +401,8 @@
 		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="4" y="4" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="8" />
 			<Frame x="88" y="0" duration="8" />
 			<Frame x="96" y="0" duration="8" />

@@ -5,6 +5,8 @@
 	<Tile id="0" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
@@ -12,402 +14,536 @@
 	<Tile id="1" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="2" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="3" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="4" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="5" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="6" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="7" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="8" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="9" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="10" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="11" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="12" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="13" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="14" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="15" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="16" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="17" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="18" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="19" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="20" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="21" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="22" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="23" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="24" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="25" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="26" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="27" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="28" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="29" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="30" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="31" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="32" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="33" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="34" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="35" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="36" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="37" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="38" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="39" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="40" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="41" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="42" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="43" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="44" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="45" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="46" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="47" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="48" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="49" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="50" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="51" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="52" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="53" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="54" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="55" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="56" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="57" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="58" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="59" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="60" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="61" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="62" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="63" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="64" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="65" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="66" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="67" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="48" duration="16" />
 			<Frame x="144" y="48" duration="16" />
 			<Frame x="160" y="48" duration="16" />
@@ -416,6 +552,8 @@
 	<Tile id="68" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="48" duration="16" />
 			<Frame x="192" y="48" duration="16" />
 			<Frame x="208" y="48" duration="16" />
@@ -424,6 +562,8 @@
 	<Tile id="69" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="48" duration="16" />
 			<Frame x="240" y="48" duration="16" />
 			<Frame x="256" y="48" duration="16" />
@@ -432,6 +572,8 @@
 	<Tile id="70" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="48" duration="16" />
 			<Frame x="288" y="48" duration="16" />
 			<Frame x="304" y="48" duration="16" />
@@ -440,6 +582,8 @@
 	<Tile id="71" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="64" duration="16" />
 			<Frame x="16" y="64" duration="16" />
 			<Frame x="32" y="64" duration="16" />
@@ -448,6 +592,8 @@
 	<Tile id="72" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="64" duration="16" />
 			<Frame x="64" y="64" duration="16" />
 			<Frame x="80" y="64" duration="16" />
@@ -456,6 +602,8 @@
 	<Tile id="73" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="64" duration="16" />
 			<Frame x="112" y="64" duration="16" />
 			<Frame x="128" y="64" duration="16" />
@@ -464,6 +612,8 @@
 	<Tile id="74" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="64" duration="16" />
 			<Frame x="160" y="64" duration="16" />
 			<Frame x="176" y="64" duration="16" />
@@ -472,6 +622,8 @@
 	<Tile id="75" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="64" duration="16" />
 			<Frame x="208" y="64" duration="16" />
 			<Frame x="224" y="64" duration="16" />
@@ -480,6 +632,8 @@
 	<Tile id="76" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="64" duration="16" />
 			<Frame x="256" y="64" duration="16" />
 			<Frame x="272" y="64" duration="16" />
@@ -488,6 +642,8 @@
 	<Tile id="77" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="48" duration="16" />
 			<Frame x="288" y="64" duration="16" />
 			<Frame x="304" y="64" duration="16" />
@@ -496,1620 +652,2160 @@
 	<Tile id="78" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="79" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="80" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="81" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="82" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="83" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="84" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="85" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="86" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="87" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="88" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="89" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="90" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="91" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="92" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="93" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="94" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="95" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="96" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="97" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="80" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="98" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="99" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="100" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="101" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="102" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="103" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="104" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="105" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="106" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="107" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="108" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="109" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="110" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="111" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="112" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="113" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="114" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="115" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="116" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="117" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="96" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="118" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="119" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="120" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="121" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="122" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="123" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="124" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="125" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="126" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="127" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="128" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="129" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="130" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="131" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="132" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="133" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="134" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="135" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="136" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="137" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="138" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="139" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="140" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="141" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="142" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="143" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="144" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="145" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="146" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="147" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="148" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="149" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="150" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="151" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="152" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="153" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="154" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="155" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="156" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="157" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="158" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="159" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="160" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="161" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="162" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="163" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="164" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="165" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="166" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="167" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="168" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="169" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="170" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="171" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="172" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="173" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="174" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="175" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="176" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="177" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="178" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="179" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="180" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="181" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="182" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="183" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="184" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="185" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="186" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="187" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="188" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="189" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="190" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="191" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="192" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="193" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="194" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="195" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="196" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="197" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="160" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="198" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="199" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="200" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="201" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="202" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="203" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="204" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="205" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="206" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="207" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="208" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="209" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="210" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="211" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="212" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="213" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="214" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="215" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="216" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="217" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="176" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="218" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="219" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="220" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="221" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="222" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="223" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="224" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="225" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="226" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="227" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="228" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="229" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="230" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="231" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="232" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="233" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="234" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="235" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="236" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="237" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="192" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="238" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="239" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="240" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="241" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="242" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="243" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="244" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="245" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="246" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="247" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="248" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="249" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="250" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="251" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="252" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="253" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="254" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="255" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="256" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="257" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="208" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="258" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="259" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="260" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="261" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="262" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="263" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="264" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="265" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="266" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="267" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="268" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="269" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="270" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="271" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="272" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="273" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="274" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="275" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="276" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="277" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="224" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="278" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="279" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="280" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="281" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="282" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="283" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="284" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="285" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="286" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="287" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="288" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="289" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="290" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="291" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="292" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="293" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="294" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="295" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="296" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="297" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="240" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="298" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="299" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="300" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="301" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="302" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="303" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="304" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="305" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="306" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="307" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="308" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="309" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="310" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="311" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="312" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="313" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="314" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="315" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="316" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="317" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="256" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="318" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="319" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="320" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="321" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="322" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="323" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="324" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="325" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="326" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="327" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="328" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="329" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="176" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="330" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="192" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="331" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="208" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="332" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="224" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="333" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="240" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="334" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="256" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="335" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="272" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="336" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="288" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="337" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="304" y="272" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="338" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="339" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="340" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="341" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="342" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="343" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="344" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="345" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="346" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="288" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="347" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\cossack3.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="144" y="288" duration="0" />
 		</Sprite>
 	</Tile>

@@ -8,12 +8,16 @@
 	<Tile id="0" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="1" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="6" />
 			<Frame x="96" y="0" duration="6" />
 		</Sprite>
@@ -21,6 +25,8 @@
 	<Tile id="2" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="6" />
 			<Frame x="0" y="0" duration="6" />
 		</Sprite>
@@ -28,6 +34,8 @@
 	<Tile id="3" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="6" />
 			<Frame x="112" y="0" duration="6" />
 		</Sprite>
@@ -35,6 +43,8 @@
 	<Tile id="4" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="0" duration="6" />
 			<Frame x="48" y="0" duration="6" />
 		</Sprite>
@@ -42,36 +52,48 @@
 	<Tile id="5" properties="Ladder">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="6" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="7" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="8" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="9" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="10" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="16" duration="6" />
 			<Frame x="16" y="80" duration="6" />
 		</Sprite>
@@ -79,6 +101,8 @@
 	<Tile id="11" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="80" duration="6" />
 			<Frame x="64" y="16" duration="6" />
 		</Sprite>
@@ -86,6 +110,8 @@
 	<Tile id="12" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="16" duration="6" />
 			<Frame x="96" y="16" duration="6" />
 		</Sprite>
@@ -93,6 +119,8 @@
 	<Tile id="13" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="16" duration="6" />
 			<Frame x="80" y="16" duration="6" />
 		</Sprite>
@@ -100,6 +128,8 @@
 	<Tile id="14" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="16" duration="6" />
 			<Frame x="32" y="80" duration="6" />
 		</Sprite>
@@ -107,6 +137,8 @@
 	<Tile id="15" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="80" duration="6" />
 			<Frame x="112" y="16" duration="6" />
 		</Sprite>
@@ -114,6 +146,8 @@
 	<Tile id="16" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="48" duration="6" />
 			<Frame x="16" y="96" duration="6" />
 		</Sprite>
@@ -121,6 +155,8 @@
 	<Tile id="17" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="96" duration="6" />
 			<Frame x="32" y="48" duration="6" />
 		</Sprite>
@@ -128,6 +164,8 @@
 	<Tile id="18" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="48" duration="6" />
 			<Frame x="64" y="48" duration="6" />
 		</Sprite>
@@ -135,6 +173,8 @@
 	<Tile id="19" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="48" duration="6" />
 			<Frame x="48" y="48" duration="6" />
 		</Sprite>
@@ -142,6 +182,8 @@
 	<Tile id="20" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="48" duration="6" />
 			<Frame x="32" y="96" duration="6" />
 		</Sprite>
@@ -149,6 +191,8 @@
 	<Tile id="21" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="96" duration="6" />
 			<Frame x="80" y="48" duration="6" />
 		</Sprite>
@@ -156,6 +200,8 @@
 	<Tile id="22" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="48" duration="6" />
 			<Frame x="48" y="96" duration="6" />
 		</Sprite>
@@ -163,6 +209,8 @@
 	<Tile id="23" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="96" duration="6" />
 			<Frame x="96" y="48" duration="6" />
 		</Sprite>
@@ -170,6 +218,8 @@
 	<Tile id="24" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="64" duration="6" />
 			<Frame x="96" y="96" duration="6" />
 		</Sprite>
@@ -177,6 +227,8 @@
 	<Tile id="25" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="96" duration="6" />
 			<Frame x="112" y="64" duration="6" />
 		</Sprite>
@@ -184,6 +236,8 @@
 	<Tile id="26" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="112" duration="6" />
 			<Frame x="112" y="112" duration="6" />
 		</Sprite>
@@ -191,6 +245,8 @@
 	<Tile id="27" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="112" duration="6" />
 			<Frame x="0" y="112" duration="6" />
 		</Sprite>
@@ -198,6 +254,8 @@
 	<Tile id="28" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="112" duration="6" />
 			<Frame x="64" y="112" duration="6" />
 		</Sprite>
@@ -205,6 +263,8 @@
 	<Tile id="29" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="112" duration="6" />
 			<Frame x="128" y="112" duration="6" />
 		</Sprite>
@@ -212,60 +272,80 @@
 	<Tile id="30" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="31" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="32" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="48" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="33" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="34" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="35" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="36" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="112" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="37" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="38" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="39" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="64" duration="6" />
 			<Frame x="128" y="0" duration="6" />
 		</Sprite>
@@ -273,6 +353,8 @@
 	<Tile id="40" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="80" duration="6" />
 			<Frame x="0" y="16" duration="6" />
 		</Sprite>
@@ -280,6 +362,8 @@
 	<Tile id="41" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="112" duration="6" />
 			<Frame x="112" y="96" duration="6" />
 		</Sprite>
@@ -287,6 +371,8 @@
 	<Tile id="42" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="112" duration="6" />
 			<Frame x="128" y="96" duration="6" />
 		</Sprite>
@@ -294,6 +380,8 @@
 	<Tile id="43" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="160" duration="6" />
 			<Frame x="32" y="160" duration="6" />
 		</Sprite>
@@ -301,36 +389,48 @@
 	<Tile id="44" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="45" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="64" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="46" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="47" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="48" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="16" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="49" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="32" duration="6" />
 			<Frame x="48" y="80" duration="6" />
 		</Sprite>
@@ -338,18 +438,24 @@
 	<Tile id="50" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="51" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="32" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="52" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="32" duration="6" />
 			<Frame x="64" y="80" duration="6" />
 		</Sprite>
@@ -357,6 +463,8 @@
 	<Tile id="53" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="32" duration="6" />
 			<Frame x="80" y="80" duration="6" />
 		</Sprite>
@@ -364,6 +472,8 @@
 	<Tile id="54" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="48" duration="6" />
 			<Frame x="128" y="80" duration="6" />
 		</Sprite>
@@ -371,6 +481,8 @@
 	<Tile id="55" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="32" duration="6" />
 			<Frame x="96" y="80" duration="6" />
 		</Sprite>
@@ -378,6 +490,8 @@
 	<Tile id="56" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="32" duration="6" />
 			<Frame x="112" y="80" duration="6" />
 		</Sprite>
@@ -385,6 +499,8 @@
 	<Tile id="57" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="64" duration="6" />
 			<Frame x="64" y="96" duration="6" />
 		</Sprite>
@@ -392,6 +508,8 @@
 	<Tile id="58" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="64" duration="6" />
 			<Frame x="80" y="96" duration="6" />
 		</Sprite>
@@ -399,6 +517,8 @@
 	<Tile id="59" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="128" duration="6" />
 			<Frame x="32" y="144" duration="6" />
 		</Sprite>
@@ -406,6 +526,8 @@
 	<Tile id="60" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="128" duration="6" />
 			<Frame x="48" y="144" duration="6" />
 		</Sprite>
@@ -413,6 +535,8 @@
 	<Tile id="61" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="128" duration="6" />
 			<Frame x="64" y="144" duration="6" />
 		</Sprite>
@@ -420,30 +544,40 @@
 	<Tile id="62" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="63" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="128" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="64" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="65" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="66" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="144" duration="6" />
 			<Frame x="48" y="160" duration="6" />
 		</Sprite>
@@ -451,6 +585,8 @@
 	<Tile id="67" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="144" duration="6" />
 			<Frame x="64" y="160" duration="6" />
 		</Sprite>
@@ -458,6 +594,8 @@
 	<Tile id="68" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="160" duration="6" />
 			<Frame x="16" y="160" duration="6" />
 		</Sprite>
@@ -465,6 +603,8 @@
 	<Tile id="69" properties="Spike">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="160" duration="6" />
 			<Frame x="0" y="160" duration="6" />
 		</Sprite>
@@ -472,18 +612,24 @@
 	<Tile id="70" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="112" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="71" properties="Block">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="128" y="144" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="72" properties="Default">
 		<Sprite width="16" height="16" tilesheet="tilesets\spark.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="48" duration="6" />
 			<Frame x="0" y="96" duration="6" />
 		</Sprite>

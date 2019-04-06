@@ -16,6 +16,8 @@
 		<Tilesheet>images\enemies\Mega Man 3\Peterchy.png</Tilesheet>
 		<Sprite reversed="true" width="32" height="32" tilesheet="images\enemies\Mega Man 3\Peterchy.png">
 			<Hotspot x="16" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="32" y="0" duration="4" />
 			<Frame x="64" y="0" duration="4" />

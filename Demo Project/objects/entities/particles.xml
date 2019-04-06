@@ -8,6 +8,8 @@
 		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\enemy_death.png">
 			<Hotspot x="12" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="24" y="0" duration="3" />
 			<Frame x="48" y="0" duration="3" />
@@ -43,6 +45,8 @@
 		</Movement>
 		<Sprite width="56" height="56" tilesheet="images\particles\enemy_death_large.png">
 			<Hotspot x="28" y="28" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="2" />
 			<Frame x="56" y="0" duration="1" />
 			<Frame x="112" y="0" duration="2" />
@@ -92,6 +96,8 @@
 		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
@@ -298,6 +304,8 @@
 		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\particles\dust_-_spark.png">
 			<Hotspot x="4" y="-5" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="8" duration="1" />
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="8" y="0" duration="8" />
@@ -332,6 +340,8 @@
 		</Movement>
 		<Sprite width="29" height="12" tilesheet="images\particles\spark.png">
 			<Hotspot x="14" y="26" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="58" y="0" duration="8" />
 			<Frame x="29" y="0" duration="8" />
 			<Frame x="0" y="0" duration="8" />
@@ -361,6 +371,8 @@
 		<EditorData defaultSprite="" hide="True" isProjectile="False" />
 		<Sprite width="30" height="16" tilesheet="images\particles\splash.png">
 			<Hotspot x="15" y="14" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="-1" y="0" duration="6" />
 			<Frame x="32" y="0" duration="6" />
 			<Frame x="68" y="0" duration="8" />
@@ -391,6 +403,8 @@
 		</Movement>
 		<Sprite width="4" height="4" tilesheet="images\particles\bubble.png">
 			<Hotspot x="2" y="2" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -440,6 +454,8 @@
 		</Movement>
 		<Sprite width="24" height="24" tilesheet="images\particles\megaman_death.png">
 			<Hotspot x="12" y="12" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="4" />
 			<Frame x="72" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />

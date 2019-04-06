@@ -14,8 +14,8 @@
 		<Entity id="CrystalMan" entity="CrystalMan" x="200" y="-48" direction="Unknown" respawn="Never" />
 	</Screen>
 	<Screen id="ScreenTwo">
-		<Entity id="16b0d92b-d5fc-4287-9d3c-8ee6dab2fa65" entity="Collapser" x="138" y="128" direction="Unknown" respawn="Offscreen" />
-		<Entity id="a5388619-cb2c-4cf7-bbb0-e1004776068b" entity="Collapser" x="176" y="96" direction="Unknown" respawn="Offscreen" />
+		<Entity id="16b0d92b-d5fc-4287-9d3c-8ee6dab2fa65" entity="Subeil" state="Down" x="138" y="128" direction="Unknown" respawn="Offscreen" />
+		<Entity id="a5388619-cb2c-4cf7-bbb0-e1004776068b" entity="Subeil" x="176" y="96" direction="Unknown" respawn="Offscreen" />
 	</Screen>
 	<Screen id="4">
 		<Entity id="fb31c6b9-d548-4248-8a56-b59e802da5f6" entity="EnergyTank" x="48" y="105" direction="Unknown" respawn="Stage" />

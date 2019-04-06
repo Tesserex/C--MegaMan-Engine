@@ -12,6 +12,8 @@
 	<Tile id="0" properties="Default">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
@@ -19,12 +21,16 @@
 	<Tile id="1" properties="Block">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="2" properties="Lethal">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 	</Tile>
@@ -32,6 +38,8 @@
 		<Group>Water</Group>
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="0" />
 		</Sprite>
 	</Tile>
@@ -39,6 +47,8 @@
 		<Group>Gravity</Group>
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="16" duration="6" />
 			<Frame x="16" y="16" duration="6" />
 			<Frame x="32" y="16" duration="6" />
@@ -49,6 +59,8 @@
 		<Group>Gravity</Group>
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="32" duration="6" />
 			<Frame x="16" y="32" duration="6" />
 			<Frame x="32" y="32" duration="6" />
@@ -59,6 +71,8 @@
 		<Group>Water</Group>
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="64" y="0" duration="12" />
 			<Frame x="64" y="16" duration="12" />
 			<Frame x="64" y="32" duration="12" />
@@ -68,6 +82,8 @@
 		<Group>Water</Group>
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="12" />
 			<Frame x="80" y="16" duration="12" />
 			<Frame x="80" y="32" duration="12" />
@@ -76,6 +92,8 @@
 	<Tile id="8" properties="Sand">
 		<Sprite palette="Tiles" width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="12" />
 			<Frame x="96" y="16" duration="12" />
 			<Frame x="96" y="32" duration="12" />
@@ -84,12 +102,16 @@
 	<Tile id="9" properties="Wind">
 		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 	</Tile>
 	<Tile id="10" properties="Glue">
 		<Sprite width="16" height="16" tilesheet="stages\test\tiles.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 	</Tile>

@@ -14,6 +14,8 @@
 		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="4" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -50,6 +52,8 @@
 		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="4" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -88,6 +92,8 @@
 		</Movement>
 		<Sprite width="8" height="6" tilesheet="images\weapons\basic.png">
 			<Hotspot x="4" y="3" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -155,6 +161,8 @@
 		</Movement>
 		<Sprite width="16" height="16" tilesheet="images\weapons\basic.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="6" duration="4" />
 			<Frame x="16" y="6" duration="4" />
 		</Sprite>
@@ -217,6 +225,8 @@
 		</Movement>
 		<Sprite width="31" height="30" tilesheet="images\weapons\basic.png">
 			<Hotspot x="15" y="15" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="22" duration="4" />
 			<Frame x="31" y="22" duration="4" />
 			<Frame x="62" y="22" duration="4" />
@@ -282,6 +292,8 @@
 		</Movement>
 		<Sprite width="21" height="10" tilesheet="images\weapons\weapons.png">
 			<Hotspot x="11" y="5" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="16" duration="2" />
 			<Frame x="21" y="16" duration="2" />
 			<Frame x="42" y="16" duration="2" />
@@ -393,6 +405,8 @@
 		</Movement>
 		<Sprite name="Big" width="16" height="16" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="32" y="0" duration="8" />
@@ -508,6 +522,8 @@
 		</Movement>
 		<Sprite width="8" height="8" tilesheet="images\weapons\crystal.png">
 			<Hotspot x="4" y="4" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="80" y="0" duration="8" />
 			<Frame x="88" y="0" duration="8" />
 			<Frame x="96" y="0" duration="8" />
@@ -719,6 +735,8 @@
 		<Tilesheet>images\weapons\napalm.png</Tilesheet>
 		<Sprite name="Right" width="14" height="14" tilesheet="images\weapons\napalm.png">
 			<Hotspot x="7" y="7" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="14" y="0" duration="8" />
 			<Frame x="28" y="0" duration="8" />
@@ -726,6 +744,8 @@
 		</Sprite>
 		<Sprite name="Left" width="14" height="14" tilesheet="images\weapons\napalm.png">
 			<Hotspot x="7" y="7" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="42" y="0" duration="8" />
 			<Frame x="28" y="0" duration="8" />
 			<Frame x="14" y="0" duration="8" />
@@ -865,23 +885,31 @@
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 		<Sprite name="Warp" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="32" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
 		</Sprite>
 		<Sprite name="WarpStart" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="32" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="24" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
 		</Sprite>
 		<Sprite name="Stand" width="27" height="24" tilesheet="images\weapons\rush.png">
 			<Hotspot x="15" y="24" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="72" y="8" duration="8" />
 			<Frame x="8" y="40" duration="8" />
 		</Sprite>
 		<Sprite name="Fire" width="27" height="24" tilesheet="images\weapons\rush.png">
 			<Hotspot x="15" y="24" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="101" y="8" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -1067,6 +1095,8 @@
 		<Tilesheet>images\weapons\rush.png</Tilesheet>
 		<Sprite name="Warp" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="24" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
@@ -1074,6 +1104,8 @@
 		</Sprite>
 		<Sprite name="WarpStart" width="24" height="32" tilesheet="images\weapons\rush.png">
 			<Hotspot x="12" y="24" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="4" />
 			<Frame x="0" y="0" duration="4" />
 			<Frame x="48" y="0" duration="4" />
@@ -1081,6 +1113,8 @@
 		</Sprite>
 		<Sprite name="Down" width="32" height="13" tilesheet="images\weapons\rush.png">
 			<Hotspot x="16" y="5" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="160" y="19" duration="6" />
 			<Frame x="192" y="19" duration="6" />
 		</Sprite>

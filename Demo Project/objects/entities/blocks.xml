@@ -12,6 +12,8 @@
 		<Tilesheet>images\blocks\disappearing.png</Tilesheet>
 		<Sprite name="Visible" width="16" height="24" tilesheet="images\blocks\disappearing.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="5" />
 			<Frame x="16" y="0" duration="5" />
 			<Frame x="32" y="0" duration="5" />
@@ -60,6 +62,8 @@
 		<Tilesheet>images\blocks\elec_yoku.png</Tilesheet>
 		<Sprite name="Visible" width="16" height="24" tilesheet="images\blocks\elec_yoku.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="6" />
 			<Frame x="48" y="0" duration="6" />
 			<Frame x="32" y="0" duration="6" />
@@ -118,6 +122,8 @@
 		<Tilesheet>images\blocks\disappearing.png</Tilesheet>
 		<Sprite name="Visible" width="16" height="16" tilesheet="images\blocks\disappearing.png">
 			<Hotspot x="8" y="8" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="5" />
 			<Frame x="16" y="0" duration="5" />
 			<Frame x="32" y="0" duration="5" />
@@ -170,6 +176,8 @@
 		<Tilesheet>images\blocks\wheel.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\blocks\wheel.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 		</Sprite>
@@ -209,6 +217,8 @@
 		<Tilesheet>images\blocks\wheel.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\blocks\wheel.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 		</Sprite>
@@ -251,6 +261,8 @@
 		<Tilesheet>images\blocks\spike.png</Tilesheet>
 		<Sprite width="16" height="16" tilesheet="images\blocks\spike.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<State name="Hide">
@@ -309,10 +321,14 @@
 		<Tilesheet>images\blocks\spikeflip.png</Tilesheet>
 		<Sprite name="Horiz" width="32" height="32" tilesheet="images\blocks\spikeflip.png">
 			<Hotspot x="16" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="HorizFlash" width="32" height="32" tilesheet="images\blocks\spikeflip.png">
 			<Hotspot x="16" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="10" />
 			<Frame x="32" y="0" duration="10" />
 			<Frame x="0" y="0" duration="10" />
@@ -324,10 +340,14 @@
 		</Sprite>
 		<Sprite name="Vert" width="32" height="32" tilesheet="images\blocks\spikeflip.png">
 			<Hotspot x="16" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="VertFlash" width="32" height="32" tilesheet="images\blocks\spikeflip.png">
 			<Hotspot x="16" y="16" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="96" y="0" duration="10" />
 			<Frame x="128" y="0" duration="10" />
 			<Frame x="96" y="0" duration="10" />
@@ -425,10 +445,14 @@
 		<Tilesheet>images\blocks\break.png</Tilesheet>
 		<Sprite name="Show" width="16" height="16" tilesheet="images\blocks\break.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="hide" width="1" height="1" tilesheet="images\blocks\break.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
@@ -518,10 +542,14 @@
 		<Tilesheet>images\blocks\door.png</Tilesheet>
 		<Sprite name="Closed" width="16" height="64" tilesheet="images\blocks\door.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Opening" width="16" height="64" tilesheet="images\blocks\door.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="32" y="0" duration="8" />
@@ -529,6 +557,8 @@
 		</Sprite>
 		<Sprite name="Closing" width="16" height="64" tilesheet="images\blocks\door.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="48" y="0" duration="8" />
 			<Frame x="32" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
@@ -604,16 +634,22 @@
 		<Tilesheet>images\blocks\crystaldoor.png</Tilesheet>
 		<Sprite name="Closed" width="16" height="48" tilesheet="images\blocks\crystaldoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Opening" width="16" height="48" tilesheet="images\blocks\crystaldoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="32" y="0" duration="8" />
 		</Sprite>
 		<Sprite name="Closing" width="16" height="48" tilesheet="images\blocks\crystaldoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="32" y="0" duration="8" />
 			<Frame x="16" y="0" duration="8" />
 			<Frame x="0" y="0" duration="8" />
@@ -686,10 +722,14 @@
 		<Tilesheet>images\blocks\hdoor.png</Tilesheet>
 		<Sprite name="Closed" width="64" height="16" tilesheet="images\blocks\hdoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Opening" width="64" height="16" tilesheet="images\blocks\hdoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="8" />
 			<Frame x="0" y="16" duration="8" />
 			<Frame x="0" y="32" duration="8" />
@@ -697,6 +737,8 @@
 		</Sprite>
 		<Sprite name="Closing" width="64" height="16" tilesheet="images\blocks\hdoor.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="48" duration="8" />
 			<Frame x="0" y="32" duration="8" />
 			<Frame x="0" y="16" duration="8" />
@@ -766,6 +808,8 @@
 		<Tilesheet>images\teleporters.png</Tilesheet>
 		<Sprite width="33" height="65" tilesheet="images\teleporters.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="4" duration="15" />
 			<Frame x="37" y="4" duration="15" />
 		</Sprite>
@@ -781,10 +825,14 @@
 		<Tilesheet>images\blocks\lightswitch.png</Tilesheet>
 		<Sprite name="On" palette="Tiles" width="16" height="32" tilesheet="images\blocks\lightswitch.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="0" y="0" duration="0" />
 		</Sprite>
 		<Sprite name="Off" palette="Tiles" width="16" height="32" tilesheet="images\blocks\lightswitch.png">
 			<Hotspot x="0" y="0" />
+			<AnimDirection>Forward</AnimDirection>
+			<AnimStyle>Repeat</AnimStyle>
 			<Frame x="16" y="0" duration="0" />
 		</Sprite>
 		<State name="Start">
