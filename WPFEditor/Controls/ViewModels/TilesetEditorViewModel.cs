@@ -75,6 +75,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public IEnumerable<string> AllTileGroups
+        {
+            get
+            {
+                if (_project == null)
+                    return Enumerable.Empty<string>();
+
+                return  _tileset.Tiles.SelectMany(x => x.Groups);
+            }
+        }
+
         public TileProperties EditingProperties { get; private set; }
         public Visibility ShowPropEditor { get; private set; }
         public Visibility ShowSpriteEditor { get; private set; }

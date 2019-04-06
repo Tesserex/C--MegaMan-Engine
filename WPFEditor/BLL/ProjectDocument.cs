@@ -20,7 +20,7 @@ namespace MegaMan.Editor.Bll
         {
             get
             {
-                return _dirty || openStages.Any(s => s.Value.Dirty);
+                return _dirty || stageDocuments.Any(s => s.Value.Dirty);
             }
             set
             {
@@ -164,31 +164,15 @@ namespace MegaMan.Editor.Bll
 
         #region GUI Editor Stuff
 
-        private readonly Dictionary<string, StageDocument> openStages = new Dictionary<string, StageDocument>();
+        private readonly Dictionary<string, StageDocument> stageDocuments = new Dictionary<string, StageDocument>();
 
-        public IEnumerable<string> StageNames
-        {
-            get
-            {
-                return Project.Stages.Select(info => info.Name);
-            }
-        }
+        public IEnumerable<string> StageNames => Project.Stages.Select(info => info.Name);
 
-        public IEnumerable<string> SceneNames
-        {
-            get
-            {
-                return Project.Scenes.Select(info => info.Name);
-            }
-        }
+        public IEnumerable<string> SceneNames => Project.Scenes.Select(info => info.Name);
 
-        public IEnumerable<string> MenuNames
-        {
-            get
-            {
-                return Project.Menus.Select(info => info.Name);
-            }
-        }
+        public IEnumerable<string> MenuNames => Project.Menus.Select(info => info.Name);
+
+        public IEnumerable<StageDocument> Stages => stageDocuments.Values;
 
         #endregion
 
@@ -197,17 +181,23 @@ namespace MegaMan.Editor.Bll
             Project = project;
             FileStructure = fileStructure;
             _dataService = dataService;
+
+            foreach (var info in Project.Stages)
+            {
+                var stage = _dataService.LoadStage(this, info);
+                stageDocuments.Add(info.Name, stage);
+            }
         }
 
         public StageDocument StageByName(string name)
         {
-            if (openStages.ContainsKey(name)) return openStages[name];
+            if (stageDocuments.ContainsKey(name)) return stageDocuments[name];
             foreach (var info in Project.Stages)
             {
                 if (info.Name == name)
                 {
                     StageDocument stage = _dataService.LoadStage(this, info);
-                    openStages.Add(name, stage);
+                    stageDocuments.Add(name, stage);
                     return stage;
                 }
             }
@@ -254,7 +244,7 @@ namespace MegaMan.Editor.Bll
 
         private void AddStageToProject(StageDocument stage, StageLinkInfo linkInfo)
         {
-            openStages.Add(stage.Name, stage);
+            stageDocuments.Add(stage.Name, stage);
             Project.AddStage(linkInfo);
             ViewModelMediator.Current.GetEvent<StageAddedEventArgs>().Raise(this, new StageAddedEventArgs { Stage = linkInfo });
             CheckStartHandler();
