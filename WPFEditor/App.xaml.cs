@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using CrashReporterDotNET;
 using MegaMan.IO;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -22,6 +24,8 @@ namespace MegaMan.Editor
             base.OnStartup(e);
 
             Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
@@ -36,23 +40,45 @@ namespace MegaMan.Editor
             Container.Bind(x => x.FromAssemblyContaining(typeof(IGameLoader)).SelectAllClasses().BindAllInterfaces());
         }
 
-        void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+#if !DEBUG   // In debug mode do not custom-handle the exception, let Visual Studio handle it
+            ShowUnhandledException(e.Exception);    
+#endif
+        }
+
+        private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+#if !DEBUG   // In debug mode do not custom-handle the exception, let Visual Studio handle it
+            ShowUnhandledException((Exception)e.ExceptionObject);    
+#endif
+        }
+
+        private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
 #if DEBUG   // In debug mode do not custom-handle the exception, let Visual Studio handle it
             e.Handled = false;
 #else
-            ShowUnhandledException(e);    
+            e.Handled = true;
+            ShowUnhandledException(e.Exception);    
 #endif
         }
 
-        void ShowUnhandledException(DispatcherUnhandledExceptionEventArgs e)
+        void ShowUnhandledException(Exception ex)
         {
-            e.Handled = true;
-
             string errorMessage = string.Format("I'm sorry, an application error occurred.\nIf this error occurs again there may be a bug in the application.\n\nError: {0}\n\nDo you want to continue?\nIf you click No the application will close.",
 
-            e.Exception.Message + (e.Exception.InnerException != null ? "\n" +
-            e.Exception.InnerException.Message : null));
+            ex.Message + (ex.InnerException != null ? "\n" +
+            ex.InnerException.Message : null));
+
+            var reportCrash = new ReportCrash("tesserex@gmail.com") {
+                Silent = true,
+                DoctorDumpSettings = new DoctorDumpSettings() {
+                    ApplicationID = new Guid("24be95fb-ed64-4805-b8a2-bcfa5985a5c2"),
+                    SendAnonymousReportSilently = true
+                }
+            };
+            reportCrash.Send(ex);
 
             if (MessageBox.Show(errorMessage, "Application Error", MessageBoxButton.YesNoCancel, MessageBoxImage.Error) == MessageBoxResult.No)
             {
