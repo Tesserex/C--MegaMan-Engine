@@ -47,9 +47,8 @@ namespace MegaMan.Editor.Services
             projectWriter.Save(project.Project);
             project.Dirty = false;
 
-            foreach (var stageName in project.StageNames)
+            foreach (var stage in project.Stages)
             {
-                var stage = project.StageByName(stageName);
                 SaveStage(stage);
             }
 

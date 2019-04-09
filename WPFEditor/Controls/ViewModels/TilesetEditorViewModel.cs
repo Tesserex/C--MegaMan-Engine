@@ -75,6 +75,14 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public IEnumerable<string> SelectedTileGroups
+        {
+            get
+            {
+                return MultiSelectedTiles.SelectMany(t => t.Groups).Distinct();
+            }
+        }
+
         public IEnumerable<string> AllTileGroups
         {
             get
@@ -82,7 +90,11 @@ namespace MegaMan.Editor.Controls.ViewModels
                 if (_project == null)
                     return Enumerable.Empty<string>();
 
-                return  _tileset.Tiles.SelectMany(x => x.Groups);
+                return  _project.Stages
+                    .Select(s => s.Tileset)
+                    .SelectMany(t => t.Tiles)
+                    .SelectMany(x => x.Groups)
+                    .Distinct();
             }
         }
 
@@ -251,9 +263,10 @@ namespace MegaMan.Editor.Controls.ViewModels
                 Sprite = null;
             }
 
-            OnPropertyChanged("Sprite");
-            OnPropertyChanged("SelectedTile");
-            OnPropertyChanged("SelectedTileProperties");
+            OnPropertyChanged(nameof(Sprite));
+            OnPropertyChanged(nameof(SelectedTile));
+            OnPropertyChanged(nameof(SelectedTileProperties));
+            OnPropertyChanged(nameof(SelectedTileGroups));
         }
 
         private void RefreshSheet(object sender, EventArgs e)

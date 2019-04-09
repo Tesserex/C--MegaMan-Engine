@@ -273,7 +273,7 @@ namespace MegaMan.Editor.Bll
 
         public void RenameEntityPlacements(string oldName, string currentName)
         {
-            var placements = StageNames.Select(n => StageByName(n))
+            var placements = Stages
                 .SelectMany(s => s.Screens)
                 .SelectMany(s => s.Entities)
                 .Where(p => p.Entity == oldName);
