@@ -187,6 +187,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (ex is FileNotFoundException || ex is DirectoryNotFoundException)
                     CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
+                else if (App.IsDiskFull(ex))
+                    CustomMessageBox.ShowError("You are out of disk space. The project cannot be loaded.", ApplicationName);
                 else
                     throw;
             }
@@ -233,7 +235,17 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             if (CurrentProject != null)
             {
-                _dataService.SaveProject(CurrentProject);
+                try
+                {
+                    _dataService.SaveProject(CurrentProject);
+                }
+                catch (IOException ex)
+                {
+                    if (App.IsDiskFull(ex))
+                        CustomMessageBox.ShowError("You are out of disk space. The project cannot be saved.", ApplicationName);
+                    else
+                        throw;
+                }
             }
         }
 
