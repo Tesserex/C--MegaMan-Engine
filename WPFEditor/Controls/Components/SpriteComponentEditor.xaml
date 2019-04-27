@@ -48,6 +48,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ctrl:SpriteEditor Grid.Row="2" DataContext="{Binding SpriteEditorViewModel}" HorizontalAlignment="Center"></ctrl:SpriteEditor>
+        <ctrl:SpriteEditor Grid.Row="2" DataContext="{Binding SpriteEditorViewModel}" HorizontalAlignment="Stretch"></ctrl:SpriteEditor>
     </Grid>
 </UserControl>

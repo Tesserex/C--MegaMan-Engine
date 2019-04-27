@@ -10,23 +10,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
     <DockPanel Background="White">
-        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10">
-            <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Width</Label>
-                <xctk:IntegerUpDown Value="{Binding SpriteWidth}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
-                <Label FontWeight="Bold" FontSize="13" Margin="10,0" VerticalAlignment="Center">Height</Label>
-                <xctk:IntegerUpDown Value="{Binding SpriteHeight}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
-                    <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-                <Button Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
-                    <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Button>
-            </StackPanel>
-        </DockPanel>
+        <Border DockPanel.Dock="Top" Background="#ddd">
+            <DockPanel HorizontalAlignment="Stretch" Margin="10">
+                <c:EditableLabel Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=Name, Mode=TwoWay}"></c:EditableLabel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Visibility="{Binding Path=SizeChangeVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type c:SpriteEditor}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource ControlLabel}">Width</TextBlock>
+                    <xctk:IntegerUpDown Value="{Binding SpriteWidth}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
+                    <TextBlock Style="{StaticResource ControlLabel}">Height</TextBlock>
+                    <xctk:IntegerUpDown Value="{Binding SpriteHeight}" Height="20" Minimum="0" Margin="0,0,10,0"></xctk:IntegerUpDown>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding PlayCommand}" HorizontalAlignment="Right">
+                        <Image Source="/Resources/play.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button Padding="0" Command="{Binding PauseCommand}" HorizontalAlignment="Right">
+                        <Image Margin="0" Source="/Resources/pause.png" SnapsToDevicePixels="True" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
         <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -80,14 +82,14 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <CheckBox Grid.Column="0" IsChecked="{Binding Reversed}" HorizontalAlignment="Right" />
-                    <Label Grid.Column="1">Sprite is facing left</Label>
+                    <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="1">Sprite is facing left</TextBlock>
                 </Grid>
                 <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" SharedSizeGroup="Label" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" HorizontalAlignment="Right">Animation Mode</Label>
+                    <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="0" HorizontalAlignment="Right">Animation Mode</TextBlock>
                     <ComboBox ItemsSource="{Binding Source={conv:EnumBindingSource {x:Type common:AnimationStyle}}}" SelectedItem="{Binding AnimStyle}" Grid.Column="1" />
                 </Grid>
                 <Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,5">
@@ -95,7 +97,7 @@
                         <ColumnDefinition Width="auto" SharedSizeGroup="Label" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" HorizontalAlignment="Right">Animation Direction</Label>
+                    <TextBlock Style="{StaticResource ControlLabel}" Grid.Column="0" HorizontalAlignment="Right">Animation Direction</TextBlock>
                     <ComboBox ItemsSource="{Binding Source={conv:EnumBindingSource {x:Type common:AnimationDirection}}}" SelectedItem="{Binding AnimDirection}" Grid.Column="1" />
                 </Grid>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top">
@@ -181,8 +183,9 @@
             </DockPanel>
             <DockPanel Grid.Column="2">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                    <CheckBox x:Name="snapSheet" Margin="5" HorizontalAlignment="Left">Snap</CheckBox>
-                    <Label VerticalAlignment="Center" Margin="15,0,5,0" Padding="0">Spacing</Label>
+                    <CheckBox x:Name="snapSheet" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+                    <TextBlock Style="{StaticResource ControlLabel}">Snap</TextBlock>
+                    <TextBlock Style="{StaticResource ControlLabel}" Padding="0">Spacing</TextBlock>
                     <xctk:IntegerUpDown x:Name="snapGap" Minimum="0" Value="0" Padding="0" Height="20" IsEnabled="{Binding ElementName=snapSheet,Path=IsChecked}"></xctk:IntegerUpDown>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">

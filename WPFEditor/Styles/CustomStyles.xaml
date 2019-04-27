@@ -4,8 +4,8 @@
                     xmlns:local="clr-namespace:MegaMan.Editor.Controls">
 
     <Style TargetType="{x:Type TextBlock}" x:Key="ControlLabel">
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Margin" Value="10,5" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 

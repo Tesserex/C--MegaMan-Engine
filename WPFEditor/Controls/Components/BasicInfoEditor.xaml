@@ -28,9 +28,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Name</TextBlock>
-                <ctrl:EditableLabel Grid.Row="0" Grid.Column="1" Width="200" Height="28" DockPanel.Dock="Left" FontSize="16" Text="{Binding Path=EntityName, Mode=TwoWay}"></ctrl:EditableLabel>
+                <ctrl:EditableLabel Grid.Row="0" Grid.Column="1" Margin="0,5" Height="28" HorizontalAlignment="Left" FontSize="16" Text="{Binding Path=EntityName, Mode=TwoWay}"></ctrl:EditableLabel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource ControlLabel}">Max Alive</TextBlock>
-                <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
+                <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Value="{Binding CurrentEntity.MaxAlive}" Minimum="1"></xctk:IntegerUpDown>
             </Grid>
 
             <Label Style="{StaticResource Header}">EDITOR PREFERENCES</Label>
@@ -46,11 +46,11 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource ControlLabel}">Default Sprite</TextBlock>
-                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
+                <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CurrentEntity.SpriteComponent.Sprites.Values}" DisplayMemberPath="Name" SelectedValue="{Binding DefaultSpriteName, Mode=TwoWay}" SelectedValuePath="Name"></ComboBox>
 
-                <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ShowPlacement}" Margin="0,0,10,0"></CheckBox>
+                <CheckBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" IsChecked="{Binding ShowPlacement}"></CheckBox>
                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource ControlLabel}">Show in Entity Placement Panel</TextBlock>
-                <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsProjectile}" Margin="0,0,10,0"></CheckBox>
+                <CheckBox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" IsChecked="{Binding IsProjectile}"></CheckBox>
                 <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource ControlLabel}">Projectile (Suggest in Damage List)</TextBlock>
             </Grid>
         </StackPanel>
