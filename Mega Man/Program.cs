@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CrashReporterDotNET;
 
 namespace MegaMan.Engine
 {
@@ -56,9 +57,18 @@ namespace MegaMan.Engine
                 Application.Run(new MainForm());
 #if !DEBUG
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nPlease give the following information to the developer:\n\n" + e.Message + "\n" + e.StackTrace, "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an unhandled error. I'm sorry, but I have to close.\nDetails will be sent to the developer.", "C# MegaMan Engine", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                var reportCrash = new ReportCrash("tesserex@gmail.com") {
+                    Silent = true,
+                    DoctorDumpSettings = new DoctorDumpSettings() {
+                        ApplicationID = new Guid("7c95b7dc-98c4-418c-ba92-096a986b56ee"),
+                        SendAnonymousReportSilently = true
+                    }
+                };
+                reportCrash.Send(ex);
             }
 #endif
         }

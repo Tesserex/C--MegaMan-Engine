@@ -98,6 +98,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrashReporter.NET, Version=1.5.7.0, Culture=neutral, PublicKeyToken=7828e0fd88cab698, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrashReporter.NET.Official.1.5.7\lib\net40\CrashReporter.NET.dll</HintPath>
+    </Reference>
     <Reference Include="FMOD, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>lib\FMOD.dll</HintPath>
     </Reference>
