@@ -16,8 +16,6 @@ namespace MegaMan.Editor.Controls.ViewModels
     {
         private IToolCursor _toolCursor;
 
-        private IToolBehavior _toolBehavior;
-
         private StageDocument _currentStage;
 
         private IEntityImage _playerSprite;
@@ -49,10 +47,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             return (_currentStage != null);
         }
 
-        public IToolBehavior Tool
-        {
-            get { return _toolBehavior; }
-        }
+        public IToolBehavior Tool { get; private set; }
 
         public IToolCursor ToolCursor
         {
@@ -161,45 +156,39 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 case "Hand":
                     ToolCursor = new StandardToolCursor("hand.cur");
-                    _toolBehavior = new LayoutToolBehavior();
+                    Tool = new LayoutToolBehavior();
                     ActiveIcon = "cursor";
                     break;
 
                 case "VSplit":
                     ToolCursor = new StandardToolCursor("vsplit.cur");
-                    _toolBehavior = new CleaveScreenVerticalToolBehavior();
+                    Tool = new CleaveScreenVerticalToolBehavior();
                     ActiveIcon = "cleave";
                     break;
 
                 case "Start":
                     ToolCursor = new SpriteCursor(_playerSprite, 8, 1);
-                    _toolBehavior = new StartPointToolBehavior(8, 1);
+                    Tool = new StartPointToolBehavior(8, 1);
                     ActiveIcon = "start";
                     break;
 
                 case "Continue":
                     ToolCursor = new SpriteCursor(_playerSprite);
-                    _toolBehavior = new ContinuePointToolBehavior();
+                    Tool = new ContinuePointToolBehavior();
                     ActiveIcon = "continue";
                     break;
             }
 
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
-            }
+            ToolChanged?.Invoke(this, new ToolChangedEventArgs(Tool));
         }
 
         private void TestFromLocation()
         {
             ToolCursor = new SpriteCursor(_playerSprite);
-            _toolBehavior = new TestLocationToolBehavior();
+            Tool = new TestLocationToolBehavior();
             ActiveIcon = null;
 
-            if (ToolChanged != null)
-            {
-                ToolChanged(this, new ToolChangedEventArgs(_toolBehavior));
-            }
+            ToolChanged?.Invoke(this, new ToolChangedEventArgs(Tool));
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
@@ -220,10 +209,7 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
