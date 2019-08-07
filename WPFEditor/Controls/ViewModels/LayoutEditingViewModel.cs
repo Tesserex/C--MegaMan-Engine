@@ -36,6 +36,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             AddScreenCommand = new RelayCommand(p => AddScreen(), p => HasStage());
             ImportScreenCommand = new RelayCommand(p => ImportScreen(), p => HasStage());
             ChangeToolCommand = new RelayCommand(ChangeTool, p => HasStage());
+
+            ChangeTool("Hand");
         }
 
         public ICommand AddScreenCommand { get; private set; }

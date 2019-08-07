@@ -83,6 +83,8 @@ namespace MegaMan.Editor.Controls
                 {
                     _toolProvider.ToolChanged += ToolChanged;
                 }
+
+                UpdateCursor();
             }
         }
 
