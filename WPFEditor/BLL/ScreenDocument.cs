@@ -280,6 +280,13 @@ namespace MegaMan.Editor.Bll
             Stage.PushHistoryAction(new AddScreenAction(doc));
         }
 
+        public void Delete()
+        {
+            var joins = Joins.ToList();
+            Stage.RemoveScreen(this);
+            Stage.PushHistoryAction(new RemoveScreenAction(this, joins));
+        }
+
         public void AddEntity(EntityPlacement info)
         {
             Info.Layers[0].Entities.Add(info);

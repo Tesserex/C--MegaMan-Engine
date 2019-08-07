@@ -145,11 +145,6 @@ namespace MegaMan.Editor.Controls.ViewModels
             _currentStage.PushHistoryAction(new AddScreenAction(document));
         }
 
-        private void DeleteScreen(ScreenDocument screen)
-        {
-
-        }
-
         private void ChangeTool(object toolParam)
         {
             switch (toolParam.ToString())

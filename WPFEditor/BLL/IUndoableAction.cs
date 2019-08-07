@@ -166,10 +166,12 @@ namespace MegaMan.Editor.Bll
     public class AddScreenAction : IUndoableAction
     {
         private readonly ScreenDocument screen;
+        private readonly List<Join> joins;
 
-        public AddScreenAction(ScreenDocument screen)
+        public AddScreenAction(ScreenDocument screen, IEnumerable<Join> joins = null)
         {
             this.screen = screen;
+            this.joins = joins?.ToList();
         }
 
         public string Name { get { return "Add Screen"; } }
@@ -177,21 +179,30 @@ namespace MegaMan.Editor.Bll
         public void Execute()
         {
             screen.Stage.AddScreen(screen);
+            if (joins != null)
+            {
+                foreach (var join in joins)
+                {
+                    screen.Stage.AddJoin(join);
+                }
+            }
         }
 
         public IUndoableAction Reverse()
         {
-            return new RemoveScreenAction(screen);
+            return new RemoveScreenAction(screen, null);
         }
     }
 
     public class RemoveScreenAction : IUndoableAction
     {
         private readonly ScreenDocument screen;
+        private readonly List<Join> joins;
 
-        public RemoveScreenAction(ScreenDocument screen)
+        public RemoveScreenAction(ScreenDocument screen, IEnumerable<Join> joins)
         {
             this.screen = screen;
+            this.joins = joins.ToList();
         }
 
         public string Name { get { return "Remove Screen"; } }
@@ -203,7 +214,7 @@ namespace MegaMan.Editor.Bll
 
         public IUndoableAction Reverse()
         {
-            return new AddScreenAction(screen);
+            return new AddScreenAction(screen, joins);
         }
     }
 

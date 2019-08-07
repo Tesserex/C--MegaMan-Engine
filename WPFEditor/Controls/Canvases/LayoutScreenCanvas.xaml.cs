@@ -127,5 +127,10 @@ namespace MegaMan.Editor.Controls
         {
             Screen.Clone();
         }
+
+        private void DeleteClicked(object sender, RoutedEventArgs e)
+        {
+            Screen.Delete();
+        }
     }
 }

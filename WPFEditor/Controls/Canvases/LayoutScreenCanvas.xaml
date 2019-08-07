@@ -9,6 +9,7 @@
     <local:ScreenCanvas.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Clone This Screen" Click="CloneClicked" />
+            <MenuItem Header="Delete" Click="DeleteClicked" />
         </ContextMenu>
     </local:ScreenCanvas.ContextMenu>
 </local:ScreenCanvas>
