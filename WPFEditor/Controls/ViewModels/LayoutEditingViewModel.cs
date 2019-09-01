@@ -91,20 +91,16 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void AddScreen()
         {
-            var stage = _currentStage;
-
-            if (stage != null)
+            if (_currentStage != null)
             {
-                if (!stage.Tileset.Tileset.Any())
+                if (_currentStage.Tileset.IsEmpty)
                 {
                     CustomMessageBox.ShowError("You need to create some tiles before you can start creating your stage.", "Tiles Needed");
                     return;
                 }
-
-                int nextScreenId = stage.FindNextScreenId();
-
-                var doc = stage.AddScreen(nextScreenId.ToString(), 16, 14);
-                stage.PushHistoryAction(new AddScreenAction(doc));
+                
+                var doc = _currentStage.CreateScreen(16, 14);
+                _currentStage.PushHistoryAction(new AddScreenAction(doc));
             }
         }
 

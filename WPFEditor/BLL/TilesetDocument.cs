@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MegaMan.Common;
 using MegaMan.Editor.Bll.Tools;
 
@@ -14,6 +15,8 @@ namespace MegaMan.Editor.Bll
         public Tileset Tileset { get; private set; }
 
         public bool IsSheetDirty { get; set; }
+
+        public bool IsEmpty { get { return !Tileset.Any(); } }
 
         public FilePath SheetPath
         {

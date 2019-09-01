@@ -139,8 +139,8 @@ namespace MegaMan.Editor.Bll
                 var leftSide = Info.Layers[0].Tiles.GetTiles(Point.Empty, leftHalfTileWidth, Height);
                 var rightSide = Info.Layers[0].Tiles.GetTiles(new Point(leftHalfTileWidth, 0), Width - leftHalfTileWidth, Height);
 
-                var leftScreen = Stage.AddScreen(Stage.FindNextScreenId().ToString(), leftHalfTileWidth, Height);
-                var rightScreen = Stage.AddScreen(Stage.FindNextScreenId().ToString(), Width - leftHalfTileWidth, Height);
+                var leftScreen = Stage.CreateScreen(leftHalfTileWidth, Height);
+                var rightScreen = Stage.CreateScreen(Width - leftHalfTileWidth, Height);
 
                 leftScreen.Info.Layers[0].Tiles.ChangeTiles(Point.Empty, leftSide);
                 rightScreen.Info.Layers[0].Tiles.ChangeTiles(Point.Empty, rightSide);

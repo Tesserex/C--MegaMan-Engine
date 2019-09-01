@@ -152,12 +152,12 @@ namespace MegaMan.Editor.Bll
             return nextScreenId;
         }
 
-        public ScreenDocument AddScreen(string name, int tile_width, int tile_height)
+        public ScreenDocument CreateScreen(int tileWidth, int tileHeight)
         {
+            var name = FindNextScreenId().ToString();
             var screen = new ScreenInfo(name, Tileset.Tileset);
 
-            int[,] tiles = new int[tile_width, tile_height];
-
+            int[,] tiles = new int[tileWidth, tileHeight];
             screen.Layers.Add(new ScreenLayerInfo(name, new TileLayer(tiles, Tileset.Tileset, 0, 0), false, new List<ScreenLayerKeyframe>()));
 
             return AddScreen(screen);
