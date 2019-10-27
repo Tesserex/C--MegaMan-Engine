@@ -1,4 +1,6 @@
-﻿using MegaMan.Editor.Bll;
+﻿using System.Linq;
+using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Controls
@@ -29,38 +31,15 @@ namespace MegaMan.Editor.Controls
         {
             FreezeLayout();
 
-            screenCanvas.Screen.SeverAllJoins();
+            var screenData = _screens.Values.Select(canvas => new ScreenWithPosition() {
+                Screen = canvas.Screen,
+                Bounds = new System.Windows.Rect(canvas.Margin.Left, canvas.Margin.Top, canvas.Screen.PixelWidth, canvas.Screen.Height)
+            });
 
-            foreach (LayoutScreenCanvas neighbor in _screens.Values)
-            {
-                if (neighbor == screenCanvas)
-                {
-                    continue;
-                }
+            var targetScreen = screenData.Single(x => x.Screen == screenCanvas.Screen);
 
-                var rightDistance = screenCanvas.RightDistanceTo(neighbor);
-                var leftDistance = neighbor.RightDistanceTo(screenCanvas);
-                var downDistance = screenCanvas.DownDistanceTo(neighbor);
-                var upDistance = neighbor.DownDistanceTo(screenCanvas);
-
-                if (rightDistance < 10)
-                {
-                    screenCanvas.JoinRightwardTo(neighbor);
-                }
-                else if (leftDistance < 10)
-                {
-                    neighbor.JoinRightwardTo(screenCanvas);
-                }
-
-                if (downDistance < 10)
-                {
-                    screenCanvas.JoinDownwardTo(neighbor);
-                }
-                else if (upDistance < 10)
-                {
-                    neighbor.JoinDownwardTo(screenCanvas);
-                }
-            }
+            var joiner = new ScreenSnapJoiner();
+            joiner.SnapScreenJoin(targetScreen, screenData);
 
             UnfreezeLayout();
         }

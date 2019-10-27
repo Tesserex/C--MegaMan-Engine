@@ -153,6 +153,8 @@
     <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
     <Compile Include="Bll\Algorithms\ScreenImporter.cs" />
     <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
+    <Compile Include="Bll\Algorithms\ScreenSnapJoiner.cs" />
+    <Compile Include="Bll\Algorithms\ScreenWithPosition.cs" />
     <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
     <Compile Include="Bll\EmptySpriteModel.cs" />
     <Compile Include="Bll\IProjectFileStructure.cs" />

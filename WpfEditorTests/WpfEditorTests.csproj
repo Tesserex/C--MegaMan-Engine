@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ProjectFileStructureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StageLayoutTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WPFEditor\WPFEditor.csproj">
