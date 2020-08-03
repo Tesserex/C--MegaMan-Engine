@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
+using MegaMan.Editor.Bll.Algorithms;
 using MegaMan.Editor.Mediator;
 
 namespace MegaMan.Editor.Bll
 {
-    public class ScreenDocument
+    public class ScreenDocument : IScreenData
     {
         public ScreenInfo Info { get; private set; }
 
@@ -47,15 +48,9 @@ namespace MegaMan.Editor.Bll
             }
         }
 
-        public int Width
-        {
-            get { return Info.Width; }
-        }
+        public int Width => this.Info.Width;
 
-        public int Height
-        {
-            get { return Info.Height; }
-        }
+        public int Height => this.Info.Height;
 
         public Tileset Tileset { get { return Info.Tileset; } }
         public int PixelWidth { get { return Info.PixelWidth; } }
@@ -76,6 +71,8 @@ namespace MegaMan.Editor.Bll
                 return Info.Layers[0].Entities.AsReadOnly();
             }
         }
+
+        public int TileSize => this.Tileset.TileSize;
 
         public event Action<string, string> Renamed;
 
@@ -362,6 +359,11 @@ namespace MegaMan.Editor.Bll
             }
 
             ViewModelMediator.Current.GetEvent<SelectionChangedEventArgs>().Raise(this, new SelectionChangedEventArgs { Screen = this, Selection = Selection });
+        }
+
+        public void AddJoin(Join join)
+        {
+            this.Stage.AddJoin(join);
         }
     }
 }

@@ -183,10 +183,14 @@ namespace MegaMan.Editor.Controls.ViewModels
                 OpenProject(filename);
                 ShowBackstage = false;
             }
+            catch (FileNotFoundException ex)
+            {
+                CustomMessageBox.ShowError($"A file could not be found.\n\nMissing File: {ex.FileName}", ApplicationName);
+            }
             catch (IOException ex)
             {
-                if (ex is FileNotFoundException || ex is DirectoryNotFoundException)
-                    CustomMessageBox.ShowError("The project file could not be found at the specified location.", ApplicationName);
+                if (ex is DirectoryNotFoundException)
+                    CustomMessageBox.ShowError($"A directory could not be found at the specified location", ApplicationName);
                 else if (App.IsDiskFull(ex))
                     CustomMessageBox.ShowError("You are out of disk space. The project cannot be loaded.", ApplicationName);
                 else

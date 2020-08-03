@@ -14,7 +14,7 @@ namespace MegaMan.Editor.Bll.Algorithms
     /// </summary>
     public class ScreenWithPosition
     {
-        public ScreenDocument Screen { get; set; }
+        public IScreenData Screen { get; set; }
         public Rect Bounds { get; set; }
 
         public double RightDistanceTo(ScreenWithPosition second)
@@ -39,8 +39,8 @@ namespace MegaMan.Editor.Bll.Algorithms
 
         public void JoinRightwardTo(ScreenWithPosition other)
         {
-            var tileTopOne = (int)Math.Round(Bounds.Top / Screen.Tileset.TileSize);
-            var tileTopTwo = (int)Math.Round(other.Bounds.Top / Screen.Tileset.TileSize);
+            var tileTopOne = (int)Math.Round(Bounds.Top / Screen.TileSize);
+            var tileTopTwo = (int)Math.Round(other.Bounds.Top / Screen.TileSize);
 
             var startPoint = Math.Max(tileTopOne, tileTopTwo);
             var endPoint = Math.Min(tileTopOne + Screen.Height, tileTopTwo + other.Screen.Height);
@@ -58,13 +58,13 @@ namespace MegaMan.Editor.Bll.Algorithms
             join.OffsetTwo = startTileTwo;
             join.Size = length;
 
-            Screen.Stage.AddJoin(join);
+            Screen.AddJoin(join);
         }
 
         public void JoinDownwardTo(ScreenWithPosition other)
         {
-            var tileLeftOne = (int)Math.Round(Bounds.Left / Screen.Tileset.TileSize);
-            var tileLeftTwo = (int)Math.Round(other.Bounds.Left / Screen.Tileset.TileSize);
+            var tileLeftOne = (int)Math.Round(Bounds.Left / Screen.TileSize);
+            var tileLeftTwo = (int)Math.Round(other.Bounds.Left / Screen.TileSize);
 
             var startPoint = Math.Max(tileLeftOne, tileLeftTwo);
             var endPoint = Math.Min(tileLeftOne + Screen.Width, tileLeftTwo + other.Screen.Width);
@@ -82,7 +82,7 @@ namespace MegaMan.Editor.Bll.Algorithms
             join.OffsetTwo = startTileTwo;
             join.Size = length;
 
-            Screen.Stage.AddJoin(join);
+            Screen.AddJoin(join);
         }
     }
 }

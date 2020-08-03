@@ -33,7 +33,7 @@ namespace MegaMan.Editor.Controls
 
             var screenData = _screens.Values.Select(canvas => new ScreenWithPosition() {
                 Screen = canvas.Screen,
-                Bounds = new System.Windows.Rect(canvas.Margin.Left, canvas.Margin.Top, canvas.Screen.PixelWidth, canvas.Screen.Height)
+                Bounds = new System.Windows.Rect(canvas.Margin.Left, canvas.Margin.Top, canvas.Screen.PixelWidth, canvas.Screen.PixelHeight)
             });
 
             var targetScreen = screenData.Single(x => x.Screen == screenCanvas.Screen);
