@@ -51,7 +51,7 @@ namespace MegaMan.Engine
             tilesetAnimator = new TilesetAnimator(stage.Tileset);
             tilesetAnimator.Play();
 
-            if (string.IsNullOrEmpty(startScreen)) startScreen = info.Screens.Keys.First();
+            if (string.IsNullOrEmpty(startScreen) && info.Screens.Any()) startScreen = info.Screens.Keys.First();
             startX = info.PlayerStartX;
             startY = info.PlayerStartY;
 
