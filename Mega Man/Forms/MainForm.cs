@@ -212,7 +212,7 @@ namespace MegaMan.Engine
 #if DEBUG
             try
             {
-                gravityFlipToolStripMenuItem.Checked = Game.CurrentGame.GetFlipGravity();
+                gravityFlipToolStripMenuItem.Checked = Game.CurrentGame?.GetFlipGravity() ?? false;
             }
             catch (Exception)
             {
