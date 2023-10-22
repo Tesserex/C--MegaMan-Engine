@@ -21,6 +21,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public ICommand AddTileCommand { get; private set; }
         public ICommand DeleteTileCommand { get; private set; }
         public ICommand AddTilePropertiesCommand { get; private set; }
+        public ICommand AddTileGroupCommand { get; private set; }
         public ICommand EditTilePropertiesCommand { get; private set; }
         public ICommand DeleteTilePropertiesCommand { get; private set; }
         public ICommand HidePropertiesEditorCommand { get; private set; }
@@ -83,6 +84,27 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        private string tilegroup;
+        public string SelectedTileGroup
+        {
+            get { return tilegroup; }
+            set
+            {
+                tilegroup = value;
+                OnPropertyChanged(nameof(SelectedTileGroup));
+            }
+        }
+
+        private string newtilegroup;
+        public string NewTileGroup
+        {
+            set
+            {
+                newtilegroup = value;
+                OnPropertyChanged(nameof(NewTileGroup));
+            }
+        }
+
         public IEnumerable<string> AllTileGroups
         {
             get
@@ -98,6 +120,8 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
+        public bool GroupsEnabled { get; private set; }
+
         public TileProperties EditingProperties { get; private set; }
         public Visibility ShowPropEditor { get; private set; }
         public Visibility ShowSpriteEditor { get; private set; }
@@ -108,6 +132,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             AddTileCommand = new RelayCommand(o => AddTile());
             DeleteTileCommand = new RelayCommand(o => DeleteTile(), x => MultiSelectedTiles.Any());
             AddTilePropertiesCommand = new RelayCommand(o => AddProperties());
+            AddTileGroupCommand = new RelayCommand(o => AddGroup());
             EditTilePropertiesCommand = new RelayCommand(EditProperties);
             DeleteTilePropertiesCommand = new RelayCommand(DeleteProperties);
             HidePropertiesEditorCommand = new RelayCommand(o => HidePropertiesEditor());
@@ -185,7 +210,20 @@ namespace MegaMan.Editor.Controls.ViewModels
             _tileset.Tileset.AddProperties(properties);
             _observedProperties.Add(properties);
             _project.Dirty = true;
-            OnPropertyChanged("TileProperties");
+            OnPropertyChanged(nameof(TileProperties));
+        }
+
+        private void AddGroup()
+        {
+            var groupName = SelectedTileGroup ?? newtilegroup;
+            if (groupName == null) return;
+
+            foreach (var tile in MultiSelectedTiles)
+            {
+                tile.Groups.Add(groupName);
+            }
+            OnPropertyChanged(nameof(SelectedTileGroups));
+            OnPropertyChanged(nameof(AllTileGroups));
         }
 
         private void EditProperties(object obj)

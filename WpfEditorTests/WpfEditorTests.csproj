@@ -55,6 +55,7 @@
     <Compile Include="ProjectFileStructureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StageLayoutTests.cs" />
+    <Compile Include="ViewModels\TilesetEditorViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mega Man Common\Common.csproj">

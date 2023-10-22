@@ -14,6 +14,7 @@
 		<Stage name="NewStage" path="stages\NewStage" />
 		<Stage name="TilesetTest" path="stages\TilesetTest" />
 		<Stage name="Spark Man" path="stages\Spark Man" />
+		<Stage name="Help" path="stages\Help" />
 	</Stages>
 	<Next type="Menu" name="Title" fade="False" />
 	<IncludeFolder>objects</IncludeFolder>

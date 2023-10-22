@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections.Generic;
 
 namespace MegaMan.Common
@@ -20,9 +20,7 @@ namespace MegaMan.Common
         public string OnEnter { get; set; }
         public string OnLeave { get; set; }
         public string OnOver { get; set; }
-
-        private static TileProperties def = new TileProperties();
-        public static TileProperties Default { get { return def; } }
+        public static TileProperties Default { get; } = new TileProperties();
         public TileProperties()
         {
             Name = "Default";
@@ -37,7 +35,7 @@ namespace MegaMan.Common
     public class Tile
     {
         public int Id { get; private set; }
-        public IEnumerable<string> Groups { get; set; }
+        public List<string> Groups { get; set; }
         public TileSprite Sprite { get; protected set; }
         public float Width { get { return Sprite.Width; } }
         public float Height { get { return Sprite.Height; } }

@@ -1,0 +1,8 @@
+<Tileset tilesheet="tilesets\Help\cossack3.png" tilesize="16">
+	<TileProperties>
+		<Properties name="Block" blocking="true" resistX="0.5" />
+		<Properties name="Spike" blocking="true" lethal="true" />
+		<Properties name="Ladder" climbable="true" resistX="0.5" />
+		<Properties name="Water" gravitymult="0.4" />
+	</TileProperties>
+</Tileset>

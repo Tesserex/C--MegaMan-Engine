@@ -25,9 +25,18 @@
         </Border>
         <Border DockPanel.Dock="Left" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="0">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="150">
-                <ListView ItemsSource="{Binding SelectedTileGroups}"></ListView>
-                <ComboBox Margin="5" HorizontalAlignment="Stretch" IsEditable="True" ItemsSource="{Binding AllTileGroups}" SelectedValue="{Binding SelectedTileGroup}" />
-                <DockPanel Margin="5">
+                <Label Margin="5,0" FontWeight="Bold" HorizontalAlignment="Left" HorizontalContentAlignment="Center">Tile Groups</Label>
+                <ListView BorderThickness="0" ItemsSource="{Binding SelectedTileGroups}"></ListView>
+                <DockPanel Margin="5,0">
+                    <Button Command="{Binding AddTileGroupCommand}" IsEnabled="{Binding GroupsEnabled}" Margin="5,0,0,0" DockPanel.Dock="Right" Height="32">
+                        <Image Source="/Resources/add_brush.png" Width="16" Height="16"></Image>
+                    </Button>
+                    <ComboBox Margin="0,5" HorizontalAlignment="Stretch"
+                              IsEditable="True" ItemsSource="{Binding AllTileGroups}"
+                              SelectedItem="{Binding SelectedTileGroup}"
+                              Text="{Binding NewTileGroup, UpdateSourceTrigger=LostFocus}"/>
+                </DockPanel>
+                <DockPanel Margin="5,0">
                     <Button Command="{Binding AddTilePropertiesCommand}" Margin="10,0,0,0" DockPanel.Dock="Right" Height="32">
                         <Image Source="/Resources/add_brush.png" Width="16" Height="16"></Image>
                     </Button>
