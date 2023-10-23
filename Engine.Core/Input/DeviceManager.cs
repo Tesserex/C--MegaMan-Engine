@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SharpDX.DirectInput;
+﻿using SharpDX.DirectInput;
 using SharpDX.XInput;
 using DeviceType = SharpDX.DirectInput.DeviceType;
 
 namespace MegaMan.Engine.Input
 {
+    public delegate void RaiseEventOnUIThreadCallback(Delegate theEvent, params object[] args);
+
     public class DeviceManager
     {
         private static DeviceManager instance;
@@ -30,9 +26,11 @@ namespace MegaMan.Engine.Input
         private GamepadButtonFlags padButtonStates;
         private List<Joystick> joysticks;
 
-        public event EventHandler<JoystickButtonPressedEventArgs> JoystickButtonPressed;
-        public event EventHandler<JoystickAxisPressedEventArgs> JoystickAxisPressed;
-        public event EventHandler<GamepadButtonPressedEventArgs> GamepadButtonPressed;
+        private RaiseEventOnUIThreadCallback? RaiseEventOnUIThread;
+
+        public event EventHandler<JoystickButtonPressedEventArgs>? JoystickButtonPressed;
+        public event EventHandler<JoystickAxisPressedEventArgs>? JoystickAxisPressed;
+        public event EventHandler<GamepadButtonPressedEventArgs>? GamepadButtonPressed;
 
         private DeviceManager()
         {
@@ -49,7 +47,11 @@ namespace MegaMan.Engine.Input
             }
 
             controller = new Controller(UserIndex.One);
+        }
 
+        public void Start(RaiseEventOnUIThreadCallback raiseEventOnUIThreadCallback)
+        {
+            RaiseEventOnUIThread = raiseEventOnUIThreadCallback;
             Task.Factory.StartNew(PollJoysticks, TaskCreationOptions.LongRunning);
         }
 
@@ -109,49 +111,5 @@ namespace MegaMan.Engine.Input
                 }
             }
         }
-
-        private void RaiseEventOnUIThread(Delegate theEvent, params object[] args)
-        {
-            if (theEvent == null)
-                return;
-
-            foreach (var d in theEvent.GetInvocationList())
-            {
-                var syncer = d.Target as ISynchronizeInvoke;
-                if (syncer == null)
-                {
-                    d.DynamicInvoke(args);
-                }
-                else
-                {
-                    if (!(d.Target is Control) || ((Control)d.Target).Created)
-                        syncer.BeginInvoke(d, args);
-                }
-            }
-        }
-    }
-
-    public class JoystickButtonPressedEventArgs
-    {
-        public JoystickButton Button { get; set; }
-        public bool Pressed { get; set; }
-    }
-
-    public class JoystickAxisPressedEventArgs
-    {
-        public JoystickButton Button { get; set; }
-        public sbyte Value { get; set; }
-    }
-
-    public class GamepadButtonPressedEventArgs
-    {
-        public GamepadButtonFlags Button { get; set; }
-        public bool Pressed { get; set; }
-    }
-
-    public class JoystickButton
-    {
-        public Guid DeviceGuid { get; set; }
-        public JoystickOffset ButtonOffset { get; set; }
     }
 }

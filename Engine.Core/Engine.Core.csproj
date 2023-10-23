@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="lib\fmodex.dll" />
+    <None Remove="lib\MegaManR.BGM.dll" />
+    <None Remove="lib\nsf.dll" />
+    <None Remove="lib\ntsc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="lib\fmodex.dll" />
+    <Content Include="lib\MegaManR.BGM.dll" />
+    <Content Include="lib\nsf.dll" />
+    <Content Include="lib\ntsc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="ninject.extensions.conventions" Version="3.3.0" />
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
+    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.6" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj" />
+    <ProjectReference Include="..\Mega Man Common\Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FMOD">
+      <HintPath>..\Mega Man\lib\FMOD.dll</HintPath>
+    </Reference>
+    <Reference Include="MegaManR.Audio">
+      <HintPath>..\Mega Man\lib\MegaManR.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)lib\*.*&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
+
+</Project>

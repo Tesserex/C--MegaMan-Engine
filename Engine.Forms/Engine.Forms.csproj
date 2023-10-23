@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x86</PlatformTarget>
+    <AssemblyName>MegaMan.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>MegaMan.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="lib\fmodex.dll" />
+    <None Remove="lib\MegaManR.BGM.dll" />
+    <None Remove="lib\nsf.dll" />
+    <None Remove="lib\ntsc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="lib\fmodex.dll" />
+    <Content Include="lib\MegaManR.BGM.dll" />
+    <Content Include="lib\nsf.dll" />
+    <Content Include="lib\ntsc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Engine.Core\Engine.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FMOD">
+      <HintPath>..\Mega Man\lib\FMOD.dll</HintPath>
+    </Reference>
+    <Reference Include="MegaManR.Audio">
+      <HintPath>..\Mega Man\lib\MegaManR.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\SharpDX.XInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\CustomNtscForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DeleteConfigs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\EngineGraphicsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Forms\GraphicsDeviceControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Forms\Keyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\LoadConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Forms\CustomNtscForm.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\Keyboard.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\MainForm.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)lib\*.*&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
+
+</Project>

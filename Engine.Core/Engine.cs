@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 using MegaMan.Common.Rendering;
 using MegaMan.Engine.Input;
 using MegaMan.Engine.Rendering;
@@ -63,7 +59,7 @@ namespace MegaMan.Engine
     public class Engine
     {
         // Yes, it's a singleton
-        private static Engine instance;
+        private static Engine? instance;
         public static Engine Instance
         {
             get { return instance ?? (instance = new Engine()); }
@@ -71,6 +67,8 @@ namespace MegaMan.Engine
 
         private static readonly int MIN_FPS = 10;
         private static readonly int MAX_FPS = 500;
+
+        public static Random rand = new Random(0);
 
         private int fps;
         public int FPS
@@ -269,8 +267,8 @@ namespace MegaMan.Engine
             fadeFinished = finished;
         }
 
-        private GameTickEventHandler fadeHandle;
-        private Action fadeFinished;
+        private GameTickEventHandler? fadeHandle;
+        private Action? fadeFinished;
         private void opacityDown(Action callback)
         {
             opacity -= 0.05f;
@@ -301,8 +299,6 @@ namespace MegaMan.Engine
         private Engine()
         {
             FPS = Const.FPS;
-
-            Application.Idle += (s, e) => { while (Program.AppIdle) Application_Idle(); };
 
             timer = new Stopwatch();
 
@@ -348,16 +344,16 @@ namespace MegaMan.Engine
 
         // Checks whether enough time has passed to fire the next frame, and then does it.
         // Also keeps track of actual framerate and busy time.
-        private void Application_Idle()
+        public bool CheckNextFrame()
         {
-            if (timer.ElapsedTicks < frameTicks || !running) return;
+            if (timer.ElapsedTicks < frameTicks || !running) return false;
             var dt = timer.ElapsedTicks * invFreq;
             timer.Reset();
             timer.Start();
 
             try
             {
-                if (Step(dt)) Application.Exit();
+                if (Step(dt)) return true;
             }
             catch (GameRunException ex)
             {
@@ -367,6 +363,7 @@ namespace MegaMan.Engine
             }
 
             ThinkTime = timer.ElapsedTicks * invFreq / dt;
+            return false;
         }
 
         // Executes one step (frame) of the game, both logic and drawing. The parameter is time

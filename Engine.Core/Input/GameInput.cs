@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+﻿using Microsoft.Xna.Framework.Input;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
 
@@ -153,7 +150,7 @@ namespace MegaMan.Engine.Input
             Key = key;
         }
 
-        public bool IsPressed { get { return Program.KeyDown(Key); } }
+        public bool IsPressed { get { return Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Key); } }
 
         public override string ToString()
         {
@@ -203,5 +200,29 @@ namespace MegaMan.Engine.Input
         {
             return Button.ToString();
         }
+    }
+
+    public class JoystickButtonPressedEventArgs
+    {
+        public JoystickButton Button { get; set; }
+        public bool Pressed { get; set; }
+    }
+
+    public class JoystickAxisPressedEventArgs
+    {
+        public JoystickButton Button { get; set; }
+        public sbyte Value { get; set; }
+    }
+
+    public class GamepadButtonPressedEventArgs
+    {
+        public GamepadButtonFlags Button { get; set; }
+        public bool Pressed { get; set; }
+    }
+
+    public class JoystickButton
+    {
+        public Guid DeviceGuid { get; set; }
+        public JoystickOffset ButtonOffset { get; set; }
     }
 }

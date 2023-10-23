@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Drawing;
 using MegaMan.Common.IncludedObjects;
 
 namespace MegaMan.Engine
@@ -59,32 +55,21 @@ namespace MegaMan.Engine
         private void Initialize()
         {
             using (var stream = new MemoryStream(_info.ImageData))
-            using (var img = (Bitmap)Image.FromStream(stream))
+            using (var img = SkiaSharp.SKBitmap.Decode(stream))
             {
                 var imageRect = new Rectangle(0, 0, img.Width, img.Height);
 
-                var paletteData = img.LockBits(imageRect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-
-                var paletteBytes = new byte[paletteData.Height * paletteData.Stride];
-
-                try
-                {
-                    Marshal.Copy(paletteData.Scan0, paletteBytes, 0, paletteData.Height * paletteData.Stride);
-                }
-                finally
-                {
-                    img.UnlockBits(paletteData);
-                }
+                var paletteBytes = img.Bytes;
 
                 _swapColors = new List<Dictionary<uint, uint>>();
 
-                var s = paletteData.Stride;
+                var s = img.RowBytes;
 
-                for (var line = 0; line < paletteData.Height; line++)
+                for (var line = 0; line < img.Height; line++)
                 {
                     var pal = new Dictionary<uint, uint>();
 
-                    for (var i = 0; i < s; i += 4)
+                    for (var i = 0; i < s; i += img.BytesPerPixel)
                     {
                         var swap_i = i + (line * s);
 

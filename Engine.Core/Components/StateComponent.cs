@@ -81,7 +81,7 @@ namespace MegaMan.Engine
             if (!states.ContainsKey(currentState)) return;
 
             StateFrames++;
-            FrameRand = Program.rand.NextDouble();
+            FrameRand = Engine.rand.NextDouble();
 
             states[currentState].CheckTriggers(this, Parent);
             states[currentState].RunLogic(Parent);

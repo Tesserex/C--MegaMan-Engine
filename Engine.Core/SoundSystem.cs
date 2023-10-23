@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using FMOD;
+﻿using FMOD;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
 using MegaManR.Audio;
@@ -15,10 +12,12 @@ namespace MegaMan.Engine
         private readonly Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
         private readonly Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
         private readonly List<Channel> channels = new List<Channel>();
-        private readonly Timer updateTimer;
-        
-        private BackgroundMusic bgm;
-        private SoundEffect sfx;
+        private readonly PeriodicTimer updateTimer;
+        private Task? timerTask;
+        private CancellationTokenSource cts = new();
+
+        private BackgroundMusic? bgm;
+        private SoundEffect? sfx;
         public static byte CurrentSfxPriority { get; set; }
 
         private bool musicEnabled = true;
@@ -92,8 +91,7 @@ namespace MegaMan.Engine
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
 
-            updateTimer = new Timer {Interval = 10};
-            updateTimer.Tick += updateTimer_Tick;
+            updateTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(10));
 
             AudioManager.Instance.SFXPlaybackStopped += InstanceSfxPlaybackStopped;
             CurrentSfxPriority = 255;
@@ -106,14 +104,22 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            updateTimer.Start();
+            cts = new();
+            timerTask = UpdateTick();
             if (AudioManager.Instance.Paused)
                 ApplyMusicSetting();
         }
 
-        public void Stop()
+        public async void Stop()
         {
-            updateTimer.Stop();
+            if (timerTask != null)
+            {
+                cts.Cancel();
+                await timerTask;
+                cts.Dispose();
+                timerTask = null;
+            }
+
             AudioManager.Instance.PauseBGMPlayback();
         }
 
@@ -152,7 +158,22 @@ namespace MegaMan.Engine
             return info.Name;
         }
 
-        void updateTimer_Tick(object sender, EventArgs e)
+        private async Task UpdateTick()
+        {
+            try
+            {
+                while (await updateTimer.WaitForNextTickAsync(cts.Token))
+                {
+                    if (soundSystem != null) soundSystem.update();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+        }
+
+        void updateTimer_Tick()
         {
             if (soundSystem != null) soundSystem.update();
         }
