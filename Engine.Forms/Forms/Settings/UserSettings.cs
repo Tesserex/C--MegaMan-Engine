@@ -288,11 +288,11 @@ namespace MegaMan.Engine.Forms.Settings
     public class UserKeyBindingSetting : IUserInputBindingSetting
     {
         public GameInputs Input { get; set; }
-        public Microsoft.Xna.Framework.Input.Keys Key { get; set; }
+        public Keys Key { get; set; }
 
         public IGameInputBinding GetGameInputBinding()
         {
-            return new KeyboardInputBinding(Input, Key);
+            return new KeyboardInputBinding(Input, Key, k => Program.KeyDown((System.Windows.Forms.Keys)(int)k));
         }
     }
 

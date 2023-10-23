@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using MegaMan.Engine.Forms;
 using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
@@ -67,7 +68,7 @@ namespace MegaMan.Engine
             {
                 if (!keyData.HasFlag(Keys.Control) && !keyData.HasFlag(Keys.Alt) && !keyData.HasFlag(Keys.Shift))
                 {
-                    var binding = new KeyboardInputBinding(waitKey.Value, (Microsoft.Xna.Framework.Input.Keys)(int)keyData);
+                    var binding = new KeyboardInputBinding(waitKey.Value, (Microsoft.Xna.Framework.Input.Keys)(int)keyData, k => Program.KeyDown(keyData));
                     GameInput.AddBinding(binding);
                     SetLabels(waitKey.Value);
                     waitKey = null;

@@ -143,14 +143,16 @@ namespace MegaMan.Engine.Input
         public GameInputs Input { get; private set; }
         public InputTypes InputType { get { return InputTypes.Keyboard; } }
         public Keys Key { get; private set; }
+        public Func<Keys, bool> Evaluator { get; private set; }
 
-        public KeyboardInputBinding(GameInputs input, Keys key)
+        public KeyboardInputBinding(GameInputs input, Keys key, Func<Keys, bool> evaluator)
         {
             Input = input;
             Key = key;
+            Evaluator = evaluator;
         }
 
-        public bool IsPressed { get { return Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Key); } }
+        public bool IsPressed { get { return Evaluator(Key); } }
 
         public override string ToString()
         {
