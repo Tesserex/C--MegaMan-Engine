@@ -1,21 +1,9 @@
-﻿#region File Description
-//-----------------------------------------------------------------------------
-// GraphicsDeviceControl.cs
-//
-// Microsoft XNA Community Game Platform
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//-----------------------------------------------------------------------------
-#endregion
-
-#region Using Statements
-
-using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 using Microsoft.Xna.Framework.Graphics;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-
-#endregion
 
 namespace WinFormsGraphicsDevice
 {
@@ -33,7 +21,7 @@ namespace WinFormsGraphicsDevice
 
         // However many GraphicsDeviceControl instances you have, they all share
         // the same underlying GraphicsDevice, managed by this helper service.
-        GraphicsDeviceService graphicsDeviceService;
+        GraphicsDeviceService? graphicsDeviceService;
 
 
         #endregion
@@ -71,38 +59,42 @@ namespace WinFormsGraphicsDevice
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        protected override void OnCreateControl()
+        protected override void OnLoaded(RoutedEventArgs e)
         {
             // Don't initialize the graphics device if we are running in the designer.
-            if (!DesignMode)
+            if (!Design.IsDesignMode)
             {
-                graphicsDeviceService = GraphicsDeviceService.AddRef(Handle,
-                                                                     ClientSize.Width,
-                                                                     ClientSize.Height);
+                var handle = TopLevel.GetTopLevel(this)?.TryGetPlatformHandle()?.Handle;
+                if (handle.HasValue)
+                {
+                    graphicsDeviceService = GraphicsDeviceService.AddRef(handle.Value,
+                                                                         (int)Width,
+                                                                         (int)Height);
 
-                // Register the service, so components like ContentManager can find it.
-                services.AddService<IGraphicsDeviceService>(graphicsDeviceService);
+                    // Register the service, so components like ContentManager can find it.
+                    services.AddService<IGraphicsDeviceService>(graphicsDeviceService);
 
-                // Give derived classes a chance to initialize themselves.
-                Initialize();
+                    // Give derived classes a chance to initialize themselves.
+                    Initialize();
+                }
             }
 
-            base.OnCreateControl();
+            base.OnLoaded(e);
         }
 
 
         /// <summary>
         /// Disposes the control.
         /// </summary>
-        protected override void Dispose(bool disposing)
+        protected override void OnUnloaded(RoutedEventArgs e)
         {
             if (graphicsDeviceService != null)
             {
-                graphicsDeviceService.Release(disposing);
+                graphicsDeviceService.Release(true);
                 graphicsDeviceService = null;
             }
 
-            base.Dispose(disposing);
+            base.OnUnloaded(e);
         }
 
 
@@ -112,11 +104,11 @@ namespace WinFormsGraphicsDevice
 
 
         /// <summary>
-        /// Redraws the control in response to a WinForms paint message.
+        /// Redraws the control in response to a Render message.
         /// </summary>
-        protected override void OnPaint(PaintEventArgs e)
+        public override void Render(DrawingContext context)
         {
-            
+            base.Render(context);
         }
 
 
@@ -125,12 +117,12 @@ namespace WinFormsGraphicsDevice
         /// if this was not possible, which can happen if the graphics device is
         /// lost, or if we are running inside the Form designer.
         /// </summary>
-        protected string BeginDraw()
+        protected string? BeginDraw()
         {
             // If we have no graphics device, we must be running in the designer.
             if (graphicsDeviceService == null)
             {
-                return Text + "\n\n" + GetType();
+                return Name + "\n\n" + GetType();
             }
 
             // Make sure the graphics device is big enough, and is not lost.
@@ -141,7 +133,7 @@ namespace WinFormsGraphicsDevice
                 return deviceResetError;
             }
 
-            if (ClientSize.Width == 0 || ClientSize.Height == 0) return null;
+            if (Width == 0 || Height == 0) return null;
 
             // Many GraphicsDeviceControl instances can be sharing the same
             // GraphicsDevice. The device backbuffer will be resized to fit the
@@ -153,8 +145,8 @@ namespace WinFormsGraphicsDevice
             viewport.X = 0;
             viewport.Y = 0;
 
-            viewport.Width = ClientSize.Width;
-            viewport.Height = ClientSize.Height;
+            viewport.Width = (int)Width;
+            viewport.Height = (int)Height;
 
             viewport.MinDepth = 0;
             viewport.MaxDepth = 1;
@@ -175,8 +167,8 @@ namespace WinFormsGraphicsDevice
         {
             try
             {
-                var sourceRectangle = new Rectangle(0, 0, ClientSize.Width,
-                                                                ClientSize.Height);
+                var sourceRectangle = new Rectangle(0, 0, (int)Width,
+                                                                (int)Height);
 
                 GraphicsDevice.Present();
             }
@@ -195,7 +187,7 @@ namespace WinFormsGraphicsDevice
         /// that the device is not lost. Returns an error string if the device
         /// could not be reset.
         /// </summary>
-        string HandleDeviceReset()
+        string? HandleDeviceReset()
         {
             var deviceNeedsReset = false;
 
@@ -214,8 +206,8 @@ namespace WinFormsGraphicsDevice
                     // If the device state is ok, check whether it is big enough.
                     var pp = GraphicsDevice.PresentationParameters;
 
-                    deviceNeedsReset = (ClientSize.Width != pp.BackBufferWidth) ||
-                                       (ClientSize.Height != pp.BackBufferHeight);
+                    deviceNeedsReset = ((int)Width != pp.BackBufferWidth) ||
+                                       ((int)Height != pp.BackBufferHeight);
                     break;
             }
 
@@ -224,7 +216,7 @@ namespace WinFormsGraphicsDevice
             {
                 try
                 {
-                    graphicsDeviceService.ResetDevice(ClientSize.Width, ClientSize.Height);
+                    graphicsDeviceService?.ResetDevice((int)Width, (int)Height);
                 }
                 catch (Exception e)
                 {
@@ -235,37 +227,22 @@ namespace WinFormsGraphicsDevice
             return null;
         }
 
+        static IBrush blueBrush = new SolidColorBrush(Avalonia.Media.Colors.CornflowerBlue);
+
 
         /// <summary>
         /// If we do not have a valid graphics device (for instance if the device
         /// is lost, or if we are running inside the Form designer), we must use
-        /// regular System.Drawing method to display a status message.
+        /// regular Avalonia DrawingContext method to display a status message.
         /// </summary>
-        protected virtual void PaintUsingSystemDrawing(Graphics graphics, string text)
+        protected virtual void PaintUsingDrawingContext(DrawingContext graphics, string text)
         {
-            graphics.Clear(Color.CornflowerBlue);
+            graphics.FillRectangle(blueBrush, new Avalonia.Rect(0, 0, Width, Height));
 
-            using (Brush brush = new SolidBrush(Color.Black))
-            {
-                using (var format = new StringFormat())
-                {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
+            Brush brush = new SolidColorBrush(Colors.Black);
 
-                    graphics.DrawString(text, Font, brush, ClientRectangle, format);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Ignores WinForms paint-background messages. The default implementation
-        /// would clear the control to the current background color, causing
-        /// flickering when our OnPaint implementation then immediately draws some
-        /// other color over the top using the XNA Framework GraphicsDevice.
-        /// </summary>
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
+            var format = new FormattedText(text, System.Globalization.CultureInfo.CurrentCulture, FlowDirection, Typeface.Default, 5, brush);
+            graphics.DrawText(format, new Avalonia.Point(Width / 2, Height / 2));
         }
 
 

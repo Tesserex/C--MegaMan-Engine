@@ -1,6 +1,8 @@
-﻿namespace Engine.Avalonia.ViewModels;
+﻿using MegaMan.Engine.Avalonia;
+
+namespace Engine.Avalonia.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    public EngineGame CurrentGame { get; set; } = new EngineGame();
 }

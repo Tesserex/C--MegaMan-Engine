@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
 using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
-// To use DllImport
 
 namespace MegaMan.Engine.Forms
 {

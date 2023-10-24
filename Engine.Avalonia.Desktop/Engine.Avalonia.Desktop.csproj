@@ -7,7 +7,20 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="lib\fmodex.dll" />
+    <None Remove="lib\MegaManR.BGM.dll" />
+    <None Remove="lib\nsf.dll" />
+    <None Remove="lib\ntsc.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\fmodex.dll" />
+    <Content Include="lib\MegaManR.BGM.dll" />
+    <Content Include="lib\nsf.dll" />
+    <Content Include="lib\ntsc.dll" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
@@ -17,12 +30,7 @@
     <ProjectReference Include="..\Engine.Avalonia\Engine.Avalonia.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="EngineGraphicsControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="GraphicsDeviceControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)lib\*.*&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 </Project>

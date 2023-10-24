@@ -3,6 +3,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>MegaMan.Engine.Avalonia</RootNamespace>
+    <AssemblyName>MegaMan.Engine.Avalonia</AssemblyName>
+    <PlatformTarget>x86</PlatformTarget>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   
@@ -18,5 +22,29 @@
 
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="MessageBox.Avalonia" Version="3.1.3" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Engine.Core\Engine.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FMOD">
+      <HintPath>..\Mega Man\lib\FMOD.dll</HintPath>
+    </Reference>
+    <Reference Include="MegaManR.Audio">
+      <HintPath>..\Mega Man\lib\MegaManR.Audio.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="EngineGraphicsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GraphicsDeviceControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -1,13 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using MegaMan.Engine.Forms.Settings;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using MegaMan.Engine.Avalonia.Settings;
 using Microsoft.Xna.Framework.Graphics;
 using WinFormsGraphicsDevice;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Avalonia
 {
     public class EngineGraphicsControl : GraphicsDeviceControl
     {
@@ -42,11 +46,10 @@ namespace MegaMan.Engine
             Engine.Instance.GetDevice += Instance_GetDevice;
             Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
             Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
-            Margin = new Padding(0);
-            Padding = new Padding(0);
+            Margin = new Thickness(0);
 
             masterSpriteBatch = new SpriteBatch(GraphicsDevice);
-            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
+            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, (int)Width, (int)Height, false, SurfaceFormat.Bgr565, DepthFormat.None);
 
             ntsc = snes_ntsc_alloc();
             ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
@@ -66,10 +69,10 @@ namespace MegaMan.Engine
             }
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void OnUnloaded(RoutedEventArgs e)
         {
             if (ntsc != IntPtr.Zero) snes_ntsc_free(ntsc);
-            base.Dispose(disposing);
+            base.OnUnloaded(e);
         }
 
         public void ntscInit(snes_ntsc_setup_t setup)
@@ -81,7 +84,7 @@ namespace MegaMan.Engine
         public void SetSize()
         {
             if (GraphicsDevice == null) return;
-            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+            masterRenderingTarget = new RenderTarget2D(GraphicsDevice, (int)Width, (int)Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         public void SaveCap(Stream stream)
@@ -89,15 +92,15 @@ namespace MegaMan.Engine
             masterRenderingTarget.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public override void Render(DrawingContext context)
         {
-            if (!DesignMode)
+            if (!Design.IsDesignMode && GraphicsDevice != null)
             {
                 BeginDraw();
                 GraphicsDevice.Clear(Color.Black);
                 EndDraw();
             }
-            base.OnPaint(e);
+            base.Render(context);
         }
 
         private void Instance_GameRenderBegin(GameRenderEventArgs e)
@@ -143,7 +146,7 @@ namespace MegaMan.Engine
             GraphicsDevice.Clear(Color.Black);
 
             masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
-            masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, Width, Height), Color.White);
+            masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, (int)Width, (int)Height), Color.White);
             masterSpriteBatch.End();
         }
 

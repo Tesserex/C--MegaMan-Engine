@@ -20,8 +20,8 @@ namespace MegaMan.Engine
     public delegate void GameInputEventHandler(GameInputEventArgs e);
 
     /// <summary>
-    /// So far, nothing uses this for the elapsed time. But it may be
-    /// useful at some point. Maybe sound syncing?
+    /// So far, nothing uses this for the elapsed time, other than debug info.
+    /// But it may be useful at some point. Maybe sound syncing?
     /// </summary>
     public class GameTickEventArgs : EventArgs
     {
