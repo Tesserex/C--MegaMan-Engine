@@ -84,9 +84,10 @@ namespace MegaMan.Engine.Avalonia
             }
 
             // Execute a frame
-            RunFrame(game);
+            StepEngine(game);
             // Capture the executed frame into the bitmap
             CaptureFrame(device, _bitmap);
+
             // Flush the bitmap to context
             context.DrawImage(_bitmap, new Rect(_bitmap.Size), Bounds);
         }
@@ -125,10 +126,19 @@ namespace MegaMan.Engine.Avalonia
 
             if (Game is not { } game) return;
 
+            // this initializes the Game so it creates a GraphicsDevice
+            game.RunOneFrame();
+
             if (game.GraphicsDevice is { } device)
                 ResetDevice(device, Bounds.Size);
 
-            RunFrame(game);
+            Engine.Instance.GetDevice += Instance_GetDevice;
+        }
+
+        private void Instance_GetDevice(object? sender, Engine.DeviceEventArgs e)
+        {
+            if (Game is not { } game) return;
+            e.Device = game.GraphicsDevice;
         }
 
         private void Start()
@@ -160,11 +170,11 @@ namespace MegaMan.Engine.Avalonia
                 AlphaFormat.Opaque);
         }
 
-        private void RunFrame(EngineGame game)
+        private void StepEngine(EngineGame game)
         {
             try
             {
-                game.StepEngine();
+                Engine.Instance.CheckNextFrame();
             }
             finally
             {

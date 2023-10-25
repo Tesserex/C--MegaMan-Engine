@@ -28,31 +28,6 @@ namespace MegaMan.Engine.Avalonia
             GraphicsDeviceManager = new GraphicsDeviceManager(this);
         }
 
-        public void StepEngine()
-        {
-            //Engine.Instance.CheckNextFrame();
-        }
-
-        protected override void Initialize()
-        {
-            _lastWidth = GraphicsDevice.Viewport.Width;
-            _lastHeight = GraphicsDevice.Viewport.Height;
-
-            base.Initialize();
-        }
-
-        protected override void Update(GameTime gameTime)
-        {
-            if (_lastWidth != GraphicsDevice.Viewport.Width ||
-                _lastHeight != GraphicsDevice.Viewport.Height)
-            {
-                _lastWidth = GraphicsDevice.Viewport.Width;
-                _lastHeight = GraphicsDevice.Viewport.Height;
-            }
-
-            base.Update(gameTime);
-        }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
