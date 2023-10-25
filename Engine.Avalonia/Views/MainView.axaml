@@ -13,5 +13,5 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <ctrl:MonoGameControl Game="{Binding CurrentGame}" />
+  <ctrl:MonoGameControl Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
 </UserControl>

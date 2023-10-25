@@ -58,7 +58,7 @@ namespace MegaMan.Engine.Avalonia
             int in_row_width, int burst_phase, int in_width, int in_height,
             [In, Out] ushort[] rgb_out, int out_pitch);
 
-        private static ushort[] ntscPixelsDimmed;
+        private static ushort[]? ntscPixelsDimmed;
 
         private byte[] _bufferData = Array.Empty<byte>();
         private WriteableBitmap? _bitmap;
@@ -179,7 +179,7 @@ namespace MegaMan.Engine.Avalonia
                 ntscPixelsDimmed[i] = (ushort)(red | green | blue);
             }
 
-            MegaMan.Engine.Game.Load(@"C:/junk/Code/Mega Man/Engine/Demo Project/game.xml");
+            MegaMan.Engine.Game.Load(@"C:/junk/Code/MegaMan/Engine/Demo Project/game.xml");
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -320,7 +320,6 @@ namespace MegaMan.Engine.Avalonia
             var size = bitmapLock.RowBytes * bitmapLock.Size.Height;
             if (_bufferData.Length < size)
             {
-                //_bufferData = new byte[size];
                 Array.Resize(ref _bufferData, size);
             }
 

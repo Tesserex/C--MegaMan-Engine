@@ -70,9 +70,7 @@
     <Compile Update="Forms\LoadConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\MainForm.cs" />
   </ItemGroup>
 
   <ItemGroup>

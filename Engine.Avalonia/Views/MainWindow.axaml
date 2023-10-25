@@ -7,6 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Engine.Avalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Engine.Avalonia">
+        Title="Engine.Avalonia"
+        Background="CornflowerBlue"
+        SizeToContent="WidthAndHeight">
         <views:MainView />
 </Window>
