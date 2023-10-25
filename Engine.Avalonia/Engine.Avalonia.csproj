@@ -38,13 +38,4 @@
       <HintPath>..\Mega Man\lib\MegaManR.Audio.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="EngineGraphicsControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="GraphicsDeviceControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
 </Project>

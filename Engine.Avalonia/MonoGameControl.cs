@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -11,7 +8,10 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using MegaMan.Engine.Avalonia.Settings;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace MegaMan.Engine.Avalonia
 {
@@ -34,6 +34,31 @@ namespace MegaMan.Engine.Avalonia
             PresentationInterval = PresentInterval.Immediate,
             IsFullScreen = false
         };
+
+        RenderTarget2D masterRenderingTarget;
+        SpriteBatch masterSpriteBatch;
+        IntPtr ntsc;
+        Texture2D ntscTexture;
+        readonly ushort[] pixels = new ushort[256 * 224];
+        readonly ushort[] filtered = new ushort[602 * 448];
+
+        public bool NTSC { get; set; }
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr snes_ntsc_alloc();
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void snes_ntsc_init(IntPtr ntsc, snes_ntsc_setup_t setup);
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void snes_ntsc_free(IntPtr ntsc);
+
+        [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void snes_ntsc_blit(IntPtr ntsc, ushort[] input,
+            int in_row_width, int burst_phase, int in_width, int in_height,
+            [In, Out] ushort[] rgb_out, int out_pitch);
+
+        private static ushort[] ntscPixelsDimmed;
 
         private byte[] _bufferData = Array.Empty<byte>();
         private WriteableBitmap? _bitmap;
@@ -133,12 +158,76 @@ namespace MegaMan.Engine.Avalonia
                 ResetDevice(device, Bounds.Size);
 
             Engine.Instance.GetDevice += Instance_GetDevice;
+            Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
+            Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
+            Margin = new Thickness(0);
+
+            ntsc = snes_ntsc_alloc();
+            ntscInit(snes_ntsc_setup_t.snes_ntsc_composite);
+
+            ntscTexture = new Texture2D(game.GraphicsDevice, 602, 448, false, SurfaceFormat.Bgr565);
+
+            ntscPixelsDimmed = new ushort[ushort.MaxValue + 1];
+            for (var i = 0; i <= ushort.MaxValue; i++)
+            {
+                var red = (i & 0xf800);
+                var green = (i & 0x7e0);
+                var blue = (i & 0x1f);
+                red = ((red - (red >> 3)) & 0xf800);
+                green = ((green - (green >> 3)) & 0x7e0);
+                blue = ((blue - (blue >> 3)) & 0x1f);
+                ntscPixelsDimmed[i] = (ushort)(red | green | blue);
+            }
+
+            MegaMan.Engine.Game.Load(@"C:/junk/Code/Mega Man/Engine/Demo Project/game.xml");
+        }
+
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            if (ntsc != IntPtr.Zero) snes_ntsc_free(ntsc);
+            base.OnDetachedFromVisualTree(e);
+        }
+
+        public void ntscInit(snes_ntsc_setup_t setup)
+        {
+            snes_ntsc_init(ntsc, setup);
+            ForceRedraw();
+        }
+
+        public void SetSize()
+        {
+            if (Game is null) return;
+            if (Game.GraphicsDevice is null) return;
+            masterRenderingTarget = new RenderTarget2D(Game.GraphicsDevice, (int)Width, (int)Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+        }
+
+        public void SaveCap(Stream stream)
+        {
+            masterRenderingTarget.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
         private void Instance_GetDevice(object? sender, Engine.DeviceEventArgs e)
         {
-            if (Game is not { } game) return;
-            e.Device = game.GraphicsDevice;
+            if (Game is null) return;
+            if (Game.GraphicsDevice is null) return;
+            e.Device = Game.GraphicsDevice;
+        }
+
+        private void Instance_GameRenderBegin(GameRenderEventArgs e)
+        {
+            if (Game is null) return;
+            if (Game.GraphicsDevice is null) return;
+
+            Game.GraphicsDevice.SetRenderTarget(masterRenderingTarget);
+            Game.GraphicsDevice.Clear(Color.Black);
+        }
+
+        private void Instance_GameRenderEnd(GameRenderEventArgs e)
+        {
+            if (Game is null) return;
+            if (Game.GraphicsDevice is null) return;
+            DrawMasterTargetToBatch(Game.GraphicsDevice);
+            Game.GraphicsDevice.Present();
         }
 
         private void Start()
@@ -168,6 +257,16 @@ namespace MegaMan.Engine.Avalonia
                 new Vector(96d, 96d),
                 PixelFormat.Rgba8888,
                 AlphaFormat.Opaque);
+
+            masterRenderingTarget = new RenderTarget2D(
+                device,
+                newWidth,
+                newHeight,
+                false,
+                SurfaceFormat.Bgr565,
+                DepthFormat.None);
+
+            masterSpriteBatch = new SpriteBatch(device);
         }
 
         private void StepEngine(EngineGame game)
@@ -182,6 +281,39 @@ namespace MegaMan.Engine.Avalonia
             }
         }
 
+        private void ForceRedraw()
+        {
+            if (Game is null) return;
+            if (Game.GraphicsDevice is null) return;
+            if (MegaMan.Engine.Game.CurrentGame != null && !Engine.Instance.IsRunning)
+            {
+                Game.GraphicsDevice.Textures[0] = null;
+                DrawMasterTargetToBatch(Game.GraphicsDevice);
+            }
+        }
+
+        private void DrawMasterTargetToBatch(GraphicsDevice device)
+        {
+            Texture2D drawTexture = masterRenderingTarget;
+
+            if (NTSC)
+            {
+                masterRenderingTarget.GetData(pixels);
+
+                snes_ntsc_blit(ntsc, pixels, 256, 0, 256, 224, filtered, 1204);
+
+                ntscTexture.SetData(filtered);
+
+                drawTexture = ntscTexture;
+            }
+
+            device.SetRenderTarget(null);
+
+            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
+            masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height), Color.White);
+            masterSpriteBatch.End();
+        }
+
         private void CaptureFrame(GraphicsDevice device, WriteableBitmap bitmap)
         {
             using var bitmapLock = bitmap.Lock();
@@ -194,6 +326,65 @@ namespace MegaMan.Engine.Avalonia
 
             device.GetBackBufferData(_bufferData, 0, size);
             Marshal.Copy(_bufferData, 0, bitmapLock.Address, size);
+        }
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    public class snes_ntsc_setup_t
+    {
+        public static readonly snes_ntsc_setup_t snes_ntsc_composite = new snes_ntsc_setup_t(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true);
+        public static readonly snes_ntsc_setup_t snes_ntsc_svideo = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .2, -1, -1, 0, true);
+        public static readonly snes_ntsc_setup_t snes_ntsc_rgb = new snes_ntsc_setup_t(0, 0, 0, 0, .2, 0, .7, -1, -1, -1, true);
+
+        /* Basic parameters */
+        public double hue;        /* -1 = -180 degrees     +1 = +180 degrees */
+        public double saturation; /* -1 = grayscale (0.0)  +1 = oversaturated colors (2.0) */
+        public double contrast;   /* -1 = dark (0.5)       +1 = light (1.5) */
+        public double brightness; /* -1 = dark (0.5)       +1 = light (1.5) */
+        public double sharpness;  /* edge contrast enhancement/blurring */
+
+        /* Advanced parameters */
+        public double gamma;      /* -1 = dark (1.5)       +1 = light (0.5) */
+        public double resolution; /* image resolution */
+        public double artifacts;  /* artifacts caused by color changes */
+        public double fringing;   /* color artifacts caused by brightness changes */
+        public double bleed;      /* color bleed (color resolution reduction) */
+        public bool merge_fields;  /* if 1, merges even and odd fields together to reduce flicker */
+
+        public float[] decoder_matrix; /* optional RGB decoder matrix, 6 elements */
+
+        uint[] bsnes_colortbl; /* undocumented; set to 0 */
+
+        public snes_ntsc_setup_t(double hue, double saturation, double contrast, double brightness,
+            double sharpness, double gamma, double resolution, double artifacts,
+            double fringing, double bleed, bool merge_fields)
+        {
+            this.hue = hue;
+            this.saturation = saturation;
+            this.contrast = contrast;
+            this.brightness = brightness;
+            this.sharpness = sharpness;
+            this.gamma = gamma;
+            this.resolution = resolution;
+            this.artifacts = artifacts;
+            this.fringing = fringing;
+            this.bleed = bleed;
+            this.merge_fields = merge_fields ? true : false;
+
+            // default decoder matrix
+            decoder_matrix = null;
+        }
+
+        public snes_ntsc_setup_t(NTSC_CustomOptions options)
+            : this(options.Hue, options.Saturation, options.Contrast, options.Brightness,
+                  options.Sharpness, options.Gamma, options.Resolution, options.Artifacts,
+                  options.Fringing, options.Bleed, options.Merge_Fields)
+        { }
+
+        public snes_ntsc_setup_t snes_ntsc_custom()
+        {
+            return new snes_ntsc_setup_t(hue, saturation, contrast, brightness, sharpness, gamma, resolution, artifacts, fringing, bleed, merge_fields);
         }
     }
 }
