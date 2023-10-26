@@ -1,35 +1,53 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using MegaMan.Engine;
 using MegaMan.Engine.Avalonia;
 
 namespace Engine.Avalonia.ViewModels;
 
-public partial class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
-    public EngineGame CurrentGame { get; set; }
+    public EngineGame? CurrentGame { get; set; }
 
     private int widthZoom, heightZoom, width, height;
-    private bool wasMaximizedBeforeFullscreen;
+    private bool wasMaximizedBeforeFullscreen, showDebugBar;
+
+    private string? fpsLabel, thinkLabel, entityLabel;
 
     public int Width
     {
-        get { return width; }
+        get => width;
         set
         {
             width = value;
-            OnPropertyChanged(nameof(Width));
+            OnPropertyChanged();
         }
     }
 
     public int Height
     {
-        get { return height; }
+        get => height;
         set
         {
             height = value;
-            OnPropertyChanged(nameof(Height));
+            OnPropertyChanged();
         }
     }
+
+    public bool ShowDebugBar
+    {
+        get => showDebugBar;
+        set
+        {
+            showDebugBar = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string FpsLabel { get => fpsLabel ?? ""; set { fpsLabel = value; OnPropertyChanged(); } }
+    public string ThinkLabel { get => thinkLabel ?? ""; set { thinkLabel = value; OnPropertyChanged(); } }
+    public string EntityLabel { get => entityLabel ?? ""; set { SetProperty(ref entityLabel, value); } }
 
     public MainViewModel()
     {
@@ -38,13 +56,29 @@ public partial class MainViewModel : ViewModelBase
             CurrentGame = new EngineGame();
         }
 
+#if DEBUG
+        ShowDebugBar = true;
+#endif
+
         widthZoom = heightZoom = 1;
         DefaultScreen();
+
+        MegaMan.Engine.Engine.Instance.GameLogicTick += Instance_GameLogicTick;
     }
 
     private void DefaultScreen()
     {
         Width = Const.PixelsAcross;
         Height = Const.PixelsDown;
+    }
+
+    private void Instance_GameLogicTick(GameTickEventArgs e)
+    {
+        Dispatcher.UIThread.Post(() => {
+            var fps = 1 / e.TimeElapsed;
+            FpsLabel = $"FPS: {fps:N0} / {MegaMan.Engine.Engine.Instance.FPS}";
+            ThinkLabel = "Busy: " + (MegaMan.Engine.Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
+            EntityLabel = "Entities: " + Game.DebugEntitiesAlive();
+        });
     }
 }

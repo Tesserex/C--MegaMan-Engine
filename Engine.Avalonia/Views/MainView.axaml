@@ -2,10 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Engine.Avalonia.ViewModels"
+             xmlns:vm="using:Engine.Avalonia.ViewModels"
              xmlns:ctrl="clr-namespace:MegaMan.Engine.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Engine.Avalonia.Views.MainView"
+             x:CompileBindings="True"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
@@ -13,5 +14,24 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <ctrl:MonoGameControl Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
+  <Control.Styles>
+    <Style Selector="#debugBar>TextBlock">
+      <Setter Property="FontSize" Value="10"/>
+      <Setter Property="Foreground" Value="Black"/>
+      <Setter Property="Margin" Value="5" />
+    </Style>
+  </Control.Styles>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="auto" />
+    </Grid.RowDefinitions>
+    <ctrl:MonoGameControl Grid.Row="0" Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
+    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="1" Orientation="Horizontal" Background="LightGray">
+      <TextBlock Text="{Binding FpsLabel}" Width="80" />
+      <TextBlock Text="{Binding ThinkLabel}" Width="60" />
+      <TextBlock Text="{Binding EntityLabel}" />
+    </StackPanel>
+  </Grid>
 </UserControl>
