@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>AnyCPU</Platforms>
+    <Platforms>x86</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="lib\fmodex.dll" />
