@@ -343,17 +343,32 @@ namespace MegaMan.Engine
         }
 
         // Checks whether enough time has passed to fire the next frame, and then does it.
+        // Runs both logic and rendering on the same thread.
         // Also keeps track of actual framerate and busy time.
-        public bool CheckNextFrame()
+        public void TryStepLogicAndRender()
         {
-            if (timer.ElapsedTicks < frameTicks || !running) return false;
+            TryStep((dt) =>
+            {
+                StepLogic(dt);
+                StepRender();
+            });
+        }
+
+        public void TryStepLogic()
+        {
+            TryStep(StepLogic);
+        }
+
+        private void TryStep(Action<float> action)
+        {
+            if (timer.ElapsedTicks < frameTicks || !running) return;
             var dt = timer.ElapsedTicks * invFreq;
             timer.Reset();
             timer.Start();
 
             try
             {
-                if (Step(dt)) return true;
+                action(dt);
             }
             catch (GameRunException ex)
             {
@@ -363,21 +378,21 @@ namespace MegaMan.Engine
             }
 
             ThinkTime = timer.ElapsedTicks * invFreq / dt;
-            return false;
         }
 
-        // Executes one step (frame) of the game, both logic and drawing. The parameter is time
+        // Executes one step (frame) of the game logic. The parameter is time
         // since last frame, but it isn't actually used except in the tick event. No one uses it
         // there either.
-        private bool Step(float dt)
+        private void StepLogic(float dt)
         {
             CheckInput();
 
             var e = new GameTickEventArgs(dt);
+            GameLogicTick?.Invoke(e);
+        }
 
-            GameLogicTick?.Invoke(e);    // this one is for more basic operations
-
-            // render phase
+        public void StepRender()
+        {
             var r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Color.Green);
@@ -392,8 +407,6 @@ namespace MegaMan.Engine
             renderContext.End();
 
             GameRenderEnd?.Invoke(r);
-
-            return false;
         }
     }
 }

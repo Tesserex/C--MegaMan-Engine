@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -35,10 +37,10 @@ namespace MegaMan.Engine.Avalonia
             IsFullScreen = false
         };
 
-        RenderTarget2D masterRenderingTarget;
-        SpriteBatch masterSpriteBatch;
+        RenderTarget2D? masterRenderingTarget;
+        SpriteBatch? masterSpriteBatch;
         IntPtr ntsc;
-        Texture2D ntscTexture;
+        Texture2D? ntscTexture;
         readonly ushort[] pixels = new ushort[256 * 224];
         readonly ushort[] filtered = new ushort[602 * 448];
 
@@ -71,6 +73,25 @@ namespace MegaMan.Engine.Avalonia
         public MonoGameControl()
         {
             Focusable = true;
+
+            RunEngine();
+        }
+
+        private async void RunEngine()
+        {
+            await Task.Run(() => {
+                try
+                {
+                    while (true)
+                    {
+                        Engine.Instance.TryStepLogic();
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+            });
         }
 
         /// <summary>
@@ -108,9 +129,10 @@ namespace MegaMan.Engine.Avalonia
                 return;
             }
 
-            // Execute a frame
-            StepEngine(game);
-            // Capture the executed frame into the bitmap
+            Engine.Instance.StepRender();
+
+            Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
+            // Capture the last executed frame into the bitmap
             CaptureFrame(device, _bitmap);
 
             // Flush the bitmap to context
@@ -196,14 +218,13 @@ namespace MegaMan.Engine.Avalonia
 
         public void SetSize()
         {
-            if (Game is null) return;
-            if (Game.GraphicsDevice is null) return;
+            if (Game is null || Game.GraphicsDevice is null) return;
             masterRenderingTarget = new RenderTarget2D(Game.GraphicsDevice, (int)Width, (int)Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         public void SaveCap(Stream stream)
         {
-            masterRenderingTarget.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
+            masterRenderingTarget?.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
         private void Instance_GetDevice(object? sender, Engine.DeviceEventArgs e)
@@ -269,18 +290,6 @@ namespace MegaMan.Engine.Avalonia
             masterSpriteBatch = new SpriteBatch(device);
         }
 
-        private void StepEngine(EngineGame game)
-        {
-            try
-            {
-                Engine.Instance.CheckNextFrame();
-            }
-            finally
-            {
-                Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
-            }
-        }
-
         private void ForceRedraw()
         {
             if (Game is null) return;
@@ -294,9 +303,11 @@ namespace MegaMan.Engine.Avalonia
 
         private void DrawMasterTargetToBatch(GraphicsDevice device)
         {
+            if (masterRenderingTarget is null || masterSpriteBatch is null) return;
+
             Texture2D drawTexture = masterRenderingTarget;
 
-            if (NTSC)
+            if (NTSC && ntscTexture is not null)
             {
                 masterRenderingTarget.GetData(pixels);
 

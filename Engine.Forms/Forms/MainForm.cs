@@ -305,10 +305,7 @@ namespace MegaMan.Engine.Forms
             Application.Idle += (s, e) => {
                 while (Program.AppIdle)
                 {
-                    if (Engine.Instance.CheckNextFrame())
-                    {
-                        Application.Exit();
-                    }
+                    Engine.Instance.TryStepLogicAndRender();
                 }
             };
 

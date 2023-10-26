@@ -20,8 +20,6 @@ namespace MegaMan.Engine.Avalonia
         /// </summary>
         private GraphicsDeviceManager GraphicsDeviceManager { get; }
 
-        private int _lastWidth, _lastHeight;
-
         public EngineGame()
         {
             // If we don't new() it, there won't be a graphics device at all.
