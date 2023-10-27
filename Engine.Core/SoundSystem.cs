@@ -12,9 +12,6 @@ namespace MegaMan.Engine
         private readonly Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
         private readonly Dictionary<string, ISoundEffect> loadedSounds = new Dictionary<string, ISoundEffect>();
         private readonly List<Channel> channels = new List<Channel>();
-        private readonly PeriodicTimer updateTimer;
-        private Task? timerTask;
-        private CancellationTokenSource cts = new();
 
         private BackgroundMusic? bgm;
         private SoundEffect? sfx;
@@ -91,8 +88,6 @@ namespace MegaMan.Engine
             AudioManager.Instance.Initialize();
             AudioManager.Instance.Stereo = true;
 
-            updateTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(10));
-
             AudioManager.Instance.SFXPlaybackStopped += InstanceSfxPlaybackStopped;
             CurrentSfxPriority = 255;
         }
@@ -104,22 +99,12 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            cts = new();
-            timerTask = UpdateTick();
             if (AudioManager.Instance.Paused)
                 ApplyMusicSetting();
         }
 
         public async void Stop()
         {
-            if (timerTask != null)
-            {
-                cts.Cancel();
-                await timerTask;
-                cts.Dispose();
-                timerTask = null;
-            }
-
             AudioManager.Instance.PauseBGMPlayback();
         }
 
@@ -158,22 +143,7 @@ namespace MegaMan.Engine
             return info.Name;
         }
 
-        private async Task UpdateTick()
-        {
-            try
-            {
-                while (await updateTimer.WaitForNextTickAsync(cts.Token))
-                {
-                    if (soundSystem != null) soundSystem.update();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-
-            }
-        }
-
-        void updateTimer_Tick()
+        public void Tick()
         {
             if (soundSystem != null) soundSystem.update();
         }

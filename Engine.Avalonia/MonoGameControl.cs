@@ -125,7 +125,7 @@ namespace MegaMan.Engine.Avalonia
                 || Bounds is { Width: < 1, Height: < 1 }
                 || !HandleDeviceReset(device))
             {
-                context.DrawRectangle(FallbackBackground, null, new Rect(Bounds.Size));
+                context.DrawRectangle(FallbackBackground, null, new Rect(0, 0, Width, Height));
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace MegaMan.Engine.Avalonia
             CaptureFrame(device, _bitmap);
 
             // Flush the bitmap to context
-            context.DrawImage(_bitmap, new Rect(_bitmap.Size), Bounds);
+            context.DrawImage(_bitmap, new Rect(_bitmap.Size), new Rect(0, 0, Width, Height));
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -200,8 +200,6 @@ namespace MegaMan.Engine.Avalonia
                 blue = ((blue - (blue >> 3)) & 0x1f);
                 ntscPixelsDimmed[i] = (ushort)(red | green | blue);
             }
-
-            MegaMan.Engine.Game.Load(@"C:/junk/Code/MegaMan/Engine/Demo Project/game.xml");
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)

@@ -385,14 +385,20 @@ namespace MegaMan.Engine
         // there either.
         private void StepLogic(float dt)
         {
+            if (Game.CurrentGame is null) return;
+
             CheckInput();
 
             var e = new GameTickEventArgs(dt);
             GameLogicTick?.Invoke(e);
+
+            SoundSystem.Tick();
         }
 
         public void StepRender()
         {
+            if (Game.CurrentGame is null || GraphicsDevice is null) return;
+
             var r = new GameRenderEventArgs(renderContext);
 
             GraphicsDevice.Clear(Color.Green);

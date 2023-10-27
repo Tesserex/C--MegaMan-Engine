@@ -15,20 +15,33 @@
   </Design.DataContext>
 
   <Control.Styles>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="Black"/>
+    </Style>
     <Style Selector="#debugBar>TextBlock">
       <Setter Property="FontSize" Value="10"/>
-      <Setter Property="Foreground" Value="Black"/>
       <Setter Property="Margin" Value="5" />
     </Style>
   </Control.Styles>
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="*" />
-      <RowDefinition Height="auto" />
-    </Grid.RowDefinitions>
-    <ctrl:MonoGameControl Grid.Row="0" Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
-    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="1" Orientation="Horizontal" Background="LightGray">
+  <Grid RowDefinitions="auto,*,20">
+    <Menu Grid.Row="0" Background="LightGray">
+      <MenuItem Header="_File">
+        <MenuItem Header="_Open Game..." HotKey="Ctrl+O" Click="OpenGameClicked" />
+        <MenuItem Header="Open Recent">
+          <MenuItem Header="Testing" />
+        </MenuItem>
+        <MenuItem Header="_Reset" HotKey="Ctrl+R" Command="{Binding ResetGameCommand}" />
+        <MenuItem Header="_Close Game" HotKey="Ctrl+Q" Command="{Binding CloseGameCommand}" />
+        <MenuItem Header="_Quit" HotKey="Alt+F4" Command="{Binding QuitCommand}" />
+        <Separator/>
+        <MenuItem Header="Pause Engine" HotKey="F4" Command="{Binding PauseCommand}" />
+      </MenuItem>
+    </Menu>
+    
+    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
+    
+    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="2" Orientation="Horizontal" Background="LightGray">
       <TextBlock Text="{Binding FpsLabel}" Width="80" />
       <TextBlock Text="{Binding ThinkLabel}" Width="60" />
       <TextBlock Text="{Binding EntityLabel}" />
