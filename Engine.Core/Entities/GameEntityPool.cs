@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 
 namespace MegaMan.Engine.Entities
 {
     class GameEntityPool : IEntityPool
     {
         private readonly IEntitySource _entitySource;
-        private readonly Dictionary<string, GameEntity> entitiesInUse = new Dictionary<string, GameEntity>();
-        private readonly Dictionary<string, Stack<GameEntity>> deadEntityPool = new Dictionary<string, Stack<GameEntity>>();
+        private readonly ConcurrentDictionary<string, GameEntity> entitiesInUse = new ConcurrentDictionary<string, GameEntity>();
+        private readonly ConcurrentDictionary<string, Stack<GameEntity>> deadEntityPool = new ConcurrentDictionary<string, Stack<GameEntity>>();
 
-        private bool _enumeratingActives;
+        private bool removingAll;
 
         public GameEntityPool(IEntitySource entitySource)
         {
@@ -55,7 +53,7 @@ namespace MegaMan.Engine.Entities
 
         private void BindEntityEventRegistration(string id, GameEntity entity)
         {
-            entitiesInUse.Add(id, entity);
+            entitiesInUse.AddOrUpdate(id, (k) => entity, (k,e) => entity);
 
             Action removalAction = () => { };
             removalAction = () =>
@@ -78,8 +76,8 @@ namespace MegaMan.Engine.Entities
 
         private void RemoveEntity(string id, GameEntity entity)
         {
-            if (_enumeratingActives == false)
-                entitiesInUse.Remove(id);
+            if (!removingAll)
+                entitiesInUse.Remove(id, out _);
 
             if (!deadEntityPool.ContainsKey(entity.Name))
             {
@@ -96,14 +94,14 @@ namespace MegaMan.Engine.Entities
 
         public void RemoveAll()
         {
-            _enumeratingActives = true;
+            removingAll = true;
 
             foreach (var entity in entitiesInUse.Values)
                 entity.Remove();
 
             entitiesInUse.Clear();
 
-            _enumeratingActives = false;
+            removingAll = false;
         }
 
         public void UnloadAll()
@@ -116,7 +114,7 @@ namespace MegaMan.Engine.Entities
         }
 
 
-        public GameEntity GetEntityById(string id)
+        public GameEntity? GetEntityById(string id)
         {
             if (id != null && entitiesInUse.ContainsKey(id))
                 return entitiesInUse[id];

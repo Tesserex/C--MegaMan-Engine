@@ -77,9 +77,9 @@ namespace MegaMan.Engine.Avalonia
             RunEngine();
         }
 
-        private async void RunEngine()
+        private void RunEngine()
         {
-            await Task.Run(() => {
+            Task.Run(() => {
                 try
                 {
                     while (true)
