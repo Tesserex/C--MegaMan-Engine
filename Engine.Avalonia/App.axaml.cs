@@ -3,10 +3,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 
-using Engine.Avalonia.ViewModels;
-using Engine.Avalonia.Views;
+using MegaMan.Engine.Avalonia.ViewModels;
+using MegaMan.Engine.Avalonia.Views;
 
-namespace Engine.Avalonia;
+namespace MegaMan.Engine.Avalonia;
 
 public partial class App : Application
 {

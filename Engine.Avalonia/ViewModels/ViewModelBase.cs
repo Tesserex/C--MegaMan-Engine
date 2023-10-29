@@ -1,9 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Engine.Avalonia.ViewModels;
+namespace MegaMan.Engine.Avalonia.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {

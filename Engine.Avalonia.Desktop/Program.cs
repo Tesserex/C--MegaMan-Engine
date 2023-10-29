@@ -2,7 +2,7 @@
 
 using Avalonia;
 
-namespace Engine.Avalonia.Desktop;
+namespace MegaMan.Engine.Avalonia.Desktop;
 
 class Program
 {

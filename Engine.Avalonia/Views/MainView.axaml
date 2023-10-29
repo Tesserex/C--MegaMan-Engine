@@ -2,10 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:Engine.Avalonia.ViewModels"
+             xmlns:vm="clr-namespace:MegaMan.Engine.Avalonia.ViewModels"
+             xmlns:views="clr-namespace:MegaMan.Engine.Avalonia.Views"
              xmlns:ctrl="clr-namespace:MegaMan.Engine.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Engine.Avalonia.Views.MainView"
+             x:Class="MegaMan.Engine.Avalonia.Views.MainView"
              x:CompileBindings="True"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
@@ -22,6 +23,11 @@
       <Setter Property="FontSize" Value="10"/>
       <Setter Property="Margin" Value="5" />
     </Style>
+    <Style Selector="MenuItem">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Background" Value="LightCyan" />
+      <Setter Property="Foreground" Value="Black" />
+    </Style>
   </Control.Styles>
 
   <Grid RowDefinitions="auto,*,20">
@@ -29,13 +35,28 @@
       <MenuItem Header="_File">
         <MenuItem Header="_Open Game..." HotKey="Ctrl+O" Click="OpenGameClicked" />
         <MenuItem Header="Open Recent">
-          <MenuItem Header="Testing" />
+          <ItemsControl ItemsSource="{Binding RecentGames}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <MenuItem Header="{Binding Name}" Command="{Binding $parent[views:MainView].((vm:MainViewModel)DataContext).OpenRecentCommand}"
+                        CommandParameter="{Binding Path}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
         </MenuItem>
         <MenuItem Header="_Reset" HotKey="Ctrl+R" Command="{Binding ResetGameCommand}" />
         <MenuItem Header="_Close Game" HotKey="Ctrl+Q" Command="{Binding CloseGameCommand}" />
         <MenuItem Header="_Quit" HotKey="Alt+F4" Command="{Binding QuitCommand}" />
         <Separator/>
         <MenuItem Header="Pause Engine" HotKey="F4" Command="{Binding PauseCommand}" />
+        <Separator />
+        <MenuItem Header="Autosave Configurations" />
+        <MenuItem Header="Use Default Configuration" />
+        <MenuItem Header="Load Configuration..." HotKey="Ctrl+Shift+L" />
+        <MenuItem Header="Save Configuration" HotKey="Ctrl+Shift+S" />
+        <MenuItem Header="Clear Configuration" HotKey="Ctrl+Delete" />
+        <Separator />
+        <MenuItem Header="Autoload Game" />
       </MenuItem>
     </Menu>
     

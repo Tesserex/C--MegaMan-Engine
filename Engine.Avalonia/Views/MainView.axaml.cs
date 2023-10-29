@@ -1,11 +1,10 @@
 ﻿using System.IO;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Engine.Avalonia.ViewModels;
+using MegaMan.Engine.Avalonia.ViewModels;
 
-namespace Engine.Avalonia.Views;
+namespace MegaMan.Engine.Avalonia.Views;
 
 public partial class MainView : UserControl
 {
