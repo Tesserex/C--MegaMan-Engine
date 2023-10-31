@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Xml;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
@@ -16,6 +17,7 @@ using MegaMan.IO.Xml;
 using Microsoft.Xna.Framework.Input;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using KeyboardInputBinding = MegaMan.Engine.Avalonia.Settings.KeyboardInputBinding;
 
 namespace MegaMan.Engine.Avalonia.ViewModels;
 
@@ -39,6 +41,8 @@ public class MainViewModel : ViewModelBase
 
     private string? lastGameWithPath;
 
+    public string? InitialFolder { get; private set; }
+
     public IEnumerable<RecentGame> RecentGames
     {
         get
@@ -52,6 +56,9 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    private PixelPoint position;
+    public PixelPoint Position { get => position; set { SetProperty(ref position, value); } }
+
     public int Width { get => width; set { SetProperty(ref width, value); } }
 
     public int Height { get => height; set { SetProperty(ref height, value); } }
@@ -61,11 +68,43 @@ public class MainViewModel : ViewModelBase
     public bool ShowDebugBar
     {
         get => showDebugBar;
-        set
-        {
-            showDebugBar = value;
-            OnPropertyChanged();
-        }
+        set { showDebugBar = value; OnPropertyChanged(); }
+    }
+
+    public bool MusicEnabled
+    {
+        get => Engine.Instance.SoundSystem.MusicEnabled;
+        set { Engine.Instance.SoundSystem.MusicEnabled = value; OnPropertyChanged(); }
+    }
+
+    public bool SfxEnabled
+    {
+        get => Engine.Instance.SoundSystem.SfxEnabled;
+        set { Engine.Instance.SoundSystem.SfxEnabled = value; OnPropertyChanged(); }
+    }
+
+    public bool SquareOneEnabled
+    {
+        get => Engine.Instance.SoundSystem.SquareOne;
+        set { Engine.Instance.SoundSystem.SquareOne = value; OnPropertyChanged(); }
+    }
+
+    public bool SquareTwoEnabled
+    {
+        get => Engine.Instance.SoundSystem.SquareTwo;
+        set { Engine.Instance.SoundSystem.SquareTwo = value; OnPropertyChanged(); }
+    }
+
+    public bool TriangleEnabled
+    {
+        get => Engine.Instance.SoundSystem.Triangle;
+        set { Engine.Instance.SoundSystem.Triangle = value; OnPropertyChanged(); }
+    }
+
+    public bool NoiseEnabled
+    {
+        get => Engine.Instance.SoundSystem.Noise;
+        set { Engine.Instance.SoundSystem.Noise = value; OnPropertyChanged(); }
     }
 
     public bool ShowHitboxes
@@ -93,13 +132,30 @@ public class MainViewModel : ViewModelBase
     private bool useDefaultConfig;
     public bool UseDefaultConfig { get => useDefaultConfig; set { SetProperty(ref useDefaultConfig, value); } }
 
-    private Dictionary<Key, bool> keysPressed = new Dictionary<Key, bool>();
+    // whether configurations should autosave
+    private bool autosave;
+    public bool Autosave { get => autosave; set { SetProperty(ref autosave, value); } }
+
+    // whether a game should autoload on app load
+    private bool autoload;
+    public bool Autoload { get => autoload; set { SetProperty(ref autoload, value); } }
 
     public ICommand ResetGameCommand { get; }
     public ICommand CloseGameCommand { get; }
     public ICommand QuitCommand { get; }
     public ICommand PauseCommand { get; }
     public ICommand OpenRecentCommand { get; }
+    public ICommand AutosaveCommand { get; }
+    public ICommand AutoloadCommand { get; }
+    public ICommand OpenBindingsCommand { get; }
+    public ICommand ToggleMusicCommand { get; }
+    public ICommand ToggleSfxCommand { get; }
+    public ICommand ToggleSquareOneCommand { get; }
+    public ICommand ToggleSquareTwoCommand { get; }
+    public ICommand ToggleTriangleCommand { get; }
+    public ICommand ToggleNoiseCommand { get; }
+    public ICommand IncreaseVolumeCommand { get; }
+    public ICommand DecreaseVolumeCommand { get; }
 
     private string CurrentGamePath
     {
@@ -129,17 +185,6 @@ public class MainViewModel : ViewModelBase
 
         Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
-        InputElement.KeyDownEvent.AddClassHandler<TopLevel>(OnKeyDown, handledEventsToo: true);
-        InputElement.KeyUpEvent.AddClassHandler<TopLevel>(OnKeyUp, handledEventsToo: true);
-
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Start, Keys.Enter, k => keysPressed.GetValueOrDefault(Key.Enter)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Left, Keys.Left, k => keysPressed.GetValueOrDefault(Key.Left)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Up, Keys.Up, k => keysPressed.GetValueOrDefault(Key.Up)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Down, Keys.Down, k => keysPressed.GetValueOrDefault(Key.Down)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Right, Keys.Right, k => keysPressed.GetValueOrDefault(Key.Right)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Jump, Keys.A, k => keysPressed.GetValueOrDefault(Key.A)));
-        GameInput.AddBinding(new KeyboardInputBinding(GameInputs.Shoot, Keys.O, k => keysPressed.GetValueOrDefault(Key.O)));
-
         ResetGameCommand = new RelayCommand(ResetGame);
         CloseGameCommand = new RelayCommand(CloseGame);
         QuitCommand = new RelayCommand(Quit);
@@ -147,16 +192,19 @@ public class MainViewModel : ViewModelBase
         OpenRecentCommand = new RelayCommand<string?>(path => {
             if (path is not null) LoadGame(path);
         }, path => path is not null);
-    }
+        AutosaveCommand = new RelayCommand(AutosaveChanged);
+        AutoloadCommand = new RelayCommand(AutoloadChanged);
 
-    private void OnKeyDown(object s, KeyEventArgs e)
-    {
-        keysPressed[e.Key] = true;
-    }
+        OpenBindingsCommand = new RelayCommand(() => { });
 
-    private void OnKeyUp(object s, KeyEventArgs e)
-    {
-        keysPressed[e.Key] = false;
+        ToggleMusicCommand = new RelayCommand(() => MusicEnabled = !MusicEnabled);
+        ToggleSfxCommand = new RelayCommand(() => SfxEnabled = !SfxEnabled);
+        ToggleSquareOneCommand = new RelayCommand(() => SquareOneEnabled = !SquareOneEnabled);
+        ToggleSquareTwoCommand = new RelayCommand(() => SquareTwoEnabled = !SquareTwoEnabled);
+        ToggleTriangleCommand = new RelayCommand(() => TriangleEnabled = !TriangleEnabled);
+        ToggleNoiseCommand = new RelayCommand(() => NoiseEnabled = !NoiseEnabled);
+        IncreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume++);
+        DecreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume--);
     }
 
     private void DefaultScreen()
@@ -227,9 +275,105 @@ public class MainViewModel : ViewModelBase
             Engine.Instance.Unpause();
     }
 
+    private void AutosaveChanged()
+    {
+        Autosave = !Autosave;
+        //SaveGlobalConfigValues();
+    }
+
+    private void AutoloadChanged()
+    {
+        if (string.IsNullOrEmpty(CurrentGamePath)) Autoload = true;
+        else
+        {
+            Autoload = !Autoload;
+        }
+
+        SaveGlobalConfigValues();
+    }
+
+    private void SaveGlobalConfigValues(string? fileName = null)
+    {
+        var userSettings = settingsService.GetSettings();
+
+        userSettings.AutosaveSettings = Autosave;
+        userSettings.UseDefaultSettings = UseDefaultConfig;
+        userSettings.Autoload = Autoload ? lastGameWithPath : null;
+        userSettings.InitialFolder = InitialFolder;
+
+        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
+    }
+
     private void AutosaveConfig(string? fileName = null)
     {
-        //if (autosaveToolStripMenuItem.Checked) SaveConfig();
+        if (Autosave) SaveConfig();
+    }
+
+    /// <summary>
+    /// When engine is opening, every cases of bad files are handled, then file is locked.
+    /// It means that calling this function after this call, it will always be valid since only program can modify it.
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="settings"></param>
+    private void SaveConfig(string? fileName = null, Setting? settings = null)
+    {
+        if (settings == null)
+        {
+            settings = new Setting {
+                GameFileName = UseDefaultConfig ? "" : CurrentGamePath,
+                GameTitle = UseDefaultConfig ? "" : CurrentGameTitle,
+                KeyBindings = GetKeyBindingSettings(),
+                JoystickBindings = GetJoystickBindingSettings(),
+                GamepadBindings = GetGamepadBindingSettings(),
+                ActiveInput = GameInput.ActiveType,
+                Screens = new LastScreen {
+                    Maximized = WindowState == WindowState.Maximized,
+                    //NTSC_Custom = customNtscForm.GetOptions(),
+                    //HideMenu = hideMenuItem.Checked
+                },
+                Audio = new LastAudio {
+                    Volume = Engine.Instance.SoundSystem.Volume,
+                    Musics = MusicEnabled,
+                    Sound = SfxEnabled
+                },
+                Debug = new LastDebug {
+                    ShowMenu = ShowDebugBar,
+                    ShowHitboxes = ShowHitboxes,
+                    Framerate = Engine.Instance.FPS,
+                    Cheat = new LastCheat {
+                        Invincibility = Invincibility,
+                        NoDamage = NoDamage
+                    }
+                },
+                Miscellaneous = new LastMiscellaneous {
+                    ScreenX_Coordinate = Position.X,
+                    ScreenY_Coordinate = Position.Y
+                }
+            };
+
+            //foreach (var c in controllers)
+            //    c.SaveSettings(settings);
+        }
+
+        var userSettings = settingsService.GetSettings();
+        userSettings.AddOrSetExistingSettingsForGame(settings);
+
+        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
+    }
+
+    private List<UserKeyBindingSetting> GetKeyBindingSettings()
+    {
+        return GameInput.GetBindingsOf<KeyboardInputBinding>().Select(x => new UserKeyBindingSetting { Input = x.Input, Key = x.Key }).ToList();
+    }
+
+    private List<UserJoystickBindingSetting> GetJoystickBindingSettings()
+    {
+        return GameInput.GetJoystickBindings().Select(x => new UserJoystickBindingSetting { Input = x.Input, DeviceGuid = x.DeviceGuid, Button = x.Button, Value = x.Value }).ToList();
+    }
+
+    private List<UserGamepadBindingSetting> GetGamepadBindingSettings()
+    {
+        return GameInput.GetGamepadBindings().Select(x => new UserGamepadBindingSetting { Input = x.Input, Button = x.Button }).ToList();
     }
 
     public void LoadFromOpenDialog(string filename)
@@ -240,7 +384,7 @@ public class MainViewModel : ViewModelBase
         LoadGame(filename);
     }
 
-    private bool LoadGame(string path, List<string> pathArgs = null, bool silenceErrorMessages = false)
+    private bool LoadGame(string path, List<string>? pathArgs = null, bool silenceErrorMessages = false)
     {
         try
         {

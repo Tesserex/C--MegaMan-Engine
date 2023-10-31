@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Avalonia.Controls;
+using Avalonia.Input;
 using MegaMan.Engine.Input;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
-using Keys = Microsoft.Xna.Framework.Input.Keys;
+using Key = Avalonia.Input.Key;
 
 namespace MegaMan.Engine.Avalonia.Settings
 {
@@ -53,7 +55,7 @@ namespace MegaMan.Engine.Avalonia.Settings
 
     public static class XML
     {
-        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath, string fileName = null)
+        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath, string? fileName = null)
         {
             if (fileName == null) fileName = Constants.Paths.SettingFile;
 
@@ -78,10 +80,10 @@ namespace MegaMan.Engine.Avalonia.Settings
     {
         public bool AutosaveSettings { get; set; }
         public bool UseDefaultSettings { get; set; }
-        public string Autoload { get; set; } // Game with his path to load on startup
-        public string InitialFolder { get; set; } // Always remember last place navigating with open folder.
-        public List<RecentGame> RecentGames { get; set; } 
-        public List<Setting> Settings { get; set; }
+        public string? Autoload { get; set; } // Game with his path to load on startup
+        public string? InitialFolder { get; set; } // Always remember last place navigating with open folder.
+        public List<RecentGame>? RecentGames { get; set; } 
+        public List<Setting>? Settings { get; set; }
 
         public void deleteSetting(int index)
         {
@@ -191,14 +193,14 @@ namespace MegaMan.Engine.Avalonia.Settings
             Default = new Setting {
                 GameFileName = "",
                 KeyBindings = new List<UserKeyBindingSetting> {
-                    new UserKeyBindingSetting { Input = GameInputs.Up, Key = Keys.Up },
-                    new UserKeyBindingSetting { Input = GameInputs.Down, Key = Keys.Down },
-                    new UserKeyBindingSetting { Input = GameInputs.Left, Key = Keys.Left },
-                    new UserKeyBindingSetting { Input = GameInputs.Right, Key = Keys.Right },
-                    new UserKeyBindingSetting { Input = GameInputs.Jump, Key = Keys.A },
-                    new UserKeyBindingSetting { Input = GameInputs.Shoot, Key = Keys.S },
-                    new UserKeyBindingSetting { Input = GameInputs.Start, Key = Keys.Enter },
-                    new UserKeyBindingSetting { Input = GameInputs.Select, Key = Keys.Space }
+                    new UserKeyBindingSetting { Input = GameInputs.Up, Key = Key.Up },
+                    new UserKeyBindingSetting { Input = GameInputs.Down, Key = Key.Down },
+                    new UserKeyBindingSetting { Input = GameInputs.Left, Key = Key.Left },
+                    new UserKeyBindingSetting { Input = GameInputs.Right, Key = Key.Right },
+                    new UserKeyBindingSetting { Input = GameInputs.Jump, Key = Key.A },
+                    new UserKeyBindingSetting { Input = GameInputs.Shoot, Key = Key.S },
+                    new UserKeyBindingSetting { Input = GameInputs.Start, Key = Key.Enter },
+                    new UserKeyBindingSetting { Input = GameInputs.Select, Key = Key.Space }
                 },
                 Screens = new LastScreen {
                     Size = ScreenScale.X1,
@@ -291,11 +293,11 @@ namespace MegaMan.Engine.Avalonia.Settings
     public class UserKeyBindingSetting : IUserInputBindingSetting
     {
         public GameInputs Input { get; set; }
-        public Keys Key { get; set; }
+        public Key Key { get; set; }
 
         public IGameInputBinding GetGameInputBinding()
         {
-            return new KeyboardInputBinding(Input, Key, k => Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(k));
+            return new KeyboardInputBinding(Input, Key);
         }
     }
 

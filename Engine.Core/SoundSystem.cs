@@ -56,25 +56,25 @@ namespace MegaMan.Engine
 
         public bool SquareOne
         {
-            get { return AudioManager.Instance.Muted[0]; }
+            get { return !AudioManager.Instance.Muted[0]; }
             set { if (bgm != null) AudioManager.Instance.MuteChannel(0, !value); }
         }
 
         public bool SquareTwo
         {
-            get { return AudioManager.Instance.Muted[1]; }
+            get { return !AudioManager.Instance.Muted[1]; }
             set { if (bgm != null) AudioManager.Instance.MuteChannel(1, !value); }
         }
 
         public bool Triangle
         {
-            get { return AudioManager.Instance.Muted[2]; }
+            get { return !AudioManager.Instance.Muted[2]; }
             set { if (bgm != null) AudioManager.Instance.MuteChannel(2, !value); }
         }
 
         public bool Noise
         {
-            get { return AudioManager.Instance.Muted[3]; }
+            get { return !AudioManager.Instance.Muted[3]; }
             set { if (bgm != null) AudioManager.Instance.MuteChannel(3, !value); }
         }
 

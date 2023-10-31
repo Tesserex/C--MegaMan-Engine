@@ -8,8 +8,6 @@ namespace MegaMan.Engine.Avalonia.Views;
 
 public partial class MainView : UserControl
 {
-    private string? initialFolder;
-
     public MainView()
     {
         InitializeComponent();
@@ -19,6 +17,8 @@ public partial class MainView : UserControl
     {
         var topLevel = TopLevel.GetTopLevel(this);
         if (topLevel == null) return;
+
+        var initialFolder = (DataContext as MainViewModel)?.InitialFolder;
 
         // Start async operation to open the dialog.
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {

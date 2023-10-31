@@ -50,13 +50,60 @@
         <Separator/>
         <MenuItem Header="Pause Engine" HotKey="F4" Command="{Binding PauseCommand}" />
         <Separator />
-        <MenuItem Header="Autosave Configurations" />
+        <MenuItem Header="Autosave Configurations" Command="{Binding AutosaveCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding Autosave}" />
+          </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Use Default Configuration" />
         <MenuItem Header="Load Configuration..." HotKey="Ctrl+Shift+L" />
         <MenuItem Header="Save Configuration" HotKey="Ctrl+Shift+S" />
         <MenuItem Header="Clear Configuration" HotKey="Ctrl+Delete" />
         <Separator />
-        <MenuItem Header="Autoload Game" />
+        <MenuItem Header="Autoload Game" Command="{Binding AutoloadCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding Autoload}" />
+          </MenuItem.Icon>
+        </MenuItem>
+      </MenuItem>
+      <MenuItem Header="_Input">
+        <MenuItem Header="_Bindings" HotKey="Alt+K" Command="{Binding OpenBindingsCommand}" />
+      </MenuItem>
+      <MenuItem Header="_Audio">
+        <MenuItem Header="Toggle Music" HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding MusicEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Toggle Sound Effects" HotKey="Ctrl+Shift+M" Command="{Binding ToggleSfxCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding SfxEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Toggle Square 1" HotKey="Alt+7" Command="{Binding ToggleSquareOneCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding SquareOneEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Toggle Square 2" HotKey="Alt+8" Command="{Binding ToggleSquareTwoCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding SquareTwoEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Toggle Triangle" HotKey="Alt+9" Command="{Binding ToggleTriangleCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding TriangleEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Toggle Noise" HotKey="Alt+0" Command="{Binding ToggleNoiseCommand}">
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding NoiseEnabled}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Increase Volume" HotKey="Ctrl+V" Command="{Binding IncreaseVolumeCommand}" />
+        <MenuItem Header="Decrease Volume" HotKey="Ctrl+Shift+V" Command="{Binding DecreaseVolumeCommand}" />
       </MenuItem>
     </Menu>
     

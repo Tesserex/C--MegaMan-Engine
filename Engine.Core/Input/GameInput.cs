@@ -50,6 +50,11 @@ namespace MegaMan.Engine.Input
             return bindings.Where(b => b.Input == input);
         }
 
+        public static IEnumerable<T> GetBindingsOf<T>() where T : IGameInputBinding
+        {
+            return bindings.OfType<T>();
+        }
+
         public static IEnumerable<KeyboardInputBinding> GetKeyBindings()
         {
             return bindings.OfType<KeyboardInputBinding>();
