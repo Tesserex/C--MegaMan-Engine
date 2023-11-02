@@ -15,6 +15,7 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
     {
         private int gameWidth, gameHeight;
         private ScreenScale scale;
+        private snes_ntsc_setup_t ntscSetup = snes_ntsc_setup_t.snes_ntsc_composite;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -25,12 +26,20 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
         public ICommand Screen3XCommand { get; }
         public ICommand Screen4XCommand { get; }
         public ICommand NtscCommand { get; }
+        public ICommand NtscCompositeCommand { get; }
+        public ICommand NtscSVideoCommand { get; }
+        public ICommand NtscRGBCommand { get; }
 
         public bool Is1X { get => scale == ScreenScale.X1; }
         public bool Is2X { get => scale == ScreenScale.X2; }
         public bool Is3X { get => scale == ScreenScale.X3; }
         public bool Is4X { get => scale == ScreenScale.X4; }
         public bool IsNTSC { get => scale == ScreenScale.NTSC; }
+        public snes_ntsc_setup_t NTSCSetup
+        {
+            get => ntscSetup;
+            private set { SetProperty(ref ntscSetup, value); Scale(ScreenScale.NTSC); }
+        }
         public bool IsFullscreen { get => scale == ScreenScale.Fullscreen; }
 
         public ScreenMenuViewModel()
@@ -40,6 +49,9 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             Screen3XCommand = new RelayCommand(() => Scale(ScreenScale.X3));
             Screen4XCommand = new RelayCommand(() => Scale(ScreenScale.X4));
             NtscCommand = new RelayCommand(() => Scale(ScreenScale.NTSC));
+            NtscCompositeCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_composite; });
+            NtscSVideoCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_svideo; });
+            NtscRGBCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_rgb; });
 
             Game.ScreenSizeChanged += Game_ScreenSizeChanged;
 

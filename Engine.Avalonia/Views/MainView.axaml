@@ -75,7 +75,12 @@
         <MenuItem Header="3X" Command="{Binding Screen3XCommand}" HotKey="Ctrl+3" />
         <MenuItem Header="4X" Command="{Binding Screen4XCommand}" HotKey="Ctrl+4" />
         <Separator />
-        <MenuItem Header="NTSC" Command="{Binding NtscCommand}" />
+        <MenuItem Header="NTSC" Command="{Binding NtscCommand}">
+          <MenuItem Header="Composite" Command="{Binding NtscCompositeCommand}" HotKey="Ctrl+Alt+1" />
+          <MenuItem Header="S-Video" Command="{Binding NtscSVideoCommand}" HotKey="Ctrl+Alt+2" />
+          <MenuItem Header="RGB" Command="{Binding NtscRGBCommand}" HotKey="Ctrl+Alt+3" />
+          <MenuItem Header="Custom..." />
+        </MenuItem>
       </MenuItem>
       <MenuItem Header="_Audio" DataContext="{Binding AudioMenu}">
         <MenuItem Header="Toggle Music" HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
@@ -117,7 +122,7 @@
     
     <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}"
                           Width="{Binding ScreenMenu.Width}" Height="{Binding ScreenMenu.Height}"
-                          GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" />
+                          GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" NTSCSetup="{Binding ScreenMenu.NTSCSetup}" />
     
     <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="2" Orientation="Horizontal" Background="LightGray">
       <TextBlock Text="{Binding FpsLabel}" Width="80" />

@@ -36,6 +36,12 @@ namespace MegaMan.Engine.Avalonia
                 o => o.NTSC,
                 (o, v) => o.NTSC = v);
 
+        public static readonly DirectProperty<MonoGameControl, snes_ntsc_setup_t> NTSCSetupProperty =
+            AvaloniaProperty.RegisterDirect<MonoGameControl, snes_ntsc_setup_t>(
+                nameof(NTSCSetup),
+                o => o.NTSCSetup,
+                (o, v) => o.NTSCSetup = v);
+
         private readonly PresentationParameters _presentationParameters = new() {
             BackBufferWidth = 1,
             BackBufferHeight = 1,
@@ -63,6 +69,17 @@ namespace MegaMan.Engine.Avalonia
                 {
                     ResetDevice(Game.GraphicsDevice, gameSize);
                 }
+            }
+        }
+
+        private snes_ntsc_setup_t ntscSetup;
+        public snes_ntsc_setup_t NTSCSetup
+        {
+            get => ntscSetup;
+            private set
+            {
+                ntscSetup = value;
+                ntscInit(value);
             }
         }
 
@@ -235,6 +252,8 @@ namespace MegaMan.Engine.Avalonia
 
         public void ntscInit(snes_ntsc_setup_t setup)
         {
+            if (ntsc == IntPtr.Zero) return;
+            
             snes_ntsc_init(ntsc, setup);
             ForceRedraw();
         }
