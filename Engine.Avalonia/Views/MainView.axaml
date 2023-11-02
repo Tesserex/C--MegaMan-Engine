@@ -69,13 +69,21 @@
       <MenuItem Header="_Input">
         <MenuItem Header="_Bindings" HotKey="Alt+K" Command="{Binding OpenBindingsCommand}" />
       </MenuItem>
-      <MenuItem Header="_Audio">
+      <MenuItem Header="_Screen" DataContext="{Binding ScreenMenu}">
+        <MenuItem Header="1X" Command="{Binding Screen1XCommand}" HotKey="Ctrl+1" />
+        <MenuItem Header="2X" Command="{Binding Screen2XCommand}" HotKey="Ctrl+2" />
+        <MenuItem Header="3X" Command="{Binding Screen3XCommand}" HotKey="Ctrl+3" />
+        <MenuItem Header="4X" Command="{Binding Screen4XCommand}" HotKey="Ctrl+4" />
+        <Separator />
+        <MenuItem Header="NTSC" Command="{Binding NtscCommand}" />
+      </MenuItem>
+      <MenuItem Header="_Audio" DataContext="{Binding AudioMenu}">
         <MenuItem Header="Toggle Music" HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding MusicEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Toggle Sound Effects" HotKey="Ctrl+Shift+M" Command="{Binding ToggleSfxCommand}">
+        <MenuItem Header="Toggle Sound Effects" HotKey="Ctrl+Alt+M" Command="{Binding ToggleSfxCommand}">
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding SfxEnabled}" />
           </MenuItem.Icon>
@@ -102,12 +110,14 @@
           </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Increase Volume" HotKey="Ctrl+V" Command="{Binding IncreaseVolumeCommand}" />
-        <MenuItem Header="Decrease Volume" HotKey="Ctrl+Shift+V" Command="{Binding DecreaseVolumeCommand}" />
+        <MenuItem Header="Increase Volume" HotKey="Ctrl++" Command="{Binding IncreaseVolumeCommand}" />
+        <MenuItem Header="Decrease Volume" HotKey="Ctrl+-" Command="{Binding DecreaseVolumeCommand}" />
       </MenuItem>
     </Menu>
     
-    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}" Width="{Binding Width}" Height="{Binding Height}" />
+    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}"
+                          Width="{Binding ScreenMenu.Width}" Height="{Binding ScreenMenu.Height}"
+                          GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" />
     
     <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="2" Orientation="Horizontal" Background="LightGray">
       <TextBlock Text="{Binding FpsLabel}" Width="80" />

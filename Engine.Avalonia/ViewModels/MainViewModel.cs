@@ -8,13 +8,14 @@ using System.Xml;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Documents;
 using Avalonia.Input;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
+using MegaMan.Engine.Avalonia.ViewModels.Menus;
 using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
-using Microsoft.Xna.Framework.Input;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using KeyboardInputBinding = MegaMan.Engine.Avalonia.Settings.KeyboardInputBinding;
@@ -25,8 +26,7 @@ public class MainViewModel : ViewModelBase
 {
     public EngineGame? CurrentGame { get; set; }
 
-    private int widthZoom, heightZoom, width, height;
-    private bool wasMaximizedBeforeFullscreen, showDebugBar;
+    private bool showDebugBar;
 
     private string? fpsLabel, thinkLabel, entityLabel;
 
@@ -59,52 +59,13 @@ public class MainViewModel : ViewModelBase
     private PixelPoint position;
     public PixelPoint Position { get => position; set { SetProperty(ref position, value); } }
 
-    public int Width { get => width; set { SetProperty(ref width, value); } }
-
-    public int Height { get => height; set { SetProperty(ref height, value); } }
-
     private readonly SettingsService settingsService;
+    private List<IMenuViewModel> menuViewModels = new List<IMenuViewModel>();
 
     public bool ShowDebugBar
     {
         get => showDebugBar;
         set { showDebugBar = value; OnPropertyChanged(); }
-    }
-
-    public bool MusicEnabled
-    {
-        get => Engine.Instance.SoundSystem.MusicEnabled;
-        set { Engine.Instance.SoundSystem.MusicEnabled = value; OnPropertyChanged(); }
-    }
-
-    public bool SfxEnabled
-    {
-        get => Engine.Instance.SoundSystem.SfxEnabled;
-        set { Engine.Instance.SoundSystem.SfxEnabled = value; OnPropertyChanged(); }
-    }
-
-    public bool SquareOneEnabled
-    {
-        get => Engine.Instance.SoundSystem.SquareOne;
-        set { Engine.Instance.SoundSystem.SquareOne = value; OnPropertyChanged(); }
-    }
-
-    public bool SquareTwoEnabled
-    {
-        get => Engine.Instance.SoundSystem.SquareTwo;
-        set { Engine.Instance.SoundSystem.SquareTwo = value; OnPropertyChanged(); }
-    }
-
-    public bool TriangleEnabled
-    {
-        get => Engine.Instance.SoundSystem.Triangle;
-        set { Engine.Instance.SoundSystem.Triangle = value; OnPropertyChanged(); }
-    }
-
-    public bool NoiseEnabled
-    {
-        get => Engine.Instance.SoundSystem.Noise;
-        set { Engine.Instance.SoundSystem.Noise = value; OnPropertyChanged(); }
     }
 
     public bool ShowHitboxes
@@ -148,14 +109,6 @@ public class MainViewModel : ViewModelBase
     public ICommand AutosaveCommand { get; }
     public ICommand AutoloadCommand { get; }
     public ICommand OpenBindingsCommand { get; }
-    public ICommand ToggleMusicCommand { get; }
-    public ICommand ToggleSfxCommand { get; }
-    public ICommand ToggleSquareOneCommand { get; }
-    public ICommand ToggleSquareTwoCommand { get; }
-    public ICommand ToggleTriangleCommand { get; }
-    public ICommand ToggleNoiseCommand { get; }
-    public ICommand IncreaseVolumeCommand { get; }
-    public ICommand DecreaseVolumeCommand { get; }
 
     private string CurrentGamePath
     {
@@ -167,6 +120,9 @@ public class MainViewModel : ViewModelBase
         get { return Game.CurrentGame != null ? Game.CurrentGame.Name : string.Empty; }
     }
 
+    internal AudioMenuViewModel AudioMenu { get; }
+    internal ScreenMenuViewModel ScreenMenu { get; }
+
     public MainViewModel()
     {
         if (!Design.IsDesignMode)
@@ -176,12 +132,14 @@ public class MainViewModel : ViewModelBase
 
         settingsService = new SettingsService();
 
+        AudioMenu = new AudioMenuViewModel();
+        menuViewModels.Add(AudioMenu);
+        ScreenMenu = new ScreenMenuViewModel();
+        menuViewModels.Add(ScreenMenu);
+
 #if DEBUG
         ShowDebugBar = true;
 #endif
-
-        widthZoom = heightZoom = 1;
-        DefaultScreen();
 
         Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
@@ -196,21 +154,6 @@ public class MainViewModel : ViewModelBase
         AutoloadCommand = new RelayCommand(AutoloadChanged);
 
         OpenBindingsCommand = new RelayCommand(() => { });
-
-        ToggleMusicCommand = new RelayCommand(() => MusicEnabled = !MusicEnabled);
-        ToggleSfxCommand = new RelayCommand(() => SfxEnabled = !SfxEnabled);
-        ToggleSquareOneCommand = new RelayCommand(() => SquareOneEnabled = !SquareOneEnabled);
-        ToggleSquareTwoCommand = new RelayCommand(() => SquareTwoEnabled = !SquareTwoEnabled);
-        ToggleTriangleCommand = new RelayCommand(() => TriangleEnabled = !TriangleEnabled);
-        ToggleNoiseCommand = new RelayCommand(() => NoiseEnabled = !NoiseEnabled);
-        IncreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume++);
-        DecreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume--);
-    }
-
-    private void DefaultScreen()
-    {
-        Width = Const.PixelsAcross;
-        Height = Const.PixelsDown;
     }
 
     private void Instance_GameLogicTick(GameTickEventArgs e)
@@ -221,7 +164,7 @@ public class MainViewModel : ViewModelBase
             ThinkLabel = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             EntityLabel = "Entities: " + Game.DebugEntitiesAlive();
         });
-    }    
+    }
 
     private void ResetGame()
     {
@@ -250,7 +193,7 @@ public class MainViewModel : ViewModelBase
     private void Quit()
     {
         CloseApp();
-        if (global::Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.TryShutdown();
         }
@@ -331,11 +274,7 @@ public class MainViewModel : ViewModelBase
                     //NTSC_Custom = customNtscForm.GetOptions(),
                     //HideMenu = hideMenuItem.Checked
                 },
-                Audio = new LastAudio {
-                    Volume = Engine.Instance.SoundSystem.Volume,
-                    Musics = MusicEnabled,
-                    Sound = SfxEnabled
-                },
+                Audio = new LastAudio(),
                 Debug = new LastDebug {
                     ShowMenu = ShowDebugBar,
                     ShowHitboxes = ShowHitboxes,
@@ -351,8 +290,8 @@ public class MainViewModel : ViewModelBase
                 }
             };
 
-            //foreach (var c in controllers)
-            //    c.SaveSettings(settings);
+            foreach (var c in menuViewModels)
+                c.SaveSettings(settings);
         }
 
         var userSettings = settingsService.GetSettings();
@@ -562,8 +501,8 @@ public class MainViewModel : ViewModelBase
         //ChangeFormLocation(settings.Miscellaneous.ScreenX_Coordinate, settings.Miscellaneous.ScreenY_Coordinate);
         #endregion
 
-        //foreach (var c in controllers)
-        //    c.LoadSettings(settings);
+        foreach (var c in menuViewModels)
+            c.LoadSettings(settings);
     }
 
     private void WrongConfigAlert(string message)

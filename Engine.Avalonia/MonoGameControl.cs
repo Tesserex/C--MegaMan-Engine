@@ -18,14 +18,23 @@ namespace MegaMan.Engine.Avalonia
 {
     public sealed class MonoGameControl : Control
     {
-        /// <summary>
-        /// Avalonia property for <see cref="Game" />.
-        /// </summary>
         public static readonly DirectProperty<MonoGameControl, EngineGame?> GameProperty =
             AvaloniaProperty.RegisterDirect<MonoGameControl, EngineGame?>(
                 nameof(Game),
                 o => o.Game,
                 (o, v) => o.Game = v);
+
+        public static readonly DirectProperty<MonoGameControl, Size> GameSizeProperty =
+            AvaloniaProperty.RegisterDirect<MonoGameControl, Size>(
+                nameof(GameSize),
+                o => o.GameSize,
+                (o, v) => o.GameSize = v);
+
+        public static readonly DirectProperty<MonoGameControl, bool> NTSCProperty =
+            AvaloniaProperty.RegisterDirect<MonoGameControl, bool>(
+                nameof(NTSC),
+                o => o.NTSC,
+                (o, v) => o.NTSC = v);
 
         private readonly PresentationParameters _presentationParameters = new() {
             BackBufferWidth = 1,
@@ -43,7 +52,19 @@ namespace MegaMan.Engine.Avalonia
         readonly ushort[] pixels = new ushort[256 * 224];
         readonly ushort[] filtered = new ushort[602 * 448];
 
-        public bool NTSC { get; set; }
+        private bool isNtsc;
+        public bool NTSC {
+            get => isNtsc;
+            set
+            {
+                if (value == isNtsc) return;
+                isNtsc = value;
+                if (Game?.GraphicsDevice is not null)
+                {
+                    ResetDevice(Game.GraphicsDevice, gameSize);
+                }
+            }
+        }
 
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr snes_ntsc_alloc();
@@ -116,6 +137,17 @@ namespace MegaMan.Engine.Avalonia
             }
         }
 
+        private Size gameSize;
+        public Size GameSize
+        {
+            get => gameSize;
+            set
+            {
+                gameSize = value;
+                SetSize();
+            }
+        }
+
         public override void Render(DrawingContext context)
         {
             if (Game is not { } game
@@ -134,19 +166,10 @@ namespace MegaMan.Engine.Avalonia
             // Capture the last executed frame into the bitmap
             CaptureFrame(device, _bitmap);
 
-            // Flush the bitmap to context
-            context.DrawImage(_bitmap, new Rect(_bitmap.Size), new Rect(0, 0, Width, Height));
-        }
 
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            finalSize = base.ArrangeOverride(finalSize);
-            if (finalSize != _bitmap?.Size && Game?.GraphicsDevice is { } device)
-            {
-                ResetDevice(device, finalSize);
-            }
-
-            return finalSize;
+            using (context.PushRenderOptions(new RenderOptions() { BitmapInterpolationMode = BitmapInterpolationMode.None }))
+                // Flush the bitmap to context
+                context.DrawImage(_bitmap, new Rect(_bitmap.Size), new Rect(0, 0, Width, Height));
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -176,7 +199,10 @@ namespace MegaMan.Engine.Avalonia
             game.RunOneFrame();
 
             if (game.GraphicsDevice is { } device)
+            {
+                masterSpriteBatch = new SpriteBatch(device);
                 ResetDevice(device, Bounds.Size);
+            }
 
             Engine.Instance.GetDevice += Instance_GetDevice;
             Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
@@ -213,10 +239,24 @@ namespace MegaMan.Engine.Avalonia
             ForceRedraw();
         }
 
-        public void SetSize()
+        private void SetSize()
         {
             if (Game is null || Game.GraphicsDevice is null) return;
-            masterRenderingTarget = new RenderTarget2D(Game.GraphicsDevice, (int)Width, (int)Height, false, SurfaceFormat.Bgr565, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+            
+            if (gameSize.Width != 256 || gameSize.Height != 224)
+            {
+                isNtsc = false;
+            }
+
+            masterRenderingTarget = new RenderTarget2D(
+                Game.GraphicsDevice,
+                (int)Math.Ceiling(gameSize.Width),
+                (int)Math.Ceiling(gameSize.Height),
+                false,
+                SurfaceFormat.Bgr565,
+                DepthFormat.None);
+
+            ResetDevice(Game.GraphicsDevice, GameSize);
         }
 
         public void SaveCap(Stream stream)
@@ -261,8 +301,8 @@ namespace MegaMan.Engine.Avalonia
 
         private void ResetDevice(GraphicsDevice device, Size newSize)
         {
-            var newWidth = Math.Max(1, (int)Math.Ceiling(newSize.Width));
-            var newHeight = Math.Max(1, (int)Math.Ceiling(newSize.Height));
+            var newWidth = NTSC ? 602 : Math.Max(1, (int)Math.Ceiling(newSize.Width));
+            var newHeight = NTSC ? 448 : Math.Max(1, (int)Math.Ceiling(newSize.Height));
 
             device.Viewport = new Viewport(0, 0, newWidth, newHeight);
             _presentationParameters.BackBufferWidth = newWidth;
@@ -271,20 +311,10 @@ namespace MegaMan.Engine.Avalonia
 
             _bitmap?.Dispose();
             _bitmap = new WriteableBitmap(
-                new PixelSize(device.Viewport.Width, device.Viewport.Height),
+                new PixelSize(newWidth, newHeight),
                 new Vector(96d, 96d),
                 PixelFormat.Rgba8888,
                 AlphaFormat.Opaque);
-
-            masterRenderingTarget = new RenderTarget2D(
-                device,
-                newWidth,
-                newHeight,
-                false,
-                SurfaceFormat.Bgr565,
-                DepthFormat.None);
-
-            masterSpriteBatch = new SpriteBatch(device);
         }
 
         private void ForceRedraw()
