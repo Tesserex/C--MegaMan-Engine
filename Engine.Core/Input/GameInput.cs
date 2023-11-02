@@ -36,13 +36,19 @@ namespace MegaMan.Engine.Input
 
         public static void AddBinding(IGameInputBinding binding)
         {
-            bindings.RemoveAll(x => x.Input == binding.Input && x.GetType() == binding.GetType());
-            bindings.Add(binding);
+            lock (bindings)
+            {
+                bindings.RemoveAll(x => x.Input == binding.Input && x.GetType() == binding.GetType());
+                bindings.Add(binding);
+            }
         }
 
         public static void ClearBinding(GameInputs input)
         {
-            bindings.RemoveAll(b => b.Input == input);
+            lock (bindings)
+            {
+                bindings.RemoveAll(b => b.Input == input);
+            }
         }
 
         public static IEnumerable<IGameInputBinding> GetBindings(GameInputs input)
@@ -73,8 +79,11 @@ namespace MegaMan.Engine.Input
         public static Dictionary<GameInputs, bool> GetChangedInputs()
         {
             var result = new Dictionary<GameInputs, bool>();
-
-            var active = bindings.Where(x => x.InputType == ActiveType);
+            List<IGameInputBinding> active;
+            lock (bindings)
+            {
+                active = bindings.Where(x => x.InputType == ActiveType).ToList();
+            }
             foreach (var binding in active)
             {
                 if (binding.IsPressed)
