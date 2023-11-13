@@ -18,7 +18,7 @@ using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
-using KeyboardInputBinding = MegaMan.Engine.Avalonia.Settings.KeyboardInputBinding;
+using AvaloniaKeyboardInputBinding = MegaMan.Engine.Avalonia.Settings.AvaloniaKeyboardInputBinding;
 
 namespace MegaMan.Engine.Avalonia.ViewModels;
 
@@ -108,7 +108,6 @@ public class MainViewModel : ViewModelBase
     public ICommand OpenRecentCommand { get; }
     public ICommand AutosaveCommand { get; }
     public ICommand AutoloadCommand { get; }
-    public ICommand OpenBindingsCommand { get; }
 
     private string CurrentGamePath
     {
@@ -152,8 +151,6 @@ public class MainViewModel : ViewModelBase
         }, path => path is not null);
         AutosaveCommand = new RelayCommand(AutosaveChanged);
         AutoloadCommand = new RelayCommand(AutoloadChanged);
-
-        OpenBindingsCommand = new RelayCommand(() => { });
     }
 
     private void Instance_GameLogicTick(GameTickEventArgs e)
@@ -190,12 +187,17 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private void Quit()
+    public void Quit()
     {
         CloseApp();
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.TryShutdown();
+            try
+            {
+                desktop.TryShutdown();
+            } catch {
+                // already shutting down
+            }
         }
     }
 
@@ -247,7 +249,7 @@ public class MainViewModel : ViewModelBase
         XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
     }
 
-    private void AutosaveConfig(string? fileName = null)
+    public void AutosaveConfig(string? fileName = null)
     {
         if (Autosave) SaveConfig();
     }
@@ -302,7 +304,7 @@ public class MainViewModel : ViewModelBase
 
     private List<UserKeyBindingSetting> GetKeyBindingSettings()
     {
-        return GameInput.GetBindingsOf<KeyboardInputBinding>().Select(x => new UserKeyBindingSetting { Input = x.Input, Key = x.Key }).ToList();
+        return GameInput.GetBindingsOf<AvaloniaKeyboardInputBinding>().Select(x => new UserKeyBindingSetting { Input = x.Input, Key = x.Key }).ToList();
     }
 
     private List<UserJoystickBindingSetting> GetJoystickBindingSettings()

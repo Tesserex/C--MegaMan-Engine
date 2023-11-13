@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MegaMan.Engine.Avalonia.Settings
 {
-    internal class KeyboardInputBinding : IGameInputBinding
+    internal class AvaloniaKeyboardInputBinding : IGameInputBinding
     {
         public GameInputs Input { get; private set; }
         public InputTypes InputType { get { return InputTypes.Keyboard; } }
         public Key Key { get; private set; }
 
-        public KeyboardInputBinding(GameInputs input, Key key)
+        public AvaloniaKeyboardInputBinding(GameInputs input, Key key)
         {
             Input = input;
             Key = key;

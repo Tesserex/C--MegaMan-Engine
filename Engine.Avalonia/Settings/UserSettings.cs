@@ -297,7 +297,7 @@ namespace MegaMan.Engine.Avalonia.Settings
 
         public IGameInputBinding GetGameInputBinding()
         {
-            return new KeyboardInputBinding(Input, Key);
+            return new AvaloniaKeyboardInputBinding(Input, Key);
         }
     }
 

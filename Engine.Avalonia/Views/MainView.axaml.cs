@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MegaMan.Engine.Avalonia.ViewModels;
@@ -8,6 +10,8 @@ namespace MegaMan.Engine.Avalonia.Views;
 
 public partial class MainView : UserControl
 {
+    private InputBindings? InputBindingsWindow;
+
     public MainView()
     {
         InitializeComponent();
@@ -39,6 +43,22 @@ public partial class MainView : UserControl
                 viewModel.LoadFromOpenDialog(filename);
             }
         }
+    }
+
+    private void OpenInputBindings(object? sender, RoutedEventArgs e)
+    {
+        if (InputBindingsWindow is null)
+        {
+            InputBindingsWindow = new InputBindings();
+            InputBindingsWindow.Closed += (s, e) => {
+                if (DataContext is MainViewModel viewModel)
+                {
+                    viewModel.AutosaveConfig();
+                }
+            };
+        }
+
+        InputBindingsWindow.Show();
     }
 
     private static FilePickerFileType GameFile { get; } = new("Game File") {

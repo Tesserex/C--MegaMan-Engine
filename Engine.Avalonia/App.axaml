@@ -4,7 +4,17 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    <Application.Styles>
-        <FluentTheme />
-    </Application.Styles>
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="Colors.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    <FontFamily x:Key="OpenSans">/Assets/OpenSansCondensed-Bold.ttf</FontFamily>
+  </Application.Resources>
+  <Application.Styles>
+      <FluentTheme />
+      <StyleInclude Source="Styles.axaml"/>
+      <StyleInclude Source="/Controls.axaml" /> 
+  </Application.Styles>
 </Application>

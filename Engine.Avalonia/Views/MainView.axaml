@@ -67,7 +67,7 @@
         </MenuItem>
       </MenuItem>
       <MenuItem Header="_Input">
-        <MenuItem Header="_Bindings" HotKey="Alt+K" Command="{Binding OpenBindingsCommand}" />
+        <MenuItem Header="_Bindings" HotKey="Alt+K" Click="OpenInputBindings" />
       </MenuItem>
       <MenuItem Header="_Screen" DataContext="{Binding ScreenMenu}">
         <MenuItem Header="1X" Command="{Binding Screen1XCommand}" HotKey="Ctrl+1" />

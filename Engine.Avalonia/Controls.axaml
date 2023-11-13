@@ -1,0 +1,140 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:MegaMan.Engine.Avalonia;assembly=Engine.Avalonia">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="ContentControl.angledBorder">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ContentControl}">
+          <Grid RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True" RowDefinitions="3,*,6" ColumnDefinitions="3,*,6">
+            <Path Grid.Row="0" Grid.Column="0" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="3,0" IsClosed="True">
+                      <LineSegment Point="3,3"/>
+                      <LineSegment Point="0,3"/>
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Path Grid.Row="0" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="0,0" IsClosed="True">
+                      <LineSegment Point="3,3"/>
+                      <LineSegment Point="0,3"/>
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Path Grid.Row="2" Grid.Column="0" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="0,0" IsClosed="True">
+                      <LineSegment Point="3,0"/>
+                      <LineSegment Point="3,3"/>
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Path Grid.Row="2" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="0,0" IsClosed="True">
+                      <LineSegment Point="6,0"/>
+                      <LineSegment Point="6,3"/>
+                      <LineSegment Point="3,6" />
+                      <LineSegment Point="0,6" />
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Path Grid.Row="1" Grid.Column="2" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="0,0" IsClosed="True">
+                      <LineSegment Point="3,0"/>
+                      <LineSegment Point="6,3"/>
+                      <LineSegment Point="0,3" />
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Path Grid.Row="2" Grid.Column="1" StrokeThickness="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}">
+              <Path.Data>
+                <PathGeometry>
+                  <PathGeometry.Figures>
+                    <PathFigure StartPoint="0,0" IsClosed="True">
+                      <LineSegment Point="3,0"/>
+                      <LineSegment Point="3,6"/>
+                      <LineSegment Point="0,3" />
+                    </PathFigure>
+                  </PathGeometry.Figures>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+            <Rectangle Grid.Row="2" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="3,0,0,0" Height="6" />
+            <Rectangle Grid.Row="1" Grid.Column="2" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" Margin="0,3,0,0" Width="6" />
+            <Rectangle Grid.Row="0" Grid.Column="1" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+            <Rectangle Grid.Row="1" Grid.Column="0" Fill="{TemplateBinding my:ThemeProperties.ShadowBrush}" />
+            <Grid Grid.Row="1" Grid.Column="1" Background="{TemplateBinding Background}">
+              <ContentPresenter Content="{TemplateBinding Content}" />
+            </Grid>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button Label">
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <Style Selector="Button">
+    <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
+    <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ActiveShadowBrush}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <ContentControl Classes="angledBorder" Background="{TemplateBinding my:ThemeProperties.FaceBrush}" VerticalAlignment="Center">
+            <ContentPresenter Margin="6,2" x:Name="contentPresenter"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  FontFamily="{StaticResource OpenSans}"
+                                  FontWeight="Bold"
+                                  FontSize="16"
+                                  Foreground="White"
+                                              />
+          </ContentControl>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="Button ContentControl.angledBorder">
+    <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
+    <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ActiveShadowBrush}" />
+  </Style>
+  <Style Selector="Button:disabled, Button:disabled ContentControl.angledBorder">
+    <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource DisabledButtonBackground}" />
+    <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource NesDarkGrayBrush}" />
+  </Style>
+  <Style Selector="Button:pointerover:not(:disabled), Button:pointerover:not(:disabled) ContentControl.angledBorder">
+    <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource HoverButtonBackground}" />
+    <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
+  </Style>
+</Styles>

@@ -5,8 +5,7 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>MegaMan.Engine.Avalonia</RootNamespace>
     <AssemblyName>Engine.Avalonia</AssemblyName>
-    <PlatformTarget>x86</PlatformTarget>
-    <Platforms>x86</Platforms>
+    <Platforms>x86;x64</Platforms>
   </PropertyGroup>
 
   
@@ -14,8 +13,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\OpenSansCondensed-Bold.ttf" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.5" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
