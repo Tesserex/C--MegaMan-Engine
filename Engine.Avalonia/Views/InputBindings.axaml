@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:MegaMan.Engine.Avalonia.ViewModels"
+        xmlns:my="clr-namespace:MegaMan.Engine.Avalonia;assembly=Engine.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MegaMan.Engine.Avalonia.Views.InputBindings"
         x:CompileBindings="True"
@@ -15,31 +16,25 @@
       <Setter Property="Foreground" Value="Black"/>
     </Style>
     <Style Selector="RadioButton, RadioButton:pointerover">
-      <Setter Property="Background" Value="#FFB4B4B4"/>
+      <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource NesLightBlueShadeBrush}"/>
       <Setter Property="Foreground" Value="Black"/>
       <Setter Property="CornerRadius" Value="0" />
-      <Setter Property="BorderBrush" Value="#FF525252" />
       <Setter Property="BorderThickness" Value="2" />
       <Setter Property="Margin" Value="5" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="Template">
         <ControlTemplate>
-          <Border CornerRadius="{TemplateBinding CornerRadius}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            Background="{TemplateBinding Background}"
-            Padding="10">
+          <ContentControl Classes="angledBorder" Background="{TemplateBinding my:ThemeProperties.FaceBrush}" VerticalAlignment="Center">
             <ContentPresenter Foreground="{TemplateBinding Foreground}"
                               Content="{TemplateBinding Content}"
                               Margin="0"
                               TextAlignment="Center" />
-          </Border>
+          </ContentControl>
         </ControlTemplate>
       </Setter>
     </Style>
     <Style Selector="RadioButton:checked">
-      <Setter Property="Background" Value="#FF0070E0" />
-      <Setter Property="BorderBrush" Value="#FF00468C" />
+      <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource NesLightBlueBrush}" />
     </Style>
   </Control.Styles>
   

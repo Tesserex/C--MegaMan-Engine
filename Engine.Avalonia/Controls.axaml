@@ -125,15 +125,15 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style Selector="Button ContentControl.angledBorder">
+  <Style Selector="ContentControl.angledBorder">
     <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource ActiveButtonBackground}" />
     <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource ActiveShadowBrush}" />
   </Style>
-  <Style Selector="Button:disabled, Button:disabled ContentControl.angledBorder">
+  <Style Selector="Control:disabled, Control:disabled ContentControl.angledBorder">
     <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource DisabledButtonBackground}" />
     <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource NesDarkGrayBrush}" />
   </Style>
-  <Style Selector="Button:pointerover:not(:disabled), Button:pointerover:not(:disabled) ContentControl.angledBorder">
+  <Style Selector="Control:pointerover:not(:disabled), Control:pointerover:not(:disabled) ContentControl.angledBorder">
     <Setter Property="my:ThemeProperties.FaceBrush" Value="{StaticResource HoverButtonBackground}" />
     <Setter Property="my:ThemeProperties.ShadowBrush" Value="{StaticResource HoverShadowBrush}" />
   </Style>

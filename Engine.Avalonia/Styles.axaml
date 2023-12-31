@@ -38,14 +38,10 @@
                       ResourceKey="SystemControlForegroundBaseMediumBrush" />
       <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor"
                       ResourceKey="SystemListLowColor" />
-      <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor"
-                      ResourceKey="SystemListMediumColor" />
       <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundBrush"
                       ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
       <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush"
                       ResourceKey="SystemControlHighlightListLowBrush" />
-      <StaticResource x:Key="DataGridColumnHeaderPressedBrush"
-                      ResourceKey="SystemControlHighlightListMediumBrush" />
       <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush"
                       ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
       <StaticResource x:Key="DataGridFillerColumnGridLinesBrush"
@@ -74,18 +70,12 @@
                       ResourceKey="SystemControlBackgroundChromeMediumBrush" />
       <StaticResource x:Key="DataGridRowGroupHeaderHoveredBackgroundBrush"
                       ResourceKey="SystemControlBackgroundListLowBrush" />
-      <StaticResource x:Key="DataGridRowGroupHeaderPressedBackgroundBrush"
-                      ResourceKey="SystemControlBackgroundListMediumBrush" />
       <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush"
                       ResourceKey="SystemControlForegroundBaseHighBrush" />
       <StaticResource x:Key="DataGridRowInvalidBrush"
                       ResourceKey="SystemErrorTextColor" />
       <StaticResource x:Key="DataGridCellBackgroundBrush"
                       ResourceKey="SystemControlTransparentBrush" />
-      <StaticResource x:Key="DataGridCellFocusVisualPrimaryBrush"
-                      ResourceKey="SystemControlFocusVisualPrimaryBrush" />
-      <StaticResource x:Key="DataGridCellFocusVisualSecondaryBrush"
-                      ResourceKey="SystemControlFocusVisualSecondaryBrush" />
       <StaticResource x:Key="DataGridCellInvalidBrush"
                       ResourceKey="SystemErrorTextColor" />
     </Styles.Resources>
@@ -110,22 +100,6 @@
                        IsHitTestVisible="False"
                        Stroke="{DynamicResource DataGridCurrencyVisualPrimaryBrush}"
                        StrokeThickness="1" />
-            <Grid x:Name="FocusVisual"
-                  IsHitTestVisible="False">
-              <Rectangle HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualPrimaryBrush}"
-                         StrokeThickness="2" />
-              <Rectangle Margin="2"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualSecondaryBrush}"
-                         StrokeThickness="1" />
-            </Grid>
 
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"
@@ -159,13 +133,7 @@
     <Style Selector="DataGridCell /template/ Rectangle#CurrencyVisual">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="DataGridCell /template/ Grid#FocusVisual">
-      <Setter Property="IsVisible" Value="False" />
-    </Style>
     <Style Selector="DataGridCell:current /template/ Rectangle#CurrencyVisual">
-      <Setter Property="IsVisible" Value="True" />
-    </Style>
-    <Style Selector="DataGrid:focus DataGridCell:current /template/ Grid#FocusVisual">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="DataGridCell /template/ Rectangle#InvalidVisualElement">
@@ -206,51 +174,14 @@
 
               <ContentPresenter Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
-
-              <Path Name="SortIcon"
-                    Grid.Column="1"
-                    Fill="{TemplateBinding Foreground}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Stretch="Uniform"
-                    Height="12" />
-            </Grid>
-
-            <Grid x:Name="FocusVisual"
-                  IsHitTestVisible="False">
-              <Rectangle x:Name="FocusVisualPrimary"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualPrimaryBrush}"
-                         StrokeThickness="2" />
-              <Rectangle x:Name="FocusVisualSecondary"
-                         Margin="2"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualSecondaryBrush}"
-                         StrokeThickness="1" />
             </Grid>
           </Grid>
         </ControlTemplate>
       </Setter>
     </Style>
 
-    <Style Selector="DataGridColumnHeader /template/ Grid#FocusVisual">
-      <Setter Property="IsVisible" Value="False" />
-    </Style>
-    <Style Selector="DataGridColumnHeader:focus-visible /template/ Grid#FocusVisual">
-      <Setter Property="IsVisible" Value="True" />
-    </Style>
-
     <Style Selector="DataGridColumnHeader:pointerover /template/ Grid#PART_ColumnHeaderRoot">
       <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundColor}" />
-    </Style>
-    <Style Selector="DataGridColumnHeader:pressed /template/ Grid#PART_ColumnHeaderRoot">
-      <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundColor}" />
     </Style>
 
     <Style Selector="DataGridColumnHeader:dragIndicator">
@@ -463,23 +394,6 @@
                        IsHitTestVisible="False"
                        Stroke="{DynamicResource DataGridCurrencyVisualPrimaryBrush}"
                        StrokeThickness="1" />
-            <Grid x:Name="FocusVisual"
-                  Grid.ColumnSpan="5"
-                  IsHitTestVisible="False">
-              <Rectangle HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualPrimaryBrush}"
-                         StrokeThickness="2" />
-              <Rectangle Margin="2"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Fill="Transparent"
-                         IsHitTestVisible="False"
-                         Stroke="{DynamicResource DataGridCellFocusVisualSecondaryBrush}"
-                         StrokeThickness="1" />
-            </Grid>
 
             <DataGridRowHeader Name="PART_RowHeader"
                                Grid.RowSpan="2"
@@ -525,23 +439,11 @@
     <Style Selector="DataGridRowGroupHeader /template/ DataGridFrozenGrid#PART_Root">
       <Setter Property="Background" Value="{Binding $parent[DataGridRowGroupHeader].Background}" />
     </Style>
-    <Style Selector="DataGridRowGroupHeader:pointerover /template/ DataGridFrozenGrid#PART_Root">
-      <Setter Property="Background" Value="{DynamicResource DataGridRowGroupHeaderHoveredBackgroundBrush}" />
-    </Style>
-    <Style Selector="DataGridRowGroupHeader:pressed /template/ DataGridFrozenGrid#PART_Root">
-      <Setter Property="Background" Value="{DynamicResource DataGridRowGroupHeaderPressedBackgroundBrush}" />
-    </Style>
 
     <Style Selector="DataGridRowGroupHeader /template/ Rectangle#CurrencyVisual">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="DataGridRowGroupHeader /template/ Grid#FocusVisual">
-      <Setter Property="IsVisible" Value="False" />
-    </Style>
     <Style Selector="DataGridRowGroupHeader:current /template/ Rectangle#CurrencyVisual">
-      <Setter Property="IsVisible" Value="True" />
-    </Style>
-    <Style Selector="DataGrid:focus DataGridRowGroupHeader:current /template/ Grid#FocusVisual">
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
