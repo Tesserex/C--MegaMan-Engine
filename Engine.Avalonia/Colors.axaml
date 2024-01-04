@@ -9,6 +9,7 @@
     <Color x:Key="NesGray">#FF848484</Color>
     <Color x:Key="NesGrayShade">#FF7B7B7B</Color>
     <Color x:Key="NesDarkGray">#FF525252</Color>
+    <Color x:Key="NesDarkestGray">#FF202020</Color>
     <Color x:Key="NesRed">#FFF83800</Color>
     <Color x:Key="NesYellow">#FFE4DCA8</Color>
 

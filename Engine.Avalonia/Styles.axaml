@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:megaman="using:MegaMan.Engine.Avalonia">
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
@@ -559,4 +560,19 @@
     <Style Selector="DataGrid:empty-columns /template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
       <Setter Property="IsVisible" Value="False" />
     </Style>
+
+  <Style Selector="megaman|MenuHeader">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="HotKeyText" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{TemplateBinding Label}" />
+          <TextBlock Grid.Column="1" TextAlignment="Right" Margin="20,0,0,0" Text="{TemplateBinding HotKey}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
 </Styles>

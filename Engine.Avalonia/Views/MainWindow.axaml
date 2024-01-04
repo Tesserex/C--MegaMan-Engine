@@ -9,7 +9,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="{Binding WindowTitle}"
         WindowState="{Binding WindowState}"
-        Background="CornflowerBlue"
+        Background="{StaticResource NesBlue}"
         SizeToContent="WidthAndHeight">
         <views:MainView />
 </Window>

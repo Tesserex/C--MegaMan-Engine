@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:MegaMan.Engine.Avalonia.ViewModels"
              xmlns:views="clr-namespace:MegaMan.Engine.Avalonia.Views"
              xmlns:ctrl="clr-namespace:MegaMan.Engine.Avalonia"
+             xmlns:sys="using:System"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MegaMan.Engine.Avalonia.Views.MainView"
              x:CompileBindings="True"
@@ -15,23 +16,52 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
+  <Control.Resources>
+    <SolidColorBrush x:Key="MenuFlyoutItemBackground" Color="Black" />
+    <SolidColorBrush x:Key="MenuFlyoutItemBackgroundDisabled" Color="Black" />
+    <SolidColorBrush x:Key="MenuFlyoutItemBackgroundPointerOver" Color="{StaticResource NesDarkestGray}" />
+    <SolidColorBrush x:Key="MenuFlyoutItemBackgroundPressed" Color="{StaticResource NesLightBlue}" />
+    <SolidColorBrush x:Key="MenuFlyoutItemForeground" Color="White" />
+    <SolidColorBrush x:Key="MenuFlyoutItemForegroundDisabled" Color="{StaticResource NesGray}" />
+    <SolidColorBrush x:Key="MenuFlyoutItemForegroundPointerOver" Color="White" />
+    <SolidColorBrush x:Key="MenuFlyoutItemForegroundPressed" Color="White" />
+    <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="{StaticResource NesLightBlue}" />
+    <Thickness x:Key="MenuFlyoutPresenterThemePadding">0</Thickness>
+    <SolidColorBrush x:Key="MenuFlyoutPresenterBorderBrush" Color="{StaticResource NesLightBlue}" />
+    <Thickness x:Key="MenuFlyoutPresenterBorderThemeThickness">4,0</Thickness>
+    <sys:Double x:Key="ControlContentThemeFontSize">14</sys:Double>
+    <CornerRadius x:Key="OverlayCornerRadius">2</CornerRadius>
+    <sys:Double x:Key="MenuFlyoutSeparatorThemeHeight">0</sys:Double>
+    <Thickness x:Key="MenuIconPresenterMargin">0,0,4,0</Thickness>
+    <Thickness x:Key="MenuInputGestureTextMargin">0</Thickness>
+  </Control.Resources>
+
   <Control.Styles>
-    <Style Selector="TextBlock">
-      <Setter Property="Foreground" Value="Black"/>
+    <Style Selector="MenuItem">
+      <Setter Property="BorderBrush" Value="{StaticResource NesLightGrayBrush}" />
     </Style>
+    <Style Selector="MenuItem CheckBox">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border UseLayoutRounding="False" Background="Transparent" Width="16" Height="16" />
+        </ControlTemplate>
+      </Setter>
+    </Style>
+    <Style Selector="MenuItem CheckBox:checked /template/ Border">
+      <Setter Property="Background" Value="{StaticResource NesRed}"  />
+    </Style>
+    <Style Selector="TextBlock.CaptionTextBlockStyle">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+
     <Style Selector="#debugBar>TextBlock">
       <Setter Property="FontSize" Value="10"/>
       <Setter Property="Margin" Value="5" />
     </Style>
-    <Style Selector="MenuItem">
-      <Setter Property="FontSize" Value="12"/>
-      <Setter Property="Background" Value="LightCyan" />
-      <Setter Property="Foreground" Value="Black" />
-    </Style>
   </Control.Styles>
 
   <Grid RowDefinitions="auto,*,20">
-    <Menu Grid.Row="0" Background="LightGray">
+    <Menu Grid.Row="0" Background="Black">
       <MenuItem Header="_File">
         <MenuItem Header="_Open Game..." HotKey="Ctrl+O" Click="OpenGameClicked" />
         <MenuItem Header="Open Recent">
