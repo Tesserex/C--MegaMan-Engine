@@ -3,19 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="C# Mega Man Engine : An engine for custom Mega Man fan games, written with C# and XNA" />
+    <meta name="description" content="C# Mega Man Engine : An engine for custom Mega Man fan games, written with C#" />
 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+    <link rel="stylesheet" href="/index.css">
+
+    <script src="/components.js" type="module"></script>
 
 		<title>C# Mega Man Engine</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script type="text/javascript" src="/src/lib/angulartics.min.js"></script>
-		<script type="text/javascript" src="/src/lib/angulartics-ga.min.js"></script>
+    <main-nav></main-nav>
+      
+    <div id="main" class="container">
+      <main-logo></main-logo>
+
+      <div class="row section">
+        <div class="col-md-12">
+          <p>The C# Mega Man Engine was built from the ground up to allow Mega Man fans to craft high-quality fan games with ease. The goal of the project is to faithfully recreate all of the feel and features of the classic NES series. The project has come a long way, and is still under active development.</p>
+        </div>
+      </div>
+      
+      <div class="row section alt">
+        <div class="col-md-6">
+          <p>Recreate your favorite or most feared stages from the classic series. Customize your tiles, enemies, and more.</p>
+        </div>
+        <div class="col-md-6">
+          <img src="../assets/images/screens/1.png" />
+        </div>
+      </div>
+      
+      <div class="row section">
+        <div class="col-md-6">
+          <img src="../assets/images/screens/2.png" />
+        </div>
+        <div class="col-md-6">
+          <p>Easily add special stage gimmicks, like conveyors, ice physics, death spikes, and water sections.</p>
+        </div>
+      </div>
+      
+      <div class="row section alt">
+        <div class="col-md-6">
+          <p>Create your own cutscenes and menus, with animation, text, and entities. You have total control over the results!</p>
+          <p>By the way, this is not a clip of Mega Man 5 - this scene was completely recreated in the engine!</p>
+        </div>
+        <div class="col-md-6">
+          <img src="../assets/images/screens/3.png" />
+        </div>
+      </div>
+      
+      <div class="row section">
+        <div class="col-md-6">
+          <img src="../assets/images/screens/4.png" />
+        </div>
+        <div class="col-md-6">
+          <p>Of course, what would Mega Man be without special weapons? Create your own new arsenal, with custom movement patterns, damage, and animations.</p>
+        </div>
+      </div>
+      
+      <div class="row section alt">
+        <div class="col-md-6">
+          <p>The engine can even simulate the appearance of an old NTSC television, with scaling and scanlines! Choose from Composite, S-Video, or RGB connections!</p>
+        </div>
+        <div class="col-md-6">
+          <img src="../assets/images/screens/5.png" />
+        </div>
+      </div>      
+    </div>
+
+    <main-footer></main-footer>
 
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -25,5 +82,6 @@
 
 		  ga('create', 'UA-69243963-1', 'auto');
 		</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
