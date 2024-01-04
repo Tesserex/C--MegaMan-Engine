@@ -8,12 +8,12 @@ class Nav extends HTMLElement {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/download">Download</a></li>
-          <li class="nav-item"><a class="nav-link" href="/features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="download">Download</a></li>
+          <li class="nav-item"><a class="nav-link" href="features">Features</a></li>
           <li class="nav-item"><a class="nav-link" target="_blank" href="http://www.youtube.com/playlist?list=PL51A9554B5210B6F6">YouTube</a></li>
-          <li class="nav-item"><a class="nav-link" href="/docs">Documentation</a></li>
-          <li class="nav-item"><a class="nav-link" href="/resources">Resource Packs</a></li>
+          <li class="nav-item"><a class="nav-link" href="docs">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="resources">Resource Packs</a></li>
         </ul>
       </div>
     </div>
