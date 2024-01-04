@@ -29,7 +29,7 @@ class Logo extends HTMLElement {
     this.innerHTML = `
       <div class="row logo">
         <div class="col-md-12">
-          <img src="/assets/images/logo.png" />
+          <img src="assets/images/logo.png" />
         </div>
       </div>
     `;
