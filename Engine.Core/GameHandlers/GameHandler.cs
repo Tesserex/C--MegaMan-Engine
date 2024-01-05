@@ -110,7 +110,8 @@ namespace MegaMan.Engine
 
         protected virtual void GameRender(GameRenderEventArgs e)
         {
-            foreach (var obj in objects.Values)
+            var localObjectList = objects.Values.ToArray();
+            foreach (var obj in localObjectList)
             {
                 obj.Draw(e.RenderContext);
             }
