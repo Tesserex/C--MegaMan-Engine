@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -193,6 +195,18 @@ namespace MegaMan.Engine.Avalonia
         {
             base.OnAttachedToVisualTree(e);
             Start();
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            Engine.Instance.Stop();
+        }
+
+        protected override void OnGotFocus(GotFocusEventArgs e)
+        {
+            base.OnGotFocus(e);
+            Engine.Instance.Start();
         }
 
         private bool HandleDeviceReset(GraphicsDevice device)
