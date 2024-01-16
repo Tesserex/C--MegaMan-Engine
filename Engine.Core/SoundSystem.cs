@@ -85,9 +85,6 @@ namespace MegaMan.Engine
             soundSystem.getVersion(ref version);
             soundSystem.init(32, INITFLAGS.NORMAL, (IntPtr)null);
 
-            AudioManager.Instance.Initialize();
-            AudioManager.Instance.Stereo = true;
-
             AudioManager.Instance.SFXPlaybackStopped += InstanceSfxPlaybackStopped;
             CurrentSfxPriority = 255;
         }
@@ -99,6 +96,12 @@ namespace MegaMan.Engine
 
         public void Start()
         {
+            if (!AudioManager.Instance.Initialized)
+            {
+                AudioManager.Instance.Initialize();
+                AudioManager.Instance.Stereo = true;
+            }
+
             if (AudioManager.Instance.Paused)
                 ApplyMusicSetting();
         }
