@@ -10,6 +10,6 @@
         Title="{Binding WindowTitle}"
         WindowState="{Binding WindowState}"
         Background="{StaticResource NesBlue}"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="{Binding SizeMode, Mode=TwoWay}">
         <views:MainView />
 </Window>

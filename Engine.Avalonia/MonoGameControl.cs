@@ -188,7 +188,7 @@ namespace MegaMan.Engine.Avalonia
 
             using (context.PushRenderOptions(new RenderOptions() { BitmapInterpolationMode = BitmapInterpolationMode.None }))
                 // Flush the bitmap to context
-                context.DrawImage(_bitmap, new Rect(_bitmap.Size), new Rect(0, 0, Width, Height));
+                context.DrawImage(_bitmap, new Rect(_bitmap.Size), new Rect(0, 0, Bounds.Width, Bounds.Height));
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)

@@ -61,8 +61,8 @@
     </Style>
   </Control.Styles>
 
-  <Grid RowDefinitions="auto,*,20">
-    <Menu Grid.Row="0" Background="Black">
+  <DockPanel>
+    <Menu DockPanel.Dock="Top" Background="Black">
       <MenuItem Header="_File">
         <MenuItem Header="_Open Game..." HotKey="Ctrl+O" Click="OpenGameClicked" />
         <MenuItem Header="Open Recent">
@@ -151,14 +151,15 @@
       </MenuItem>
     </Menu>
     
-    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}"
-                          Width="{Binding ScreenMenu.Width}" Height="{Binding ScreenMenu.Height}"
-                          GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" NTSCSetup="{Binding ScreenMenu.NTSCSetup}" />
-    
-    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Grid.Row="2" Orientation="Horizontal" Background="LightGray">
+    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Height="20" DockPanel.Dock="Bottom" Orientation="Horizontal" Background="LightGray">
       <TextBlock Text="{Binding FpsLabel}" Width="80" />
       <TextBlock Text="{Binding ThinkLabel}" Width="60" />
       <TextBlock Text="{Binding EntityLabel}" />
     </StackPanel>
-  </Grid>
+
+    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}"
+                          HorizontalAlignment="{Binding HAlignment}" VerticalAlignment="{Binding VAlignment}"
+                          MinWidth="{Binding ScreenWidth}" MinHeight="{Binding ScreenHeight}"
+                          GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" NTSCSetup="{Binding ScreenMenu.NTSCSetup}" />
+    </DockPanel>
 </UserControl>

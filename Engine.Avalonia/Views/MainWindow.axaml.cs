@@ -21,4 +21,15 @@ public partial class MainWindow : Window
         base.OnClosing(e);
         (this.DataContext as MainViewModel)?.Quit();
     }
+
+    
+
+    protected override void OnResized(WindowResizedEventArgs e)
+    {
+        base.OnResized(e);
+        if (DataContext is MainViewModel viewModel && e.Reason == WindowResizeReason.User)
+        {
+            viewModel.ManualSize();
+        }
+    }
 }

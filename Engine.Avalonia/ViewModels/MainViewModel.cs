@@ -10,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Documents;
 using Avalonia.Input;
+using Avalonia.Layout;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
@@ -101,6 +102,18 @@ public class MainViewModel : ViewModelBase
     private bool autoload;
     public bool Autoload { get => autoload; set { SetProperty(ref autoload, value); } }
 
+    private double screenWidth, screenHeight;
+    public double ScreenWidth { get => screenWidth; set { SetProperty(ref screenWidth, value); } }
+    public double ScreenHeight { get => screenHeight; set { SetProperty(ref screenHeight, value); } }
+
+    private SizeToContent sizeMode = SizeToContent.WidthAndHeight;
+    public SizeToContent SizeMode { get => sizeMode; set { SetProperty(ref sizeMode, value); } }
+
+    private HorizontalAlignment hAlign;
+    private VerticalAlignment vAlign;
+    public HorizontalAlignment HAlignment { get => hAlign; set { SetProperty(ref hAlign, value); } }
+    public VerticalAlignment VAlignment { get => vAlign; set { SetProperty(ref vAlign, value); } }
+
     public ICommand ResetGameCommand { get; }
     public ICommand CloseGameCommand { get; }
     public ICommand QuitCommand { get; }
@@ -151,6 +164,34 @@ public class MainViewModel : ViewModelBase
         }, path => path is not null);
         AutosaveCommand = new RelayCommand(AutosaveChanged);
         AutoloadCommand = new RelayCommand(AutoloadChanged);
+
+        ScreenMenu.PropertyChanged += ScreenMenu_PropertyChanged;
+    }
+
+    private void ScreenMenu_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ScreenMenu.Width) || e.PropertyName == nameof(ScreenMenu.Height))
+        {
+            ForceSize(ScreenMenu.Width, ScreenMenu.Height);
+        }
+    }
+
+    public void ForceSize(double width, double height)
+    {
+        HAlignment = HorizontalAlignment.Center;
+        VAlignment = VerticalAlignment.Center;
+        ScreenWidth = width;
+        ScreenHeight = height;
+        SizeMode = SizeToContent.WidthAndHeight;
+    }
+
+    public void ManualSize()
+    {
+        // sizeMode will automatically change to Manual when the user resizes the window
+        HAlignment = HorizontalAlignment.Stretch;
+        VAlignment = VerticalAlignment.Stretch;
+        ScreenWidth = 0;
+        ScreenHeight = 0;
     }
 
     private void Instance_GameLogicTick(GameTickEventArgs e)
@@ -223,7 +264,7 @@ public class MainViewModel : ViewModelBase
     private void AutosaveChanged()
     {
         Autosave = !Autosave;
-        //SaveGlobalConfigValues();
+        SaveGlobalConfigValues();
     }
 
     private void AutoloadChanged()
