@@ -7,6 +7,7 @@ namespace MegaMan.Engine
 {
     public class SoundSystem : IDisposable
     {
+        private bool initialized;
         private readonly FMOD.System soundSystem;
 
         private readonly Dictionary<string, Music> loadedMusic = new Dictionary<string, Music>();
@@ -96,10 +97,12 @@ namespace MegaMan.Engine
 
         public void Start()
         {
-            if (!AudioManager.Instance.Initialized)
+            // the AudioManager has a bug where it never sets Initialized to true, so use our own
+            if (!initialized)
             {
                 AudioManager.Instance.Initialize();
                 AudioManager.Instance.Stereo = true;
+                initialized = true;
             }
 
             if (AudioManager.Instance.Paused)
