@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.Primitives;
 
-namespace MegaMan.Engine.Avalonia;
+namespace MegaMan.Engine.Avalonia.Controls;
 public class MenuHeader : TemplatedControl
 {
     public static StyledProperty<string?> LabelProperty = AvaloniaProperty.Register<MenuHeader, string?>(nameof(Label));

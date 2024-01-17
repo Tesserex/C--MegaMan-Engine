@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:MegaMan.Engine.Avalonia.ViewModels"
              xmlns:views="clr-namespace:MegaMan.Engine.Avalonia.Views"
              xmlns:ctrl="clr-namespace:MegaMan.Engine.Avalonia"
-             xmlns:sys="using:System"
+             xmlns:sys="using:System"             xmlns:mm="using:MegaMan.Engine.Avalonia.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MegaMan.Engine.Avalonia.Views.MainView"
              x:CompileBindings="True"
@@ -64,7 +64,11 @@
   <DockPanel>
     <Menu DockPanel.Dock="Top" Background="Black">
       <MenuItem Header="_File">
-        <MenuItem Header="_Open Game..." HotKey="Ctrl+O" Click="OpenGameClicked" />
+        <MenuItem HotKey="Ctrl+O" Click="OpenGameClicked">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="_Open Game..." HotKey="Ctrl+O" />
+          </MenuItem.Header>
+        </MenuItem>
         <MenuItem Header="Open Recent">
           <ItemsControl ItemsSource="{Binding RecentGames}">
             <ItemsControl.ItemTemplate>
@@ -75,11 +79,27 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
         </MenuItem>
-        <MenuItem Header="_Reset" HotKey="Ctrl+R" Command="{Binding ResetGameCommand}" />
-        <MenuItem Header="_Close Game" HotKey="Ctrl+Q" Command="{Binding CloseGameCommand}" />
-        <MenuItem Header="_Quit" HotKey="Alt+F4" Command="{Binding QuitCommand}" />
+        <MenuItem HotKey="Ctrl+R" Command="{Binding ResetGameCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="_Reset" HotKey="Ctrl+R" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Ctrl+Q" Command="{Binding CloseGameCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="_Close Game" HotKey="Ctrl+Q" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Alt+F4" Command="{Binding QuitCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="_Quit" HotKey="Alt+F4" />
+          </MenuItem.Header>
+        </MenuItem>
         <Separator/>
-        <MenuItem Header="Pause Engine" HotKey="F4" Command="{Binding PauseCommand}" />
+        <MenuItem HotKey="F4" Command="{Binding PauseCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Pause Engine" HotKey="F4" />
+          </MenuItem.Header>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Autosave Configurations" Command="{Binding AutosaveCommand}">
           <MenuItem.Icon>
@@ -87,9 +107,21 @@
           </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Use Default Configuration" />
-        <MenuItem Header="Load Configuration..." HotKey="Ctrl+Shift+L" />
-        <MenuItem Header="Save Configuration" HotKey="Ctrl+Shift+S" />
-        <MenuItem Header="Clear Configuration" HotKey="Ctrl+Delete" />
+        <MenuItem HotKey="Ctrl+Shift+L">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Load Configuration..." HotKey="Ctrl+Shift+L" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Ctrl+Shift+S">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Save Configuration" HotKey="Ctrl+Shift+S" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Ctrl+Delete">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Clear Configuration" HotKey="Ctrl+Delete" />
+          </MenuItem.Header>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Autoload Game" Command="{Binding AutoloadCommand}">
           <MenuItem.Icon>
@@ -98,56 +130,114 @@
         </MenuItem>
       </MenuItem>
       <MenuItem Header="_Input">
-        <MenuItem Header="_Bindings" HotKey="Alt+K" Click="OpenInputBindings" />
+        <MenuItem HotKey="Alt+K" Click="OpenInputBindings">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="_Bindings" HotKey="Alt+K" />
+          </MenuItem.Header>
+        </MenuItem>
       </MenuItem>
       <MenuItem Header="_Screen" DataContext="{Binding ScreenMenu}">
-        <MenuItem Header="1X" Command="{Binding Screen1XCommand}" HotKey="Ctrl+1" />
-        <MenuItem Header="2X" Command="{Binding Screen2XCommand}" HotKey="Ctrl+2" />
-        <MenuItem Header="3X" Command="{Binding Screen3XCommand}" HotKey="Ctrl+3" />
-        <MenuItem Header="4X" Command="{Binding Screen4XCommand}" HotKey="Ctrl+4" />
+        <MenuItem Command="{Binding Screen1XCommand}" HotKey="Ctrl+D1">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="1X" HotKey="Ctrl+1" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem Command="{Binding Screen2XCommand}" HotKey="Ctrl+D2">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="2X" HotKey="Ctrl+2" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem Command="{Binding Screen3XCommand}" HotKey="Ctrl+D3">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="3X" HotKey="Ctrl+3" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem Command="{Binding Screen4XCommand}" HotKey="Ctrl+D4">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="4X" HotKey="Ctrl+4" />
+          </MenuItem.Header>
+        </MenuItem>
         <Separator />
         <MenuItem Header="NTSC" Command="{Binding NtscCommand}">
-          <MenuItem Header="Composite" Command="{Binding NtscCompositeCommand}" HotKey="Ctrl+Alt+1" />
-          <MenuItem Header="S-Video" Command="{Binding NtscSVideoCommand}" HotKey="Ctrl+Alt+2" />
-          <MenuItem Header="RGB" Command="{Binding NtscRGBCommand}" HotKey="Ctrl+Alt+3" />
+          <MenuItem Command="{Binding NtscCompositeCommand}" HotKey="Ctrl+Alt+D1">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Composite" HotKey="Ctrl+Alt+1" />
+            </MenuItem.Header>
+          </MenuItem>
+          <MenuItem Command="{Binding NtscSVideoCommand}" HotKey="Ctrl+Alt+D2">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="S-Video" HotKey="Ctrl+Alt+2" />
+            </MenuItem.Header>
+          </MenuItem>
+          <MenuItem Command="{Binding NtscRGBCommand}" HotKey="Ctrl+Alt+D3">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="RGB" HotKey="Ctrl+Alt+3" />
+            </MenuItem.Header>
+          </MenuItem>
           <MenuItem Header="Custom..." />
         </MenuItem>
       </MenuItem>
       <MenuItem Header="_Audio" DataContext="{Binding AudioMenu}">
-        <MenuItem Header="Toggle Music" HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
+        <MenuItem HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Music" HotKey="Ctrl+M" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding MusicEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Toggle Sound Effects" HotKey="Ctrl+Alt+M" Command="{Binding ToggleSfxCommand}">
+        <MenuItem HotKey="Ctrl+Alt+M" Command="{Binding ToggleSfxCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Sound Effects" HotKey="Ctrl+Alt+M" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding SfxEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Toggle Square 1" HotKey="Alt+7" Command="{Binding ToggleSquareOneCommand}">
+        <MenuItem HotKey="Alt+D7" Command="{Binding ToggleSquareOneCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Square 1" HotKey="Alt+7" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding SquareOneEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Toggle Square 2" HotKey="Alt+8" Command="{Binding ToggleSquareTwoCommand}">
+        <MenuItem HotKey="Alt+D8" Command="{Binding ToggleSquareTwoCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Square 2" HotKey="Alt+8" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding SquareTwoEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Toggle Triangle" HotKey="Alt+9" Command="{Binding ToggleTriangleCommand}">
+        <MenuItem HotKey="Alt+D9" Command="{Binding ToggleTriangleCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Triangle" HotKey="Alt+9" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding TriangleEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Toggle Noise" HotKey="Alt+0" Command="{Binding ToggleNoiseCommand}">
+        <MenuItem HotKey="Alt+D0" Command="{Binding ToggleNoiseCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Toggle Noise" HotKey="Alt+0" />
+          </MenuItem.Header>
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding NoiseEnabled}" />
           </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Increase Volume" HotKey="Ctrl++" Command="{Binding IncreaseVolumeCommand}" />
-        <MenuItem Header="Decrease Volume" HotKey="Ctrl+-" Command="{Binding DecreaseVolumeCommand}" />
+        <MenuItem HotKey="Ctrl++" Command="{Binding IncreaseVolumeCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Increase Volume" HotKey="Ctrl+Plus" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Ctrl+-" Command="{Binding DecreaseVolumeCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Decrease Volume" HotKey="Ctrl+Minus" />
+          </MenuItem.Header>
+        </MenuItem>
       </MenuItem>
     </Menu>
     
