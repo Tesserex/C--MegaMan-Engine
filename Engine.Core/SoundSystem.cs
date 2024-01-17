@@ -106,7 +106,7 @@ namespace MegaMan.Engine
                 ApplyMusicSetting();
         }
 
-        public async void Stop()
+        public void Stop()
         {
             AudioManager.Instance.PauseBGMPlayback();
         }
@@ -148,7 +148,7 @@ namespace MegaMan.Engine
 
         public void Tick()
         {
-            if (soundSystem != null) soundSystem.update();
+            soundSystem?.update();
         }
 
         public void Unload()

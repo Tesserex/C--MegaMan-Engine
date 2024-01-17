@@ -100,7 +100,7 @@ namespace MegaMan.Engine.StateMachine
             StartAndPushToStack(scene);
         }
 
-        public void StartStage(string name, string screen = null, Point? startPosition = null)
+        public void StartStage(string name, string? screen = null, Point? startPosition = null)
         {
             var stage = _stageFactory.Get(name);
 

@@ -101,7 +101,7 @@ namespace MegaMan.Engine
 
         private List<bool> layerVisibility;
 
-        private readonly SoundSystem soundsystem = new SoundSystem();
+        private SoundSystem soundsystem = new SoundSystem();
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
@@ -124,40 +124,40 @@ namespace MegaMan.Engine
         /// Will fire regardless of game state, as long as the engine
         /// is running.
         /// </summary>
-        public event GameInputEventHandler GameInputReceived;
+        public event GameInputEventHandler? GameInputReceived;
 
         /// <summary>
         /// Fires every frame when the engine is running. Use this for
         /// things that don't care about the game state.
         /// </summary>
-        public event GameTickEventHandler GameLogicTick;
+        public event GameTickEventHandler? GameLogicTick;
 
         // This one is used by the graphics control to clear everything for this frame.
-        public event GameRenderEventHandler GameRenderBegin;
+        public event GameRenderEventHandler? GameRenderBegin;
 
         /// <summary>
         /// This event does all the actual rendering - everything that wants to draw
         /// must respond to it.
         /// </summary>
-        public event GameRenderEventHandler GameRender;
+        public event GameRenderEventHandler? GameRender;
 
         // This is used by the graphics control to merge all drawing layers
         // and display them on the screen.
-        public event GameRenderEventHandler GameRenderEnd;
+        public event GameRenderEventHandler? GameRenderEnd;
 
-        public GraphicsDevice GraphicsDevice { get; private set; }
-        private IRenderingContext renderContext;
+        public GraphicsDevice? GraphicsDevice { get; private set; }
+        private IRenderingContext? renderContext;
 
         // This event is used to query the graphics control and grab
         // its device, so we can send it out to things for drawing.
         // It's only fired when the engine is started.
         public class DeviceEventArgs : EventArgs
         {
-            public GraphicsDevice Device;
+            public GraphicsDevice? Device;
         }
-        public event EventHandler<DeviceEventArgs> GetDevice;
+        public event EventHandler<DeviceEventArgs>? GetDevice;
 
-        public event Action<Exception> OnException;
+        public event Action<Exception>? OnException;
 
         public float ThinkTime { get; private set; }
 
@@ -167,10 +167,18 @@ namespace MegaMan.Engine
         {
             var args = new DeviceEventArgs();
             GetDevice?.Invoke(this, args);
-            GraphicsDevice = args.Device;
-            renderContext = new XnaRenderingContext(GraphicsDevice);
-            initialized = true;
-            Start();
+
+            if (args.Device is not null)
+            {
+                GraphicsDevice = args.Device;
+                renderContext = new XnaRenderingContext(GraphicsDevice);
+                initialized = true;
+                Start();
+            }
+            else
+            {
+                throw new Exception("Failed to get graphics device.");
+            }
         }
 
         public void Start()
@@ -181,7 +189,7 @@ namespace MegaMan.Engine
             {
                 running = true;
                 timer.Start();
-                soundsystem.Start();
+                soundsystem?.Start();
             }
         }
 
@@ -193,7 +201,7 @@ namespace MegaMan.Engine
             {
                 running = false;
                 timer.Stop();
-                soundsystem.Stop();
+                soundsystem?.Stop();
             }
         }
 
@@ -222,7 +230,7 @@ namespace MegaMan.Engine
         /// </summary>
         public void UnloadAudio()
         {
-            soundsystem.Unload();
+            soundsystem?.Unload();
         }
 
         /// <summary>
@@ -252,7 +260,7 @@ namespace MegaMan.Engine
         /// </summary>
         /// <param name="callback">The function to call when the screen is black. Can be null.</param>
         /// <param name="finished">The function to call when the transition is finished. Can be null.</param>
-        public void FadeTransition(Action callback, Action finished = null)
+        public void FadeTransition(Action callback, Action? finished = null)
         {
             // if a fade in is in progress, finish that and immediately
             // switch to the new fade out
@@ -397,7 +405,7 @@ namespace MegaMan.Engine
 
         public void StepRender()
         {
-            if (Game.CurrentGame is null || GraphicsDevice is null) return;
+            if (Game.CurrentGame is null || GraphicsDevice is null || renderContext is null) return;
 
             var r = new GameRenderEventArgs(renderContext);
 

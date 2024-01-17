@@ -166,6 +166,8 @@ public class MainViewModel : ViewModelBase
         AutoloadCommand = new RelayCommand(AutoloadChanged);
 
         ScreenMenu.PropertyChanged += ScreenMenu_PropertyChanged;
+
+        ForceSize(256, 224);
     }
 
     private void ScreenMenu_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MegaMan.Common;
+﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Entities;
 using MegaMan.Engine.StateMachine;
@@ -26,19 +23,19 @@ namespace MegaMan.Engine
 
     public class Game
     {
-        public static Game CurrentGame { get; private set; }
+        public static Game? CurrentGame { get; private set; }
 
-        public IReaderProvider FileReaderProvider { get; private set; }
+        public IReaderProvider? FileReaderProvider { get; private set; }
 
-        private Project project;
-        private StageFactory stageFactory;
+        private Project? project;
+        private readonly StageFactory stageFactory;
 
-        private string currentPath;
+        private string? currentPath;
 
-        private GameEntitySource _entitySource;
-        private GameEntityPool _entityPool;
-        private GameTilePropertiesSource _tileProperties;
-        private IEntityRespawnTracker _respawnTracker;
+        private readonly GameEntitySource _entitySource;
+        private readonly GameEntityPool _entityPool;
+        private readonly GameTilePropertiesSource _tileProperties;
+        private readonly IEntityRespawnTracker _respawnTracker;
 
         private readonly GameStateMachine _stateMachine;
 
@@ -57,19 +54,16 @@ namespace MegaMan.Engine
             }
         }
 
-        public string BasePath { get; private set; }
+        public string? BasePath { get; private set; }
 
-        public Player Player { get; private set; }
+        public Player? Player { get; private set; }
 
-        public static event EventHandler<ScreenSizeChangedEventArgs> ScreenSizeChanged;
+        public static event EventHandler<ScreenSizeChangedEventArgs>? ScreenSizeChanged;
 
         public static void Load(string path, List<string>? pathArgs = null)
         {
             Engine.Instance.Begin();
-            if (CurrentGame != null)
-            {
-                CurrentGame.Unload();
-            }
+            CurrentGame?.Unload();
             CurrentGame = new Game();
             CurrentGame.LoadFile(path, pathArgs);
         }
@@ -92,7 +86,10 @@ namespace MegaMan.Engine
         public void Reset()
         {
             Unload();
-            Load(currentPath);
+            if (currentPath != null)
+            {
+                Load(currentPath);
+            }
         }
 
         private Game()
@@ -105,7 +102,7 @@ namespace MegaMan.Engine
             _stateMachine = new GameStateMachine(_entityPool, stageFactory);
         }
 
-        private void LoadFile(string path, List<string> pathArgs = null)
+        private void LoadFile(string path, List<string>? pathArgs = null)
         {
             var projectLoader = new GameLoader();
             FileReaderProvider = projectLoader.Load(path);
