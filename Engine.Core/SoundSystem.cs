@@ -40,7 +40,7 @@ namespace MegaMan.Engine
             set
             {
                 volume = Math.Max(0, Math.Min(100, value));
-                AudioManager.Instance.ChangeVolume(volume / 100f);
+                if (initialized) AudioManager.Instance.ChangeVolume(volume / 100f);
             }
         }
 
@@ -51,32 +51,32 @@ namespace MegaMan.Engine
             set
             {
                 sfxEnabled = value;
-                if (!value) AudioManager.Instance.StopSFXPlayback();
+                if (!value && initialized) AudioManager.Instance.StopSFXPlayback();
             }
         }
 
         public bool SquareOne
         {
             get { return !AudioManager.Instance.Muted[0]; }
-            set { if (bgm != null) AudioManager.Instance.MuteChannel(0, !value); }
+            set { if (bgm != null && initialized) AudioManager.Instance.MuteChannel(0, !value); }
         }
 
         public bool SquareTwo
         {
             get { return !AudioManager.Instance.Muted[1]; }
-            set { if (bgm != null) AudioManager.Instance.MuteChannel(1, !value); }
+            set { if (bgm != null && initialized) AudioManager.Instance.MuteChannel(1, !value); }
         }
 
         public bool Triangle
         {
             get { return !AudioManager.Instance.Muted[2]; }
-            set { if (bgm != null) AudioManager.Instance.MuteChannel(2, !value); }
+            set { if (bgm != null && initialized) AudioManager.Instance.MuteChannel(2, !value); }
         }
 
         public bool Noise
         {
             get { return !AudioManager.Instance.Muted[3]; }
-            set { if (bgm != null) AudioManager.Instance.MuteChannel(3, !value); }
+            set { if (bgm != null && initialized) AudioManager.Instance.MuteChannel(3, !value); }
         }
 
         public SoundSystem()
@@ -103,6 +103,14 @@ namespace MegaMan.Engine
                 AudioManager.Instance.Initialize();
                 AudioManager.Instance.Stereo = true;
                 initialized = true;
+
+                // this looks really dumb but we want the side effects that actually initialize values in the audio manager
+                Volume = Volume;
+                SfxEnabled = sfxEnabled;
+                SquareOne = SquareOne;
+                SquareTwo = SquareTwo;
+                Triangle = Triangle;
+                Noise = Noise;
             }
 
             if (AudioManager.Instance.Paused)
