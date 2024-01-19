@@ -11,6 +11,7 @@ namespace MegaMan.Engine.Avalonia.Views;
 public partial class MainView : UserControl
 {
     private InputBindings? InputBindingsWindow;
+    private CustomNtsc? CustomNtscWindow;
 
     public MainView()
     {
@@ -59,6 +60,23 @@ public partial class MainView : UserControl
         }
 
         InputBindingsWindow.Show();
+    }
+
+    private void OpenCustomNtsc(object? sender, RoutedEventArgs e)
+    {
+        (DataContext as MainViewModel)?.SetCustomNtsc();
+        if (CustomNtscWindow is null)
+        {
+            CustomNtscWindow = new CustomNtsc() { DataContext = (DataContext as MainViewModel)?.NtscMenu };
+            CustomNtscWindow.Closed += (s, e) => {
+                if (DataContext is MainViewModel viewModel)
+                {
+                    viewModel.AutosaveConfig();
+                }
+            };
+        }
+
+        CustomNtscWindow.Show();
     }
 
     private static FilePickerFileType GameFile { get; } = new("Game File") {

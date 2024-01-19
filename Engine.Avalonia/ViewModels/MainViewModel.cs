@@ -132,6 +132,7 @@ public class MainViewModel : ViewModelBase
 
     internal AudioMenuViewModel AudioMenu { get; }
     internal ScreenMenuViewModel ScreenMenu { get; }
+    internal CustomNtscViewModel NtscMenu { get; }
 
     public MainViewModel()
     {
@@ -146,6 +147,11 @@ public class MainViewModel : ViewModelBase
         menuViewModels.Add(AudioMenu);
         ScreenMenu = new ScreenMenuViewModel();
         menuViewModels.Add(ScreenMenu);
+        NtscMenu = new CustomNtscViewModel();
+        menuViewModels.Add(NtscMenu);
+        NtscMenu.NtscOptionsChanged += () => {
+            ScreenMenu.UseCustomNtsc();
+        };
 
 #if DEBUG
         ShowDebugBar = true;
@@ -314,7 +320,6 @@ public class MainViewModel : ViewModelBase
                 ActiveInput = GameInput.ActiveType,
                 Screens = new LastScreen {
                     Maximized = WindowState == WindowState.Maximized,
-                    //NTSC_Custom = customNtscForm.GetOptions(),
                     //HideMenu = hideMenuItem.Checked
                 },
                 Audio = new LastAudio(),
@@ -558,5 +563,10 @@ public class MainViewModel : ViewModelBase
         MessageBoxManager.GetMessageBoxStandard("Game Error", e.Message, ButtonEnum.Ok, Icon.Error);
 
         CloseGame();
+    }
+
+    internal void SetCustomNtsc()
+    {
+        ScreenMenu.UseCustomNtsc();
     }
 }

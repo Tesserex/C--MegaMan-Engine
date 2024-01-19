@@ -14,6 +14,7 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
     internal class ScreenMenuViewModel : ViewModelBase, IMenuViewModel
     {
         private int gameWidth, gameHeight;
+        private LastScreen? screenOptions;
         private ScreenScale scale;
         private snes_ntsc_setup_t ntscSetup = snes_ntsc_setup_t.snes_ntsc_composite;
 
@@ -62,6 +63,7 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
 
         public void LoadSettings(Setting settings)
         {
+            screenOptions = settings.Screens;
             scale = settings.Screens.Size;
         }
 
@@ -116,6 +118,12 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             gameHeight = e.PixelsDown;
 
             OnPropertyChanged(nameof(GameSize));
+        }
+
+        public void UseCustomNtsc()
+        {
+            if (screenOptions is not null) NTSCSetup = new snes_ntsc_setup_t(screenOptions.NTSC_Custom);
+            Scale(ScreenScale.NTSC);
         }
     }
 }

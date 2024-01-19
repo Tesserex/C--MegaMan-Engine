@@ -174,7 +174,7 @@
               <mm:MenuHeader Label="RGB" HotKey="Ctrl+Alt+3" />
             </MenuItem.Header>
           </MenuItem>
-          <MenuItem Header="Custom..." />
+          <MenuItem Header="Custom..." Click="OpenCustomNtsc" />
         </MenuItem>
       </MenuItem>
       <MenuItem Header="_Audio" DataContext="{Binding AudioMenu}">

@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+        x:Class="MegaMan.Engine.Avalonia.Views.CustomNtsc"
+        Title="NTSC Settings"
+        SizeToContent="Height"
+        Width="500">
+  <DockPanel Margin="20">
+    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+      <Button DockPanel.Dock="Left" Command="{Binding ResetCommand}">Reset</Button>
+      <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Click="CloseClicked">Close</Button>
+    </DockPanel>
+    
+    <StackPanel Orientation="Vertical">
+      <StackPanel.Styles>
+        <Style Selector="Label">
+          <Setter Property="Grid.Column" Value="0" />
+          <Setter Property="HorizontalAlignment" Value="Right" />
+          <Setter Property="VerticalAlignment" Value="Center" />
+          <Setter Property="Margin" Value="0,0,10,0" />
+        </Style>
+        <Style Selector="Slider">
+          <Setter Property="Grid.Column" Value="1" />
+          <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="TextBlock.Value">
+          <Setter Property="Grid.Column" Value="2" />
+          <Setter Property="FontWeight" Value="Bold" />
+          <Setter Property="HorizontalAlignment" Value="Right" />
+          <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+      </StackPanel.Styles>
+    
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Hue</Label>
+        <Slider Value="{Binding Hue}" Minimum="-180" Maximum="180" />
+        <TextBlock Classes="Value" Text="{Binding Hue, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Saturation</Label>
+        <Slider Value="{Binding Saturation}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Saturation, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Brightness</Label>
+        <Slider Value="{Binding Brightness}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Brightness, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Contrast</Label>
+        <Slider Value="{Binding Contrast}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Contrast, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Sharpness</Label>
+        <Slider Value="{Binding Sharpness}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Sharpness, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Gamma</Label>
+        <Slider Value="{Binding Gamma}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Gamma, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Resolution</Label>
+        <Slider Value="{Binding Resolution}" Minimum="-100" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Resolution, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Artifacts</Label>
+        <Slider Value="{Binding Artifacts}" Minimum="0" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Artifacts, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Fringing</Label>
+        <Slider Value="{Binding Fringing}" Minimum="0" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Fringing, StringFormat={}{0:0}}}" />
+      </Grid>
+
+      <Grid ColumnDefinitions="100,*,50">
+        <Label>Bleed</Label>
+        <Slider Value="{Binding Bleed}" Minimum="0" Maximum="100" />
+        <TextBlock Classes="Value" Text="{Binding Bleed, StringFormat={}{0:0}}}" />
+      </Grid>
+    </StackPanel>
+  </DockPanel>
+</Window>
