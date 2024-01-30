@@ -25,10 +25,6 @@ public class MainViewModel : ViewModelBase
 {
     public EngineGame? CurrentGame { get; set; }
 
-    private bool showDebugBar;
-
-    private string? fpsLabel, thinkLabel, entityLabel;
-
     private string windowTitle = "Mega Man Engine";
     public string WindowTitle { get => windowTitle; set { SetProperty(ref windowTitle, value); } }
 
@@ -60,34 +56,6 @@ public class MainViewModel : ViewModelBase
 
     private readonly SettingsService settingsService;
     private List<IMenuViewModel> menuViewModels = new List<IMenuViewModel>();
-
-    public bool ShowDebugBar
-    {
-        get => showDebugBar;
-        set { showDebugBar = value; OnPropertyChanged(); }
-    }
-
-    public bool ShowHitboxes
-    {
-        get => Engine.Instance.DrawHitboxes;
-        set { Engine.Instance.DrawHitboxes = value; OnPropertyChanged(); }
-    }
-
-    public bool Invincibility
-    {
-        get => Engine.Instance.Invincible;
-        set { Engine.Instance.Invincible = value; OnPropertyChanged(); }
-    }
-
-    public bool NoDamage
-    {
-        get => Engine.Instance.NoDamage;
-        set { Engine.Instance.NoDamage = value; OnPropertyChanged(); }
-    }
-
-    public string FpsLabel { get => fpsLabel ?? ""; set { SetProperty(ref fpsLabel, value); } }
-    public string ThinkLabel { get => thinkLabel ?? ""; set { SetProperty(ref thinkLabel, value); } }
-    public string EntityLabel { get => entityLabel ?? ""; set { SetProperty(ref entityLabel, value); } }
 
     private bool useDefaultConfig;
     public bool UseDefaultConfig { get => useDefaultConfig; set { SetProperty(ref useDefaultConfig, value); } }
@@ -122,17 +90,18 @@ public class MainViewModel : ViewModelBase
 
     private string CurrentGamePath
     {
-        get { return Game.CurrentGame != null ? Game.CurrentGame.BasePath : string.Empty; }
+        get => Game.CurrentGame?.BasePath ?? string.Empty;
     }
 
     private string CurrentGameTitle
     {
-        get { return Game.CurrentGame != null ? Game.CurrentGame.Name : string.Empty; }
+        get => Game.CurrentGame?.Name ?? string.Empty;
     }
 
     internal AudioMenuViewModel AudioMenu { get; }
     internal ScreenMenuViewModel ScreenMenu { get; }
     internal CustomNtscViewModel NtscMenu { get; }
+    internal DebugMenuViewModel DebugMenu { get; }
 
     public MainViewModel()
     {
@@ -152,12 +121,8 @@ public class MainViewModel : ViewModelBase
         NtscMenu.NtscOptionsChanged += () => {
             ScreenMenu.UseCustomNtsc();
         };
-
-#if DEBUG
-        ShowDebugBar = true;
-#endif
-
-        Engine.Instance.GameLogicTick += Instance_GameLogicTick;
+        DebugMenu = new DebugMenuViewModel();
+        menuViewModels.Add(DebugMenu);
 
         ResetGameCommand = new RelayCommand(ResetGame);
         CloseGameCommand = new RelayCommand(CloseGame);
@@ -198,16 +163,6 @@ public class MainViewModel : ViewModelBase
         VAlignment = VerticalAlignment.Stretch;
         ScreenWidth = 0;
         ScreenHeight = 0;
-    }
-
-    private void Instance_GameLogicTick(GameTickEventArgs e)
-    {
-        Dispatcher.UIThread.Post(() => {
-            var fps = 1 / e.TimeElapsed;
-            FpsLabel = $"FPS: {fps:N0} / {Engine.Instance.FPS}";
-            ThinkLabel = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
-            EntityLabel = "Entities: " + Game.DebugEntitiesAlive();
-        });
     }
 
     private void ResetGame()
@@ -323,15 +278,7 @@ public class MainViewModel : ViewModelBase
                     //HideMenu = hideMenuItem.Checked
                 },
                 Audio = new LastAudio(),
-                Debug = new LastDebug {
-                    ShowMenu = ShowDebugBar,
-                    ShowHitboxes = ShowHitboxes,
-                    Framerate = Engine.Instance.FPS,
-                    Cheat = new LastCheat {
-                        Invincibility = Invincibility,
-                        NoDamage = NoDamage
-                    }
-                },
+                Debug = new LastDebug(),
                 Miscellaneous = new LastMiscellaneous {
                     ScreenX_Coordinate = Position.X,
                     ScreenY_Coordinate = Position.Y
@@ -520,29 +467,6 @@ public class MainViewModel : ViewModelBase
         //SetVolume(settings.Audio.Volume);
         //setMusic(settings.Audio.Musics);
         //setSFX(settings.Audio.Sound);
-        #endregion
-
-        #region Debug Menu
-#if DEBUG
-        ShowDebugBar = settings.Debug.ShowMenu;
-        ShowHitboxes = settings.Debug.ShowHitboxes;
-        Engine.Instance.FPS = settings.Debug.Framerate;
-
-        #region Cheats
-        Invincibility = settings.Debug.Cheat.Invincibility;
-        NoDamage = settings.Debug.Cheat.NoDamage;
-        #endregion
-#else
-        ShowDebugBar = UserSettings.Default.Debug.ShowMenu;
-        ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
-        Engine.Instance.FPS = UserSettings.Default.Debug.Framerate;
-
-        #region Cheats
-        Invincibility = UserSettings.Default.Debug.Cheat.Invincibility;
-        NoDamage = UserSettings.Default.Debug.Cheat.NoDamage;
-        #endregion
-#endif
-
         #endregion
 
         #region Miscellaneous

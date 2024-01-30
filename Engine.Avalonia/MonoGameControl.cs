@@ -169,11 +169,14 @@ namespace MegaMan.Engine.Avalonia
 
         public override void Render(DrawingContext context)
         {
+            Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
+
             if (Game is not { } game
                 || Game?.GraphicsDevice is not { } device
                 || _bitmap is null
                 || Bounds is { Width: < 1, Height: < 1 }
-                || !HandleDeviceReset(device))
+                || !HandleDeviceReset(device)
+                || MegaMan.Engine.Game.CurrentGame is null)
             {
                 context.DrawRectangle(FallbackBackground, null, new Rect(0, 0, Width, Height));
                 return;
@@ -181,10 +184,8 @@ namespace MegaMan.Engine.Avalonia
 
             Engine.Instance.StepRender();
 
-            Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
             // Capture the last executed frame into the bitmap
             CaptureFrame(device, _bitmap);
-
 
             using (context.PushRenderOptions(new RenderOptions() { BitmapInterpolationMode = BitmapInterpolationMode.None }))
                 // Flush the bitmap to context

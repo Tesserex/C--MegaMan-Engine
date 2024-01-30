@@ -13,8 +13,7 @@ namespace MegaMan.Engine.Input
         Jump,
         Shoot,
         Start,
-        Select,
-        None
+        Select
     }
 
     public enum InputTypes

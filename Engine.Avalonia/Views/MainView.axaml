@@ -66,7 +66,7 @@
       <MenuItem Header="_File">
         <MenuItem HotKey="Ctrl+O" Click="OpenGameClicked">
           <MenuItem.Header>
-            <mm:MenuHeader Label="_Open Game..." HotKey="Ctrl+O" />
+            <mm:MenuHeader Label="Open Game..." HotKey="Ctrl+O" />
           </MenuItem.Header>
         </MenuItem>
         <MenuItem Header="Open Recent">
@@ -81,17 +81,17 @@
         </MenuItem>
         <MenuItem HotKey="Ctrl+R" Command="{Binding ResetGameCommand}">
           <MenuItem.Header>
-            <mm:MenuHeader Label="_Reset" HotKey="Ctrl+R" />
+            <mm:MenuHeader Label="Reset" HotKey="Ctrl+R" />
           </MenuItem.Header>
         </MenuItem>
         <MenuItem HotKey="Ctrl+Q" Command="{Binding CloseGameCommand}">
           <MenuItem.Header>
-            <mm:MenuHeader Label="_Close Game" HotKey="Ctrl+Q" />
+            <mm:MenuHeader Label="Close Game" HotKey="Ctrl+Q" />
           </MenuItem.Header>
         </MenuItem>
         <MenuItem HotKey="Alt+F4" Command="{Binding QuitCommand}">
           <MenuItem.Header>
-            <mm:MenuHeader Label="_Quit" HotKey="Alt+F4" />
+            <mm:MenuHeader Label="Quit" HotKey="Alt+F4" />
           </MenuItem.Header>
         </MenuItem>
         <Separator/>
@@ -132,7 +132,7 @@
       <MenuItem Header="_Input">
         <MenuItem HotKey="Alt+K" Click="OpenInputBindings">
           <MenuItem.Header>
-            <mm:MenuHeader Label="_Bindings" HotKey="Alt+K" />
+            <mm:MenuHeader Label="Bindings" HotKey="Alt+K" />
           </MenuItem.Header>
         </MenuItem>
       </MenuItem>
@@ -177,6 +177,7 @@
           <MenuItem Header="Custom..." Click="OpenCustomNtsc" />
         </MenuItem>
       </MenuItem>
+      
       <MenuItem Header="_Audio" DataContext="{Binding AudioMenu}">
         <MenuItem HotKey="Ctrl+M" Command="{Binding ToggleMusicCommand}">
           <MenuItem.Header>
@@ -239,9 +240,87 @@
           </MenuItem.Header>
         </MenuItem>
       </MenuItem>
+      
+      <MenuItem Header="_Debug" DataContext="{Binding DebugMenu}" IsVisible="{Binding IsDebug}">
+        <MenuItem HotKey="Ctrl+D" Command="{Binding ShowDebugBarCommand}" Header="{Binding ShowDebugBarHeader}" />
+        <Separator />
+        <MenuItem HotKey="Ctrl+H" Command="{Binding ShowHitboxesCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Show Hitboxes" HotKey="Ctrl+H" />
+          </MenuItem.Header>
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding ShowHitboxes}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Cheat">
+          <MenuItem HotKey="Ctrl+N" Command="{Binding NoDamageCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="No Damage" HotKey="Ctrl+N" />
+            </MenuItem.Header>
+            <MenuItem.Icon>
+              <CheckBox IsChecked="{Binding NoDamage}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+I" Command="{Binding InvincibilityCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Invincibility" HotKey="Ctrl+I" />
+            </MenuItem.Header>
+            <MenuItem.Icon>
+              <CheckBox IsChecked="{Binding Invincibility}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+G" Command="{Binding GravityFlipCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Gravity Flip" HotKey="Ctrl+G" />
+            </MenuItem.Header>
+            <MenuItem.Icon>
+              <CheckBox IsChecked="{Binding GravityFlip}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+K" Command="{Binding KillCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Empty Health (Kill)" HotKey="Ctrl+K" />
+            </MenuItem.Header>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+Shift+K" Command="{Binding FillHealthCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Fill Health" HotKey="Ctrl+Shift+K" />
+            </MenuItem.Header>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+W" Command="{Binding EmptyWeaponCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Empty Weapon" HotKey="Ctrl+W" />
+            </MenuItem.Header>
+          </MenuItem>
+          <MenuItem HotKey="Ctrl+Shift+W" Command="{Binding FillWeaponCommand}">
+            <MenuItem.Header>
+              <mm:MenuHeader Label="Fill Weapon" HotKey="Ctrl+Shift+W" />
+            </MenuItem.Header>
+          </MenuItem>
+        </MenuItem>
+        <MenuItem Header="Layers">
+          
+        </MenuItem>
+        <Separator />
+        <MenuItem HotKey="Ctrl+F" Command="{Binding FramerateUpCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Framerate Up" HotKey="Ctrl+F" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Ctrl+Shift+F" Command="{Binding FramerateDownCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Framerate Down" HotKey="Ctrl+Shift+F" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem HotKey="Alt+Shift+F" Command="{Binding DefaultFramerateCommand}">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Default Framerate" HotKey="Alt+Shift+F" />
+          </MenuItem.Header>
+        </MenuItem>
+      </MenuItem>
     </Menu>
     
-    <StackPanel Name="debugBar" IsVisible="{Binding ShowDebugBar}" Height="20" DockPanel.Dock="Bottom" Orientation="Horizontal" Background="LightGray">
+    <StackPanel Name="debugBar" DataContext="{Binding DebugMenu}" IsVisible="{Binding ShowDebugBar}" Height="20" DockPanel.Dock="Bottom" Orientation="Horizontal" Background="LightGray">
       <TextBlock Text="{Binding FpsLabel}" Width="80" />
       <TextBlock Text="{Binding ThinkLabel}" Width="60" />
       <TextBlock Text="{Binding EntityLabel}" />
