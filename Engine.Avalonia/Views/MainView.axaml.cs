@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
@@ -77,6 +79,26 @@ public partial class MainView : UserControl
         }
 
         CustomNtscWindow.Show();
+    }
+
+    private void CaptureScreenClicked(object? sender, RoutedEventArgs e)
+    {
+        var capDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "screenshots");
+        if (!Directory.Exists(capDir)) Directory.CreateDirectory(capDir);
+
+        string capPath;
+        var capNum = 1;
+
+        do
+        {
+            capPath = Path.Combine(capDir, string.Format("{0}.png", capNum));
+            capNum++;
+        } while (File.Exists(capPath));
+
+        using (var stream = File.OpenWrite(capPath))
+        {
+            gameControl.SaveCap(stream);
+        }
     }
 
     private static FilePickerFileType GameFile { get; } = new("Game File") {

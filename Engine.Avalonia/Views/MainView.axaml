@@ -62,7 +62,7 @@
   </Control.Styles>
 
   <DockPanel>
-    <Menu DockPanel.Dock="Top" Background="Black">
+    <Menu DockPanel.Dock="Top" Background="Black" IsVisible="{Binding ScreenMenu.ShowMenu}">
       <MenuItem Header="_File">
         <MenuItem HotKey="Ctrl+O" Click="OpenGameClicked">
           <MenuItem.Header>
@@ -157,7 +157,6 @@
             <mm:MenuHeader Label="4X" HotKey="Ctrl+4" />
           </MenuItem.Header>
         </MenuItem>
-        <Separator />
         <MenuItem Header="NTSC" Command="{Binding NtscCommand}">
           <MenuItem Command="{Binding NtscCompositeCommand}" HotKey="Ctrl+Alt+D1">
             <MenuItem.Header>
@@ -175,6 +174,22 @@
             </MenuItem.Header>
           </MenuItem>
           <MenuItem Header="Custom..." Click="OpenCustomNtsc" />
+        </MenuItem>
+        <Separator />
+        <MenuItem Click="CaptureScreenClicked" HotKey="F10">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Capture" HotKey="F10" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem Command="{Binding FullScreenCommand}" HotKey="F11">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Full Screen" HotKey="F11" />
+          </MenuItem.Header>
+        </MenuItem>
+        <MenuItem Command="{Binding HideMenuCommand}" HotKey="F12">
+          <MenuItem.Header>
+            <mm:MenuHeader Label="Hide Menu" HotKey="F12" />
+          </MenuItem.Header>
         </MenuItem>
       </MenuItem>
       
@@ -326,7 +341,7 @@
       <TextBlock Text="{Binding EntityLabel}" />
     </StackPanel>
 
-    <ctrl:MonoGameControl Grid.Row="1" Game="{Binding CurrentGame}"
+    <ctrl:MonoGameControl Name="gameControl" Grid.Row="1" Game="{Binding CurrentGame}"
                           HorizontalAlignment="{Binding HAlignment}" VerticalAlignment="{Binding VAlignment}"
                           MinWidth="{Binding ScreenWidth}" MinHeight="{Binding ScreenHeight}"
                           GameSize="{Binding ScreenMenu.GameSize}" NTSC="{Binding ScreenMenu.IsNTSC}" NTSCSetup="{Binding ScreenMenu.NTSCSetup}" />

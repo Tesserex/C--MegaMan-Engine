@@ -29,7 +29,7 @@ public class MainViewModel : ViewModelBase
     public string WindowTitle { get => windowTitle; set { SetProperty(ref windowTitle, value); } }
 
     private WindowState windowState;
-    public WindowState WindowState { get => windowState; set { SetProperty(ref windowState, value); } }
+    public WindowState WindowState { get => ScreenMenu.IsFullscreen ? WindowState.FullScreen : windowState; set { SetProperty(ref windowState, value); } }
 
     private bool pausedFromMenu;
     public bool PausedFromMenu { get { return pausedFromMenu; } set { SetProperty(ref pausedFromMenu, value); } }
@@ -144,6 +144,11 @@ public class MainViewModel : ViewModelBase
         if (e.PropertyName == nameof(ScreenMenu.Width) || e.PropertyName == nameof(ScreenMenu.Height))
         {
             ForceSize(ScreenMenu.Width, ScreenMenu.Height);
+        }
+        else if (e.PropertyName == nameof(ScreenMenu.IsFullscreen))
+        {
+            ManualSize();
+            OnPropertyChanged(nameof(WindowState));
         }
     }
 

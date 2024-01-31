@@ -48,7 +48,7 @@ namespace MegaMan.Engine.Avalonia.Settings
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.Paths.SettingFile);
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.Paths.AppName, Constants.Paths.SettingFile);
             }
         }
 

@@ -44,6 +44,7 @@ namespace MegaMan.Engine.Avalonia.Settings
         #region Paths
         public class Paths
         {
+            public static readonly string AppName = "MegaMan Engine";
             public static readonly string SettingFile = "settings.xml";
         }
         #endregion

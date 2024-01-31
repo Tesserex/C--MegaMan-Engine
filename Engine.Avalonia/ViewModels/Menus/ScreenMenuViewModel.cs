@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 
@@ -30,18 +24,34 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
         public ICommand NtscCompositeCommand { get; }
         public ICommand NtscSVideoCommand { get; }
         public ICommand NtscRGBCommand { get; }
+        public ICommand FullScreenCommand { get; }
+        public ICommand HideMenuCommand { get; }
 
         public bool Is1X { get => scale == ScreenScale.X1; }
         public bool Is2X { get => scale == ScreenScale.X2; }
         public bool Is3X { get => scale == ScreenScale.X3; }
         public bool Is4X { get => scale == ScreenScale.X4; }
         public bool IsNTSC { get => scale == ScreenScale.NTSC; }
+
+        private bool isFullscreen = true;
+        public bool IsFullscreen
+        {
+            get => isFullscreen;
+            private set { SetProperty(ref isFullscreen, value); }
+        }
+
         public snes_ntsc_setup_t NTSCSetup
         {
             get => ntscSetup;
             private set { SetProperty(ref ntscSetup, value); Scale(ScreenScale.NTSC); }
         }
-        public bool IsFullscreen { get => scale == ScreenScale.Fullscreen; }
+
+        private bool showMenu = true;
+        public bool ShowMenu
+        {
+            get => showMenu;
+            private set { SetProperty(ref showMenu, value); }
+        }
 
         public ScreenMenuViewModel()
         {
@@ -53,6 +63,8 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             NtscCompositeCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_composite; });
             NtscSVideoCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_svideo; });
             NtscRGBCommand = new RelayCommand(() => { NTSCSetup = snes_ntsc_setup_t.snes_ntsc_rgb; });
+            FullScreenCommand = new RelayCommand(() => IsFullscreen = !IsFullscreen);
+            HideMenuCommand = new RelayCommand(() => { ShowMenu = !ShowMenu; });
 
             Game.ScreenSizeChanged += Game_ScreenSizeChanged;
 
@@ -78,6 +90,7 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
         private void Scale(ScreenScale scale)
         {
             this.scale = scale;
+            IsFullscreen = false;
 
             if (scale == ScreenScale.NTSC)
             {
