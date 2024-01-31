@@ -9,10 +9,15 @@ namespace MegaMan.Engine.Avalonia.Settings
 {
     public class SettingsService
     {
-        private UserSettings loadedSettings;
+        private UserSettings? loadedSettings;
 
         public UserSettings GetSettings()
         {
+            if (loadedSettings != null)
+            {
+                return loadedSettings;
+            }
+
             try
             {
                 if (File.Exists(SettingsFilePath))
@@ -20,21 +25,16 @@ namespace MegaMan.Engine.Avalonia.Settings
                     var serializer = new XmlSerializer(typeof(UserSettings));
                     using (var file = File.Open(SettingsFilePath, FileMode.Open))
                     {
-                        loadedSettings = (UserSettings)serializer.Deserialize(file);
+                        if (file != null) loadedSettings = (UserSettings?)serializer.Deserialize(file);
                     }
-                }
-                else
-                {
-                    loadedSettings = GetInitialSettings();
                 }
             }
             catch (InvalidOperationException)
             {
                 HandleInvalidConfig();
-                loadedSettings = GetInitialSettings();
             }
 
-            return loadedSettings;
+            return loadedSettings ?? GetInitialSettings();
         }
 
         public Setting GetConfigForGame(string game)
@@ -52,7 +52,7 @@ namespace MegaMan.Engine.Avalonia.Settings
             }
         }
 
-        public string GetAutoLoadGame()
+        public string? GetAutoLoadGame()
         {
             return GetSettings().Autoload;
         }

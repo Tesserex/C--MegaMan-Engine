@@ -60,12 +60,13 @@ namespace MegaMan.Engine
 
         public static event EventHandler<ScreenSizeChangedEventArgs>? ScreenSizeChanged;
 
-        public static void Load(string path, List<string>? pathArgs = null)
+        public static Game Load(string path, List<string>? pathArgs = null)
         {
             Engine.Instance.Begin();
             CurrentGame?.Unload();
             CurrentGame = new Game();
             CurrentGame.LoadFile(path, pathArgs);
+            return CurrentGame;
         }
 
         public void Unload()

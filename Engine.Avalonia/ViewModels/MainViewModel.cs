@@ -284,10 +284,7 @@ public class MainViewModel : ViewModelBase
                 },
                 Audio = new LastAudio(),
                 Debug = new LastDebug(),
-                Miscellaneous = new LastMiscellaneous {
-                    ScreenX_Coordinate = Position.X,
-                    ScreenY_Coordinate = Position.Y
-                }
+                Miscellaneous = new LastMiscellaneous(Position.X, Position.Y)
             };
 
             foreach (var c in menuViewModels)
@@ -327,8 +324,8 @@ public class MainViewModel : ViewModelBase
     {
         try
         {
-            Game.Load(path, pathArgs);
-            WindowTitle = Game.CurrentGame.Name;
+            var game = Game.Load(path, pathArgs);
+            WindowTitle = game.Name;
 
             lastGameWithPath = path;
             LoadCurrentConfig();
@@ -336,7 +333,7 @@ public class MainViewModel : ViewModelBase
             OnGameLoadedChanged();
 
             var userSettings = settingsService.GetSettings();
-            userSettings.AddRecentGame(Game.CurrentGame.Name, path);
+            userSettings.AddRecentGame(game.Name, path);
             XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath);
 
             return true;
@@ -356,7 +353,7 @@ public class MainViewModel : ViewModelBase
 
                 MessageBoxManager.GetMessageBoxStandard("Game Load Error", message.ToString(), ButtonEnum.Ok, Icon.Error);
             }
-            Game.CurrentGame.Unload();
+            Game.CurrentGame?.Unload();
         }
         catch (FileNotFoundException ex)
         {
@@ -364,7 +361,7 @@ public class MainViewModel : ViewModelBase
             {
                 MessageBoxManager.GetMessageBoxStandard("C# MegaMan Engine", "I'm sorry, I couldn't the following file. Perhaps the file path is incorrect?\n\n" + ex.Message, ButtonEnum.Ok, Icon.Error);
             }
-            Game.CurrentGame.Unload();
+            Game.CurrentGame?.Unload();
         }
         catch (XmlException ex)
         {
@@ -372,7 +369,7 @@ public class MainViewModel : ViewModelBase
             {
                 MessageBoxManager.GetMessageBoxStandard("C# MegaMan Engine", "Your XML is badly formatted.\n\nFile: " + ex.SourceUri + "\n\nError: " + ex.Message, ButtonEnum.Ok, Icon.Error);
             }
-            Game.CurrentGame.Unload();
+            Game.CurrentGame?.Unload();
         }
 #if !DEBUG
             catch (Exception ex)
@@ -391,7 +388,7 @@ public class MainViewModel : ViewModelBase
                     MessageBoxManager.GetMessageBoxStandard("C# MegaMan Engine", "StackTrace: " + st + " Frame: " + frame + " Line: " + line, ButtonEnum.Ok, Icon.Error);
 
                 }
-                Game.CurrentGame.Unload();
+                Game.CurrentGame?.Unload();
             }
 #endif
         // Only call if if current form is the active one

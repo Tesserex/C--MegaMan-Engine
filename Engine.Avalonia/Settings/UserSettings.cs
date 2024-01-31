@@ -90,7 +90,7 @@ namespace MegaMan.Engine.Avalonia.Settings
         {
             try
             {
-                Settings.RemoveAt(index);
+                Settings?.RemoveAt(index);
             }
             catch (Exception)
             {
@@ -118,7 +118,7 @@ namespace MegaMan.Engine.Avalonia.Settings
             var existing = RecentGames.FirstOrDefault(x => x.Path == path);
             if (existing == null)
             {
-                existing = new RecentGame { Name = name, Path = path };
+                existing = new RecentGame(name, path);
             }
             else
             {
@@ -128,11 +128,11 @@ namespace MegaMan.Engine.Avalonia.Settings
             RecentGames.Insert(0, existing);
         }
 
-        public Setting GetSettingByIndex(int index)
+        public Setting? GetSettingByIndex(int index)
         {
             try
             {
-                return Settings[index];
+                return Settings?[index];
             }
             catch (Exception)
             {
@@ -140,8 +140,10 @@ namespace MegaMan.Engine.Avalonia.Settings
             }
         }
 
-        public Setting GetSettingsForGame(string gameName = "")
+        public Setting? GetSettingsForGame(string gameName = "")
         {
+            if (Settings is null) return null;
+
             foreach (var setting in Settings)
             {
                 if (setting.GameFileName == gameName) return setting;
@@ -180,11 +182,11 @@ namespace MegaMan.Engine.Avalonia.Settings
             Settings.Add(newSetting);
         }
 
-        public List<string> GetAllConfigsGameNameFromCurrentUserSettings()
+        public IEnumerable<string> GetAllConfigsGameNameFromCurrentUserSettings()
         {
             if (Settings != null)
                 return Settings.Select(s => s.GameTitle).ToList();
-            return null;
+            return Enumerable.Empty<string>();
         }
 
         public static Setting Default { get; private set; }
@@ -249,10 +251,7 @@ namespace MegaMan.Engine.Avalonia.Settings
                         NoDamage = false
                     }
                 },
-                Miscellaneous = new LastMiscellaneous {
-                    ScreenX_Coordinate = -1,        // -1 means centered
-                    ScreenY_Coordinate = -1
-                }
+                Miscellaneous = new LastMiscellaneous()
             };
         }
     }
@@ -273,6 +272,8 @@ namespace MegaMan.Engine.Avalonia.Settings
 
         public Setting()
         {
+            GameFileName = "";
+            GameTitle = "";
             KeyBindings = new List<UserKeyBindingSetting>();
             JoystickBindings = new List<UserJoystickBindingSetting>();
             GamepadBindings = new List<UserGamepadBindingSetting>();
@@ -407,17 +408,9 @@ namespace MegaMan.Engine.Avalonia.Settings
     }
 
     [Serializable]
-    public class LastMiscellaneous
-    {
-        public int ScreenX_Coordinate { get; set; }
-        public int ScreenY_Coordinate { get; set; }
-    }
+    public record LastMiscellaneous(int ScreenX_Coordinate = -1, int ScreenY_Coordinate = -1); // -1 means centered
 
     [Serializable]
-    public class RecentGame
-    {
-        public string Name { get; set; }
-        public string Path { get; set; }
-    }
+    public record RecentGame(string Name, string Path);
     #endregion
 }
