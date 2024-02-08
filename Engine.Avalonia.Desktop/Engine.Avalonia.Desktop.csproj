@@ -19,7 +19,9 @@
     <Content Include="lib\fmodex.dll" />
     <Content Include="lib\MegaManR.BGM.dll" />
     <Content Include="lib\nsf.dll" />
-    <Content Include="lib\ntsc.dll" />
+    <Content Include="lib\ntsc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

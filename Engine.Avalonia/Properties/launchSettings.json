@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Engine.Avalonia": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

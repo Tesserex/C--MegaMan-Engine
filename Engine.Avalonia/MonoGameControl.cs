@@ -425,7 +425,7 @@ namespace MegaMan.Engine.Avalonia
 
         public float[] decoder_matrix; /* optional RGB decoder matrix, 6 elements */
 
-        uint[] bsnes_colortbl; /* undocumented; set to 0 */
+        uint[] bsnes_colortbl;
 
         public snes_ntsc_setup_t(double hue, double saturation, double contrast, double brightness,
             double sharpness, double gamma, double resolution, double artifacts,
@@ -441,7 +441,7 @@ namespace MegaMan.Engine.Avalonia
             this.artifacts = artifacts;
             this.fringing = fringing;
             this.bleed = bleed;
-            this.merge_fields = merge_fields ? true : false;
+            this.merge_fields = merge_fields;
 
             // default decoder matrix
             decoder_matrix = null;

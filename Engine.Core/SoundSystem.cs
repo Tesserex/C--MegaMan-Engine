@@ -5,7 +5,78 @@ using MegaManR.Audio;
 
 namespace MegaMan.Engine
 {
-    public class SoundSystem : IDisposable
+    public interface ISoundSystem
+    {
+        bool MusicEnabled { get; set; }
+        bool Noise { get; set; }
+        bool SfxEnabled { get; set; }
+        bool SquareOne { get; set; }
+        bool SquareTwo { get; set; }
+        bool Triangle { get; set; }
+        int Volume { get; set; }
+
+        void ApplyMusicSetting();
+        void Dispose();
+        string EffectFromInfo(SoundInfo info);
+        void LoadEffectsFromInfo(IEnumerable<SoundInfo> sounds);
+        Music LoadMusic(string intro, string loop, float volume);
+        void LoadMusicNSF(byte[] nsfData);
+        void LoadSfxNSF(byte[] nsfData);
+        void PlayMusicNSF(uint track);
+        void PlaySfx(string name);
+        void Start();
+        void Stop();
+        void StopMusicNsf();
+        void StopSfx(string name);
+        void StopSfxIfLooping(string name);
+        void Tick();
+        void Unload();
+    }
+
+    public class FakeSoundSystem : ISoundSystem, IDisposable
+    {
+        public bool MusicEnabled { get => false; set { } }
+        public bool Noise { get => false; set { } }
+        public bool SfxEnabled { get => false; set { } }
+        public bool SquareOne { get => false; set { } }
+        public bool SquareTwo { get => false; set { } }
+        public bool Triangle { get => false; set { } }
+        public int Volume { get => 0; set { } }
+
+        public void ApplyMusicSetting() { }
+
+        public void Dispose() { }
+
+        public string EffectFromInfo(SoundInfo info) => "";
+
+        public void LoadEffectsFromInfo(IEnumerable<SoundInfo> sounds) { }
+
+        public Music LoadMusic(string intro, string loop, float volume) => null;
+
+        public void LoadMusicNSF(byte[] nsfData) { }
+
+        public void LoadSfxNSF(byte[] nsfData) { }
+
+        public void PlayMusicNSF(uint track) { }
+
+        public void PlaySfx(string name) { }
+
+        public void Start() { }
+
+        public void Stop() { }
+
+        public void StopMusicNsf() { }
+
+        public void StopSfx(string name) { }
+
+        public void StopSfxIfLooping(string name) { }
+
+        public void Tick() { }
+
+        public void Unload() { }
+    }
+
+    public class SoundSystem : IDisposable, ISoundSystem
     {
         private bool initialized;
         private readonly FMOD.System soundSystem;
@@ -22,7 +93,7 @@ namespace MegaMan.Engine
         public bool MusicEnabled
         {
             get { return musicEnabled; }
-            set 
+            set
             {
                 if (musicEnabled != value)
                 {
@@ -206,7 +277,7 @@ namespace MegaMan.Engine
 
         public void PlayMusicNSF(uint track)
         {
-            bgm.CurrentTrack = track-1;
+            bgm.CurrentTrack = track - 1;
             AudioManager.Instance.PlayBackgroundMusic(bgm);
             if (!MusicEnabled) AudioManager.Instance.PauseBGMPlayback();
         }

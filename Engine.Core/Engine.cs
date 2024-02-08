@@ -101,14 +101,14 @@ namespace MegaMan.Engine
 
         private List<bool> layerVisibility;
 
-        private SoundSystem soundsystem = new SoundSystem();
+        private ISoundSystem soundsystem = new FakeSoundSystem();
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
         private Color opacityColor = Color.White;
         public Color OpacityColor { get { return opacityColor; } }
 
-        public SoundSystem SoundSystem { get { return soundsystem; } }
+        public ISoundSystem SoundSystem { get { return soundsystem; } }
 
         // these are the flags for the debug menu stuff
         public bool DrawHitboxes { get; set; }
