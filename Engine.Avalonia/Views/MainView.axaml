@@ -5,7 +5,8 @@
              xmlns:vm="clr-namespace:MegaMan.Engine.Avalonia.ViewModels"
              xmlns:views="clr-namespace:MegaMan.Engine.Avalonia.Views"
              xmlns:ctrl="clr-namespace:MegaMan.Engine.Avalonia"
-             xmlns:sys="using:System"             xmlns:mm="using:MegaMan.Engine.Avalonia.Controls"
+             xmlns:sys="using:System"
+             xmlns:mm="using:MegaMan.Engine.Avalonia.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MegaMan.Engine.Avalonia.Views.MainView"
              x:CompileBindings="True"
@@ -112,12 +113,12 @@
             <mm:MenuHeader Label="Load Configuration..." HotKey="Ctrl+Shift+L" />
           </MenuItem.Header>
         </MenuItem>
-        <MenuItem HotKey="Ctrl+Shift+S">
+        <MenuItem HotKey="Ctrl+Shift+S" Command="{Binding SaveConfigurationCommand}">
           <MenuItem.Header>
             <mm:MenuHeader Label="Save Configuration" HotKey="Ctrl+Shift+S" />
           </MenuItem.Header>
         </MenuItem>
-        <MenuItem HotKey="Ctrl+Delete">
+        <MenuItem HotKey="Ctrl+Delete" Click="OpenDeleteConfigs">
           <MenuItem.Header>
             <mm:MenuHeader Label="Clear Configuration" HotKey="Ctrl+Delete" />
           </MenuItem.Header>

@@ -200,11 +200,11 @@ namespace MegaMan.Engine
             {
                 var intropath = (command.IntroPath != null) ? command.IntroPath.Absolute : null;
                 var looppath = (command.LoopPath != null) ? command.LoopPath.Absolute : null;
-                Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1).Play();
+                Engine.Instance.SoundSystem.LoadMusicWav(intropath, looppath).Play();
             }
             else
             {
-                Engine.Instance.SoundSystem.PlayMusicNSF((uint)command.Track);
+                Engine.Instance.SoundSystem.LoadMusicNsf(command.Track).Play();
             }
         }
 

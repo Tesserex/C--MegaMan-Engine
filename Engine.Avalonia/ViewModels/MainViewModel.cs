@@ -86,6 +86,7 @@ public class MainViewModel : ViewModelBase
     public ICommand PauseCommand { get; }
     public ICommand OpenRecentCommand { get; }
     public ICommand AutosaveCommand { get; }
+    public ICommand SaveConfigurationCommand { get; }
     public ICommand AutoloadCommand { get; }
 
     private string CurrentGamePath
@@ -133,6 +134,7 @@ public class MainViewModel : ViewModelBase
         }, path => path is not null);
         AutosaveCommand = new RelayCommand(AutosaveChanged);
         AutoloadCommand = new RelayCommand(AutoloadChanged);
+        SaveConfigurationCommand = new RelayCommand(() => SaveConfig());
 
         ScreenMenu.PropertyChanged += ScreenMenu_PropertyChanged;
 
@@ -244,7 +246,7 @@ public class MainViewModel : ViewModelBase
         SaveGlobalConfigValues();
     }
 
-    private void SaveGlobalConfigValues(string? fileName = null)
+    private void SaveGlobalConfigValues()
     {
         var userSettings = settingsService.GetSettings();
 
@@ -253,7 +255,7 @@ public class MainViewModel : ViewModelBase
         userSettings.Autoload = Autoload ? lastGameWithPath : null;
         userSettings.InitialFolder = InitialFolder;
 
-        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
+        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath);
     }
 
     public void AutosaveConfig(string? fileName = null)
@@ -267,34 +269,31 @@ public class MainViewModel : ViewModelBase
     /// </summary>
     /// <param name="fileName"></param>
     /// <param name="settings"></param>
-    private void SaveConfig(string? fileName = null, Setting? settings = null)
+    private void SaveConfig()
     {
-        if (settings == null)
-        {
-            settings = new Setting {
-                GameFileName = UseDefaultConfig ? "" : CurrentGamePath,
-                GameTitle = UseDefaultConfig ? "" : CurrentGameTitle,
-                KeyBindings = GetKeyBindingSettings(),
-                JoystickBindings = GetJoystickBindingSettings(),
-                GamepadBindings = GetGamepadBindingSettings(),
-                ActiveInput = GameInput.ActiveType,
-                Screens = new LastScreen {
-                    Maximized = WindowState == WindowState.Maximized,
-                    //HideMenu = hideMenuItem.Checked
-                },
-                Audio = new LastAudio(),
-                Debug = new LastDebug(),
-                Miscellaneous = new LastMiscellaneous(Position.X, Position.Y)
-            };
+        var settings = new Setting {
+            GameFileName = UseDefaultConfig ? "" : CurrentGamePath,
+            GameTitle = UseDefaultConfig ? "" : CurrentGameTitle,
+            KeyBindings = GetKeyBindingSettings(),
+            JoystickBindings = GetJoystickBindingSettings(),
+            GamepadBindings = GetGamepadBindingSettings(),
+            ActiveInput = GameInput.ActiveType,
+            Screens = new LastScreen {
+                Maximized = WindowState == WindowState.Maximized,
+                //HideMenu = hideMenuItem.Checked
+            },
+            Audio = new LastAudio(),
+            Debug = new LastDebug(),
+            Miscellaneous = new LastMiscellaneous { ScreenX_Coordinate = Position.X, ScreenY_Coordinate = Position.Y }
+        };
 
-            foreach (var c in menuViewModels)
-                c.SaveSettings(settings);
-        }
+        foreach (var c in menuViewModels)
+            c.SaveSettings(settings);
 
         var userSettings = settingsService.GetSettings();
         userSettings.AddOrSetExistingSettingsForGame(settings);
 
-        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath, fileName);
+        XML.SaveToConfigXML(userSettings, settingsService.SettingsFilePath);
     }
 
     private List<UserKeyBindingSetting> GetKeyBindingSettings()

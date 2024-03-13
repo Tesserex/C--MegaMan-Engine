@@ -130,6 +130,10 @@ namespace MegaMan.Engine.Avalonia
                 {
 
                 }
+                catch (Exception e)
+                {
+                 
+                }
             });
         }
 

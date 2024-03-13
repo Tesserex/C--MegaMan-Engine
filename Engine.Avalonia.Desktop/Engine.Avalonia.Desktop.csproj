@@ -10,15 +10,9 @@
     <Platforms>x86;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="lib\fmodex.dll" />
-    <None Remove="lib\MegaManR.BGM.dll" />
-    <None Remove="lib\nsf.dll" />
     <None Remove="lib\ntsc.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\fmodex.dll" />
-    <Content Include="lib\MegaManR.BGM.dll" />
-    <Content Include="lib\nsf.dll" />
     <Content Include="lib\ntsc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

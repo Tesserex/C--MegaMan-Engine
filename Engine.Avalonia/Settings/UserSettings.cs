@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Avalonia.Controls;
 using Avalonia.Input;
 using MegaMan.Engine.Input;
+using MegaMan.IO;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
 using Key = Avalonia.Input.Key;
@@ -49,29 +51,32 @@ namespace MegaMan.Engine.Avalonia.Settings
         }
         #endregion
         
-        public static readonly string noGameConfigNameToDisplayToUser = "No Game";
-        public static readonly string settingNameForFactorySettings = "Default Settings";
+        public static readonly string noGameConfigNameToDisplayToUser = "Default Settings";
     }
     #endregion
 
     public static class XML
     {
-        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath, string? fileName = null)
+        public static void SaveToConfigXML(UserSettings userSettings, string settingsPath)
         {
-            if (fileName == null) fileName = Constants.Paths.SettingFile;
-
             var serializer = new XmlSerializer(typeof(UserSettings));
 
-            var writer = new XmlTextWriter(settingsPath, null)
+            var directory = Path.GetDirectoryName(settingsPath);
+            if (directory == null) return;
+            Directory.CreateDirectory(directory);
+            using (var fs = new FileStream(settingsPath, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                Indentation = 1,
-                IndentChar = '\t',
-                Formatting = Formatting.Indented
-            };
+                if (fs == null) return;
+                var writer = new XmlTextWriter(fs, null) {
+                    Indentation = 1,
+                    IndentChar = '\t',
+                    Formatting = Formatting.Indented,
+                };
 
-            serializer.Serialize(writer, userSettings);
+                serializer.Serialize(writer, userSettings);
 
-            writer.Close();
+                writer.Close();
+            }
         }
     }
 
@@ -86,26 +91,21 @@ namespace MegaMan.Engine.Avalonia.Settings
         public List<RecentGame>? RecentGames { get; set; } 
         public List<Setting>? Settings { get; set; }
 
-        public void deleteSetting(int index)
+        public void deleteSetting(string key)
         {
-            try
+            if (key != null && Settings != null)
             {
-                Settings?.RemoveAt(index);
-            }
-            catch (Exception)
-            {
+                var index = Settings.FindIndex(x => x.GameFileName == key);
+                if (index != -1)
+                {
+                    Settings.RemoveAt(index);
+                }
             }
         }
 
         public void deleteAllSetting()
         {
-            try
-            {
-                Settings = null;
-            }
-            catch (Exception)
-            {
-            }
+            Settings = null;
         }
 
         public void AddRecentGame(string name, string path)
@@ -118,7 +118,7 @@ namespace MegaMan.Engine.Avalonia.Settings
             var existing = RecentGames.FirstOrDefault(x => x.Path == path);
             if (existing == null)
             {
-                existing = new RecentGame(name, path);
+                existing = new RecentGame { Name = name, Path = path };
             }
             else
             {
@@ -126,18 +126,6 @@ namespace MegaMan.Engine.Avalonia.Settings
             }
 
             RecentGames.Insert(0, existing);
-        }
-
-        public Setting? GetSettingByIndex(int index)
-        {
-            try
-            {
-                return Settings?[index];
-            }
-            catch (Exception)
-            {
-                return null;
-            }
         }
 
         public Setting? GetSettingsForGame(string gameName = "")
@@ -154,9 +142,7 @@ namespace MegaMan.Engine.Avalonia.Settings
             {
                 if (setting.GameFileName == "") return setting;
             }
-
-            // No default settings found, return null.
-            return null;
+            return Default;
         }
 
         public void AddOrSetExistingSettingsForGame(Setting newSetting)
@@ -164,8 +150,7 @@ namespace MegaMan.Engine.Avalonia.Settings
             // No list, create a new one
             if (Settings == null)
             {
-                Settings = new List<Setting>();
-                Settings.Add(newSetting);
+                Settings = [newSetting];
                 return;
             }
 
@@ -408,9 +393,16 @@ namespace MegaMan.Engine.Avalonia.Settings
     }
 
     [Serializable]
-    public record LastMiscellaneous(int ScreenX_Coordinate = -1, int ScreenY_Coordinate = -1); // -1 means centered
+    public record LastMiscellaneous {
+        public int ScreenX_Coordinate { get; set; } = -1;
+        public int ScreenY_Coordinate { get; set; } = -1; // -1 means centered
+    }
 
     [Serializable]
-    public record RecentGame(string Name, string Path);
+    public record RecentGame
+    {
+        public string Name { get; set; } = "";
+        public string Path { get; set; } = "";
+    }
     #endregion
 }

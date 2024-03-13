@@ -7,6 +7,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using MegaMan.Engine.Avalonia.ViewModels;
+using MegaMan.Engine.Avalonia.ViewModels.Menus;
 
 namespace MegaMan.Engine.Avalonia.Views;
 
@@ -14,6 +15,7 @@ public partial class MainView : UserControl
 {
     private InputBindings? InputBindingsWindow;
     private CustomNtsc? CustomNtscWindow;
+    private DeleteConfigs? DeleteConfigsWindow;
 
     public MainView()
     {
@@ -79,6 +81,16 @@ public partial class MainView : UserControl
         }
 
         CustomNtscWindow.Show();
+    }
+
+    private void OpenDeleteConfigs(object? sender, RoutedEventArgs e)
+    {
+        if (DeleteConfigsWindow is null)
+        {
+            DeleteConfigsWindow = new DeleteConfigs() { DataContext = new DeleteConfigsViewModel() };
+        }
+
+        DeleteConfigsWindow.Show();
     }
 
     private void CaptureScreenClicked(object? sender, RoutedEventArgs e)

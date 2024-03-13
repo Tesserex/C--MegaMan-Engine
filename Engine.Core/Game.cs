@@ -124,13 +124,13 @@ namespace MegaMan.Engine
             if (project.MusicNsf != null)
             {
                 var musicData = nsfReader.GetRawData(project.MusicNsf);
-                Engine.Instance.SoundSystem.LoadMusicNSF(musicData);
+                Engine.Instance.SoundSystem.LoadNSF(musicData);
             }
 
             if (project.EffectsNsf != null)
             {
                 var sfxData = nsfReader.GetRawData(project.EffectsNsf);
-                Engine.Instance.SoundSystem.LoadSfxNSF(sfxData);
+                // Engine.Instance.SoundSystem.LoadSfxNSF(sfxData);
             }
 
             foreach (var stageInfo in project.Stages)

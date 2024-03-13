@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Core.Audio;
+using Engine.Core.Audio.CSCore;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Engine.Stage;
@@ -17,7 +19,7 @@ namespace MegaMan.Engine
         private string startScreen;
         private int startX, startY;
 
-        private readonly Music music;
+        private readonly IAudioObject? music;
         private readonly TilesetAnimator tilesetAnimator;
 
         private ScreenHandler _currentScreen;
@@ -55,9 +57,16 @@ namespace MegaMan.Engine
             startX = info.PlayerStartX;
             startY = info.PlayerStartY;
 
-            var intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
-            var looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
-            if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusic(intropath, looppath, 1);
+            if (info.MusicNsfTrack != 0)
+            {
+                music = Engine.Instance.SoundSystem.LoadMusicNsf(info.MusicNsfTrack);
+            }
+            else
+            {
+                var intropath = (stage.MusicIntroPath != null) ? stage.MusicIntroPath.Absolute : null;
+                var looppath = (stage.MusicLoopPath != null) ? stage.MusicLoopPath.Absolute : null;
+                if (intropath != null || looppath != null) music = Engine.Instance.SoundSystem.LoadMusicWav(intropath, looppath);
+            }
         }
 
         public void InitScreens(Dictionary<string, ScreenHandler> screens)
@@ -277,8 +286,7 @@ namespace MegaMan.Engine
 
             Engine.Instance.SoundSystem.StopMusicNsf();
 
-            if (music != null) music.Play();
-            if (info.MusicNsfTrack != 0) Engine.Instance.SoundSystem.PlayMusicNSF((uint)info.MusicNsfTrack);
+            music?.Play();
 
             // updateFunc isn't set until BeginPlay
             drawFunc = DrawScreen;

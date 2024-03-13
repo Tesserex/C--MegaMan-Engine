@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Engine.Core.Audio;
 using MegaMan.Common.Rendering;
 using MegaMan.Engine.Input;
 using MegaMan.Engine.Rendering;
@@ -101,7 +102,7 @@ namespace MegaMan.Engine
 
         private List<bool> layerVisibility;
 
-        private ISoundSystem soundsystem = new FakeSoundSystem();
+        private ISoundSystem soundsystem = new BetterSoundSystem();
 
         // Opacity stuff is used for fade transitions.
         private float opacity = 1;
@@ -201,7 +202,7 @@ namespace MegaMan.Engine
             {
                 running = false;
                 timer.Stop();
-                soundsystem?.Stop();
+                soundsystem?.Pause();
             }
         }
 
@@ -389,8 +390,7 @@ namespace MegaMan.Engine
         }
 
         // Executes one step (frame) of the game logic. The parameter is time
-        // since last frame, but it isn't actually used except in the tick event. No one uses it
-        // there either.
+        // since last frame.
         private void StepLogic(float dt)
         {
             if (Game.CurrentGame is null) return;
@@ -400,7 +400,7 @@ namespace MegaMan.Engine
             var e = new GameTickEventArgs(dt);
             GameLogicTick?.Invoke(e);
 
-            SoundSystem.Tick();
+            SoundSystem.Tick(dt);
         }
 
         public void StepRender()
