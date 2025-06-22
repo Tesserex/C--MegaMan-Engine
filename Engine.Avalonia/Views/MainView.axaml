@@ -100,6 +100,9 @@
           <MenuItem.Header>
             <mm:MenuHeader Label="Pause Engine" HotKey="F4" />
           </MenuItem.Header>
+          <MenuItem.Icon>
+            <CheckBox IsChecked="{Binding PausedFromMenu}" />
+          </MenuItem.Icon>
         </MenuItem>
         <Separator />
         <MenuItem Header="Autosave Configurations" Command="{Binding AutosaveCommand}">

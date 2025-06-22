@@ -185,7 +185,11 @@ namespace MegaMan.Engine.Core
         public void Start()
         {
             runIfUnpaused = true;
+            StartSystems();
+        }
 
+        private void StartSystems()
+        {
             if (pauseCount == 0 && initialized && !running)
             {
                 running = true;
@@ -197,7 +201,11 @@ namespace MegaMan.Engine.Core
         public void Stop()
         {
             runIfUnpaused = false;
+            StopSystems();
+        }
 
+        private void StopSystems()
+        {
             if (running)
             {
                 running = false;
@@ -209,7 +217,7 @@ namespace MegaMan.Engine.Core
         public void Pause()
         {
             pauseCount++;
-            Stop();
+            StopSystems();
         }
 
         public void Unpause()
@@ -219,7 +227,7 @@ namespace MegaMan.Engine.Core
                 pauseCount--;
 
                 if (pauseCount == 0 && runIfUnpaused)
-                    Start();
+                    StartSystems();
             }
         }
 

@@ -9,7 +9,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 using MegaMan.Engine.Avalonia.ViewModels.Menus;

@@ -206,13 +206,13 @@ namespace MegaMan.Engine.Avalonia
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            Core.Engine.Instance.Stop();
+            Core.Engine.Instance.Pause();
         }
 
         protected override void OnGotFocus(GotFocusEventArgs e)
         {
             base.OnGotFocus(e);
-            Core.Engine.Instance.Start();
+            Core.Engine.Instance.Unpause();
         }
 
         private bool HandleDeviceReset(GraphicsDevice device)
