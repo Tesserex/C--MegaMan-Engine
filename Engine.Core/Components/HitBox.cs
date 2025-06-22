@@ -1,6 +1,6 @@
 ﻿using MegaMan.Common.Geometry;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class HitBox
     {

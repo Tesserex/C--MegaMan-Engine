@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Stage;
+using MegaMan.Engine.Core.Stage;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class ScreenHandler : ITiledScreen
     {

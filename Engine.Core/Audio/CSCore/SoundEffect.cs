@@ -1,9 +1,9 @@
 ﻿using CSCore.Codecs.WAV;
 using CSCore.SoundOut;
-using Engine.Core.Audio;
+using MegaMan.Engine.Core.Audio;
 using NSF4Net;
 
-namespace Engine.Core.Audio.CSCore
+namespace MegaMan.Engine.Core.Audio.CSCore
 {
     public interface ISoundEffect : IDisposable
     {

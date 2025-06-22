@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     partial class CustomNtscForm
     {

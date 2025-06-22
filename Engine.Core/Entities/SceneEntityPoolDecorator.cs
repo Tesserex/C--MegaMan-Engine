@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     public class SceneEntityPoolDecorator : IEntityPool
     {

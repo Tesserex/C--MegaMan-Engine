@@ -1,6 +1,6 @@
 ﻿using MegaMan.Common.Rendering;
 
-namespace MegaMan.Engine.Rendering
+namespace MegaMan.Engine.Core.Rendering
 {
     public class XnaResourceImage : IResourceImage
     {

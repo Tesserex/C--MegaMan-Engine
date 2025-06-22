@@ -3,9 +3,9 @@ using System.Diagnostics;
 using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities.Effects;
+using MegaMan.Engine.Core.Entities.Effects;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     [DebuggerDisplay("Parent = {Parent.Name}, vx = {vx}, vy = {vy}")]
     public class MovementComponent : Component

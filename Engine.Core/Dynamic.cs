@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using MegaMan.Common;
-using MegaMan.Engine;
+using MegaMan.Engine.Core;
 
 namespace System.Linq.Dynamic
 {

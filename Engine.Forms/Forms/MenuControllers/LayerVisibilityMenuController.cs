@@ -25,7 +25,7 @@ namespace MegaMan.Engine.Forms.MenuControllers
         public void Set(bool value)
         {
             menuItem.Checked = value;
-            Engine.Instance.SetLayerVisibility((int)layer, value);
+            Core.Engine.Instance.SetLayerVisibility((int)layer, value);
         }
 
         public void LoadSettings(Setting settings)
@@ -53,17 +53,17 @@ namespace MegaMan.Engine.Forms.MenuControllers
                 settings.Debug.Layers = new LastLayers();
 
             if (layer == Layers.Background)
-                settings.Debug.Layers.Background = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Background = Core.Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite1)
-                settings.Debug.Layers.Sprites1 = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Sprites1 = Core.Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite2)
-                settings.Debug.Layers.Sprites2 = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Sprites2 = Core.Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite3)
-                settings.Debug.Layers.Sprites3 = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Sprites3 = Core.Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Sprite4)
-                settings.Debug.Layers.Sprites4 = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Sprites4 = Core.Engine.Instance.GetLayerVisibility((int)layer);
             else if (layer == Layers.Foreground)
-                settings.Debug.Layers.Foreground = Engine.Instance.GetLayerVisibility((int)layer);
+                settings.Debug.Layers.Foreground = Core.Engine.Instance.GetLayerVisibility((int)layer);
         }
     }
 }

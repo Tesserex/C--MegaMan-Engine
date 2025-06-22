@@ -3,7 +3,7 @@ using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
 using MegaMan.Common.Geometry;
 
-namespace MegaMan.Engine.Entities.Effects
+namespace MegaMan.Engine.Core.Entities.Effects
 {
     public class PositionEffectLoader : IEffectLoader
     {

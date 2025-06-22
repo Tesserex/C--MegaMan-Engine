@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MegaMan.Common;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     /// <summary>
     /// This is used for scenes and menus that don't get their entity container from gameplay

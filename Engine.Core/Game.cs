@@ -1,10 +1,10 @@
 ﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities;
-using MegaMan.Engine.StateMachine;
+using MegaMan.Engine.Core.Entities;
+using MegaMan.Engine.Core.StateMachine;
 using MegaMan.IO;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     // These args, and the event, are used to forcibly resize
     // the window and screen when the game is loaded, since

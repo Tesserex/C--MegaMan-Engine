@@ -1,9 +1,9 @@
-﻿using Engine.Core.Audio.CSCore;
+﻿using MegaMan.Engine.Core.Audio.CSCore;
 using MegaMan.Common;
 using MegaMan.Common.IncludedObjects;
 using NSF4Net;
 
-namespace Engine.Core.Audio
+namespace MegaMan.Engine.Core.Audio
 {
     internal class BetterSoundSystem : ISoundSystem
     {

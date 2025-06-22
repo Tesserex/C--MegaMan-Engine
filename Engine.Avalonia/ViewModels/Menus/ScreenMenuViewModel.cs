@@ -2,6 +2,7 @@
 using Avalonia;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
+using MegaMan.Engine.Core;
 
 namespace MegaMan.Engine.Avalonia.ViewModels.Menus
 {

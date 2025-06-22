@@ -1,4 +1,4 @@
-﻿namespace MegaMan.Engine.StateMachine
+﻿namespace MegaMan.Engine.Core.StateMachine
 {
     public interface IStateMachineCommand
     {

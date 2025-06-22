@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class GameRunException : Exception
     {

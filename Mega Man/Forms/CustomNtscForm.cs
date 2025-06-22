@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using MegaMan.Engine.Forms.Settings;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     public partial class CustomNtscForm : Form
     {

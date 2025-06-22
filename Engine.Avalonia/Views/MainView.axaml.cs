@@ -85,10 +85,7 @@ public partial class MainView : UserControl
 
     private void OpenDeleteConfigs(object? sender, RoutedEventArgs e)
     {
-        if (DeleteConfigsWindow is null)
-        {
-            DeleteConfigsWindow = new DeleteConfigs() { DataContext = new DeleteConfigsViewModel() };
-        }
+        DeleteConfigsWindow ??= new DeleteConfigs() { DataContext = new DeleteConfigsViewModel() };
 
         DeleteConfigsWindow.Show();
     }

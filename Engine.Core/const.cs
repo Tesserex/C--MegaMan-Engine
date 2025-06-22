@@ -1,4 +1,4 @@
-﻿namespace MegaMan.Engine
+﻿namespace MegaMan.Engine.Core
 {
     public class Const
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     class GameEntityPool : IEntityPool
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.IncludedObjects;
-using MegaMan.Engine.Entities;
-using MegaMan.Engine.Input;
+using MegaMan.Engine.Core.Entities;
+using MegaMan.Engine.Core.Input;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class Menu : GameHandler
     {

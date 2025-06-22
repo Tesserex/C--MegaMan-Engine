@@ -1,4 +1,4 @@
-﻿namespace Engine.Core.Audio
+﻿namespace MegaMan.Engine.Core.Audio
 {
     internal interface IAudioPlayer
     {

@@ -2,9 +2,9 @@
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     /// <summary>
     /// Controls a sequence of disappearing blocks on the screen

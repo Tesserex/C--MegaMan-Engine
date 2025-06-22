@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>x86;x64</Platforms>
+    <RootNamespace>MegaMan.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>MegaMan.$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +39,7 @@
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="NSF4Net">
-      <HintPath>..\..\..\NSFAudio\NSF4Net\bin\Debug\net6.0\NSF4Net.dll</HintPath>
+      <HintPath>..\..\..\games\NSFAudio\NSF4Net\bin\Debug\net6.0\NSF4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
 

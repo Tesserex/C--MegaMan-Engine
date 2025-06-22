@@ -4,7 +4,7 @@ using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class HealthMeter
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class Log
     {

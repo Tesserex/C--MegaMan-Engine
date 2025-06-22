@@ -3,7 +3,7 @@ using CSCore;
 using CSCore.Codecs.WAV;
 using CSCore.SoundOut;
 
-namespace Engine.Core.Audio.CSCore
+namespace MegaMan.Engine.Core.Audio.CSCore
 {
     public class MusicWav : IAudioObject, IDisposable
     {

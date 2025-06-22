@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MegaMan.Common.Entities;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     [DebuggerDisplay("Parent = {Parent.Name}, State: {currentState}, State Time: {StateFrames}")]
     public class StateComponent : Component

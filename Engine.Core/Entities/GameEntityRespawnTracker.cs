@@ -2,7 +2,7 @@
 using System.Linq;
 using MegaMan.Common;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     public class GameEntityRespawnTracker : IEntityRespawnTracker
     {

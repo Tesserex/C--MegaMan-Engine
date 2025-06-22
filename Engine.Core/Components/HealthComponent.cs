@@ -1,7 +1,7 @@
 ﻿using System;
 using MegaMan.Common.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class HealthComponent : Component
     {

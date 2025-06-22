@@ -120,7 +120,7 @@
         </MenuItem>
         <MenuItem HotKey="Ctrl+Delete" Click="OpenDeleteConfigs">
           <MenuItem.Header>
-            <mm:MenuHeader Label="Clear Configuration" HotKey="Ctrl+Delete" />
+            <mm:MenuHeader Label="Clear Configurations..." HotKey="Ctrl+Delete" />
           </MenuItem.Header>
         </MenuItem>
         <Separator />

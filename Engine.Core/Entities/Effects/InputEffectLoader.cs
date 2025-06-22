@@ -1,7 +1,7 @@
 ﻿using System;
 using MegaMan.Common.Entities.Effects;
 
-namespace MegaMan.Engine.Entities.Effects
+namespace MegaMan.Engine.Core.Entities.Effects
 {
     public class InputEffectLoader : IEffectLoader
     {

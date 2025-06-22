@@ -1,4 +1,4 @@
-﻿namespace MegaMan.Engine.Stage
+﻿namespace MegaMan.Engine.Core.Stage
 {
     public struct ScreenDrawingCoords
     {

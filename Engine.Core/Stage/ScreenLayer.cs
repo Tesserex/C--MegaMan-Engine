@@ -4,9 +4,9 @@ using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class ScreenLayer : IScreenLayer
     {

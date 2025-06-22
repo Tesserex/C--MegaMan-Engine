@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MegaMan.Common;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     [DebuggerDisplay("{Name}, Parent = {Parent!=null? Parent.Name : null}")]
     public class GameEntity : IEntity

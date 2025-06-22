@@ -3,7 +3,7 @@ using System.Diagnostics;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     [DebuggerDisplay("Parent = {Parent.Name}, Position = ({realX},{realY})")]
     public class PositionComponent : Component

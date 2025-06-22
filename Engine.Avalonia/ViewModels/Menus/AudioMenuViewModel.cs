@@ -28,8 +28,8 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             ToggleSquareTwoCommand = new RelayCommand(() => SquareTwoEnabled = !SquareTwoEnabled);
             ToggleTriangleCommand = new RelayCommand(() => TriangleEnabled = !TriangleEnabled);
             ToggleNoiseCommand = new RelayCommand(() => NoiseEnabled = !NoiseEnabled);
-            IncreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume++);
-            DecreaseVolumeCommand = new RelayCommand(() => Engine.Instance.SoundSystem.Volume--);
+            IncreaseVolumeCommand = new RelayCommand(() => Core.Engine.Instance.SoundSystem.Volume++);
+            DecreaseVolumeCommand = new RelayCommand(() => Core.Engine.Instance.SoundSystem.Volume--);
         }
 
         public void LoadSettings(Setting settings)
@@ -40,7 +40,7 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             SquareTwoEnabled = settings.Audio.Square2;
             TriangleEnabled = settings.Audio.Triangle;
             NoiseEnabled = settings.Audio.Noise;
-            Engine.Instance.SoundSystem.Volume = settings.Audio.Volume;
+            Core.Engine.Instance.SoundSystem.Volume = settings.Audio.Volume;
         }
 
         public void SaveSettings(Setting settings)
@@ -51,43 +51,43 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             settings.Audio.Square2 = SquareTwoEnabled;
             settings.Audio.Triangle = TriangleEnabled;
             settings.Audio.Noise = NoiseEnabled;
-            settings.Audio.Volume = Engine.Instance.SoundSystem.Volume;
+            settings.Audio.Volume = Core.Engine.Instance.SoundSystem.Volume;
         }
 
         public bool MusicEnabled
         {
-            get => Engine.Instance.SoundSystem.MusicEnabled;
-            set { Engine.Instance.SoundSystem.MusicEnabled = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.MusicEnabled;
+            set { Core.Engine.Instance.SoundSystem.MusicEnabled = value; OnPropertyChanged(); }
         }
 
         public bool SfxEnabled
         {
-            get => Engine.Instance.SoundSystem.SfxEnabled;
-            set { Engine.Instance.SoundSystem.SfxEnabled = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.SfxEnabled;
+            set { Core.Engine.Instance.SoundSystem.SfxEnabled = value; OnPropertyChanged(); }
         }
 
         public bool SquareOneEnabled
         {
-            get => Engine.Instance.SoundSystem.SquareOne;
-            set { Engine.Instance.SoundSystem.SquareOne = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.SquareOne;
+            set { Core.Engine.Instance.SoundSystem.SquareOne = value; OnPropertyChanged(); }
         }
 
         public bool SquareTwoEnabled
         {
-            get => Engine.Instance.SoundSystem.SquareTwo;
-            set { Engine.Instance.SoundSystem.SquareTwo = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.SquareTwo;
+            set { Core.Engine.Instance.SoundSystem.SquareTwo = value; OnPropertyChanged(); }
         }
 
         public bool TriangleEnabled
         {
-            get => Engine.Instance.SoundSystem.Triangle;
-            set { Engine.Instance.SoundSystem.Triangle = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.Triangle;
+            set { Core.Engine.Instance.SoundSystem.Triangle = value; OnPropertyChanged(); }
         }
 
         public bool NoiseEnabled
         {
-            get => Engine.Instance.SoundSystem.Noise;
-            set { Engine.Instance.SoundSystem.Noise = value; OnPropertyChanged(); }
+            get => Core.Engine.Instance.SoundSystem.Noise;
+            set { Core.Engine.Instance.SoundSystem.Noise = value; OnPropertyChanged(); }
         }
     }
 }

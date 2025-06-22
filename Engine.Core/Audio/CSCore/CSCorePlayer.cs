@@ -1,7 +1,7 @@
 ﻿using CSCore;
 using CSCore.SoundOut;
 
-namespace Engine.Core.Audio.CSCore
+namespace MegaMan.Engine.Core.Audio.CSCore
 {
     internal class CSCorePlayer : IAudioPlayer
     {

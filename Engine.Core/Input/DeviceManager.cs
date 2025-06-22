@@ -2,7 +2,7 @@
 using SharpDX.XInput;
 using DeviceType = SharpDX.DirectInput.DeviceType;
 
-namespace MegaMan.Engine.Input
+namespace MegaMan.Engine.Core.Input
 {
     public delegate void RaiseEventOnUIThreadCallback(Delegate theEvent, params object[] args);
 

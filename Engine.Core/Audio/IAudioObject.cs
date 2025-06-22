@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Core.Audio
+namespace MegaMan.Engine.Core.Audio
 {
     public interface IAudioObject
     {

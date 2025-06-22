@@ -1,8 +1,8 @@
 ﻿using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class BossDoorHandler : JoinHandler
     {

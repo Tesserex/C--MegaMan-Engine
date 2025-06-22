@@ -8,14 +8,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using MegaMan.Engine.Forms;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
-using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
 // To use DllImport
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     public partial class MainForm : Form
     {

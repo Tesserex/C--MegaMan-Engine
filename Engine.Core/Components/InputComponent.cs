@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MegaMan.Engine.Input;
+using MegaMan.Engine.Core.Input;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class InputComponent : Component
     {

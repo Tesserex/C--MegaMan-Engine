@@ -39,13 +39,13 @@ namespace MegaMan.Engine.Forms.MenuControllers
             menuItem.Checked = value;
 
             if (channel == 1)
-                Engine.Instance.SoundSystem.SquareOne = value;
+                Core.Engine.Instance.SoundSystem.SquareOne = value;
             else if (channel == 2)
-                Engine.Instance.SoundSystem.SquareTwo = value;
+                Core.Engine.Instance.SoundSystem.SquareTwo = value;
             else if (channel == 3)
-                Engine.Instance.SoundSystem.Triangle = value;
+                Core.Engine.Instance.SoundSystem.Triangle = value;
             else if (channel == 4)
-                Engine.Instance.SoundSystem.Noise = value;
+                Core.Engine.Instance.SoundSystem.Noise = value;
         }
 
         public void SaveSettings(Setting settings)

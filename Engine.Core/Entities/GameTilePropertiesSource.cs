@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MegaMan.Common;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     public class GameTilePropertiesSource : ITilePropertiesSource
     {

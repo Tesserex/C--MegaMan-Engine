@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class TimerComponent : Component
     {

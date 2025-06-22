@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
+using MegaMan.Engine.Core.Input;
 using MegaMan.Engine.Forms;
-using MegaMan.Engine.Input;
 
 namespace MegaMan.Engine
 {

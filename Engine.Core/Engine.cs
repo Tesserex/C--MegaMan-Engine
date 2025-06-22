@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
-using Engine.Core.Audio;
+using MegaMan.Engine.Core.Audio;
 using MegaMan.Common.Rendering;
-using MegaMan.Engine.Input;
-using MegaMan.Engine.Rendering;
+using MegaMan.Engine.Core.Input;
+using MegaMan.Engine.Core.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class GameInputEventArgs : EventArgs
     {

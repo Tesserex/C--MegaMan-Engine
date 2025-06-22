@@ -12,6 +12,7 @@ using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using MegaMan.Engine.Avalonia.Settings;
+using MegaMan.Engine.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Color = Microsoft.Xna.Framework.Color;
@@ -123,7 +124,7 @@ namespace MegaMan.Engine.Avalonia
                 {
                     while (true)
                     {
-                        Engine.Instance.TryStepLogic();
+                        Core.Engine.Instance.TryStepLogic();
                     }
                 }
                 catch (OperationCanceledException)
@@ -180,13 +181,13 @@ namespace MegaMan.Engine.Avalonia
                 || _bitmap is null
                 || Bounds is { Width: < 1, Height: < 1 }
                 || !HandleDeviceReset(device)
-                || MegaMan.Engine.Game.CurrentGame is null)
+                || Core.Game.CurrentGame is null)
             {
                 context.DrawRectangle(FallbackBackground, null, new Rect(0, 0, Width, Height));
                 return;
             }
 
-            Engine.Instance.StepRender();
+            Core.Engine.Instance.StepRender();
 
             // Capture the last executed frame into the bitmap
             CaptureFrame(device, _bitmap);
@@ -205,13 +206,13 @@ namespace MegaMan.Engine.Avalonia
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            Engine.Instance.Stop();
+            Core.Engine.Instance.Stop();
         }
 
         protected override void OnGotFocus(GotFocusEventArgs e)
         {
             base.OnGotFocus(e);
-            Engine.Instance.Start();
+            Core.Engine.Instance.Start();
         }
 
         private bool HandleDeviceReset(GraphicsDevice device)
@@ -240,9 +241,9 @@ namespace MegaMan.Engine.Avalonia
                 ResetDevice(device, Bounds.Size);
             }
 
-            Engine.Instance.GetDevice += Instance_GetDevice;
-            Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
-            Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
+            Core.Engine.Instance.GetDevice += Instance_GetDevice;
+            Core.Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
+            Core.Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
             Margin = new Thickness(0);
 
             ntsc = snes_ntsc_alloc();
@@ -302,7 +303,7 @@ namespace MegaMan.Engine.Avalonia
             masterRenderingTarget?.SaveAsPng(stream, masterRenderingTarget.Width, masterRenderingTarget.Height);
         }
 
-        private void Instance_GetDevice(object? sender, Engine.DeviceEventArgs e)
+        private void Instance_GetDevice(object? sender, Core.Engine.DeviceEventArgs e)
         {
             if (Game is null) return;
             if (Game.GraphicsDevice is null) return;
@@ -359,7 +360,7 @@ namespace MegaMan.Engine.Avalonia
         {
             if (Game is null) return;
             if (Game.GraphicsDevice is null) return;
-            if (MegaMan.Engine.Game.CurrentGame != null && !Engine.Instance.IsRunning)
+            if (Core.Game.CurrentGame != null && !Core.Engine.Instance.IsRunning)
             {
                 Game.GraphicsDevice.Textures[0] = null;
                 DrawMasterTargetToBatch(Game.GraphicsDevice);
@@ -385,7 +386,7 @@ namespace MegaMan.Engine.Avalonia
 
             device.SetRenderTarget(null);
 
-            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
+            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Core.Engine.Instance.FilterState, null, null);
             masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height), Color.White);
             masterSpriteBatch.End();
         }

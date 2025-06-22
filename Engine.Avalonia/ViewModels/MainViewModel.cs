@@ -13,7 +13,8 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 using MegaMan.Engine.Avalonia.ViewModels.Menus;
-using MegaMan.Engine.Input;
+using MegaMan.Engine.Core;
+using MegaMan.Engine.Core.Input;
 using MegaMan.IO.Xml;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -224,9 +225,9 @@ public class MainViewModel : ViewModelBase
         PausedFromMenu = !PausedFromMenu;
 
         if (PausedFromMenu)
-            Engine.Instance.Pause();
+            Core.Engine.Instance.Pause();
         else
-            Engine.Instance.Unpause();
+            Core.Engine.Instance.Unpause();
     }
 
     private void AutosaveChanged()

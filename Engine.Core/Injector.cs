@@ -3,7 +3,7 @@ using MegaMan.IO;
 using Ninject;
 using Ninject.Extensions.Conventions;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     internal static class Injector
     {

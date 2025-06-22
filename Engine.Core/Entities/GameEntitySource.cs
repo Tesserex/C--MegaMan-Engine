@@ -2,7 +2,7 @@
 using MegaMan.Common.Entities;
 using MegaMan.IO.Xml;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     class GameEntitySource : IEntitySource
     {

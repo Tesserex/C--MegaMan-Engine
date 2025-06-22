@@ -11,7 +11,7 @@ using Point = MegaMan.Common.Geometry.Point;
 using XnaRect = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
 
-namespace MegaMan.Engine.Rendering
+namespace MegaMan.Engine.Core.Rendering
 {
     public class XnaRenderingContext : IRenderingContext
     {

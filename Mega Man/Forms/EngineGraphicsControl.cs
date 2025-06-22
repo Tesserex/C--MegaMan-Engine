@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WinFormsGraphicsDevice;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     public class EngineGraphicsControl : GraphicsDeviceControl
     {

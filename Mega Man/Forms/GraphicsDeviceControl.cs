@@ -10,6 +10,7 @@
 #region Using Statements
 
 using System;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;

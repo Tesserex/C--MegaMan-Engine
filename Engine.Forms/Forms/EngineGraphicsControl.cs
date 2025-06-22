@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using MegaMan.Engine.Forms.Settings;
+﻿using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Graphics;
 using WinFormsGraphicsDevice;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     public class EngineGraphicsControl : GraphicsDeviceControl
     {
@@ -39,9 +36,9 @@ namespace MegaMan.Engine
 
         protected override void Initialize()
         {
-            Engine.Instance.GetDevice += Instance_GetDevice;
-            Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
-            Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
+            Core.Engine.Instance.GetDevice += Instance_GetDevice;
+            Core.Engine.Instance.GameRenderEnd += Instance_GameRenderEnd;
+            Core.Engine.Instance.GameRenderBegin += Instance_GameRenderBegin;
             Margin = new Padding(0);
             Padding = new Padding(0);
 
@@ -100,14 +97,14 @@ namespace MegaMan.Engine
             base.OnPaint(e);
         }
 
-        private void Instance_GameRenderBegin(GameRenderEventArgs e)
+        private void Instance_GameRenderBegin(Core.GameRenderEventArgs e)
         {
             BeginDraw();
             GraphicsDevice.SetRenderTarget(masterRenderingTarget);
             GraphicsDevice.Clear(Color.Black);
         }
 
-        private void Instance_GameRenderEnd(GameRenderEventArgs e)
+        private void Instance_GameRenderEnd(Core.GameRenderEventArgs e)
         {
             DrawMasterTargetToBatch();
             EndDraw();
@@ -115,7 +112,7 @@ namespace MegaMan.Engine
 
         private void ForceRedraw()
         {
-            if (Game.CurrentGame != null && !Engine.Instance.IsRunning)
+            if (Core.Game.CurrentGame != null && !Core.Engine.Instance.IsRunning)
             {
                 BeginDraw();
                 GraphicsDevice.Textures[0] = null;
@@ -142,12 +139,12 @@ namespace MegaMan.Engine
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.Black);
 
-            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Engine.Instance.FilterState, null, null);
+            masterSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Core.Engine.Instance.FilterState, null, null);
             masterSpriteBatch.Draw(drawTexture, new Rectangle(0, 0, Width, Height), Color.White);
             masterSpriteBatch.End();
         }
 
-        private void Instance_GetDevice(object sender, Engine.DeviceEventArgs e)
+        private void Instance_GetDevice(object? sender, Core.Engine.DeviceEventArgs e)
         {
             e.Device = GraphicsDevice;
         }
@@ -208,7 +205,7 @@ namespace MegaMan.Engine
             decoder_matrix = null;
         }
 
-        public snes_ntsc_setup_t(NTSC_CustomOptions options)
+        public snes_ntsc_setup_t(Settings.NTSC_CustomOptions options)
             : this(options.Hue, options.Saturation, options.Contrast, options.Brightness,
                   options.Sharpness, options.Gamma, options.Resolution, options.Artifacts,
                   options.Fringing, options.Bleed, options.Merge_Fields)

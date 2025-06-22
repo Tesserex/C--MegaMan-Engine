@@ -106,7 +106,7 @@ namespace MegaMan.Engine.Forms
             this.thinkLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.entityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fpsCapLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.xnaImage = new MegaMan.Engine.EngineGraphicsControl();
+            this.xnaImage = new MegaMan.Engine.Forms.EngineGraphicsControl();
             this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.debugBar.SuspendLayout();

@@ -2,9 +2,9 @@
 using System.Linq;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine.StateMachine
+namespace MegaMan.Engine.Core.StateMachine
 {
     public class GameStateMachine : IStateMachine
     {

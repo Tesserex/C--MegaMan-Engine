@@ -3,7 +3,7 @@ using MegaMan.Common.Geometry;
 using MegaMan.Common.IncludedObjects;
 using MegaMan.Common.Rendering;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public static class FontSystem
     {

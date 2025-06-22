@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
+using MegaMan.Engine.Core;
+using MegaMan.Engine.Core.Input;
 using MegaMan.Engine.Forms.MenuControllers;
 using MegaMan.Engine.Forms.Settings;
-using MegaMan.Engine.Input;
 using MegaMan.IO.Xml;
 
 namespace MegaMan.Engine.Forms
@@ -54,12 +54,12 @@ namespace MegaMan.Engine.Forms
             altKeyDown = false;
 
             if (menu || gotFocus == false || WindowState == FormWindowState.Minimized)
-                Engine.Instance.Stop();
+                Core.Engine.Instance.Stop();
             else
             {
                 if (GetForegroundWindow() == Handle)
                 {
-                    Engine.Instance.Start();
+                    Core.Engine.Instance.Start();
                 }
             }
         }
@@ -135,7 +135,7 @@ namespace MegaMan.Engine.Forms
 
             menu = false;
             gotFocus = true;
-            Engine.Instance.Start();
+            Core.Engine.Instance.Start();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace MegaMan.Engine.Forms
             {
                 menu = false;
                 gotFocus = true;
-                Engine.Instance.Start();
+                Core.Engine.Instance.Start();
             }
         }
 
@@ -305,14 +305,14 @@ namespace MegaMan.Engine.Forms
             Application.Idle += (s, e) => {
                 while (Program.AppIdle)
                 {
-                    Engine.Instance.TryStepLogicAndRender();
+                    Core.Engine.Instance.TryStepLogicAndRender();
                 }
             };
 
             Game.ScreenSizeChanged += Game_ScreenSizeChanged;
-            Engine.Instance.GameLogicTick += Instance_GameLogicTick;
+            Core.Engine.Instance.GameLogicTick += Instance_GameLogicTick;
 
-            Engine.Instance.OnException += Engine_Exception;
+            Core.Engine.Instance.OnException += Engine_Exception;
 
             customNtscForm.Apply += customNtscForm_ApplyFromForm;
             loadConfigForm.Apply += loadConfigSelectedInLoadConfigForm;
@@ -540,9 +540,9 @@ namespace MegaMan.Engine.Forms
             pauseEngineToolStripMenuItem.Checked = !pauseEngineToolStripMenuItem.Checked;
 
             if (pauseEngineToolStripMenuItem.Checked)
-                Engine.Instance.Pause();
+                Core.Engine.Instance.Pause();
             else
-                Engine.Instance.Unpause();
+                Core.Engine.Instance.Unpause();
         }
         #endregion
 
@@ -792,7 +792,7 @@ namespace MegaMan.Engine.Forms
         #region First Section
         private void setMusic(bool value)
         {
-            Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
+            Core.Engine.Instance.SoundSystem.MusicEnabled = musicMenuItem.Checked = value;
         }
 
         private void musicMenuItem_Click(object sender, EventArgs e)
@@ -802,7 +802,7 @@ namespace MegaMan.Engine.Forms
 
         private void setSFX(bool value)
         {
-            Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value;
+            Core.Engine.Instance.SoundSystem.SfxEnabled = sfxMenuItem.Checked = value;
         }
 
         private void sfxMenuItem_Click(object sender, EventArgs e)
@@ -813,17 +813,17 @@ namespace MegaMan.Engine.Forms
         
         public void SetVolume(int value)
         {
-            Engine.Instance.SoundSystem.Volume = value;
+            Core.Engine.Instance.SoundSystem.Volume = value;
         }
 
         private void increaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.SoundSystem.Volume + 1);
+            SetVolume(Core.Engine.Instance.SoundSystem.Volume + 1);
         }
 
         private void decreaseVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetVolume(Engine.Instance.SoundSystem.Volume - 1);
+            SetVolume(Core.Engine.Instance.SoundSystem.Volume - 1);
         }
 
         #endregion
@@ -850,7 +850,7 @@ namespace MegaMan.Engine.Forms
         #region Second Section
         private void setShowHitBoxes(bool value)
         {
-            showHitboxesToolStripMenuItem.Checked = Engine.Instance.DrawHitboxes = value;
+            showHitboxesToolStripMenuItem.Checked = Core.Engine.Instance.DrawHitboxes = value;
         }
 
         private void showHitboxesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -861,7 +861,7 @@ namespace MegaMan.Engine.Forms
         #region Cheat Submenu
         private void SetNoDamage(bool value)
         {
-            noDamageToolStripMenuItem.Checked = Engine.Instance.NoDamage = value;
+            noDamageToolStripMenuItem.Checked = Core.Engine.Instance.NoDamage = value;
         }
 
         private void noDamageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -871,7 +871,7 @@ namespace MegaMan.Engine.Forms
 
         private void setInvincibility(bool value)
         {
-            invincibilityToolStripMenuItem.Checked = Engine.Instance.Invincible = value;
+            invincibilityToolStripMenuItem.Checked = Core.Engine.Instance.Invincible = value;
         }
 
         private void invincibilityToolStripMenuItem_Click(object sender, EventArgs e)
@@ -890,11 +890,11 @@ namespace MegaMan.Engine.Forms
         {
             if (Game.CurrentGame != null)
             {
-                if (Engine.Instance.Invincible)
+                if (Core.Engine.Instance.Invincible)
                 {
-                    Engine.Instance.Invincible = false;
+                    Core.Engine.Instance.Invincible = false;
                     Game.CurrentGame.DebugEmptyHealth();
-                    Engine.Instance.Invincible = true;
+                    Core.Engine.Instance.Invincible = true;
                 }
                 else Game.CurrentGame.DebugEmptyHealth();
             }
@@ -931,18 +931,18 @@ namespace MegaMan.Engine.Forms
         
         private void SetFrameRate(int framerate)
         {
-            Engine.Instance.FPS = framerate;
-            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
+            Core.Engine.Instance.FPS = framerate;
+            fpsCapLabel.Text = "FPS Cap: " + Core.Engine.Instance.FPS;
         }
 
         private void framerateUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetFrameRate(Engine.Instance.FPS + 10);
+            SetFrameRate(Core.Engine.Instance.FPS + 10);
         }
 
         private void framerateDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetFrameRate(Engine.Instance.FPS - 10);
+            SetFrameRate(Core.Engine.Instance.FPS - 10);
         }
 
         private void defaultFramerateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1045,12 +1045,12 @@ namespace MegaMan.Engine.Forms
         /// </summary>
         private void SetLayersVisibilityFromSettings()
         {
-            Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
-            Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(0, backgroundToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(1, sprites1ToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(2, sprites2ToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(3, sprites3ToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(4, sprites4ToolStripMenuItem.Checked);
+            Core.Engine.Instance.SetLayerVisibility(5, foregroundToolStripMenuItem.Checked);
         }
 
         /// <summary>
@@ -1063,7 +1063,7 @@ namespace MegaMan.Engine.Forms
         /// <param name="Y"></param>
         private void ChangeFormLocation(int X, int Y)
         {
-            var running = Engine.Instance.IsRunning;
+            var running = Core.Engine.Instance.IsRunning;
 
             if (X < 0 || Y < 0)
             {
@@ -1229,14 +1229,14 @@ namespace MegaMan.Engine.Forms
                         HideMenu = hideMenuItem.Checked
                     },
                     Audio = new LastAudio {
-                        Volume = Engine.Instance.SoundSystem.Volume,
+                        Volume = Core.Engine.Instance.SoundSystem.Volume,
                         Musics = musicMenuItem.Checked,
                         Sound = sfxMenuItem.Checked
                     },
                     Debug = new LastDebug {
                         ShowMenu = debugBarToolStripMenuItem.Checked,
                         ShowHitboxes = showHitboxesToolStripMenuItem.Checked,
-                        Framerate = Engine.Instance.FPS,
+                        Framerate = Core.Engine.Instance.FPS,
                         Cheat = new LastCheat {
                             Invincibility = invincibilityToolStripMenuItem.Checked,
                             NoDamage = noDamageToolStripMenuItem.Checked
@@ -1380,9 +1380,9 @@ namespace MegaMan.Engine.Forms
         {
             var fps = 1 / e.TimeElapsed;
             fpsLabel.Text = "FPS: " + fps.ToString("N2");
-            thinkLabel.Text = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
+            thinkLabel.Text = "Busy: " + (Core.Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             entityLabel.Text = "Entities: " + Game.DebugEntitiesAlive();
-            fpsCapLabel.Text = "FPS Cap: " + Engine.Instance.FPS;
+            fpsCapLabel.Text = "FPS Cap: " + Core.Engine.Instance.FPS;
         }
     }
 }

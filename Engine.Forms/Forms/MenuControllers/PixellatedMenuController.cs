@@ -54,11 +54,11 @@ namespace MegaMan.Engine.Forms.MenuControllers
             {
                 if (state == PixellatedOrSmoothed.Pixellated)
                 {
-                    Engine.Instance.FilterState = SamplerState.PointClamp;
+                    Core.Engine.Instance.FilterState = SamplerState.PointClamp;
                 }
                 else if (state == PixellatedOrSmoothed.Smoothed)
                 {
-                    Engine.Instance.FilterState = SamplerState.LinearClamp;
+                    Core.Engine.Instance.FilterState = SamplerState.LinearClamp;
                 }
             }
         }

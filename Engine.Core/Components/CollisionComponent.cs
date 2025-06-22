@@ -6,9 +6,9 @@ using MegaMan.Common;
 using MegaMan.Common.Entities;
 using MegaMan.Common.Geometry;
 using MegaMan.Common.Rendering;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     [DebuggerDisplay("Parent = {Parent.Name}, BlockTop: {BlockTop}, BlockLeft: {BlockLeft}, BlockRight: {BlockRight}, BlockBottom: {BlockBottom}")]
     public class CollisionComponent : Component

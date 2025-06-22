@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MegaMan.Engine.Input;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Forms
 {
     public partial class Keyboard : Form
     {

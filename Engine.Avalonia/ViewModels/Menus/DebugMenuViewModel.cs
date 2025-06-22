@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
+using MegaMan.Engine.Core;
 
 namespace MegaMan.Engine.Avalonia.ViewModels.Menus;
 internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
@@ -27,20 +28,20 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
 
     public bool ShowHitboxes
     {
-        get => Engine.Instance.DrawHitboxes;
-        set { Engine.Instance.DrawHitboxes = value; OnPropertyChanged(); }
+        get => Core.Engine.Instance.DrawHitboxes;
+        set { Core.Engine.Instance.DrawHitboxes = value; OnPropertyChanged(); }
     }
 
     public bool Invincibility
     {
-        get => Engine.Instance.Invincible;
-        set { Engine.Instance.Invincible = value; OnPropertyChanged(); }
+        get => Core.Engine.Instance.Invincible;
+        set { Core.Engine.Instance.Invincible = value; OnPropertyChanged(); }
     }
 
     public bool NoDamage
     {
-        get => Engine.Instance.NoDamage;
-        set { Engine.Instance.NoDamage = value; OnPropertyChanged(); }
+        get => Core.Engine.Instance.NoDamage;
+        set { Core.Engine.Instance.NoDamage = value; OnPropertyChanged(); }
     }
 
     public bool GravityFlip
@@ -80,16 +81,16 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
         EmptyWeaponCommand = new RelayCommand(() => { Game.CurrentGame?.DebugEmptyWeapon(); }, () => Game.CurrentGame is not null);
         FillWeaponCommand = new RelayCommand(() => { Game.CurrentGame?.DebugFillWeapon(); }, () => Game.CurrentGame is not null);
 
-        FramerateUpCommand = new RelayCommand(() => { Engine.Instance.FPS = Engine.Instance.FPS + 10; });
-        FramerateDownCommand = new RelayCommand(() => { Engine.Instance.FPS = Engine.Instance.FPS - 10; });
-        DefaultFramerateCommand = new RelayCommand(() => { Engine.Instance.FPS = UserSettings.Default.Debug.Framerate; });
+        FramerateUpCommand = new RelayCommand(() => { Core.Engine.Instance.FPS = Core.Engine.Instance.FPS + 10; });
+        FramerateDownCommand = new RelayCommand(() => { Core.Engine.Instance.FPS = Core.Engine.Instance.FPS - 10; });
+        DefaultFramerateCommand = new RelayCommand(() => { Core.Engine.Instance.FPS = UserSettings.Default.Debug.Framerate; });
 
 #if DEBUG
         IsDebug = true;
         ShowDebugBar = true;
 #endif
 
-        Engine.Instance.GameLogicTick += Instance_GameLogicTick;
+        Core.Engine.Instance.GameLogicTick += Instance_GameLogicTick;
     }
 
     public void LoadSettings(Setting settings)
@@ -97,7 +98,7 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
 #if DEBUG
         ShowDebugBar = settings.Debug.ShowMenu;
         ShowHitboxes = settings.Debug.ShowHitboxes;
-        Engine.Instance.FPS = settings.Debug.Framerate;
+        Core.Engine.Instance.FPS = settings.Debug.Framerate;
 
         #region Cheats
         Invincibility = settings.Debug.Cheat.Invincibility;
@@ -106,7 +107,7 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
 #else
         ShowDebugBar = UserSettings.Default.Debug.ShowMenu;
         ShowHitboxes = UserSettings.Default.Debug.ShowHitboxes;
-        Engine.Instance.FPS = UserSettings.Default.Debug.Framerate;
+        Core.Engine.Instance.FPS = UserSettings.Default.Debug.Framerate;
 
         #region Cheats
         Invincibility = UserSettings.Default.Debug.Cheat.Invincibility;
@@ -120,7 +121,7 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
         settings.Debug = new LastDebug {
             ShowMenu = ShowDebugBar,
             ShowHitboxes = ShowHitboxes,
-            Framerate = Engine.Instance.FPS,
+            Framerate = Core.Engine.Instance.FPS,
             Cheat = new LastCheat {
                 Invincibility = Invincibility,
                 NoDamage = NoDamage
@@ -132,8 +133,8 @@ internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
     {
         Dispatcher.UIThread.Post(() => {
             var fps = 1 / e.TimeElapsed;
-            FpsLabel = $"FPS: {fps:N0} / {Engine.Instance.FPS}";
-            ThinkLabel = "Busy: " + (Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
+            FpsLabel = $"FPS: {fps:N0} / {Core.Engine.Instance.FPS}";
+            ThinkLabel = "Busy: " + (Core.Engine.Instance.ThinkTime * 100).ToString("N0") + "%";
             EntityLabel = "Entities: " + Game.DebugEntitiesAlive();
         });
     }

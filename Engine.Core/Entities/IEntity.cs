@@ -1,6 +1,6 @@
 ﻿using MegaMan.Common;
 
-namespace MegaMan.Engine.Entities
+namespace MegaMan.Engine.Core.Entities
 {
     public interface IEntity
     {

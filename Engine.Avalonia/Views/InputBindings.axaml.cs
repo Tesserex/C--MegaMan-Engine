@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using MegaMan.Engine.Avalonia.ViewModels;
-using MegaMan.Engine.Input;
+using MegaMan.Engine.Core.Input;
 
 namespace MegaMan.Engine.Avalonia.Views
 {

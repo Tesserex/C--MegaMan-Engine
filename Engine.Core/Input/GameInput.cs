@@ -2,7 +2,7 @@
 using SharpDX.DirectInput;
 using SharpDX.XInput;
 
-namespace MegaMan.Engine.Input
+namespace MegaMan.Engine.Core.Input
 {
     public enum GameInputs
     {

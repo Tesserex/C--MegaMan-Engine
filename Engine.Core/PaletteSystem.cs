@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using MegaMan.Common.IncludedObjects;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class PaletteSystem
     {

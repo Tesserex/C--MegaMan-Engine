@@ -1,6 +1,6 @@
 ﻿using NSF4Net;
 
-namespace Engine.Core.Audio.CSCore
+namespace MegaMan.Engine.Core.Audio.CSCore
 {
     public class MusicNsf : IAudioObject
     {

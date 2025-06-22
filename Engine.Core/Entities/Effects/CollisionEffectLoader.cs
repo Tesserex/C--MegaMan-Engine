@@ -2,7 +2,7 @@
 using System.Linq;
 using MegaMan.Common.Entities.Effects;
 
-namespace MegaMan.Engine.Entities.Effects
+namespace MegaMan.Engine.Core.Entities.Effects
 {
     public class CollisionEffectLoader : IEffectLoader
     {

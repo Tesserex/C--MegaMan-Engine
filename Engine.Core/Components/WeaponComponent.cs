@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MegaMan.Common.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class WeaponComponent : Component
     {

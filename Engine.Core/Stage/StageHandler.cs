@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Core.Audio;
-using Engine.Core.Audio.CSCore;
+using MegaMan.Engine.Core.Audio;
+using MegaMan.Engine.Core.Audio.CSCore;
 using MegaMan.Common;
 using MegaMan.Common.Geometry;
-using MegaMan.Engine.Stage;
+using MegaMan.Engine.Core.Stage;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class StageHandler : GameHandler
     {

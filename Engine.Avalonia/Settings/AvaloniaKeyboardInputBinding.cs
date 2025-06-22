@@ -1,8 +1,7 @@
 ﻿using System;
 using Avalonia.Controls;
 using Avalonia.Input;
-using MegaMan.Engine.Input;
-using Microsoft.Xna.Framework.Input;
+using MegaMan.Engine.Core.Input;
 
 namespace MegaMan.Engine.Avalonia.Settings
 {

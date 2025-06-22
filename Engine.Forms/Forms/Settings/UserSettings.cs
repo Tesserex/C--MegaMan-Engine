@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
-using MegaMan.Engine.Input;
+using MegaMan.Engine.Core.Input;
 using SharpDX.DirectInput;
 using SharpDX.XInput;
 using Keys = Microsoft.Xna.Framework.Input.Keys;

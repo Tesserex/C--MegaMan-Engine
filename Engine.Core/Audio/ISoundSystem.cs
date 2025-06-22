@@ -1,7 +1,7 @@
-﻿using Engine.Core.Audio.CSCore;
+﻿using MegaMan.Engine.Core.Audio.CSCore;
 using MegaMan.Common.IncludedObjects;
 
-namespace Engine.Core.Audio
+namespace MegaMan.Engine.Core.Audio
 {
     public interface ISoundSystem
     {

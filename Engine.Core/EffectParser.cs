@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using MegaMan.Common;
 using MegaMan.Common.Entities.Effects;
-using MegaMan.Engine.Entities;
-using MegaMan.Engine.Entities.Effects;
+using MegaMan.Engine.Core.Entities;
+using MegaMan.Engine.Core.Entities.Effects;
 using Ninject;
 using DynamicExpression = System.Linq.Dynamic.DynamicExpression;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public delegate bool SplitCondition(
             PositionComponent pos,

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using MegaMan.Engine.Entities;
+using MegaMan.Engine.Core.Entities;
 
-namespace MegaMan.Engine
+namespace MegaMan.Engine.Core
 {
     public class WeaponBinding : Binding
     {
