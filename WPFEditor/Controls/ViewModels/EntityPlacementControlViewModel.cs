@@ -36,13 +36,10 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         public event EventHandler PlacementModified;
 
-        public EntityPlacementControlViewModel(EntityPlacement placement, EntityInfo entityInfo, ScreenDocument screen)
+        public EntityPlacementControlViewModel(EntityPlacement placement, EntityInfo? entityInfo, ScreenDocument screen)
         {
             if (placement == null)
                 throw new ArgumentNullException("placement");
-
-            if (entityInfo == null)
-                throw new ArgumentNullException("entityInfo");
 
             if (screen == null)
                 throw new ArgumentNullException("screen");
@@ -108,11 +105,11 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private IEntityImage GetDefaultSprite()
         {
-            var hasSprites = _entityInfo.SpriteComponent != null && _entityInfo.SpriteComponent.Sprites.Any();
+            var hasSprites = _entityInfo?.SpriteComponent != null && _entityInfo.SpriteComponent.Sprites.Any();
 
             if (hasSprites)
             {
-                var state = _entityInfo.StateComponent.States.SingleOrDefault(s => s.Name == StartState);
+                var state = _entityInfo?.StateComponent.States.SingleOrDefault(s => s.Name == StartState);
                 if (state != null)
                 {
                     var stateSprite = state.Initializer.Parts.OfType<SpriteEffectPartInfo>().FirstOrDefault();
@@ -140,7 +137,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         {
             get
             {
-                return _entityInfo.StateComponent.States.Select(s => s.Name);
+                return _entityInfo?.StateComponent.States.Select(s => s.Name) ?? Enumerable.Empty<string>();
             }
         }
 

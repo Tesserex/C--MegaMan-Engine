@@ -81,6 +81,11 @@ namespace MegaMan.Editor.Bll
 
         public static IEntityImage ForEntity(EntityInfo entity, ProjectDocument project)
         {
+            if (entity == null)
+            {
+                return new EmptySpriteModel("nosprite.png");
+            }
+
             if (entity.DefaultSprite == null)
             {
                 var allEffectParts = entity.StateComponent.States.SelectMany(s => s.Initializer.Parts.Concat(s.Logic.Parts).Concat(s.Triggers.SelectMany(t => t.Effect.Parts)));
@@ -88,19 +93,17 @@ namespace MegaMan.Editor.Bll
                 if (spawn != null)
                 {
                     var spawnEntity = project.EntityByName(spawn);
-                    var model = new OverlaySpriteModel(spawnEntity.DefaultSprite, "spawn.png");
-                    model.Play();
-                    return model;
+                    var spawnModel = new OverlaySpriteModel(spawnEntity.DefaultSprite, "spawn.png");
+                    spawnModel.Play();
+                    return spawnModel;
                 }
 
                 return new EmptySpriteModel("nosprite.png");
             }
 
-            {
-                var model = new SpriteModel(entity.DefaultSprite);
-                model.Play();
-                return model;
-            }
+            var model = new SpriteModel(entity.DefaultSprite);
+            model.Play();
+            return model;
         }
     }
 

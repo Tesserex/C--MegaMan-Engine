@@ -28,7 +28,7 @@ namespace MegaMan.Editor.Controls
             set { SetValue(TextProp, value); }
         }
 
-        public string EditText { get; private set; }
+        public string EditText { get; set; }
 
         public ICommand SwapCommand { get; private set; }
 

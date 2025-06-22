@@ -29,7 +29,7 @@ namespace MegaMan.Editor.Controls.ViewModels
         public EntityViewModel SelectedEntity
         {
             get { return _selectedEntity; }
-            private set
+            set
             {
                 _selectedEntity = value;
 
