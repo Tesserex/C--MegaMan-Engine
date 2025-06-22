@@ -6,3 +6,5 @@ Thumbs.db
 .*
 packages/
 Releases/
+TestResults/
+UpgradeLog*
