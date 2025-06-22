@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
+        x:Class="MegaMan.Engine.Avalonia.Views.DeleteConfigs"
+        Title="Delete Configurations"
+        SizeToContent="Height"
+        Width="500">
+  <StackPanel Margin="20" Orientation="Vertical" HorizontalAlignment="Stretch">
+    <Grid ColumnDefinitions="Auto,*" HorizontalAlignment="Stretch">
+      <Label Grid.Column="0" VerticalAlignment="Center">Game</Label>
+      <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding GameItems}" DisplayMemberBinding="{Binding Value}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" Margin="10,0,10,0" />
+    </Grid>
+    <DockPanel Margin="0,20,0,0" HorizontalAlignment="Stretch">
+      <Button DockPanel.Dock="Right">Close</Button>
+      <Button DockPanel.Dock="Left" Margin="0,0,10,0" Command="{Binding DeleteGameConfig}">Delete Config</Button>
+      <Button DockPanel.Dock="Left" Background="{StaticResource NesRed}" Command="{Binding DeleteAllConfigs}">Delete All</Button>
+    </DockPanel>
+  </StackPanel>
+</Window>
