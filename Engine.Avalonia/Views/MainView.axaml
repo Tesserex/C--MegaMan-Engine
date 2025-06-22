@@ -105,7 +105,7 @@
           </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Autosave Configurations" Command="{Binding AutosaveCommand}">
+        <MenuItem Header="Autosave Configurations" Command="{Binding AutosaveChangedCommand}">
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding Autosave}" />
           </MenuItem.Icon>
@@ -127,7 +127,7 @@
           </MenuItem.Header>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Autoload Game" Command="{Binding AutoloadCommand}">
+        <MenuItem Header="Autoload Game" Command="{Binding AutoloadChangedCommand}">
           <MenuItem.Icon>
             <CheckBox IsChecked="{Binding Autoload}" />
           </MenuItem.Icon>

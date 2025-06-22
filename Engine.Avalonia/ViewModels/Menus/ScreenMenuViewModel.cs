@@ -1,12 +1,13 @@
 ﻿using System.Windows.Input;
 using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 using MegaMan.Engine.Core;
 
 namespace MegaMan.Engine.Avalonia.ViewModels.Menus
 {
-    internal class ScreenMenuViewModel : ViewModelBase, IMenuViewModel
+    internal partial class ScreenMenuViewModel : ViewModelBase, IMenuViewModel
     {
         private int gameWidth, gameHeight;
         private LastScreen? screenOptions;
@@ -34,12 +35,8 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
         public bool Is4X { get => scale == ScreenScale.X4; }
         public bool IsNTSC { get => scale == ScreenScale.NTSC; }
 
+        [ObservableProperty]
         private bool isFullscreen = true;
-        public bool IsFullscreen
-        {
-            get => isFullscreen;
-            private set { SetProperty(ref isFullscreen, value); }
-        }
 
         public snes_ntsc_setup_t NTSCSetup
         {
@@ -47,12 +44,8 @@ namespace MegaMan.Engine.Avalonia.ViewModels.Menus
             private set { SetProperty(ref ntscSetup, value); Scale(ScreenScale.NTSC); }
         }
 
+        [ObservableProperty]
         private bool showMenu = true;
-        public bool ShowMenu
-        {
-            get => showMenu;
-            private set { SetProperty(ref showMenu, value); }
-        }
 
         public ScreenMenuViewModel()
         {

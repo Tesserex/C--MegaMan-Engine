@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 using MegaMan.Engine.Core;
 
 namespace MegaMan.Engine.Avalonia.ViewModels.Menus;
-internal class DebugMenuViewModel : ViewModelBase, IMenuViewModel
+internal partial class DebugMenuViewModel : ViewModelBase, IMenuViewModel
 {
+    [ObservableProperty, NotifyPropertyChangedFor(nameof(ShowDebugBarHeader))]
     private bool showDebugBar;
 
     private string? fpsLabel, thinkLabel, entityLabel;
 
     public bool IsDebug { get; }
-
-    public bool ShowDebugBar
-    {
-        get => showDebugBar;
-        set { showDebugBar = value; OnPropertyChanged(); OnPropertyChanged(nameof(ShowDebugBarHeader)); }
-    }
 
     public string ShowDebugBarHeader { get => ShowDebugBar ? "Hide Debug Bar" : "Show Debug Bar"; }
 

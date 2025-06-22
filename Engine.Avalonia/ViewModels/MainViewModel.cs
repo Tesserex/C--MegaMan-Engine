@@ -9,6 +9,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 using MegaMan.Engine.Avalonia.ViewModels.Menus;
@@ -21,7 +22,7 @@ using AvaloniaKeyboardInputBinding = MegaMan.Engine.Avalonia.Settings.AvaloniaKe
 
 namespace MegaMan.Engine.Avalonia.ViewModels;
 
-public class MainViewModel : ViewModelBase
+public partial class MainViewModel : ViewModelBase
 {
     public EngineGame? CurrentGame { get; set; }
 
@@ -51,43 +52,35 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    [ObservableProperty]
     private PixelPoint position;
-    public PixelPoint Position { get => position; set { SetProperty(ref position, value); } }
 
     private readonly SettingsService settingsService;
     private List<IMenuViewModel> menuViewModels = new List<IMenuViewModel>();
 
+    [ObservableProperty]
     private bool useDefaultConfig;
-    public bool UseDefaultConfig { get => useDefaultConfig; set { SetProperty(ref useDefaultConfig, value); } }
 
     // whether configurations should autosave
+    [ObservableProperty]
     private bool autosave;
-    public bool Autosave { get => autosave; set { SetProperty(ref autosave, value); } }
 
     // whether a game should autoload on app load
+    [ObservableProperty]
     private bool autoload;
-    public bool Autoload { get => autoload; set { SetProperty(ref autoload, value); } }
 
+    [ObservableProperty]
     private double screenWidth, screenHeight;
-    public double ScreenWidth { get => screenWidth; set { SetProperty(ref screenWidth, value); } }
-    public double ScreenHeight { get => screenHeight; set { SetProperty(ref screenHeight, value); } }
 
+    [ObservableProperty]
     private SizeToContent sizeMode = SizeToContent.WidthAndHeight;
-    public SizeToContent SizeMode { get => sizeMode; set { SetProperty(ref sizeMode, value); } }
 
-    private HorizontalAlignment hAlign;
-    private VerticalAlignment vAlign;
-    public HorizontalAlignment HAlignment { get => hAlign; set { SetProperty(ref hAlign, value); } }
-    public VerticalAlignment VAlignment { get => vAlign; set { SetProperty(ref vAlign, value); } }
+    [ObservableProperty]
+    private HorizontalAlignment hAlignment;
+    [ObservableProperty]
+    private VerticalAlignment vAlignment;
 
-    public ICommand ResetGameCommand { get; }
-    public ICommand CloseGameCommand { get; }
-    public ICommand QuitCommand { get; }
-    public ICommand PauseCommand { get; }
     public ICommand OpenRecentCommand { get; }
-    public ICommand AutosaveCommand { get; }
-    public ICommand SaveConfigurationCommand { get; }
-    public ICommand AutoloadCommand { get; }
 
     private string CurrentGamePath
     {
@@ -125,16 +118,9 @@ public class MainViewModel : ViewModelBase
         DebugMenu = new DebugMenuViewModel();
         menuViewModels.Add(DebugMenu);
 
-        ResetGameCommand = new RelayCommand(ResetGame);
-        CloseGameCommand = new RelayCommand(CloseGame);
-        QuitCommand = new RelayCommand(Quit);
-        PauseCommand = new RelayCommand(Pause);
         OpenRecentCommand = new RelayCommand<string?>(path => {
             if (path is not null) LoadGame(path);
         }, path => path is not null);
-        AutosaveCommand = new RelayCommand(AutosaveChanged);
-        AutoloadCommand = new RelayCommand(AutoloadChanged);
-        SaveConfigurationCommand = new RelayCommand(() => SaveConfig());
 
         ScreenMenu.PropertyChanged += ScreenMenu_PropertyChanged;
 
@@ -172,6 +158,7 @@ public class MainViewModel : ViewModelBase
         ScreenHeight = 0;
     }
 
+    [RelayCommand]
     private void ResetGame()
     {
         if (Game.CurrentGame != null)
@@ -181,6 +168,7 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     private void CloseGame()
     {
         if (Game.CurrentGame != null)
@@ -196,6 +184,7 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     public void Quit()
     {
         CloseApp();
@@ -219,6 +208,7 @@ public class MainViewModel : ViewModelBase
         if (Game.CurrentGame != null) Game.CurrentGame.Unload();
     }
 
+    [RelayCommand]
     private void Pause()
     {
         PausedFromMenu = !PausedFromMenu;
@@ -229,12 +219,14 @@ public class MainViewModel : ViewModelBase
             Core.Engine.Instance.Unpause();
     }
 
+    [RelayCommand]
     private void AutosaveChanged()
     {
         Autosave = !Autosave;
         SaveGlobalConfigValues();
     }
 
+    [RelayCommand]
     private void AutoloadChanged()
     {
         if (string.IsNullOrEmpty(CurrentGamePath)) Autoload = true;
@@ -260,7 +252,7 @@ public class MainViewModel : ViewModelBase
 
     public void AutosaveConfig(string? fileName = null)
     {
-        if (Autosave) SaveConfig();
+        if (Autosave) SaveConfiguration();
     }
 
     /// <summary>
@@ -269,7 +261,8 @@ public class MainViewModel : ViewModelBase
     /// </summary>
     /// <param name="fileName"></param>
     /// <param name="settings"></param>
-    private void SaveConfig()
+    [RelayCommand]
+    private void SaveConfiguration()
     {
         var settings = new Setting {
             GameFileName = UseDefaultConfig ? "" : CurrentGamePath,

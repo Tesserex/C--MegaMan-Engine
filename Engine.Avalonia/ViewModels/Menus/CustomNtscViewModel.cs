@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MegaMan.Engine.Avalonia.Settings;
 
 namespace MegaMan.Engine.Avalonia.ViewModels.Menus;
-public class CustomNtscViewModel : ViewModelBase, IMenuViewModel
+public partial class CustomNtscViewModel : ViewModelBase, IMenuViewModel
 {
     private NTSC_CustomOptions options = new NTSC_CustomOptions();
     public event Action? NtscOptionsChanged;
@@ -29,11 +29,8 @@ public class CustomNtscViewModel : ViewModelBase, IMenuViewModel
 
     public double Bleed { get => options.Bleed * 100; set { options.Bleed = value / 100; OnPropertyChanged(); NtscOptionsChanged?.Invoke(); } }
 
-    public ICommand ResetCommand { get; private init; }
-
     public CustomNtscViewModel()
     {
-        ResetCommand = new RelayCommand(Reset);
     }
 
     public void LoadSettings(Setting settings)
@@ -46,6 +43,7 @@ public class CustomNtscViewModel : ViewModelBase, IMenuViewModel
         settings.Screens.NTSC_Custom = options;
     }
 
+    [RelayCommand]
     private void Reset()
     {
         Hue = Saturation = Brightness = Contrast = Sharpness = Gamma = Resolution = Artifacts = Fringing = Bleed = 0;
