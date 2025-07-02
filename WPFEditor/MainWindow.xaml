@@ -89,7 +89,7 @@
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage x:Name="ribbonBackstage" IsOpen="{Binding ShowBackstage, Mode=TwoWay}">
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
+                        <Fluent:Button Style="{StaticResource BackstageButtonOverride}" Header="Open" Icon="Resources/openHS.png" Command="{Binding OpenProjectCommand}" />
                         <Fluent:BackstageTabItem Header="Recent" Background="White">
                             <Grid Background="{StaticResource GridBrush}">
                                 <Grid.RowDefinitions>
@@ -120,8 +120,8 @@
                         <Fluent:BackstageTabItem Header="New">
                             <c:NewProjectDialog />
                         </Fluent:BackstageTabItem>
-                        <Fluent:Button Header="Save" Icon="Resources/saveHS.png" Command="{Binding SaveProjectCommand}" />
-                        <Fluent:Button Header="Close" Icon="Resources/remove.png" Command="{Binding CloseProjectCommand}" />
+                        <Fluent:Button Style="{StaticResource BackstageButtonOverride}" Header="Save" Icon="Resources/saveHS.png" Command="{Binding SaveProjectCommand}" />
+                        <Fluent:Button Style="{StaticResource BackstageButtonOverride}" Header="Close" Icon="Resources/remove.png" Command="{Binding CloseProjectCommand}" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>

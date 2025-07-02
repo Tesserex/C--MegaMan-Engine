@@ -1,16 +1,19 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using MegaMan.Editor.Bll;
+using MegaMan.Editor.Bll.Audio;
+using MegaMan.Editor.Bll.Audio.CSCore;
 using MegaMan.Editor.Mediator;
-using MegaManR.Audio;
 
 namespace MegaMan.Editor.Controls.ViewModels
 {
     public class StagePropertiesViewModel : INotifyPropertyChanged
     {
         private StageDocument _stage;
-        private BackgroundMusic bgm;
+        private BetterSoundSystem soundsystem = new BetterSoundSystem();
+        private MusicNsf bgm;
 
         private string _name;
         public string Name
@@ -27,27 +30,30 @@ namespace MegaMan.Editor.Controls.ViewModels
             }
         }
 
-        private uint _track;
-        public uint Track
+        private int _track;
+        public int Track
         {
             get { return _track; }
             set
             {
                 _track = value;
-                if (bgm != null)
+                if (soundsystem != null)
                 {
-                    bgm.CurrentTrack = value - 1;
+                    var playing = bgm?.IsPlaying == true;
+                    bgm?.Stop();
+                    bgm = soundsystem.LoadMusicNsf(value) as MusicNsf;
+                    if (playing) bgm?.Play();
                 }
                 
                 if (_stage != null && _stage.MusicTrack != value)
                 {
-                    _stage.MusicTrack = (int)value;
+                    _stage.MusicTrack = value;
                 }
                 OnPropertyChanged("Track");
             }
         }
 
-        public uint MaxTrack
+        public int MaxTrack
         {
             get;
             private set;
@@ -65,12 +71,9 @@ namespace MegaMan.Editor.Controls.ViewModels
             ViewModelMediator.Current.GetEvent<ProjectChangedEventArgs>().Subscribe(ProjectChanged);
             ViewModelMediator.Current.GetEvent<StageChangedEventArgs>().Subscribe(StageChanged);
 
-            PlayCommand = new RelayCommand(Play, o => bgm != null && (!AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
-            PauseCommand = new RelayCommand(Pause, o => AudioManager.Instance.IsBGMPlaying);
-            StopCommand = new RelayCommand(Stop, o => (AudioManager.Instance.IsBGMPlaying || AudioManager.Instance.Paused));
-
-            AudioManager.Instance.Initialize();
-            AudioManager.Instance.Stereo = true;
+            PlayCommand = new RelayCommand(Play, o => bgm != null && (!bgm.IsPlaying));
+            PauseCommand = new RelayCommand(Pause, o => bgm?.IsPlaying == true);
+            StopCommand = new RelayCommand(Stop, o => bgm?.IsPlaying == true);
 
             Track = 1;
         }
@@ -83,15 +86,17 @@ namespace MegaMan.Editor.Controls.ViewModels
             {
                 if (e.Project.MusicNsf != null)
                 {
-                    bgm = new BackgroundMusic(AudioContainer.LoadContainer(e.Project.MusicNsf));
-                    AudioManager.Instance.LoadBackgroundMusic(bgm);
-                    MaxTrack = bgm.AudioContainer.TrackCount;
+                    soundsystem.LoadNSF(e.Project.MusicNsf);
+
+                    bgm = soundsystem.LoadMusicNsf(Track) as MusicNsf;
+                    soundsystem.Start();
+                    MaxTrack = soundsystem.NsfTracks;
                 }
             }
             else
             {
                 bgm = null;
-                AudioManager.Instance.StopBGMPlayback();
+                soundsystem.StopMusicNsf();
             }
 
             OnPropertyChanged("MaxTrack");
@@ -99,23 +104,20 @@ namespace MegaMan.Editor.Controls.ViewModels
 
         private void Stop(object obj)
         {
-            AudioManager.Instance.StopBGMPlayback();
-            AudioManager.Instance.ResumeBGMPlayback();
+            bgm?.Stop();
         }
 
         private void Pause(object obj)
         {
-            if (AudioManager.Instance.Paused)
-                AudioManager.Instance.ResumeBGMPlayback();
+            if (bgm?.IsPlaying == true)
+                bgm?.Stop();
             else
-                AudioManager.Instance.PauseBGMPlayback();
+                bgm?.Play();
         }
 
         private void Play(object obj)
         {
-            bgm.CurrentTrack = Track - 1;
-            AudioManager.Instance.PlayBackgroundMusic(bgm);
-            AudioManager.Instance.ResumeBGMPlayback();
+            bgm?.Play();
         }
 
         private void StageChanged(object sender, StageChangedEventArgs e)
@@ -124,7 +126,7 @@ namespace MegaMan.Editor.Controls.ViewModels
             if (_stage != null)
             {
                 Name = _stage.Name;
-                Track = (uint)_stage.MusicTrack;
+                Track = _stage.MusicTrack;
             }
         }
 

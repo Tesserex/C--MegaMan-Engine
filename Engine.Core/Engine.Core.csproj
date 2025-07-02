@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="NSF4Net">
       <HintPath>..\..\..\games\NSFAudio\NSF4Net\bin\Debug\net6.0\NSF4Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 

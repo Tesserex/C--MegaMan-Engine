@@ -1,576 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{113536D5-91FD-48C1-92B4-10868F65232E}</ProjectGuid>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MegaMan.Editor</RootNamespace>
     <AssemblyName>Mega Man Editor</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>wily.ico</ApplicationIcon>
+    <PostBuildEvent>move "$(TargetDir)lib\*.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>wily.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.2.0\lib\net45\Castle.Core.dll</HintPath>
+    <Reference Include="NSF4Net">
+      <HintPath>..\..\..\games\NSFAudio\NSF4Net\bin\Debug\net8.0\NSF4Net.dll</HintPath>
     </Reference>
-    <Reference Include="ControlzEx, Version=2.2.0.4, Culture=neutral, PublicKeyToken=f08b075e934b7045, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.2.2.0.4\lib\net45\ControlzEx.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CrashReporter.NET, Version=1.5.7.0, Culture=neutral, PublicKeyToken=7828e0fd88cab698, processorArchitecture=MSIL">
-      <HintPath>..\packages\CrashReporter.NET.Official.1.5.7\lib\net40\CrashReporter.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="Fluent, Version=5.0.2.46, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.5.0.2.46\lib\net45\Fluent.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MegaManR.Audio">
-      <HintPath>..\Mega Man\lib\MegaManR.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\packages\Windows7APICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.3.6.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.6\lib\net45\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Extensions.Conventions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Extensions.Conventions.3.3.0\lib\net45\Ninject.Extensions.Conventions.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Extensions.Factory, Version=3.3.2.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Extensions.Factory.3.3.2\lib\net45\Ninject.Extensions.Factory.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.2.2.0.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WpfAnimatedGif">
-      <HintPath>..\packages\WpfAnimatedGif.1.4.9\lib\net\WpfAnimatedGif.dll</HintPath>
-    </Reference>
-    <Reference Include="WriteableBitmapEx.Wpf">
-      <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AvalonDock.2.0.2000\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
+    <PackageReference Include="CSCore" Version="1.2.1.2" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
+    <PackageReference Include="DynamicAero2" Version="1.2.1" />
+    <PackageReference Include="Microsoft-Windows10-APICodePack-Core" Version="1.1.8" />
+    <PackageReference Include="Microsoft-Windows10-APICodePack-Shell" Version="1.1.8" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Castle.Core" Version="4.2.0" />
+    <PackageReference Include="ControlzEx" Version="6.0.0" />
+    <PackageReference Include="CrashReporter.NET.Official" Version="1.6.0" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.1.0" />
+    <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="Ninject.Extensions.Conventions" Version="3.3.0" />
+    <PackageReference Include="Ninject.Extensions.Factory" Version="3.3.2" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+    <PackageReference Include="WriteableBitmapEx" Version="1.6.8" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.6" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="AppData\AppData.cs" />
-    <Compile Include="AppData\RecentProject.cs" />
-    <Compile Include="Bll\Algorithms\BitmapComparer.cs" />
-    <Compile Include="Bll\Algorithms\ConnectedScreenSegment.cs" />
-    <Compile Include="Bll\Algorithms\IScreenData.cs" />
-    <Compile Include="Bll\Algorithms\LayoutScreenPosition.cs" />
-    <Compile Include="Bll\Algorithms\ScreenImporter.cs" />
-    <Compile Include="Bll\Algorithms\ScreenLayoutArranger.cs" />
-    <Compile Include="Bll\Algorithms\ScreenSnapJoiner.cs" />
-    <Compile Include="Bll\Algorithms\ScreenWithPosition.cs" />
-    <Compile Include="Bll\Algorithms\TilesetImporter.cs" />
-    <Compile Include="Bll\EmptySpriteModel.cs" />
-    <Compile Include="Bll\IProjectFileStructure.cs" />
-    <Compile Include="Bll\IEntityImage.cs" />
-    <Compile Include="Bll\ProjectFileStructure.cs" />
-    <Compile Include="Bll\SpriteModel.cs" />
-    <Compile Include="Bll\TilesetDocument.cs" />
-    <Compile Include="Bll\Tools\BucketToolBehavior.cs" />
-    <Compile Include="Bll\Tools\CleaveScreenVerticalToolBehavior.cs" />
-    <Compile Include="Bll\Tools\ContinuePointToolBehavior.cs" />
-    <Compile Include="Bll\Tools\IEntityToolBehavior.cs" />
-    <Compile Include="Bll\Tools\EntityHandToolBehavior.cs" />
-    <Compile Include="Bll\Tools\EntityToolBehavior.cs" />
-    <Compile Include="Bll\Tools\LayoutToolBehavior.cs" />
-    <Compile Include="Bll\Tools\RectangleToolBehavior.cs" />
-    <Compile Include="Bll\Tools\SelectionToolBehavior.cs" />
-    <Compile Include="Bll\Tools\StartPointToolBehavior.cs" />
-    <Compile Include="Bll\Tools\TestLocationToolBehavior.cs" />
-    <Compile Include="Bll\UnknownTile.cs" />
-    <Compile Include="Controls\Adorners\HitboxResizeAdorner.cs" />
-    <Compile Include="Controls\Canvases\LayoutScreenCanvas.xaml.cs">
-      <DependentUpon>LayoutScreenCanvas.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Components\BasicInfoEditor.xaml.cs">
-      <DependentUpon>BasicInfoEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Components\CollisionComponentEditor.xaml.cs">
-      <DependentUpon>CollisionComponentEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Components\HitboxEditor.xaml.cs">
-      <DependentUpon>HitboxEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Components\MovementComponentEditor.xaml.cs">
-      <DependentUpon>MovementComponentEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Components\SpriteComponentEditor.xaml.cs">
-      <DependentUpon>SpriteComponentEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Converters\BoolInverterConverter.cs" />
-    <Compile Include="Controls\Converters\DpiDecorator.cs" />
-    <Compile Include="Controls\Converters\EnumBindingSourceExtension.cs" />
-    <Compile Include="Controls\Converters\PropertyToBoolConverter.cs" />
-    <Compile Include="Controls\Dialogs\AddStageDialog.xaml.cs">
-      <DependentUpon>AddStageDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\AvalonDockLayoutSerializer.cs" />
-    <Compile Include="Controls\Dialogs\CustomMessageBox.xaml.cs">
-      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Canvases\EntitiesScreenCanvas.cs" />
-    <Compile Include="Controls\Dialogs\DuplicateObjectsDialog.xaml.cs">
-      <DependentUpon>DuplicateObjectsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Dialogs\NewEntityDialog.xaml.cs">
-      <DependentUpon>NewEntityDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Parts\EditableLabel.xaml.cs">
-      <DependentUpon>EditableLabel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Dialogs\ProgressDialog.xaml.cs">
-      <DependentUpon>ProgressDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Dialogs\TilesetImageImportDialog.xaml.cs">
-      <DependentUpon>TilesetImageImportDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Dialogs\TilesetImporterDialog.xaml.cs">
-      <DependentUpon>TilesetImporterDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EntityEditor.xaml.cs">
-      <DependentUpon>EntityEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EntityPlacementControl.xaml.cs">
-      <DependentUpon>EntityPlacementControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EntityToolbar.xaml.cs">
-      <DependentUpon>EntityToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Layers\GuidesLayer.cs" />
-    <Compile Include="Controls\Layers\EntityScreenLayer.cs" />
-    <Compile Include="Controls\EntityTray.xaml.cs">
-      <DependentUpon>EntityTray.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HistoryControl.xaml.cs">
-      <DependentUpon>HistoryControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Layers\LayoutObjectsLayer.cs" />
-    <Compile Include="Controls\LayoutToolbar.xaml.cs">
-      <DependentUpon>LayoutToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MainEditorPane.xaml.cs">
-      <DependentUpon>MainEditorPane.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MultiTileBrushImage.cs" />
-    <Compile Include="Controls\Dialogs\NewProjectDialog.xaml.cs">
-      <DependentUpon>NewProjectDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Layers\OverlayScreenLayer.cs" />
-    <Compile Include="Controls\Parts\SpriteBox.xaml.cs">
-      <DependentUpon>SpriteBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ProjectSettingsControl.xaml.cs">
-      <DependentUpon>ProjectSettingsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Adorners\ScreenResizeAdorner.cs" />
-    <Compile Include="Controls\SpriteEditor.xaml.cs">
-      <DependentUpon>SpriteEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Parts\SpriteImage.cs" />
-    <Compile Include="Controls\StageEntitiesControl.cs" />
-    <Compile Include="Controls\StagePropertiesControl.xaml.cs">
-      <DependentUpon>StagePropertiesControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TilePanel.xaml.cs">
-      <DependentUpon>TilePanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TileBrushPanel.xaml.cs">
-      <DependentUpon>TileBrushPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TilesetEditor.xaml.cs">
-      <DependentUpon>TilesetEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TilesToolbar.xaml.cs">
-      <DependentUpon>TilesToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ToolCursorAdorner.cs" />
-    <Compile Include="Controls\ViewModels\AddStageViewModel.cs" />
-    <Compile Include="Controls\ViewModels\AvalonDockLayoutViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Dialogs\DuplicateObjectsDialogViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Dialogs\NewEntityDialogViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Dialogs\ProgressDialogViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Dialogs\TilesetImageImportDialogViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Dialogs\TilesetImporterViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\Components\CollisionComponentEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\Components\ComponentEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\Components\HitboxEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\Components\MovementComponentEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\Components\SpriteComponentEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\EntityEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\EntityViewModel.cs" />
-    <Compile Include="Controls\ViewModels\Entities\SpriteListItemViewModel.cs" />
-    <Compile Include="Controls\ViewModels\EntityPlacementControlViewModel.cs" />
-    <Compile Include="Controls\ViewModels\EntityTrayViewModel.cs" />
-    <Compile Include="Controls\ViewModels\HistoryControlViewModel.cs" />
-    <Compile Include="Controls\ViewModels\SpriteFrameViewModel.cs" />
-    <Compile Include="Controls\ViewModels\SpriteViewModel.cs" />
-    <Compile Include="Controls\ViewModels\ViewModelBase.cs" />
-    <Compile Include="Controls\ViewModels\StagePropertiesViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TilePanelControlViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TilesetViewModelBase.cs" />
-    <Compile Include="Controls\ViewModels\LayoutEditingViewModel.cs" />
-    <Compile Include="Controls\ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Controls\ViewModels\NewProjectViewModel.cs" />
-    <Compile Include="Controls\ViewModels\ProjectSettingsViewModel.cs" />
-    <Compile Include="Controls\ViewModels\RelayCommand.cs" />
-    <Compile Include="Controls\ViewModels\SpriteEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TilesetEditorViewModel.cs" />
-    <Compile Include="Controls\ViewModels\ZoomLevel.cs" />
-    <Compile Include="Mediator\EntityAddedEventArgs.cs" />
-    <Compile Include="Mediator\EntityRenamedEventArgs.cs" />
-    <Compile Include="Mediator\EntitySelectedEventArgs.cs" />
-    <Compile Include="Mediator\LayoutScreenDroppedEventArgs.cs" />
-    <Compile Include="Mediator\MediatedEvent.cs" />
-    <Compile Include="Mediator\NewEntityEventArgs.cs" />
-    <Compile Include="Mediator\ProjectChangedEventArgs.cs" />
-    <Compile Include="Mediator\LayerVisibilityChangedEventArgs.cs" />
-    <Compile Include="Mediator\SelectionChangedEventArgs.cs" />
-    <Compile Include="Mediator\StageAddedEventArgs.cs" />
-    <Compile Include="Mediator\TestLocationClickedEventArgs.cs" />
-    <Compile Include="Mediator\TestLocationSelectedEventArgs.cs" />
-    <Compile Include="Mediator\TileBrushSelectedEventArgs.cs" />
-    <Compile Include="Mediator\TileSelectedEventArgs.cs" />
-    <Compile Include="Mediator\ViewModelMediator.cs" />
-    <Compile Include="Mediator\ZoomChangedEventArgs.cs" />
-    <Compile Include="Services\DataAccessService.cs" />
-    <Compile Include="Services\DialogService.cs" />
-    <Compile Include="Services\IDataAccessService.cs" />
-    <Compile Include="Services\IDialogService.cs" />
-    <Compile Include="Services\TickWeakEventManager.cs" />
-    <Compile Include="ThemeProperties.cs" />
-    <Compile Include="Tools\CombinedToolProvider.cs" />
-    <Compile Include="Tools\ImageCursor.cs" />
-    <Compile Include="Tools\TileBrushCursor.cs" />
-    <Compile Include="Tools\ResourceCursor.cs" />
-    <Compile Include="Tools\SpriteCursor.cs" />
-    <Compile Include="Tools\StandardToolCursor.cs" />
-    <Compile Include="Tools\IToolCursor.cs" />
-    <Compile Include="Tools\IToolProvider.cs" />
-    <Compile Include="Mediator\StageChangedEventArgs.cs" />
-    <Compile Include="Bll\Tools\TileBrush.cs" />
-    <Compile Include="Bll\Tools\TileBrushToolBehavior.cs" />
-    <Compile Include="Controls\StageControl.cs" />
-    <Compile Include="Controls\StageLayoutControl.cs" />
-    <Compile Include="Controls\StageTileControl.cs" />
-    <Compile Include="Controls\Parts\TileImage.cs" />
-    <Compile Include="Controls\Canvases\TileScreenCanvas.cs" />
-    <Compile Include="Controls\ViewModels\TilesToolbarViewModel.cs" />
-    <Compile Include="Controls\ViewModels\TreeViewItemViewModel.cs" />
-    <Compile Include="SpriteBitmapCache.cs" />
-    <Compile Include="Tools\SingleTileCursor.cs" />
-    <Compile Include="UserSettings.cs" />
-    <Page Include="Controls\Canvases\LayoutScreenCanvas.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Components\BasicInfoEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Components\CollisionComponentEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Components\HitboxEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Components\MovementComponentEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Components\SpriteComponentEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\AddStageDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\CustomMessageBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\DuplicateObjectsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\NewEntityDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Parts\EditableLabel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\ProgressDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\TilesetImageImportDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\TilesetImporterDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EntityEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EntityPlacementControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EntityToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EntityTray.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\HistoryControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\LayoutToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MainEditorPane.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\NewProjectDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Parts\SpriteBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ProjectSettingsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ProjectTree.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SpriteEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\StagePropertiesControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TilePanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TileBrushPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TilesetEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\TilesToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\AvalonOverride.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Colors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\CustomStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Bll\Const.cs" />
-    <Compile Include="Bll\History.cs" />
-    <Compile Include="Bll\IUndoableAction.cs" />
-    <Compile Include="Bll\Tools\IToolBehavior.cs" />
-    <Compile Include="Bll\ProjectDocument.cs" />
-    <Compile Include="Bll\ScreenDocument.cs" />
-    <Compile Include="Bll\StageDocument.cs" />
-    <Compile Include="Controls\GridCanvas.cs" />
-    <Compile Include="Controls\ProjectTree.xaml.cs">
-      <DependentUpon>ProjectTree.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Canvases\ScreenCanvas.cs" />
-    <Compile Include="Controls\Layers\ScreenLayer.cs" />
-    <Compile Include="Controls\Layers\TileScreenLayer.cs" />
-    <Compile Include="Controls\ViewModels\ProjectViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Styles\FluentOverrides.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Resources\Includes\sound\mm5.nsf" />
     <Resource Include="Resources\OpenSansCondensed-Bold.ttf" />
     <Resource Include="Resources\Mega Man 10.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\add_brush.png" />
@@ -608,14 +86,8 @@
     <Resource Include="Resources\ZoomHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IO\IO.csproj">
-      <Project>{f62c2a06-3ce9-4f5b-b109-687905d14adf}</Project>
-      <Name>IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mega Man Common\Common.csproj">
-      <Project>{6779a7e6-ce6c-43e4-a0cb-1b0f921c8009}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj" />
+    <ProjectReference Include="..\Mega Man Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\grab.cur" />
@@ -775,17 +247,4 @@
     <Resource Include="Resources\continue_on.png" />
     <Resource Include="Resources\continue_off.png" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>move "$(TargetDir)lib\*.dll" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

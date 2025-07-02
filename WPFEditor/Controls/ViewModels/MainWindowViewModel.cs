@@ -121,9 +121,8 @@ namespace MegaMan.Editor.Controls.ViewModels
 
             AppData = StoredAppData.Load();
 
-            var attr = GetType().Assembly.GetCustomAttributes(typeof(AssemblyProductAttribute)).Single() as AssemblyProductAttribute;
-            ApplicationName = attr.Product;
-            WindowTitle = attr.Product;
+            ApplicationName = "Wily's Lab";
+            WindowTitle = "Wily's Lab";
 
             OpenProjectCommand = new RelayCommand(OpenProjectDialog, null);
             OpenRecentCommand = new RelayCommand(OpenRecentProject, null);
