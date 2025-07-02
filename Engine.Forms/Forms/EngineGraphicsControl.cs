@@ -18,6 +18,21 @@ namespace MegaMan.Engine.Forms
 
         public bool NTSC { get; set; }
 
+        static EngineGraphicsControl()
+        {
+            var myPath = new Uri(typeof(EngineGraphicsControl).Assembly.Location).LocalPath;
+            var myFolder = Path.GetDirectoryName(myPath);
+
+            var subfolder = Environment.Is64BitProcess ? "\\lib\\64\\" : "\\lib\\32\\";
+
+            // this is a trick to preload the correct DLL based on the architecture
+            // so when the imports happen, the system just uses the correct one
+            LoadLibrary(myFolder + subfolder + "ntsc.dll");
+        }
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr LoadLibrary(string dllToLoad);
+
         [DllImport("ntsc.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr snes_ntsc_alloc();
 

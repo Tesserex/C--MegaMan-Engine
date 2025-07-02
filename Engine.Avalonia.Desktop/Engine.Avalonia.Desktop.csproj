@@ -7,15 +7,10 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="lib\ntsc.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="lib\ntsc.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +21,12 @@
     <ProjectReference Include="..\Engine.Avalonia\Engine.Avalonia.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(ProjectDir)lib\*.*&quot; &quot;$(TargetDir)&quot;" />
-  </Target>
+  <ItemGroup>
+    <None Update="lib\32\ntsc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="lib\64\ntsc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

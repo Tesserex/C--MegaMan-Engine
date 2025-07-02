@@ -11,7 +11,6 @@
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <ApplicationIcon>wily.ico</ApplicationIcon>
-    <PostBuildEvent>move "$(TargetDir)lib\*.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\x86\Debug\</OutputPath>
@@ -21,6 +20,12 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="lib\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <None Remove="lib\**" />
+    <Page Remove="lib\**" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="NSF4Net">
       <HintPath>..\..\..\games\NSFAudio\NSF4Net\bin\Debug\net8.0\NSF4Net.dll</HintPath>
@@ -173,18 +178,6 @@
     <Resource Include="Resources\metool_x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\fmodex.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib\MegaManR.Audio.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib\MegaManR.BGM.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib\nsf.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\delete.png" />
     <Resource Include="Resources\export.png" />
     <Resource Include="Resources\paper.png" />

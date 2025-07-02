@@ -4,17 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>x86;x64</Platforms>
     <RootNamespace>MegaMan.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <AssemblyName>MegaMan.$(MSBuildProjectName)</AssemblyName>
+    <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="lib\ntsc.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="lib\ntsc.dll" />
+    <Compile Remove="lib\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <None Remove="lib\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,9 +41,5 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(ProjectDir)lib\*.*&quot; &quot;$(TargetDir)&quot;" />
-  </Target>
 
 </Project>
